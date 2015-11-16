@@ -10,9 +10,11 @@ public class CameraTrack : MonoBehaviour {
     public float DistanceMax;
     public float AngleXMin;
     public float AngleXMax;
+    public float Sensibility;
+    public float SensibilityScroll;
 
-    private Vector3 MousePosition;
-    
+    private Vector3 MousePosition;    
+
     // Use this for initialization
     void Start ()
     {
@@ -28,8 +30,10 @@ public class CameraTrack : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-        this.Distance -= Input.mouseScrollDelta.y / 10;
+        this.Distance -= Input.mouseScrollDelta.y * this.SensibilityScroll;
         Vector3 deltaMouse = this.MousePosition - Input.mousePosition;
+        deltaMouse *= this.Sensibility * this.Distance;
+
         this.MousePosition = Input.mousePosition;
         this.transform.Translate(deltaMouse.x, deltaMouse.y, 0);
 
