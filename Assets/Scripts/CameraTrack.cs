@@ -9,10 +9,10 @@ public class CameraTrack : MonoBehaviour {
     public float DistanceMin = 0.01f;
     public float DistanceMax = 10;
     public float YMin = 0.15f;
-    public float YMax = 1;
+    public float YMax = 0.95f;
     public float YMinFPS = -60;
     public float YMaxFPS = 60;
-    public float Sensitivity = 0.1f;
+    public float Sensitivity = 5;
     public float SensitivityScroll = 0.75f;
 
     private float RotationY = 0F;
@@ -40,7 +40,7 @@ public class CameraTrack : MonoBehaviour {
 
             // Get the drag 
             Vector2 deltaMouse = new Vector2(-Input.GetAxis("Mouse X"), -Input.GetAxis("Mouse Y"));
-            deltaMouse *= this.Sensitivity * this.Distance;
+            deltaMouse *= this.Sensitivity * this.Distance * Time.deltaTime;
 
             // Moove the camera
             if (posCamera.y + deltaMouse.y > this.YMax * this.Distance + posPersonnage.y)
@@ -68,9 +68,9 @@ public class CameraTrack : MonoBehaviour {
         else
         {
             this.transform.position = this.Personnage.transform.position;
-            this.RotationX += Input.GetAxis("Mouse X") * Sensitivity * 100;
+            this.RotationX += Input.GetAxis("Mouse X") * Sensitivity * 100 * Time.deltaTime;
 
-            this.RotationY += Input.GetAxis("Mouse Y") * Sensitivity * 100;
+            this.RotationY += Input.GetAxis("Mouse Y") * Sensitivity * 100 * Time.deltaTime;
             this.RotationY = Mathf.Clamp(this.RotationY, YMinFPS, YMaxFPS);
 
             transform.localEulerAngles = new Vector3(-this.RotationY, this.RotationX, 0);            
