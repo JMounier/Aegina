@@ -7,20 +7,20 @@ public class Charactere : MonoBehaviour
     protected int Health;
     protected int Hunger;
 
-    private bool IsJumping = false;
-    private Vector3 LastPosition;
+    private bool IsJumping = true;
+
     public GameObject Camera;
     public int HealthMax = 500;
     public int HungerMax = 100;
-    public float MoveSpeed = 1f;
-    public float JumpForce = 2f;
+    public float MoveSpeed = 5f;
+    public float JumpForce = 100f;
+
 
     // Use this for initialization
     void Start()
     {
         this.Hunger = this.HungerMax;
         this.Health = this.HealthMax;
-        this.LastPosition = this.transform.position;
     }
 
     // Update is called once per frame
@@ -32,19 +32,15 @@ public class Charactere : MonoBehaviour
         bool left = Input.GetButton("Left");
         bool jump = Input.GetButton("Jump");
 
-        if (jump && !IsJumping)
+
+
+        if (jump && !this.IsJumping)
         {
             this.GetComponent<Rigidbody>().AddForce(0, JumpForce, 0);
             this.IsJumping = true;
-        }
-        if (IsJumping)
-        {
-            if (this.LastPosition.y == this.transform.position.y)
-            {
-                this.IsJumping = false;
-            }            
-        }
-
+            this.MoveSpeed *= 1.2f;
+        }      
+        
             float angle = Mathf.Deg2Rad * (360 - this.Camera.transform.rotation.eulerAngles.y);
         if ((right && left) || (!right && !left))
         {
@@ -95,7 +91,14 @@ public class Charactere : MonoBehaviour
                 this.transform.Translate(Mathf.Sin(angle) * Time.deltaTime * this.MoveSpeed, 0, -Mathf.Cos(angle) * Time.deltaTime * this.MoveSpeed, Space.World);
             }
         }
+    }
 
-        this.LastPosition = this.transform.position;
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.collider.tag == "Ground" && this.IsJumping)
+        {
+            this.IsJumping = false;
+            this.MoveSpeed /= 1.2f;
+        }
     }
 }
