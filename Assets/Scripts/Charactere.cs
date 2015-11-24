@@ -13,7 +13,8 @@ public class Charactere : MonoBehaviour
     public int HealthMax = 500;
     public int HungerMax = 100;
     public float MoveSpeed = 5f;
-    public float JumpForce = 100f;
+    public float MoveSpeedjumping = 6f;
+    public float JumpForce = 200f;
 
 
     // Use this for initialization
@@ -32,25 +33,24 @@ public class Charactere : MonoBehaviour
         bool left = Input.GetButton("Left");
         bool jump = Input.GetButton("Jump");
 
-
+        Vector3 move = new Vector3(0,0,0);
 
         if (jump && !this.IsJumping)
         {
             this.GetComponent<Rigidbody>().AddForce(0, JumpForce, 0);
             this.IsJumping = true;
-            this.MoveSpeed *= 1.2f;
         }      
         
-            float angle = Mathf.Deg2Rad * (360 - this.Camera.transform.rotation.eulerAngles.y);
+        float angle = Mathf.Deg2Rad * (360 - this.Camera.transform.rotation.eulerAngles.y);
         if ((right && left) || (!right && !left))
         {
             if (forward && !back)
             {
-                this.transform.Translate(-Mathf.Sin(angle) * Time.deltaTime * this.MoveSpeed, 0, Mathf.Cos(angle) * Time.deltaTime * this.MoveSpeed, Space.World);
+                move.Set(-Mathf.Sin(angle), 0, Mathf.Cos(angle));                
             }
             else if (back && !forward)
             {
-                this.transform.Translate(Mathf.Sin(angle) * Time.deltaTime * this.MoveSpeed, 0, -Mathf.Cos(angle) * Time.deltaTime * this.MoveSpeed, Space.World);
+                move.Set(Mathf.Sin(angle), 0, -Mathf.Cos(angle));
             }
         }
         else if ((forward && back) || (!forward && !back))
@@ -58,11 +58,11 @@ public class Charactere : MonoBehaviour
             angle += Mathf.PI / 2;
             if (right && !left)
             {
-                this.transform.Translate(Mathf.Sin(angle) * Time.deltaTime * this.MoveSpeed, 0, -Mathf.Cos(angle) * Time.deltaTime * this.MoveSpeed, Space.World);
+                move.Set(Mathf.Sin(angle), 0, -Mathf.Cos(angle));
             }
             else if (!right && left)
             {
-                this.transform.Translate(-Mathf.Sin(angle) * Time.deltaTime * this.MoveSpeed, 0, Mathf.Cos(angle) * Time.deltaTime * this.MoveSpeed, Space.World);
+                move.Set(-Mathf.Sin(angle), 0, Mathf.Cos(angle));
             }
         }
         else if (forward)
@@ -70,12 +70,12 @@ public class Charactere : MonoBehaviour
             if (right)
             {
                 angle -= Mathf.PI / 4;
-                this.transform.Translate(-Mathf.Sin(angle) * Time.deltaTime * this.MoveSpeed, 0, Mathf.Cos(angle) * Time.deltaTime * this.MoveSpeed, Space.World);
+                move.Set(-Mathf.Sin(angle), 0, Mathf.Cos(angle));
             }
             else
             {
                 angle += Mathf.PI / 4;
-                this.transform.Translate(-Mathf.Sin(angle) * Time.deltaTime * this.MoveSpeed, 0, Mathf.Cos(angle) * Time.deltaTime * this.MoveSpeed, Space.World);
+                move.Set(-Mathf.Sin(angle), 0, Mathf.Cos(angle));
             }
         }
         else
@@ -83,14 +83,22 @@ public class Charactere : MonoBehaviour
             if (right)
             {
                 angle += Mathf.PI / 4;
-                this.transform.Translate(Mathf.Sin(angle) * Time.deltaTime * this.MoveSpeed, 0, -Mathf.Cos(angle) * Time.deltaTime * this.MoveSpeed, Space.World);
+                move.Set(Mathf.Sin(angle), 0, -Mathf.Cos(angle));
             }
             else
             {
                 angle -= Mathf.PI / 4;
-                this.transform.Translate(Mathf.Sin(angle) * Time.deltaTime * this.MoveSpeed, 0, -Mathf.Cos(angle) * Time.deltaTime * this.MoveSpeed, Space.World);
+                move.Set(Mathf.Sin(angle), 0, -Mathf.Cos(angle));
             }
         }
+
+        if (this.IsJumping)
+            move *= Time.deltaTime * this.MoveSpeedjumping;
+        else
+            move *= Time.deltaTime * this.MoveSpeed;
+
+        this.transform.Translate(move, Space.World);
+        this.Camera.transform.Translate(move, Space.World);
     }
 
     void OnCollisionEnter(Collision collision)
@@ -98,7 +106,6 @@ public class Charactere : MonoBehaviour
         if (collision.collider.tag == "Ground" && this.IsJumping)
         {
             this.IsJumping = false;
-            this.MoveSpeed /= 1.2f;
         }
     }
 }
