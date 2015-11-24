@@ -4,7 +4,7 @@ using System;
 
 public class CameraTrack : MonoBehaviour {
 
-    public GameObject Personnage;    
+    public GameObject Personnage;
     public float Distance = 5;
     public float DistanceMin = 0.01f;
     public float DistanceMax = 10;
@@ -49,14 +49,7 @@ public class CameraTrack : MonoBehaviour {
                 this.transform.Translate(deltaMouse.x, this.YMin * this.Distance + posPersonnage.y - posCamera.y, 0);
             else
                 this.transform.Translate(deltaMouse.x, deltaMouse.y, 0);
-
-            // Adjust the position if the object is moving
-            if (this.LastPosition != posPersonnage)
-            {
-                this.transform.Translate(posPersonnage.x - this.LastPosition.x, 0, posPersonnage.z - this.LastPosition.z, Space.World);
-                this.LastPosition = posPersonnage;
-            }
-
+           
             this.transform.LookAt(this.Personnage.transform);
 
             // Adjust the distance                   
