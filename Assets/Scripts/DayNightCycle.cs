@@ -71,9 +71,12 @@ public class DayNightCycle : MonoBehaviour
         else  //nuit
         { // R - L - M - H - P - H - M - L - R - S
             int night = (this.CycleTime - half) / 10;
-            if (this.Actual_time <= night)            
+            if (this.Actual_time <= half + night)
+            {
                 // R
-                this.MaterialSkybox.SetTexture("_Tex", this.ListCubemap[10]);            
+                this.MaterialSkybox.SetInt("_Rotation", 0);
+                this.MaterialSkybox.SetTexture("_Tex", this.ListCubemap[10]);
+            }
             else if (this.Actual_time <= half + night * 2)
                 // L
                 this.MaterialSkybox.SetTexture("_Tex", this.ListCubemap[11]);
@@ -89,7 +92,7 @@ public class DayNightCycle : MonoBehaviour
             else if (this.Actual_time <= half + night * 6)
             {
                 // H
-                this.MaterialSkybox.SetInt("_Rotation", 0);
+                this.MaterialSkybox.SetInt("_Rotation", 180);
                 this.MaterialSkybox.SetTexture("_Tex", this.ListCubemap[15]);
             }
             else if (this.Actual_time <= half + night * 7)
