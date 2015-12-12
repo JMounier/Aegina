@@ -3,15 +3,22 @@ using System.Collections;
 
 public class Controller : MonoBehaviour
 {
-    
+
     private bool isJumping = true;
+    private Animator anim;
 
-    public GameObject camera;
-
-    public float moveSpeed = 5f;
-    public float moveSpeedjumping = 6f;
+    public GameObject cam;
+    
+    public float walkSpeed = 4f;
+    public float sprintSpeed = 6f;
+    public float jumpingSpeed = 6.5f;
     public float jumpForce = 200f;
-        
+
+    void Start()
+    {
+        anim = gameObject.GetComponent<Animator>();
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -21,18 +28,19 @@ public class Controller : MonoBehaviour
         bool right = Input.GetButton("Right");
         bool left = Input.GetButton("Left");
         bool jump = Input.GetButton("Jump");
+        bool sprint = Input.GetButton("Sprint");
 
         float direction = 0;
 
-        Vector3 move = new Vector3(0,0,0);
+        Vector3 move = new Vector3(0, 0, 0);
 
         if (jump && !this.isJumping)
         {
             gameObject.GetComponent<Rigidbody>().AddForce(0, jumpForce, 0);
             this.isJumping = true;
-        }      
+        }       
         
-        float angle = Mathf.Deg2Rad * (360 - this.camera.transform.rotation.eulerAngles.y);
+        float angle = Mathf.Deg2Rad * (360 - this.cam.transform.rotation.eulerAngles.y);
         if ((right && left) || (!right && !left))
         {
             if (forward && !back)
@@ -92,51 +100,40 @@ public class Controller : MonoBehaviour
         }
 
         if (this.isJumping)
-            move *= Time.deltaTime * this.moveSpeedjumping;
+            move *= Time.deltaTime * this.jumpingSpeed;
+        else if (sprint)
+            move *= Time.deltaTime * this.sprintSpeed;
         else
-            move *= Time.deltaTime * this.moveSpeed;
+            move *= Time.deltaTime * this.walkSpeed;
 
         gameObject.transform.Translate(move, Space.World);
-        this.camera.transform.Translate(move, Space.World);
+        this.cam.transform.Translate(move, Space.World);
 
-        // Rotation du personnage
-        if (move.x != 0 || move.y != 0 || move.z != 0)
+        // Rotation du personnage     
+        if (move.x != 0 || move.z != 0)
         {
-            float angleEul = (gameObject.transform.eulerAngles.y - camera.transform.eulerAngles.y - direction);
+            float angleEul = (gameObject.transform.eulerAngles.y - cam.transform.eulerAngles.y - direction);
+
+            while (angleEul < 0)
+                angleEul += 360;
+            while (angleEul > 360)
+                angleEul -= 360;
 
             if (angleEul > 2)
             {
-                if (angleEul < 180)
-                {
-                    gameObject.transform.eulerAngles = new Vector3(gameObject.transform.eulerAngles.x, gameObject.transform.eulerAngles.y - 4, gameObject.transform.eulerAngles.z);
-                }
-                else
-                {
-                    gameObject.transform.eulerAngles = new Vector3(gameObject.transform.eulerAngles.x, gameObject.transform.eulerAngles.y + 4, gameObject.transform.eulerAngles.z);
-
-                }
-            }
-            else if(angleEul < -2)
-            {
-                if (angleEul < -180)
-                {
-                    gameObject.transform.eulerAngles = new Vector3(gameObject.transform.eulerAngles.x, gameObject.transform.eulerAngles.y - 4, gameObject.transform.eulerAngles.z);
-                }
-                else
-                {
-                    gameObject.transform.eulerAngles = new Vector3(gameObject.transform.eulerAngles.x, gameObject.transform.eulerAngles.y + 4, gameObject.transform.eulerAngles.z);
-
-                }
-            }
-            //gameObject.transform.eulerAngles = new Vector3(gameObject.transform.eulerAngles.x, camera.transform.eulerAngles.y, gameObject.transform.eulerAngles.z);
+                if (angleEul < 180)                
+                    gameObject.transform.eulerAngles = new Vector3(gameObject.transform.eulerAngles.x, gameObject.transform.eulerAngles.y - Time.deltaTime * 200, gameObject.transform.eulerAngles.z);
+                
+                else                
+                    gameObject.transform.eulerAngles = new Vector3(gameObject.transform.eulerAngles.x, gameObject.transform.eulerAngles.y + Time.deltaTime * 200, gameObject.transform.eulerAngles.z);
+                               
+            }         
         }
     }
 
     void OnCollisionEnter(Collision collision)
     {
-        if (collision.collider.tag == "Ground" && this.isJumping)
-        {
-            this.isJumping = false;
-        }
+        if (collision.collider.tag == "Ground" && this.isJumping)        
+            this.isJumping = false;        
     }
 }
