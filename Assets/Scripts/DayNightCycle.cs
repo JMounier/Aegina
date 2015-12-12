@@ -3,32 +3,29 @@ using System.Collections;
 
 public class DayNightCycle : MonoBehaviour
 {
-    public Light Sun;
-    public int CycleTime = 60;
-    public float RatioDayNight = 0.5f;
-    public float IntensityNight = 0.1f, IntensityDay = 0.75f;
-    public Color NightColor, DayColor;
+    public Light sun;
+    public int cycleTime = 60;
+    public float ratioDayNight = 0.5f;
+    public float intensityNight = 0.1f, intensityDay = 0.75f;
+    public Color nightColor, dayColor;
 
-    private float Actual_time;
+    private float actual_time;
 
     // Use this for initialization
     void Start()
     {
-        this.Actual_time = 0f;
+        this.actual_time = 0f;
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        this.Actual_time = (this.Actual_time + Time.deltaTime) % this.CycleTime;
-        // changement de skybox
-        // this.RatioDayNight;
-        this.Sun.intensity = Mathf.Max(this.IntensityNight, this.IntensityNight + (this.IntensityDay - this.IntensityNight) * Mathf.Sin(this.Actual_time / this.CycleTime * Mathf.PI / this.RatioDayNight));
-        // FIXME
-        // this.Sun.color = (this.NightColor * (Mathf.Sin(this.Actual_time / this.CycleTime * Mathf.PI / this.RatioDayNight) + 1) / 2 + this.DayColor * (1 - (Mathf.Sin(this.Actual_time / this.CycleTime * Mathf.PI / this.RatioDayNight) + 1) / 2)) / 2;
+        this.actual_time = (this.actual_time + Time.deltaTime) % this.cycleTime;
+        this.sun.intensity = Mathf.Max(this.intensityNight, this.intensityNight + (this.intensityDay - this.intensityNight) * Mathf.Sin(this.actual_time / this.cycleTime * Mathf.PI / this.ratioDayNight));
+        this.sun.color = (Mathf.Sin(this.actual_time / this.cycleTime * Mathf.PI / this.ratioDayNight)) * dayColor + (1- Mathf.Sin(this.actual_time / this.cycleTime * Mathf.PI / this.ratioDayNight)) * nightColor;
     }
     public float GetTime()
     {
-        return this.Actual_time;
+        return this.actual_time;
     }
 }
