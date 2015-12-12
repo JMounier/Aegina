@@ -8,7 +8,7 @@
 sysinfo.txt
 *.stackdump
 ProjectVersion.txt
-*.meta
+*.cs.meta
  
 # ===================================== #
 # Visual Studio / MonoDevelop generated #
