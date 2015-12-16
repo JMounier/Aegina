@@ -10,27 +10,27 @@ sysinfo.txt
 ProjectVersion.txt
 *.cs.meta
  
-# ===================================== #
-# Visual Studio / MonoDevelop generated #
-# ===================================== #
-[Ee]xported[Oo]bj/
-.vs/
-/*.userprefs
-/*.csproj
-/*.pidb
-/*.suo
-/*.sln*
-/*.user
-/*.unityproj
-/*.booproj
- 
-# ============ #
-# OS generated #
-# ============ #
-.DS_Store*
-._*
-.Spotlight-V100
-.Trashes
-Icon?
-ehthumbs.db
-[Tt]humbs.db
+ # ===================================== #
+ # Visual Studio / MonoDevelop generated #
+ # ===================================== #
+ [Ee]xported[Oo]bj/
+ .vs/
+ /*.userprefs
+ /*.csproj
+ /*.pidb
+ /*.suo
+ /*.sln*
+ /*.user
+ /*.unityproj
+ /*.booproj
+  
+  # ============ #
+  # OS generated #
+  # ============ #
+  .DS_Store*
+  ._*
+  .Spotlight-V100
+  .Trashes
+  Icon?
+  ehthumbs.db
+  [Tt]humbs.db
