@@ -22,8 +22,12 @@ public class CameraTrack : MonoBehaviour {
 
     void Start()
     {
-        this.personnage = GameObject.Find(gameObject.transform.parent.GetChild(1).name);
-        this.controllerScript = personnage.GetComponent<Controller>();
+        foreach (Transform child in gameObject.transform.parent.GetComponentsInChildren<Transform>())
+        {            
+            if (child.tag == "Character")
+                this.personnage = child.gameObject;
+        }
+        this.controllerScript = gameObject.GetComponentInParent<Controller>();
     }
 
     // Update is called once per frame

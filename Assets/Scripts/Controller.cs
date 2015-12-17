@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 
-public class Controller : MonoBehaviour
+public class Controller : NetworkBehaviour
 {
 
     private bool isJumping = true;
@@ -9,7 +10,8 @@ public class Controller : MonoBehaviour
     private bool isMoving = false;
     private float rotation = 0f;
 
-    public GameObject cam;
+    private GameObject cam;
+    private GameObject character;
 
     public float walkSpeed = 4f;
     public float sprintSpeed = 6f;
@@ -18,12 +20,24 @@ public class Controller : MonoBehaviour
 
     void Start()
     {
-        anim = gameObject.GetComponent<Animator>();      
+        anim = gameObject.GetComponent<Animator>();
+
+        foreach (Transform child in gameObject.GetComponentsInChildren<Transform>())
+        {
+            if (child.tag == "MainCamera")
+                this.cam = child.gameObject;
+            
+            else if (child.tag == "Character")
+                this.character = child.gameObject;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (!isLocalPlayer)        
+            return;
+        
         // Translation du personnage
         bool forward = Input.GetButton("Forward");
         bool back = Input.GetButton("Back");
@@ -36,8 +50,9 @@ public class Controller : MonoBehaviour
 
         if (jump && !this.isJumping)
         {
-            gameObject.GetComponent<Rigidbody>().AddForce(0, jumpForce, 0);
+            this.character.GetComponent<Rigidbody>().AddForce(0, jumpForce, 0);
             this.isJumping = true;
+            Debug.Log("OK");
         }
 
         float angle = Mathf.Deg2Rad * (360 - this.cam.transform.rotation.eulerAngles.y);
@@ -129,7 +144,7 @@ public class Controller : MonoBehaviour
 
         }
 
-        gameObject.transform.Translate(move, Space.World);
+        this.character.transform.Translate(move, Space.World);
         this.cam.transform.Translate(move, Space.World);
                
     }
@@ -144,7 +159,7 @@ public class Controller : MonoBehaviour
     {
         if (this.isMoving)
         {
-            float angleEul = (gameObject.transform.eulerAngles.y - cam.transform.eulerAngles.y - this.rotation);
+            float angleEul = (this.character.transform.eulerAngles.y - cam.transform.eulerAngles.y - this.rotation);
 
             while (angleEul < 0)
                 angleEul += 360;
@@ -153,10 +168,10 @@ public class Controller : MonoBehaviour
 
             float delta = Time.deltaTime * 200;
             if (angleEul < 180 && angleEul - delta > 0)
-                gameObject.transform.eulerAngles = new Vector3(gameObject.transform.eulerAngles.x, gameObject.transform.eulerAngles.y - delta, gameObject.transform.eulerAngles.z);
+                this.character.transform.eulerAngles = new Vector3(this.character.transform.eulerAngles.x, this.character.transform.eulerAngles.y - delta, this.character.transform.eulerAngles.z);
 
             else if (angleEul - delta > 0)
-                gameObject.transform.eulerAngles = new Vector3(gameObject.transform.eulerAngles.x, gameObject.transform.eulerAngles.y + delta, gameObject.transform.eulerAngles.z);
+                this.character.transform.eulerAngles = new Vector3(this.character.transform.eulerAngles.x, this.character.transform.eulerAngles.y + delta, this.character.transform.eulerAngles.z);
 
         }
 

@@ -22,7 +22,7 @@ public class DayNightCycle : MonoBehaviour
     {
         this.actual_time = (this.actual_time + Time.deltaTime) % this.cycleTime;
         this.sun.intensity = Mathf.Max(this.intensityNight, this.intensityNight + (this.intensityDay - this.intensityNight) * Mathf.Sin(this.actual_time / this.cycleTime * Mathf.PI / this.ratioDayNight));
-        this.sun.color = (Mathf.Sin(this.actual_time / this.cycleTime * Mathf.PI / this.ratioDayNight)) * dayColor + (1- Mathf.Sin(this.actual_time / this.cycleTime * Mathf.PI / this.ratioDayNight)) * nightColor;
+        this.sun.color = (Mathf.Sin(this.actual_time / this.cycleTime * Mathf.PI / this.ratioDayNight)) * dayColor + (1 - Mathf.Sin(this.actual_time / this.cycleTime * Mathf.PI / this.ratioDayNight)) * nightColor;
     }
     public float GetTime()
     {
