@@ -54,6 +54,11 @@ public class Controller : NetworkBehaviour
             else if (child.tag == "Character")
                 this.character = child.gameObject;
         }
+
+        if (!isLocalPlayer)
+            this.cam.GetComponent<Camera>().enabled = false;
+        else
+            this.cam.GetComponent<Camera>().enabled = true;
     }
 
     // Update is called once per frame
@@ -241,7 +246,7 @@ public class Controller : NetworkBehaviour
         while (angleEul > 360)
             angleEul -= 360;
 
-        float delta = Time.deltaTime * 200;
+        float delta = Time.deltaTime * 300;
         if (angleEul < 180 && angleEul - delta > 0)
             this.character.transform.eulerAngles = new Vector3(this.character.transform.eulerAngles.x, this.character.transform.eulerAngles.y - delta, this.character.transform.eulerAngles.z);
 
