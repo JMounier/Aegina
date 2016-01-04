@@ -3,19 +3,20 @@ using System.Collections;
 using System.Collections.Generic;
 public class InventoryScript : MonoBehaviour {
     private int rows = 8, columns = 8;
-    public List<ItemStack> inventory = new List<ItemStack>();
-    public List<ItemStack> slots = new List<ItemStack>();
-    public GUISkin skin;
     private bool inventoryShown = false;
     private string tooltip;
     private bool draggingItemStack;
     private ItemStack dragItemStack;
     private int Previndex;
+    private bool Tooltipshown = false;
+    public List<ItemStack> inventory = new List<ItemStack>();
+    public List<ItemStack> slots = new List<ItemStack>();
+    public GUISkin skin;
     public bool InventoryShown
     {
         get { return inventoryShown; }
     }
-    private bool Tooltipshown = false;
+    
 	// Use this for initialization
 	void Start () {
         for (int i = 0; i <rows*columns; i++)
@@ -76,7 +77,7 @@ public class InventoryScript : MonoBehaviour {
                 }
                 else
                 {
-                    inventory[Previndex].add(dragItemStack.Quantity);
+                    inventory[Previndex].Add(dragItemStack.Quantity);
                 }
                 draggingItemStack = false;
                 dragItemStack = null;
@@ -115,7 +116,7 @@ public class InventoryScript : MonoBehaviour {
                                 }
                                 else
                                 {
-                                    inventory[index].add(-1);
+                                    inventory[index].Add(-1);
                                 }
                             }
                             else if (Event.current.control)
@@ -127,7 +128,7 @@ public class InventoryScript : MonoBehaviour {
                                 }
                                 else
                                 {
-                                    inventory[index].add(-((slots[index].Quantity+1)/ 2));
+                                    inventory[index].Add(-((slots[index].Quantity+1)/ 2));
                                 }
                             }
                             else if (Event.current.shift)
@@ -140,7 +141,7 @@ public class InventoryScript : MonoBehaviour {
                                 }
                                 else
                                 {
-                                    inventory[index].add(-10);
+                                    inventory[index].Add(-10);
                                 }
                                 dragItemStack = new ItemStack(slots[index].Item, temp);
                             }
@@ -158,22 +159,22 @@ public class InventoryScript : MonoBehaviour {
                                 if (inventory[index].Quantity + dragItemStack.Quantity > inventory[index].Item.Maxquantity)
                                 {
                                     int temp = inventory[index].Item.Maxquantity - inventory[index].Quantity;
-                                    dragItemStack.add(-temp);
-                                    inventory[index].add(temp);
+                                    dragItemStack.Add(-temp);
+                                    inventory[index].Add(temp);
                                     if (inventory[Previndex].Item.id != dragItemStack.Item.id)
                                     {
                                         inventory[Previndex] = dragItemStack;
                                     }
                                     else
                                     {
-                                        inventory[Previndex].add(dragItemStack.Quantity);
+                                        inventory[Previndex].Add(dragItemStack.Quantity);
                                     }
                                     draggingItemStack = false;
                                     dragItemStack = null;
                                 }
                                 else
                                 {
-                                    inventory[index].add(dragItemStack.Quantity);
+                                    inventory[index].Add(dragItemStack.Quantity);
                                     draggingItemStack = false;
                                     dragItemStack = null;
                                 }
@@ -187,7 +188,7 @@ public class InventoryScript : MonoBehaviour {
                                 }
                                 else
                                 {
-                                    inventory[Previndex].add(dragItemStack.Quantity);
+                                    inventory[Previndex].Add(dragItemStack.Quantity);
                                 }
                                 dragItemStack = null;
                                 draggingItemStack = false;
@@ -239,12 +240,12 @@ public class InventoryScript : MonoBehaviour {
                 {
                     int temp = inventory[i].Item.Maxquantity - inventory[i].Quantity;
                     quantity -= temp;
-                    inventory[i].add(temp);
+                    inventory[i].Add(temp);
                     i++;
                 }
                 else
                 {
-                    inventory[i].add(quantity);
+                    inventory[i].Add(quantity);
                     quantity = 0;
                 }
                 
@@ -272,7 +273,7 @@ public class InventoryScript : MonoBehaviour {
     public void AddItemStack(int id, int quantity,int pos)
     {
         inventory[pos] = new ItemStack(ItemDatabase.Find(id), 1);
-        inventory[pos].add(quantity - 1);
+        inventory[pos].Add(quantity - 1);
 
     }
 
@@ -296,7 +297,7 @@ public class InventoryScript : MonoBehaviour {
         {
             if(inventory[i].Quantity > 1)
             {
-                inventory[i].add(-1);
+                inventory[i].Add(-1);
             }
             else
                 inventory[i] = new ItemStack();
@@ -319,7 +320,7 @@ public class InventoryScript : MonoBehaviour {
             {
                 if (inventory[i].Quantity > quantity)
                 {
-                    inventory[i].add(-quantity);
+                    inventory[i].Add(-quantity);
                 }
                 else
                 {

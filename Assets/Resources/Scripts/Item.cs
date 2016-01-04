@@ -5,50 +5,20 @@ using System.Collections;
 public class Item {
 
     private int maxquantity;
-    public int Maxquantity
-    {
-        get { return maxquantity; }
-    }
     private string itemname;
-    public string Name
-    {
-        get { return itemname; }
-    }
     private int iD;
-    public int id
-    {
-        get { return iD; }
-    }
     private string description;
-    public string Description
-    {
-        get { return description; }
-    }
     public Texture2D itemicon;
     private int attackpower;
-    public int Attackpower
-    {
-        get { return attackpower; }
-    }
     private int mineEfficiency;
-    public int MineEfficiency
-    {
-        get { return mineEfficiency; }
-    }
     private int axeEfficiency;
-    public int AxeEfficiency
-    {
-        get { return axeEfficiency; }
-    }
+    private ItemStack_Type itemType;
     public enum ItemStack_Type
     {
         Arme, Consommable, Ressource, Armure, outils
     }
-    private ItemStack_Type itemType;
-    public ItemStack_Type Type
-    {
-        get { return itemType; }
-    }
+
+
     public Item(string name, int id, string desc,int maxquantity, int attackpower, int MineEfficiency, int axeEfficiency, ItemStack_Type type)
     {
         this.itemname = name;
@@ -68,32 +38,64 @@ public class Item {
         this.attackpower = 1;
         this.iD = -1;
     }
+    public int Maxquantity
+    {
+        get { return maxquantity; }
+    }
+    public string Name
+    {
+        get { return itemname; }
+    }
+    public int id
+    {
+        get { return iD; }
+    }
+    public string Description
+    {
+        get { return description; }
+    }
+    public int Attackpower
+    {
+        get { return attackpower; }
+    }
+    public int MineEfficiency
+    {
+        get { return mineEfficiency; }
+    }
+    public int AxeEfficiency
+    {
+        get { return axeEfficiency; }
+    }
+    public ItemStack_Type Type
+    {
+        get { return itemType; }
+    }
 }
 public class ItemStack
 {
-    private Item prefab;
-    public Item Item
-    {
-        get { return prefab; }
-    }
+    private Item item;
     private int quantity;
-    public int Quantity
-    {
-        get { return quantity; }
-    }
     public ItemStack(Item prefab, int quantity)
     {
-        this.prefab = prefab;
+        this.item = prefab;
         this.quantity = quantity;
     }
 
     public ItemStack()
     {
-        this.prefab = new Item();
+        this.item = new Item();
         this.quantity =0;
     }
-    public void add(int nombre)
+    public void Add(int nombre)
     {
         this.quantity += nombre;
+    }
+    public int Quantity
+    {
+        get { return quantity; }
+    }
+    public Item Item
+    {
+        get { return item; }
     }
 }
