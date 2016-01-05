@@ -15,7 +15,7 @@ public class Item {
     private ItemStack_Type itemType;
     public enum ItemStack_Type
     {
-        Arme, Consommable, Ressource, Armure, outils
+        Arme, Consommable, Ressource, Armure, Outils
     }
 
 
@@ -73,17 +73,17 @@ public class Item {
 }
 public class ItemStack
 {
-    private Item item;
+    private Item items;
     private int quantity;
     public ItemStack(Item prefab, int quantity)
     {
-        this.item = prefab;
+        this.items = prefab;
         this.quantity = quantity;
     }
 
     public ItemStack()
     {
-        this.item = new Item();
+        this.items = new Item();
         this.quantity =0;
     }
     public void Add(int nombre)
@@ -96,6 +96,6 @@ public class ItemStack
     }
     public Item Item
     {
-        get { return item; }
+        get { return items; }
     }
 }
