@@ -32,15 +32,8 @@ public class Controller : NetworkBehaviour
 
     private float rotationY = 0F;
     private float rotationX = 0F;
-
-    // Setters | Getters
-
-    public bool IsJumping
-    {
-        get { return this.isJumping; }
-        set { this.isJumping = value; }
-    }
-
+    public bool pause = false;
+    
     // Use this for initialization
     void Start()
     {
@@ -65,7 +58,7 @@ public class Controller : NetworkBehaviour
     void Update()
     {
         // Check if the player is local
-        if (!isLocalPlayer)
+        if (!isLocalPlayer || this.pause)
             return;
 
         /*
@@ -204,7 +197,7 @@ public class Controller : NetworkBehaviour
 
         bool isMoving = move.x != 0 || move.z != 0;
 
-        // Apply the mooves with the animation
+        // Apply the moves with the animation
         if (this.isJumping)
         {
             if (sprint)
@@ -252,5 +245,19 @@ public class Controller : NetworkBehaviour
 
         else if (angleEul - delta > 0)
             this.character.transform.eulerAngles = new Vector3(this.character.transform.eulerAngles.x, this.character.transform.eulerAngles.y + delta, this.character.transform.eulerAngles.z);
+    }
+
+    // Setters | Getters
+
+    public bool IsJumping
+    {
+        get { return this.isJumping; }
+        set { this.isJumping = value; }
+    }
+
+    public bool Pause
+    {
+        get { return this.pause; }
+        set { this.pause = value; }
     }
 }
