@@ -32,7 +32,7 @@ public class Controller : NetworkBehaviour
 
     private float rotationY = 0F;
     private float rotationX = 0F;
-    public bool pause = false;
+    private bool pause = false;
     
     // Use this for initialization
     void Start()
