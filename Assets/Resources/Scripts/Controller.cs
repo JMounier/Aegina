@@ -32,15 +32,8 @@ public class Controller : NetworkBehaviour
 
     private float rotationY = 0F;
     private float rotationX = 0F;
-
-    // Setters | Getters
-
-    public bool IsJumping
-    {
-        get { return this.isJumping; }
-        set { this.isJumping = value; }
-    }
-
+    private bool pause = false;
+    
     // Use this for initialization
     void Start()
     {
@@ -75,7 +68,8 @@ public class Controller : NetworkBehaviour
         */
 
         // Get new distance
-        this.distance -= Input.mouseScrollDelta.y * this.sensitivityScroll;
+        if (!this.pause)
+            this.distance -= Input.mouseScrollDelta.y * this.sensitivityScroll;
         this.distance = Mathf.Clamp(this.distance, this.distanceMin, this.distanceMax);
 
         // TPS
@@ -86,7 +80,9 @@ public class Controller : NetworkBehaviour
             Vector3 posCamera = this.cam.transform.position;
 
             // Get the drag 
-            Vector2 deltaMouse = new Vector2(-Input.GetAxis("Mouse X"), -Input.GetAxis("Mouse Y"));
+            Vector2 deltaMouse = Vector2.zero;
+            if (!this.pause)
+                deltaMouse = new Vector2(-Input.GetAxis("Mouse X"), -Input.GetAxis("Mouse Y"));
             deltaMouse *= this.sensitivity * this.distance * Time.deltaTime;
 
             // Moove the camera
@@ -109,9 +105,12 @@ public class Controller : NetworkBehaviour
         {
             this.cam.transform.position = this.character.transform.position + this.translateReferentiel;
 
-            this.rotationX += Input.GetAxis("Mouse X") * this.sensitivity * 100 * Time.deltaTime;
+            if (!this.pause)
+            {
+                this.rotationX += Input.GetAxis("Mouse X") * this.sensitivity * 100 * Time.deltaTime;
+                this.rotationY += Input.GetAxis("Mouse Y") * this.sensitivity * 100 * Time.deltaTime;
+            }
 
-            this.rotationY += Input.GetAxis("Mouse Y") * this.sensitivity * 100 * Time.deltaTime;
             this.rotationY = Mathf.Clamp(this.rotationY, this.yMinFPS, this.yMaxFPS);
 
             this.cam.transform.localEulerAngles = new Vector3(-this.rotationY, this.rotationX, 0);
@@ -125,12 +124,12 @@ public class Controller : NetworkBehaviour
         */
 
         // Recupere les inputs
-        bool forward = Input.GetButton("Forward");
-        bool back = Input.GetButton("Back");
-        bool right = Input.GetButton("Right");
-        bool left = Input.GetButton("Left");
-        bool jump = Input.GetButton("Jump");
-        bool sprint = Input.GetButton("Sprint");
+        bool forward = !this.pause && Input.GetButton("Forward");
+        bool back = !this.pause && Input.GetButton("Back");
+        bool right = !this.pause && Input.GetButton("Right");
+        bool left = !this.pause && Input.GetButton("Left");
+        bool jump = !this.pause && Input.GetButton("Jump");
+        bool sprint = !this.pause && Input.GetButton("Sprint");
 
         Vector3 move = new Vector3(0, 0, 0);
 
@@ -204,7 +203,7 @@ public class Controller : NetworkBehaviour
 
         bool isMoving = move.x != 0 || move.z != 0;
 
-        // Apply the mooves with the animation
+        // Apply the moves with the animation
         if (this.isJumping)
         {
             if (sprint)
@@ -252,5 +251,19 @@ public class Controller : NetworkBehaviour
 
         else if (angleEul - delta > 0)
             this.character.transform.eulerAngles = new Vector3(this.character.transform.eulerAngles.x, this.character.transform.eulerAngles.y + delta, this.character.transform.eulerAngles.z);
+    }
+
+    // Setters | Getters
+
+    public bool IsJumping
+    {
+        get { return this.isJumping; }
+        set { this.isJumping = value; }
+    }
+
+    public bool Pause
+    {
+        get { return this.pause; }
+        set { this.pause = value; }
     }
 }
