@@ -3,19 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 public class Inventory : MonoBehaviour {
     private int rows = 8, columns = 8;
-    private bool inventoryShown = false;
     private string tooltip;
     private bool draggingItemStack;
     private ItemStack dragItemStack;
     private int Previndex;
     private bool Tooltipshown = false;
+    private GUISkin skin;
     public List<ItemStack> inventory = new List<ItemStack>();
     public List<ItemStack> slots = new List<ItemStack>();
-    public GUISkin skin;
-    public bool InventoryShown
-    {
-        get { return inventoryShown; }
-    }
+    public bool inventoryShown = false;
+    
     
 	// Use this for initialization
 	void Start () {
@@ -31,15 +28,11 @@ public class Inventory : MonoBehaviour {
         {
             AddItemStack(i,1);
         }
-        
+        skin = Resources.Load<GUISkin>("Sprites/GUIskin/skin");
 	}
 	
     void Update()
     {
-        if (Input.GetButtonDown("Inventory"))
-        {
-            inventoryShown = !inventoryShown;
-        }
     }
 	// Update is called once per frame
 	void OnGUI ()
@@ -53,11 +46,11 @@ public class Inventory : MonoBehaviour {
             {
                 GUI.Box(new Rect(Event.current.mousePosition.x + 15, Event.current.mousePosition.y, 200, 20+20*(tooltip.Length/30+1)), tooltip, skin.GetStyle("tooltip"));
             }
-            if (GUI.Button(new Rect(200, 220 + 32 * columns, 100, 20), "save"))
+            if (GUI.Button(new Rect(200, 220 + 32 * columns, 100, 20), "save", skin.GetStyle("button")))
             {
                 SaveInventory();
             }
-            if (GUI.Button(new Rect(310, 220 + 32 * columns, 100, 20), "Load"))
+            if (GUI.Button(new Rect(310, 220 + 32 * columns, 100, 20), "Load", skin.GetStyle("button")))
             {
                 LoadInventory();
             }
@@ -69,7 +62,7 @@ public class Inventory : MonoBehaviour {
         }
         if (draggingItemStack && Event.current.type == EventType.MouseUp)
         {
-            if (!new Rect(200, 200, 32 * rows, 32 * columns).Contains(Event.current.mousePosition) || !InventoryShown)
+            if (!new Rect(200, 200, 32 * rows, 32 * columns).Contains(Event.current.mousePosition) || !inventoryShown)
             {
                 if (inventory[Previndex].Item.id != dragItemStack.Item.id)
                 {

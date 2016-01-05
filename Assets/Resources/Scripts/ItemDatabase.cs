@@ -5,10 +5,10 @@ using System.Collections.Generic;
 public static class ItemDatabase {
         public static readonly Item Bois = new Item("Bois",0,"Un morceau de bois pouvant servir pour créer d'autres objets",64,1,1,1,Item.ItemStack_Type.Ressource);
         public static readonly Item Pierre = new Item("Pierre", 1, "Une pierre pouvant servir pour créer d'autres objets",64, 1, 1, 1, Item.ItemStack_Type.Ressource);
-        public static readonly Item PiocheEnBois = new Item("Pioche en bois", 2, "Un ensemble de morceaux de bois ressemblant à une pioche",1, 2, 5, 1, Item.ItemStack_Type.outils);
-        public static readonly Item PiocheEnPierre= new Item("Pioche en pierre", 3, "Un outil rudimentaire de pierre ressemblant à une pioche",1, 3, 10, 1, Item.ItemStack_Type.outils);
-        public static readonly Item HacheEnBois= new Item("Hache en bois", 4, "Un ensemble de morceaux de bois ressemblant à une hache",1, 3, 1, 5, Item.ItemStack_Type.outils);
-        public static readonly Item HacheEnPierre= new Item("Hache en pierre", 5, "Un outil rudimentaire de pierre ressemblant à une hache",1, 4, 1, 10, Item.ItemStack_Type.outils);
+        public static readonly Item PiocheEnBois = new Item("Pioche en bois", 2, "Un ensemble de morceaux de bois ressemblant à une pioche",1, 2, 5, 1, Item.ItemStack_Type.Outils);
+        public static readonly Item PiocheEnPierre= new Item("Pioche en pierre", 3, "Un outil rudimentaire de pierre ressemblant à une pioche",1, 3, 10, 1, Item.ItemStack_Type.Outils);
+        public static readonly Item HacheEnBois= new Item("Hache en bois", 4, "Un ensemble de morceaux de bois ressemblant à une hache",1, 3, 1, 5, Item.ItemStack_Type.Outils);
+        public static readonly Item HacheEnPierre= new Item("Hache en pierre", 5, "Un outil rudimentaire de pierre ressemblant à une hache",1, 4, 1, 10, Item.ItemStack_Type.Outils);
         public static readonly Item PCEnBois= new Item("PC en Bois", 6, "De l'art peut-être",1, 1, 1, 1, Item.ItemStack_Type.Consommable);
         public static readonly Item PCEnPierre= new Item("PC en pierre", 7, "Comme le pc en bois mais en pierre",1, 1, 1, 1, Item.ItemStack_Type.Consommable);
         public static readonly Item MineraiDeCuivre= new Item("Minerai de cuivre", 8, "Un minerai de cuivre pouvant être fondu en lingot",64, 1, 1, 1, Item.ItemStack_Type.Ressource);
