@@ -54,33 +54,33 @@ public class Consumable : Item
 /// </summary>
 public class Effect
 {
-    public static enum Effect { None, Speed, Slowness, Haste, MiningFatigue, Strength, InstantHealth, InstantDamage, JumpBoost, Regeneration,
+    public enum EffectType { None, Speed, Slowness, Haste, MiningFatigue, Strength, InstantHealth, InstantDamage, JumpBoost, Regeneration,
         Resistance, Hunger, Weakness, Poison, Saturation, Thirst, Refreshment};
 
-    private Effect e;
+    private EffectType e;
     private int power;
 
     // Constructors
     public Effect()
     {
-        this.e = Effect.None;
+        this.e = EffectType.None;
         this.power = 0;
     }
 
-    public Effect(Effect e)
+    public Effect(EffectType e)
     {
         this.e = e;
         this.power = 1;
     }
 
-    public Effect(Effect e, int power)
+    public Effect(EffectType e, int power)
     {
         this.e = e;
         this.power = power;
     }
 
     // Getter & Setters
-    public Effect E
+    public EffectType E
     {
         get { return this.e; }
         set { this.e = value; }
@@ -88,7 +88,7 @@ public class Effect
 
     public int Power
     {
-        get { return this.power = power; }
+        get { return this.power; }
         set { this.power = value; }
     }
 }

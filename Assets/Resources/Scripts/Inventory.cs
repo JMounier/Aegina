@@ -2,54 +2,46 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class Inventory : MonoBehaviour {
+public class Inventory : MonoBehaviour
+{
 
-    private int rows = 8, columns = 8;
-    private string tooltip;
-    private bool draggingItemStack;
-    private ItemStack dragItemStack;
-    private int Previndex;
-    private bool Tooltipshown = false;
+    private int rows = 8;
+    private int columns = 8;
+    private int[] previndex;
+    private bool draggingItemStack = false;
+    private bool inventoryShown = false;
     private GUISkin skin;
+    private ItemStack selectedItem;
+    private ItemStack[,] slots;
 
-    public List<ItemStack> inventory = new List<ItemStack>();
-    public List<ItemStack> slots = new List<ItemStack>();
-    public bool inventoryShown = false;
-    
-    
-	// Use this for initialization
-	void Start () {
-        for (int i = 0; i <rows*columns; i++)
-        {
-            slots.Add(new ItemStack());
-            inventory.Add(new ItemStack());
-        }
-        AddItemStack(1,64);
-        AddItemStack(1,1,20);
-        AddItemStack(1, 125);
-        for (int i = 8 ; i < 21; i++)
-        {
-            AddItemStack(i,1);
-        }
+
+    // Use this for initialization
+    void Start()
+    {
+        this.slots = new ItemStack[this.rows, this.columns];
+
+        for (int i = 0; i < rows; i++)
+            for (int j = 0; j < columns; j++)
+                this.slots[i, j] = new ItemStack();
+
+        AddItemStack(new ItemStack(ItemDatabase.Floatium, 42));
+        AddItemStack(new ItemStack(ItemDatabase.Log, 15));
+        AddItemStack(new ItemStack(ItemDatabase.Sand, 100000));
+       
         skin = Resources.Load<GUISkin>("Sprites/GUIskin/skin");
-	}
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
-
-	void OnGUI ()
+    
+    // Methods
+    void OnGUI()
     {
-        tooltip = "";
         GUI.skin = skin;
-        if(inventoryShown)
+        if (this.inventoryShown)
         {
             DrawInventory();
-            if (Tooltipshown && !draggingItemStack )
+            if (!this.draggingItemStack)
             {
-                GUI.Box(new Rect(Event.current.mousePosition.x + 15, Event.current.mousePosition.y, 200, 20+20*(tooltip.Length/30+1)), tooltip, skin.GetStyle("tooltip"));
+                GUI.Box(new Rect(Event.current.mousePosition.x + 15, Event.current.mousePosition.y, 200, 20 + 20 * (selectedItem.Items.Description.Length / 30 + 1)),
+                    "<color=#ffffff>" + this.selectedItem.Items.Name + "</color>\n\n" + this.selectedItem.Items.Description, skin.GetStyle("tooltip"));
             }
             if (GUI.Button(new Rect(200, 220 + 32 * columns, 100, 20), "save", skin.GetStyle("button")))
             {
@@ -60,319 +52,144 @@ public class Inventory : MonoBehaviour {
                 LoadInventory();
             }
         }
-        if (draggingItemStack)
+        if (this.draggingItemStack)
         {
-            GUI.DrawTexture(new Rect(Event.current.mousePosition.x, Event.current.mousePosition.y, 50, 50), dragItemStack.Items.Icon);
-            GUI.Box(new Rect(Event.current.mousePosition.x, Event.current.mousePosition.y, 50, 50), dragItemStack.Quantity.ToString(), skin.GetStyle("quantity2"));
-
-            if (Event.current.type == EventType.MouseUp)
-            {
-                if (!new Rect(200, 200, 32 * rows, 32 * columns).Contains(Event.current.mousePosition) || !inventoryShown)
-                {
-                    if (inventory[Previndex].Item.id != dragItemStack.Item.id)
-                    {
-                        inventory[Previndex] = dragItemStack;
-                    }
-                    else
-                    {
-                        inventory[Previndex].Add(dragItemStack.Quantity);
-                    }
-                    draggingItemStack = false;
-                    dragItemStack = null;
-                }
-            }
+            GUI.DrawTexture(new Rect(Event.current.mousePosition.x, Event.current.mousePosition.y, 50, 50), selectedItem.Items.Icon);
+            GUI.Box(new Rect(Event.current.mousePosition.x, Event.current.mousePosition.y, 50, 50), selectedItem.Quantity.ToString(), skin.GetStyle("quantity2"));          
         }
-        
+
     }
-   public void DrawInventory()
+    public void DrawInventory()
     {
-        int index = 0;
-        for (int i = 0; i < rows; i++)
-        {
-            for (int j = 0; j < columns; j++)
+        for (int i = 0; i < this.rows; i++)
+            for (int j = 0; j < this.columns; j++)
             {
+                // Dessin du slot
                 Rect rect = new Rect(200 + j * 32, 100 + i * 32, 32, 32);
-                GUI.Box(rect,"",skin.GetStyle("slot"));
-                slots[index] = inventory[index];
-                if (slots[index].Item.Name != null)
+                GUI.Box(rect, "", skin.GetStyle("slot"));
+
+                // Dessin de l'item + quantite
+                GUI.DrawTexture(rect, this.slots[i, j].Items.Icon);
+                GUI.Box(rect, this.slots[i, j].Quantity.ToString(), skin.GetStyle("quantity"));
+
+                // Interaction avec le slot
+                if (!this.draggingItemStack && rect.Contains(Event.current.mousePosition))
                 {
-                    GUI.DrawTexture(rect, slots[index].Item.itemicon);
-                    GUI.Box(rect, slots[index].Quantity.ToString(), skin.GetStyle("quantity"));
-                    if (rect.Contains(Event.current.mousePosition))
+                    this.selectedItem = this.slots[i, j];
+                    if (Event.current.button == 0 && Event.current.type == EventType.mouseDrag)
                     {
-                        tooltip = Tooltip(inventory[index]);
-                        if (Event.current.button == 0 && Event.current.type == EventType.mouseDrag && !draggingItemStack)
-                        {
-                            draggingItemStack = true;
-                            Previndex = index;
+                        this.draggingItemStack = true;
+                        this.previndex = new int[2] { i, j };
 
-                            if (Event.current.alt)
+                        if (Event.current.shift)
+                        {
+                            this.selectedItem = new ItemStack(slots[i, j].Items, (slots[i, j].Quantity + 1) / 2);
+                            if (this.slots[i, j].Quantity == 1)
                             {
-                                dragItemStack = new ItemStack(slots[index].Item, 1);
-                                if (slots[index].Quantity == 1)
-                                {
-                                    inventory[index] = new ItemStack();
-                                }
-                                else
-                                {
-                                    inventory[index].Add(-1);
-                                }
-                            }
-                            else if (Event.current.control)
-                            {
-                                dragItemStack = new ItemStack(slots[index].Item, (slots[index].Quantity+1)/2);
-                                if (slots[index].Quantity == 1)
-                                {
-                                    inventory[index] = new ItemStack();
-                                }
-                                else
-                                {
-                                    inventory[index].Add(-((slots[index].Quantity+1)/ 2));
-                                }
-                            }
-                            else if (Event.current.shift)
-                            {
-                                int temp = 10;
-                                if (slots[index].Quantity <= 10)
-                                {
-                                    temp = inventory[index].Quantity;
-                                    inventory[index] = new ItemStack();
-                                }
-                                else
-                                {
-                                    inventory[index].Add(-10);
-                                }
-                                dragItemStack = new ItemStack(slots[index].Item, temp);
+                                this.slots[i, j] = new ItemStack();
                             }
                             else
                             {
-                                dragItemStack = slots[index];
-                                inventory[index] = new ItemStack();
+                                this.slots[i, j].Quantity -= (slots[i, j].Quantity + 1) / 2;
                             }
-                            
                         }
-                        if (Event.current.type == EventType.MouseUp && draggingItemStack)
+                        else
                         {
-                            if (inventory[index].Item.id == dragItemStack.Item.id)
-                            {
-                                if (inventory[index].Quantity + dragItemStack.Quantity > inventory[index].Item.Maxquantity)
-                                {
-                                    int temp = inventory[index].Item.Maxquantity - inventory[index].Quantity;
-                                    dragItemStack.Add(-temp);
-                                    inventory[index].Add(temp);
-                                    if (inventory[Previndex].Item.id != dragItemStack.Item.id)
-                                    {
-                                        inventory[Previndex] = dragItemStack;
-                                    }
-                                    else
-                                    {
-                                        inventory[Previndex].Add(dragItemStack.Quantity);
-                                    }
-                                    draggingItemStack = false;
-                                    dragItemStack = null;
-                                }
-                                else
-                                {
-                                    inventory[index].Add(dragItemStack.Quantity);
-                                    draggingItemStack = false;
-                                    dragItemStack = null;
-                                }
-                            }
-                            else
-                            {
-                                if (inventory[Previndex].Item.id != dragItemStack.Item.id)
-                                {
-                                    inventory[Previndex] = inventory[index];
-                                    inventory[index] = dragItemStack;
-                                }
-                                else
-                                {
-                                    inventory[Previndex].Add(dragItemStack.Quantity);
-                                }
-                                dragItemStack = null;
-                                draggingItemStack = false;
-                            }
+                            this.slots[i, j] = new ItemStack();
                         }
-                        if (Event.current.isMouse && Event.current.type == EventType.mouseDown && Event.current.button == 1)
-                        {
-                            if (slots[index].Item.Type == Item.ItemStack_Type.Consommable)
-                            {
-                                Consumable(slots[index], index);  
-                            }
-                        }
+
                     }
-                    Tooltipshown = tooltip != "";
-                    
-
-                }
-                else if (rect.Contains(Event.current.mousePosition))
-                {
-                    Tooltipshown = false;
-                    if (Event.current.type == EventType.MouseUp && draggingItemStack)
+                    else if (draggingItemStack && Event.current.type == EventType.MouseUp)
                     {
                         draggingItemStack = false;
-                        inventory[index] = dragItemStack;
-                        dragItemStack = null;
+                        if (this.slots[i, j].Items.ID == this.selectedItem.Items.ID)
+                        {
+                            if (this.slots[i, j].Quantity + this.selectedItem.Quantity > this.selectedItem.Items.Size)
+                                this.selectedItem.Quantity -= this.selectedItem.Items.Size - this.slots[i, j].Quantity;
+
+                            this.slots[i, j].Quantity += this.selectedItem.Quantity;
+                        }
+                        else
+                        {
+                            this.slots[this.previndex[0], this.previndex[1]] = this.slots[i, j];
+                            this.slots[i, j] = this.selectedItem;
+                        }
                     }
                 }
-                index += 1;
             }
-        }
-    }
-    string Tooltip(ItemStack item)
-    {
-        tooltip += "<color=#ffffff>"+item.Item.Name+"</color>\n\n" +item.Item.Description;
-        return tooltip;
-    }
-   public void AddItemStack( int id, int quantity)
-    {
-        int i = 0;
-        while (quantity > 0 && i < inventory.Count)
-        {
-            while (i < inventory.Count && inventory[i].Item.id != id )
-            {
-                i++;
-            }
-            if (i < inventory.Count)
-            {
-                if (inventory[i].Quantity + quantity > inventory[i].Item.Maxquantity)
-                {
-                    int temp = inventory[i].Item.Maxquantity - inventory[i].Quantity;
-                    quantity -= temp;
-                    inventory[i].Add(temp);
-                    i++;
-                }
-                else
-                {
-                    inventory[i].Add(quantity);
-                    quantity = 0;
-                }
-                
-            }
-            else
-            {
-                i = 0;
-                while (i < inventory.Count && inventory[i].Item.Name != null)
-                {
-                    i++;
-                }
-                if (i < inventory.Count)
-                {
-                    inventory[i] = new ItemStack(ItemDatabase.Find(id), 1);
-                    quantity -= 1;
-                }
-                else
-                {
-                    print(quantity + "objets n'ont pas pu être ajoutés");
-                    quantity = 0;
-                }
-            }
-        }
-    }
-    public void AddItemStack(int id, int quantity,int pos)
-    {
-        inventory[pos] = new ItemStack(ItemDatabase.Find(id), 1);
-        inventory[pos].Add(quantity - 1);
 
     }
 
-    public bool InventoryContains(int id)
+    public void AddItemStack(ItemStack iStack)
     {
         int i = 0;
-        while (i < inventory.Count && inventory[i].Item.id != id)
+        int j = 0;
+        while (iStack.Quantity > 0)
         {
-            i++;
-        }
-        return (i < inventory.Count);
-    }
-    public void RemoveItemStack( int id)
-    {
-        int i = 0;
-        while (i < inventory.Count && inventory[i].Item.id != id)
-        {
-            i++;
-        }
-        if (i < inventory.Count)
-        {
-            if(inventory[i].Quantity > 1)
-            {
-                inventory[i].Add(-1);
-            }
-            else
-                inventory[i] = new ItemStack();
-        }
-        else
-        {
-            print("item doesn't exist");
-        }
-    }
-    public void RemoveItemStack(int id, int quantity)
-    {
-        int i = 0;
-        while (quantity > 0)
-        {
-            while (i < inventory.Count && inventory[i].Item.id != id)
+            j++;
+            if (j == this.columns)
             {
                 i++;
+                j = 0;
             }
-            if (i < inventory.Count)
+            if (i == this.rows)
+                break;
+            if (this.slots[i, j].Items.ID == -1)
             {
-                if (inventory[i].Quantity > quantity)
-                {
-                    inventory[i].Add(-quantity);
-                }
-                else
-                {
-                    quantity -= inventory[i].Quantity;
-                    inventory[i] = new ItemStack();
-                }
+                this.slots[i, j] = iStack;
+                iStack.Quantity = 0;
             }
-            else
+            else if (this.slots[i, j].Items.ID == iStack.Items.ID)
             {
-                print(quantity.ToString() +" manquant");
-                quantity = 0;
+                int mem = iStack.Items.Size - this.slots[i, j].Quantity;
+                this.slots[i, j].Quantity += iStack.Quantity;
+                iStack.Quantity -= mem;
             }
         }
     }
-    private void Consumable(ItemStack item,int slot)
+
+    public bool InventoryContains(Item it)
     {
-        switch (item.Item.id)
+        for (int i = 0; i < this.rows; i++)
         {
-            case 6:
-                print("crafting window not available yet");
-                break;
-            case 7:
-                print("crafting window not available yet");
-                break;
-            default:
-                inventory[slot] = new ItemStack();
-                break;
+            for (int j = 0; j < this.columns; j++)
+            {
+                if (this.slots[i, j].Items.ID == it.ID && this.slots[i, j].Items.Meta == it.Meta)
+                    return true;
+            }
         }
+        return false;
     }
+
+    public void ClearInventory()
+    {
+        for (int i = 0; i < this.rows; i++)
+            for (int j = 0; j < this.columns; j++)
+                this.slots[i, j] = new ItemStack();
+    }
+
     public void SaveInventory()
     {
-        for (int i = 0; i < inventory.Count; i++)
-        {
-                PlayerPrefs.SetInt("Inventory " + i, inventory[i].Item.id);
-                PlayerPrefs.SetInt("Inventoryquantity " + i, inventory[i].Quantity);
-        }
-        
+        for (int i = 0; i < this.rows; i++)
+            for (int j = 0; j < this.columns; j++)
+                PlayerPrefs.SetString("Inventory " + i + " " + j, this.slots[i, j].Items.ID + " " + this.slots[i, j].Items.Meta + " " + this.slots[i, j].Quantity);
     }
+
     public void LoadInventory()
     {
-        for (int i = 0; i < inventory.Count; i++)
-        {
-            int id = PlayerPrefs.GetInt("Inventory " + i,-1);
-            if (id == -1)
+        for (int i = 0; i < this.rows; i++)
+            for (int j = 0; j < this.columns; j++)
             {
-                inventory[i] = new ItemStack();
+                string[] save = PlayerPrefs.GetString("Inventory " + i + " " + j, "-1 0 0").Split();
+                this.slots[i, j] = new ItemStack(ItemDatabase.Find(System.Convert.ToInt32(save[0]), System.Convert.ToInt32(save[1])), System.Convert.ToInt32(save[2]));
             }
-            else
-            {
-                inventory[i] = new ItemStack(ItemDatabase.Find(id), 1);
-                int quantity = PlayerPrefs.GetInt("Inventoryquantity " + i, 0);
-                AddItemStack(id, quantity, i);
-            }
-        }
     }
+
+    // Getters & Setters
+    public bool InventoryShown
+    {
+        get { return this.inventoryShown; }
+        set { this.inventoryShown = value; }
+    }
+
 }
