@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+
 public class Inventory : MonoBehaviour {
+
     private int rows = 8, columns = 8;
     private string tooltip;
     private bool draggingItemStack;
@@ -9,6 +11,7 @@ public class Inventory : MonoBehaviour {
     private int Previndex;
     private bool Tooltipshown = false;
     private GUISkin skin;
+
     public List<ItemStack> inventory = new List<ItemStack>();
     public List<ItemStack> slots = new List<ItemStack>();
     public bool inventoryShown = false;
@@ -30,11 +33,13 @@ public class Inventory : MonoBehaviour {
         }
         skin = Resources.Load<GUISkin>("Sprites/GUIskin/skin");
 	}
-	
+
+    // Update is called once per frame
     void Update()
     {
+
     }
-	// Update is called once per frame
+
 	void OnGUI ()
     {
         tooltip = "";
@@ -57,23 +62,24 @@ public class Inventory : MonoBehaviour {
         }
         if (draggingItemStack)
         {
-            GUI.DrawTexture(new Rect(Event.current.mousePosition.x, Event.current.mousePosition.y, 50, 50), dragItemStack.Item.itemicon);
+            GUI.DrawTexture(new Rect(Event.current.mousePosition.x, Event.current.mousePosition.y, 50, 50), dragItemStack.Items.Icon);
             GUI.Box(new Rect(Event.current.mousePosition.x, Event.current.mousePosition.y, 50, 50), dragItemStack.Quantity.ToString(), skin.GetStyle("quantity2"));
-        }
-        if (draggingItemStack && Event.current.type == EventType.MouseUp)
-        {
-            if (!new Rect(200, 200, 32 * rows, 32 * columns).Contains(Event.current.mousePosition) || !inventoryShown)
+
+            if (Event.current.type == EventType.MouseUp)
             {
-                if (inventory[Previndex].Item.id != dragItemStack.Item.id)
+                if (!new Rect(200, 200, 32 * rows, 32 * columns).Contains(Event.current.mousePosition) || !inventoryShown)
                 {
-                    inventory[Previndex] = dragItemStack;
+                    if (inventory[Previndex].Item.id != dragItemStack.Item.id)
+                    {
+                        inventory[Previndex] = dragItemStack;
+                    }
+                    else
+                    {
+                        inventory[Previndex].Add(dragItemStack.Quantity);
+                    }
+                    draggingItemStack = false;
+                    dragItemStack = null;
                 }
-                else
-                {
-                    inventory[Previndex].Add(dragItemStack.Quantity);
-                }
-                draggingItemStack = false;
-                dragItemStack = null;
             }
         }
         

@@ -69,7 +69,17 @@ public static class ItemDatabase
     {
         foreach (Item i in Items)
         {
-            if (i.ID == id)
+            if (i.ID == id && i.Meta == 0)
+                return i;
+        }
+        throw new System.Exception("Items.Find : Item not find");
+    }
+
+    public static Item Find(int id, int meta)
+    {
+        foreach (Item i in Items)
+        {
+            if (i.ID == id && i.Meta == meta)
                 return i;
         }
         throw new System.Exception("Items.Find : Item not find");
