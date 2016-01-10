@@ -57,33 +57,33 @@ public class Effect
     public enum EffectType { None, Speed, Slowness, Haste, MiningFatigue, Strength, InstantHealth, InstantDamage, JumpBoost, Regeneration,
         Resistance, Hunger, Weakness, Poison, Saturation, Thirst, Refreshment};
 
-    private EffectType e;
+    private EffectType et;
     private int power;
 
     // Constructors
     public Effect()
     {
-        this.e = EffectType.None;
+        this.et = EffectType.None;
         this.power = 0;
     }
 
-    public Effect(EffectType e)
+    public Effect(EffectType et)
     {
-        this.e = e;
+        this.et = et;
         this.power = 1;
     }
 
-    public Effect(EffectType e, int power)
+    public Effect(EffectType et, int power)
     {
-        this.e = e;
+        this.et = et;
         this.power = power;
     }
 
     // Getter & Setters
-    public EffectType E
+    public EffectType ET
     {
-        get { return this.e; }
-        set { this.e = value; }
+        get { return this.et; }
+        set { this.et = value; }
     }
 
     public int Power
