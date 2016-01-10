@@ -13,7 +13,7 @@ public static class ItemDatabase
     // Ressources
     public static readonly Item Log = new Item(0, "Bois", "Un morceau de bois pouvant servir pour créer d'autres objets", 64);
     public static readonly Item Stone = new Item(1, "Pierre", "Une pierre pouvant servir pour créer d'autres objets", 64);
-    public static readonly Item Sand = new Item(2, "Sable", "Du sable... Vous pouvez faire un chateau de sable avec.....................................................................................................................................................................", 64);
+    public static readonly Item Sand = new Item(2, "Sable", "Du sable... Vous pouvez faire un chateau de sable avec.", 64);
     public static readonly Item Copper = new Item(3, "Minerai de cuivre", "Un minerai de cuivre pouvant être fondu en lingot", 64);
     public static readonly Item Iron = new Item(4, "Minerai de fer", "Un minerai de fer pouvant être fondu en lingot", 64);
     public static readonly Item Gold = new Item(5, "Minerai d'or", "Un minerai d'or pouvant être fondu en lingot", 64);
