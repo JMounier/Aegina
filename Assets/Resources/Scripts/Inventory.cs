@@ -11,7 +11,7 @@ public class Inventory : NetworkBehaviour
     private int pos_x_toolbar, pos_y_toolbar;
     private int[] previndex = new int[2];
     private bool draggingItemStack = false;
-    private int cursor = -1;
+    private int cursor = 0;
     private bool inventoryShown = false;
     private bool tooltipshown = false;
     private GUISkin skin;
