@@ -3,16 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 public class DayNightCycle : MonoBehaviour
 {
-    public Light sun;
-    public Light moon;
+    private Light sun;
+    private Light moon;
     private Color32 defaultmooncolor;
     private float actual_time;
-    public float cycleTime = 60;
-    public float gamma = 0.80f;
-    public float nightIntensity = 0.1f;
-    public int diameter = 100;
-    public int height = 20;
-    public bool bloodmoon;
+    private float cycleTime = 60;
+    private float gamma = 0.80f;
+    private float nightIntensity = 0.1f;
+    private int diameter = 100;
+    private int height = 100;
+    private bool bloodmoon = false ;
     // public Color Test = new Color();
 
 
@@ -29,15 +29,13 @@ public class DayNightCycle : MonoBehaviour
                 this.sun = light;
             else if (light.name == "Moon")
                 this.moon = light;
-            else print("error");
         }
-        sun.gameObject.transform.TransformPoint(sun.transform.position);
-        moon.gameObject.transform.TransformPoint(moon.transform.position);
-        sun.color = SkysColor(0);
-        defaultmooncolor = SkysColor(0.70f);
-        moon.color = defaultmooncolor;
-        moon.intensity = nightIntensity;
-
+        this.sun.gameObject.transform.TransformPoint(sun.transform.position);
+        this.moon.gameObject.transform.TransformPoint(moon.transform.position);
+        this.sun.color = SkysColor(0);
+        this.defaultmooncolor = SkysColor(0);
+        this.moon.color = this.defaultmooncolor;
+        this.moon.intensity = this.nightIntensity;
 
         // init time
         this.actual_time = 0f; // a voir si en chargeant un monde on revient pas a t = 0.
@@ -46,7 +44,7 @@ public class DayNightCycle : MonoBehaviour
     void FixedUpdate()
     {
         //Test = SkysColor(actual_time / cycleTime); // teste la couleur
-        actual_time = (actual_time + Time.deltaTime) % cycleTime;
+        this.actual_time = (this.actual_time + Time.deltaTime) % this.cycleTime;
 
         // float phasedTime = Mathf.Abs((actual_time - cycleTime / 3) % cycleTime) / cycleTime/*dephasage pour avoir le zenith au debut*/;
 
@@ -58,90 +56,87 @@ public class DayNightCycle : MonoBehaviour
             sun.color = SkysColor(actual_time * 3 / cycleTime);
         */
 
-
         // intensity setting
-        sun.intensity = Mathf.Max(nightIntensity, (-4 * (actual_time % cycleTime / cycleTime * 2) * (actual_time % cycleTime / cycleTime * 2) + 4 * (actual_time % cycleTime / cycleTime * 2)) * 1);
+        this.sun.intensity = Mathf.Max(nightIntensity, (-4 * (this.actual_time % this.cycleTime / this.cycleTime * 2) * (this.actual_time % this.cycleTime / this.cycleTime * 2) + 4 * (this.actual_time % this.cycleTime / this.cycleTime * 2)) * 1);
         
         // position de la lune et du soleil
         Vector3[] position = Orbit(actual_time);
-        sun.transform.position = position[0];
-        moon.transform.position = position[1];
-        sun.transform.LookAt(gameObject.transform);
-        moon.transform.LookAt(gameObject.transform);
+        this.sun.transform.position = position[0];
+        this.moon.transform.position = position[1];
+        this.sun.transform.LookAt(gameObject.transform);
+        this.moon.transform.LookAt(gameObject.transform);
 
         // Blood moon
-        if (bloodmoon)
-            moon.color = Color.red;
+        if (this.bloodmoon)
+            this.moon.color = Color.red;
         else if (moon.color != defaultmooncolor)
         {
-            moon.color = defaultmooncolor;
+            this.moon.color = defaultmooncolor;
         }
     }
 
-
-
     // Methods
 
-    private static int[] waveLengthToRGB(int Wavelength, float IntensityMax, float gamma) // de 380 a 780 (le visible)
+    private static int[] WaveLengthToRGB(int wavelength, float intensityMax, float gamma) // de 380 a 780 (le visible)
     {
         float factor;
-        float Red, Green, Blue;
+        float red, green, blue;
         // convertion en couleur
-        if ((Wavelength >= 380) && (Wavelength < 440))
+        if ((wavelength >= 380) && (wavelength < 440))
         {
-            Red = -(Wavelength - 440) / (440 - 380);
-            Green = 0.0f;
-            Blue = 1.0f;
+            red = -(wavelength - 440) / (440 - 380);
+            green = 0.0f;
+            blue = 1.0f;
         }
-        else if ((Wavelength >= 440) && (Wavelength < 490))
+        else if ((wavelength >= 440) && (wavelength < 490))
         {
-            Red = 0.0f;
-            Green = (Wavelength - 440) / (490 - 440);
-            Blue = 1.0f;
+            red = 0.0f;
+            green = (wavelength - 440) / (490 - 440);
+            blue = 1.0f;
         }
-        else if ((Wavelength >= 490) && (Wavelength < 510))
+        else if ((wavelength >= 490) && (wavelength < 510))
         {
-            Red = 0.0f;
-            Green = 1.0f;
-            Blue = -(Wavelength - 510) / (510 - 490);
+            red = 0.0f;
+            green = 1.0f;
+            blue = -(wavelength - 510) / (510 - 490);
         }
-        else if ((Wavelength >= 510) && (Wavelength < 580))
+        else if ((wavelength >= 510) && (wavelength < 580))
         {
-            Red = (Wavelength - 510) / (580 - 510);
-            Green = 1.0f;
-            Blue = 0.0f;
+            red = (wavelength - 510) / (580 - 510);
+            green = 1.0f;
+            blue = 0.0f;
         }
-        else if ((Wavelength >= 580) && (Wavelength < 645))
+        else if ((wavelength >= 580) && (wavelength < 645))
         {
-            Red = 1.0f;
-            Green = -(Wavelength - 645) / (645 - 580);
-            Blue = 0.0f;
+            red = 1.0f;
+            green = -(wavelength - 645) / (645 - 580);
+            blue = 0.0f;
         }
-        else if ((Wavelength >= 645) && (Wavelength < 781))
+        else if ((wavelength >= 645) && (wavelength < 781))
         {
-            Red = 1.0f;
-            Green = 0.0f;
-            Blue = 0.0f;
+            red = 1.0f;
+            green = 0.0f;
+            blue = 0.0f;
         }
         else
         {
-            Red = 0.0f;
-            Green = 0.0f;
-            Blue = 0.0f;
+            red = 0.0f;
+            green = 0.0f;
+            blue = 0.0f;
         }
 
         // Let the intensity fall off near the vision limits
-        if ((Wavelength >= 380) && (Wavelength < 420))
+        if ((wavelength >= 380) && (wavelength < 420))
         {
-            factor = 0.3f + 0.7f * (Wavelength - 380) / (420 - 380);
+            factor = 0.3f + 0.7f * (wavelength - 380) / (420 - 380);
         }
-        else if ((Wavelength >= 420) && (Wavelength < 701))
+        else if ((wavelength >= 420) && (wavelength < 701))
         {
             factor = 1.0f;
         }
-        else if ((Wavelength >= 701) && (Wavelength < 781))
+        else if ((wavelength >= 701) && (wavelength < 781))
         {
-            factor = 0.3f + 0.7f * (780 - Wavelength) / (780 - 700);
+            factor = 0.3f + 0.7f * (780 - wavelength) / (780 - 700);
         }
         else factor = 0.0f;
 
@@ -149,21 +144,21 @@ public class DayNightCycle : MonoBehaviour
 
         int[] rgb = new int[3];
         // Don't want 0^x = 1 for x <> 0
-        rgb[0] = (Red == 0.0) ? 0 : (int)Mathf.Round(IntensityMax * Mathf.Pow(Red * factor, gamma));
-        rgb[1] = (Green == 0.0) ? 0 : (int)Mathf.Round(IntensityMax * Mathf.Pow(Green * factor, gamma));
-        rgb[2] = (Blue == 0.0) ? 0 : (int)Mathf.Round(IntensityMax * Mathf.Pow(Blue * factor, gamma));
+        rgb[0] = (red == 0.0) ? 0 : (int)Mathf.Round(intensityMax * Mathf.Pow(red * factor, gamma));
+        rgb[1] = (green == 0.0) ? 0 : (int)Mathf.Round(intensityMax * Mathf.Pow(green * factor, gamma));
+        rgb[2] = (blue == 0.0) ? 0 : (int)Mathf.Round(intensityMax * Mathf.Pow(blue * factor, gamma));
 
         return rgb;
     }
 
-    public Color SkysColor(float t)
+    private Color SkysColor(float t)
     {
         int r, g, b;
         List<int[]> colors = new List<int[]>();
         for (int i = 380; i < 781; i += 10)
         {
             float x = (i - 380) / 400f;
-            colors.Add(waveLengthToRGB(i,/*ceci  prend une valeur entre 0 et 255*/((3.25f * t - 4f) * x * x + (-4f * t + 4f) * x) * 255f, gamma));
+            colors.Add(WaveLengthToRGB(i,/*ceci  prend une valeur entre 0 et 255*/((3.25f * t - 4f) * x * x + (-4f * t + 4f) * x) * 255f, gamma));
         }
         r = 0;
         g = 0;
@@ -180,7 +175,7 @@ public class DayNightCycle : MonoBehaviour
         return new Color32((byte)r, (byte)g, (byte)b, 255);
     }
 
-    public Vector3[] Orbit(float time)
+    private Vector3[] Orbit(float time)
     {
         float x = Mathf.Cos(time / cycleTime * 2 * Mathf.PI);
         float y = Mathf.Sin(time / cycleTime * 2 * Mathf.PI);
@@ -193,8 +188,13 @@ public class DayNightCycle : MonoBehaviour
     }
 
     // getters setters
-    public float time
+    public float Time
     {
         get { return this.actual_time; }
+    }
+    public bool BloodMoon
+    {
+        get { return this.bloodmoon; }
+        set { bloodmoon = value; }
     }
 }
