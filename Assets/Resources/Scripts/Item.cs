@@ -8,8 +8,8 @@ public class Item
 {
     protected int iD;
     protected int meta;
-    protected string name;
-    protected string description;
+    protected string[] name;
+    protected string[] description;
     protected Texture2D icon;
     protected int size;
 
@@ -17,34 +17,34 @@ public class Item
     public Item()
     {
         this.size = 0;
-        this.name = "";
+        this.name = new string[] { "",""} ;
         this.iD = -1;
         this.meta = 0;
-        this.description = "";
+        this.description = new string[] { "", "" };
         this.icon = null;
     }
 
-    public Item(int id, string name, string description, int size)
+    public Item(int id, string[] name, string[] description, int size)
     {
         this.name = name;
         this.iD = id;
         this.meta = 0;
         this.description = description;
         this.size = size;
-        this.icon = Resources.Load<Texture2D>("Sprites/ItemIcons/" + name);
+        this.icon = Resources.Load<Texture2D>("Sprites/ItemIcons/" + name[0]);
     }
 
-    public Item(int id, int meta, string name, string description, int size)
+    public Item(int id, int meta, string[] name, string[] description, int size)
     {
         this.name = name;
         this.iD = id;
         this.meta = meta;
         this.description = description;
         this.size = size;
-        this.icon = Resources.Load<Texture2D>("Sprites/ItemIcons/" + name);
+        this.icon = Resources.Load<Texture2D>("Sprites/ItemIcons/" + name[0]);
     }
 
-    public Item(int id, string name, string description, int size, Texture2D icon)
+    public Item(int id, string[] name, string[] description, int size, Texture2D icon)
     {
         this.name = name;
         this.iD = id;
@@ -54,7 +54,7 @@ public class Item
         this.icon = icon;
     }
 
-    public Item(int id, int meta, string name, string description, int size, Texture2D icon)
+    public Item(int id, int meta, string[] name, string[] description, int size, Texture2D icon)
     {
         this.name = name;
         this.iD = id;
@@ -79,14 +79,14 @@ public class Item
 
     public string Name
     {
-        get { return this.name; }
-        set { this.name = value; }
+        get { return this.name[PlayerPrefs.GetInt("langue",1)-1]; }
+        set { this.name[PlayerPrefs.GetInt("langue", 1) - 1] = value; }
     }
 
     public string Description
     {
-        get { return this.description; }
-        set { this.description = value; }
+        get { return this.description[PlayerPrefs.GetInt("langue", 1) - 1]; }
+        set { this.description[PlayerPrefs.GetInt("langue", 1) - 1] = value; }
     }
 
     public Texture2D Icon
