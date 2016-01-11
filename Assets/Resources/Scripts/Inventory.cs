@@ -1,16 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Networking;
 
-public class Inventory : MonoBehaviour
+public class Inventory : NetworkBehaviour
 {
     private int rows = 5;
     private int columns = 8;
     private int pos_x_inventory, pos_y_inventory;
     private int pos_x_toolbar, pos_y_toolbar;
-    private int cursor = 2;
     private int[] previndex = new int[2];
     private bool draggingItemStack = false;
+    private int cursor = -1;
     private bool inventoryShown = false;
     private bool tooltipshown = false;
     private GUISkin skin;
@@ -21,6 +22,8 @@ public class Inventory : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        if (!isLocalPlayer)
+            return;
         this.pos_x_inventory = (Screen.width - this.rows * 40 + 24) / 2;
         this.pos_y_inventory = (Screen.height - this.columns * 40 + 39) / 2;
 
@@ -29,11 +32,15 @@ public class Inventory : MonoBehaviour
 
         this.slots = new ItemStack[this.rows, this.columns];
         this.ClearInventory();
-
-        this.AddItemStack(new ItemStack(ItemDatabase.Stone, 42));
-        this.AddItemStack(new ItemStack(ItemDatabase.Log, 100));
-        this.AddItemStack(new ItemStack(ItemDatabase.Sand, 10000));
-        this.AddItemStack(new ItemStack(ItemDatabase.Log, 30));
+        this.LoadInventory();
+        if (!this.InventoryContains(ItemDatabase.Log))
+        {
+            this.AddItemStack(new ItemStack(ItemDatabase.Stone, 42));
+            this.AddItemStack(new ItemStack(ItemDatabase.Log, 100));
+            this.AddItemStack(new ItemStack(ItemDatabase.Sand, 10000));
+            this.AddItemStack(new ItemStack(ItemDatabase.Log, 30));
+        }
+            
 
         this.skin = Resources.Load<GUISkin>("Sprites/GUIskin/skin");
     }
@@ -41,6 +48,8 @@ public class Inventory : MonoBehaviour
     // Methods
     void OnGUI()
     {
+        if (!isLocalPlayer)
+            return;
         this.DrawToolbar();
         if (this.inventoryShown)
         {
@@ -49,7 +58,7 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    public void InteractInventory()
+     void InteractInventory()
     {
         this.tooltipshown = false;
         Rect rect;
@@ -66,26 +75,29 @@ public class Inventory : MonoBehaviour
                     // Prise du stack
                     if (!this.draggingItemStack && Event.current.button == 0 && Event.current.type == EventType.MouseDown)
                     {
-                        this.draggingItemStack = true;
-                        this.previndex[0] = i;
-                        this.previndex[1] = j;
-
-                        if (Event.current.shift)
+                        if (this.slots[i, j].Items.ID != -1)
                         {
-                            this.selectedItem = new ItemStack(this.slots[i, j].Items, (this.slots[i, j].Quantity + 1) / 2);
-                            if (this.slots[i, j].Quantity == 1)
+                            this.draggingItemStack = true;
+                            this.previndex[0] = i;
+                            this.previndex[1] = j;
+
+                            if (Event.current.shift)
                             {
-                                this.slots[i, j] = new ItemStack();
+                                this.selectedItem = new ItemStack(this.slots[i, j].Items, (this.slots[i, j].Quantity + 1) / 2);
+                                if (this.slots[i, j].Quantity == 1)
+                                {
+                                    this.slots[i, j] = new ItemStack();
+                                }
+                                else
+                                {
+                                    this.slots[i, j].Quantity -= (this.slots[i, j].Quantity + 1) / 2;
+                                }
                             }
                             else
                             {
-                                this.slots[i, j].Quantity -= (this.slots[i, j].Quantity + 1) / 2;
+                                this.selectedItem = this.slots[i, j];
+                                this.slots[i, j] = new ItemStack();
                             }
-                        }
-                        else
-                        {
-                            this.selectedItem = this.slots[i, j];
-                            this.slots[i, j] = new ItemStack();
                         }
 
                     }
@@ -136,14 +148,42 @@ public class Inventory : MonoBehaviour
                             this.slots[i, j] = this.selectedItem;
                         }
                     }
+                    // Relachement d'un item dans un slot
+                    else if (this.draggingItemStack && Event.current.button == 1 && Event.current.type == EventType.MouseUp)
+                    {
+                        if(this.slots[i,j].Items.ID == this.selectedItem.Items.ID && this.slots[i,j].Quantity < this.slots[i,j].Items.Size)
+                        {
+                            this.slots[i, j].Quantity++;
+                            this.selectedItem.Quantity--;
+                            if (this.selectedItem.Quantity == 0)
+                                this.draggingItemStack = false;
+                        }
+                        if(this.slots[i, j].Items.ID == -1)
+                        {
+                            this.slots[i, j] = new ItemStack(selectedItem.Items, 1);
+                            this.selectedItem.Quantity--;
+                            if (this.selectedItem.Quantity == 0)
+                                this.draggingItemStack = false;
+                        }
+                    }
                 }
             }
         // Relachement de l'item hors de l'inventaire
-        if (this.draggingItemStack && Event.current.button == 0 && Event.current.type == EventType.MouseUp)
+        rect = new Rect(pos_x_inventory, pos_y_inventory, columns * 50, rows * 50);
+        if (!rect.Contains(Event.current.mousePosition) && this.draggingItemStack && Event.current.button == 0 && Event.current.type == EventType.MouseUp)
         {
-            this.draggingItemStack = false;
             this.Drop(this.selectedItem);
-            this.selectedItem = new ItemStack();
+            this.draggingItemStack = false;
+            this.SaveInventory();
+        }
+        // Relachement d'un item hors de l'inventaire
+        if (!rect.Contains(Event.current.mousePosition) && this.draggingItemStack && Event.current.button == 1 && Event.current.type == EventType.MouseUp)
+        {
+            this.Drop(new ItemStack(selectedItem.Items, 1));
+            this.selectedItem.Quantity--;
+            if (this.selectedItem.Quantity == 0)
+                this.draggingItemStack = false;
+            this.SaveInventory();
         }
 
         // Temporaire..
@@ -158,7 +198,7 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    public void DrawInventory()
+     void DrawInventory()
     {
         Rect rect = new Rect(this.pos_x_inventory - 8, this.pos_y_inventory - 8, this.columns * 40 + 16, this.rows * 40 + 31);
         GUI.Box(rect, "", this.skin.GetStyle("inventory"));
@@ -180,7 +220,7 @@ public class Inventory : MonoBehaviour
                     rect.width -= 12;
                     rect.height -= 12;
                     GUI.DrawTexture(rect, this.slots[i, j].Items.Icon);
-                    if (this.slots[i, j].Quantity != 1)
+                    if (this.slots[i, j].Quantity > 1)
                         GUI.Box(rect, this.slots[i, j].Quantity.ToString(), this.skin.GetStyle("quantity"));
                 }
             }
@@ -188,17 +228,17 @@ public class Inventory : MonoBehaviour
         if (this.draggingItemStack)
         {
             GUI.DrawTexture(new Rect(Event.current.mousePosition.x, Event.current.mousePosition.y, 45, 45), this.selectedItem.Items.Icon);
-            if (this.selectedItem.Quantity != 1)
+            if (this.selectedItem.Quantity > 1)
                 GUI.Box(new Rect(Event.current.mousePosition.x, Event.current.mousePosition.y, 45, 45), this.selectedItem.Quantity.ToString(), this.skin.GetStyle("quantity2"));
         }
         if (this.tooltipshown)
         {
-            GUI.Box(new Rect(this.pos_x_inventory + (this.previndex[1] + 1) * 40, this.pos_y_inventory + this.previndex[0] * 40, 200, 35 + 10 * (this.selectedItem.Items.Description.Length / 28 + 1)),
+            GUI.Box(new Rect(this.pos_x_inventory + (this.previndex[1] + 1) * 40, this.pos_y_inventory + this.previndex[0] * 40, 200, 35 + 20 * (this.selectedItem.Items.Description.Length / 35 + 1)),
                 "<color=#ffffff>" + this.selectedItem.Items.Name + "</color>\n\n" + this.selectedItem.Items.Description, this.skin.GetStyle("tooltip"));
         }
     }
     
-    public void DrawToolbar()
+     void DrawToolbar()
     {
         Rect rect = new Rect(this.pos_x_toolbar, this.pos_y_toolbar, this.columns * 50, 50);
         GUI.Box(rect, "", this.skin.GetStyle("toolbar"));
@@ -309,19 +349,31 @@ public class Inventory : MonoBehaviour
         // TO Do
     }
 
+    public void UsingItem()
+    {
+        if (cursor == -1)
+            return;
+        if (this.UsedItem.Items is Consumable)
+        {
+            (UsedItem.Items as Consumable).Consume();
+        }
+        print("Item utiliser");
+    }
     // Getters & Setters
     public bool InventoryShown
     {
         get { return this.inventoryShown; }
         set { this.inventoryShown = value; }
     }
-
-    public int Cursor
+    public bool Draggingitem
+    {
+        get { return this.draggingItemStack; }
+    }
+    public int Cursors  
     {
         get { return this.cursor; }
         set { this.cursor = value % this.columns; }
     }
-
     public ItemStack UsedItem
     {
         get { return this.slots[this.rows - 1, this.cursor]; }

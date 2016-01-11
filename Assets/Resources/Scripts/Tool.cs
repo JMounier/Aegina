@@ -22,7 +22,7 @@ public class Tool : Item
         this.choppingEfficiency = 0;
     }
 
-    public Tool(int id, string name, string description, int durability, int damage, int miningEfficiency, int choppingEfficiency) : 
+    public Tool(int id, string[] name, string[] description, int durability, int damage, int miningEfficiency, int choppingEfficiency) : 
         base(id, name, description, 1)
     {
         this.durability = durability;
@@ -32,7 +32,7 @@ public class Tool : Item
         this.choppingEfficiency = choppingEfficiency;
     }
 
-    public Tool(int id, int meta, string name, string description, int durability, int damage, int miningEfficiency, int choppingEfficiency) :
+    public Tool(int id, int meta, string[] name, string[] description, int durability, int damage, int miningEfficiency, int choppingEfficiency) :
        base(id, meta, name, description, 1)
     {
         this.durability = durability;
@@ -42,7 +42,7 @@ public class Tool : Item
         this.choppingEfficiency = choppingEfficiency;
     }
 
-    public Tool(int id, string name, string description, int durability, int damage, int miningEfficiency, int choppingEfficiency, Texture2D icon) : 
+    public Tool(int id, string[] name, string[] description, int durability, int damage, int miningEfficiency, int choppingEfficiency, Texture2D icon) : 
         base(id, name, description, 1, icon)
     {
         this.durability = durability;
@@ -52,7 +52,7 @@ public class Tool : Item
         this.choppingEfficiency = choppingEfficiency;
     }
 
-    public Tool(int id, int meta, string name, string description, int durability, int damage, int miningEfficiency, int choppingEfficiency, Texture2D icon) :
+    public Tool(int id, int meta, string[] name, string[] description, int durability, int damage, int miningEfficiency, int choppingEfficiency, Texture2D icon) :
         base(id, meta, name, description, 1, icon)
     {
         this.durability = durability;
@@ -103,16 +103,16 @@ public class Axe : Tool
     // Constructors
     public Axe() : base() { }
 
-    public Axe(int id, string name, string description, int durability, int efficiency) :
+    public Axe(int id, string[] name, string[] description, int durability, int efficiency) :
         base(id, name, description, durability, 5, 1, efficiency) { }
 
-    public Axe(int id, int meta, string name, string description, int durability, int efficiency) :
+    public Axe(int id, int meta, string[] name, string[] description, int durability, int efficiency) :
        base(id, meta, name, description, durability, 5, 1, efficiency) { }
 
-    public Axe(int id, string name, string description, int durability, int efficiency, Texture2D icon) :
+    public Axe(int id, string[] name, string[] description, int durability, int efficiency, Texture2D icon) :
        base(id, name, description, durability, 5, 1, efficiency, icon) { }
 
-    public Axe(int id, int meta, string name, string description, int durability, int efficiency, Texture2D icon) :
+    public Axe(int id, int meta, string[] name, string[] description, int durability, int efficiency, Texture2D icon) :
        base(id, meta, name, description, durability, 5, 1, efficiency, icon) { }
 }
 
@@ -124,17 +124,17 @@ public class Pickaxe : Tool
     // Constructors
     public Pickaxe() : base() { }
 
-    public Pickaxe(int id, string name, string description, int durability, int efficiency) :
+    public Pickaxe(int id, string[] name, string[] description, int durability, int efficiency) :
         base(id, name, description, durability, 3, efficiency, 1) { }
 
-    public Pickaxe(int id, int meta, string name, string description, int durability, int efficiency) :
+    public Pickaxe(int id, int meta, string[] name, string[] description, int durability, int efficiency) :
        base(id, meta, name, description, durability, 3, efficiency, 1)
     { }
 
-    public Pickaxe(int id, string name, string description, int durability, int efficiency, Texture2D icon) :
+    public Pickaxe(int id, string[] name, string[] description, int durability, int efficiency, Texture2D icon) :
        base(id, name, description, durability, 3, efficiency, 1, icon) { }
 
-    public Pickaxe(int id, int meta, string name, string description, int durability, int efficiency, Texture2D icon) :
+    public Pickaxe(int id, int meta, string[] name, string[] description, int durability, int efficiency, Texture2D icon) :
        base(id, meta, name, description, durability, 3, efficiency, 1, icon)
     { }
 }
@@ -147,12 +147,12 @@ public class Sword : Tool
     // Constructors
     public Sword() : base() { }
 
-    public Sword(int id, string name, string description, int durability, int damage) :
+    public Sword(int id, string[] name, string[] description, int durability, int damage) :
         base(id, name, description, durability, damage, 1, 1) { }
 
-    public Sword(int id, int meta, string name, string description, int durability, int damage) :
+    public Sword(int id, int meta, string[] name, string[] description, int durability, int damage) :
         base(id, meta, name, description, durability, damage, 1, 1) { }
 
-    public Sword(int id, int meta, string name, string description, int durability, int damage, Texture2D icon) :
+    public Sword(int id, int meta, string[] name, string[] description, int durability, int damage, Texture2D icon) :
        base(id, meta, name, description, durability, damage, 1, 1, icon) { }
 }
