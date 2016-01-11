@@ -16,13 +16,13 @@ public class InputManager : MonoBehaviour {
 
         if (Input.GetButtonDown("Inventory") && !menu.menuShown && !menu.optionShown)
         {
-            inventaire.inventoryShown = !inventaire.inventoryShown;
+            inventaire.InventoryShown = !inventaire.InventoryShown;
         }
 
         if (Input.GetButtonDown("Cancel"))
         {
-            if (inventaire.inventoryShown)
-                inventaire.inventoryShown = false;
+            if (inventaire.InventoryShown)
+                inventaire.InventoryShown = false;
             else if (menu.optionShown)
             {
                 menu.optionShown = false;
