@@ -382,7 +382,7 @@ ModelImporter:
       name: Run
       takeName: Default Take
       firstFrame: 80
-      lastFrame: 100
+      lastFrame: 99
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -504,7 +504,7 @@ ModelImporter:
       name: Idle
       takeName: Default Take
       firstFrame: 140
-      lastFrame: 180
+      lastFrame: 160
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -625,8 +625,8 @@ ModelImporter:
     - serializedVersion: 16
       name: Walk
       takeName: Default Take
-      firstFrame: 240
-      lastFrame: 280
+      firstFrame: 200
+      lastFrame: 219
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
