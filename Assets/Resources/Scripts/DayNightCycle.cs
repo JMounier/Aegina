@@ -4,8 +4,9 @@ using System.Collections.Generic;
 public class DayNightCycle : MonoBehaviour
 {
     private Light sun;
+    [SerializeField]
     private float actual_time;
-    private float cycleTime = 60;
+    private float cycleTime = 1200;
     private float gamma = 0.80f;
     private int diameter = 100;
 
@@ -119,7 +120,7 @@ public class DayNightCycle : MonoBehaviour
         r = 0;
         g = 0;
         b = 0;
-        foreach (int[] color in colors)  // prend les couleur les plus visible
+        foreach (int[] color in colors)
         {
             if (color[0] > r)
                 r = color[0];
