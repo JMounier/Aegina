@@ -56,9 +56,21 @@ public class Inventory : NetworkBehaviour
             this.InteractInventory();
             this.DrawInventory();
         }
+        else if (this.draggingItemStack)
+        {
+            if (this.slots[this.previndex[0], this.previndex[1]].Quantity == 0)
+                this.slots[this.previndex[0], this.previndex[1]] = this.selectedItem;
+            else
+                this.slots[this.previndex[0], this.previndex[1]].Quantity += this.selectedItem.Quantity;
+            this.draggingItemStack = false;
+        }
+        
     }
 
-     void InteractInventory()
+    /// <sumary>
+    ///  S'occupe de toute les interractions entre la souris et l'inventaire, permet le drag and drop et dessinne la tooltip.
+    /// </sumary>
+    void InteractInventory()
     {
         this.tooltipshown = false;
         Rect rect;
@@ -185,7 +197,10 @@ public class Inventory : NetworkBehaviour
         }
     }
 
-     void DrawInventory()
+    /// <sumary>
+    /// S'occupe de dessiner l'inventaire avec les items dedans.
+    /// </sumary>
+    void DrawInventory()
     {
         Rect rect = new Rect(this.pos_x_inventory - 8, this.pos_y_inventory - 8, this.columns * 40 + 16, this.rows * 40 + 31);
         GUI.Box(rect, "", this.skin.GetStyle("inventory"));
@@ -224,8 +239,11 @@ public class Inventory : NetworkBehaviour
                 "<color=#ffffff>" + this.selectedItem.Items.Name + "</color>\n\n" + this.selectedItem.Items.Description, this.skin.GetStyle("tooltip"));
         }
     }
-    
-     void DrawToolbar()
+
+    /// <sumary>
+    /// S'occupe de dessiner la toolbar en bas de l'ecran.
+    /// </sumary>
+    void DrawToolbar()
     {
         Rect rect = new Rect(this.pos_x_toolbar, this.pos_y_toolbar, this.columns * 50, 50);
         GUI.Box(rect, "", this.skin.GetStyle("toolbar"));
@@ -248,6 +266,9 @@ public class Inventory : NetworkBehaviour
         }
     }
 
+    /// <sumary>
+    /// Permet d'ajotuer des objes dans l'inventaire.
+    /// </sumary>
     public void AddItemStack(ItemStack iStack)
     {
         int i = 0;
@@ -294,6 +315,9 @@ public class Inventory : NetworkBehaviour
         }
     }
 
+    /// <sumary>
+    /// Verifie si un objet possedant l'id it se trouve dans l'inventaire.
+    /// </sumary>
     public bool InventoryContains(Item it)
     {
         for (int i = 0; i < this.rows; i++)
@@ -307,6 +331,9 @@ public class Inventory : NetworkBehaviour
         return false;
     }
 
+    /// <sumary>
+    /// Reinitialise l'inventaire.
+    /// </sumary>
     public void ClearInventory()
     {
         for (int i = 0; i < this.rows; i++)
@@ -314,6 +341,9 @@ public class Inventory : NetworkBehaviour
                 this.slots[i, j] = new ItemStack();
     }
 
+    /// <sumary>
+    /// Sauvegarde l'inventaire en local.
+    /// </sumary>
     public void SaveInventory()
     {
         for (int i = 0; i < this.rows; i++)
@@ -321,6 +351,9 @@ public class Inventory : NetworkBehaviour
                 PlayerPrefs.SetString("Inventory " + i + " " + j, this.slots[i, j].Items.ID + " " + this.slots[i, j].Items.Meta + " " + this.slots[i, j].Quantity);
     }
 
+    /// <sumary>
+    /// Recupere l'inventaire local.
+    /// </sumary>
     public void LoadInventory()
     {
         for (int i = 0; i < this.rows; i++)
@@ -331,11 +364,17 @@ public class Inventory : NetworkBehaviour
             }
     }
 
+    /// <sumary>
+    /// Jette un stack d'objet.
+    /// </sumary>
     public void Drop(ItemStack itemS)
     {
         // TO Do
     }
 
+    /// <sumary>
+    /// Utilise un objet
+    /// </sumary>
     public void UsingItem()
     {
         if (cursor == -1)
@@ -346,21 +385,38 @@ public class Inventory : NetworkBehaviour
         }
         print("Item utiliser");
     }
+
     // Getters & Setters
+
+    /// <sumary>
+    /// Si l'inventaire est affiché.
+    /// </sumary>
     public bool InventoryShown
     {
         get { return this.inventoryShown; }
         set { this.inventoryShown = value; }
     }
+
+    /// <sumary>
+    /// Si l'utilisateur déplace un objet.
+    /// </sumary>
     public bool Draggingitem
     {
         get { return this.draggingItemStack; }
     }
+
+    /// <sumary>
+    /// La position de l'item utilisé.
+    /// </sumary>
     public int Cursors  
     {
         get { return this.cursor; }
         set { this.cursor = value % this.columns; }
     }
+
+    /// <sumary>
+    /// Renvoie l'item stack utilisé.
+    /// </sumary>
     public ItemStack UsedItem
     {
         get { return this.slots[this.rows - 1, this.cursor]; }

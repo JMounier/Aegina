@@ -5,7 +5,7 @@ public class DayNightCycle : MonoBehaviour
 {
     private Light sun;
     private float actual_time;
-    private float cycleTime = 60;
+    private float cycleTime = 1200;
     private float gamma = 0.80f;
     private int diameter = 100;
 
@@ -33,6 +33,10 @@ public class DayNightCycle : MonoBehaviour
     }
 
     // Methods 
+
+    /// <sumary>
+    /// Fonction qui converti une onde du visible en la couleur RGB de l'objet.
+    /// </sumary>
     private static int[] WaveLengthToRGB(int wavelength, float intensityMax, float gamma)
     {
         float factor;
@@ -107,6 +111,9 @@ public class DayNightCycle : MonoBehaviour
         return rgb;
     }
 
+    /// <sumary>
+    /// Adapte la couleur du ciel en fonction du temps.
+    /// </sumary>
     private Color SkysColor(float t)
     {
         int r, g, b;
@@ -119,7 +126,7 @@ public class DayNightCycle : MonoBehaviour
         r = 0;
         g = 0;
         b = 0;
-        foreach (int[] color in colors)  // prend les couleur les plus visible
+        foreach (int[] color in colors)
         {
             if (color[0] > r)
                 r = color[0];
@@ -131,6 +138,9 @@ public class DayNightCycle : MonoBehaviour
         return new Color32((byte) r, (byte) g, (byte) b, 255);
     }
 
+    /// <sumary>
+    /// Calcul la trajectoire du soleil.
+    /// </sumary>
     private Vector3 Orbit(float time)
     {
         float x = Mathf.Cos(time / this.cycleTime * 2 * Mathf.PI);
@@ -140,6 +150,10 @@ public class DayNightCycle : MonoBehaviour
     }
 
     // getters setters
+
+    /// <sumary>
+    /// Retourne le temps actuel du monde.
+    /// </sumary>
     public float ActualTime
     {
         get { return this.actual_time; }

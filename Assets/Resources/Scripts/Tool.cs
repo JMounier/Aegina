@@ -2,7 +2,7 @@
 using System.Collections;
 
 /// <summary>
-///  Use it to create a new commun Tool.
+/// Utilisez cette classe pour creer de nouveau outils.
 /// </summary>
 public class Tool : Item
 {
@@ -64,30 +64,45 @@ public class Tool : Item
 
     // Getter & Setters
 
+    /// <summary>
+    /// La durabilité restante de l'outil
+    /// </summary>
     public int Durability
     {
         get { return this.durability; }
         set { this.durability = value; }
     }
 
+    /// <summary>
+    /// La durabilité totale de l'objet
+    /// </summary>
     public int MaxDurability
     {
         get { return this.maxDurability; }
         set { this.maxDurability = value; }
     }
 
+    /// <summary>
+    /// Les dégats infliger par l'outil sur une entité.
+    /// </summary>
     public int Damage
     {
         get { return this.damage; }
         set { this.damage = value; }
     }
 
+    /// <summary>
+    /// L'efficacite de l'outil a miner.
+    /// </summary>
     public int MiningEfficiency
     {
         get { return this.miningEfficiency; }
         set { this.miningEfficiency = value; }
     }
 
+    /// <summary>
+    /// L'efficacite de l'outil a couper du bois.
+    /// </summary>
     public int ChoppingEfficiency
     {
         get { return this.choppingEfficiency; }
@@ -96,7 +111,7 @@ public class Tool : Item
 }
 
 /// <summary>
-///  Use it to create a new Axe.
+/// Utilisez cette classe pour creer de nouvelle haches.
 /// </summary>
 public class Axe : Tool
 {
@@ -117,7 +132,7 @@ public class Axe : Tool
 }
 
 /// <summary>
-///  Use it to create a new Pickaxe.
+/// Utilisez cette classe pour creer de nouvelle pioches.
 /// </summary>
 public class Pickaxe : Tool
 {
@@ -140,7 +155,7 @@ public class Pickaxe : Tool
 }
 
 /// <summary>
-///  Use it to create a new Sword.
+/// Utilisez cette classe pour creer de nouvelles épées.
 /// </summary>
 public class Sword : Tool
 {

@@ -9,44 +9,37 @@ public class Controller : NetworkBehaviour
     private GameObject character;
 
     // Use for Character
-    public float walkSpeed = 4f;
-    public float sprintSpeed = 6f;
-    public float jumpingBoost = .5f;
-    public float jumpForce = 200f;
+    private float walkSpeed = 4f;
+    private float sprintSpeed = 6f;
+    private float jumpingBoost = .5f;
+    private float jumpForce = 200f;
+    private float coolDownJump = 0;
 
     private bool isJumping = true;
     private Animator anim;
-    private float rotation = 0f;
 
     // Use for Camera
-    public float distance = 5;
-    public float distanceMin = 1.3f;
-    public float distanceMax = 10;
-    public float yMin = 0.15f;
-    public float yMax = 0.95f;
-    public float yMinFPS = -40;
-    public float yMaxFPS = 60;
-    public float sensitivity = 5;
-    public float sensitivityScroll = 0.75f;
-    public Vector3 translateReferentiel = new Vector3(0, 0.75f, 0);
+    private float distance = 5;
+    private float distanceMin = 1.3f;
+    private float distanceMax = 10;
+    private float yMin = 0.15f;
+    private float yMax = 0.95f;
+    private float yMinFPS = -40;
+    private float yMaxFPS = 60;
+    private float sensitivity = 5;
+    private float sensitivityScroll = 0.75f;
+    private Vector3 translateReferentiel = new Vector3(0, 0.75f, 0);
 
     private float rotationY = 0F;
     private float rotationX = 0F;
     private bool pause = false;
-    
+
     // Use this for initialization
     void Start()
     {
         anim = gameObject.GetComponent<Animator>();
-
-        foreach (Transform child in gameObject.GetComponentsInChildren<Transform>())
-        {
-            if (child.tag == "MainCamera")
-                this.cam = child.gameObject;
-
-            else if (child.tag == "Character")
-                this.character = child.gameObject;
-        }
+        this.cam = gameObject.GetComponentInChildren<Camera>().gameObject;
+        this.character = gameObject.GetComponentInChildren<CharacterCollision>().gameObject;
 
         if (!isLocalPlayer)
             this.cam.GetComponent<Camera>().enabled = false;
@@ -134,25 +127,31 @@ public class Controller : NetworkBehaviour
         Vector3 move = new Vector3(0, 0, 0);
 
         // Jump
-        if (jump && !this.isJumping)
+        if (jump && !this.isJumping && this.coolDownJump <= 0)
         {
             this.character.GetComponent<Rigidbody>().AddForce(0, jumpForce, 0);
             this.isJumping = true;
+            this.coolDownJump = 0.2f;
+        }
+        else if (!this.isJumping && this.coolDownJump > 0)
+        {
+            this.coolDownJump -= Time.deltaTime;
         }
 
         // Moves
         float angle = Mathf.Deg2Rad * (360 - this.cam.transform.rotation.eulerAngles.y);
+        int rotation = 0;
         if ((right && left) || (!right && !left))
         {
             if (forward && !back)
             {
                 move.Set(-Mathf.Sin(angle), 0, Mathf.Cos(angle));
-                this.rotation = 0;
+                rotation = 180;
             }
             else if (back && !forward)
             {
                 move.Set(Mathf.Sin(angle), 0, -Mathf.Cos(angle));
-                this.rotation = 180;
+                rotation = 0;
             }
         }
         else if ((forward && back) || (!forward && !back))
@@ -161,12 +160,12 @@ public class Controller : NetworkBehaviour
             if (right && !left)
             {
                 move.Set(Mathf.Sin(angle), 0, -Mathf.Cos(angle));
-                this.rotation = 90;
+                rotation = -90;
             }
             else if (!right && left)
             {
                 move.Set(-Mathf.Sin(angle), 0, Mathf.Cos(angle));
-                this.rotation = -90;
+                rotation = 90;
             }
         }
         else if (forward)
@@ -175,13 +174,13 @@ public class Controller : NetworkBehaviour
             {
                 angle -= Mathf.PI / 4;
                 move.Set(-Mathf.Sin(angle), 0, Mathf.Cos(angle));
-                this.rotation = 45;
+                rotation = -135;
             }
             else
             {
                 angle += Mathf.PI / 4;
                 move.Set(-Mathf.Sin(angle), 0, Mathf.Cos(angle));
-                this.rotation = -45;
+                rotation = 135;
             }
         }
         else
@@ -190,13 +189,13 @@ public class Controller : NetworkBehaviour
             {
                 angle += Mathf.PI / 4;
                 move.Set(Mathf.Sin(angle), 0, -Mathf.Cos(angle));
-                this.rotation = 135;
+                rotation = -45;
             }
             else
             {
                 angle -= Mathf.PI / 4;
                 move.Set(Mathf.Sin(angle), 0, -Mathf.Cos(angle));
-                this.rotation = -135;
+                rotation = 45;
             }
         }
 
@@ -206,6 +205,7 @@ public class Controller : NetworkBehaviour
         // Apply the moves with the animation
         if (this.isJumping)
         {
+            anim.SetInteger("Action", 3);
             if (sprint)
                 move *= Time.deltaTime * (this.sprintSpeed + this.jumpingBoost);
             else
@@ -233,37 +233,71 @@ public class Controller : NetworkBehaviour
         gameObject.transform.Translate(move, Space.World);
 
         if (isMoving)
-            this.DoRotationTPS();
+        {
+            Vector3 rotCam = new Vector3(this.character.transform.eulerAngles.x, this.cam.transform.eulerAngles.y + rotation, this.character.transform.eulerAngles.z);
+            this.character.transform.rotation = Quaternion.Lerp(this.character.transform.rotation, Quaternion.Euler(rotCam), Time.deltaTime * 10);
+        }
     }
 
-    public void DoRotationTPS()
+    void OnCollisionEnter(Collision collision)
     {
-        float angleEul = (this.character.transform.eulerAngles.y - cam.transform.eulerAngles.y - this.rotation);
-
-        while (angleEul < 0)
-            angleEul += 360;
-        while (angleEul > 360)
-            angleEul -= 360;
-
-        float delta = Time.deltaTime * 300;
-        if (angleEul < 180 && angleEul - delta > 0)
-            this.character.transform.eulerAngles = new Vector3(this.character.transform.eulerAngles.x, this.character.transform.eulerAngles.y - delta, this.character.transform.eulerAngles.z);
-
-        else if (angleEul - delta > 0)
-            this.character.transform.eulerAngles = new Vector3(this.character.transform.eulerAngles.x, this.character.transform.eulerAngles.y + delta, this.character.transform.eulerAngles.z);
+        if (collision.collider.tag == "Ground")
+            this.isJumping = false;
     }
 
     // Setters | Getters
 
+    /// <sumary>
+    /// Si le personnage est en saut.
+    /// </sumary>
     public bool IsJumping
     {
         get { return this.isJumping; }
         set { this.isJumping = value; }
     }
 
+    /// <sumary>
+    /// Si le joueur peut bouger son personnage et la camera.
+    /// </sumary>
     public bool Pause
     {
         get { return this.pause; }
         set { this.pause = value; }
+    }
+
+    /// <sumary>
+    /// La vitesse de marche du personnage.
+    /// </sumary>
+    public float WalkSpeed
+    {
+        get { return this.walkSpeed; }
+        set { this.walkSpeed = value; }
+    }
+
+    /// <sumary>
+    /// La vittesse de course du personnage.
+    /// </sumary>
+    public float SprintSpeed
+    {
+        get { return this.sprintSpeed; }
+        set { this.sprintSpeed = value; }
+    }
+
+    /// <sumary>
+    /// Le gain de vitesse du personnage lorsqu'il saute.
+    /// </sumary>
+    public float JumpingBoost
+    {
+        get { return this.jumpingBoost; }
+        set { this.jumpingBoost = value; }
+    }
+
+    /// <sumary>
+    /// La force du saut du personnage.
+    /// </sumary>
+    public float JumpForce
+    {
+        get { return this.jumpForce; }
+        set { this.jumpForce = value; }
     }
 }

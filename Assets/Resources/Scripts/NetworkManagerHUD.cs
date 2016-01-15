@@ -15,10 +15,7 @@ namespace UnityEngine.Networking
         private GUISkin skin;
         private Menu menu; 
         private GameObject MainCam;
-
-        // Runtime variable
-        private bool showServer = false;
-
+        
         void Awake()
         {
             manager = GetComponent<NetworkManager>();
