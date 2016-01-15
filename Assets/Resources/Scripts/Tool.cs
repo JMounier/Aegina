@@ -2,7 +2,7 @@
 using System.Collections;
 
 /// <summary>
-///  Utilisez cette classe pour creer de nouveau outils.
+/// Utilisez cette classe pour creer de nouveau outils.
 /// </summary>
 public class Tool : Item
 {
@@ -65,7 +65,7 @@ public class Tool : Item
     // Getter & Setters
 
     /// <summary>
-    ///  La durabilité restante de l'outil
+    /// La durabilité restante de l'outil
     /// </summary>
     public int Durability
     {
@@ -74,7 +74,7 @@ public class Tool : Item
     }
 
     /// <summary>
-    ///  La durabilité totale de l'objet
+    /// La durabilité totale de l'objet
     /// </summary>
     public int MaxDurability
     {
@@ -83,7 +83,7 @@ public class Tool : Item
     }
 
     /// <summary>
-    ///  Les dégats infliger par l'outil sur une entité.
+    /// Les dégats infliger par l'outil sur une entité.
     /// </summary>
     public int Damage
     {
@@ -92,7 +92,7 @@ public class Tool : Item
     }
 
     /// <summary>
-    ///  L'efficacite de l'outil a miner.
+    /// L'efficacite de l'outil a miner.
     /// </summary>
     public int MiningEfficiency
     {
@@ -101,7 +101,7 @@ public class Tool : Item
     }
 
     /// <summary>
-    ///  L'efficacite de l'outil a couper du bois.
+    /// L'efficacite de l'outil a couper du bois.
     /// </summary>
     public int ChoppingEfficiency
     {
@@ -111,8 +111,8 @@ public class Tool : Item
 }
 
 /// <summary>
-///  Utilisez cette classe pour creer de nouvelle haches.
-/// /// </summary>
+/// Utilisez cette classe pour creer de nouvelle haches.
+/// </summary>
 public class Axe : Tool
 {
     // Constructors
@@ -132,7 +132,7 @@ public class Axe : Tool
 }
 
 /// <summary>
-///  Utilisez cette classe pour creer de nouvelle pioches.
+/// Utilisez cette classe pour creer de nouvelle pioches.
 /// </summary>
 public class Pickaxe : Tool
 {
@@ -155,7 +155,7 @@ public class Pickaxe : Tool
 }
 
 /// <summary>
-///  Utilisez cette classe pour creer de nouvelles épées.
+/// Utilisez cette classe pour creer de nouvelles épées.
 /// </summary>
 public class Sword : Tool
 {

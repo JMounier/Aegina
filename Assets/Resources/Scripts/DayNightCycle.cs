@@ -35,7 +35,7 @@ public class DayNightCycle : MonoBehaviour
     // Methods 
 
     /// <sumary>
-    /// Fonction calculant la couleur de l'orbit.
+    /// Fonction qui converti une onde du visible en la couleur RGB de l'objet.
     /// </sumary>
     private static int[] WaveLengthToRGB(int wavelength, float intensityMax, float gamma)
     {
