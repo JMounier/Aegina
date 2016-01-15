@@ -2,7 +2,7 @@
 using System.Collections;
 
 /// <summary>
-///  Use it to create a new simple Item.
+///  Utiliser cette classe pour creer un nouvelle objet.
 /// </summary>
 public class Item
 {
@@ -65,36 +65,55 @@ public class Item
     }
 
     // Getter & Setters
+
+    /// <summary>
+    /// Retourne l'identifiant de l'item.
+    /// </summary>
     public int ID
     {
         get { return this.iD; }
         set { this.iD = value; }
     }
 
+    /// <summary>
+    /// Retourne la métadonnées de l'item.
+    /// </summary>
     public int Meta
     {
         get { return this.meta; }
         set { this.meta = value; }
     }
 
+    /// <summary>
+    /// Retourne le nom de l'item.
+    /// </summary>
     public string Name
     {
         get { return this.name[PlayerPrefs.GetInt("langue",0)]; }
         set { this.name[PlayerPrefs.GetInt("langue", 0)] = value; }
     }
 
+    /// <summary>
+    /// Retourne la description de l'item dans la langue du joueur.
+    /// </summary>
     public string Description
     {
         get { return this.description[PlayerPrefs.GetInt("langue", 0)]; }
         set { this.description[PlayerPrefs.GetInt("langue", 0)] = value; }
     }
 
+    /// <summary>
+    /// Retourne l'icon de l'item.
+    /// </summary>
     public Texture2D Icon
     {
         get { return this.icon; }
         set { this.icon = value; }
     }
 
+    /// <summary>
+    /// Retourne le nombre maximum d'item stackable.
+    /// </summary>
     public int Size
     {
         get { return this.size; }

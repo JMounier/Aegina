@@ -39,7 +39,7 @@ public class Controller : NetworkBehaviour
     {
         anim = gameObject.GetComponent<Animator>();
         this.cam = gameObject.GetComponentInChildren<Camera>().gameObject;
-        this.character = gameObject.GetComponentInChildren<Character>().gameObject;
+        this.character = gameObject.GetComponentInChildren<CharacterCollision>().gameObject;
 
         if (!isLocalPlayer)
             this.cam.GetComponent<Camera>().enabled = false;
@@ -239,17 +239,65 @@ public class Controller : NetworkBehaviour
         }
     }
 
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.collider.tag == "Ground")
+            this.isJumping = false;
+    }
+
     // Setters | Getters
 
+    /// <sumary>
+    /// Si le personnage est en saut.
+    /// </sumary>
     public bool IsJumping
     {
         get { return this.isJumping; }
         set { this.isJumping = value; }
     }
 
+    /// <sumary>
+    /// Si le joueur peut bouger son personnage et la camera.
+    /// </sumary>
     public bool Pause
     {
         get { return this.pause; }
         set { this.pause = value; }
+    }
+
+    /// <sumary>
+    /// La vitesse de marche du personnage.
+    /// </sumary>
+    public float WalkSpeed
+    {
+        get { return this.walkSpeed; }
+        set { this.walkSpeed = value; }
+    }
+
+    /// <sumary>
+    /// La vittesse de course du personnage.
+    /// </sumary>
+    public float SprintSpeed
+    {
+        get { return this.sprintSpeed; }
+        set { this.sprintSpeed = value; }
+    }
+
+    /// <sumary>
+    /// Le gain de vitesse du personnage lorsqu'il saute.
+    /// </sumary>
+    public float JumpingBoost
+    {
+        get { return this.jumpingBoost; }
+        set { this.jumpingBoost = value; }
+    }
+
+    /// <sumary>
+    /// La force du saut du personnage.
+    /// </sumary>
+    public float JumpForce
+    {
+        get { return this.jumpForce; }
+        set { this.jumpForce = value; }
     }
 }

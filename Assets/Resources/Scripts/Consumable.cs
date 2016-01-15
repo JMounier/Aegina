@@ -2,7 +2,7 @@
 using System.Collections;
 
 /// <summary>
-///  Use it to create a new consumable item.
+///  Utilisez cette classe pour creer de nouveau consomable.
 /// </summary>
 public class Consumable : Item
 {
@@ -36,12 +36,19 @@ public class Consumable : Item
 
     // Methods
 
+    /// <summary>
+    /// Consume l'objet et applique ces effets.
+    /// </summary>
     public void Consume()
     {
         // To do
     }
 
     // Getter & Setters
+
+    /// <summary>
+    ///  L'effet du consumable.
+    /// </summary>
     public Effect E
     {
         get { return this.E; }
@@ -50,7 +57,7 @@ public class Consumable : Item
 }
 
 /// <summary>
-///  Use it to create a new effect.
+///  Utilisez cette classe pour creer de nouveaux effets.
 /// </summary>
 public class Effect
 {
@@ -80,12 +87,18 @@ public class Effect
     }
 
     // Getter & Setters
+    /// <summary>
+    ///  Le type d'effet.
+    /// </summary>
     public EffectType ET
     {
         get { return this.et; }
         set { this.et = value; }
     }
 
+    /// <summary>
+    ///  La puissance de l'effet.
+    /// </summary>
     public int Power
     {
         get { return this.power; }

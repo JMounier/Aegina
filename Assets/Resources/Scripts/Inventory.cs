@@ -198,7 +198,7 @@ public class Inventory : NetworkBehaviour
     }
 
     /// <sumary>
-    /// S'occupe de dessiner l'inventaire avec les items dedans
+    /// S'occupe de dessiner l'inventaire avec les items dedans.
     /// </sumary>
     void DrawInventory()
     {
@@ -241,7 +241,7 @@ public class Inventory : NetworkBehaviour
     }
 
     /// <sumary>
-    /// S'occupe de dessiner la toolbar en bas de l'ecran
+    /// S'occupe de dessiner la toolbar en bas de l'ecran.
     /// </sumary>
     void DrawToolbar()
     {
@@ -267,7 +267,7 @@ public class Inventory : NetworkBehaviour
     }
 
     /// <sumary>
-    /// Permet d'ajotuer des objes dans l'inventaire
+    /// Permet d'ajotuer des objes dans l'inventaire.
     /// </sumary>
     public void AddItemStack(ItemStack iStack)
     {
@@ -314,8 +314,9 @@ public class Inventory : NetworkBehaviour
             j++;
         }
     }
+
     /// <sumary>
-    /// verifie si un objet possedant l'id it se trouve dans l'inventaire
+    /// Verifie si un objet possedant l'id it se trouve dans l'inventaire.
     /// </sumary>
     public bool InventoryContains(Item it)
     {
@@ -331,7 +332,7 @@ public class Inventory : NetworkBehaviour
     }
 
     /// <sumary>
-    /// reinitialise l'inventaire
+    /// Reinitialise l'inventaire.
     /// </sumary>
     public void ClearInventory()
     {
@@ -341,7 +342,7 @@ public class Inventory : NetworkBehaviour
     }
 
     /// <sumary>
-    /// sauvegarde l'inventaire en local
+    /// Sauvegarde l'inventaire en local.
     /// </sumary>
     public void SaveInventory()
     {
@@ -351,7 +352,7 @@ public class Inventory : NetworkBehaviour
     }
 
     /// <sumary>
-    /// recupere l'inventaire local
+    /// Recupere l'inventaire local.
     /// </sumary>
     public void LoadInventory()
     {
@@ -364,7 +365,7 @@ public class Inventory : NetworkBehaviour
     }
 
     /// <sumary>
-    /// jette un objet dans le mode 3D
+    /// Jette un stack d'objet.
     /// </sumary>
     public void Drop(ItemStack itemS)
     {
@@ -372,7 +373,7 @@ public class Inventory : NetworkBehaviour
     }
 
     /// <sumary>
-    /// utilise un objet
+    /// Utilise un objet
     /// </sumary>
     public void UsingItem()
     {
@@ -386,20 +387,36 @@ public class Inventory : NetworkBehaviour
     }
 
     // Getters & Setters
+
+    /// <sumary>
+    /// Si l'inventaire est affiché.
+    /// </sumary>
     public bool InventoryShown
     {
         get { return this.inventoryShown; }
         set { this.inventoryShown = value; }
     }
+
+    /// <sumary>
+    /// Si l'utilisateur déplace un objet.
+    /// </sumary>
     public bool Draggingitem
     {
         get { return this.draggingItemStack; }
     }
+
+    /// <sumary>
+    /// La position de l'item utilisé.
+    /// </sumary>
     public int Cursors  
     {
         get { return this.cursor; }
         set { this.cursor = value % this.columns; }
     }
+
+    /// <sumary>
+    /// Renvoie l'item stack utilisé.
+    /// </sumary>
     public ItemStack UsedItem
     {
         get { return this.slots[this.rows - 1, this.cursor]; }

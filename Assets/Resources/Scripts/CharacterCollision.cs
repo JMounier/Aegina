@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Character : MonoBehaviour {
+public class CharacterCollision : MonoBehaviour {
 
     private Controller controllerScript;
 
@@ -15,7 +15,7 @@ public class Character : MonoBehaviour {
 	
 	}
 
-    public void OnCollisionEnter(Collision collision)
+    void OnCollisionEnter(Collision collision)
     {
         if (collision.collider.tag == "Ground")
             this.controllerScript.IsJumping = false;

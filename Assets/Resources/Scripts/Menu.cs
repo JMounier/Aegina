@@ -38,7 +38,10 @@ public class Menu : NetworkBehaviour {
         if (this.sonShown)
             this.DrawSon();
         }
-	
+
+    /// <summary>
+    ///  Dessine l'interface du menu.
+    /// </summary>
     private void DrawMenu()
     {
         GUI.Box(new Rect(Screen.width / 2 - Screen.width / 6, Screen.height / 2 - 200, Screen.width / 3, 325), "MENU", this.skin.GetStyle("windows"));
@@ -57,6 +60,10 @@ public class Menu : NetworkBehaviour {
             this.optionShown = true;
         }
     }
+
+    /// <summary>
+    ///  Dessine l'interface des options.
+    /// </summary>
     private void DrawOption()
     {
         GUI.Box(new Rect(Screen.width / 2 - Screen.width / 6, Screen.height / 2 - 200, Screen.width / 3, 325), "OPTIONS", this.skin.GetStyle("windows"));
@@ -76,6 +83,10 @@ public class Menu : NetworkBehaviour {
             this.langueShown = true;
         }
     }
+
+    /// <summary>
+    ///  Dessine l'interface des options sonores.
+    /// </summary>
     private void DrawSon()
     {
         GUI.Box(new Rect(Screen.width / 2 - Screen.width / 6, Screen.height / 2 - 200, Screen.width / 3, 325), this.langue == 0 ? "SON" :"SOUND", this.skin.GetStyle("windows"));
@@ -85,6 +96,10 @@ public class Menu : NetworkBehaviour {
             this.sonShown = false;
         }
     }
+
+    /// <summary>
+    ///  Dessine l'interface des options linguistiques.
+    /// </summary>
     private void DrawLangue()
     {
         GUI.Box(new Rect(Screen.width / 2 - Screen.width / 6, Screen.height / 2 - 200, Screen.width / 3, 325), this.langue == 0 ? "LANGUE":"LANGUAGE", this.skin.GetStyle("windows"));
@@ -106,30 +121,46 @@ public class Menu : NetworkBehaviour {
     }
 
     // Getters & Setters
+
+    /// <summary>
+    ///  Si le menu est affiché.
+    /// </summary>
     public bool MenuShown
     {
         get { return this.menuShown; }
         set { this.menuShown = value; }
     }
 
+    /// <summary>
+    ///  Si l'inteface options est affiché.
+    /// </summary>
     public bool OptionShown
     {
         get { return this.optionShown; }
         set { this.optionShown = value; }
     }
 
+    /// <summary>
+    ///  Si l'inteface options sonores est affiché.
+    /// </summary>
     public bool SonShown
     {
         get { return this.sonShown; }
         set { this.sonShown = value; }
     }
 
+    /// <summary>
+    ///  Si l'inteface options linguistique est affiché.
+    /// </summary>
     public bool LangueShown
     {
         get { return this.langueShown; }
         set { this.langueShown = value; }
     }
 
+    /// <summary>
+    ///  La langue actuellement utilisé par l'utilisateur.
+    /// </summary>
     public Language Langue
     {
         get { return this.langue; }

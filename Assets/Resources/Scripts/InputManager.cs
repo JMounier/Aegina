@@ -57,6 +57,7 @@ public class InputManager : NetworkBehaviour {
                 this.controller.Pause = !this.controller.Pause;
             }
         }
+        // Gere la barre d'outil.
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
             this.inventaire.Cursors = 0;

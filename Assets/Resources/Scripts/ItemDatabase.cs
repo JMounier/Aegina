@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 /// <summary>
-/// Database of all items.
+/// La base de donnée de tous les items.
 /// </summary>
 public static class ItemDatabase
 {
@@ -34,7 +34,10 @@ public static class ItemDatabase
 
     public static readonly Axe WoodenAxe = new Axe(60, new string[] { "Hache en bois","Wooden ax" }, new string[] { "Un ensemble de morceaux de bois ressemblant à une hache","A set of wood pieces looking like an ax" }, 50, 2);
     public static readonly Axe StoneAxe = new Axe(61, new string[] { "Hache en pierre","Stone ax" }, new string[] { "Un outil rudimentaire de pierre ressemblant à une hache", "A rudimentary stone tool looking like an ax" }, 200, 3);
-      
+
+    /// <summary>
+    /// Liste tous les items du jeu. (Utilisez avec foreach)
+    /// </summary>
     public static IEnumerable<Item> Items
     {
         get
@@ -70,6 +73,9 @@ public static class ItemDatabase
         }
     }
 
+    /// <summary>
+    /// Retourne l'item correspondant.
+    /// </summary>
     public static Item Find(int id)
     {
         foreach (Item i in Items)
@@ -80,6 +86,9 @@ public static class ItemDatabase
         throw new System.Exception("Items.Find : Item not find");
     }
 
+    /// <summary>
+    /// Retourne l'item correspondant.
+    /// </summary>
     public static Item Find(int id, int meta)
     {
         foreach (Item i in Items)
@@ -90,6 +99,9 @@ public static class ItemDatabase
         throw new System.Exception("Items.Find : Item not find");
     }
 
+    /// <summary>
+    /// Retourne l'item correspondant.
+    /// </summary>
     public static Item Find(string name)
     {
         foreach (Item i in Items)
