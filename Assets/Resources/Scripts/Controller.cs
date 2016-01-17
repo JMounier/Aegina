@@ -233,7 +233,7 @@ public class Controller : NetworkBehaviour
         if (isMoving)
         {
             Vector3 rotCam = new Vector3(this.character.transform.eulerAngles.x, this.cam.transform.eulerAngles.y + rotation, this.character.transform.eulerAngles.z);
-            this.character.transform.rotation = Quaternion.Lerp(this.character.transform.rotation, Quaternion.Euler(rotCam), Time.deltaTime * 10);
+            this.character.transform.rotation = Quaternion.Lerp(this.character.transform.rotation, Quaternion.Euler(rotCam), Time.deltaTime * 5);
         }
     }
 
