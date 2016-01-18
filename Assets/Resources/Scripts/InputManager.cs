@@ -93,8 +93,8 @@ public class InputManager : NetworkBehaviour {
         
     }
     void OnGUI()
-    {
-        if (!this.inventaire.Draggingitem && Event.current.button == 1 & Event.current.type == EventType.mouseDown)
+    {       
+        if (isLocalPlayer && !this.inventaire.Draggingitem && Event.current.button == 1 & Event.current.type == EventType.mouseDown)
             this.inventaire.UsingItem();
     }
 }

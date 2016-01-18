@@ -42,9 +42,7 @@ public class Controller : NetworkBehaviour
         this.character = gameObject.GetComponentInChildren<CharacterCollision>().gameObject;
 
         if (!isLocalPlayer)
-            this.cam.GetComponent<Camera>().enabled = false;
-        else
-            this.cam.GetComponent<Camera>().enabled = true;
+            this.cam.SetActive(false);
     }
 
     // Update is called once per frame
@@ -107,7 +105,7 @@ public class Controller : NetworkBehaviour
             this.rotationY = Mathf.Clamp(this.rotationY, this.yMinFPS, this.yMaxFPS);
 
             this.cam.transform.localEulerAngles = new Vector3(-this.rotationY, this.rotationX, 0);
-            this.character.transform.eulerAngles = new Vector3(0, this.rotationX, 0);
+            this.character.transform.eulerAngles = new Vector3(0, this.rotationX + 180, 0);
         }
 
         /*
@@ -235,7 +233,7 @@ public class Controller : NetworkBehaviour
         if (isMoving)
         {
             Vector3 rotCam = new Vector3(this.character.transform.eulerAngles.x, this.cam.transform.eulerAngles.y + rotation, this.character.transform.eulerAngles.z);
-            this.character.transform.rotation = Quaternion.Lerp(this.character.transform.rotation, Quaternion.Euler(rotCam), Time.deltaTime * 10);
+            this.character.transform.rotation = Quaternion.Lerp(this.character.transform.rotation, Quaternion.Euler(rotCam), Time.deltaTime * 5);
         }
     }
 
