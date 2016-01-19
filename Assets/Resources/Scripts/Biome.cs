@@ -7,41 +7,79 @@ using System.Collections;
 public class Biome
 {
     private int iD;
-    private SpawnConfig[] spwanConfiguration;
-    
+    private SpawnConfig[] spawnConfiguration;
+
     // Constructor
 
     public Biome()
     {
         this.iD = -1;
-        this.spwanConfiguration = new SpawnConfig[0];        
+        this.spawnConfiguration = new SpawnConfig[0];
     }
 
     public Biome(int id, params Entity[] spawnableEntity)
     {
         this.iD = id;
-        this.spwanConfiguration = new SpawnConfig[spawnableEntity.Length];
+        this.spawnConfiguration = new SpawnConfig[spawnableEntity.Length];
         float ratio = 1 / spawnableEntity.Length;
         for (int i = 0; i < spawnableEntity.Length; i++)
         {
-            this.spwanConfiguration[i] = new SpawnConfig(spawnableEntity[i], ratio);
+            this.spawnConfiguration[i] = new SpawnConfig(spawnableEntity[i], ratio);
         }
     }
 
-    public Biome(int id, params SpawnConfig[] spwanConfiguration)
+    public Biome(int id, params SpawnConfig[] spawnConfiguration)
     {
         this.iD = id;
-        this.spwanConfiguration = spwanConfiguration;
-        float sum = 0f;   
-        for (int i = 0; i < spwanConfiguration.Length; i++)
+        this.spawnConfiguration = spawnConfiguration;
+        float sum = 0f;
+        for (int i = 0; i < spawnConfiguration.Length; i++)
         {
-            sum += spwanConfiguration[i].Ratio;
+            sum += spawnConfiguration[i].Ratio;
         }
 
-        for (int i = 0; i < spwanConfiguration.Length; i++)
+        for (int i = 0; i < spawnConfiguration.Length; i++)
         {
-            this.spwanConfiguration[i].Ratio /= sum;
+            this.spawnConfiguration[i].Ratio /= sum;
         }
+    }
+
+    // Methods
+    /// <summary>
+    /// Genere une entite du biome sur l'ancre avec une rotation aleatoire sur Y.
+    /// </summary>
+    public void Generate(GameObject ancre)
+    {
+        float rand = Random.Range(0, 1);
+        float sum = 0f;
+        foreach (SpawnConfig sc in this.spawnConfiguration)
+        {
+            sum += sc.Ratio;
+            if (rand < sum)
+            {
+                Vector3 rot = sc.E.Prefab.transform.eulerAngles;
+                rot.y = Random.Range(0, 360);
+                sc.E.Spawn(ancre.transform.position, Quaternion.Euler(rot));
+            }
+        }
+    }
+
+    /// <summary>
+    /// Genere des entites de biome sur chaque ancres avec une rotation aleatoire sur Y.
+    /// </summary>
+    public void Generate(params GameObject[] ancres)
+    {
+        foreach (GameObject ancre in ancres)
+            Generate(ancre);
+    }
+
+    // Getters & Setters
+    /// <summary>
+    /// L'identifiant unique du biome.
+    /// </summary>
+    public int ID
+    {
+        get { return this.iD; }
     }
 }
 
@@ -56,8 +94,8 @@ public class SpawnConfig
     // Cnostructor
     public SpawnConfig()
     {
-        this.e = null;
-        this.ratio = 0f;
+        this.e = new Entity();
+        this.ratio = 1f;
     }
 
     public SpawnConfig(Entity e)

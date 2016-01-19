@@ -6,6 +6,7 @@ using System.Collections;
 /// </summary>
 public class Entity
 {
+    protected int iD;
     protected int lifeMax;
     protected int life;
     protected GameObject prefab;
@@ -18,8 +19,9 @@ public class Entity
         this.prefab = null;
     }
 
-    public Entity(int life, GameObject prefab)
+    public Entity(int id, int life, GameObject prefab)
     {
+        this.iD = id;
         this.lifeMax = life;
         this.life = life;
         this.prefab = prefab;
@@ -32,7 +34,7 @@ public class Entity
     /// </summary>
     public void Spawn()
     {
-        GameObject.Instantiate(this.prefab, this.prefab.transform.position, this.prefab.transform.rotation);
+        this.prefab = GameObject.Instantiate(this.prefab, this.prefab.transform.position, this.prefab.transform.rotation) as GameObject;
     }
 
     /// <summary>
@@ -40,7 +42,7 @@ public class Entity
     /// </summary>
     public void Spawn(Vector3 pos)
     {
-        GameObject.Instantiate(this.prefab, pos, this.prefab.transform.rotation);
+        this.prefab = GameObject.Instantiate(this.prefab, pos, this.prefab.transform.rotation) as GameObject;
     }
 
     /// <summary>
@@ -48,7 +50,7 @@ public class Entity
     /// </summary>
     public void Spawn(Quaternion rot)
     {
-        GameObject.Instantiate(this.prefab, this.prefab.transform.position, rot);
+        this.prefab = GameObject.Instantiate(this.prefab, this.prefab.transform.position, rot) as GameObject;
     }
 
     /// <summary>
@@ -56,10 +58,26 @@ public class Entity
     /// </summary>
     public void Spawn(Vector3 pos, Quaternion rot)
     {
-        GameObject.Instantiate(this.prefab, pos, rot);
+        this.prefab = GameObject.Instantiate(this.prefab, pos, rot) as GameObject;
+    }
+
+    /// <summary>
+    /// Desinstancie l'entite dans le monde.
+    /// </summary>
+    protected virtual void Kill()
+    {
+        GameObject.Destroy(this.prefab);
     }
 
     // Getter & Setter
+
+    /// <summary>
+    /// L'identifiant unique de l'entite.
+    /// </summary>
+    public int ID
+    {
+        get { return this.iD; }
+    }
 
     /// <summary>
     /// La vie de l'entite.
@@ -67,7 +85,11 @@ public class Entity
     public int Life
     {
         get { return this.life; }
-        set { this.life = Mathf.Clamp(value, 0, this.lifeMax); }
+        set {
+            this.life = Mathf.Clamp(value, 0, this.lifeMax);
+            if (this.life == 0)
+                this.Kill();
+        }
     }
 
     /// <summary>
