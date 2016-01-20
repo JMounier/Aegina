@@ -33,15 +33,13 @@ public class Biome
         this.iD = id;
         this.spawnConfiguration = spawnConfiguration;
         float sum = 0f;
-        for (int i = 0; i < spawnConfiguration.Length; i++)
-        {
-            sum += spawnConfiguration[i].Ratio;
-        }
 
-        for (int i = 0; i < spawnConfiguration.Length; i++)
-        {
+        for (int i = 0; i < spawnConfiguration.Length; i++)        
+            sum += spawnConfiguration[i].Ratio;
+        
+        for (int i = 0; i < spawnConfiguration.Length; i++)        
             this.spawnConfiguration[i].Ratio /= sum;
-        }
+        
     }
 
     // Methods
@@ -50,7 +48,7 @@ public class Biome
     /// </summary>
     public void Generate(GameObject ancre)
     {
-        float rand = Random.Range(0, 1);
+        float rand = Random.Range(0f, 1f);
         float sum = 0f;
         foreach (SpawnConfig sc in this.spawnConfiguration)
         {
@@ -60,6 +58,7 @@ public class Biome
                 Vector3 rot = sc.E.Prefab.transform.eulerAngles;
                 rot.y = Random.Range(0, 360);
                 sc.E.Spawn(ancre.transform.position, Quaternion.Euler(rot));
+                break;
             }
         }
     }

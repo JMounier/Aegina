@@ -16,7 +16,7 @@ public class Entity
     {
         this.lifeMax = 0;
         this.life = 0;
-        this.prefab = null;
+        this.prefab = Resources.Load<GameObject>("Prefabs/Default");
     }
 
     public Entity(int id, int life, GameObject prefab)

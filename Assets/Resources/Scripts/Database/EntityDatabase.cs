@@ -9,6 +9,7 @@ public static class EntityDatabase
 
     // Loot
 
+
     // Tree
     public static readonly Tree Fir = new Tree(100, 100, Resources.Load<GameObject>("Prefabs/Elements/Trees/Fir"), 1);
     public static readonly Tree SnowFir = new Tree(101, 100, Resources.Load<GameObject>("Prefabs/Elements/Trees/SnowFir"), 1);
@@ -22,8 +23,15 @@ public static class EntityDatabase
     {
         get
         {
+            // Default
+            yield return Default;
+
+            // Tree
             yield return Fir;
             yield return SnowFir;
+
+            // Chunk
+            yield return Chunk1;
         }
     }
 
@@ -31,10 +39,18 @@ public static class EntityDatabase
     {
         get
         {
-            foreach (Tree t in Entitys)
-            {
-                yield return t;
-            }
+            foreach (Tree t in Entitys)            
+                yield return t;            
+        }
+    }
+
+    public static IEnumerable<Loot> Loots
+    {
+        get
+        {
+            foreach (Loot l in Entitys)            
+                yield return l;
+            
         }
     }
 
