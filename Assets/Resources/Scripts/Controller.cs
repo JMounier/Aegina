@@ -198,7 +198,7 @@ public class Controller : NetworkBehaviour
         }
 
 
-        bool isMoving = move.x != 0 || move.z != 0;
+        bool isMoving = move.x != 0 || move.z != 0;        
 
         // Apply the moves with the animation
         if (this.isJumping)
@@ -235,6 +235,17 @@ public class Controller : NetworkBehaviour
             Vector3 rotCam = new Vector3(this.character.transform.eulerAngles.x, this.cam.transform.eulerAngles.y + rotation, this.character.transform.eulerAngles.z);
             this.character.transform.rotation = Quaternion.Lerp(this.character.transform.rotation, Quaternion.Euler(rotCam), Time.deltaTime * 5);
         }
+        /*
+             -------------------
+            | Son du personnage |
+             -------------------
+        */
+
+        // Sounds make by the character
+        /*if (isMoving)
+        {
+            je voudrai reussir a appeller mes methodes presentent dans sound 
+        }*/
     }
 
     void OnCollisionEnter(Collision collision)
