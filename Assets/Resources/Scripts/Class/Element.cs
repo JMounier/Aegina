@@ -28,8 +28,8 @@ public class Element : Entity
     {
         foreach (Loot l in this.Loots)
         {
+            
             l.Spawn(base.prefab.transform.position);
-            l.Prefab.GetComponent<Rigidbody>().AddRelativeForce(new Vector3(Random.Range(-1,1), Random.Range(0,1), Random.Range(-1,1)));
         }
         base.Kill();
     }

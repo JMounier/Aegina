@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public static class BiomeDataBase
+public static class BiomeDatabase
 {
     // Default
     public static readonly Biome Default = new Biome();

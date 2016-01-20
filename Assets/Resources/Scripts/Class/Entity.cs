@@ -40,7 +40,7 @@ public class Entity
     /// <summary>
     /// Instancie l'entite dans le monde avec une position.
     /// </summary>
-    public void Spawn(Vector3 pos)
+    public virtual void Spawn(Vector3 pos)
     {
         this.prefab = GameObject.Instantiate(this.prefab, pos, this.prefab.transform.rotation) as GameObject;
     }
@@ -48,7 +48,7 @@ public class Entity
     /// <summary>
     /// Instancie l'entite dans le monde avec une rotation.
     /// </summary>
-    public void Spawn(Quaternion rot)
+    public virtual void Spawn(Quaternion rot)
     {
         this.prefab = GameObject.Instantiate(this.prefab, this.prefab.transform.position, rot) as GameObject;
     }
@@ -56,7 +56,7 @@ public class Entity
     /// <summary>
     /// Instancie l'entite dans le monde avec une position et une rotation.
     /// </summary>
-    public void Spawn(Vector3 pos, Quaternion rot)
+    public virtual void Spawn(Vector3 pos, Quaternion rot)
     {
         this.prefab = GameObject.Instantiate(this.prefab, pos, rot) as GameObject;
     }
