@@ -43,6 +43,8 @@ public class Controller : NetworkBehaviour
 
         if (!isLocalPlayer)
             this.cam.SetActive(false);
+
+        gameObject.transform.position.Set(0, 10, 0);
     }
 
     // Update is called once per frame
