@@ -24,11 +24,9 @@ public class MapGeneration : NetworkBehaviour
         EntityDatabase.Chunk1.Spawn(new Vector3(0, 0, 0));
         foreach (Transform iles in EntityDatabase.Chunk1.Prefab.transform)
             foreach (Transform ancres in iles.transform)
-                foreach (Transform ancre in ancres.transform)               
-                    if (ancre.CompareTag("Ancre"))                    
+                foreach (Transform ancre in ancres.transform)                
+                    if (ancre.CompareTag("Ancre"))
                         BiomeDatabase.Forest.Generate(ancre.gameObject);
-                    
                 
-
     }
 }

@@ -8,7 +8,7 @@ public static class BiomeDatabase
     public static readonly Biome Default = new Biome();
 
     // To do...
-    public static readonly Biome Forest = new Biome(0, new SpawnConfig(), new SpawnConfig(EntityDatabase.Fir, 2), new SpawnConfig(EntityDatabase.SnowFir, 1));
+    public static readonly Biome Forest = new Biome(0, new SpawnConfig(), new SpawnConfig(EntityDatabase.Fir, 1), new SpawnConfig(EntityDatabase.SnowFir, 3));
     public static readonly Biome Desert = new Biome(1, new Entity());
     public static readonly Biome Ice = new Biome(2, new Entity());
 
