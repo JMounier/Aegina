@@ -5,8 +5,8 @@ using UnityEngine.Networking;
 
 public class Inventory : NetworkBehaviour
 {
-    private int rows = 5;
-    private int columns = 8;
+    private int rows = 4;
+    private int columns = 6;
     private int pos_x_inventory, pos_y_inventory;
     private int pos_x_toolbar, pos_y_toolbar;
     private int[] previndex = new int[2];
