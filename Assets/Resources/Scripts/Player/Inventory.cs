@@ -39,10 +39,11 @@ public class Inventory : NetworkBehaviour
             this.AddItemStack(new ItemStack(ItemDatabase.Log, 100));
             this.AddItemStack(new ItemStack(ItemDatabase.Sand, 10000));
             this.AddItemStack(new ItemStack(ItemDatabase.Log, 30));
+            this.AddItemStack(new ItemStack(ItemDatabase.FloatiumPickaxe, 30));
         }
-            
 
-        this.skin = Resources.Load<GUISkin>("Sprites/GUIskin/skin");
+
+        this.skin = Resources.Load<GUISkin>("Sprites/GUIskin/Skin");
     }
 
     // Methods

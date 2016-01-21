@@ -11,29 +11,41 @@ public static class ItemDatabase
     public static readonly Item Default = new Item();
 
     // Ressources
-    public static readonly Item Log = new Item(0, new string[] { "Bois","Wood" }, new string[] { "Un morceau de bois pouvant servir pour créer d'autres objets" ,"A piece of wood usable to make other objects"}, 64);
-    public static readonly Item Stone = new Item(1, new string[] { "Pierre","Stone" }, new string[] { "Une pierre pouvant servir pour créer d'autres objets","A piece of stone usable to make other objects" }, 64);
-    public static readonly Item Sand = new Item(2, new string[] { "Sable","Sand" }, new string[] { "Du sable... Vous pouvez faire un chateau de sable avec.","some sand... you can make a sand castle... " }, 64);
-    public static readonly Item Copper = new Item(3, new string[] { "Minerai de cuivre","Copper ore" }, new string[] { "Un minerai de cuivre pouvant être fondu en lingot","A copper ore meltable in ingot" }, 64);
-    public static readonly Item Iron = new Item(4, new string[] { "Minerai de fer","Iron ore" }, new string[] { "Un minerai de fer pouvant être fondu en lingot","An iron ore meltable in ingot" }, 64);
-    public static readonly Item Gold = new Item(5, new string[] { "Minerai d'or","Gold ore" }, new string[] { "Un minerai d'or pouvant être fondu en lingot","A gold ore meltable in ingot" }, 64);
-    public static readonly Item Mytril = new Item(6, new string[] { "Minerai de mytril","Mytril ore" }, new string[] { "Un minerai de mytril pouvant être fondu en lingot","A mytril ore meltable in ingot" }, 64);
-    public static readonly Item Floatium = new Item(7, new string[] { "Minerai de floatium","Floatium ore" }, new string[] { "Un minerai de floatium pouvant être fondu en lingot","A floatium ore meltable in ingot" }, 64);
-    public static readonly Item Sunkium = new Item(8, new string[] { "Minerai de sunkium","Sunkium ore" }, new string[] { "Un minerai de sunkium pouvant être fondu en lingot","A sunkium ore meltable in ingot" }, 64);
+    public static readonly Item Log = new Item(0, new string[] { "Bois","Wood" }, new string[] { "Un morceau de bois pouvant servir pour créer d'autres objets" ,"A piece of wood usable to make other objects"}, 64, Resources.Load<Texture2D>("Sprites/Items/Plants/Log"));
+    public static readonly Item Stone = new Item(1, new string[] { "Pierre","Stone" }, new string[] { "Une pierre pouvant servir pour créer d'autres objets","A piece of stone usable to make other objects" }, 64, Resources.Load<Texture2D>("Sprites/Items/Ores/Stone"));
+    public static readonly Item Sand = new Item(2, new string[] { "Sable","Sand" }, new string[] { "Du sable... Vous pouvez faire un chateau de sable avec.","some sand... you can make a sand castle... " }, 64, Resources.Load<Texture2D>("Sprites/Items/Ores/Sand"));
+    public static readonly Item Copper = new Item(3, new string[] { "Minerai de cuivre","Copper ore" }, new string[] { "Un minerai de cuivre pouvant être fondu en lingot","A copper ore meltable in ingot" }, 64, Resources.Load<Texture2D>("Sprites/Items/Ores/Copper"));
+    public static readonly Item Iron = new Item(4, new string[] { "Minerai de fer","Iron ore" }, new string[] { "Un minerai de fer pouvant être fondu en lingot","An iron ore meltable in ingot" }, 64, Resources.Load<Texture2D>("Sprites/Items/Ores/Iron"));
+    public static readonly Item Gold = new Item(5, new string[] { "Minerai d'or","Gold ore" }, new string[] { "Un minerai d'or pouvant être fondu en lingot","A gold ore meltable in ingot" }, 64, Resources.Load<Texture2D>("Sprites/Items/Ores/Gold"));
+    public static readonly Item Mithril = new Item(6, new string[] { "Minerai de mytril","Mytril ore" }, new string[] { "Un minerai de mithril pouvant être fondu en lingot","A mithril ore meltable in ingot" }, 64, Resources.Load<Texture2D>("Sprites/Items/Ores/Mithril"));
+    public static readonly Item Floatium = new Item(7, new string[] { "Minerai de floatium","Floatium ore" }, new string[] { "Un minerai de floatium pouvant être fondu en lingot","A floatium ore meltable in ingot" }, 64, Resources.Load<Texture2D>("Sprites/Items/Ores/Floatium"));
+    public static readonly Item Sunkium = new Item(8, new string[] { "Minerai de sunkium","Sunkium ore" }, new string[] { "Un minerai de sunkium pouvant être fondu en lingot","A sunkium ore meltable in ingot" }, 64, Resources.Load<Texture2D>("Sprites/Items/Ores/Sunkium"));
     
-    public static readonly Item CopperIngot = new Item(9, new string[] { "Lingot de cuivre","Copper ingot" }, new string[] { "Un lingot de cuivre pouvant être utiliser pour construire d'autres objets","A copper ingot usable to make other objects" }, 64);
-    public static readonly Item IronIngot = new Item(10, new string[] { "Lingot de fer","Iron ingot" }, new string[] { "Un lingot de fer pouvant être utiliser pour construire d'autres objets","An iron ingot usable to make other objects" }, 64);
-    public static readonly Item GoldIngot = new Item(11, new string[] { "Lingot d'or","Gold ingot" }, new string[] { "Un lingot d'or pouvant être utiliser pour construire d'autres objets","A gold ingot usable to make other objetcs" }, 64);
-    public static readonly Item MytrilIngot = new Item(12, new string[] { "Lingot de mytril","Mytril ingot" }, new string[] { "Un lingot de mytril pouvant être utiliser pour construire d'autres objets","A mytril ingot usable to make other objects" }, 64);
-    public static readonly Item FloatiumIngot = new Item(13, new string[] { "Lingot de floatium","Floatium ingot" }, new string[] { "Un lingot de floatium pouvant être utiliser pour construire d'autres objets","A floatium ingot usable to make other objects" }, 64);
-    public static readonly Item SunkiumIngot = new Item(14, new string[] { "Lingot de sunkium","Sunkium ingot" }, new string[] { "Un lingot de sunkium pouvant être utiliser pour construire d'autres objets","A sunkium ingot usable to make other objects" }, 64);
+    public static readonly Item CopperIngot = new Item(9, new string[] { "Lingot de cuivre","Copper ingot" }, new string[] { "Un lingot de cuivre pouvant être utiliser pour construire d'autres objets","A copper ingot usable to make other objects" }, 64, Resources.Load<Texture2D>("Sprites/Items/Ingots/CopperIngot"));
+    public static readonly Item IronIngot = new Item(10, new string[] { "Lingot de fer","Iron ingot" }, new string[] { "Un lingot de fer pouvant être utiliser pour construire d'autres objets","An iron ingot usable to make other objects" }, 64, Resources.Load<Texture2D>("Sprites/Items/Ingots/IronIngot"));
+    public static readonly Item GoldIngot = new Item(11, new string[] { "Lingot d'or","Gold ingot" }, new string[] { "Un lingot d'or pouvant être utiliser pour construire d'autres objets","A gold ingot usable to make other objetcs" }, 64, Resources.Load<Texture2D>("Sprites/Items/Ingots/GoldIngot"));
+    public static readonly Item MithrilIngot = new Item(12, new string[] { "Lingot de mytril","Mytril ingot" }, new string[] { "Un lingot de mithril pouvant être utiliser pour construire d'autres objets","A mithril ingot usable to make other objects" }, 64, Resources.Load<Texture2D>("Sprites/Items/Ingots/MithrilIngot"));
+    public static readonly Item FloatiumIngot = new Item(13, new string[] { "Lingot de floatium","Floatium ingot" }, new string[] { "Un lingot de floatium pouvant être utiliser pour construire d'autres objets","A floatium ingot usable to make other objects" }, 64, Resources.Load<Texture2D>("Sprites/Items/Ingots/FloatiumIngot"));
+    public static readonly Item SunkiumIngot = new Item(14, new string[] { "Lingot de sunkium","Sunkium ingot" }, new string[] { "Un lingot de sunkium pouvant être utiliser pour construire d'autres objets","A sunkium ingot usable to make other objects" }, 64, Resources.Load<Texture2D>("Sprites/Items/Ingots/SunkiumIngot"));
     
     // Tools
-    public static readonly Pickaxe WoodenPickaxe = new Pickaxe(50, new string[] { "Pioche en bois","Wooden pickaxe" }, new string[] { "Un ensemble de morceaux de bois ressemblant à une pioche","A set of wood pieces looking like a pickaxe" }, 50, 2);
-    public static readonly Pickaxe StonePickaxe = new Pickaxe(51, new string[] { "Pioche en pierre","Stone pickaxe" }, new string[] { "Un outil rudimentaire de pierre ressemblant à une pioche","A rudimentary stone tool looking like a pickaxe" }, 200, 3);
+    public static readonly Pickaxe WoodenPickaxe = new Pickaxe(50, new string[] { "Pioche en bois","Wooden pickaxe" }, new string[] { "Un ensemble de morceaux de bois ressemblant à une pioche","A set of wood pieces looking like a pickaxe" }, 50, 2, Resources.Load<Texture2D>("Sprites/Items/Tools/WoodenPickaxe"));
+    public static readonly Pickaxe StonePickaxe = new Pickaxe(51, new string[] { "Pioche en pierre","Stone pickaxe" }, new string[] { "Un outil rudimentaire de pierre ressemblant à une pioche","A rudimentary stone tool looking like a pickaxe" }, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/StonePickaxe"));
+    public static readonly Pickaxe CopperPickaxe = new Pickaxe(52, new string[] { "Pioche en pierre", "Stone pickaxe" }, new string[] { "Un outil rudimentaire de pierre ressemblant à une pioche", "A rudimentary stone tool looking like a pickaxe" }, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/CopperPickaxe"));
+    public static readonly Pickaxe IronPickaxe = new Pickaxe(53, new string[] { "Pioche en pierre", "Stone pickaxe" }, new string[] { "Un outil rudimentaire de pierre ressemblant à une pioche", "A rudimentary stone tool looking like a pickaxe" }, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/IronPickaxe"));
+    public static readonly Pickaxe GoldPickaxe = new Pickaxe(54, new string[] { "Pioche en pierre", "Stone pickaxe" }, new string[] { "Un outil rudimentaire de pierre ressemblant à une pioche", "A rudimentary stone tool looking like a pickaxe" }, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/GoldPickaxe"));
+    public static readonly Pickaxe MithrilPickaxe = new Pickaxe(55, new string[] { "Pioche en pierre", "Stone pickaxe" }, new string[] { "Un outil rudimentaire de pierre ressemblant à une pioche", "A rudimentary stone tool looking like a pickaxe" }, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/MithrilPickaxe"));
+    public static readonly Pickaxe FloatiumPickaxe = new Pickaxe(56, new string[] { "Pioche en pierre", "Stone pickaxe" }, new string[] { "Un outil rudimentaire de pierre ressemblant à une pioche", "A rudimentary stone tool looking like a pickaxe" }, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/FloatiumPickaxe"));
+    public static readonly Pickaxe SunkiumPickaxe = new Pickaxe(57, new string[] { "Pioche en pierre", "Stone pickaxe" }, new string[] { "Un outil rudimentaire de pierre ressemblant à une pioche", "A rudimentary stone tool looking like a pickaxe" }, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/SunkiumPickaxe"));
 
-    public static readonly Axe WoodenAxe = new Axe(60, new string[] { "Hache en bois","Wooden ax" }, new string[] { "Un ensemble de morceaux de bois ressemblant à une hache","A set of wood pieces looking like an ax" }, 50, 2);
-    public static readonly Axe StoneAxe = new Axe(61, new string[] { "Hache en pierre","Stone ax" }, new string[] { "Un outil rudimentaire de pierre ressemblant à une hache", "A rudimentary stone tool looking like an ax" }, 200, 3);
+    public static readonly Axe WoodenAxe = new Axe(60, new string[] { "Hache en bois","Wooden ax" }, new string[] { "Un ensemble de morceaux de bois ressemblant à une hache","A set of wood pieces looking like an ax" }, 50, 2, Resources.Load<Texture2D>("Sprites/Items/Tools/WoodenAxe"));
+    public static readonly Axe StoneAxe = new Axe(61, new string[] { "Hache en pierre","Stone ax" }, new string[] { "Un outil rudimentaire de pierre ressemblant à une hache", "A rudimentary stone tool looking like an ax" }, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/StoneAxe"));
+    public static readonly Axe CopperAxe = new Axe(52, new string[] { "Hache en pierre", "Stone Axe" }, new string[] { "Un outil rudimentaire de pierre ressemblant à une pioche", "A rudimentary stone tool looking like a Axe" }, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/Copperaxe"));
+    public static readonly Axe IronAxe = new Axe(53, new string[] { "Hache en pierre", "Stone Axe" }, new string[] { "Un outil rudimentaire de pierre ressemblant à une pioche", "A rudimentary stone tool looking like a Axe" }, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/Ironaxe"));
+    public static readonly Axe GoldAxe = new Axe(54, new string[] { "Hache en pierre", "Stone Axe" }, new string[] { "Un outil rudimentaire de pierre ressemblant à une pioche", "A rudimentary stone tool looking like a Axe" }, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/Goldaxe"));
+    public static readonly Axe MithrilAxe = new Axe(55, new string[] { "Hache en pierre", "Stone Axe" }, new string[] { "Un outil rudimentaire de pierre ressemblant à une pioche", "A rudimentary stone tool looking like a Axe" }, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/Mithrilaxe"));
+    public static readonly Axe FloatiumAxe = new Axe(56, new string[] { "Hache en pierre", "Stone Axe" }, new string[] { "Un outil rudimentaire de pierre ressemblant à une pioche", "A rudimentary stone tool looking like a Axe" }, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/Floatiumaxe"));
+    public static readonly Axe SunkiumAxe = new Axe(57, new string[] { "Hache en pierre", "Stone Axe" }, new string[] { "Un outil rudimentaire de pierre ressemblant à une pioche", "A rudimentary stone tool looking like a Axe" }, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/Sunkiumaxe"));
 
     /// <summary>
     /// Liste tous les items du jeu. (Utilisez avec foreach)
@@ -55,21 +67,34 @@ public static class ItemDatabase
             yield return Floatium;
             yield return Sunkium;
             yield return Gold;
-            yield return Mytril;
+            yield return Mithril;
 
             yield return CopperIngot;
             yield return IronIngot;
             yield return GoldIngot;
-            yield return MytrilIngot;
+            yield return MithrilIngot;
             yield return FloatiumIngot;
             yield return SunkiumIngot;
 
             // Tools
             yield return WoodenPickaxe;
             yield return StonePickaxe;
+            yield return CopperPickaxe;
+            yield return IronPickaxe;
+            yield return GoldPickaxe;
+            yield return MithrilPickaxe;
+            yield return FloatiumPickaxe;
+            yield return SunkiumPickaxe;
 
             yield return WoodenAxe;
-            yield return StoneAxe;       
+            yield return StoneAxe;
+            yield return IronAxe;
+            yield return GoldAxe;
+            yield return MithrilAxe;
+            yield return CopperAxe;
+            yield return SunkiumAxe;
+            yield return FloatiumAxe;
+
         }
     }
 

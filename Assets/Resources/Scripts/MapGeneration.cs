@@ -21,8 +21,8 @@ public class MapGeneration : NetworkBehaviour
 
     private void CreateChunk(int x, int y)
     {
-        EntityDatabase.Chunk1.Spawn(new Vector3(0, 0, 0));
-        foreach (Transform iles in EntityDatabase.Chunk1.Prefab.transform)
+        EntityDatabase.Chunk2.Spawn(new Vector3(0, 0, 0));
+        foreach (Transform iles in EntityDatabase.Chunk2.Prefab.transform)
             foreach (Transform ancres in iles.transform)
                 foreach (Transform ancre in ancres.transform)                
                     if (ancre.CompareTag("Ancre"))

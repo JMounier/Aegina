@@ -24,26 +24,6 @@ public class Item
         this.icon = null;
     }
 
-    public Item(int id, string[] name, string[] description, int size)
-    {
-        this.name = name;
-        this.iD = id;
-        this.meta = 0;
-        this.description = description;
-        this.size = size;
-        this.icon = Resources.Load<Texture2D>("Sprites/ItemIcons/" + name[0]);
-    }
-
-    public Item(int id, int meta, string[] name, string[] description, int size)
-    {
-        this.name = name;
-        this.iD = id;
-        this.meta = meta;
-        this.description = description;
-        this.size = size;
-        this.icon = Resources.Load<Texture2D>("Sprites/ItemIcons/" + name[0]);
-    }
-
     public Item(int id, string[] name, string[] description, int size, Texture2D icon)
     {
         this.name = name;

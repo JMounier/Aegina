@@ -17,7 +17,7 @@ public static class EntityDatabase
     // Rock
 
     // Chunk
-    public static readonly Chunk Chunk1 = new Chunk(1000, Resources.Load<GameObject>("Prefabs/Chunks/Chunk1"), Chunk.Bridges.None);
+    public static readonly Chunk Chunk2 = new Chunk(1000, Resources.Load<GameObject>("Prefabs/Chunks/Chunk2"), Chunk.Bridges.None);
 
     public static IEnumerable<Entity> Entitys
     {
@@ -31,7 +31,7 @@ public static class EntityDatabase
             yield return SnowFir;
 
             // Chunk
-            yield return Chunk1;
+            yield return Chunk2;
         }
     }
 
