@@ -6,9 +6,7 @@ public static class EntityDatabase
 {
     // Default
     public static readonly Entity Default = new Entity();
-
-    // Loot
-
+    public static readonly Entity Log = new Entity(0, 60, Resources.Load<GameObject>("Prefabs/Loots/Log"));
 
     // Tree
     public static readonly Tree Fir = new Tree(100, 100, Resources.Load<GameObject>("Prefabs/Elements/Trees/Fir"), 1);
@@ -25,6 +23,7 @@ public static class EntityDatabase
         {
             // Default
             yield return Default;
+            yield return Log;
 
             // Tree
             yield return Fir;
@@ -41,16 +40,6 @@ public static class EntityDatabase
         {
             foreach (Tree t in Entitys)            
                 yield return t;            
-        }
-    }
-
-    public static IEnumerable<Loot> Loots
-    {
-        get
-        {
-            foreach (Loot l in Entitys)            
-                yield return l;
-            
         }
     }
 

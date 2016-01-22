@@ -52,15 +52,20 @@ public class Biome
         float sum = 0f;
         foreach (SpawnConfig sc in this.spawnConfiguration)
         {
-            sum += sc.Ratio;
+            sum += sc.Ratio;            
             if (rand < sum)
             {
-                Vector3 rot = sc.E.Prefab.transform.eulerAngles;
-                rot.y = Random.Range(0, 360);
-                sc.E.Spawn(ancre.transform.position, Quaternion.Euler(rot));
+                if (sc.E.ID != -1)
+                {
+                    Vector3 rot = sc.E.Prefab.transform.eulerAngles;
+                    rot.y = Random.Range(0, 360);
+                    sc.E.Spawn(ancre.transform.position, Quaternion.Euler(rot));
+                    sc.E.Prefab.transform.parent = ancre.transform.parent;
+                }
                 break;
             }
         }
+        GameObject.Destroy(ancre);
     }
 
     /// <summary>

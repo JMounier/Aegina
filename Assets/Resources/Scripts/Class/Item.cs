@@ -12,6 +12,7 @@ public class Item
     protected string[] description;
     protected Texture2D icon;
     protected int size;
+    protected Entity ent;
 
     // Constructors
     public Item()
@@ -22,9 +23,10 @@ public class Item
         this.meta = 0;
         this.description = new string[] { "", "" };
         this.icon = null;
+        this.ent = new Entity();
     }
 
-    public Item(int id, string[] name, string[] description, int size, Texture2D icon)
+    public Item(int id, string[] name, string[] description, int size, Texture2D icon, Entity ent)
     {
         this.name = name;
         this.iD = id;
@@ -32,9 +34,10 @@ public class Item
         this.description = description;
         this.size = size;
         this.icon = icon;
+        this.ent = ent;
     }
 
-    public Item(int id, int meta, string[] name, string[] description, int size, Texture2D icon)
+    public Item(int id, int meta, string[] name, string[] description, int size, Texture2D icon, Entity ent)
     {
         this.name = name;
         this.iD = id;
@@ -42,6 +45,40 @@ public class Item
         this.description = description;
         this.size = size;
         this.icon = icon;
+        this.ent = ent;
+    }
+
+    // Methods
+
+
+    /// <summary>
+    /// Instancie l'item dans le monde avec une position et une quantite.
+    /// </summary>
+    public void Spawn(Vector3 pos, int quantity)
+    {
+        this.ent.Spawn(pos);
+        this.ent.Prefab.GetComponent<Rigidbody>().AddRelativeForce(new Vector3(Random.Range(-150, 150), Random.Range(0, -100), Random.Range(-150, 150)));
+        this.ent.Prefab.GetComponent<Loot>().Items = new ItemStack(this, quantity);
+    }
+
+    /// <summary>
+    /// Instancie l'item dans le monde avec une rotation et une quantite.
+    /// </summary>
+    public void Spawn(Quaternion rot, int quantity)
+    {
+        this.ent.Spawn(rot);
+        this.ent.Prefab.GetComponent<Rigidbody>().AddRelativeForce(new Vector3(Random.Range(-1, 1), Random.Range(0, 1), Random.Range(-1, 1)));
+        this.ent.Prefab.GetComponent<Loot>().Items = new ItemStack(this, quantity);
+    }
+
+    /// <summary>
+    /// Instancie l'item dans le monde avec une position et une rotation et une quantite.
+    /// </summary>
+    public void Spawn(Vector3 pos, Quaternion rot, int quantity)
+    {
+        this.ent.Spawn(pos, rot);
+        this.ent.Prefab.GetComponent<Rigidbody>().AddRelativeForce(new Vector3(Random.Range(-1, 1), Random.Range(0, 1), Random.Range(-1, 1)));
+        this.ent.Prefab.GetComponent<Loot>().Items = new ItemStack(this, quantity);
     }
 
     // Getter & Setters
@@ -99,6 +136,15 @@ public class Item
         get { return this.size; }
         set { this.size = value; }
     }
+
+    /// <summary>
+    /// Retourne l'entite associe a l'item.
+    /// </summary>
+    public Entity Ent
+    {
+        get { return this.ent; }
+        set { this.ent = value; }
+    }
 }
 
 /// <summary>
@@ -132,6 +178,7 @@ public class ItemStack
 
     public Item Items
     {
+        set { this.items = value; }
         get { return this.items; }
     }
 }

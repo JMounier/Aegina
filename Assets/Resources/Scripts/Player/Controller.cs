@@ -12,7 +12,7 @@ public class Controller : NetworkBehaviour
     private float walkSpeed = 4f;
     private float sprintSpeed = 6f;
     private float jumpingBoost = .5f;
-    private float jumpForce = 200f;
+    private float jumpForce = 16000f;
     private float coolDownJump = 0;
 
     private bool isJumping = true;
@@ -58,7 +58,10 @@ public class Controller : NetworkBehaviour
 
 
         if (!isLocalPlayer)
+        {
             this.cam.SetActive(false);
+            this.character.GetComponent<AudioListener>().enabled = false;
+        }
 
         gameObject.transform.position.Set(0, 10, 0);
     }

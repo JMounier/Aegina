@@ -14,12 +14,12 @@ public class Consumable : Item
         this.e = new Effect();
     }
           
-    public Consumable(int id, string[] name, string[] description, int size, Texture2D icon, Effect e) : base(id, name, description, size, icon)
+    public Consumable(int id, string[] name, string[] description, int size, Texture2D icon, Entity ent, Effect e) : base(id, name, description, size, icon, ent)
     {
         this.e = e;
     }
 
-    public Consumable(int id, int meta, string[] name, string[] description, int size, Texture2D icon, Effect e) : base(id, meta, name, description, size, icon)
+    public Consumable(int id, int meta, string[] name, string[] description, int size, Texture2D icon, Entity ent, Effect e) : base(id, meta, name, description, size, icon, ent)
     {
         this.e = e;
     }

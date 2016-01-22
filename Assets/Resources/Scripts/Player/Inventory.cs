@@ -33,6 +33,7 @@ public class Inventory : NetworkBehaviour
         this.slots = new ItemStack[this.rows, this.columns];
         this.ClearInventory();
         this.LoadInventory();
+       
         if (!this.InventoryContains(ItemDatabase.Log))
         {
             this.AddItemStack(new ItemStack(ItemDatabase.Stone, 42));
@@ -65,7 +66,7 @@ public class Inventory : NetworkBehaviour
                 this.slots[this.previndex[0], this.previndex[1]].Quantity += this.selectedItem.Quantity;
             this.draggingItemStack = false;
         }
-        
+
     }
 
     /// <sumary>
@@ -370,7 +371,7 @@ public class Inventory : NetworkBehaviour
     /// </sumary>
     public void Drop(ItemStack itemS)
     {
-        // TO Do
+        itemS.Items.Spawn(gameObject.transform.position + new Vector3(0, 0.5f, 0), itemS.Quantity);
     }
 
     /// <sumary>
@@ -409,7 +410,7 @@ public class Inventory : NetworkBehaviour
     /// <sumary>
     /// La position de l'item utilisé.
     /// </sumary>
-    public int Cursors  
+    public int Cursors
     {
         get { return this.cursor; }
         set { this.cursor = value % this.columns; }

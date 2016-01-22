@@ -78,7 +78,7 @@ namespace UnityEngine.Networking
             if (NetworkServer.active || NetworkClient.active)
             {
                 if (GUI.Button(new Rect(10, 88, 200, 20), "Stop", skin.GetStyle("button")))
-                    this.Launch(TypeLaunch.Stop);
+                    this.Launch(TypeLaunch.Stop);               
             }
         }
 
