@@ -34,12 +34,28 @@ public class Controller : NetworkBehaviour
     private float rotationX = 0F;
     private bool pause = false;
 
+    // Use for Sound
+    private Sound soundAudio;
+    private AudioClip soundRun1;
+    private AudioClip soundRun2;
+    private AudioClip soundRun3;
+    private AudioClip soundWalk1;
+    private AudioClip soundWalk2;
+
     // Use this for initialization
     void Start()
     {
-        anim = gameObject.GetComponent<Animator>();
+        this.anim = gameObject.GetComponent<Animator>();
         this.cam = gameObject.GetComponentInChildren<Camera>().gameObject;
         this.character = gameObject.GetComponentInChildren<CharacterCollision>().gameObject;
+
+        this.soundAudio = this.character.GetComponent<Sound>();
+        this.soundRun1 = Resources.Load<AudioClip>("Sounds/Player/Run1");
+        this.soundRun2 = Resources.Load<AudioClip>("Sounds/Player/Run2");
+        this.soundRun3 = Resources.Load<AudioClip>("Sounds/Player/Run3");
+        this.soundWalk1 = Resources.Load<AudioClip>("Sounds/Player/Walk1");
+        this.soundWalk2 = Resources.Load<AudioClip>("Sounds/Player/Walk2");
+
 
         if (!isLocalPlayer)
             this.cam.SetActive(false);
@@ -219,11 +235,15 @@ public class Controller : NetworkBehaviour
                 {
                     move *= Time.deltaTime * this.sprintSpeed;
                     anim.SetInteger("Action", 2);
+                    if (this.soundAudio.IsReady(2))
+                        this.soundAudio.PlaySound(0.1f, 0.2f, 2, this.soundRun1, this.soundRun2, this.soundRun3);
                 }
                 else
                 {
                     move *= Time.deltaTime * this.walkSpeed;
                     anim.SetInteger("Action", 1);
+                    if (this.soundAudio.IsReady(1))
+                        this.soundAudio.PlaySound(0.1f, 0.4f, 1, this.soundWalk1, this.soundWalk2);
                 }
             }
             else
@@ -237,12 +257,6 @@ public class Controller : NetworkBehaviour
             Vector3 rotCam = new Vector3(this.character.transform.eulerAngles.x, this.cam.transform.eulerAngles.y + rotation, this.character.transform.eulerAngles.z);
             this.character.transform.rotation = Quaternion.Lerp(this.character.transform.rotation, Quaternion.Euler(rotCam), Time.deltaTime * 5);
         }
-    }
-
-    void OnCollisionEnter(Collision collision)
-    {
-        if (collision.collider.tag == "Ground")
-            this.isJumping = false;
     }
 
     // Setters | Getters
