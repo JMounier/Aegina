@@ -52,7 +52,7 @@ public class Item
 
 
     /// <summary>
-    /// Instancie l'item dans le monde avec une position et une quantite.
+    /// Instancie l'item dans le monde avec une position et une quantite. (Must be server!)
     /// </summary>
     public void Spawn(Vector3 pos, int quantity)
     {
@@ -62,7 +62,7 @@ public class Item
     }
 
     /// <summary>
-    /// Instancie l'item dans le monde avec une rotation et une quantite.
+    /// Instancie l'item dans le monde avec une rotation et une quantite. (Must be server!)
     /// </summary>
     public void Spawn(Quaternion rot, int quantity)
     {
@@ -72,7 +72,7 @@ public class Item
     }
 
     /// <summary>
-    /// Instancie l'item dans le monde avec une position et une rotation et une quantite.
+    /// Instancie l'item dans le monde avec une position et une rotation et une quantite. (Must be server!)
     /// </summary>
     public void Spawn(Vector3 pos, Quaternion rot, int quantity)
     {
@@ -161,7 +161,7 @@ public class ItemStack
         this.items = new Item();
         this.quantity = 0;
     }
-
+        
     public ItemStack(Item items, int quantity)
     {
         this.items = items;

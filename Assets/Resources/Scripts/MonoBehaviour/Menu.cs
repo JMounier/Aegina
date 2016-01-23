@@ -53,6 +53,7 @@ public class Menu : NetworkBehaviour {
         {
             this.inventory.SaveInventory();
             Application.Quit();
+            // TO DO => StopServer / Save Map OR Deco
         }
         if (GUI.Button(new Rect(Screen.width/2 - 40,Screen.height/2 + 40, 80, 40), "Options", this.skin.GetStyle("button")))
         {

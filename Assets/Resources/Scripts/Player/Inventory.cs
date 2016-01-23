@@ -32,17 +32,15 @@ public class Inventory : NetworkBehaviour
 
         this.slots = new ItemStack[this.rows, this.columns];
         this.ClearInventory();
-        this.LoadInventory();
-       
-        if (!this.InventoryContains(ItemDatabase.Log))
-        {
-            this.AddItemStack(new ItemStack(ItemDatabase.Stone, 42));
-            this.AddItemStack(new ItemStack(ItemDatabase.Log, 100));
-            this.AddItemStack(new ItemStack(ItemDatabase.Sand, 10000));
-            this.AddItemStack(new ItemStack(ItemDatabase.Log, 30));
-            this.AddItemStack(new ItemStack(ItemDatabase.FloatiumPickaxe, 30));
-        }
+        // this.LoadInventory();
 
+        // Tests
+        this.AddItemStack(new ItemStack(ItemDatabase.Stone, 42));
+        this.AddItemStack(new ItemStack(ItemDatabase.Log, 64));
+        this.AddItemStack(new ItemStack(ItemDatabase.Log, 64));
+        this.AddItemStack(new ItemStack(ItemDatabase.CopperPickaxe, 1));
+        this.AddItemStack(new ItemStack(ItemDatabase.Floatium, 7));
+        this.AddItemStack(new ItemStack(ItemDatabase.IronIngot, 14));
 
         this.skin = Resources.Load<GUISkin>("Sprites/GUIskin/Skin");
     }
@@ -369,9 +367,19 @@ public class Inventory : NetworkBehaviour
     /// <sumary>
     /// Jette un stack d'objet.
     /// </sumary>
+    [Client]
     public void Drop(ItemStack itemS)
     {
-        itemS.Items.Spawn(gameObject.transform.position + new Vector3(0, 0.5f, 0), itemS.Quantity);
+        CmdDrop(itemS.Quantity, itemS.Items.ID, itemS.Items.Meta, gameObject.transform.position);
+    }
+
+    /// <sumary>
+    /// Commande pour jetter un stack d'objet.
+    /// </sumary>
+    [Command]
+    private void CmdDrop(int quantity, int id, int meta, Vector3 pos)
+    {
+        ItemDatabase.Find(id, meta).Spawn(pos + new Vector3(0, 0.5f, 0), quantity);
     }
 
     /// <sumary>

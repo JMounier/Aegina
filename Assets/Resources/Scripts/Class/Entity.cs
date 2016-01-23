@@ -32,7 +32,7 @@ public class Entity
     // Methods
 
     /// <summary>
-    /// Instancie l'entite dans le monde.
+    /// Instancie l'entite dans le monde. (Must be server!)
     /// </summary>
     public void Spawn()
     {
@@ -41,7 +41,7 @@ public class Entity
     }
 
     /// <summary>
-    /// Instancie l'entite dans le monde avec une position.
+    /// Instancie l'entite dans le monde avec une position. (Must be server!)
     /// </summary>
     public void Spawn(Vector3 pos)
     {
@@ -50,7 +50,7 @@ public class Entity
     }
 
     /// <summary>
-    /// Instancie l'entite dans le monde avec une rotation.
+    /// Instancie l'entite dans le monde avec une rotation. (Must be server!)
     /// </summary>
     public void Spawn(Quaternion rot)
     {
@@ -59,7 +59,7 @@ public class Entity
     }
 
     /// <summary>
-    /// Instancie l'entite dans le monde avec une position et une rotation.
+    /// Instancie l'entite dans le monde avec une position et une rotation. (Must be server!)
     /// </summary>
     public void Spawn(Vector3 pos, Quaternion rot)
     {

@@ -13,7 +13,7 @@ public class Tool : Item
     protected int choppingEfficiency;
 
     // Constructors
-    public Tool () : base()
+    public Tool() : base()
     {
         this.durability = 0;
         this.maxDurability = 0;
@@ -21,7 +21,7 @@ public class Tool : Item
         this.miningEfficiency = 0;
         this.choppingEfficiency = 0;
     }
-        
+    
     public Tool(int id, string[] name, string[] description, int durability, int damage, int miningEfficiency, int choppingEfficiency, Texture2D icon, Entity ent) : 
         base(id, name, description, 1, icon, ent)
     {
@@ -112,7 +112,7 @@ public class Pickaxe : Tool
 {
     // Constructors
     public Pickaxe() : base() { }
-
+    
     public Pickaxe(int id, string[] name, string[] description, int durability, int efficiency, Texture2D icon, Entity ent) :
        base(id, name, description, durability, 3, efficiency, 1, icon, ent) { }
 
@@ -128,7 +128,7 @@ public class Sword : Tool
 {
     // Constructors
     public Sword() : base() { }
-       
+    
     public Sword(int id, int meta, string[] name, string[] description, int durability, int damage, Texture2D icon, Entity ent) :
        base(id, meta, name, description, durability, damage, 1, 1, icon, ent) { }
 }

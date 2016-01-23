@@ -163,15 +163,13 @@ public class DayNightCycle : NetworkBehaviour
     public float ActualTime
     {
         get { return this.actual_time; }
-    }
-      
+    }           
 
     /// <sumary>
-    /// Commande pour changer le temps du jour.
+    /// Changer l'heure actuel de la journee. (Must be Server!)
     /// </sumary>    
-    [Command]
-    private void CmdSetTime(float time)
+    public void SetTime(float time)
     {
         this.actual_time = time % this.cycleTime;
-    }   
+    }
 }

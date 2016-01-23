@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 
-public class Loot : MonoBehaviour
+public class Loot : NetworkBehaviour
 {
 
     private ItemStack items;

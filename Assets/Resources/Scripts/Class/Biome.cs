@@ -17,6 +17,12 @@ public class Biome
         this.spawnConfiguration = new SpawnConfig[0];
     }
 
+    public Biome(Biome biome)
+    {
+        this.iD = biome.ID;
+        this.spawnConfiguration = biome.spawnConfiguration;
+    }
+
     public Biome(int id, params Entity[] spawnableEntity)
     {
         this.iD = id;
@@ -44,7 +50,7 @@ public class Biome
 
     // Methods
     /// <summary>
-    /// Genere une entite du biome sur l'ancre avec une rotation aleatoire sur Y.
+    /// Genere une entite du biome sur l'ancre avec une rotation aleatoire sur Y. (Must be server!)
     /// </summary>
     public void Generate(GameObject ancre)
     {
@@ -67,16 +73,7 @@ public class Biome
         }
         GameObject.Destroy(ancre);
     }
-
-    /// <summary>
-    /// Genere des entites de biome sur chaque ancres avec une rotation aleatoire sur Y.
-    /// </summary>
-    public void Generate(params GameObject[] ancres)
-    {
-        foreach (GameObject ancre in ancres)
-            Generate(ancre);
-    }
-
+      
     // Getters & Setters
     /// <summary>
     /// L'identifiant unique du biome.
@@ -100,6 +97,12 @@ public class SpawnConfig
     {
         this.e = new Entity();
         this.ratio = 1f;
+    }
+
+    public SpawnConfig(SpawnConfig sc)
+    {
+        this.e = sc.E;
+        this.ratio = sc.Ratio;
     }
 
     public SpawnConfig(Entity e)

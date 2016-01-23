@@ -27,7 +27,7 @@ public class Element : Entity
     protected override void Kill()
     {
         foreach (DropConfig dc in this.dropConfigs)
-        {            
+        {
             dc.I.Spawn(base.prefab.transform.position, Random.Range(dc.Min, dc.Max + 1));
         }
         base.Kill();
@@ -68,7 +68,7 @@ public class DropConfig
         this.min = 0;
         this.max = 0;
     }
-
+    
     public DropConfig(Item i, int quantity)
     {
         this.i = i;
@@ -78,7 +78,7 @@ public class DropConfig
 
     public DropConfig(Item i, int min, int max)
     {
-        this.i = i;        
+        this.i = i;
         this.max = Mathf.Clamp(max, 0, i.Size);
         this.min = Mathf.Clamp(min, 0, max);
     }
