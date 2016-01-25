@@ -60,8 +60,6 @@ public class Item
     }
 
     // Methods
-
-
     /// <summary>
     /// Instancie l'item dans le monde avec une position et une quantite. (Must be server!)
     /// </summary>

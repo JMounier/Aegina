@@ -267,9 +267,21 @@ public class Inventory : NetworkBehaviour
     }
 
     /// <sumary>
+    /// Permet d'ajotuer des objes dans l'inventaire et retourne la quantite restante.
+    /// </sumary>
+    [ClientRpc]
+    public void RpcAddItemStack(int id, int quantity, GameObject loot)
+    {
+        ItemStack itemS = new ItemStack(ItemDatabase.Find(id), quantity);
+        this.AddItemStack(itemS);
+        Debug.Log(loot.ToString());
+        loot.GetComponent<Loot>().CmdSetQuantity(itemS.Quantity);
+    }
+
+    /// <sumary>
     /// Permet d'ajotuer des objes dans l'inventaire.
     /// </sumary>
-    public void AddItemStack(ItemStack iStack)
+    private void AddItemStack(ItemStack iStack)
     {
         int i = 0;
         int j = 0;
@@ -281,7 +293,7 @@ public class Inventory : NetworkBehaviour
                 i++;
                 j = 0;
             }
-            
+
             else if (this.slots[i, j].Items.ID == iStack.Items.ID)
             {
                 int mem = iStack.Items.Size - this.slots[i, j].Quantity;
