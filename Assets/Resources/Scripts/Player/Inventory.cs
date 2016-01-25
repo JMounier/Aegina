@@ -280,12 +280,7 @@ public class Inventory : NetworkBehaviour
                 i++;
                 j = 0;
             }
-
-            if (this.slots[i, j].Items.ID == -1)
-            {
-                this.slots[i, j] = iStack;
-                n = 0;
-            }
+            
             else if (this.slots[i, j].Items.ID == iStack.Items.ID)
             {
                 int mem = iStack.Items.Size - this.slots[i, j].Quantity;
@@ -312,6 +307,7 @@ public class Inventory : NetworkBehaviour
             }
             j++;
         }
+        iStack.Quantity = n;
     }
 
     /// <sumary>

@@ -9,7 +9,7 @@ public class Loot : NetworkBehaviour
     // Use this for initialization
     void Start()
     {
-        this.items = new ItemStack();
+
     }
 
     // Update is called once per frame
