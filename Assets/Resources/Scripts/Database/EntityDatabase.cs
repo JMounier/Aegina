@@ -22,15 +22,15 @@ public static class EntityDatabase
         get
         {
             // Default
-            yield return Default;
-            yield return Log;
+            yield return new Entity(Default);
+            yield return new Entity(Log);
 
             // Tree
-            yield return Fir;
-            yield return SnowFir;
+            yield return new Tree(Fir);
+            yield return new Tree(SnowFir);
 
             // Chunk
-            yield return Chunk2;
+            yield return new Chunk(Chunk2);
         }
     }
 

@@ -11,7 +11,7 @@ public static class ItemDatabase
     public static readonly Item Default = new Item();
 
     // Ressources
-    public static readonly Item Log = new Item(0, new string[] { "Bois","Wood" }, new string[] { "Un morceau de bois pouvant servir pour créer d'autres objets" ,"A piece of wood usable to make other objects"}, 64, Resources.Load<Texture2D>("Sprites/Items/Plants/Log"), EntityDatabase.Log);
+    public static readonly Item Log = new Item(0, new string[] { "Bois","Wood" }, new string[] { "Un morceau de bois pouvant servir pour créer d'autres objets" ,"A piece of wood usable to make other objects"}, 64, Resources.Load<Texture2D>("Sprites/Items/Plants/Log"), new Entity(EntityDatabase.Log));
     public static readonly Item Stone = new Item(1, new string[] { "Pierre","Stone" }, new string[] { "Une pierre pouvant servir pour créer d'autres objets","A piece of stone usable to make other objects" }, 64, Resources.Load<Texture2D>("Sprites/Items/Ores/Stone"), new Entity());
     public static readonly Item Sand = new Item(2, new string[] { "Sable","Sand" }, new string[] { "Du sable... Vous pouvez faire un chateau de sable avec.","some sand... you can make a sand castle... " }, 64, Resources.Load<Texture2D>("Sprites/Items/Ores/Sand"), new Entity());
     public static readonly Item Copper = new Item(3, new string[] { "Minerai de cuivre","Copper ore" }, new string[] { "Un minerai de cuivre pouvant être fondu en lingot","A copper ore meltable in ingot" }, 64, Resources.Load<Texture2D>("Sprites/Items/Ores/Copper"), new Entity());
@@ -55,45 +55,45 @@ public static class ItemDatabase
         get
         {
             // Default
-            yield return Default;
+            yield return new Item(Default);
 
             // Ressource
-            yield return Log;
-            yield return Stone;
-            yield return Sand;
+            yield return new Item(Log);
+            yield return new Item(Stone);
+            yield return new Item(Sand);
 
-            yield return Copper;
-            yield return Iron;
-            yield return Floatium;
-            yield return Sunkium;
-            yield return Gold;
-            yield return Mithril;
+            yield return new Item(Copper);
+            yield return new Item(Iron);
+            yield return new Item(Floatium);
+            yield return new Item(Sunkium);
+            yield return new Item(Gold);
+            yield return new Item(Mithril);
 
-            yield return CopperIngot;
-            yield return IronIngot;
-            yield return GoldIngot;
-            yield return MithrilIngot;
-            yield return FloatiumIngot;
-            yield return SunkiumIngot;
+            yield return new Item(CopperIngot);
+            yield return new Item(IronIngot);
+            yield return new Item(GoldIngot);
+            yield return new Item(MithrilIngot);
+            yield return new Item(FloatiumIngot);
+            yield return new Item(SunkiumIngot);
 
             // Tools
-            yield return WoodenPickaxe;
-            yield return StonePickaxe;
-            yield return CopperPickaxe;
-            yield return IronPickaxe;
-            yield return GoldPickaxe;
-            yield return MithrilPickaxe;
-            yield return FloatiumPickaxe;
-            yield return SunkiumPickaxe;
+            yield return new Pickaxe(WoodenPickaxe);
+            yield return new Pickaxe(StonePickaxe);
+            yield return new Pickaxe(CopperPickaxe);
+            yield return new Pickaxe(IronPickaxe);
+            yield return new Pickaxe(GoldPickaxe);
+            yield return new Pickaxe(MithrilPickaxe);
+            yield return new Pickaxe(FloatiumPickaxe);
+            yield return new Pickaxe(SunkiumPickaxe);
 
-            yield return WoodenAxe;
-            yield return StoneAxe;
-            yield return IronAxe;
-            yield return GoldAxe;
-            yield return MithrilAxe;
-            yield return CopperAxe;
-            yield return SunkiumAxe;
-            yield return FloatiumAxe;
+            yield return new Axe(WoodenAxe);
+            yield return new Axe(StoneAxe);
+            yield return new Axe(IronAxe);
+            yield return new Axe(GoldAxe);
+            yield return new Axe(MithrilAxe);
+            yield return new Axe(CopperAxe);
+            yield return new Axe(SunkiumAxe);
+            yield return new Axe(FloatiumAxe);
 
         }
     }

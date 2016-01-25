@@ -21,6 +21,14 @@ public class Entity
         this.prefab = null;
     }
 
+    public Entity(Entity ent)
+    {
+        this.iD = ent.iD;
+        this.lifeMax = ent.lifeMax;
+        this.life = ent.life;
+        this.prefab = ent.prefab;
+    }
+
     public Entity(int id, int life, GameObject prefab)
     {
         this.iD = id;

@@ -20,7 +20,7 @@ public class Biome
     public Biome(Biome biome)
     {
         this.iD = biome.ID;
-        this.spawnConfiguration = biome.spawnConfiguration;
+        this.spawnConfiguration = SpawnConfig.SpawnConfigs(biome.spawnConfiguration);
     }
 
     public Biome(int id, params Entity[] spawnableEntity)
@@ -56,8 +56,9 @@ public class Biome
     {
         float rand = Random.Range(0f, 1f);
         float sum = 0f;
-        foreach (SpawnConfig sc in this.spawnConfiguration)
+        for (int i = 0; i < this.spawnConfiguration.Length; i++)
         {
+            SpawnConfig sc = this.spawnConfiguration[i];
             sum += sc.Ratio;            
             if (rand < sum)
             {
@@ -67,6 +68,7 @@ public class Biome
                     rot.y = Random.Range(0, 360);
                     sc.E.Spawn(ancre.transform.position, Quaternion.Euler(rot));
                     sc.E.Prefab.transform.parent = ancre.transform.parent;
+                    sc = new SpawnConfig(sc);
                 }
                 break;
             }
@@ -101,8 +103,8 @@ public class SpawnConfig
 
     public SpawnConfig(SpawnConfig sc)
     {
-        this.e = sc.E;
-        this.ratio = sc.Ratio;
+        this.e = new Entity(sc.e);
+        this.ratio = sc.ratio;
     }
 
     public SpawnConfig(Entity e)
@@ -115,6 +117,21 @@ public class SpawnConfig
     {
         this.e = e;
         this.ratio = ratio;
+    }
+
+    // Methods
+
+    /// <summary>
+    /// Copy the spawnConfig into an array.
+    /// </summary>
+    public static SpawnConfig[] SpawnConfigs(SpawnConfig[] scs)
+    {
+        SpawnConfig[] newscs = new SpawnConfig[scs.Length];
+        for (int i = 0; i < scs.Length; i++)
+        {
+            newscs[i] = new SpawnConfig(scs[i]);
+        }
+        return newscs;
     }
 
     // Getter & Setter

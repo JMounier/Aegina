@@ -21,7 +21,7 @@ public class MapGeneration : NetworkBehaviour
 
     private void CreateChunk(int x, int y)
     {
-        Entity chunk = EntityDatabase.Chunk2;
+        Entity chunk = new Chunk(EntityDatabase.Chunk2);
         chunk.Spawn(new Vector3(0, 0, 0));
         chunk.Prefab.transform.parent = gameObject.transform;
         foreach (Transform content in chunk.Prefab.transform)

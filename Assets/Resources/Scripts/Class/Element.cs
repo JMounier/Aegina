@@ -17,6 +17,12 @@ public class Element : Entity
         this.armor = 0;
     }
 
+    public Element(Element element) : base(element)
+    {
+        this.dropConfigs = element.dropConfigs;
+        this.armor = element.armor;
+    }
+
     public Element(int id, int life, GameObject prefab, int armor, params DropConfig[] dropConfigs) : base(id, life, prefab)
     {
         this.dropConfigs = dropConfigs;
@@ -28,7 +34,7 @@ public class Element : Entity
     {
         foreach (DropConfig dc in this.dropConfigs)
         {
-            dc.I.Spawn(base.prefab.transform.position, Random.Range(dc.Min, dc.Max + 1));
+            dc.I.Spawn(base.prefab.transform.position, Vector3.zero, Random.Range(dc.Min, dc.Max + 1));
         }
         base.Kill();
     }
@@ -117,12 +123,16 @@ public class Tree : Element
 {
     public Tree() : base() { }
 
+    public Tree(Tree tree) : base(tree) { }
+
     public Tree(int id, int life, GameObject prefab, int armor, params DropConfig[] dropConfigs) : base(id, life, prefab, armor, dropConfigs) { }
 }
 
 public class Rock : Element
 {
     public Rock() : base() { }
+
+    public Rock(Rock rock) : base(rock) { }
 
     public Rock(int id, int life, GameObject prefab, int armor, params DropConfig[] dropConfigs) : base(id, life, prefab, armor, dropConfigs) { }
 }

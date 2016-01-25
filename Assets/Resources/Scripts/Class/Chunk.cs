@@ -15,7 +15,12 @@ public class Chunk : Entity
     {
         this.bridge = Bridges.None;
     }
-       
+
+    public Chunk(Chunk chunk) : base(chunk)
+    {
+        this.bridge = chunk.bridge;
+    }
+
     public Chunk(int id, GameObject prefab, Bridges bridge) : base(id, 1, prefab)
     {
         this.bridge = bridge;

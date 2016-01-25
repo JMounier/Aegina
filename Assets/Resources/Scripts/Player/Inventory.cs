@@ -24,9 +24,10 @@ public class Inventory : NetworkBehaviour
     {
         if (!isLocalPlayer)
             return;
-        this.pos_x_inventory = (Screen.width - this.rows * 40 + 24) / 2;
-        this.pos_y_inventory = (Screen.height - this.columns * 40 + 39) / 2;
-
+        // this.pos_x_inventory = (Screen.width - this.rows * 40 + 16) / 2;
+        // this.pos_y_inventory = (Screen.height - this.columns * 40 + 31) / 2;
+        this.pos_x_inventory = 8;
+        this.pos_y_inventory = 8;
         this.pos_x_toolbar = (Screen.width - this.columns * 50) / 2;
         this.pos_y_toolbar = Screen.height - 50;
 
@@ -370,16 +371,16 @@ public class Inventory : NetworkBehaviour
     [Client]
     public void Drop(ItemStack itemS)
     {
-        CmdDrop(itemS.Quantity, itemS.Items.ID, itemS.Items.Meta, gameObject.transform.position);
+        CmdDrop(itemS.Quantity, itemS.Items.ID, itemS.Items.Meta, gameObject.transform.position, -gameObject.GetComponentInChildren<CharacterCollision>().gameObject.transform.forward);
     }
 
     /// <sumary>
     /// Commande pour jetter un stack d'objet.
     /// </sumary>
     [Command]
-    private void CmdDrop(int quantity, int id, int meta, Vector3 pos)
+    private void CmdDrop(int quantity, int id, int meta, Vector3 pos, Vector3 forward)
     {
-        ItemDatabase.Find(id, meta).Spawn(pos + new Vector3(0, 0.5f, 0), quantity);
+        ItemDatabase.Find(id, meta).Spawn(pos + forward * 0.3f + Vector3.up * 0.3f, forward + Vector3.up, quantity);
     }
 
     /// <sumary>

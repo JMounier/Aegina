@@ -26,6 +26,17 @@ public class Item
         this.ent = new Entity();
     }
 
+    public Item(Item item)
+    {
+        this.size = item.size;
+        this.name = item.name;
+        this.iD = item.iD;
+        this.meta = item.meta;
+        this.description = item.description;
+        this.icon = item.icon;
+        this.ent = new Entity(item.ent);
+    }
+
     public Item(int id, string[] name, string[] description, int size, Texture2D icon, Entity ent)
     {
         this.name = name;
@@ -54,30 +65,30 @@ public class Item
     /// <summary>
     /// Instancie l'item dans le monde avec une position et une quantite. (Must be server!)
     /// </summary>
-    public void Spawn(Vector3 pos, int quantity)
+    public void Spawn(Vector3 pos, Vector3 force, int quantity)
     {
         this.ent.Spawn(pos);
-        this.ent.Prefab.GetComponent<Rigidbody>().AddRelativeForce(new Vector3(Random.Range(-150, 150), Random.Range(0, -100), Random.Range(-150, 150)));
+        this.ent.Prefab.GetComponent<Rigidbody>().AddRelativeForce(force * 100);
         this.ent.Prefab.GetComponent<Loot>().Items = new ItemStack(this, quantity);
     }
 
     /// <summary>
     /// Instancie l'item dans le monde avec une rotation et une quantite. (Must be server!)
     /// </summary>
-    public void Spawn(Quaternion rot, int quantity)
+    public void Spawn(Quaternion rot, Vector3 force, int quantity)
     {
         this.ent.Spawn(rot);
-        this.ent.Prefab.GetComponent<Rigidbody>().AddRelativeForce(new Vector3(Random.Range(-1, 1), Random.Range(0, 1), Random.Range(-1, 1)));
+        this.ent.Prefab.GetComponent<Rigidbody>().AddRelativeForce(force * 100);
         this.ent.Prefab.GetComponent<Loot>().Items = new ItemStack(this, quantity);
     }
 
     /// <summary>
     /// Instancie l'item dans le monde avec une position et une rotation et une quantite. (Must be server!)
     /// </summary>
-    public void Spawn(Vector3 pos, Quaternion rot, int quantity)
+    public void Spawn(Vector3 pos, Vector3 force, Quaternion rot, int quantity)
     {
         this.ent.Spawn(pos, rot);
-        this.ent.Prefab.GetComponent<Rigidbody>().AddRelativeForce(new Vector3(Random.Range(-1, 1), Random.Range(0, 1), Random.Range(-1, 1)));
+        this.ent.Prefab.GetComponent<Rigidbody>().AddRelativeForce(force * 100);
         this.ent.Prefab.GetComponent<Loot>().Items = new ItemStack(this, quantity);
     }
 
