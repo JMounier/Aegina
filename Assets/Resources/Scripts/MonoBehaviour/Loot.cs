@@ -18,6 +18,15 @@ public class Loot : NetworkBehaviour
         this.items.Items.Ent.Life -= Time.deltaTime;
     }
 
+    // Call with collision
+    void OnTriggerStay(Collider col)
+    {
+        if (col.gameObject.name.Contains("Character"))
+        {
+            col.gameObject.GetComponentInParent<Inventory>().AddItemStack(this.items);
+        }
+    }
+
     // Getters & Setters
     public ItemStack Items
     {

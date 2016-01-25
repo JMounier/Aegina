@@ -24,10 +24,8 @@ public class Inventory : NetworkBehaviour
     {
         if (!isLocalPlayer)
             return;
-        // this.pos_x_inventory = (Screen.width - this.rows * 40 + 16) / 2;
-        // this.pos_y_inventory = (Screen.height - this.columns * 40 + 31) / 2;
-        this.pos_x_inventory = 8;
-        this.pos_y_inventory = 8;
+        this.pos_x_inventory = (Screen.width - this.rows * 40 + 16) / 2;
+        this.pos_y_inventory = (Screen.height - this.columns * 40 + 31) / 2;
         this.pos_x_toolbar = (Screen.width - this.columns * 50) / 2;
         this.pos_y_toolbar = Screen.height - 50;
 
@@ -36,12 +34,12 @@ public class Inventory : NetworkBehaviour
         // this.LoadInventory();
 
         // Tests
-        this.AddItemStack(new ItemStack(ItemDatabase.Stone, 42));
-        this.AddItemStack(new ItemStack(ItemDatabase.Log, 64));
-        this.AddItemStack(new ItemStack(ItemDatabase.Log, 64));
-        this.AddItemStack(new ItemStack(ItemDatabase.CopperPickaxe, 1));
-        this.AddItemStack(new ItemStack(ItemDatabase.Floatium, 7));
-        this.AddItemStack(new ItemStack(ItemDatabase.IronIngot, 14));
+        this.AddItemStack(new ItemStack(new Item(ItemDatabase.Stone), 42));
+        this.AddItemStack(new ItemStack(new Item(ItemDatabase.Log), 64));
+        this.AddItemStack(new ItemStack(new Item(ItemDatabase.Log), 64));
+        this.AddItemStack(new ItemStack(new Item(ItemDatabase.CopperPickaxe), 1));
+        this.AddItemStack(new ItemStack(new Item(ItemDatabase.Floatium), 7));
+        this.AddItemStack(new ItemStack(new Item(ItemDatabase.IronIngot), 14));
 
         this.skin = Resources.Load<GUISkin>("Sprites/GUIskin/Skin");
     }

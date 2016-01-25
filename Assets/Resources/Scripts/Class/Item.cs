@@ -69,7 +69,8 @@ public class Item
     {
         this.ent.Spawn(pos);
         this.ent.Prefab.GetComponent<Rigidbody>().AddRelativeForce(force * 100);
-        this.ent.Prefab.GetComponent<Loot>().Items = new ItemStack(this, quantity);
+        this.ent.Prefab.GetComponent<Loot>().Items = new ItemStack(new Item(this), quantity);
+        this.ent.Prefab.transform.parent = GameObject.Find("Loots").transform;
     }
 
     /// <summary>
@@ -79,7 +80,8 @@ public class Item
     {
         this.ent.Spawn(rot);
         this.ent.Prefab.GetComponent<Rigidbody>().AddRelativeForce(force * 100);
-        this.ent.Prefab.GetComponent<Loot>().Items = new ItemStack(this, quantity);
+        this.ent.Prefab.GetComponent<Loot>().Items = new ItemStack(new Item(this), quantity);
+        this.ent.Prefab.transform.parent = GameObject.Find("Loots").transform;
     }
 
     /// <summary>
@@ -89,7 +91,8 @@ public class Item
     {
         this.ent.Spawn(pos, rot);
         this.ent.Prefab.GetComponent<Rigidbody>().AddRelativeForce(force * 100);
-        this.ent.Prefab.GetComponent<Loot>().Items = new ItemStack(this, quantity);
+        this.ent.Prefab.GetComponent<Loot>().Items = new ItemStack(new Item(this), quantity);
+        this.ent.Prefab.transform.parent = GameObject.Find("Loots").transform;
     }
 
     // Getter & Setters
