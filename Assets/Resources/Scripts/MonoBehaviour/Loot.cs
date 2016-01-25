@@ -21,9 +21,11 @@ public class Loot : NetworkBehaviour
     // Call with collision
     void OnTriggerStay(Collider col)
     {
-        if (col.gameObject.name.Contains("Character"))
+        if (col.gameObject.name.Contains("Character") && this.items.Items.Ent.LifeMax - this.items.Items.Ent.Life > 1)
         {
             col.gameObject.GetComponentInParent<Inventory>().AddItemStack(this.items);
+            if (this.items.Quantity == 0)
+                this.items.Items.Ent.Life = 0;
         }
     }
 

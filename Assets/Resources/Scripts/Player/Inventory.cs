@@ -17,7 +17,7 @@ public class Inventory : NetworkBehaviour
     private GUISkin skin;
     private ItemStack selectedItem;
     private ItemStack[,] slots;
-
+    private Transform trans;
 
     // Use this for initialization
     void Start()
@@ -42,6 +42,7 @@ public class Inventory : NetworkBehaviour
         this.AddItemStack(new ItemStack(new Item(ItemDatabase.IronIngot), 14));
 
         this.skin = Resources.Load<GUISkin>("Sprites/GUIskin/Skin");
+        this.trans = gameObject.GetComponent<Transform>();
     }
 
     // Methods
@@ -300,9 +301,9 @@ public class Inventory : NetworkBehaviour
                 j = 0;
             }
 
-            if (this.slots[i, j].Items.ID == -1)
+            else if (this.slots[i, j].Items.ID == -1)
             {
-                this.slots[i, j] = iStack;
+                this.slots[i, j] = new ItemStack(iStack.Items, iStack.Quantity);
                 n = 0;
             }
             j++;
@@ -365,7 +366,7 @@ public class Inventory : NetworkBehaviour
     [Client]
     public void Drop(ItemStack itemS)
     {
-        CmdDrop(itemS.Quantity, itemS.Items.ID, itemS.Items.Meta, gameObject.transform.position, -gameObject.GetComponentInChildren<CharacterCollision>().gameObject.transform.forward);
+        CmdDrop(itemS.Quantity, itemS.Items.ID, itemS.Items.Meta, this.trans.position, -this.trans.GetComponentInChildren<CharacterCollision>().gameObject.transform.forward);
     }
 
     /// <sumary>
