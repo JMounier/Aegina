@@ -9,15 +9,23 @@ public class InputManager : NetworkBehaviour {
     private Inventory inventaire;
     private Menu menu;
 
-	// Use this for initialization
-	void Start () {
+    private Sound soundAudio;
+    private AudioClip soundBottun;
+    private AudioClip soundBag;
+
+    // Use this for initialization
+    void Start () {
         if (!isLocalPlayer)
             return;
 
-        this.inventaire = GetComponent<Inventory>();
-        this.menu = GetComponent<Menu>();
-        this.controller = GetComponent<Controller>();
-	}
+        this.inventaire = gameObject.GetComponent<Inventory>();
+        this.menu = gameObject.GetComponent<Menu>();
+        this.controller = gameObject.GetComponent<Controller>();
+
+        this.soundAudio = gameObject.GetComponentInChildren<Sound>();
+        this.soundBag = Resources.Load<AudioClip>("Sounds/bottun/Bag");
+        this.soundBottun = Resources.Load<AudioClip>("Sounds/bottun/Bottun");
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -27,10 +35,12 @@ public class InputManager : NetworkBehaviour {
         {
             this.inventaire.InventoryShown = !this.inventaire.InventoryShown;
             this.controller.Pause = !this.controller.Pause;
+            this.soundAudio.PlaySound(this.soundBag, 1f);
         }
 
         if (Input.GetButtonDown("Cancel"))
         {
+            this.soundAudio.PlaySound(this.soundBottun, 1f);
             if (this.inventaire.InventoryShown)
             {
                 this.inventaire.InventoryShown = false;

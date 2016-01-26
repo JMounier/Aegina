@@ -14,6 +14,9 @@ public class Menu : NetworkBehaviour {
     private GUISkin skin;
     private Language langue;
 
+    private Sound soundAudio;
+    private AudioClip soundBottun;
+
     // Use this for initialization
     void Start()
     {
@@ -22,6 +25,9 @@ public class Menu : NetworkBehaviour {
         this.inventory = GetComponentInParent<Inventory>();
         this.skin = Resources.Load<GUISkin>("Sprites/GUIskin/skin");
         this.langue = (Language) PlayerPrefs.GetInt("langue", 0);
+
+        this.soundAudio = GetComponentInChildren<Sound>();
+        this.soundBottun = Resources.Load<AudioClip>("Sounds/bottun/Bottun");
     }
 	void OnGUI()
         {
@@ -48,16 +54,19 @@ public class Menu : NetworkBehaviour {
         if (GUI.Button(new Rect(Screen.width / 2 - 40, Screen.height / 2 - 120, 80, 40), this.langue == 0 ? "Continuer": "Resume" , this.skin.GetStyle("button")))
         {
             this.menuShown = false;
+            this.soundAudio.PlaySound(soundBottun, 1f);
         }
         if (GUI.Button(new Rect(Screen.width/2 -40, Screen.height/2 -40,80,40), this.langue == 0 ? "Quitter":"Quit", this.skin.GetStyle("button")))
         {
             this.inventory.SaveInventory();
             Application.Quit();
+            this.soundAudio.PlaySound(soundBottun, 1f);
         }
         if (GUI.Button(new Rect(Screen.width/2 - 40,Screen.height/2 + 40, 80, 40), "Options", this.skin.GetStyle("button")))
         {
             this.menuShown = false;
             this.optionShown = true;
+            this.soundAudio.PlaySound(soundBottun, 1f);
         }
     }
 
@@ -71,16 +80,19 @@ public class Menu : NetworkBehaviour {
         {
             this.menuShown = true;
             this.optionShown = false;
+            this.soundAudio.PlaySound(soundBottun, 1f);
         }
         if (GUI.Button(new Rect(Screen.width / 2 - 40, Screen.height / 2 - 40, 80, 40), this.langue == 0 ? "Son":"Sound", this.skin.GetStyle("button")))
         {
             this.optionShown = false;
             this.sonShown = true;
+            this.soundAudio.PlaySound(soundBottun, 1f);
         }
         if (GUI.Button(new Rect(Screen.width / 2 - 40, Screen.height / 2 - 120, 80, 40), this.langue == 0 ? "Langue": "Language", this.skin.GetStyle("button")))
         {
             this.optionShown = false;
             this.langueShown = true;
+            this.soundAudio.PlaySound(soundBottun, 1f);
         }
     }
 
@@ -94,6 +106,7 @@ public class Menu : NetworkBehaviour {
         {
             this.optionShown = true;
             this.sonShown = false;
+            this.soundAudio.PlaySound(soundBottun, 1f);
         }
     }
 
@@ -107,16 +120,19 @@ public class Menu : NetworkBehaviour {
         {
             this.optionShown = true;
             this.langueShown = false;
+            this.soundAudio.PlaySound(soundBottun, 1f);
         }
         if (GUI.Button(new Rect(Screen.width / 2 - 40, Screen.height / 2 - 40, 80, 40), this.langue == 0?"Français":"French", this.skin.GetStyle("button")))
         {
             PlayerPrefs.SetInt("langue", 0);
             this.langue = Language.French;
+            this.soundAudio.PlaySound(soundBottun, 1f);
         }
         if (GUI.Button(new Rect(Screen.width / 2 - 40, Screen.height / 2 - 120, 80, 40), this.langue == 0 ? "Anglais":"English", this.skin.GetStyle("button")))
         {
             PlayerPrefs.SetInt("langue", 1);
             this.langue = Language.English;
+            this.soundAudio.PlaySound(soundBottun, 1f);
         }
     }
 
