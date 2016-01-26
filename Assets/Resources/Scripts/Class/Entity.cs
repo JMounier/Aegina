@@ -58,11 +58,12 @@ public class Entity
     }
 
     /// <summary>
-    /// Instancie l'entite dans le monde avec une rotation. (Must be server!)
+    /// Instancie l'entite dans le monde avec une position et un parent. (Must be server!)
     /// </summary>
-    public void Spawn(Quaternion rot)
+    public void Spawn(Vector3 pos, Transform parent)
     {
-        this.prefab = GameObject.Instantiate(this.prefab, this.prefab.transform.position, rot) as GameObject;
+        this.prefab = GameObject.Instantiate(this.prefab, pos, this.prefab.transform.rotation) as GameObject;
+        this.prefab.transform.parent = parent;
         NetworkServer.Spawn(this.prefab);
     }
 
@@ -72,6 +73,16 @@ public class Entity
     public void Spawn(Vector3 pos, Quaternion rot)
     {
         this.prefab = GameObject.Instantiate(this.prefab, pos, rot) as GameObject;
+        NetworkServer.Spawn(this.prefab);
+    }
+
+    /// <summary>
+    /// Instancie l'entite dans le monde avec une position et une rotation et un parent. (Must be server!)
+    /// </summary>
+    public void Spawn(Vector3 pos, Quaternion rot, Transform parent)
+    {
+        this.prefab = GameObject.Instantiate(this.prefab, pos, rot) as GameObject;
+        this.prefab.transform.parent = parent;
         NetworkServer.Spawn(this.prefab);
     }
 

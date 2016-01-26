@@ -67,6 +67,14 @@ public class Inventory : NetworkBehaviour
 
     }
 
+
+    // Detect gameObject arround
+    void OnTriggerStay(Collider col)
+    {
+        if (col.CompareTag("Loot") && isLocalPlayer)
+            CmdGetItemStack(col.gameObject);
+    }
+
     /// <sumary>
     ///  S'occupe de toute les interractions entre la souris et l'inventaire, permet le drag and drop et dessinne la tooltip.
     /// </sumary>
@@ -267,60 +275,46 @@ public class Inventory : NetworkBehaviour
     }
 
     /// <sumary>
-    /// Permet d'ajotuer des objes dans l'inventaire et retourne la quantite restante.
-    /// </sumary>
-    [ClientRpc]
-    public void RpcAddItemStack(int id, int quantity, GameObject loot)
-    {
-        ItemStack itemS = new ItemStack(ItemDatabase.Find(id), quantity);
-        this.AddItemStack(itemS);
-        Debug.Log(loot.ToString());
-        loot.GetComponent<Loot>().CmdSetQuantity(itemS.Quantity);
-    }
-
-    /// <sumary>
     /// Permet d'ajotuer des objes dans l'inventaire.
     /// </sumary>
     private void AddItemStack(ItemStack iStack)
     {
         int i = 0;
         int j = 0;
-        int n = iStack.Quantity;
-        while (n > 0 && i < this.rows)
+        while (iStack.Quantity > 0 && i < this.rows)
         {
             if (j == this.columns)
             {
                 i++;
-                j = 0;
+                j = -1;
             }
 
             else if (this.slots[i, j].Items.ID == iStack.Items.ID)
             {
                 int mem = iStack.Items.Size - this.slots[i, j].Quantity;
                 this.slots[i, j].Quantity += iStack.Quantity;
-                n -= mem;
+                iStack.Quantity -= mem;
             }
             j++;
         }
 
         i = 0;
         j = 0;
-        while (n > 0 && i < this.rows)
+        while (iStack.Quantity > 0 && i < this.rows)
         {
             if (j == this.columns)
             {
                 i++;
-                j = 0;
+                j = -1;
             }
 
             else if (this.slots[i, j].Items.ID == -1)
             {
                 this.slots[i, j] = new ItemStack(iStack.Items, iStack.Quantity);
-                n = 0;
+                iStack.Quantity = 0;
             }
             j++;
         }
-        iStack.Quantity = n;
     }
 
     /// <sumary>
@@ -373,10 +367,52 @@ public class Inventory : NetworkBehaviour
     }
 
     /// <sumary>
+    /// Recupere les informations du loot puis les ajoutes.
+    /// </sumary>
+    [Command]
+    private void CmdGetItemStack(GameObject loot)
+    {
+        if (loot != null)
+        {
+            Loot l = loot.GetComponent<Loot>();
+            if (l.Items.Quantity > 0 && l.Items.Items.Ent.LifeMax - l.Items.Items.Ent.Life > 1)
+            {
+                int quantity = l.Items.Quantity;
+                l.Items.Quantity = 0;
+                RpcAddItemStack(l.Items.Items.ID, quantity, loot);
+            }
+        }       
+    }
+
+    /// <sumary>
+    /// Depuis les informations du loot, ajoute a l'inventaire les loots. Puis actualise la quantite.
+    /// </sumary>
+    [ClientRpc]
+    private void RpcAddItemStack(int id, int quantity, GameObject loot)
+    {
+        if (isLocalPlayer)
+        {
+            ItemStack itemS = new ItemStack(new Item(ItemDatabase.Find(id)), quantity);
+            AddItemStack(itemS);
+            CmdSetQuantity(itemS.Quantity, loot);
+        }
+    }
+
+    /// <sumary>
+    /// Actualise la quantite restante du loot apres ajout.
+    /// </sumary>
+    [Command]
+    private void CmdSetQuantity(int quantity, GameObject loot)
+    {
+        if (quantity == 0)
+            loot.GetComponent<Loot>().Items.Items.Ent.Life = 0;
+    }
+
+    /// <sumary>
     /// Jette un stack d'objet.
     /// </sumary>
     [Client]
-    public void Drop(ItemStack itemS)
+    private void Drop(ItemStack itemS)
     {
         CmdDrop(itemS.Quantity, itemS.Items.ID, itemS.Items.Meta, this.trans.position, -this.trans.GetComponentInChildren<CharacterCollision>().gameObject.transform.forward);
     }

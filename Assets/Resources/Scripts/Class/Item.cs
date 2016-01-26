@@ -65,32 +65,19 @@ public class Item
     /// </summary>
     public void Spawn(Vector3 pos, Vector3 force, int quantity)
     {
-        this.ent.Spawn(pos);
+        this.ent.Spawn(pos, GameObject.Find("Loots").transform);
         this.ent.Prefab.GetComponent<Rigidbody>().AddRelativeForce(force * 100);
         this.ent.Prefab.GetComponent<Loot>().Items = new ItemStack(new Item(this), quantity);
-        this.ent.Prefab.transform.parent = GameObject.Find("Loots").transform;
-    }
-
-    /// <summary>
-    /// Instancie l'item dans le monde avec une rotation et une quantite. (Must be server!)
-    /// </summary>
-    public void Spawn(Quaternion rot, Vector3 force, int quantity)
-    {
-        this.ent.Spawn(rot);
-        this.ent.Prefab.GetComponent<Rigidbody>().AddRelativeForce(force * 100);
-        this.ent.Prefab.GetComponent<Loot>().Items = new ItemStack(new Item(this), quantity);
-        this.ent.Prefab.transform.parent = GameObject.Find("Loots").transform;
     }
 
     /// <summary>
     /// Instancie l'item dans le monde avec une position et une rotation et une quantite. (Must be server!)
     /// </summary>
-    public void Spawn(Vector3 pos, Vector3 force, Quaternion rot, int quantity)
+    public void Spawn(Vector3 pos, Quaternion rot, Vector3 force,  int quantity)
     {
-        this.ent.Spawn(pos, rot);
+        this.ent.Spawn(pos, rot, GameObject.Find("Loots").transform);
         this.ent.Prefab.GetComponent<Rigidbody>().AddRelativeForce(force * 100);
         this.ent.Prefab.GetComponent<Loot>().Items = new ItemStack(new Item(this), quantity);
-        this.ent.Prefab.transform.parent = GameObject.Find("Loots").transform;
     }
 
     // Getter & Setters

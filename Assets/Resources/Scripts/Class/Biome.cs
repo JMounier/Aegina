@@ -67,8 +67,7 @@ public class Biome
                     Vector3 rot = sc.E.Prefab.transform.eulerAngles;
                     rot.y = Random.Range(0, 360);
                     Entity e = new Entity(sc.E);
-                    e.Spawn(ancre.transform.position, Quaternion.Euler(rot));
-                    e.Prefab.transform.parent = ancre.transform.parent;
+                    e.Spawn(ancre.transform.position, Quaternion.Euler(rot), ancre.transform.parent);
                 }
                 break;
             }
