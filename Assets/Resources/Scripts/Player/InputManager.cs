@@ -81,16 +81,7 @@ public class InputManager : NetworkBehaviour {
         if (Input.GetKeyDown(KeyCode.Alpha6))
         {
             this.inventaire.Cursors = 5;
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha7))
-        {
-            this.inventaire.Cursors = 6;
-        }
-        if (Input.GetKeyDown(KeyCode.Alpha8))
-        {
-            this.inventaire.Cursors = 7;
-        }
-        
+        }     
     }
     void OnGUI()
     {       

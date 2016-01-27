@@ -375,13 +375,13 @@ public class Inventory : NetworkBehaviour
         if (loot != null)
         {
             Loot l = loot.GetComponent<Loot>();
-            if (l.Items.Quantity > 0 && l.Items.Items.Ent.LifeMax - l.Items.Items.Ent.Life > 1)
+            if (l.Items.Quantity > 0 && l.Items.Items.Ent.LifeMax - l.Items.Items.Ent.Life > 0.65)
             {
                 int quantity = l.Items.Quantity;
                 l.Items.Quantity = 0;
                 RpcAddItemStack(l.Items.Items.ID, quantity, loot);
             }
-        }       
+        }
     }
 
     /// <sumary>
@@ -414,7 +414,7 @@ public class Inventory : NetworkBehaviour
     [Client]
     private void Drop(ItemStack itemS)
     {
-        CmdDrop(itemS.Quantity, itemS.Items.ID, itemS.Items.Meta, this.trans.position, -this.trans.GetComponentInChildren<CharacterCollision>().gameObject.transform.forward);
+        CmdDrop(itemS.Quantity, itemS.Items.ID, itemS.Items.Meta, this.trans.GetComponentInChildren<CharacterCollision>().gameObject.transform.position, -this.trans.GetComponentInChildren<CharacterCollision>().gameObject.transform.forward);
     }
 
     /// <sumary>
@@ -423,7 +423,7 @@ public class Inventory : NetworkBehaviour
     [Command]
     private void CmdDrop(int quantity, int id, int meta, Vector3 pos, Vector3 forward)
     {
-        ItemDatabase.Find(id, meta).Spawn(pos + forward * 0.3f + Vector3.up * 0.3f, forward + Vector3.up, quantity);
+        ItemDatabase.Find(id, meta).Spawn(pos + forward * 0.3f + Vector3.up * 0.7f, forward + Vector3.up, quantity);
     }
 
     /// <sumary>

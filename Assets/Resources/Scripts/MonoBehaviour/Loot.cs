@@ -5,20 +5,35 @@ using UnityEngine.Networking;
 public class Loot : NetworkBehaviour
 {
     private ItemStack items;
-    // Use this for initialization
-    void Start()
-    {
-
-    }
 
     // Update is called once per frame
     void Update()
     {
         if (isServer)
         {
-            this.items.Items.Ent.Life -= Time.deltaTime;           
+            this.items.Items.Ent.Life -= Time.deltaTime;
         }
     }
+
+    void OnTriggerStay(Collider col)
+    {
+        if (col.CompareTag("Loot"))
+        {
+            Loot autre = col.GetComponent<Loot>();
+            if (autre.items.Items.ID == this.items.Items.ID && autre.items.Items.Ent.LifeMax - autre.items.Items.Ent.Life > 0.65
+               && this.items.Items.Ent.LifeMax - this.items.Items.Ent.Life > 0.75 && autre.items.Items.Ent.Prefab.GetHashCode() < this.items.Items.Ent.Prefab.GetHashCode())
+            {
+                this.items.Items.Ent.Life = this.items.Items.Ent.LifeMax;
+                autre.items.Items.Ent.Life = this.items.Items.Ent.LifeMax;
+                int diff = Mathf.Max(this.items.Quantity + autre.items.Quantity - this.items.Items.Size, 0);
+                this.items.Quantity += autre.items.Quantity - diff;
+                if (diff == 0)
+                    autre.items.Items.Ent.Life = 0;
+                autre.items.Quantity = diff;
+            }
+        }
+    }
+
 
     // Getters & Setters
     /// <sumary>
@@ -28,5 +43,5 @@ public class Loot : NetworkBehaviour
     {
         set { this.items = value; }
         get { return this.items; }
-    }         
+    }
 }
