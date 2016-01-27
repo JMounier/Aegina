@@ -66,7 +66,7 @@ public class Item
     public void Spawn(Vector3 pos, Vector3 force, int quantity)
     {
         this.ent.Spawn(pos, GameObject.Find("Loots").transform);
-        this.ent.Prefab.GetComponent<Rigidbody>().AddRelativeForce(force * 100);
+        this.ent.Prefab.GetComponent<Rigidbody>().AddRelativeForce(force * 120);
         this.ent.Prefab.GetComponent<Loot>().Items = new ItemStack(new Item(this), quantity);
     }
 
@@ -76,7 +76,7 @@ public class Item
     public void Spawn(Vector3 pos, Quaternion rot, Vector3 force,  int quantity)
     {
         this.ent.Spawn(pos, rot, GameObject.Find("Loots").transform);
-        this.ent.Prefab.GetComponent<Rigidbody>().AddRelativeForce(force * 100);
+        this.ent.Prefab.GetComponent<Rigidbody>().AddRelativeForce(force * 120);
         this.ent.Prefab.GetComponent<Loot>().Items = new ItemStack(new Item(this), quantity);
     }
 

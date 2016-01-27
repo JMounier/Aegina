@@ -3,24 +3,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Networking;
 
-public class InputManager : NetworkBehaviour {
+public class InputManager : NetworkBehaviour
+{
 
     private Controller controller;
     private Inventory inventaire;
     private Menu menu;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start()
+    {
         if (!isLocalPlayer)
             return;
 
         this.inventaire = GetComponent<Inventory>();
         this.menu = GetComponent<Menu>();
         this.controller = GetComponent<Controller>();
-	}
-	
-	// Update is called once per frame
-	void Update () {
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
         if (!isLocalPlayer)
             return;
         if (Input.GetButtonDown("Inventory") && !this.menu.MenuShown && !this.menu.OptionShown)
@@ -81,10 +84,10 @@ public class InputManager : NetworkBehaviour {
         if (Input.GetKeyDown(KeyCode.Alpha6))
         {
             this.inventaire.Cursors = 5;
-        }     
+        }       
     }
     void OnGUI()
-    {       
+    {
         if (isLocalPlayer && !this.inventaire.Draggingitem && Event.current.button == 1 & Event.current.type == EventType.mouseDown)
             this.inventaire.UsingItem();
     }

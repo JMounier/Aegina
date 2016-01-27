@@ -375,7 +375,7 @@ public class Inventory : NetworkBehaviour
         if (loot != null)
         {
             Loot l = loot.GetComponent<Loot>();
-            if (l.Items.Quantity > 0 && l.Items.Items.Ent.LifeMax - l.Items.Items.Ent.Life > 0.65)
+            if (l.Items.Quantity > 0 && l.Items.Items.Ent.LifeMax - l.Items.Items.Ent.Life > 0.8f)
             {
                 int quantity = l.Items.Quantity;
                 l.Items.Quantity = 0;
@@ -412,7 +412,7 @@ public class Inventory : NetworkBehaviour
     /// Jette un stack d'objet.
     /// </sumary>
     [Client]
-    private void Drop(ItemStack itemS)
+    public void Drop(ItemStack itemS)
     {
         CmdDrop(itemS.Quantity, itemS.Items.ID, itemS.Items.Meta, this.trans.GetComponentInChildren<CharacterCollision>().gameObject.transform.position, -this.trans.GetComponentInChildren<CharacterCollision>().gameObject.transform.forward);
     }
