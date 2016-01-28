@@ -66,15 +66,7 @@ public class Inventory : NetworkBehaviour
         }
 
     }
-
-
-    // Detect gameObject arround
-    void OnTriggerStay(Collider col)
-    {
-        if (col.CompareTag("Loot") && isLocalPlayer)
-            CmdGetItemStack(col.gameObject);
-    }
-
+    
     /// <sumary>
     ///  S'occupe de toute les interractions entre la souris et l'inventaire, permet le drag and drop et dessinne la tooltip.
     /// </sumary>
@@ -370,7 +362,7 @@ public class Inventory : NetworkBehaviour
     /// Recupere les informations du loot puis les ajoutes.
     /// </sumary>
     [Command]
-    private void CmdGetItemStack(GameObject loot)
+    public void CmdGetItemStack(GameObject loot)
     {
         if (loot != null)
         {
