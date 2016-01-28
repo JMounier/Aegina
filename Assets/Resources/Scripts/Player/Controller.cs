@@ -36,11 +36,6 @@ public class Controller : NetworkBehaviour
 
     // Use for Sound
     private Sound soundAudio;
-    private AudioClip soundRun1;
-    private AudioClip soundRun2;
-    private AudioClip soundRun3;
-    private AudioClip soundWalk1;
-    private AudioClip soundWalk2;
 
     // Use this for initialization
     void Start()
@@ -50,12 +45,6 @@ public class Controller : NetworkBehaviour
         this.character = gameObject.GetComponentInChildren<CharacterCollision>().gameObject;
 
         this.soundAudio = this.character.GetComponent<Sound>();
-        this.soundRun1 = Resources.Load<AudioClip>("Sounds/Player/Run1");
-        this.soundRun2 = Resources.Load<AudioClip>("Sounds/Player/Run2");
-        this.soundRun3 = Resources.Load<AudioClip>("Sounds/Player/Run3");
-        this.soundWalk1 = Resources.Load<AudioClip>("Sounds/Player/Walk1");
-        this.soundWalk2 = Resources.Load<AudioClip>("Sounds/Player/Walk2");
-
 
         if (!isLocalPlayer)
         {
@@ -239,14 +228,14 @@ public class Controller : NetworkBehaviour
                     move *= Time.deltaTime * this.sprintSpeed;
                     anim.SetInteger("Action", 2);
                     if (this.soundAudio.IsReady(2))
-                        this.soundAudio.PlaySound(0.1f, 0.2f, 2, this.soundRun1, this.soundRun2, this.soundRun3);
+                        CmdPlaySound(gameObject, "Run");
                 }
                 else
                 {
                     move *= Time.deltaTime * this.walkSpeed;
                     anim.SetInteger("Action", 1);
                     if (this.soundAudio.IsReady(1))
-                        this.soundAudio.PlaySound(0.1f, 0.4f, 1, this.soundWalk1, this.soundWalk2);
+                        CmdPlaySound(gameObject, "Walk");
                 }
             }
             else
@@ -259,6 +248,34 @@ public class Controller : NetworkBehaviour
         {
             Vector3 rotCam = new Vector3(this.character.transform.eulerAngles.x, this.cam.transform.eulerAngles.y + rotation, this.character.transform.eulerAngles.z);
             this.character.transform.rotation = Quaternion.Lerp(this.character.transform.rotation, Quaternion.Euler(rotCam), Time.deltaTime * 5);
+        }
+    }
+
+
+    /// <sumary>
+    /// Informe le serveur de jouer un son.
+    /// </sumary>
+    [Command]
+    private void CmdPlaySound(GameObject player, string type)
+    {
+        RpcPlaySound(player, type);
+    }
+    /// <sumary>
+    /// Demande aux clients de jouer un son.
+    /// </sumary>
+    [ClientRpc]
+    private void RpcPlaySound(GameObject player, string type)
+    {
+        switch (type)
+        {
+            case "Walk":
+                this.soundAudio.PlaySound(0.1f, 0.4f, 1, AudioClips.Walk1, AudioClips.Walk2);
+                break;
+            case "Run":
+                this.soundAudio.PlaySound(0.1f, 0.2f, 2, AudioClips.Run1, AudioClips.Run2, AudioClips.Run3);
+                break;
+            default:
+                throw new System.ArgumentException("PlaySound: Not a good type of sound");
         }
     }
 

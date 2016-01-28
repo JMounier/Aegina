@@ -53,21 +53,21 @@ public class Menu : NetworkBehaviour {
         GUI.Box(new Rect(Screen.width / 2 - Screen.width / 6, Screen.height / 2 - 200, Screen.width / 3, 325), "MENU", this.skin.GetStyle("windows"));
         if (GUI.Button(new Rect(Screen.width / 2 - 40, Screen.height / 2 - 120, 80, 40), this.langue == 0 ? "Continuer": "Resume" , this.skin.GetStyle("button")))
         {
-            this.soundAudio.PlaySound(soundButton, 1f);
+            this.soundAudio.PlaySound(AudioClips.Button, 1f);
             this.menuShown = false;
         }
         if (GUI.Button(new Rect(Screen.width/2 -40, Screen.height/2 -40,80,40), this.langue == 0 ? "Quitter":"Quit", this.skin.GetStyle("button")))
         {
             this.inventory.SaveInventory();
             Application.Quit();
-            this.soundAudio.PlaySound(soundButton, 1f);
+            this.soundAudio.PlaySound(AudioClips.Button, 1f);
             // TO DO => StopServer / Save Map OR Deco
         }
         if (GUI.Button(new Rect(Screen.width/2 - 40,Screen.height/2 + 40, 80, 40), "Options", this.skin.GetStyle("button")))
         {
             this.menuShown = false;
             this.optionShown = true;
-            this.soundAudio.PlaySound(soundButton, 1f);
+            this.soundAudio.PlaySound(AudioClips.Button, 1f);
         }
     }
 
@@ -81,19 +81,19 @@ public class Menu : NetworkBehaviour {
         {
             this.menuShown = true;
             this.optionShown = false;
-            this.soundAudio.PlaySound(soundButton, 1f);
+            this.soundAudio.PlaySound(AudioClips.Button, 1f);
         }
         if (GUI.Button(new Rect(Screen.width / 2 - 40, Screen.height / 2 - 40, 80, 40), this.langue == 0 ? "Son":"Sound", this.skin.GetStyle("button")))
         {
             this.optionShown = false;
             this.sonShown = true;
-            this.soundAudio.PlaySound(soundButton, 1f);
+            this.soundAudio.PlaySound(AudioClips.Button, 1f);
         }
         if (GUI.Button(new Rect(Screen.width / 2 - 40, Screen.height / 2 - 120, 80, 40), this.langue == 0 ? "Langue": "Language", this.skin.GetStyle("button")))
         {
             this.optionShown = false;
             this.langueShown = true;
-            this.soundAudio.PlaySound(soundButton, 1f);
+            this.soundAudio.PlaySound(AudioClips.Button, 1f);
         }
     }
 
@@ -107,7 +107,7 @@ public class Menu : NetworkBehaviour {
         {
             this.optionShown = true;
             this.sonShown = false;
-            this.soundAudio.PlaySound(soundButton, 1f);
+            this.soundAudio.PlaySound(AudioClips.Button, 1f);
         }
     }
 
@@ -121,19 +121,19 @@ public class Menu : NetworkBehaviour {
         {
             this.optionShown = true;
             this.langueShown = false;
-            this.soundAudio.PlaySound(soundButton, 1f);
+            this.soundAudio.PlaySound(AudioClips.Button, 1f);
         }
         if (GUI.Button(new Rect(Screen.width / 2 - 40, Screen.height / 2 - 40, 80, 40), this.langue == 0?"Français":"French", this.skin.GetStyle("button")))
         {
             PlayerPrefs.SetInt("langue", 0);
             this.langue = Language.French;
-            this.soundAudio.PlaySound(soundButton, 1f);
+            this.soundAudio.PlaySound(AudioClips.Button, 1f);
         }
         if (GUI.Button(new Rect(Screen.width / 2 - 40, Screen.height / 2 - 120, 80, 40), this.langue == 0 ? "Anglais":"English", this.skin.GetStyle("button")))
         {
             PlayerPrefs.SetInt("langue", 1);
             this.langue = Language.English;
-            this.soundAudio.PlaySound(soundButton, 1f);
+            this.soundAudio.PlaySound(AudioClips.Button, 1f);
         }
     }
 

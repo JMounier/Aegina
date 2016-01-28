@@ -67,7 +67,7 @@ public class Item
     {
         this.ent.Spawn(pos, GameObject.Find("Loots").transform);
         this.ent.Prefab.GetComponent<Rigidbody>().AddRelativeForce(force * 120);
-        this.ent.Prefab.GetComponent<Loot>().Items = new ItemStack(new Item(this), quantity);
+        this.ent.Prefab.GetComponent<Loot>().Items = new ItemStack(new Item(this), quantity);        
     }
 
     /// <summary>
@@ -77,7 +77,7 @@ public class Item
     {
         this.ent.Spawn(pos, rot, GameObject.Find("Loots").transform);
         this.ent.Prefab.GetComponent<Rigidbody>().AddRelativeForce(force * 120);
-        this.ent.Prefab.GetComponent<Loot>().Items = new ItemStack(new Item(this), quantity);
+        this.ent.Prefab.GetComponent<Loot>().Items = new ItemStack(new Item(this), quantity);      
     }
 
     // Getter & Setters

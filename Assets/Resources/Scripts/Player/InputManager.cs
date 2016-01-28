@@ -38,12 +38,12 @@ public class InputManager : NetworkBehaviour
         {
             this.inventaire.InventoryShown = !this.inventaire.InventoryShown;
             this.controller.Pause = !this.controller.Pause;
-            this.soundAudio.PlaySound(this.soundBag, 1f);
+            this.soundAudio.PlaySound(AudioClips.Bag, 1f);
         }
 
         if (Input.GetButtonDown("Cancel"))
         {
-            this.soundAudio.PlaySound(this.soundButton, 1f);
+            this.soundAudio.PlaySound(AudioClips.Button, 1f);
             if (this.inventaire.InventoryShown)
             {
                 this.inventaire.InventoryShown = false;

@@ -412,15 +412,18 @@ public class Inventory : NetworkBehaviour
     [Command]
     private void CmdSetQuantity(int quantity, GameObject loot, Vector3 posPlayer)
     {
-        loot.GetComponent<Loot>().Items.Quantity = quantity;
-
-        if (quantity == 0)
+        if (loot != null)
         {
-            loot.GetComponent<Loot>().Items.Items.Ent.Life = 0.15f;
-            loot.GetComponent<Loot>().Items.Items.Ent.Prefab.GetComponent<Rigidbody>().AddForce((posPlayer - loot.GetComponent<Loot>().Items.Items.Ent.Prefab.transform.position) * 300);
+            loot.GetComponent<Loot>().Items.Quantity = quantity;
+
+            if (quantity == 0)
+            {
+                loot.GetComponent<Loot>().Items.Items.Ent.Life = 0.18f;
+                loot.GetComponent<Loot>().Items.Items.Ent.Prefab.GetComponent<Rigidbody>().AddForce((posPlayer - loot.GetComponent<Loot>().Items.Items.Ent.Prefab.transform.position + Vector3.up * .4f) * 300);
+            }
+            else
+                loot.GetComponent<SphereCollider>().enabled = true;
         }
-        else
-            loot.GetComponent<SphereCollider>().enabled = true;
 
     }
 
