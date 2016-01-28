@@ -17,7 +17,7 @@ public class Loot : NetworkBehaviour
     // Detection loot
     void OnTriggerStay(Collider col)
     {
-        if (col.CompareTag("Loot"))
+        if (isServer && col.CompareTag("Loot"))
         {
             Loot autre = col.GetComponent<Loot>();
             if (autre.items.Items.ID == this.items.Items.ID && autre.items.Items.Ent.LifeMax - autre.items.Items.Ent.Life > 1

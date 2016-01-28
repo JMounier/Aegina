@@ -358,10 +358,21 @@ public class Inventory : NetworkBehaviour
     }
 
     /// <sumary>
+    /// Informe l'inventaire de la colision avec un loot.
+    /// </sumary>
+    [Client]
+    public void DetectLoot(GameObject loot)
+    {
+        if (isLocalPlayer)
+            CmdGetItemStack(loot);
+    }
+
+
+    /// <sumary>
     /// Recupere les informations du loot puis les ajoutes.
     /// </sumary>
     [Command]
-    public void CmdGetItemStack(GameObject loot)
+    private void CmdGetItemStack(GameObject loot)
     {
         if (loot != null)
         {
