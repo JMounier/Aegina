@@ -17,33 +17,32 @@ public class Inventory : NetworkBehaviour
     private GUISkin skin;
     private ItemStack selectedItem;
     private ItemStack[,] slots;
-
+    private Transform trans;
 
     // Use this for initialization
     void Start()
     {
         if (!isLocalPlayer)
             return;
-        this.pos_x_inventory = (Screen.width - this.rows * 40 + 24) / 2;
-        this.pos_y_inventory = (Screen.height - this.columns * 40 + 39) / 2;
-
+        this.pos_x_inventory = (Screen.width - this.rows * 40 + 16) / 2;
+        this.pos_y_inventory = (Screen.height - this.columns * 40 + 31) / 2;
         this.pos_x_toolbar = (Screen.width - this.columns * 50) / 2;
         this.pos_y_toolbar = Screen.height - 50;
 
         this.slots = new ItemStack[this.rows, this.columns];
         this.ClearInventory();
-        this.LoadInventory();
-        if (!this.InventoryContains(ItemDatabase.Log))
-        {
-            this.AddItemStack(new ItemStack(ItemDatabase.Stone, 42));
-            this.AddItemStack(new ItemStack(ItemDatabase.Log, 100));
-            this.AddItemStack(new ItemStack(ItemDatabase.Sand, 10000));
-            this.AddItemStack(new ItemStack(ItemDatabase.Log, 30));
-            this.AddItemStack(new ItemStack(ItemDatabase.FloatiumPickaxe, 30));
-        }
+        // this.LoadInventory();
 
+        // Tests
+        this.AddItemStack(new ItemStack(new Item(ItemDatabase.Stone), 42));
+        this.AddItemStack(new ItemStack(new Item(ItemDatabase.Log), 64));
+        this.AddItemStack(new ItemStack(new Item(ItemDatabase.Log), 64));
+        this.AddItemStack(new ItemStack(new Item(ItemDatabase.CopperPickaxe), 1));
+        this.AddItemStack(new ItemStack(new Item(ItemDatabase.Floatium), 7));
+        this.AddItemStack(new ItemStack(new Item(ItemDatabase.IronIngot), 14));
 
         this.skin = Resources.Load<GUISkin>("Sprites/GUIskin/Skin");
+        this.trans = gameObject.GetComponent<Transform>();
     }
 
     // Methods
@@ -65,9 +64,8 @@ public class Inventory : NetworkBehaviour
                 this.slots[this.previndex[0], this.previndex[1]].Quantity += this.selectedItem.Quantity;
             this.draggingItemStack = false;
         }
-        
     }
-
+    
     /// <sumary>
     ///  S'occupe de toute les interractions entre la souris et l'inventaire, permet le drag and drop et dessinne la tooltip.
     /// </sumary>
@@ -270,47 +268,41 @@ public class Inventory : NetworkBehaviour
     /// <sumary>
     /// Permet d'ajotuer des objes dans l'inventaire.
     /// </sumary>
-    public void AddItemStack(ItemStack iStack)
+    private void AddItemStack(ItemStack iStack)
     {
         int i = 0;
         int j = 0;
-        int n = iStack.Quantity;
-        while (n > 0 && i < this.rows)
+        while (iStack.Quantity > 0 && i < this.rows)
         {
             if (j == this.columns)
             {
                 i++;
-                j = 0;
+                j = -1;
             }
 
-            if (this.slots[i, j].Items.ID == -1)
-            {
-                this.slots[i, j] = iStack;
-                n = 0;
-            }
             else if (this.slots[i, j].Items.ID == iStack.Items.ID)
             {
                 int mem = iStack.Items.Size - this.slots[i, j].Quantity;
                 this.slots[i, j].Quantity += iStack.Quantity;
-                n -= mem;
+                iStack.Quantity -= mem;
             }
             j++;
         }
 
         i = 0;
         j = 0;
-        while (n > 0 && i < this.rows)
+        while (iStack.Quantity > 0 && i < this.rows)
         {
             if (j == this.columns)
             {
                 i++;
-                j = 0;
+                j = -1;
             }
 
-            if (this.slots[i, j].Items.ID == -1)
+            else if (this.slots[i, j].Items.ID == -1)
             {
-                this.slots[i, j] = iStack;
-                n = 0;
+                this.slots[i, j] = new ItemStack(iStack.Items, iStack.Quantity);
+                iStack.Quantity = 0;
             }
             j++;
         }
@@ -366,11 +358,77 @@ public class Inventory : NetworkBehaviour
     }
 
     /// <sumary>
+    /// Informe l'inventaire de la colision avec un loot.
+    /// </sumary>
+    [Client]
+    public void DetectLoot(GameObject loot)
+    {
+        if (isLocalPlayer)
+            CmdGetItemStack(loot);
+    }
+
+
+    /// <sumary>
+    /// Recupere les informations du loot puis les ajoutes.
+    /// </sumary>
+    [Command]
+    private void CmdGetItemStack(GameObject loot)
+    {
+        if (loot != null)
+        {
+            Loot l = loot.GetComponent<Loot>();
+            if (l.Items.Quantity > 0 && l.Items.Items.Ent.LifeMax - l.Items.Items.Ent.Life > 0.8f)
+            {
+                int quantity = l.Items.Quantity;
+                l.Items.Quantity = 0;
+                RpcAddItemStack(l.Items.Items.ID, quantity, loot);
+            }
+        }
+    }
+
+    /// <sumary>
+    /// Depuis les informations du loot, ajoute a l'inventaire les loots. Puis actualise la quantite.
+    /// </sumary>
+    [ClientRpc]
+    private void RpcAddItemStack(int id, int quantity, GameObject loot)
+    {
+        if (isLocalPlayer)
+        {
+            ItemStack itemS = new ItemStack(new Item(ItemDatabase.Find(id)), quantity);
+            AddItemStack(itemS);
+            CmdSetQuantity(itemS.Quantity, loot, gameObject.transform.position);
+        }
+    }
+
+    /// <sumary>
+    /// Actualise la quantite restante du loot apres ajout.
+    /// </sumary>
+    [Command]
+    private void CmdSetQuantity(int quantity, GameObject loot, Vector3 posPlayer)
+    {
+        if (quantity == 0)
+        {
+            loot.GetComponent<Loot>().Items.Items.Ent.Life = 0.15f;
+            loot.GetComponent<Loot>().Items.Items.Ent.Prefab.GetComponent<Rigidbody>().AddForce((posPlayer - loot.GetComponent<Loot>().Items.Items.Ent.Prefab.transform.position) * 300);
+        }
+    }
+
+    /// <sumary>
     /// Jette un stack d'objet.
     /// </sumary>
+    [Client]
     public void Drop(ItemStack itemS)
     {
-        // TO Do
+        CmdDrop(itemS.Quantity, itemS.Items.ID, itemS.Items.Meta, this.trans.GetComponentInChildren<CharacterCollision>().gameObject.transform.position, -this.trans.GetComponentInChildren<CharacterCollision>().gameObject.transform.forward);
+    }
+
+    /// <sumary>
+    /// Commande pour jetter un stack d'objet.
+    /// </sumary>
+    [Command]
+    private void CmdDrop(int quantity, int id, int meta, Vector3 pos, Vector3 forward)
+    {
+        ItemDatabase.Find(id, meta).Spawn(pos + forward * 0.3f + Vector3.up * 0.7f, forward + Vector3.up, quantity);
     }
 
     /// <sumary>
@@ -409,7 +467,7 @@ public class Inventory : NetworkBehaviour
     /// <sumary>
     /// La position de l'item utilisé.
     /// </sumary>
-    public int Cursors  
+    public int Cursors
     {
         get { return this.cursor; }
         set { this.cursor = value % this.columns; }

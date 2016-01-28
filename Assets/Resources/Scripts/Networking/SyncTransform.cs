@@ -30,8 +30,11 @@ public class SyncTransform : NetworkBehaviour
     {
         this.lastPos = this.trans.position;
         this.lastRot = this.trans.eulerAngles;
-        TransmitPosition();
-        TransmitRotation();
+        if (isLocalPlayer)
+        {
+            TransmitPosition();
+            TransmitRotation();
+        }
     }
 
     // Update is called once per frame

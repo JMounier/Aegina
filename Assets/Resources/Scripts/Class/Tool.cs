@@ -13,7 +13,7 @@ public class Tool : Item
     protected int choppingEfficiency;
 
     // Constructors
-    public Tool () : base()
+    public Tool() : base()
     {
         this.durability = 0;
         this.maxDurability = 0;
@@ -21,9 +21,18 @@ public class Tool : Item
         this.miningEfficiency = 0;
         this.choppingEfficiency = 0;
     }
-        
-    public Tool(int id, string[] name, string[] description, int durability, int damage, int miningEfficiency, int choppingEfficiency, Texture2D icon) : 
-        base(id, name, description, 1, icon)
+
+    public Tool(Tool tool) : base(tool)
+    {
+        this.durability = tool.durability;
+        this.maxDurability = tool.maxDurability;
+        this.damage = tool.damage;
+        this.miningEfficiency = tool.miningEfficiency;
+        this.choppingEfficiency = tool.choppingEfficiency;
+    }
+
+    public Tool(int id, string[] name, string[] description, int durability, int damage, int miningEfficiency, int choppingEfficiency, Texture2D icon, Entity ent) : 
+        base(id, name, description, 1, icon, ent)
     {
         this.durability = durability;
         this.maxDurability = durability;
@@ -32,8 +41,8 @@ public class Tool : Item
         this.choppingEfficiency = choppingEfficiency;
     }
 
-    public Tool(int id, int meta, string[] name, string[] description, int durability, int damage, int miningEfficiency, int choppingEfficiency, Texture2D icon) :
-        base(id, meta, name, description, 1, icon)
+    public Tool(int id, int meta, string[] name, string[] description, int durability, int damage, int miningEfficiency, int choppingEfficiency, Texture2D icon, Entity ent) :
+        base(id, meta, name, description, 1, icon, ent)
     {
         this.durability = durability;
         this.maxDurability = durability;
@@ -98,11 +107,13 @@ public class Axe : Tool
     // Constructors
     public Axe() : base() { }
     
-    public Axe(int id, string[] name, string[] description, int durability, int efficiency, Texture2D icon) :
-       base(id, name, description, durability, 5, 1, efficiency, icon) { }
+    public Axe(Axe axe) : base(axe) { }
 
-    public Axe(int id, int meta, string[] name, string[] description, int durability, int efficiency, Texture2D icon) :
-       base(id, meta, name, description, durability, 5, 1, efficiency, icon) { }
+    public Axe(int id, string[] name, string[] description, int durability, int efficiency, Texture2D icon, Entity ent) :
+       base(id, name, description, durability, 5, 1, efficiency, icon, ent) { }
+
+    public Axe(int id, int meta, string[] name, string[] description, int durability, int efficiency, Texture2D icon, Entity ent) :
+       base(id, meta, name, description, durability, 5, 1, efficiency, icon, ent) { }
 }
 
 /// <summary>
@@ -112,12 +123,13 @@ public class Pickaxe : Tool
 {
     // Constructors
     public Pickaxe() : base() { }
+    public Pickaxe(Pickaxe pickaxe) : base(pickaxe) { }
 
-    public Pickaxe(int id, string[] name, string[] description, int durability, int efficiency, Texture2D icon) :
-       base(id, name, description, durability, 3, efficiency, 1, icon) { }
+    public Pickaxe(int id, string[] name, string[] description, int durability, int efficiency, Texture2D icon, Entity ent) :
+       base(id, name, description, durability, 3, efficiency, 1, icon, ent) { }
 
-    public Pickaxe(int id, int meta, string[] name, string[] description, int durability, int efficiency, Texture2D icon) :
-       base(id, meta, name, description, durability, 3, efficiency, 1, icon)
+    public Pickaxe(int id, int meta, string[] name, string[] description, int durability, int efficiency, Texture2D icon, Entity ent) :
+       base(id, meta, name, description, durability, 3, efficiency, 1, icon, ent)
     { }
 }
 
@@ -128,7 +140,8 @@ public class Sword : Tool
 {
     // Constructors
     public Sword() : base() { }
-       
-    public Sword(int id, int meta, string[] name, string[] description, int durability, int damage, Texture2D icon) :
-       base(id, meta, name, description, durability, damage, 1, 1, icon) { }
+    public Sword(Sword sword) : base(sword) { }
+
+    public Sword(int id, int meta, string[] name, string[] description, int durability, int damage, Texture2D icon, Entity ent) :
+       base(id, meta, name, description, durability, damage, 1, 1, icon, ent) { }
 }

@@ -21,12 +21,15 @@ public class MapGeneration : NetworkBehaviour
 
     private void CreateChunk(int x, int y)
     {
-        EntityDatabase.Chunk2.Spawn(new Vector3(0, 0, 0));
-        foreach (Transform iles in EntityDatabase.Chunk2.Prefab.transform)
-            foreach (Transform ancres in iles.transform)
-                foreach (Transform ancre in ancres.transform)                
-                    if (ancre.CompareTag("Ancre"))
-                        BiomeDatabase.Forest.Generate(ancre.gameObject);
-                
+        Entity chunk = new Chunk(EntityDatabase.Chunk2);
+        chunk.Spawn(new Vector3(0, 0, 0), gameObject.transform);
+        foreach (Transform content in chunk.Prefab.transform)
+        {
+            if (content.CompareTag("Elements"))
+                foreach (Transform ancre in content.transform)
+                    if (ancre.CompareTag("Ancre")) { 
+                        BiomeDatabase.Forest.Generate(ancre.gameObject);}
+        }
+
     }
 }

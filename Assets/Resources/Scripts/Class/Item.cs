@@ -12,6 +12,7 @@ public class Item
     protected string[] description;
     protected Texture2D icon;
     protected int size;
+    protected Entity ent;
 
     // Constructors
     public Item()
@@ -22,9 +23,21 @@ public class Item
         this.meta = 0;
         this.description = new string[] { "", "" };
         this.icon = null;
+        this.ent = new Entity();
     }
 
-    public Item(int id, string[] name, string[] description, int size, Texture2D icon)
+    public Item(Item item)
+    {
+        this.size = item.size;
+        this.name = item.name;
+        this.iD = item.iD;
+        this.meta = item.meta;
+        this.description = item.description;
+        this.icon = item.icon;
+        this.ent = new Entity(item.ent);
+    }
+
+    public Item(int id, string[] name, string[] description, int size, Texture2D icon, Entity ent)
     {
         this.name = name;
         this.iD = id;
@@ -32,9 +45,10 @@ public class Item
         this.description = description;
         this.size = size;
         this.icon = icon;
+        this.ent = ent;
     }
 
-    public Item(int id, int meta, string[] name, string[] description, int size, Texture2D icon)
+    public Item(int id, int meta, string[] name, string[] description, int size, Texture2D icon, Entity ent)
     {
         this.name = name;
         this.iD = id;
@@ -42,6 +56,28 @@ public class Item
         this.description = description;
         this.size = size;
         this.icon = icon;
+        this.ent = ent;
+    }
+
+    // Methods
+    /// <summary>
+    /// Instancie l'item dans le monde avec une position et une quantite. (Must be server!)
+    /// </summary>
+    public void Spawn(Vector3 pos, Vector3 force, int quantity)
+    {
+        this.ent.Spawn(pos, GameObject.Find("Loots").transform);
+        this.ent.Prefab.GetComponent<Rigidbody>().AddRelativeForce(force * 120);
+        this.ent.Prefab.GetComponent<Loot>().Items = new ItemStack(new Item(this), quantity);
+    }
+
+    /// <summary>
+    /// Instancie l'item dans le monde avec une position et une rotation et une quantite. (Must be server!)
+    /// </summary>
+    public void Spawn(Vector3 pos, Quaternion rot, Vector3 force,  int quantity)
+    {
+        this.ent.Spawn(pos, rot, GameObject.Find("Loots").transform);
+        this.ent.Prefab.GetComponent<Rigidbody>().AddRelativeForce(force * 120);
+        this.ent.Prefab.GetComponent<Loot>().Items = new ItemStack(new Item(this), quantity);
     }
 
     // Getter & Setters
@@ -99,6 +135,15 @@ public class Item
         get { return this.size; }
         set { this.size = value; }
     }
+
+    /// <summary>
+    /// Retourne l'entite associe a l'item.
+    /// </summary>
+    public Entity Ent
+    {
+        get { return this.ent; }
+        set { this.ent = value; }
+    }
 }
 
 /// <summary>
@@ -115,7 +160,7 @@ public class ItemStack
         this.items = new Item();
         this.quantity = 0;
     }
-
+        
     public ItemStack(Item items, int quantity)
     {
         this.items = items;
@@ -132,6 +177,7 @@ public class ItemStack
 
     public Item Items
     {
+        set { this.items = value; }
         get { return this.items; }
     }
 }

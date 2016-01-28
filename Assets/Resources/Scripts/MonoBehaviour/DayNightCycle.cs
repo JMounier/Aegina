@@ -1,13 +1,19 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-public class DayNightCycle : MonoBehaviour
+using UnityEngine.Networking;
+
+public class DayNightCycle : NetworkBehaviour
 {
     private Light sun;
-    private float actual_time;
-    private float cycleTime = 1200;
+
     private float gamma = 0.80f;
     private int diameter = 100;
+
+    [SyncVar]
+    private float actual_time;
+    [SyncVar]
+    private float cycleTime = 1200;
 
     // Use this for initialization
     void Start()
@@ -16,7 +22,7 @@ public class DayNightCycle : MonoBehaviour
         this.sun = gameObject.GetComponentInChildren<Light>();
         this.sun.gameObject.transform.TransformPoint(sun.transform.position);
         this.sun.color = SkysColor(0);
-
+        NetworkServer.SpawnObjects();
         // init time
         this.actual_time = 0f;
     }
@@ -28,7 +34,7 @@ public class DayNightCycle : MonoBehaviour
         this.sun.intensity = -4 * (this.actual_time % this.cycleTime / this.cycleTime * 2) * (this.actual_time % this.cycleTime / this.cycleTime * 2) + 4 * (this.actual_time % this.cycleTime / this.cycleTime * 2);
 
         // position du soleil
-        this.sun.transform.position = Orbit(actual_time);
+        this.sun.transform.position = Orbit(this.actual_time);
         this.sun.transform.LookAt(gameObject.transform);
     }
 
@@ -104,9 +110,9 @@ public class DayNightCycle : MonoBehaviour
 
         int[] rgb = new int[3];
         // Don't want 0^x = 1 for x <> 0
-        rgb[0] = (red == 0.0) ? 0 : (int) Mathf.Round(intensityMax * Mathf.Pow(red * factor, gamma));
-        rgb[1] = (green == 0.0) ? 0 : (int) Mathf.Round(intensityMax * Mathf.Pow(green * factor, gamma));
-        rgb[2] = (blue == 0.0) ? 0 : (int) Mathf.Round(intensityMax * Mathf.Pow(blue * factor, gamma));
+        rgb[0] = (red == 0.0) ? 0 : (int)Mathf.Round(intensityMax * Mathf.Pow(red * factor, gamma));
+        rgb[1] = (green == 0.0) ? 0 : (int)Mathf.Round(intensityMax * Mathf.Pow(green * factor, gamma));
+        rgb[2] = (blue == 0.0) ? 0 : (int)Mathf.Round(intensityMax * Mathf.Pow(blue * factor, gamma));
 
         return rgb;
     }
@@ -135,7 +141,7 @@ public class DayNightCycle : MonoBehaviour
             if (color[2] > b)
                 b = color[2];
         }
-        return new Color32((byte) r, (byte) g, (byte) b, 255);
+        return new Color32((byte)r, (byte)g, (byte)b, 255);
     }
 
     /// <sumary>
@@ -153,9 +159,17 @@ public class DayNightCycle : MonoBehaviour
 
     /// <sumary>
     /// Retourne le temps actuel du monde.
-    /// </sumary>
+    /// </sumary>    
     public float ActualTime
     {
         get { return this.actual_time; }
+    }           
+
+    /// <sumary>
+    /// Changer l'heure actuel de la journee. (Must be Server!)
+    /// </sumary>    
+    public void SetTime(float time)
+    {
+        this.actual_time = time % this.cycleTime;
     }
 }

@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 
 /// <summary>
 /// Utiliser cette classe pour creer une nouvelle entite.
@@ -8,15 +9,24 @@ public class Entity
 {
     protected int iD;
     protected int lifeMax;
-    protected int life;
+    protected float life;
     protected GameObject prefab;
 
     // Constructor
     public Entity()
     {
+        this.iD = -1;
         this.lifeMax = 0;
         this.life = 0;
-        this.prefab = Resources.Load<GameObject>("Prefabs/Default");
+        this.prefab = null;
+    }
+
+    public Entity(Entity ent)
+    {
+        this.iD = ent.iD;
+        this.lifeMax = ent.lifeMax;
+        this.life = ent.life;
+        this.prefab = ent.prefab;
     }
 
     public Entity(int id, int life, GameObject prefab)
@@ -30,35 +40,50 @@ public class Entity
     // Methods
 
     /// <summary>
-    /// Instancie l'entite dans le monde.
+    /// Instancie l'entite dans le monde. (Must be server!)
     /// </summary>
     public void Spawn()
     {
         this.prefab = GameObject.Instantiate(this.prefab, this.prefab.transform.position, this.prefab.transform.rotation) as GameObject;
+        NetworkServer.Spawn(this.prefab);
     }
 
     /// <summary>
-    /// Instancie l'entite dans le monde avec une position.
+    /// Instancie l'entite dans le monde avec une position. (Must be server!)
     /// </summary>
-    public virtual void Spawn(Vector3 pos)
+    public void Spawn(Vector3 pos)
     {
         this.prefab = GameObject.Instantiate(this.prefab, pos, this.prefab.transform.rotation) as GameObject;
+        NetworkServer.Spawn(this.prefab);
     }
 
     /// <summary>
-    /// Instancie l'entite dans le monde avec une rotation.
+    /// Instancie l'entite dans le monde avec une position et un parent. (Must be server!)
     /// </summary>
-    public virtual void Spawn(Quaternion rot)
+    public void Spawn(Vector3 pos, Transform parent)
     {
-        this.prefab = GameObject.Instantiate(this.prefab, this.prefab.transform.position, rot) as GameObject;
+        this.prefab = GameObject.Instantiate(this.prefab, pos, this.prefab.transform.rotation) as GameObject;
+        this.prefab.transform.parent = parent;
+        NetworkServer.Spawn(this.prefab);
     }
 
     /// <summary>
-    /// Instancie l'entite dans le monde avec une position et une rotation.
+    /// Instancie l'entite dans le monde avec une position et une rotation. (Must be server!)
     /// </summary>
-    public virtual void Spawn(Vector3 pos, Quaternion rot)
+    public void Spawn(Vector3 pos, Quaternion rot)
     {
         this.prefab = GameObject.Instantiate(this.prefab, pos, rot) as GameObject;
+        NetworkServer.Spawn(this.prefab);
+    }
+
+    /// <summary>
+    /// Instancie l'entite dans le monde avec une position et une rotation et un parent. (Must be server!)
+    /// </summary>
+    public void Spawn(Vector3 pos, Quaternion rot, Transform parent)
+    {
+        this.prefab = GameObject.Instantiate(this.prefab, pos, rot) as GameObject;
+        this.prefab.transform.parent = parent;
+        NetworkServer.Spawn(this.prefab);
     }
 
     /// <summary>
@@ -66,6 +91,7 @@ public class Entity
     /// </summary>
     protected virtual void Kill()
     {
+        NetworkServer.UnSpawn(this.prefab);
         GameObject.Destroy(this.prefab);
     }
 
@@ -82,7 +108,7 @@ public class Entity
     /// <summary>
     /// La vie de l'entite.
     /// </summary>
-    public int Life
+    public float Life
     {
         get { return this.life; }
         set {
