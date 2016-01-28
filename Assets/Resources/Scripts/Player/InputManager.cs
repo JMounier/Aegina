@@ -11,8 +11,6 @@ public class InputManager : NetworkBehaviour
     private Menu menu;
 
     private Sound soundAudio;
-    private AudioClip soundButton;
-    private AudioClip soundBag;
 
     // Use this for initialization
     void Start()
@@ -24,9 +22,7 @@ public class InputManager : NetworkBehaviour
         this.menu = GetComponent<Menu>();
         this.controller = GetComponent<Controller>();
 
-        this.soundAudio = gameObject.GetComponentInChildren<Sound>();
-        this.soundBag = Resources.Load<AudioClip>("Sounds/button/Bag");
-        this.soundButton = Resources.Load<AudioClip>("Sounds/button/Button");
+        this.soundAudio = gameObject.GetComponentInChildren<Sound>();     
     }
 
     // Update is called once per frame

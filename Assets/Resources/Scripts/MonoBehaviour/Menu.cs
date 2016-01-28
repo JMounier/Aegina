@@ -15,7 +15,6 @@ public class Menu : NetworkBehaviour {
     private Language langue;
 
     private Sound soundAudio;
-    private AudioClip soundButton;
 
     // Use this for initialization
     void Start()
@@ -27,7 +26,6 @@ public class Menu : NetworkBehaviour {
         this.langue = (Language) PlayerPrefs.GetInt("langue", 0);
 
         this.soundAudio = GetComponentInChildren<Sound>();
-        this.soundButton = Resources.Load<AudioClip>("Sounds/button/Button");
     }
 	void OnGUI()
         {

@@ -228,14 +228,20 @@ public class Controller : NetworkBehaviour
                     move *= Time.deltaTime * this.sprintSpeed;
                     anim.SetInteger("Action", 2);
                     if (this.soundAudio.IsReady(2))
+                    {
+                       this.soundAudio.PlaySound(0.1f, 0.2f, 2, AudioClips.Run1, AudioClips.Run2, AudioClips.Run3);
                         CmdPlaySound(gameObject, "Run");
+                    }
                 }
                 else
                 {
                     move *= Time.deltaTime * this.walkSpeed;
                     anim.SetInteger("Action", 1);
                     if (this.soundAudio.IsReady(1))
+                    {
+                        this.soundAudio.PlaySound(0.1f, 0.4f, 1, AudioClips.Walk1, AudioClips.Walk2);
                         CmdPlaySound(gameObject, "Walk");
+                    }
                 }
             }
             else
@@ -261,22 +267,23 @@ public class Controller : NetworkBehaviour
         RpcPlaySound(player, type);
     }
     /// <sumary>
-    /// Demande aux clients de jouer un son.
+    /// Demande aux autres clients de jouer un son.
     /// </sumary>
     [ClientRpc]
     private void RpcPlaySound(GameObject player, string type)
     {
-        switch (type)
-        {
-            case "Walk":
-                this.soundAudio.PlaySound(0.1f, 0.4f, 1, AudioClips.Walk1, AudioClips.Walk2);
-                break;
-            case "Run":
-                this.soundAudio.PlaySound(0.1f, 0.2f, 2, AudioClips.Run1, AudioClips.Run2, AudioClips.Run3);
-                break;
-            default:
-                throw new System.ArgumentException("PlaySound: Not a good type of sound");
-        }
+        if (!isLocalPlayer)
+            switch (type)
+            {
+                case "Walk":
+                    player.GetComponent<Sound>().PlaySound(0.1f, 0.4f, 1, AudioClips.Walk1, AudioClips.Walk2);
+                    break;
+                case "Run":
+                    player.GetComponent<Sound>().PlaySound(0.1f, 0.2f, 2, AudioClips.Run1, AudioClips.Run2, AudioClips.Run3);
+                    break;
+                default:
+                    throw new System.ArgumentException("PlaySound: Not a good type of sound");
+            }
     }
 
     // Setters | Getters
