@@ -22,7 +22,7 @@ public class CharacterCollision : MonoBehaviour {
     // Detect gameObject arround
     void OnTriggerStay(Collider col)
     {
-        if (col.CompareTag("Loot") && col.GetType() == typeof(MeshCollider))        
+        if (col.CompareTag("Loot") && col.GetType() == typeof(MeshCollider) && col.gameObject != null)        
             inventoryScript.DetectLoot(col.gameObject);        
     }
 }
