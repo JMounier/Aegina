@@ -64,7 +64,6 @@ public class Inventory : NetworkBehaviour
                 this.slots[this.previndex[0], this.previndex[1]].Quantity += this.selectedItem.Quantity;
             this.draggingItemStack = false;
         }
-
     }
     
     /// <sumary>
@@ -386,7 +385,7 @@ public class Inventory : NetworkBehaviour
         {
             ItemStack itemS = new ItemStack(new Item(ItemDatabase.Find(id)), quantity);
             AddItemStack(itemS);
-            CmdSetQuantity(itemS.Quantity, loot);
+            CmdSetQuantity(itemS.Quantity, loot, gameObject.transform.position);
         }
     }
 
@@ -394,10 +393,13 @@ public class Inventory : NetworkBehaviour
     /// Actualise la quantite restante du loot apres ajout.
     /// </sumary>
     [Command]
-    private void CmdSetQuantity(int quantity, GameObject loot)
+    private void CmdSetQuantity(int quantity, GameObject loot, Vector3 posPlayer)
     {
         if (quantity == 0)
-            loot.GetComponent<Loot>().Items.Items.Ent.Life = 0;
+        {
+            loot.GetComponent<Loot>().Items.Items.Ent.Life = 0.15f;
+            loot.GetComponent<Loot>().Items.Items.Ent.Prefab.GetComponent<Rigidbody>().AddForce((posPlayer - loot.GetComponent<Loot>().Items.Items.Ent.Prefab.transform.position) * 300);
+        }
     }
 
     /// <sumary>

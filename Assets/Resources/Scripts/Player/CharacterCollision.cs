@@ -22,10 +22,7 @@ public class CharacterCollision : MonoBehaviour {
     // Detect gameObject arround
     void OnTriggerStay(Collider col)
     {
-        if (col.CompareTag("Loot"))
-        {
-            inventoryScript.CmdGetItemStack(col.gameObject);
-            Debug.Log("Aspiration");
-        }
+        if (col.CompareTag("Loot") && col.GetType() == typeof(MeshCollider))        
+            inventoryScript.CmdGetItemStack(col.gameObject);        
     }
 }
