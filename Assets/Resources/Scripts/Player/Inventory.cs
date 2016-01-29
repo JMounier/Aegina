@@ -37,9 +37,10 @@ public class Inventory : NetworkBehaviour
         this.AddItemStack(new ItemStack(new Item(ItemDatabase.Stone), 42));
         this.AddItemStack(new ItemStack(new Item(ItemDatabase.Log), 64));
         this.AddItemStack(new ItemStack(new Item(ItemDatabase.Log), 64));
+        this.AddItemStack(new ItemStack(new Item(ItemDatabase.Log), 64));
         this.AddItemStack(new ItemStack(new Item(ItemDatabase.CopperPickaxe), 1));
         this.AddItemStack(new ItemStack(new Item(ItemDatabase.Floatium), 7));
-        this.AddItemStack(new ItemStack(new Item(ItemDatabase.IronIngot), 14));
+        this.AddItemStack(new ItemStack(new Item(ItemDatabase.IronIngot), 14));    
 
         this.skin = Resources.Load<GUISkin>("Sprites/GUIskin/Skin");
         this.trans = gameObject.GetComponent<Transform>();
@@ -149,9 +150,13 @@ public class Inventory : NetworkBehaviour
                                 this.slots[this.previndex[0], this.previndex[1]] = this.slots[i, j];
                                 this.slots[i, j] = this.selectedItem;
                             }
-                            else
+                            else if (this.slots[this.previndex[0], this.previndex[1]].Items.ID == this.selectedItem.Items.ID)
                             {
                                 this.slots[this.previndex[0], this.previndex[1]].Quantity += this.selectedItem.Quantity;
+                            }
+                            else
+                            {
+                                this.Drop(this.selectedItem);
                             }
                         }
                         else
@@ -377,10 +382,11 @@ public class Inventory : NetworkBehaviour
         if (loot != null)
         {
             Loot l = loot.GetComponent<Loot>();
-            if (l.Items.Quantity > 0 && l.Items.Items.Ent.LifeMax - l.Items.Items.Ent.Life > 0.8f)
+            if (l.Items.Items.Ent.LifeMax - l.Items.Items.Ent.Life > 0.8f && l.Items.Quantity > 0)
             {
                 int quantity = l.Items.Quantity;
                 l.Items.Quantity = 0;
+                loot.GetComponent<SphereCollider>().enabled = false;
                 RpcAddItemStack(l.Items.Items.ID, quantity, loot);
             }
         }
@@ -406,11 +412,19 @@ public class Inventory : NetworkBehaviour
     [Command]
     private void CmdSetQuantity(int quantity, GameObject loot, Vector3 posPlayer)
     {
-        if (quantity == 0)
+        if (loot != null)
         {
-            loot.GetComponent<Loot>().Items.Items.Ent.Life = 0.15f;
-            loot.GetComponent<Loot>().Items.Items.Ent.Prefab.GetComponent<Rigidbody>().AddForce((posPlayer - loot.GetComponent<Loot>().Items.Items.Ent.Prefab.transform.position) * 300);
+            loot.GetComponent<Loot>().Items.Quantity = quantity;
+
+            if (quantity == 0)
+            {
+                loot.GetComponent<Loot>().Items.Items.Ent.Life = 0.18f;
+                loot.GetComponent<Loot>().Items.Items.Ent.Prefab.GetComponent<Rigidbody>().AddForce((posPlayer - loot.GetComponent<Loot>().Items.Items.Ent.Prefab.transform.position + Vector3.up * .4f) * 300);
+            }
+            else
+                loot.GetComponent<SphereCollider>().enabled = true;
         }
+
     }
 
     /// <sumary>

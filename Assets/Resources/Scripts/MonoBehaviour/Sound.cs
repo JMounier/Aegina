@@ -2,11 +2,21 @@
 using System.Collections;
 using System.Collections.Generic;
 
+public enum AudioClips { Walk1, Walk2, Run1, Run2, Run3, Button, Bag};
+
 public class Sound : MonoBehaviour
 {
 
     private AudioSource source;
     private List<float[]> coolDown = new List<float[]>();
+    private static AudioClip[] AudioclipArray = new AudioClip[7]
+    { Resources.Load<AudioClip>("Sounds/Player/Walk1"),
+     Resources.Load<AudioClip>("Sounds/Player/Walk2"),
+     Resources.Load<AudioClip>("Sounds/Player/Run1"),
+     Resources.Load<AudioClip>("Sounds/Player/Run2"),
+     Resources.Load<AudioClip>("Sounds/Player/Run3"),
+     Resources.Load<AudioClip>("Sounds/Button/Button"),
+     Resources.Load<AudioClip>("Sounds/Button/Bag")};
 
     // Use this for initialization
     void Start()
@@ -34,37 +44,37 @@ public class Sound : MonoBehaviour
     /// <sumary>
     /// Joue un son avec un volume choisi.
     /// </sumary>
-    public void PlaySound(AudioClip clip, float vol)
+    public void PlaySound(AudioClips clip, float vol)
     {
-        this.source.PlayOneShot(clip, vol);
+        this.source.PlayOneShot(AudioclipArray[(int) clip], vol);
     }
 
     /// <sumary>
     /// Joue un son avec un volume choisi et cree un cooldown.
     /// </sumary>
-    public void PlaySound(AudioClip clip, float vol, float coolDown)
+    public void PlaySound(AudioClips clip, float vol, float coolDown)
     {
-        this.source.PlayOneShot(clip, vol);
-        this.coolDown.Add(new float[2] { clip.GetInstanceID(), coolDown });
+        this.source.PlayOneShot(AudioclipArray[(int)clip], vol);
+        this.coolDown.Add(new float[2] { AudioclipArray[(int)clip].GetInstanceID(), coolDown });
     }
 
     /// <sumary>
     /// Joue un son avec un volume choisi et cree un cooldown avec un id choisi.
     /// </sumary>
-    public void PlaySound(AudioClip clip, float vol, float coolDown, float idCoolDown)
+    public void PlaySound(AudioClips clip, float vol, float coolDown, float idCoolDown)
     {
-        this.source.PlayOneShot(clip, vol);
+        this.source.PlayOneShot(AudioclipArray[(int)clip], vol);
         this.coolDown.Add(new float[2] { idCoolDown, coolDown });
     }
 
     /// <sumary>
     /// Joue un son random parmi les audioclip avec un volume choisi et cree un cooldown avec un id choisi.
     /// </sumary>
-    public void PlaySound(float vol, float coolDown, float idCoolDown, params AudioClip[] clips)
+    public void PlaySound(float vol, float coolDown, float idCoolDown, params AudioClips[] clips)
     {
         if (clips.Length > 0)
         {            
-            this.source.PlayOneShot(clips[Random.Range(0, clips.Length)], vol);
+            this.source.PlayOneShot(AudioclipArray[(int) clips[Random.Range(0, clips.Length)]], vol);
             this.coolDown.Add(new float[2] { idCoolDown, coolDown });
         }
     }
@@ -81,6 +91,7 @@ public class Sound : MonoBehaviour
         }
         return true;
     }
+
     /// <sumary>
     /// Permet de savoir si les different morceaux de son peuvent etre joue.
     /// </sumary>

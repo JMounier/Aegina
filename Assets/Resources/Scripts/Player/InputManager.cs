@@ -11,8 +11,6 @@ public class InputManager : NetworkBehaviour
     private Menu menu;
 
     private Sound soundAudio;
-    private AudioClip soundButton;
-    private AudioClip soundBag;
 
     // Use this for initialization
     void Start()
@@ -24,9 +22,7 @@ public class InputManager : NetworkBehaviour
         this.menu = GetComponent<Menu>();
         this.controller = GetComponent<Controller>();
 
-        this.soundAudio = gameObject.GetComponentInChildren<Sound>();
-        this.soundBag = Resources.Load<AudioClip>("Sounds/button/Bag");
-        this.soundButton = Resources.Load<AudioClip>("Sounds/button/Button");
+        this.soundAudio = gameObject.GetComponentInChildren<Sound>();     
     }
 
     // Update is called once per frame
@@ -38,12 +34,12 @@ public class InputManager : NetworkBehaviour
         {
             this.inventaire.InventoryShown = !this.inventaire.InventoryShown;
             this.controller.Pause = !this.controller.Pause;
-            this.soundAudio.PlaySound(this.soundBag, 1f);
+            this.soundAudio.PlaySound(AudioClips.Bag, 1f);
         }
 
         if (Input.GetButtonDown("Cancel"))
         {
-            this.soundAudio.PlaySound(this.soundButton, 1f);
+            this.soundAudio.PlaySound(AudioClips.Button, 1f);
             if (this.inventaire.InventoryShown)
             {
                 this.inventaire.InventoryShown = false;

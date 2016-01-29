@@ -10,8 +10,11 @@ public class Loot : NetworkBehaviour
     void Update()
     {
         if (isServer)
+        {
             this.items.Items.Ent.Life -= Time.deltaTime;
-
+            if (this.items.Quantity == this.items.Items.Size && this.items.Items.Ent.Prefab.GetComponent<SphereCollider>().enabled)
+                this.items.Items.Ent.Prefab.GetComponent<SphereCollider>().enabled = false;
+        }
     }
 
     // Detection loot
@@ -20,16 +23,16 @@ public class Loot : NetworkBehaviour
         if (isServer && col.CompareTag("Loot"))
         {
             Loot autre = col.GetComponent<Loot>();
-            if (autre.items.Items.ID == this.items.Items.ID && autre.items.Items.Ent.LifeMax - autre.items.Items.Ent.Life > 1
+
+            if (autre.items.Items.ID == this.items.Items.ID && autre.items.Items.Ent.LifeMax - autre.items.Items.Ent.Life > 1 && this.items.Quantity > 0
                && this.items.Items.Ent.LifeMax - this.items.Items.Ent.Life > 1 && autre.items.Items.Ent.Prefab.GetHashCode() < this.items.Items.Ent.Prefab.GetHashCode())
             {
-                this.items.Items.Ent.Life = this.items.Items.Ent.LifeMax;
-                autre.items.Items.Ent.Life = this.items.Items.Ent.LifeMax;
                 int diff = Mathf.Max(this.items.Quantity + autre.items.Quantity - this.items.Items.Size, 0);
                 this.items.Quantity += autre.items.Quantity - diff;
                 if (diff == 0)
                     autre.items.Items.Ent.Life = 0;
                 autre.items.Quantity = diff;
+
             }
         }
     }
