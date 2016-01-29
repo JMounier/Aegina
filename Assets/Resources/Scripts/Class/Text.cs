@@ -40,5 +40,10 @@ public class Text
     {
         language = wantlanguage;
     }
+    
+    public static SystemLanguage GetlanguageArg(SystemLanguage language)
+    {
+        return language;
+    }
 
 }
