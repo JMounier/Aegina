@@ -2,28 +2,93 @@
 using System.Collections;
 
 /// <summary>
+///  Les differentes sorties possibles.
+/// </summary>
+public enum Bridges { None, One, Two_Perpendicular, Two_Linear, Three, All };
+
+/// <summary>
 ///  Utiliser cette classe pour creer un nouveau chunk.
 /// </summary>
 public class Chunk : Entity
 {
-    public enum Bridges { None, One, Two_Perpendicular, Two_Linear, Three, All};
+    private static GameObject map = GameObject.Find("Map");
+    private static int size = 100;
+
     private Bridges bridge;
+    private Biome b;
+    private bool isPrisme;
 
     // Constructor
 
     public Chunk() : base()
     {
         this.bridge = Bridges.None;
+        this.b = BiomeDatabase.Default;
+        this.isPrisme = false;
     }
 
     public Chunk(Chunk chunk) : base(chunk)
     {
         this.bridge = chunk.bridge;
+        this.b = chunk.B;
+        this.isPrisme = chunk.IsPrisme;
     }
 
     public Chunk(int id, GameObject prefab, Bridges bridge) : base(id, 1, prefab)
     {
         this.bridge = bridge;
+        this.isPrisme = false;
+    }
+
+    // Methods
+    public void Generate(int x, int y, Biome b)
+    {
+        this.isPrisme = false;
+        this.b = b;
+        Spawn(new Vector3(x * size, y * size, 0), map.transform);
+        Prefab.GetComponentInChildren<MeshRenderer>().materials = new Material[2] { b.Grass, b.Rock };
+        foreach (Transform content in Prefab.transform)
+            if (content.CompareTag("Elements"))
+                foreach (Transform ancre in content.transform)
+                    if (ancre.CompareTag("Ancre") || ancre.CompareTag("MainAncre"))
+                        this.GenerateEntity(this.b.Chose(), ancre.gameObject);
+
+    }
+    public void Generate(int x, int y, Biome b, bool isPrisme)
+    {
+        this.isPrisme = isPrisme;
+        this.b = b;
+        Spawn(new Vector3(x * size, y * size, 0), map.transform);
+        Prefab.GetComponentInChildren<MeshRenderer>().materials = new Material[2] { b.Grass, b.Rock };
+        foreach (Transform content in Prefab.transform)
+            if (content.CompareTag("Elements"))
+                foreach (Transform ancre in content.transform)
+                {
+                    if (ancre.CompareTag("Ancre"))
+                    {
+                        this.GenerateEntity(this.b.Chose(), ancre.gameObject);
+                    }
+                    else if (ancre.CompareTag("MainAncre"))
+                    {
+                        if (this.isPrisme)
+                        {
+                            // to do
+                        }
+                        else
+                            this.GenerateEntity(this.b.Chose(), ancre.gameObject);
+                    }
+                }
+    }
+
+    private void GenerateEntity(Entity e, GameObject ancre)
+    {
+        if (e.ID != -1)
+        {
+            Vector3 rot = e.Prefab.transform.eulerAngles;
+            rot.y = Random.Range(0, 360);
+            e.Spawn(ancre.transform.position, Quaternion.Euler(rot), ancre.transform.parent);
+        }
+        GameObject.Destroy(ancre);
     }
 
     // Getters & Setters
@@ -33,5 +98,16 @@ public class Chunk : Entity
     public Bridges Bridge
     {
         get { return this.bridge; }
+    }
+
+    public Biome B
+    {
+        get { return this.b; }
+    }
+
+    public bool IsPrisme
+    {
+        get { return this.isPrisme; }
+        set { this.isPrisme = value; }
     }
 }

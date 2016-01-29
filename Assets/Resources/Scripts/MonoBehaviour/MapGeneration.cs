@@ -9,27 +9,15 @@ public class MapGeneration : NetworkBehaviour
     void Start()
     {
         if (isServer)
-            CreateChunk(0, 0);
+        {
+            EntityDatabase.Chunk2.Generate(0, 0, BiomeDatabase.Ice);
+        }
 
     }
 
     // Update is called once per frame
     void Update()
     {
-
-    }
-
-    private void CreateChunk(int x, int y)
-    {
-        Entity chunk = new Chunk(EntityDatabase.Chunk2);
-        chunk.Spawn(new Vector3(0, 0, 0), gameObject.transform);
-        foreach (Transform content in chunk.Prefab.transform)
-        {
-            if (content.CompareTag("Elements"))
-                foreach (Transform ancre in content.transform)
-                    if (ancre.CompareTag("Ancre")) { 
-                        BiomeDatabase.Forest.Generate(ancre.gameObject);}
-        }
 
     }
 }

@@ -12,7 +12,7 @@ public class Controller : NetworkBehaviour
     private float walkSpeed = 2.5f;
     private float sprintSpeed = 6f;
     private float jumpingBoost = .5f;
-    private float jumpForce = 16000f;
+    private float jumpForce = 13000f;
     private float coolDownJump = 0;
 
     [SyncVar]

@@ -11,11 +11,15 @@ public static class EntityDatabase
     // Tree
     public static readonly Tree Fir = new Tree(100, 100, Resources.Load<GameObject>("Prefabs/Elements/Trees/Fir"), 1);
     public static readonly Tree SnowFir = new Tree(101, 100, Resources.Load<GameObject>("Prefabs/Elements/Trees/SnowFir"), 1);
+    public static readonly Tree Cactus = new Tree(102, 100, Resources.Load<GameObject>("Prefabs/Elements/Trees/Cactus"), 1);
+    public static readonly Tree Oak = new Tree(103, 100, Resources.Load<GameObject>("Prefabs/Elements/Trees/Oak"), 1);
+    public static readonly Tree SnowOak = new Tree(104, 100, Resources.Load<GameObject>("Prefabs/Elements/Trees/SnowOak"), 1);
 
     // Rock
+    public static readonly Rock Stone = new Rock(110, 100, Resources.Load<GameObject>("Prefabs/Elements/Rocks/Stone"), 1);
 
     // Chunk
-    public static readonly Chunk Chunk2 = new Chunk(1000, Resources.Load<GameObject>("Prefabs/Chunks/Chunk2"), Chunk.Bridges.None);
+    public static readonly Chunk Chunk2 = new Chunk(1000, Resources.Load<GameObject>("Prefabs/Chunks/Chunk2"), Bridges.None);
 
     public static IEnumerable<Entity> Entitys
     {
@@ -28,6 +32,12 @@ public static class EntityDatabase
             // Tree
             yield return new Tree(Fir);
             yield return new Tree(SnowFir);
+            yield return new Tree(Cactus);
+            yield return new Tree(Oak);
+            yield return new Tree(SnowOak);
+
+            // Rocks
+            yield return new Rock(Stone);
 
             // Chunk
             yield return new Chunk(Chunk2);

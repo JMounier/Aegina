@@ -183,7 +183,7 @@ public class Inventory : NetworkBehaviour
                 }
             }
         // Relachement de l'item hors de l'inventaire
-        rect = new Rect(pos_x_inventory, pos_y_inventory, columns * 50, rows * 50);
+        rect = new Rect(pos_x_inventory, pos_y_inventory, columns * 40, rows * 40);
         if (!rect.Contains(Event.current.mousePosition) && this.draggingItemStack && Event.current.button == 0 && Event.current.type == EventType.MouseUp)
         {
             this.Drop(this.selectedItem);

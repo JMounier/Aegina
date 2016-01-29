@@ -8,6 +8,8 @@ public class Biome
 {
     private int iD;
     private SpawnConfig[] spawnConfiguration;
+    private Material grass;
+    private Material rock;
 
     // Constructor
 
@@ -15,15 +17,19 @@ public class Biome
     {
         this.iD = -1;
         this.spawnConfiguration = new SpawnConfig[0];
+        this.grass = null;
+        this.rock = null;
     }
 
     public Biome(Biome biome)
     {
         this.iD = biome.ID;
         this.spawnConfiguration =biome.spawnConfiguration;
+        this.grass = biome.Grass;
+        this.rock = biome.Rock;
     }
-
-    public Biome(int id, params Entity[] spawnableEntity)
+     
+    public Biome(int id, Material grass, Material rock, params Entity[] spawnableEntity)
     {
         this.iD = id;
         this.spawnConfiguration = new SpawnConfig[spawnableEntity.Length];
@@ -32,9 +38,11 @@ public class Biome
         {
             this.spawnConfiguration[i] = new SpawnConfig(spawnableEntity[i], ratio);
         }
+        this.grass = grass;
+        this.rock = rock;
     }
 
-    public Biome(int id, params SpawnConfig[] spawnConfiguration)
+    public Biome(int id, Material grass, Material rock, params SpawnConfig[] spawnConfiguration)
     {
         this.iD = id;
         this.spawnConfiguration = spawnConfiguration;
@@ -45,14 +53,15 @@ public class Biome
         
         for (int i = 0; i < spawnConfiguration.Length; i++)        
             this.spawnConfiguration[i].Ratio /= sum;
-        
+        this.grass = grass;
+        this.rock = rock;
     }
 
     // Methods
     /// <summary>
     /// Genere une entite du biome sur l'ancre avec une rotation aleatoire sur Y. (Must be server!)
     /// </summary>
-    public void Generate(GameObject ancre)
+    public Entity Chose()
     {
         float rand = Random.Range(0f, 1f);
         float sum = 0f;
@@ -62,17 +71,10 @@ public class Biome
             sum += sc.Ratio;
             if (rand < sum)
             {
-                if (sc.E.ID != -1)
-                {
-                    Vector3 rot = sc.E.Prefab.transform.eulerAngles;
-                    rot.y = Random.Range(0, 360);
-                    Entity e = new Entity(sc.E);
-                    e.Spawn(ancre.transform.position, Quaternion.Euler(rot), ancre.transform.parent);
-                }
-                break;
+                return new Entity(sc.E);
             }
         }
-        GameObject.Destroy(ancre);
+        throw new System.Exception("Biome.Chose : wird rand");
     }
       
     // Getters & Setters
@@ -82,6 +84,22 @@ public class Biome
     public int ID
     {
         get { return this.iD; }
+    }
+
+    /// <summary>
+    /// Le materiaux de l'herbe du biome.
+    /// </summary>
+    public Material Grass
+    {
+        get { return this.grass; }
+    }
+
+    /// <summary>
+    /// Le materiaux des rochers du biome.
+    /// </summary>
+    public Material Rock
+    {
+        get { return this.rock; }
     }
 }
 
