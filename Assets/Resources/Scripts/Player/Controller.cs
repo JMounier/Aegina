@@ -15,7 +15,13 @@ public class Controller : NetworkBehaviour
     private float jumpForce = 16000f;
     private float coolDownJump = 0;
 
+    [SyncVar]
     private bool isJumping = true;
+    [SyncVar]
+    private bool isMoving = false;
+    [SyncVar]
+    private bool isSprinting = false;
+
     private Animator anim;
 
     // Use for Camera
@@ -60,7 +66,18 @@ public class Controller : NetworkBehaviour
     {
         // Check if the player is local
         if (!isLocalPlayer)
+        {           
+                if (!this.isJumping && this.isMoving)
+                {
+                    if (this.isSprinting && this.soundAudio.IsReady(2))
+                        this.soundAudio.PlaySound(0.1f, 0.2f, 2, AudioClips.Run1, AudioClips.Run2, AudioClips.Run3);
+
+                    else if (this.soundAudio.IsReady(1))
+                        this.soundAudio.PlaySound(0.1f, 0.4f, 1, AudioClips.Walk1, AudioClips.Walk2);
+                }          
+
             return;
+        }
 
         /*
              --------------------------
@@ -130,7 +147,7 @@ public class Controller : NetworkBehaviour
         bool right = !this.pause && Input.GetButton("Right");
         bool left = !this.pause && Input.GetButton("Left");
         bool jump = !this.pause && Input.GetButton("Jump");
-        bool sprint = !this.pause && Input.GetButton("Sprint");
+        this.isSprinting = !this.pause && Input.GetButton("Sprint");
 
         Vector3 move = new Vector3(0, 0, 0);
 
@@ -208,29 +225,28 @@ public class Controller : NetworkBehaviour
         }
 
 
-        bool isMoving = move.x != 0 || move.z != 0;
+        this.isMoving = move.x != 0 || move.z != 0;
 
         // Apply the moves with the animation
         if (this.isJumping)
         {
             anim.SetInteger("Action", 3);
-            if (sprint)
+            if (this.isSprinting)
                 move *= Time.deltaTime * (this.sprintSpeed + this.jumpingBoost);
             else
                 move *= Time.deltaTime * (this.walkSpeed + this.jumpingBoost);
         }
         else
         {
-            if (isMoving)
+            if (this.isMoving)
             {
-                if (sprint)
+                if (this.isSprinting)
                 {
                     move *= Time.deltaTime * this.sprintSpeed;
                     anim.SetInteger("Action", 2);
                     if (this.soundAudio.IsReady(2))
                     {
-                       this.soundAudio.PlaySound(0.1f, 0.2f, 2, AudioClips.Run1, AudioClips.Run2, AudioClips.Run3);
-                        CmdPlaySound(gameObject, "Run");
+                        this.soundAudio.PlaySound(0.1f, 0.2f, 2, AudioClips.Run1, AudioClips.Run2, AudioClips.Run3);
                     }
                 }
                 else
@@ -240,17 +256,16 @@ public class Controller : NetworkBehaviour
                     if (this.soundAudio.IsReady(1))
                     {
                         this.soundAudio.PlaySound(0.1f, 0.4f, 1, AudioClips.Walk1, AudioClips.Walk2);
-                        CmdPlaySound(gameObject, "Walk");
                     }
                 }
             }
             else
                 anim.SetInteger("Action", 0);
         }
-
+        this.CmdPlaySound(this.isMoving, this.isSprinting, this.isJumping);
         gameObject.transform.Translate(move, Space.World);
 
-        if (isMoving)
+        if (this.isMoving)
         {
             Vector3 rotCam = new Vector3(this.character.transform.eulerAngles.x, this.cam.transform.eulerAngles.y + rotation, this.character.transform.eulerAngles.z);
             this.character.transform.rotation = Quaternion.Lerp(this.character.transform.rotation, Quaternion.Euler(rotCam), Time.deltaTime * 5);
@@ -262,28 +277,11 @@ public class Controller : NetworkBehaviour
     /// Informe le serveur de jouer un son.
     /// </sumary>
     [Command]
-    private void CmdPlaySound(GameObject player, string type)
+    private void CmdPlaySound(bool isMoving, bool isSprinting, bool isJumping)
     {
-        RpcPlaySound(player, type);
-    }
-    /// <sumary>
-    /// Demande aux autres clients de jouer un son.
-    /// </sumary>
-    [ClientRpc]
-    private void RpcPlaySound(GameObject player, string type)
-    {
-        if (!isLocalPlayer)
-            switch (type)
-            {
-                case "Walk":
-                    player.GetComponent<Sound>().PlaySound(0.1f, 0.4f, 1, AudioClips.Walk1, AudioClips.Walk2);
-                    break;
-                case "Run":
-                    player.GetComponent<Sound>().PlaySound(0.1f, 0.2f, 2, AudioClips.Run1, AudioClips.Run2, AudioClips.Run3);
-                    break;
-                default:
-                    throw new System.ArgumentException("PlaySound: Not a good type of sound");
-            }
+        this.isMoving = isMoving;
+        this.isSprinting = isSprinting;
+        this.isJumping = isJumping;
     }
 
     // Setters | Getters
