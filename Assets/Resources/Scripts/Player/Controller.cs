@@ -70,10 +70,10 @@ public class Controller : NetworkBehaviour
                 if (!this.isJumping && this.isMoving)
                 {
                     if (this.isSprinting && this.soundAudio.IsReady(2))
-                        this.soundAudio.PlaySound(0.1f, 0.2f, 2, AudioClips.Run1, AudioClips.Run2, AudioClips.Run3);
+                        gameObject.GetComponentInChildren<Sound>().PlaySound(0.1f, 0.2f, 2, AudioClips.Run1, AudioClips.Run2, AudioClips.Run3);
 
                     else if (this.soundAudio.IsReady(1))
-                        this.soundAudio.PlaySound(0.1f, 0.4f, 1, AudioClips.Walk1, AudioClips.Walk2);
+                        gameObject.GetComponentInChildren<Sound>().PlaySound(0.1f, 0.4f, 1, AudioClips.Walk1, AudioClips.Walk2);
                 }          
 
             return;

@@ -10,9 +10,11 @@ public class Loot : NetworkBehaviour
     void Update()
     {
         if (isServer)
+        {
             this.items.Items.Ent.Life -= Time.deltaTime;
-        if (this.items.Quantity == this.items.Items.Size && this.items.Items.Ent.Prefab.GetComponent<SphereCollider>().enabled)
-            this.items.Items.Ent.Prefab.GetComponent<SphereCollider>().enabled = false;
+            if (this.items.Quantity == this.items.Items.Size && this.items.Items.Ent.Prefab.GetComponent<SphereCollider>().enabled)
+                this.items.Items.Ent.Prefab.GetComponent<SphereCollider>().enabled = false;
+        }
     }
 
     // Detection loot
