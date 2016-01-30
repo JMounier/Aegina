@@ -11,7 +11,6 @@ public enum Bridges { None, One, Two_Perpendicular, Two_Linear, Three, All };
 /// </summary>
 public class Chunk : Entity
 {
-    private static GameObject map = GameObject.Find("Map");
     private static int size = 100;
 
     private Bridges bridge;
@@ -41,12 +40,13 @@ public class Chunk : Entity
     }
 
     // Methods
-    public void Generate(int x, int y, Biome b)
+    public void Generate(int x, int y, Biome b, GameObject map)
     {
         this.isPrisme = false;
         this.b = b;
         Spawn(new Vector3(x * size, y * size, 0), map.transform);
         Prefab.GetComponentInChildren<MeshRenderer>().materials = new Material[2] { b.Grass, b.Rock };
+        Prefab.GetComponent<SyncChunk>().BiomeId = b.ID;
         foreach (Transform content in Prefab.transform)
             if (content.CompareTag("Elements"))
                 foreach (Transform ancre in content.transform)
@@ -54,12 +54,14 @@ public class Chunk : Entity
                         this.GenerateEntity(this.b.Chose(), ancre.gameObject);
 
     }
-    public void Generate(int x, int y, Biome b, bool isPrisme)
+
+    public void Generate(int x, int y, Biome b, bool isPrisme, GameObject map)
     {
         this.isPrisme = isPrisme;
         this.b = b;
         Spawn(new Vector3(x * size, y * size, 0), map.transform);
         Prefab.GetComponentInChildren<MeshRenderer>().materials = new Material[2] { b.Grass, b.Rock };
+        Prefab.GetComponent<SyncChunk>().BiomeId = b.ID;
         foreach (Transform content in Prefab.transform)
             if (content.CompareTag("Elements"))
                 foreach (Transform ancre in content.transform)

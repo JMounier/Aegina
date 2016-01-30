@@ -10,7 +10,7 @@ public class Controller : NetworkBehaviour
 
     // Use for Character
     private float walkSpeed = 2.5f;
-    private float sprintSpeed = 6f;
+    private float sprintSpeed = 4f;
     private float jumpingBoost = .5f;
     private float jumpForce = 13000f;
     private float coolDownJump = 0;

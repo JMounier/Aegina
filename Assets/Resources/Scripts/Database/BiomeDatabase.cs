@@ -58,9 +58,12 @@ public static class BiomeDatabase
         throw new System.Exception("Items.Find : Item not find");
     }     
     
-    public static Biome RandBiome()
+    public static Biome RandBiome
     {
-        int ran = Random.Range(0, nbBiome);
-        return Find(ran);
+        get
+        {
+            int ran = Random.Range(0, nbBiome);
+            return Find(ran);
+        }
      }  
 }

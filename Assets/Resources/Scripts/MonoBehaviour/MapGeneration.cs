@@ -4,14 +4,12 @@ using UnityEngine.Networking;
 
 public class MapGeneration : NetworkBehaviour
 {
-
+    private bool isLoad = false;
     // Use this for initialization    
     void Start()
     {
         if (isServer)
-        {
-            EntityDatabase.Chunk2.Generate(0, 0, BiomeDatabase.Ice);
-        }
+            new Chunk(EntityDatabase.Chunk2).Generate(0, 0, BiomeDatabase.RandBiome, gameObject);
 
     }
 
