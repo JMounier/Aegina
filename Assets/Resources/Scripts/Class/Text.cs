@@ -15,7 +15,7 @@ public class Text
         this.english = "";
     }
 
-    public Text(string english, string french)
+    public Text(string french, string english)
     {
         this.french = french;
         this.english = english;
