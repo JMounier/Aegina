@@ -88,65 +88,7 @@ public class TextDatabase
     public static readonly Text FloatiumAxeDescription = new Text("Un outil rudimentaire de pierre ressemblant à une hache", "A rudimentary stone tool looking like a Axe");
     public static readonly Text SunkiumAxeDescription = new Text("Un outil rudimentaire de pierre ressemblant à une hache", "A rudimentary stone tool looking like a Axe");
 
-    /*public static IEnumerable<Text> Texts
-    {
-        get
-        {
-            // Default
-            yield return new Text(Default);
-
-            // Ressource
-            yield return new Text();
-            yield return new Item(Stone);
-            yield return new Item(Sand);
-
-            yield return new Item(Copper);
-            yield return new Item(Iron);
-            yield return new Item(Floatium);
-            yield return new Item(Sunkium);
-            yield return new Item(Gold);
-            yield return new Item(Mithril);
-
-            yield return new Item(CopperIngot);
-            yield return new Item(IronIngot);
-            yield return new Item(GoldIngot);
-            yield return new Item(MithrilIngot);
-            yield return new Item(FloatiumIngot);
-            yield return new Item(SunkiumIngot);
-
-            // Tools
-            yield return new Pickaxe(WoodenPickaxe);
-            yield return new Pickaxe(StonePickaxe);
-            yield return new Pickaxe(CopperPickaxe);
-            yield return new Pickaxe(IronPickaxe);
-            yield return new Pickaxe(GoldPickaxe);
-            yield return new Pickaxe(MithrilPickaxe);
-            yield return new Pickaxe(FloatiumPickaxe);
-            yield return new Pickaxe(SunkiumPickaxe);
-
-            yield return new Axe(WoodenAxe);
-            yield return new Axe(StoneAxe);
-            yield return new Axe(IronAxe);
-            yield return new Axe(GoldAxe);
-            yield return new Axe(MithrilAxe);
-            yield return new Axe(CopperAxe);
-            yield return new Axe(SunkiumAxe);
-            yield return new Axe(FloatiumAxe);
-
-        }
-    }
-    /// <summary>
-    /// Retourne l'item correspondant.
-    /// </summary>
-    public static Text Find(string name)
-    {
-        foreach (Text i in texts)
-        {
-            if (i.Name == name)
-                return i;
-        }
-        throw new System.Exception("Items.Find : Item not find");
-    }*/
+    
 }
 
 
