@@ -22,28 +22,27 @@ public class Text
     }
 
     // Getter/Setter
-    public string GetText
+    public string GetText()
     {
-        get
-        {
-            if (language == SystemLanguage.English)
-                return this.english;
+        if (language == SystemLanguage.French)
             return this.french;
-        }
+        return this.english;
+    }
+
+    public string GetText(SystemLanguage language)
+    {
+        if (language == SystemLanguage.French)
+            return this.french;
+        return this.english;
     }
 
     public static SystemLanguage GetLanguage()
     {
         return language;
     }
+
     public static void SetLanguage(SystemLanguage wantlanguage)
     {
         language = wantlanguage;
     }
-    
-    public static SystemLanguage GetlanguageArg(SystemLanguage language)
-    {
-        return language;
-    }
-
 }
