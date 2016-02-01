@@ -9,18 +9,18 @@ public class Sound : MonoBehaviour
 
     private AudioSource source;
     private List<float[]> coolDown = new List<float[]>();
-    private static AudioClip[] AudioclipArray = new AudioClip[7]
-    { Resources.Load<AudioClip>("Sounds/Player/Walk1"),
-     Resources.Load<AudioClip>("Sounds/Player/Walk2"),
-     Resources.Load<AudioClip>("Sounds/Player/Run1"),
-     Resources.Load<AudioClip>("Sounds/Player/Run2"),
-     Resources.Load<AudioClip>("Sounds/Player/Run3"),
-     Resources.Load<AudioClip>("Sounds/Button/Button"),
-     Resources.Load<AudioClip>("Sounds/Button/Bag")};
+    private static AudioClip[] AudioclipArray = new AudioClip[7];
 
     // Use this for initialization
     void Start()
     {
+        AudioclipArray[0] = Resources.Load<AudioClip>("Sounds/Player/Walk1");
+        AudioclipArray[1] = Resources.Load<AudioClip>("Sounds/Player/Walk2");
+        AudioclipArray[2] = Resources.Load<AudioClip>("Sounds/Player/Run1");
+        AudioclipArray[3] = Resources.Load<AudioClip>("Sounds/Player/Run2");
+        AudioclipArray[4] = Resources.Load<AudioClip>("Sounds/Player/Run3");
+        AudioclipArray[5] = Resources.Load<AudioClip>("Sounds/Button/Button");
+        AudioclipArray[6] = Resources.Load<AudioClip>("Sounds/Button/Bag");
         this.source = gameObject.GetComponent<AudioSource>();
     }
 
