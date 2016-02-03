@@ -10,10 +10,10 @@ public class MapGeneration : NetworkBehaviour
     {
         if (isServer)
         {
-            new Chunk(EntityDatabase.Chunk2_Two_Perpendicular).Generate(0, 0, new Vector3(0,0,0), BiomeDatabase.RandBiome, gameObject);
-            new Chunk(EntityDatabase.Chunk2_Two_Perpendicular).Generate(0, 1, new Vector3(0, 90, 0), BiomeDatabase.RandBiome, gameObject);
-            new Chunk(EntityDatabase.Chunk2_Two_Perpendicular).Generate(1, 1, new Vector3(0, 180, 0), BiomeDatabase.RandBiome, gameObject);
-            new Chunk(EntityDatabase.Chunk2_Two_Perpendicular).Generate(1, 0, new Vector3(0, -90, 0), BiomeDatabase.RandBiome, gameObject);
+            EntityDatabase.RandChunk(Bridges.TwoL).Generate(0, 0, Directions.North, BiomeDatabase.RandBiome, gameObject);
+            EntityDatabase.RandChunk(Bridges.TwoL).Generate(0, 1, Directions.East, BiomeDatabase.RandBiome, gameObject);
+            EntityDatabase.RandChunk(Bridges.TwoL).Generate(1, 1, Directions.South, BiomeDatabase.RandBiome, gameObject);
+            EntityDatabase.RandChunk(Bridges.TwoL).Generate(1, 0, Directions.West, BiomeDatabase.RandBiome, gameObject);
         }
     }
 

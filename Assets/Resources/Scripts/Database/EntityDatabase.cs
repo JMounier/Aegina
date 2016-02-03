@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
- 
+
 public static class EntityDatabase
 {
     // Default
@@ -20,9 +20,9 @@ public static class EntityDatabase
 
     // Chunk
     public static readonly Chunk Chunk2_One = new Chunk(1000, Resources.Load<GameObject>("Prefabs/Chunks/Chunk2_One"), Bridges.One);
-    public static readonly Chunk Chunk2_Two_Linear = new Chunk(1001, Resources.Load<GameObject>("Prefabs/Chunks/Chunk2_Two_Linear"), Bridges.Two_Linear);
-    public static readonly Chunk Chunk2_Two_Perpendicular = new Chunk(1002, Resources.Load<GameObject>("Prefabs/Chunks/Chunk2_Two_Perpendicular"), Bridges.Two_Perpendicular);
-    public static readonly Chunk Chunk2_Three = new Chunk(1003, Resources.Load<GameObject>("Prefabs/Chunks/Chunk2_One"), Bridges.Three);
+    public static readonly Chunk Chunk2_TwoI = new Chunk(1001, Resources.Load<GameObject>("Prefabs/Chunks/Chunk2_TwoI"), Bridges.TwoI);
+    public static readonly Chunk Chunk2_TwoL = new Chunk(1002, Resources.Load<GameObject>("Prefabs/Chunks/Chunk2_TwoL"), Bridges.TwoL);
+    public static readonly Chunk Chunk2_Three = new Chunk(1003, Resources.Load<GameObject>("Prefabs/Chunks/Chunk2_Three"), Bridges.Three);
     public static readonly Chunk Chunk2_All = new Chunk(1004, Resources.Load<GameObject>("Prefabs/Chunks/Chunk2_All"), Bridges.All);
 
     public static IEnumerable<Entity> Entitys
@@ -45,17 +45,27 @@ public static class EntityDatabase
 
             // Chunk
             yield return new Chunk(Chunk2_One);
+            yield return new Chunk(Chunk2_TwoI);
+            yield return new Chunk(Chunk2_TwoL);
+            yield return new Chunk(Chunk2_Three);
+            yield return new Chunk(Chunk2_All);
+
         }
     }
 
-    public static IEnumerable<Tree> Trees
+    public static Chunk RandChunk(Bridges bridge)
     {
-        get
-        {
-            foreach (Tree t in Entitys)            
-                yield return t;            
-        }
-    }
+        List<Chunk> chunks = new List<Chunk>();
+        foreach (Entity ent in Entitys)
+            if (ent is Chunk)
+            {
+                Chunk c = (Chunk)ent;
+                if (c.Bridge == bridge)
+                    chunks.Add(c);
+            }
+
+        return new Chunk(chunks[Random.Range(0, chunks.Count)]);
+    }  
 
     public static Entity Find(int id)
     {

@@ -4,7 +4,8 @@ using System.Collections;
 /// <summary>
 ///  Les differentes sorties possibles.
 /// </summary>
-public enum Bridges { None, One, Two_Perpendicular, Two_Linear, Three, All };
+public enum Bridges { None, One, TwoL, TwoI, Three, All };
+public enum Directions { North, East, South, West };
 
 /// <summary>
 ///  Utiliser cette classe pour creer un nouveau chunk.
@@ -40,11 +41,11 @@ public class Chunk : Entity
     }
 
     // Methods
-    public void Generate(int x, int y, Vector3 rotation, Biome b, GameObject map)
+    public void Generate(int x, int y, Directions direction, Biome b, GameObject map)
     {
         this.isPrisme = false;
         this.b = b;
-        Spawn(new Vector3(x * size, 0, y * size), Quaternion.Euler(rotation), map.transform);
+        Spawn(new Vector3(x * size, 0, y * size), Quaternion.Euler(new Vector3(0, 90 * (int)direction, 0)), map.transform);
         Prefab.GetComponentInChildren<MeshRenderer>().materials = new Material[2] { b.Grass, b.Rock };
         Prefab.GetComponent<SyncChunk>().BiomeId = b.ID;
         foreach (Transform content in Prefab.transform)
@@ -55,11 +56,11 @@ public class Chunk : Entity
 
     }
 
-    public void Generate(int x, int y, Biome b, bool isPrisme, GameObject map)
+    public void Generate(int x, int y, Directions direction, Biome b, bool isPrisme, GameObject map)
     {
         this.isPrisme = isPrisme;
         this.b = b;
-        Spawn(new Vector3(x * size, y * size, 0), map.transform);
+        Spawn(new Vector3(x * size, 0, y * size), Quaternion.Euler(new Vector3(0, 90 * (int)direction, 0)), map.transform);
         Prefab.GetComponentInChildren<MeshRenderer>().materials = new Material[2] { b.Grass, b.Rock };
         Prefab.GetComponent<SyncChunk>().BiomeId = b.ID;
         foreach (Transform content in Prefab.transform)
