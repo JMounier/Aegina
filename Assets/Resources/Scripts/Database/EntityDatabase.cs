@@ -20,6 +20,10 @@ public static class EntityDatabase
 
     // Chunk
     public static readonly Chunk Chunk2_One = new Chunk(1000, Resources.Load<GameObject>("Prefabs/Chunks/Chunk2_One"), Bridges.One);
+    public static readonly Chunk Chunk2_Two_Linear = new Chunk(1001, Resources.Load<GameObject>("Prefabs/Chunks/Chunk2_Two_Linear"), Bridges.Two_Linear);
+    public static readonly Chunk Chunk2_Two_Perpendicular = new Chunk(1002, Resources.Load<GameObject>("Prefabs/Chunks/Chunk2_Two_Perpendicular"), Bridges.Two_Perpendicular);
+    public static readonly Chunk Chunk2_Three = new Chunk(1003, Resources.Load<GameObject>("Prefabs/Chunks/Chunk2_One"), Bridges.Three);
+    public static readonly Chunk Chunk2_All = new Chunk(1004, Resources.Load<GameObject>("Prefabs/Chunks/Chunk2_All"), Bridges.All);
 
     public static IEnumerable<Entity> Entitys
     {
