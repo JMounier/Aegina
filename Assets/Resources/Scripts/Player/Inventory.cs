@@ -183,7 +183,7 @@ public class Inventory : NetworkBehaviour
                 }
             }
         // Relachement de l'item hors de l'inventaire
-        rect = new Rect(pos_x_inventory, pos_y_inventory, columns * 50, rows * 50);
+        rect = new Rect(pos_x_inventory, pos_y_inventory, columns * 40, rows * 40);
         if (!rect.Contains(Event.current.mousePosition) && this.draggingItemStack && Event.current.button == 0 && Event.current.type == EventType.MouseUp)
         {
             this.Drop(this.selectedItem);
@@ -402,7 +402,7 @@ public class Inventory : NetworkBehaviour
         {
             ItemStack itemS = new ItemStack(new Item(ItemDatabase.Find(id)), quantity);
             AddItemStack(itemS);
-            CmdSetQuantity(itemS.Quantity, loot, gameObject.transform.position);
+            CmdSetQuantity(itemS.Quantity, loot, gameObject.GetComponentInChildren<CharacterCollision>().transform.position);
         }
     }
 
@@ -419,7 +419,7 @@ public class Inventory : NetworkBehaviour
             if (quantity == 0)
             {
                 loot.GetComponent<Loot>().Items.Items.Ent.Life = 0.18f;
-                loot.GetComponent<Loot>().Items.Items.Ent.Prefab.GetComponent<Rigidbody>().AddForce((posPlayer - loot.GetComponent<Loot>().Items.Items.Ent.Prefab.transform.position + Vector3.up * .4f) * 300);
+                loot.GetComponent<Loot>().Items.Items.Ent.Prefab.GetComponent<Rigidbody>().AddForce((posPlayer - loot.GetComponent<Loot>().Items.Items.Ent.Prefab.transform.position + Vector3.up * 1f) * 300);
             }
             else
                 loot.GetComponent<SphereCollider>().enabled = true;

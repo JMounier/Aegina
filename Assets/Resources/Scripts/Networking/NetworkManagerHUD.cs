@@ -15,7 +15,6 @@ namespace UnityEngine.Networking
         private int offsetY;
         private GUISkin skin;
         private Menu menu;
-        private GameObject mainCam;
 
         void Awake()
         {
@@ -23,7 +22,6 @@ namespace UnityEngine.Networking
             this.skin = Resources.Load<GUISkin>("Sprites/GUIskin/skin");
             this.offsetX = Screen.width / 2 - 100;
             this.offsetY = Screen.height / 2 - 100;
-            this.mainCam = GameObject.Find("MainCamera");
         }
 
         void Update()
@@ -87,12 +85,10 @@ namespace UnityEngine.Networking
             if (type == TypeLaunch.Host)
             {
                 this.manager.StartHost();
-                this.mainCam.SetActive(false);
             }
             else if (type == TypeLaunch.Client)
             {
-                this.manager.StartClient();
-                this.mainCam.SetActive(false);
+                this.manager.StartClient();            
             }
             else if (type == TypeLaunch.Server)
             {
@@ -100,7 +96,6 @@ namespace UnityEngine.Networking
             }
             else if (type == TypeLaunch.Stop)
             {
-                this.mainCam.SetActive(true);
                 this.manager.StopHost();
             }
         }
