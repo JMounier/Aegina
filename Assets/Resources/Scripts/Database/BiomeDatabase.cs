@@ -4,24 +4,19 @@ using System.Collections.Generic;
 
 public static class BiomeDatabase
 {
-    /*
-        TO INCREMENT WHEN YOU ADD A BIOME ! ! ! ! !
-    */
-    private static int nbBiome = 3;
-
     // Default
     public static readonly Biome Default = new Biome();
 
 
     // Biome forest
-    public static readonly Biome Forest = new Biome(0,Resources.Load<Material>("Models/Islands/Materials/Forest") , Resources.Load<Material>("Models/Islands/Materials/Forest_Rock"), 
+    public static readonly Biome Forest = new Biome(0, Resources.Load<Material>("Models/Islands/Materials/Forest"), Resources.Load<Material>("Models/Islands/Materials/Forest_Rock"),
         new SpawnConfig(new Entity(), 1.5f), new SpawnConfig(new Entity(EntityDatabase.Fir), 1), new SpawnConfig(new Entity(EntityDatabase.Stone), 1),
         new SpawnConfig(new Entity(EntityDatabase.Oak), 2));
 
 
     // Biome Desert
-    public static readonly Biome Desert = new Biome(1, Resources.Load<Material>("Models/Islands/Materials/Desert"), Resources.Load<Material>("Models/Islands/Materials/Desert_Rock"), 
-        new SpawnConfig(new Entity(), 2f), new SpawnConfig(new Entity(EntityDatabase.Cactus), 2), new SpawnConfig(new Entity(EntityDatabase.Stone), 1));
+    public static readonly Biome Desert = new Biome(1, Resources.Load<Material>("Models/Islands/Materials/Desert"), Resources.Load<Material>("Models/Islands/Materials/Desert_Rock"),
+        new SpawnConfig(new Entity(), 5f), new SpawnConfig(new Entity(EntityDatabase.Cactus), 1), new SpawnConfig(new Entity(EntityDatabase.Stone), 2));
 
 
     // Biome Ice
@@ -38,32 +33,39 @@ public static class BiomeDatabase
         get
         {
             // Default
-            yield return new Biome(Default);
-            yield return new Biome(Forest);
-            yield return new Biome(Ice);
-            yield return new Biome(Desert);
+            yield return Default;
+            yield return Forest;
+            yield return Ice;
+            yield return Desert;
         }
     }
 
     /// <summary>
-    /// Retourne le biome correspondant.
+    /// Retourne le biome correspondant. (En copie)
     /// </summary>
     public static Biome Find(int id)
     {
         foreach (Biome biome in Biomes)
         {
             if (biome.ID == id)
-                return biome;
+                return new Biome(biome);
         }
         throw new System.Exception("Items.Find : Item not find");
-    }     
-    
+    }
+
+    /// <summary>
+    /// Retourne un biome random. (En copie)
+    /// </summary>
     public static Biome RandBiome
     {
         get
         {
-            int ran = Random.Range(0, nbBiome);
-            return Find(ran);
+            List<Biome> biomes = new List<Biome>();
+            foreach (Biome biome in Biomes)
+                if (biome.ID > -1)
+                    biomes.Add(biome);
+
+            return new Biome(biomes[Random.Range(0, biomes.Count)]);
         }
-     }  
+    }
 }

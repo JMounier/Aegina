@@ -4,7 +4,6 @@ using UnityEngine.Networking;
 
 public class MapGeneration : NetworkBehaviour
 {
-    private bool isLoad = false;
     // Use this for initialization    
     void Start()
     {

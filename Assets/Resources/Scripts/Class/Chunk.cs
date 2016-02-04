@@ -53,7 +53,6 @@ public class Chunk : Entity
                 foreach (Transform ancre in content.transform)
                     if (ancre.CompareTag("Ancre") || ancre.CompareTag("MainAncre"))
                         this.GenerateEntity(this.b.Chose(), ancre.gameObject);
-
     }
 
     public void Generate(int x, int y, Directions direction, Biome b, bool isPrisme, GameObject map)

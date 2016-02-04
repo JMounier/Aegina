@@ -74,7 +74,7 @@ public class Biome
                 return new Entity(sc.E);
             }
         }
-        throw new System.Exception("Biome.Chose : wird rand");
+        throw new System.Exception("Biome.Chose : Weird rand");
     }
       
     // Getters & Setters

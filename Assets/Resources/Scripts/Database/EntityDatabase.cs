@@ -25,54 +25,103 @@ public static class EntityDatabase
     public static readonly Chunk Chunk2_Three = new Chunk(1003, Resources.Load<GameObject>("Prefabs/Chunks/Chunk2_Three"), Bridges.Three);
     public static readonly Chunk Chunk2_All = new Chunk(1004, Resources.Load<GameObject>("Prefabs/Chunks/Chunk2_All"), Bridges.All);
 
+    /// <summary>
+    /// Liste tous les entites du jeu. (Utilisez avec foreach)
+    /// </summary>
     public static IEnumerable<Entity> Entitys
     {
         get
         {
             // Default
-            yield return new Entity(Default);
-            yield return new Entity(Log);
+            yield return Default;
+            yield return Log;
 
             // Tree
-            yield return new Tree(Fir);
-            yield return new Tree(SnowFir);
-            yield return new Tree(Cactus);
-            yield return new Tree(Oak);
-            yield return new Tree(SnowOak);
+            foreach (Tree tree in Trees)
+                yield return tree;
 
             // Rocks
-            yield return new Rock(Stone);
+            foreach (Rock rock in Rocks)
+                yield return rock;
 
             // Chunk
-            yield return new Chunk(Chunk2_One);
-            yield return new Chunk(Chunk2_TwoI);
-            yield return new Chunk(Chunk2_TwoL);
-            yield return new Chunk(Chunk2_Three);
-            yield return new Chunk(Chunk2_All);
-
+            foreach (Chunk chunk in Chunks)
+                yield return chunk;
         }
     }
 
+    /// <summary>
+    /// Liste tous les arbres du jeu. (Utilisez avec foreach)
+    /// </summary>
+    public static IEnumerable<Tree> Trees
+    {
+        get
+        {
+            yield return Fir;
+            yield return SnowFir;
+            yield return Cactus;
+            yield return Oak;
+            yield return SnowOak;
+        }
+    }
+
+    /// <summary>
+    /// Liste tous les roches du jeu. (Utilisez avec foreach)
+    /// </summary>
+    public static IEnumerable<Rock> Rocks
+    {
+        get
+        {
+            yield return Stone;
+        }
+    }
+
+    /// <summary>
+    /// Liste tous les chunks du jeu. (Utilisez avec foreach)
+    /// </summary>
+    public static IEnumerable<Chunk> Chunks
+    {
+        get
+        {
+            yield return Chunk2_One;
+            yield return Chunk2_TwoI;
+            yield return Chunk2_TwoL;
+            yield return Chunk2_Three;
+            yield return Chunk2_All;
+        }
+    }
+
+    /// <summary>
+    /// Retourne un chunk aleatoire. (Une copie)
+    /// </summary>
     public static Chunk RandChunk(Bridges bridge)
     {
         List<Chunk> chunks = new List<Chunk>();
-        foreach (Entity ent in Entitys)
-            if (ent is Chunk)
-            {
-                Chunk c = (Chunk)ent;
-                if (c.Bridge == bridge)
-                    chunks.Add(c);
-            }
+        foreach (Chunk c in Chunks)
+            if (c.Bridge == bridge)
+                chunks.Add(c);
 
         return new Chunk(chunks[Random.Range(0, chunks.Count)]);
-    }  
+    }
 
+    /// <summary>
+    /// Recherche une entite par son identifiant et la retourne. (Une copie)
+    /// </summary>
     public static Entity Find(int id)
     {
         foreach (Entity i in Entitys)
         {
             if (i.ID == id)
-                return i;
+            {
+                if (i is Tree)
+                    return new Tree((Tree)i);
+                else if (i is Rock)
+                    return new Rock((Rock)i);
+                else if (i is Chunk)
+                    return new Chunk((Chunk)i);
+                else
+                    return new Entity(i);
+            }
         }
         throw new System.Exception("Items.Find : Item not find");
     }
