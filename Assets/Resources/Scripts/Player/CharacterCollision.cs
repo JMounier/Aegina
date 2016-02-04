@@ -18,7 +18,6 @@ public class CharacterCollision : MonoBehaviour
     {
         if (collision.collider.tag == "Ground")        
             this.controllerScript.IsJumping = false;
-        
     }
     void Update()
     {

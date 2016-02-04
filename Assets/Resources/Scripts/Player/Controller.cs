@@ -16,12 +16,13 @@ public class Controller : NetworkBehaviour
     private float coolDownJump = 0;
 
     [SyncVar]
-    private bool isJumping = true;
+    private bool syncIsJumping = true;
     [SyncVar]
-    private bool isMoving = false;
+    private bool syncIsMoving = false;
     [SyncVar]
-    private bool isSprinting = false;
+    private bool syncIsSprinting = false;
 
+    private bool isJumping;
     private Animator anim;
 
     // Use for Camera
@@ -67,9 +68,9 @@ public class Controller : NetworkBehaviour
         // Check if the player is local
         if (!isLocalPlayer)
         {           
-                if (!this.isJumping && this.isMoving)
+                if (!this.syncIsJumping && this.syncIsMoving)
                 {
-                    if (this.isSprinting && this.soundAudio.IsReady(2))
+                    if (this.syncIsSprinting && this.soundAudio.IsReady(2))
                         gameObject.GetComponentInChildren<Sound>().PlaySound(0.1f, 0.2f, 2, AudioClips.Run1, AudioClips.Run2, AudioClips.Run3);
 
                     else if (this.soundAudio.IsReady(1))
@@ -147,7 +148,7 @@ public class Controller : NetworkBehaviour
         bool right = !this.pause && Input.GetButton("Right");
         bool left = !this.pause && Input.GetButton("Left");
         bool jump = !this.pause && Input.GetButton("Jump");
-        this.isSprinting = !this.pause && Input.GetButton("Sprint");
+        this.syncIsSprinting = !this.pause && Input.GetButton("Sprint");
 
         Vector3 move = new Vector3(0, 0, 0);
 
@@ -225,22 +226,22 @@ public class Controller : NetworkBehaviour
         }
 
 
-        this.isMoving = move.x != 0 || move.z != 0;
+        this.syncIsMoving = move.x != 0 || move.z != 0;
 
         // Apply the moves with the animation
         if (this.isJumping)
         {
             anim.SetInteger("Action", 3);
-            if (this.isSprinting)
+            if (this.syncIsSprinting)
                 move *= Time.deltaTime * (this.sprintSpeed + this.jumpingBoost);
             else
                 move *= Time.deltaTime * (this.walkSpeed + this.jumpingBoost);
         }
         else
         {
-            if (this.isMoving)
+            if (this.syncIsMoving)
             {
-                if (this.isSprinting)
+                if (this.syncIsSprinting)
                 {
                     move *= Time.deltaTime * this.sprintSpeed;
                     anim.SetInteger("Action", 2);
@@ -262,10 +263,10 @@ public class Controller : NetworkBehaviour
             else
                 anim.SetInteger("Action", 0);
         }
-        this.CmdPlaySound(this.isMoving, this.isSprinting, this.isJumping);
+        this.CmdSetStatus(this.syncIsMoving, this.syncIsSprinting, this.isJumping);
         gameObject.transform.Translate(move, Space.World);
 
-        if (this.isMoving)
+        if (this.syncIsMoving)
         {
             Vector3 rotCam = new Vector3(this.character.transform.eulerAngles.x, this.cam.transform.eulerAngles.y + rotation, this.character.transform.eulerAngles.z);
             this.character.transform.rotation = Quaternion.Lerp(this.character.transform.rotation, Quaternion.Euler(rotCam), Time.deltaTime * 5);
@@ -277,11 +278,11 @@ public class Controller : NetworkBehaviour
     /// Informe le serveur de jouer un son.
     /// </sumary>
     [Command]
-    private void CmdPlaySound(bool isMoving, bool isSprinting, bool isJumping)
+    private void CmdSetStatus(bool isMoving, bool isSprinting, bool isJumping)
     {
-        this.isMoving = isMoving;
-        this.isSprinting = isSprinting;
-        this.isJumping = isJumping;
+        this.syncIsMoving = isMoving;
+        this.syncIsSprinting = isSprinting;
+        this.syncIsJumping = isJumping;
     }
 
     // Setters | Getters
