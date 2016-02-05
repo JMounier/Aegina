@@ -83,7 +83,6 @@ public class Social : NetworkBehaviour
             else if (Event.current.type == EventType.used && Event.current.keyCode == KeyCode.Escape)
             {
                 this.chatShown = false;
-                this.Validate();
                 GetComponent<Controller>().Pause = false;
             }
             else if (Event.current.type == EventType.used && Event.current.keyCode == KeyCode.UpArrow)
@@ -97,11 +96,14 @@ public class Social : NetworkBehaviour
         GUI.Box(new Rect(this.posX, this.posY - 155, 500, 140), textChat, this.skin.GetStyle("chat"));
     }
 
+    /// <summary>
+    /// Valid le message entre par l'utilisateur
+    /// </summary>
     public void Validate()
     {
         if (msg != "" && isLocalPlayer)
         {
-            this.CmdSendMsg(this.msg, this.namePlayer);
+            this.CmdSendMsg(this.msg, gameObject);
             for (int i = 8; i > -1; i--)
                 this.log[i + 1] = this.log[i];
             this.log[0] = this.msg;
@@ -110,14 +112,23 @@ public class Social : NetworkBehaviour
         }
     }
 
+    /// <summary>
+    /// Actualise le nom du joueur 
+    /// </summary>
+    /// <param name="name"></param>
     [Command]
     private void CmdSetName(string name)
     {
         this.namePlayer = name;
     }
 
+    /// <summary>
+    /// Demande au serveur de traiter un message
+    /// </summary>
+    /// <param name="msg"></param>
+    /// <param name="name"></param>
     [Command]
-    private void CmdSendMsg(string msg, string name)
+    private void CmdSendMsg(string msg, GameObject sender)
     {
         msg = msg.Trim();
         if (msg[0] == '/')
@@ -129,41 +140,48 @@ public class Social : NetworkBehaviour
                 {
                     case "/time":
                         GameObject.Find("Map").GetComponent<DayNightCycle>().SetTime(int.Parse(cmd[1]));
-                        break;
+                        break;                    
                     default:
-                        throw new System.Exception();
+                        sender.GetComponent<Social>().RpcReceiveMsg("Server : \"" + cmd[0] + "\" doesn't exist.");
                         break;
                 }
             }
             catch
             {
-
+                sender.GetComponent<Social>().RpcReceiveMsg("The arguments of your command are not valid.");
             }
+
         }
         else
-            RpcReceiveMsg(name + " : " + this.msg);
+            foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
+                player.GetComponent<Social>().RpcReceiveMsg(sender.GetComponent<Social>().namePlayer + " : " + msg);
     }
 
+    /// <summary>
+    /// Envoi un message du serveur vers les clients
+    /// </summary>
+    /// <param name="msg"></param>
     [ClientRpc]
     private void RpcReceiveMsg(string msg)
     {
-        if (isLocalPlayer)
-        {
-            for (int i = 0; i < this.chat.Length - 1; i++)
-                this.chat[i] = this.chat[i + 1];
-            this.chat[this.chat.Length - 1] = msg;
-            foreach (string str in this.chat)
-                Debug.Log(str);
-        }
+        for (int i = 0; i < this.chat.Length - 1; i++)
+            this.chat[i] = this.chat[i + 1];
+        this.chat[this.chat.Length - 1] = msg;
     }
 
+    /// <summary>
+    /// L'affichage du chat
+    /// </summary>
     public bool ChatShown
     {
         get { return this.chatShown; }
         set { this.chatShown = value; }
     }
 
-    public int LogIndex
+    /// <summary>
+    /// Change l'indice du log.
+    /// </summary>
+    private int LogIndex
     {
         get { return this.logIndex; }
         set
