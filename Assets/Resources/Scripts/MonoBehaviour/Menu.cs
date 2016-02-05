@@ -13,6 +13,7 @@ public class Menu : NetworkBehaviour {
     private Inventory inventory;
     private GUISkin skin;
     private Language langue;
+    private Controller controller;
 
     private Sound soundAudio;
 
@@ -22,6 +23,7 @@ public class Menu : NetworkBehaviour {
         if (!isLocalPlayer)
             return;
         this.inventory = GetComponentInParent<Inventory>();
+        this.controller = GetComponentInParent<Controller>();
         this.skin = Resources.Load<GUISkin>("Sprites/GUIskin/skin");
         this.langue = (Language) PlayerPrefs.GetInt("langue", 0);
 
@@ -53,6 +55,7 @@ public class Menu : NetworkBehaviour {
         {
             this.soundAudio.PlaySound(AudioClips.Button, 1f);
             this.menuShown = false;
+            this.controller.Pause = !this.controller.Pause;
         }
         if (GUI.Button(new Rect(Screen.width/2 -40, Screen.height/2 -40,80,40), this.langue == 0 ? "Quitter":"Quit", this.skin.GetStyle("button")))
         {

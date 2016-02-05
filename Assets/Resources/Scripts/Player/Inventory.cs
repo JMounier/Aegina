@@ -328,7 +328,20 @@ public class Inventory : NetworkBehaviour
         }
         return false;
     }
-
+    public bool InventoryContains(Item it, int quantity)
+    {
+        int i = 0;
+        int j = 0;
+        while (quantity > 0 && j < this.columns)
+        {
+            if (this.slots[i, j].Items.ID == it.ID && this.slots[i, j].Items.Meta == it.Meta)
+                quantity -= this.slots[i, j].Quantity;
+            i = (i + 1) % this.rows;
+            if (i == 0)
+                j += 1;
+        }
+        return quantity <= 0;
+    }
     /// <sumary>
     /// Reinitialise l'inventaire.
     /// </sumary>

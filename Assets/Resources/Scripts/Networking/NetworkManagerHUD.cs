@@ -15,7 +15,7 @@ namespace UnityEngine.Networking
         private int offsetY;
         private GUISkin skin;
         private Menu menu;
-        private string name;
+        private string playerName;
 
         void Awake()
         {
@@ -23,8 +23,8 @@ namespace UnityEngine.Networking
             this.skin = Resources.Load<GUISkin>("Sprites/GUIskin/skin");
             this.offsetX = Screen.width / 2 - 100;
             this.offsetY = Screen.height / 2 - 100;
-            this.name = PlayerPrefs.GetString("PlayerName", "Enter your pseudo");
-            if (name == "Enter your pseudo")            
+            this.playerName = PlayerPrefs.GetString("PlayerName", "Enter your pseudo");
+            if (playerName == "Enter your pseudo")            
                 this.showGUI = false;
             
         }
@@ -49,11 +49,11 @@ namespace UnityEngine.Networking
         {         
             if (!showGUI)
             {
-                this.name = GUI.TextField(new Rect(this.offsetX - 100, this.offsetY + 80, 400, 40), this.name);
+                this.playerName = GUI.TextField(new Rect(this.offsetX - 100, this.offsetY + 80, 400, 40), this.playerName);
                 if (GUI.Button(new Rect(this.offsetX - 100, this.offsetY, 105, 20), "Validate", this.skin.GetStyle("button")))
                 {
                     this.showGUI = true;
-                    PlayerPrefs.SetString("PlayerName", this.name);
+                    PlayerPrefs.SetString("PlayerName", this.playerName);
                 }
                     return;
             }
