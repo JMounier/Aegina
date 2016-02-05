@@ -1,15 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class IslandCore : Element {
+public class IslandCore : Element
+{
 
     private int team;
     private int level_upgrade;
     private int level_attack;
     private int level_prod;
     private int level_portal;
-	public IslandCore(int team,int level_attack,int level_prod, int level_portal)
-        :base()
+    public IslandCore(int team, int level_attack, int level_prod, int level_portal)
+        : base()
     {
         this.team = team;
         this.level_attack = level_attack;
@@ -22,6 +23,9 @@ public class IslandCore : Element {
     {
         this.team = 0;
         this.level_upgrade = 0;
+        this.level_attack = 0;
+        this.level_prod = 0;
+        this.level_portal = 0;
     }
     // Methods
     /// <summary>
@@ -31,7 +35,7 @@ public class IslandCore : Element {
     {
         this.level_upgrade += 1;
     }
-    public void Level_up (int num_level)
+    public void Level_up(int num_level)
     {
         this.level_upgrade += num_level;
     }
