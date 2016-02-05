@@ -15,6 +15,7 @@ namespace UnityEngine.Networking
         private int offsetY;
         private GUISkin skin;
         private Menu menu;
+        private string name;
 
         void Awake()
         {
@@ -22,11 +23,15 @@ namespace UnityEngine.Networking
             this.skin = Resources.Load<GUISkin>("Sprites/GUIskin/skin");
             this.offsetX = Screen.width / 2 - 100;
             this.offsetY = Screen.height / 2 - 100;
+            this.name = PlayerPrefs.GetString("PlayerName", "Enter your pseudo");
+            if (name == "Enter your pseudo")            
+                this.showGUI = false;
+            
         }
 
         void Update()
         {
-            if (!showGUI)
+            if (!showGUI)            
                 return;
 
             if (!NetworkClient.active && !NetworkServer.active && manager.matchMaker == null)
@@ -41,9 +46,17 @@ namespace UnityEngine.Networking
         }
 
         void OnGUI()
-        {
+        {         
             if (!showGUI)
-                return;
+            {
+                this.name = GUI.TextField(new Rect(this.offsetX - 100, this.offsetY + 80, 400, 40), this.name);
+                if (GUI.Button(new Rect(this.offsetX - 100, this.offsetY, 105, 20), "Validate", this.skin.GetStyle("button")))
+                {
+                    this.showGUI = true;
+                    PlayerPrefs.SetString("PlayerName", this.name);
+                }
+                    return;
+            }
 
             int xpos = 10 + offsetX;
             int ypos = 40 + offsetY;
@@ -59,7 +72,7 @@ namespace UnityEngine.Networking
                 if (GUI.Button(new Rect(xpos, ypos, 105, 20), "LAN Client(C)", this.skin.GetStyle("button")))
                     this.Launch(TypeLaunch.Client);
 
-                manager.networkAddress = GUI.TextField(new Rect(xpos + 110, ypos, 95, 20), this.manager.networkAddress);
+                this.manager.networkAddress = GUI.TextField(new Rect(xpos + 110, ypos, 95, 20), this.manager.networkAddress);
                 ypos += spacing;
 
                 if (GUI.Button(new Rect(xpos, ypos, 200, 20), "LAN Server Only(S)", skin.GetStyle("button")))
