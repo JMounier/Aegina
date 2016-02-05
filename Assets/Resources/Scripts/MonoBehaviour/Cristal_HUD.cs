@@ -9,13 +9,14 @@ public class Cristal_HUD : NetworkBehaviour
     private IslandCore cristal;
     private bool cristal_shown = false;
     private int pos_x;
+    private int pos_y;
     private int width;
     private int height;
-    private int pos_y;
     private GUISkin skin;
     private ItemStack[] need;
     private SystemLanguage langue;
     private Inventory inventory;
+
     // Use this for initialization
     void Start()
     {
@@ -25,7 +26,8 @@ public class Cristal_HUD : NetworkBehaviour
         this.height = Screen.height / 2;
         this.skin = Resources.Load<GUISkin>("Sprites/GUIskin/Skin");
         this.inventory = GetComponentInParent<Inventory>();
-        if (cristal.Team == 0)
+        this.cristal = new IslandCore();
+        if (cristal.T == Team.Neutre)
         {
             this.need = new ItemStack[3] { new ItemStack(ItemDatabase.Iron, 15), new ItemStack(ItemDatabase.Gold, 1), new ItemStack(ItemDatabase.Copper, 15) };
         }
@@ -34,6 +36,7 @@ public class Cristal_HUD : NetworkBehaviour
             this.need = new ItemStack[6] { new ItemStack(ItemDatabase.Iron, 10 * cristal.Level_tot), new ItemStack(ItemDatabase.Gold, 1 * cristal.Level_tot), new ItemStack(ItemDatabase.Copper, 10 * cristal.Level_tot), new ItemStack(ItemDatabase.Floatium, cristal.Level_tot / 2), new ItemStack(ItemDatabase.Mithril, cristal.Level_tot * 2 / 3), new ItemStack(ItemDatabase.Sunkium, cristal.Level_tot / 2) };
         }
     }
+
     // Update is called once per frame
     void On_GUi()
     {
@@ -42,10 +45,9 @@ public class Cristal_HUD : NetworkBehaviour
         if (this.cristal_shown)
         {
             Draw_cristal();
-
         }
-
     }
+
     /// <summary>
     /// affiche l'interface d'interaction avec le cristal
     /// </summary>
@@ -72,10 +74,10 @@ public class Cristal_HUD : NetworkBehaviour
                 j += 1;
             }
         }
-        if (this.cristal.Team == 0)
+        if (this.cristal.T == Team.Neutre)
         {
             rect = new Rect(this.pos_x + 40, this.pos_y + 320, 80, 40);
-            if (GUI.Button(rect,"",PlayerPrefs.GetInt("langue", 0) == 0?"Activer":"Activate"))
+            if (GUI.Button(rect, "", PlayerPrefs.GetInt("langue", 0) == 0 ? "Activer" : "Activate"))
             {
                 if (this.inventory.InventoryContains(need))
                 {
@@ -85,35 +87,50 @@ public class Cristal_HUD : NetworkBehaviour
             }
         }
     }
+
     /// <summary>
     /// Active le cristal au couleurs de la team du joueur
     /// </summary>
     private void Activate()
     {
-        this.cristal.Team = 1;
+        this.cristal.T = Team.Blue;
         if (this.cristal.Level_tot == 0)
         {
             System.Random ran = new System.Random();
             int a = ran.Next(0, 10);
             if (a == 0)
             {
-                cristal.Level_up_porte(2);
+                cristal.Level_portal += 2;
             }
             else if (a <= 3)
             {
-                cristal.Level_up_prod(2);
+                cristal.Level_prod += 2;
             }
             else
             {
-                cristal.Level_up_atk(2);
+                cristal.Level_atk += 2;
             }
         }
     }
+
     // Getters Setters
+
+    /// <summary>
+    /// Si l'interface du cristal est affiche
+    /// </summary>
     public bool Cristal_shown
     {
         get { return this.cristal_shown; }
         set { this.cristal_shown = value; }
+    }
+
+    /// <summary>
+    /// Le cristal gerer par le hud (celui actuellement proche du joueur)
+    /// </summary>
+    public IslandCore Cristal
+    {
+        get { return this.cristal; }
+        set { this.cristal = value; }
     }
 
 }
