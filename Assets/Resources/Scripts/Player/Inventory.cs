@@ -32,7 +32,6 @@ public class Inventory : NetworkBehaviour
         this.slots = new ItemStack[this.rows, this.columns];
         this.ClearInventory();
         // this.LoadInventory();
-
         // Tests
         this.AddItemStack(new ItemStack(new Item(ItemDatabase.Stone), 42));
         this.AddItemStack(new ItemStack(new Item(ItemDatabase.Log), 64));
@@ -66,10 +65,10 @@ public class Inventory : NetworkBehaviour
             this.draggingItemStack = false;
         }
     }
-    
-    /// <sumary>
-    ///  S'occupe de toute les interractions entre la souris et l'inventaire, permet le drag and drop et dessinne la tooltip.
-    /// </sumary>
+
+    /// <summary>
+    /// S'occupe de toute les interractions entre la souris et l'inventaire, permet le drag and drop et dessinne la tooltip.
+    /// </summary>
     void InteractInventory()
     {
         this.tooltipshown = false;
@@ -201,9 +200,9 @@ public class Inventory : NetworkBehaviour
         }
     }
 
-    /// <sumary>
+    /// <summary>
     /// S'occupe de dessiner l'inventaire avec les items dedans.
-    /// </sumary>
+    /// </summary>
     void DrawInventory()
     {
         Rect rect = new Rect(this.pos_x_inventory - 8, this.pos_y_inventory - 8, this.columns * 40 + 16, this.rows * 40 + 31);
@@ -244,9 +243,9 @@ public class Inventory : NetworkBehaviour
         }
     }
 
-    /// <sumary>
+    /// <summary>
     /// S'occupe de dessiner la toolbar en bas de l'ecran.
-    /// </sumary>
+    /// </summary>
     void DrawToolbar()
     {
         Rect rect = new Rect(this.pos_x_toolbar, this.pos_y_toolbar, this.columns * 50, 50);
@@ -270,9 +269,10 @@ public class Inventory : NetworkBehaviour
         }
     }
 
-    /// <sumary>
+    /// <summary>
     /// Permet d'ajotuer des objes dans l'inventaire.
-    /// </sumary>
+    /// </summary>
+    /// <param name="iStack"></param>
     private void AddItemStack(ItemStack iStack)
     {
         int i = 0;
@@ -313,9 +313,11 @@ public class Inventory : NetworkBehaviour
         }
     }
 
-    /// <sumary>
-    /// Verifie si un objet possedant l'id it se trouve dans l'inventaire.
-    /// </sumary>
+    /// <summary>
+    /// Verifie si une quantite d'objet se trouve dans l'inventaire.
+    /// </summary>
+    /// <param name="it"></param>
+    /// <returns></returns>
     public bool InventoryContains(Item it)
     {
         for (int i = 0; i < this.rows; i++)
@@ -328,6 +330,12 @@ public class Inventory : NetworkBehaviour
         }
         return false;
     }
+    /// <summary>
+    /// Verifie si un objet se trouve dans l'inventaire.
+    /// </summary>
+    /// <param name="it"></param>
+    /// <param name="quantity"></param>
+    /// <returns></returns>
     public bool InventoryContains(Item it, int quantity)
     {
         int i = 0;
@@ -342,9 +350,84 @@ public class Inventory : NetworkBehaviour
         }
         return quantity <= 0;
     }
-    /// <sumary>
+    /// <summary>
+    /// Verifie si un objet se trouve en au moins une certaine quantite dans l'inventaire.
+    /// </summary>
+    /// <param name="itS"></param>
+    /// <returns></returns>
+    public bool InventoryContains(ItemStack itS)
+    {
+        return InventoryContains(itS.Items, itS.Quantity);
+    }
+    /// <summary>
+    /// Verifie si une liste d'objets se trouve dans l'inventaire.
+    /// </summary>
+    /// <param name="itlist"></param>
+    /// <returns></returns>
+    public bool InventoryContains(ItemStack[] itlist)
+    {
+        bool contain_all = true;
+        int i = 0;
+        int len = itlist.Length;
+        while(contain_all && i < len)
+        {
+            contain_all = contain_all && InventoryContains(itlist[i]);
+            i += 1;
+        }
+        return contain_all;
+    }
+    /// <summary>
+    /// suprime une certaine quantite d'un objet dans l'inventaire
+    /// </summary>
+    /// <param name="itS"></param>
+    public void DeleteItems(ItemStack itS)
+    {
+        DeleteItems(itS.Items, itS.Quantity);
+    }
+    /// <summary>
+    /// suprime une certaine quantite d'un objet dans l'inventaire
+    /// </summary>
+    /// <param name="it"></param>
+    /// <param name="quantity"></param>
+    public void DeleteItems(Item it, int quantity)
+    {
+        int i = 0;
+        int j = 0;
+        while (quantity > 0 && j < this.columns)
+        {
+            if (this.slots[i, j].Items.ID == it.ID && this.slots[i, j].Items.Meta == it.Meta)
+            {
+                if (this.slots[i,j].Quantity <= quantity)
+                {
+                    quantity -= this.slots[i, j].Quantity;
+                    this.slots[i, j] = new ItemStack();
+                }
+                else
+                {
+                    this.slots[i, j].Quantity -= quantity;
+                    quantity = 0;
+                }
+
+            }
+            i = (i + 1) % this.rows;
+            if (i == 0)
+                j += 1;
+        }
+    }
+    /// <summary>
+    /// suprime une liste d'objet de de l'inventaire
+    /// </summary>
+    /// <param name="itSlist"></param>
+    public void DeleteItems(ItemStack[] itSlist)
+    {
+        foreach (ItemStack item in itSlist)
+        {
+            DeleteItems(item);
+        }
+    }
+    /// <summary>
     /// Reinitialise l'inventaire.
-    /// </sumary>
+    /// </summary>
     public void ClearInventory()
     {
         for (int i = 0; i < this.rows; i++)
@@ -352,9 +435,9 @@ public class Inventory : NetworkBehaviour
                 this.slots[i, j] = new ItemStack();
     }
 
-    /// <sumary>
+    /// <summary>
     /// Sauvegarde l'inventaire en local.
-    /// </sumary>
+    /// </summary>
     public void SaveInventory()
     {
         for (int i = 0; i < this.rows; i++)
@@ -362,9 +445,9 @@ public class Inventory : NetworkBehaviour
                 PlayerPrefs.SetString("Inventory " + i + " " + j, this.slots[i, j].Items.ID + " " + this.slots[i, j].Items.Meta + " " + this.slots[i, j].Quantity);
     }
 
-    /// <sumary>
+    /// <summary>
     /// Recupere l'inventaire local.
-    /// </sumary>
+    /// </summary>
     public void LoadInventory()
     {
         for (int i = 0; i < this.rows; i++)
@@ -375,9 +458,10 @@ public class Inventory : NetworkBehaviour
             }
     }
 
-    /// <sumary>
+    /// <summary>
     /// Informe l'inventaire de la colision avec un loot.
-    /// </sumary>
+    /// </summary>
+    /// <param name="loot"></param>
     [Client]
     public void DetectLoot(GameObject loot)
     {
@@ -386,9 +470,10 @@ public class Inventory : NetworkBehaviour
     }
 
 
-    /// <sumary>
+    /// <summary>
     /// Recupere les informations du loot puis les ajoutes.
-    /// </sumary>
+    /// </summary>
+    /// <param name="loot"></param>
     [Command]
     private void CmdGetItemStack(GameObject loot)
     {
@@ -405,9 +490,12 @@ public class Inventory : NetworkBehaviour
         }
     }
 
-    /// <sumary>
+    /// <summary>
     /// Depuis les informations du loot, ajoute a l'inventaire les loots. Puis actualise la quantite.
-    /// </sumary>
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="quantity"></param>
+    /// <param name="loot"></param>
     [ClientRpc]
     private void RpcAddItemStack(int id, int quantity, GameObject loot)
     {
@@ -419,9 +507,12 @@ public class Inventory : NetworkBehaviour
         }
     }
 
-    /// <sumary>
+    /// <summary>
     /// Actualise la quantite restante du loot apres ajout.
-    /// </sumary>
+    /// </summary>
+    /// <param name="quantity"></param>
+    /// <param name="loot"></param>
+    /// <param name="posPlayer"></param>
     [Command]
     private void CmdSetQuantity(int quantity, GameObject loot, Vector3 posPlayer)
     {
@@ -440,27 +531,33 @@ public class Inventory : NetworkBehaviour
 
     }
 
-    /// <sumary>
+    /// <summary>
     /// Jette un stack d'objet.
-    /// </sumary>
+    /// </summary>
+    /// <param name="itemS"></param>
     [Client]
     public void Drop(ItemStack itemS)
     {
         CmdDrop(itemS.Quantity, itemS.Items.ID, itemS.Items.Meta, this.trans.GetComponentInChildren<CharacterCollision>().gameObject.transform.position, -this.trans.GetComponentInChildren<CharacterCollision>().gameObject.transform.forward);
     }
 
-    /// <sumary>
+    /// <summary>
     /// Commande pour jetter un stack d'objet.
-    /// </sumary>
+    /// </summary>
+    /// <param name="quantity"></param>
+    /// <param name="id"></param>
+    /// <param name="meta"></param>
+    /// <param name="pos"></param>
+    /// <param name="forward"></param>
     [Command]
     private void CmdDrop(int quantity, int id, int meta, Vector3 pos, Vector3 forward)
     {
         ItemDatabase.Find(id, meta).Spawn(pos + forward * 0.3f + Vector3.up * 0.7f, forward + Vector3.up, quantity);
     }
 
-    /// <sumary>
+    /// <summary>
     /// Utilise un objet
-    /// </sumary>
+    /// </summary>
     public void UsingItem()
     {
         if (cursor == -1)
@@ -474,35 +571,35 @@ public class Inventory : NetworkBehaviour
 
     // Getters & Setters
 
-    /// <sumary>
+    /// <summary>
     /// Si l'inventaire est affiché.
-    /// </sumary>
+    /// </summary>
     public bool InventoryShown
     {
         get { return this.inventoryShown; }
         set { this.inventoryShown = value; }
     }
 
-    /// <sumary>
+    /// <summary>
     /// Si l'utilisateur déplace un objet.
-    /// </sumary>
+    /// </summary>
     public bool Draggingitem
     {
         get { return this.draggingItemStack; }
     }
 
-    /// <sumary>
+    /// <summary>
     /// La position de l'item utilisé.
-    /// </sumary>
+    /// </summary>
     public int Cursors
     {
         get { return this.cursor; }
         set { this.cursor = value % this.columns; }
     }
 
-    /// <sumary>
+    /// <summary>
     /// Renvoie l'item stack utilisé.
-    /// </sumary>
+    /// </summary>
     public ItemStack UsedItem
     {
         get { return this.slots[this.rows - 1, this.cursor]; }
