@@ -82,7 +82,11 @@ public class IslandCore : Element
     public int Team
     {
         get { return this.team; }
-        set { this.team = value; }
+        set
+        {
+            this.team = value;
+            GameObject.GetComponentinChildren<MeshRenderer>().Materials[0] = Resources.Load<Material>("Models/Components/Islands/Cristals/Team" + value);
+        }
     }
     public int Level_tot
     {
