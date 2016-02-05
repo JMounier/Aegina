@@ -24,14 +24,14 @@ namespace UnityEngine.Networking
             this.offsetX = Screen.width / 2 - 100;
             this.offsetY = Screen.height / 2 - 100;
             this.playerName = PlayerPrefs.GetString("PlayerName", "Enter your pseudo");
-            if (playerName == "Enter your pseudo")            
+            if (playerName == "Enter your pseudo")
                 this.showGUI = false;
-            
+
         }
 
         void Update()
         {
-            if (!showGUI)            
+            if (!showGUI)
                 return;
 
             if (!NetworkClient.active && !NetworkServer.active && manager.matchMaker == null)
@@ -46,16 +46,16 @@ namespace UnityEngine.Networking
         }
 
         void OnGUI()
-        {         
+        {
             if (!showGUI)
             {
-                this.playerName = GUI.TextField(new Rect(this.offsetX - 100, this.offsetY + 80, 400, 40), this.playerName);
+                this.playerName = GUI.TextField(new Rect(this.offsetX - 100, this.offsetY + 80, 400, 40), this.playerName, 15);
                 if (GUI.Button(new Rect(this.offsetX - 100, this.offsetY, 105, 20), "Validate", this.skin.GetStyle("button")))
                 {
                     this.showGUI = true;
                     PlayerPrefs.SetString("PlayerName", this.playerName);
                 }
-                    return;
+                return;
             }
 
             int xpos = 10 + offsetX;
@@ -89,7 +89,7 @@ namespace UnityEngine.Networking
             if (NetworkServer.active || NetworkClient.active)
             {
                 if (GUI.Button(new Rect(10, 88, 200, 20), "Stop", skin.GetStyle("button")))
-                    this.Launch(TypeLaunch.Stop);               
+                    this.Launch(TypeLaunch.Stop);
             }
         }
 
@@ -101,7 +101,7 @@ namespace UnityEngine.Networking
             }
             else if (type == TypeLaunch.Client)
             {
-                this.manager.StartClient();            
+                this.manager.StartClient();
             }
             else if (type == TypeLaunch.Server)
             {
