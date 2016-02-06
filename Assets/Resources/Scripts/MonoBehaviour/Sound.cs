@@ -10,6 +10,7 @@ public class Sound : MonoBehaviour
     private AudioSource source;
     private List<float[]> coolDown = new List<float[]>();
     private static AudioClip[] AudioclipArray = new AudioClip[7];
+    private float volume = 0.1f;
 
     // Use this for initialization
     void Start()
@@ -22,6 +23,8 @@ public class Sound : MonoBehaviour
         AudioclipArray[5] = Resources.Load<AudioClip>("Sounds/Button/Button");
         AudioclipArray[6] = Resources.Load<AudioClip>("Sounds/Button/Bag");
         this.source = gameObject.GetComponent<AudioSource>();
+        this.volume = PlayerPrefs.GetFloat("Sound_intensity", 0.1f);
+        
     }
 
     // Update is called once per frame
@@ -46,7 +49,7 @@ public class Sound : MonoBehaviour
     /// </sumary>
     public void PlaySound(AudioClips clip, float vol)
     {
-        this.source.PlayOneShot(AudioclipArray[(int) clip], vol);
+        this.source.PlayOneShot(AudioclipArray[(int) clip], vol * volume);
     }
 
     /// <sumary>
@@ -54,7 +57,7 @@ public class Sound : MonoBehaviour
     /// </sumary>
     public void PlaySound(AudioClips clip, float vol, float coolDown)
     {
-        this.source.PlayOneShot(AudioclipArray[(int)clip], vol);
+        this.source.PlayOneShot(AudioclipArray[(int)clip], vol * volume);
         this.coolDown.Add(new float[2] { AudioclipArray[(int)clip].GetInstanceID(), coolDown });
     }
 
@@ -63,7 +66,7 @@ public class Sound : MonoBehaviour
     /// </sumary>
     public void PlaySound(AudioClips clip, float vol, float coolDown, float idCoolDown)
     {
-        this.source.PlayOneShot(AudioclipArray[(int)clip], vol);
+        this.source.PlayOneShot(AudioclipArray[(int)clip], vol*volume);
         this.coolDown.Add(new float[2] { idCoolDown, coolDown });
     }
 
@@ -74,7 +77,7 @@ public class Sound : MonoBehaviour
     {
         if (clips.Length > 0)
         {            
-            this.source.PlayOneShot(AudioclipArray[(int) clips[Random.Range(0, clips.Length)]], vol);
+            this.source.PlayOneShot(AudioclipArray[(int) clips[Random.Range(0, clips.Length)]], vol * volume);
             this.coolDown.Add(new float[2] { idCoolDown, coolDown });
         }
     }
@@ -103,6 +106,11 @@ public class Sound : MonoBehaviour
                 return false;
         }
         return true;
+    }
+    public float Volume
+    {
+        get { return this.volume; }
+        set { this.volume = Mathf.Clamp(value, 0f, 1f); }        
     }
 
 }

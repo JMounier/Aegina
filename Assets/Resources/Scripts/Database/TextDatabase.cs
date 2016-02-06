@@ -86,7 +86,24 @@ public class TextDatabase
     public static readonly Text GoldAxeDescription = new Text("Un outil rudimentaire de pierre ressemblant à une hache", "A rudimentary stone tool looking like a Axe");
     public static readonly Text MithrilAxeDescription = new Text("Un outil rudimentaire de pierre ressemblant à une hache", "A rudimentary stone tool looking like a Axe");
     public static readonly Text FloatiumAxeDescription = new Text("Un outil rudimentaire de pierre ressemblant à une hache", "A rudimentary stone tool looking like a Axe");
-    public static readonly Text SunkiumAxeDescription = new Text("Un outil rudimentaire de pierre ressemblant à une hache", "A rudimentary stone tool looking like a Axe");    
+    public static readonly Text SunkiumAxeDescription = new Text("Un outil rudimentaire de pierre ressemblant à une hache", "A rudimentary stone tool looking like a Axe");
+
+    // Miscellanous
+
+    public static readonly Text Quit = new Text("Quitter", "Quit");
+    public static readonly Text Continuer = new Text("Continuer", "Continue");
+    public static readonly Text Son = new Text("Son", "Sound");
+    public static readonly Text SON = new Text("SON", "SOUND");
+    public static readonly Text Retour = new Text("Retour", "Back");
+    public static readonly Text Langue = new Text("Langue", "Language");
+    public static readonly Text LANGUE = new Text("LANGUE", "LANGUAGE");
+    public static readonly Text Francais = new Text("Français", "French");
+    public static readonly Text Anglais = new Text("Anglais", "English");
+    public static readonly Text Jouer = new Text("Jouer(H)", "Play(H)");
+    public static readonly Text Rejoindre = new Text("Rejoindre(C)", "join(C)");
+
+
+    
 }
 
 

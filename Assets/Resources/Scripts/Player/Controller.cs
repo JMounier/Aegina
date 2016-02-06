@@ -9,8 +9,8 @@ public class Controller : NetworkBehaviour
     private GameObject character;
 
     // Use for Character
-    private float walkSpeed = 2.5f;
-    private float sprintSpeed = 4f;
+    private float walkSpeed = 4f;
+    private float sprintSpeed = 7f;
     private float jumpingBoost = .5f;
     private float jumpForce = 13000f;
     private float coolDownJump = 0;
