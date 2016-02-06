@@ -8,8 +8,8 @@ public class Item
 {
     protected int iD;
     protected int meta;
-    protected string[] name;
-    protected string[] description;
+    protected Text name;
+    protected Text description;
     protected Texture2D icon;
     protected int size;
     protected Entity ent;
@@ -18,10 +18,10 @@ public class Item
     public Item()
     {
         this.size = 0;
-        this.name = new string[] { "",""} ;
+        this.name = new Text() ;
         this.iD = -1;
         this.meta = 0;
-        this.description = new string[] { "", "" };
+        this.description = new Text();
         this.icon = null;
         this.ent = new Entity();
     }
@@ -37,7 +37,7 @@ public class Item
         this.ent = new Entity(item.ent);
     }
 
-    public Item(int id, string[] name, string[] description, int size, Texture2D icon, Entity ent)
+    public Item(int id, Text name, Text description, int size, Texture2D icon, Entity ent)
     {
         this.name = name;
         this.iD = id;
@@ -48,7 +48,7 @@ public class Item
         this.ent = ent;
     }
 
-    public Item(int id, int meta, string[] name, string[] description, int size, Texture2D icon, Entity ent)
+    public Item(int id, int meta, Text name, Text description, int size, Texture2D icon, Entity ent)
     {
         this.name = name;
         this.iD = id;
@@ -105,8 +105,7 @@ public class Item
     /// </summary>
     public string Name
     {
-        get { return this.name[PlayerPrefs.GetInt("langue",0)]; }
-        set { this.name[PlayerPrefs.GetInt("langue", 0)] = value; }
+        get { return this.name.GetText(); }
     }
 
     /// <summary>
@@ -114,8 +113,7 @@ public class Item
     /// </summary>
     public string Description
     {
-        get { return this.description[PlayerPrefs.GetInt("langue", 0)]; }
-        set { this.description[PlayerPrefs.GetInt("langue", 0)] = value; }
+        get { return this.description.GetText(); }
     }
 
     /// <summary>

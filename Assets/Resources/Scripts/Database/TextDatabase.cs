@@ -15,7 +15,7 @@ public class TextDatabase
     public static readonly Text Log = new Text("Bois", "Wood");
     public static readonly Text Stone = new Text("Pierre", "Stone");
     public static readonly Text Sand = new Text("Sable", "Sand");
-    public static readonly Text copper = new Text("Minerai de cuivre", "Copper ore");
+    public static readonly Text Copper = new Text("Minerai de cuivre", "Copper ore");
     public static readonly Text Iron = new Text("Minerai de fer", "Iron ore");
     public static readonly Text Gold = new Text("Minerai d'or", "Gold ore");
     public static readonly Text Mithril = new Text("Minerai de mytril", "Mytril ore");
@@ -33,7 +33,7 @@ public class TextDatabase
     public static readonly Text LogDescription = new Text("Un morceau de bois pouvant servir pour créer d'autres objets", "A piece of wood usable to make other objects");
     public static readonly Text StoneDescription = new Text("Une pierre pouvant servir pour créer d'autres objets", "A piece of stone usable to make other objects");
     public static readonly Text SandDescription = new Text("Du sable... Vous pouvez faire un chateau de sable avec.", "some sand... you can make a sand castle... ");
-    public static readonly Text copperDescription = new Text("Un minerai de cuivre pouvant être fondu en lingot", "A copper ore meltable in ingot");
+    public static readonly Text CopperDescription = new Text("Un minerai de cuivre pouvant être fondu en lingot", "A copper ore meltable in ingot");
     public static readonly Text IronDescription = new Text("Un minerai de fer pouvant être fondu en lingot", "An iron ore meltable in ingot");
     public static readonly Text GoldDescription = new Text("Un minerai d'or pouvant être fondu en lingot", "A gold ore meltable in ingot");
     public static readonly Text MithrilDescription = new Text("Un minerai de mithril pouvant être fondu en lingot", "A mithril ore meltable in ingot");
