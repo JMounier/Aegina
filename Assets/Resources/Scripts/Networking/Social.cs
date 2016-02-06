@@ -136,10 +136,11 @@ public class Social : NetworkBehaviour
             string[] cmd = msg.Split();
             try
             {
-                switch (cmd[0])
+                switch (cmd[0].ToLower())
                 {
                     case "/time":
-                        GameObject.Find("Map").GetComponent<DayNightCycle>().SetTime(int.Parse(cmd[1]));
+                        int time = cmd[1].ToLower() == "day" ? 300 : cmd[1].ToLower() == "night" ? 900 : int.Parse(cmd[1]);
+                        GameObject.Find("Map").GetComponent<DayNightCycle>().SetTime(time);
                         break;
                     case "/give":
                         sender.GetComponent<Inventory>().AddItemStack(new ItemStack(ItemDatabase.Find(int.Parse(cmd[1])), int.Parse(cmd[2])));
@@ -156,7 +157,7 @@ public class Social : NetworkBehaviour
                         for (int i = 2; i < cmd.Length; i++)
                             text += cmd[i] + " ";
                         foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
-                            if (player.GetComponent<Social>().namePlayer == cmd[1])
+                            if (player.GetComponent<Social>().namePlayer.ToLower() == cmd[1].ToLower())
                             {
                                 player.GetComponent<Social>().RpcReceiveMsg(sender.GetComponent<Social>().namePlayer + " -> You : " + text);
                                 return;
@@ -170,7 +171,7 @@ public class Social : NetworkBehaviour
             }
             catch
             {
-                sender.GetComponent<Social>().RpcReceiveMsg("The arguments of your command are not valid.");
+                sender.GetComponent<Social>().RpcReceiveMsg("Server : The arguments of your command are not valid.");
             }
 
         }
