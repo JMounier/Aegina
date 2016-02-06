@@ -273,7 +273,7 @@ public class Inventory : NetworkBehaviour
     /// Permet d'ajotuer des objes dans l'inventaire.
     /// </summary>
     /// <param name="iStack"></param>
-    private void AddItemStack(ItemStack iStack)
+    public void AddItemStack(ItemStack iStack)
     {
         int i = 0;
         int j = 0;
@@ -330,6 +330,7 @@ public class Inventory : NetworkBehaviour
         }
         return false;
     }
+
     /// <summary>
     /// Verifie si un objet se trouve dans l'inventaire.
     /// </summary>
@@ -350,6 +351,7 @@ public class Inventory : NetworkBehaviour
         }
         return quantity <= 0;
     }
+
     /// <summary>
     /// Verifie si un objet se trouve en au moins une certaine quantite dans l'inventaire.
     /// </summary>
@@ -359,6 +361,7 @@ public class Inventory : NetworkBehaviour
     {
         return InventoryContains(itS.Items, itS.Quantity);
     }
+
     /// <summary>
     /// Verifie si une liste d'objets se trouve dans l'inventaire.
     /// </summary>
@@ -376,6 +379,7 @@ public class Inventory : NetworkBehaviour
         }
         return contain_all;
     }
+
     /// <summary>
     /// suprime une certaine quantite d'un objet dans l'inventaire
     /// </summary>
@@ -384,6 +388,7 @@ public class Inventory : NetworkBehaviour
     {
         DeleteItems(itS.Items, itS.Quantity);
     }
+
     /// <summary>
     /// suprime une certaine quantite d'un objet dans l'inventaire
     /// </summary>
@@ -414,6 +419,7 @@ public class Inventory : NetworkBehaviour
                 j += 1;
         }
     }
+
     /// <summary>
     /// suprime une liste d'objet de de l'inventaire
     /// </summary>
@@ -425,6 +431,7 @@ public class Inventory : NetworkBehaviour
             DeleteItems(item);
         }
     }
+
     /// <summary>
     /// Reinitialise l'inventaire.
     /// </summary>
@@ -469,7 +476,6 @@ public class Inventory : NetworkBehaviour
             CmdGetItemStack(loot);
     }
 
-
     /// <summary>
     /// Recupere les informations du loot puis les ajoutes.
     /// </summary>
@@ -491,7 +497,7 @@ public class Inventory : NetworkBehaviour
     }
 
     /// <summary>
-    /// Depuis les informations du loot, ajoute a l'inventaire les loots. Puis actualise la quantite.
+    /// Depuis les informations du loot, ajoute a l'inventaire les loots. Puis actualise la quantite. (Must be server)
     /// </summary>
     /// <param name="id"></param>
     /// <param name="quantity"></param>
@@ -559,9 +565,7 @@ public class Inventory : NetworkBehaviour
     /// Utilise un objet
     /// </summary>
     public void UsingItem()
-    {
-        if (cursor == -1)
-            return;
+    {       
         if (this.UsedItem.Items is Consumable)
         {
             (UsedItem.Items as Consumable).Consume();
@@ -603,5 +607,6 @@ public class Inventory : NetworkBehaviour
     public ItemStack UsedItem
     {
         get { return this.slots[this.rows - 1, this.cursor]; }
+        set { this.slots[this.rows - 1, this.cursor] = value; }
     }
 }
