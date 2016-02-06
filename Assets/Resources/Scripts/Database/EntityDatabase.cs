@@ -50,6 +50,9 @@ public static class EntityDatabase
     public static readonly Chunk Chunk2_Three = new Chunk(1003, Resources.Load<GameObject>("Prefabs/Chunks/Chunk2_Three"), Bridges.Three);
     public static readonly Chunk Chunk2_All = new Chunk(1004, Resources.Load<GameObject>("Prefabs/Chunks/Chunk2_All"), Bridges.All);
 
+    // IslandCore
+    public static readonly IslandCore IslandCore = new IslandCore(42, Resources.Load<GameObject>("Prefabs/Elements/Cristals/IslandCore"), Team.Neutre, 0, 0, 0);
+
     /// <summary>
     /// Liste tous les entites du jeu. (Utilisez avec foreach)
     /// </summary>
@@ -72,6 +75,9 @@ public static class EntityDatabase
             // Chunk
             foreach (Chunk chunk in Chunks)
                 yield return chunk;
+
+            // IslandCore
+            yield return IslandCore;
         }
     }
 

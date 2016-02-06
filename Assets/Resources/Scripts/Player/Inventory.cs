@@ -560,19 +560,7 @@ public class Inventory : NetworkBehaviour
     {
         ItemDatabase.Find(id, meta).Spawn(pos + forward * 0.3f + Vector3.up * 0.7f, forward + Vector3.up, quantity);
     }
-
-    /// <summary>
-    /// Utilise un objet
-    /// </summary>
-    public void UsingItem()
-    {       
-        if (this.UsedItem.Items is Consumable)
-        {
-            (UsedItem.Items as Consumable).Consume();
-        }
-        print("Item utiliser");
-    }
-
+    
     // Getters & Setters
 
     /// <summary>

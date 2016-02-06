@@ -38,7 +38,7 @@ public class Cristal_HUD : NetworkBehaviour
     }
 
     // Update is called once per frame
-    void On_GUi()
+    void OnGUI()
     {
         if (!isLocalPlayer)
             return;
@@ -76,8 +76,8 @@ public class Cristal_HUD : NetworkBehaviour
         }
         if (this.cristal.T == Team.Neutre)
         {
-            rect = new Rect(this.pos_x + 40, this.pos_y + 320, 80, 40);
-            if (GUI.Button(rect, "", PlayerPrefs.GetInt("langue", 0) == 0 ? "Activer" : "Activate"))
+            rect = new Rect(this.pos_x + 40, this.pos_y + 280, 80, 40);
+            if (GUI.Button(rect, TextDatabase.Activate.GetText(), this.skin.GetStyle("button")))
             {
                 if (this.inventory.InventoryContains(need))
                 {

@@ -55,7 +55,7 @@ public class Chunk : Entity
                         this.GenerateEntity(this.b.Chose(), ancre.gameObject);
     }
 
-    public void Generate(int x, int y, Directions direction, Biome b, bool isPrisme, GameObject map)
+    public void Generate(int x, int y, Directions direction, Biome b, GameObject map, bool isPrisme)
     {
         this.isPrisme = isPrisme;
         this.b = b;
@@ -74,7 +74,7 @@ public class Chunk : Entity
                     {
                         if (this.isPrisme)
                         {
-                            // to do
+                            this.GenerateEntity(new IslandCore(EntityDatabase.IslandCore), ancre.gameObject);
                         }
                         else
                             this.GenerateEntity(this.b.Chose(), ancre.gameObject);
