@@ -7,6 +7,8 @@ public class SyncElement : NetworkBehaviour {
     [SyncVar]
     private Vector3 rotation;
 
+    private Element elmt;
+
 	// Use this for initialization
 	void Start ()
     {
@@ -15,4 +17,10 @@ public class SyncElement : NetworkBehaviour {
         else
             gameObject.transform.eulerAngles = rotation;
 	}	
+
+    public Element Elmt
+    {
+        set { this.elmt = value; }
+        get { return this.elmt; }
+    }
 }

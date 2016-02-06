@@ -30,7 +30,7 @@ namespace UnityEngine.Networking
             this.playerName = PlayerPrefs.GetString("PlayerName", "Enter your pseudo");
             if (playerName == "Enter your pseudo")
                 this.showGUI = false;
-
+            this.showGUI = false;
         }
 
         void Update()
@@ -53,11 +53,11 @@ namespace UnityEngine.Networking
         {
             if (!menuShown && !optionShown && !sonShown && !langueShown)
             {
-                
+
                 if (!showGUI)
                 {
-                    this.playerName = GUI.TextField(new Rect(this.offsetX - 100, this.offsetY + 80, 400, 40), this.playerName, 15);
-                    if (GUI.Button(new Rect(this.offsetX - 100, this.offsetY, 105, 20), "Validate", this.skin.GetStyle("button")))
+                    this.playerName = GUI.TextField(new Rect(this.offsetX - 100, this.offsetY + 80, 200, 20), this.playerName, 15);
+                    if (GUI.Button(new Rect(this.offsetX + 150, this.offsetY + 80, 75, 20), TextDatabase.Validate.GetText(), this.skin.GetStyle("button")))
                     {
                         this.showGUI = true;
                         PlayerPrefs.SetString("PlayerName", this.playerName);

@@ -10,19 +10,27 @@ public class InputManager : NetworkBehaviour
     private Inventory inventaire;
     private Menu menu;
     private Social social;
+    private Cristal_HUD cristalHUD;
 
     private Sound soundAudio;
+
+
+    private GameObject character;
+    private SyncElement nearElement;
 
     // Use this for initialization
     void Start()
     {
+        this.nearElement = null;
+
         if (!isLocalPlayer)
             return;
-
+        this.character = GetComponentInChildren<CharacterCollision>().gameObject;
         this.inventaire = GetComponent<Inventory>();
         this.menu = GetComponent<Menu>();
         this.controller = GetComponent<Controller>();
         this.social = GetComponent<Social>();
+        this.cristalHUD = GetComponent<Cristal_HUD>();
 
         this.soundAudio = gameObject.GetComponentInChildren<Sound>();
     }
@@ -30,30 +38,55 @@ public class InputManager : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
+       
         if (!isLocalPlayer)
             return;
-        if (Input.GetButtonDown("Inventory") && !this.menu.MenuShown && !this.menu.OptionShown && !this.social.ChatShown)
+
+        // recherche du plus proche
+        float dist = this.nearElement == null ? 0 : Vector3.Distance(this.nearElement.transform.position, this.character.transform.position);
+        foreach (Collider col in Physics.OverlapSphere(character.transform.position, 7))
+            if (col.transform.parent.CompareTag("Elements") && (this.nearElement == null || Vector3.Distance(this.character.transform.position, col.transform.parent.transform.position) < dist))
+                this.nearElement = col.transform.parent.gameObject.GetComponent<SyncElement>();
+
+        if (Input.GetButtonDown("Inventory") && !this.menu.MenuShown && !this.menu.OptionShown && !this.social.ChatShown && !this.cristalHUD.Cristal_shown)
         {
             this.inventaire.InventoryShown = !this.inventaire.InventoryShown;
             this.controller.Pause = !this.controller.Pause;
             this.soundAudio.PlaySound(AudioClips.Bag, 1f);
         }
 
-        if (Input.GetKeyDown(KeyCode.Return) && !this.menu.MenuShown && !this.menu.OptionShown && !this.inventaire.InventoryShown)
+        if (Input.GetKeyDown(KeyCode.Return) && !this.menu.MenuShown && !this.menu.OptionShown && !this.inventaire.InventoryShown && !this.cristalHUD.Cristal_shown)
         {
             this.social.ChatShown = true;
             this.controller.Pause = true;
         }
 
+        if (!this.inventaire.InventoryShown && !this.menu.MenuShown && !this.menu.OptionShown && !this.social.ChatShown && Input.GetButtonDown("Fire2"))
+        {
+            if (this.inventaire.UsedItem.Items is Consumable)
+                (this.inventaire.UsedItem.Items as Consumable).Consume();
+
+            else if (this.nearElement != null && this.nearElement.Elmt is IslandCore)
+            {
+                this.cristalHUD.Cristal_shown = true;
+                this.controller.Pause = true;
+            }
+        }
+
         if (Input.GetButtonDown("Cancel"))
         {
             this.soundAudio.PlaySound(AudioClips.Button, 1f);
-            if (this.inventaire.InventoryShown)
+            if (this.cristalHUD.Cristal_shown)
+            {
+                this.cristalHUD.Cristal_shown = false;
+                this.controller.Pause = false;
+            }
+            else if (this.inventaire.InventoryShown)
             {
                 this.inventaire.InventoryShown = false;
                 this.controller.Pause = false;
             }
-            if (this.social.ChatShown)
+            else if (this.social.ChatShown)
             {
                 this.social.ChatShown = false;
                 this.controller.Pause = false;
@@ -109,11 +142,5 @@ public class InputManager : NetworkBehaviour
                     this.inventaire.UsedItem = new ItemStack();
             }
         }
-    }
-
-    void OnGUI()
-    {
-        if (isLocalPlayer && !this.inventaire.Draggingitem && Event.current.button == 1 & Event.current.type == EventType.mouseDown)
-            this.inventaire.UsingItem();
-    }
+    }   
 }

@@ -101,9 +101,8 @@ public class TextDatabase
     public static readonly Text Anglais = new Text("Anglais", "English");
     public static readonly Text Jouer = new Text("Jouer(H)", "Play(H)");
     public static readonly Text Rejoindre = new Text("Rejoindre(C)", "join(C)");
-
-
-    
+    public static readonly Text Activate = new Text("Activer", "Activate");
+    public static readonly Text Validate = new Text("Valider", "Validate");
 }
 
 
