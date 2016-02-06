@@ -86,9 +86,7 @@ public class TextDatabase
     public static readonly Text GoldAxeDescription = new Text("Un outil rudimentaire de pierre ressemblant à une hache", "A rudimentary stone tool looking like a Axe");
     public static readonly Text MithrilAxeDescription = new Text("Un outil rudimentaire de pierre ressemblant à une hache", "A rudimentary stone tool looking like a Axe");
     public static readonly Text FloatiumAxeDescription = new Text("Un outil rudimentaire de pierre ressemblant à une hache", "A rudimentary stone tool looking like a Axe");
-    public static readonly Text SunkiumAxeDescription = new Text("Un outil rudimentaire de pierre ressemblant à une hache", "A rudimentary stone tool looking like a Axe");
-
-    
+    public static readonly Text SunkiumAxeDescription = new Text("Un outil rudimentaire de pierre ressemblant à une hache", "A rudimentary stone tool looking like a Axe");    
 }
 
 

@@ -98,6 +98,17 @@ public class InputManager : NetworkBehaviour
 
         if (Input.GetKeyDown(KeyCode.Alpha6))
             this.inventaire.Cursors = 5;
+
+        if (Input.GetButtonDown("Drop"))
+        {
+            if (this.inventaire.UsedItem.Quantity != 0)
+            {
+                this.inventaire.Drop(new ItemStack(this.inventaire.UsedItem.Items, 1));
+                this.inventaire.UsedItem.Quantity--;
+                if (inventaire.UsedItem.Quantity == 0)
+                    this.inventaire.UsedItem = new ItemStack();
+            }
+        }
     }
 
     void OnGUI()

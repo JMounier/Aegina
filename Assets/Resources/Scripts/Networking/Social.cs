@@ -140,7 +140,29 @@ public class Social : NetworkBehaviour
                 {
                     case "/time":
                         GameObject.Find("Map").GetComponent<DayNightCycle>().SetTime(int.Parse(cmd[1]));
-                        break;                    
+                        break;
+                    case "/give":
+                        sender.GetComponent<Inventory>().AddItemStack(new ItemStack(ItemDatabase.Find(int.Parse(cmd[1])), int.Parse(cmd[2])));
+                        break;
+                    case "/nick":
+                        PlayerPrefs.SetString("PlayerName", cmd[1]);
+                        this.CmdSetName(cmd[1]);
+                        break;
+                    case "/msg":
+                    case "/m":
+                        if (cmd.Length < 3)
+                            throw new System.Exception();
+                        string text = "";
+                        for (int i = 2; i < cmd.Length; i++)
+                            text += cmd[i] + " ";
+                        foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
+                            if (player.GetComponent<Social>().namePlayer == cmd[1])
+                            {
+                                player.GetComponent<Social>().RpcReceiveMsg(sender.GetComponent<Social>().namePlayer + " -> You : " + text);
+                                return;
+                            }
+                        sender.GetComponent<Social>().RpcReceiveMsg("Server : \"" + cmd[1] + "\" is not a player.");
+                        break;
                     default:
                         sender.GetComponent<Social>().RpcReceiveMsg("Server : \"" + cmd[0] + "\" doesn't exist.");
                         break;
