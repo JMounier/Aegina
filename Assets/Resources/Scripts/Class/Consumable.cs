@@ -19,12 +19,12 @@ public class Consumable : Item
         this.e = consumable.e;
     }
 
-    public Consumable(int id, string[] name, string[] description, int size, Texture2D icon, Entity ent, Effect e) : base(id, name, description, size, icon, ent)
+    public Consumable(int id, Text name, Text description, int size, Texture2D icon, Entity ent, Effect e) : base(id, name, description, size, icon, ent)
     {
         this.e = e;
     }
 
-    public Consumable(int id, int meta, string[] name, string[] description, int size, Texture2D icon, Entity ent, Effect e) : base(id, meta, name, description, size, icon, ent)
+    public Consumable(int id, int meta, Text name, Text description, int size, Texture2D icon, Entity ent, Effect e) : base(id, meta, name, description, size, icon, ent)
     {
         this.e = e;
     }

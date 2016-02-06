@@ -21,8 +21,8 @@ public class CharacterCollision : MonoBehaviour
     }
     void Update()
     {
-        foreach (Collider col in Physics.OverlapSphere(gameObject.transform.position, 1))        
-            if (col.CompareTag("Loot") && col.GetType() == typeof(MeshCollider))
-                inventoryScript.DetectLoot(col.gameObject);       
-    }   
+        foreach (Collider col in Physics.OverlapSphere(gameObject.transform.position, 1))
+            if (col.CompareTag("Loot") && (col.GetType() == typeof(MeshCollider) || col.GetType() == typeof(BoxCollider)))
+                inventoryScript.DetectLoot(col.gameObject);            
+    }
 }
