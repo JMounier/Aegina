@@ -40,9 +40,9 @@ public class DayNightCycle : NetworkBehaviour
 
     // Methods 
 
-    /// <sumary>
+    /// <summary>
     /// Fonction qui converti une onde du visible en la couleur RGB de l'objet.
-    /// </sumary>
+    /// </summary>
     private static int[] WaveLengthToRGB(int wavelength, float intensityMax, float gamma)
     {
         float factor;
@@ -117,10 +117,10 @@ public class DayNightCycle : NetworkBehaviour
         return rgb;
     }
 
-    /// <sumary>
+    /// <summary>
     /// Adapte la couleur du ciel en fonction du temps.
-    /// </sumary>
-    private Color SkysColor(float t)
+    /// </summary>
+    public Color SkysColor(float t)
     {
         int r, g, b;
         List<int[]> colors = new List<int[]>();
@@ -144,9 +144,9 @@ public class DayNightCycle : NetworkBehaviour
         return new Color32((byte)r, (byte)g, (byte)b, 255);
     }
 
-    /// <sumary>
+    /// <summary>
     /// Calcul la trajectoire du soleil.
-    /// </sumary>
+    /// </summary>
     private Vector3 Orbit(float time)
     {
         float x = Mathf.Cos(time / this.cycleTime * 2 * Mathf.PI);
@@ -157,17 +157,17 @@ public class DayNightCycle : NetworkBehaviour
 
     // getters setters
 
-    /// <sumary>
+    /// <summary>
     /// Retourne le temps actuel du monde.
-    /// </sumary>    
+    /// </summary>    
     public float ActualTime
     {
         get { return this.actual_time; }
-    }           
+    }
 
-    /// <sumary>
+    /// <summary>
     /// Changer l'heure actuel de la journee. (Must be Server!)
-    /// </sumary>    
+    /// </summary>    
     public void SetTime(float time)
     {
         this.actual_time = time % this.cycleTime;
