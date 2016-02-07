@@ -12,11 +12,10 @@ public class Character : MonoBehaviour
     private int hunger;
     private int thirst_max;
     private int thirst;
-    private int pos_x_hungerBar, pos_y_hungerBar;
+    private float pos_x_hungerBar, pos_y_hungerBar;
     private int pos_x_lifeBar, pos_y_lifeBar;
     private int columns = 6;
-    private float cd_max;
-    private float cd;
+
     // Use this for initialization
     void Start()
     {
@@ -28,10 +27,8 @@ public class Character : MonoBehaviour
         this.thirst = this.thirst_max;
         this.pos_x_lifeBar = (Screen.width - this.columns * 50) / 2;
         this.pos_y_lifeBar = Screen.height - 68;
-        this.pos_x_hungerBar = Screen.width - 25;
-        this.pos_y_hungerBar = 10;
-        this.cd_max = 3;
-        this.cd = this.cd_max;
+        this.pos_x_hungerBar = Screen.width / 1.03f;
+        this.pos_y_hungerBar = Screen.height * 0.0125f;
         this.lifeBar = new Texture2D[101];
         for (int i = 0; i < 101; i++)
         {
@@ -52,8 +49,8 @@ public class Character : MonoBehaviour
     void OnGUI()
     {
         GUI.DrawTexture((new Rect(this.pos_x_lifeBar, this.pos_y_lifeBar, this.columns * 50, 14)), this.lifeBar[this.pv * 100 / this.pv_max]);
-        GUI.DrawTexture((new Rect(this.pos_x_hungerBar, this.pos_y_hungerBar, 7.8f, 175)), this.hungerBar[this.hunger * 100 / this.hunger_max]);
-        GUI.DrawTexture((new Rect(this.pos_x_hungerBar - 15, this.pos_y_hungerBar, 7.8f, 175)), this.ThirstBar[this.thirst * 100 / this.thirst_max]);
+        GUI.DrawTexture((new Rect(this.pos_x_hungerBar, this.pos_y_hungerBar, Screen.width / 80, Screen.height / 1.85f)), this.hungerBar[this.hunger * 100 / this.hunger_max]);
+        GUI.DrawTexture((new Rect(this.pos_x_hungerBar - Screen.width * 0.025f, this.pos_y_hungerBar, Screen.width / 80, Screen.height / 1.85f)), this.ThirstBar[this.thirst * 100 / this.thirst_max]);
     }
     // Update is called once per frame
     void Update()
