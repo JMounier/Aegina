@@ -45,7 +45,7 @@ public class IslandCore : Element
         this.level_upgrade = level_prod + level_portal + level_attack;
     }
 
-    // Methods
+    // Methods       
     /// <summary>
     /// Reset le cristal lorsqu'il n'a plus de pv
     /// </summary>

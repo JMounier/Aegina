@@ -150,6 +150,8 @@ public static class EntityDatabase
                     return new Rock((Rock)i);
                 else if (i is Chunk)
                     return new Chunk((Chunk)i);
+                else if (i is IslandCore)
+                    return new IslandCore((IslandCore)i);
                 else
                     return new Entity(i);
             }

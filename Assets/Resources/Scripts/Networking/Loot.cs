@@ -32,7 +32,6 @@ public class Loot : NetworkBehaviour
                 if (diff == 0)
                     autre.items.Items.Ent.Life = 0;
                 autre.items.Quantity = diff;
-
             }
         }
     }

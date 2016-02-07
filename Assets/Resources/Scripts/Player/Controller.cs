@@ -9,18 +9,18 @@ public class Controller : NetworkBehaviour
     private GameObject character;
 
     // Use for Character
-    private float walkSpeed = 4f;
-    private float sprintSpeed = 7f;
+    private float walkSpeed = 3f;
+    private float sprintSpeed = 5f;
     private float jumpingBoost = .5f;
     private float jumpForce = 13000f;
     private float coolDownJump = 0;
 
     [SyncVar]
-    private bool syncIsJumping = true;
+    private bool syncIsJumping;
     [SyncVar]
-    private bool syncIsMoving = false;
+    private bool syncIsMoving;
     [SyncVar]
-    private bool syncIsSprinting = false;
+    private bool syncIsSprinting;
 
     private bool isJumping;
     private Animator anim;
@@ -52,6 +52,11 @@ public class Controller : NetworkBehaviour
         this.character = gameObject.GetComponentInChildren<CharacterCollision>().gameObject;
 
         this.soundAudio = this.character.GetComponent<Sound>();
+        this.CmdSetStatus(false, false, true);
+        this.syncIsMoving = false;
+        this.syncIsSprinting = false;
+        this.syncIsJumping = true;
+
 
         if (!isLocalPlayer)
         {
@@ -67,15 +72,15 @@ public class Controller : NetworkBehaviour
     {
         // Check if the player is local
         if (!isLocalPlayer)
-        {           
-                if (!this.syncIsJumping && this.syncIsMoving)
-                {
-                    if (this.syncIsSprinting && this.soundAudio.IsReady(2))
-                        gameObject.GetComponentInChildren<Sound>().PlaySound(0.1f, 0.2f, 2, AudioClips.Run1, AudioClips.Run2, AudioClips.Run3);
+        {
+            if (!this.syncIsJumping && this.syncIsMoving)
+            {
+                if (this.syncIsSprinting && this.soundAudio.IsReady(2))
+                    gameObject.GetComponentInChildren<Sound>().PlaySound(0.2f, 0.2f, 2, AudioClips.Run1, AudioClips.Run2, AudioClips.Run3);
 
-                    else if (this.soundAudio.IsReady(1))
-                        gameObject.GetComponentInChildren<Sound>().PlaySound(0.1f, 0.4f, 1, AudioClips.Walk1, AudioClips.Walk2);
-                }          
+                else if (this.soundAudio.IsReady(1))
+                    gameObject.GetComponentInChildren<Sound>().PlaySound(0.2f, 0.4f, 1, AudioClips.Walk1, AudioClips.Walk2);
+            }
 
             return;
         }
@@ -247,7 +252,7 @@ public class Controller : NetworkBehaviour
                     anim.SetInteger("Action", 2);
                     if (this.soundAudio.IsReady(2))
                     {
-                        this.soundAudio.PlaySound(0.1f, 0.2f, 2, AudioClips.Run1, AudioClips.Run2, AudioClips.Run3);
+                        this.soundAudio.PlaySound(0.2f, 0.2f, 2, AudioClips.Run1, AudioClips.Run2, AudioClips.Run3);
                     }
                 }
                 else
@@ -256,7 +261,7 @@ public class Controller : NetworkBehaviour
                     anim.SetInteger("Action", 1);
                     if (this.soundAudio.IsReady(1))
                     {
-                        this.soundAudio.PlaySound(0.1f, 0.4f, 1, AudioClips.Walk1, AudioClips.Walk2);
+                        this.soundAudio.PlaySound(0.2f, 0.4f, 1, AudioClips.Walk1, AudioClips.Walk2);
                     }
                 }
             }
