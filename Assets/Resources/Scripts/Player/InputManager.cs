@@ -33,6 +33,7 @@ public class InputManager : NetworkBehaviour
         this.cristalHUD = GetComponent<Cristal_HUD>();
 
         this.soundAudio = gameObject.GetComponentInChildren<Sound>();
+        Cursor.visible = false;
     }
 
     // Update is called once per frame
@@ -53,6 +54,7 @@ public class InputManager : NetworkBehaviour
             this.inventaire.InventoryShown = !this.inventaire.InventoryShown;
             this.controller.Pause = !this.controller.Pause;
             this.soundAudio.PlaySound(AudioClips.Bag, 1f);
+            Cursor.visible = !Cursor.visible;
         }
 
         if (Input.GetKeyDown(KeyCode.Return) && !this.menu.MenuShown && !this.menu.OptionShown && !this.inventaire.InventoryShown && !this.cristalHUD.Cristal_shown)
@@ -71,26 +73,31 @@ public class InputManager : NetworkBehaviour
             {
                 this.cristalHUD.Cristal_shown = true;
                 this.controller.Pause = true;
+                Cursor.visible = true;
             }
         }
 
         if (Input.GetButtonDown("Cancel"))
         {
             this.soundAudio.PlaySound(AudioClips.Button, 1f);
+
             if (this.cristalHUD.Cristal_shown)
             {
                 this.cristalHUD.Cristal_shown = false;
                 this.controller.Pause = false;
+                Cursor.visible = false;
             }
             else if (this.inventaire.InventoryShown)
             {
                 this.inventaire.InventoryShown = false;
                 this.controller.Pause = false;
+                Cursor.visible = false;
             }
             else if (this.social.ChatShown)
             {
                 this.social.ChatShown = false;
                 this.controller.Pause = false;
+                Cursor.visible = false;
             }
             else if (this.menu.OptionShown)
             {
@@ -111,6 +118,7 @@ public class InputManager : NetworkBehaviour
             {
                 this.menu.MenuShown = !this.menu.MenuShown;
                 this.controller.Pause = !this.controller.Pause;
+                Cursor.visible = !Cursor.visible;
             }
         }
 

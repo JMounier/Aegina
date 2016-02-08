@@ -49,8 +49,8 @@ public class Character : MonoBehaviour
     void OnGUI()
     {
         GUI.DrawTexture((new Rect(this.pos_x_lifeBar, this.pos_y_lifeBar, this.columns * 50, 14)), this.lifeBar[this.pv * 100 / this.pv_max]);
-        GUI.DrawTexture((new Rect(this.pos_x_hungerBar, this.pos_y_hungerBar, Screen.width / 80, Screen.height / 1.85f)), this.hungerBar[this.hunger * 100 / this.hunger_max]);
-        GUI.DrawTexture((new Rect(this.pos_x_hungerBar - Screen.width * 0.025f, this.pos_y_hungerBar, Screen.width / 80, Screen.height / 1.85f)), this.ThirstBar[this.thirst * 100 / this.thirst_max]);
+        GUI.DrawTexture((new Rect(this.pos_x_hungerBar, this.pos_y_hungerBar, Screen.width / 85, Screen.height / 2f)), this.hungerBar[this.hunger * 100 / this.hunger_max]);
+        GUI.DrawTexture((new Rect(this.pos_x_hungerBar - Screen.width * 0.025f, this.pos_y_hungerBar, Screen.width / 85, Screen.height / 2f)), this.ThirstBar[this.thirst * 100 / this.thirst_max]);
     }
     // Update is called once per frame
     void Update()
