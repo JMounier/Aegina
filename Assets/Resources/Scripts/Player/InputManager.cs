@@ -45,7 +45,7 @@ public class InputManager : NetworkBehaviour
         // recherche du plus proche
         float dist = this.nearElement == null ? 0 : Vector3.Distance(this.nearElement.transform.position, this.character.transform.position);
         foreach (Collider col in Physics.OverlapSphere(character.transform.position, 7))
-            if (col.transform.parent.CompareTag("Elements") && (this.nearElement == null || Vector3.Distance(this.character.transform.position, col.transform.parent.transform.position) < dist))
+            if (col.transform.parent != null && col.transform.parent.CompareTag("Elements") && (this.nearElement == null || Vector3.Distance(this.character.transform.position, col.transform.parent.transform.position) < dist))
                 this.nearElement = col.transform.parent.gameObject.GetComponent<SyncElement>();
 
         if (Input.GetButtonDown("Inventory") && !this.menu.MenuShown && !this.menu.OptionShown && !this.social.ChatShown && !this.cristalHUD.Cristal_shown)
@@ -61,8 +61,9 @@ public class InputManager : NetworkBehaviour
             this.controller.Pause = true;
         }
 
-        if (!this.inventaire.InventoryShown && !this.menu.MenuShown && !this.menu.OptionShown && !this.social.ChatShown && Input.GetButtonDown("Fire2"))
+        if (Input.GetButtonDown("Fire2") && !this.inventaire.InventoryShown && !this.menu.MenuShown && !this.menu.OptionShown && !this.social.ChatShown)
         {
+            Debug.Log(this.nearElement.Elmt);
             if (this.inventaire.UsedItem.Items is Consumable)
                 (this.inventaire.UsedItem.Items as Consumable).Consume();
 
@@ -142,5 +143,5 @@ public class InputManager : NetworkBehaviour
                     this.inventaire.UsedItem = new ItemStack();
             }
         }
-    }   
+    }  
 }

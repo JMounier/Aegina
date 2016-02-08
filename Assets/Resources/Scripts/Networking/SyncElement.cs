@@ -6,8 +6,8 @@ public class SyncElement : NetworkBehaviour {
 
     [SyncVar]
     private Vector3 rotation;
-
-    private Element elmt;
+    [SyncVar]
+    private int idElmt;
 
 	// Use this for initialization
 	void Start ()
@@ -18,9 +18,14 @@ public class SyncElement : NetworkBehaviour {
             gameObject.transform.eulerAngles = rotation;
 	}	
 
+    [Command]
+    public void CmdSetElement(int id)
+    {
+        this.idElmt = id;
+    }
+
     public Element Elmt
     {
-        set { this.elmt = value; }
-        get { return this.elmt; }
+        get { return EntityDatabase.Find(this.idElmt) as Element; }
     }
 }

@@ -2,16 +2,18 @@
 using System.Collections;
 using UnityEngine.Networking;
 
+public enum Activity { Connection, Death };
+
 public class Social : NetworkBehaviour
 {
 
     private TextMesh nameTextMesh;
     [SyncVar]
     private string namePlayer;
+    [SyncVar]
     private bool chatShown = false;
     private int posX, posY;
     private GUISkin skin;
-
     private string msg = "";
     private string[] log = new string[10] { "", "", "", "", "", "", "", "", "", "" };
     private int logIndex = 0;
@@ -21,16 +23,17 @@ public class Social : NetworkBehaviour
     // Use this for initialization
     void Start()
     {
-
-        this.posY = Screen.height - 100;
-        this.posX = 10;
-        this.skin = Resources.Load<GUISkin>("Sprites/GUIskin/skin");
-
         this.nameTextMesh = gameObject.GetComponentInChildren<CharacterCollision>().transform.GetComponentInChildren<TextMesh>();
         if (isLocalPlayer)
         {
+            this.posY = (int)(Screen.height * 0.82f);
+            this.posX = (int)(Screen.width * 0.01f);
+            this.skin = Resources.Load<GUISkin>("Sprites/GUIskin/skin");
+            this.skin.GetStyle("chat").fontSize = (int)(Screen.height * 0.025f);
+            this.skin.textField.fontSize = (int)(Screen.height * 0.025f);
             this.nameTextMesh.gameObject.SetActive(false);
             this.CmdSetName(PlayerPrefs.GetString("PlayerName", ""));
+            this.CmdSendActivity(Activity.Connection, this.namePlayer);
         }
     }
 
@@ -55,7 +58,7 @@ public class Social : NetworkBehaviour
                 }
             }
         }
-        else if (this.nameTextMesh.text == "")
+        else if (this.nameTextMesh.text != this.namePlayer)
         {
             this.nameTextMesh.text = this.namePlayer;
         }
@@ -69,7 +72,7 @@ public class Social : NetworkBehaviour
         if (this.chatShown)
         {
             GUI.SetNextControlName("Chat");
-            this.msg = GUI.TextField(new Rect(this.posX, this.posY, 400, 20), this.msg, 85);
+            this.msg = GUI.TextField(new Rect(this.posX, this.posY, Screen.width * 0.3f, Screen.height * 0.04f), this.msg, this.skin.textField);
 
             if (GUI.GetNameOfFocusedControl() == string.Empty)
                 GUI.FocusControl("Chat");
@@ -93,7 +96,7 @@ public class Social : NetworkBehaviour
         string textChat = "";
         foreach (string str in this.chat)
             textChat += str + "\n";
-        GUI.Box(new Rect(this.posX, this.posY - 155, 500, 140), textChat, this.skin.GetStyle("chat"));
+        GUI.Box(new Rect(this.posX, this.posY - Screen.height * 0.3f, Screen.width * 0.3f, Screen.height * 0.3f), textChat, this.skin.GetStyle("chat"));
     }
 
     /// <summary>
@@ -134,50 +137,121 @@ public class Social : NetworkBehaviour
         if (msg[0] == '/')
         {
             string[] cmd = msg.Split();
-            try
+            switch (cmd[0].ToLower())
             {
-                switch (cmd[0].ToLower())
-                {
-                    case "/time":
+                // HELP
+                case "/help":
+                    sender.GetComponent<Social>().RpcReceiveMsg("<color=green>---This is the list of commands---</color>\n" +
+                        "/time <value> \n/give <id> <quantity> \n/nick <name> \n/msg <player> <message>");
+                    break;
+
+                // TIME
+                case "/time":
+                    try
+                    {
                         int time = cmd[1].ToLower() == "day" ? 300 : cmd[1].ToLower() == "night" ? 900 : int.Parse(cmd[1]);
                         GameObject.Find("Map").GetComponent<DayNightCycle>().SetTime(time);
-                        break;
-                    case "/give":
-                        sender.GetComponent<Inventory>().AddItemStack(new ItemStack(ItemDatabase.Find(int.Parse(cmd[1])), int.Parse(cmd[2])));
-                        break;
-                    case "/nick":
+                        sender.GetComponent<Social>().RpcReceiveMsg("Set the time to " + cmd[1] + ".");
+                    }
+                    catch
+                    {
+                        sender.GetComponent<Social>().RpcReceiveMsg("<color=red>Usage: /time <value></color>");
+                    }
+                    break;
+
+                // GIVE
+                case "/give":
+                    try
+                    {
+                        Item give = ItemDatabase.Find(int.Parse(cmd[1]));
+                        sender.GetComponent<Inventory>().AddItemStack(new ItemStack(give, int.Parse(cmd[2])));
+                        sender.GetComponent<Social>().RpcReceiveMsg("Give " + cmd[2] + " of " + give.Name + ".");
+                    }
+                    catch
+                    {
+                        sender.GetComponent<Social>().RpcReceiveMsg("<color=red>Usage: /give <id> <quantity></color>");
+                    }
+                    break;
+
+                // NICK
+                case "/nick":
+                    try
+                    {
+                        if (cmd[1] == this.namePlayer)
+                            sender.GetComponent<Social>().RpcReceiveMsg("<color=red>It's already your name</color>");
+                        string last = this.namePlayer;
                         PlayerPrefs.SetString("PlayerName", cmd[1]);
                         this.CmdSetName(cmd[1]);
-                        break;
-                    case "/msg":
-                    case "/m":
+                        foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
+                            player.GetComponent<Social>().RpcReceiveMsg(last + " is now named as " + cmd[1] + ".");
+                    }
+                    catch
+                    {
+                        sender.GetComponent<Social>().RpcReceiveMsg("<color=red>Usage: /nick <name></color>");
+                    }
+                    break;
+
+                // MSG & M
+                case "/msg":
+                case "/m":
+                    try
+                    {
                         if (cmd.Length < 3)
                             throw new System.Exception();
+                        if (cmd[1].ToLower() == sender.GetComponent<Social>().namePlayer.ToLower())
+                        {
+                            sender.GetComponent<Social>().RpcReceiveMsg("<color=red>Do you feel alone ?</color>");
+                            return;
+                        }
                         string text = "";
                         for (int i = 2; i < cmd.Length; i++)
                             text += cmd[i] + " ";
                         foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
                             if (player.GetComponent<Social>().namePlayer.ToLower() == cmd[1].ToLower())
                             {
-                                player.GetComponent<Social>().RpcReceiveMsg(sender.GetComponent<Social>().namePlayer + " -> You : " + text);
+                                player.GetComponent<Social>().RpcReceiveMsg("<color=grey><b>[" + sender.GetComponent<Social>().namePlayer + " -> You]</b></color> " + text);
+                                sender.GetComponent<Social>().RpcReceiveMsg("<color=grey><b>[You -> " + player.GetComponent<Social>().namePlayer + "]</b></color> " + text);
                                 return;
                             }
-                        sender.GetComponent<Social>().RpcReceiveMsg("Server : \"" + cmd[1] + "\" is not a player.");
-                        break;
-                    default:
-                        sender.GetComponent<Social>().RpcReceiveMsg("Server : \"" + cmd[0] + "\" doesn't exist.");
-                        break;
-                }
+                        sender.GetComponent<Social>().RpcReceiveMsg("<color=red>Player " + cmd[1] + " doesn't find.</color>");
+                    }
+                    catch
+                    {
+                        sender.GetComponent<Social>().RpcReceiveMsg("<color=red>Usage: /msg <player> <message></color>");
+                    }
+                    break;
+                default:
+                    sender.GetComponent<Social>().RpcReceiveMsg("<color=red>Unknow command. Try /help for a list of commands.</color>");
+                    break;
             }
-            catch
-            {
-                sender.GetComponent<Social>().RpcReceiveMsg("Server : The arguments of your command are not valid.");
-            }
-
         }
         else
             foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
-                player.GetComponent<Social>().RpcReceiveMsg(sender.GetComponent<Social>().namePlayer + " : " + msg);
+                player.GetComponent<Social>().RpcReceiveMsg("<b>[" + sender.GetComponent<Social>().namePlayer + "]</b> " + msg);
+    }
+
+    /// <summary>
+    /// Envoi une nouvel activite au server
+    /// </summary>
+    /// <param name="msg"></param>
+    /// <param name="name"></param>
+    [Command]
+    private void CmdSendActivity(Activity act, string name)
+    {
+        string msg;
+        switch (act)
+        {
+            case Activity.Connection:
+                msg = "<color=grey>* <i>" + name + "</i> join the game.</color>";
+                break;
+            case Activity.Death:
+                msg = "* <i>" + name + "</i> died.";
+                break;
+            default:
+                throw new System.ArgumentException("Activity is not valid");
+        }
+        foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
+            player.GetComponent<Social>().RpcReceiveMsg(msg);
     }
 
     /// <summary>
