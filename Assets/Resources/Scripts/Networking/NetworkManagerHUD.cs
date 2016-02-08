@@ -27,7 +27,7 @@ namespace UnityEngine.Networking
             this.skin = Resources.Load<GUISkin>("Sprites/GUIskin/skin");
             this.offsetX = Screen.width / 2 - 100;
             this.offsetY = Screen.height / 2 - 100;
-            this.playerName = PlayerPrefs.GetString("PlayerName", "Enter your pseudo");
+            this.playerName = PlayerPrefs.GetString("PlayerName", "Enter a name");
             if (playerName == "Enter a name")
                 this.showGUI = false;
         }

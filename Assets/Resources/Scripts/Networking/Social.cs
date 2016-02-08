@@ -178,7 +178,7 @@ public class Social : NetworkBehaviour
                     try
                     {
                         if (cmd[1] == this.namePlayer)
-                            throw new System.Exception();
+                            sender.GetComponent<Social>().RpcReceiveMsg("<color=red>It's already your name</color>");
                         string last = this.namePlayer;
                         PlayerPrefs.SetString("PlayerName", cmd[1]);
                         this.CmdSetName(cmd[1]);
