@@ -33,12 +33,13 @@ public class InputManager : NetworkBehaviour
         this.cristalHUD = GetComponent<Cristal_HUD>();
 
         this.soundAudio = gameObject.GetComponentInChildren<Sound>();
+        Cursor.visible = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-       
+
         if (!isLocalPlayer)
             return;
 
@@ -77,6 +78,7 @@ public class InputManager : NetworkBehaviour
         if (Input.GetButtonDown("Cancel"))
         {
             this.soundAudio.PlaySound(AudioClips.Button, 1f);
+
             if (this.cristalHUD.Cristal_shown)
             {
                 this.cristalHUD.Cristal_shown = false;
@@ -114,6 +116,9 @@ public class InputManager : NetworkBehaviour
             }
         }
 
+        // Visibilite du cursor
+        Cursor.visible = this.controller.Pause;
+
         // Gere la barre d'outil.
         if (Input.GetKeyDown(KeyCode.Alpha1))
             this.inventaire.Cursors = 0;
@@ -143,5 +148,5 @@ public class InputManager : NetworkBehaviour
                     this.inventaire.UsedItem = new ItemStack();
             }
         }
-    }  
+    }
 }
