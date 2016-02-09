@@ -45,10 +45,34 @@ public class InputManager : NetworkBehaviour
 
         // recherche du plus proche
         float dist = this.nearElement == null ? 0 : Vector3.Distance(this.nearElement.transform.position, this.character.transform.position);
-        foreach (Collider col in Physics.OverlapSphere(character.transform.position, 7))
-            if (col.transform.parent != null && col.transform.parent.CompareTag("Elements") && (this.nearElement == null || Vector3.Distance(this.character.transform.position, col.transform.parent.transform.position) < dist))
-                this.nearElement = col.transform.parent.gameObject.GetComponent<SyncElement>();
-
+        int comp = 0;
+        bool changed = false;
+        foreach (Collider col in Physics.OverlapSphere(character.transform.position, 3.5f))
+            if (col.transform.parent != null && col.transform.parent.CompareTag("Elements"))
+            {
+                comp++;
+                if (this.nearElement == null || Vector3.Distance(this.character.transform.position, col.transform.parent.transform.position) < dist)
+                {
+                    if (this.nearElement != null)
+                    {
+                        foreach (Material mat in this.nearElement.GetComponentInChildren<MeshRenderer>().materials)
+                            mat.shader = Shader.Find("Standard");
+                    }
+                    this.nearElement = col.transform.parent.gameObject.GetComponent<SyncElement>();
+                    changed = true;
+                }
+            }
+        if (comp == 0 && this.nearElement != null)
+        {
+            foreach (Material mat in this.nearElement.GetComponentInChildren<MeshRenderer>().materials)
+                mat.shader = Shader.Find("Standard");
+            this.nearElement = null;
+        }
+        else if (changed)
+        {
+            foreach (Material mat in this.nearElement.GetComponentInChildren<MeshRenderer>().materials)
+                mat.shader = Shader.Find("Outlined");
+        }
         if (Input.GetButtonDown("Inventory") && !this.menu.MenuShown && !this.menu.OptionShown && !this.social.ChatShown && !this.cristalHUD.Cristal_shown)
         {
             this.inventaire.InventoryShown = !this.inventaire.InventoryShown;
