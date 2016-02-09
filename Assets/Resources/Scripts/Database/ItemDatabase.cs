@@ -40,12 +40,12 @@ public static class ItemDatabase
 
     public static readonly Axe WoodenAxe = new Axe(60, TextDatabase.WoodenAxe, TextDatabase.WoodenAxeDescription, 50, 2, Resources.Load<Texture2D>("Sprites/Items/Tools/WoodenAxe"), new Entity());
     public static readonly Axe StoneAxe = new Axe(61, TextDatabase.StoneAxe, TextDatabase.StoneAxeDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/StoneAxe"), new Entity());
-    public static readonly Axe CopperAxe = new Axe(52, TextDatabase.CopperAxe, TextDatabase.CopperAxeDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/Copperaxe"), new Entity());
-    public static readonly Axe IronAxe = new Axe(53, TextDatabase.IronAxe, TextDatabase.IronAxeDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/Ironaxe"), new Entity());
-    public static readonly Axe GoldAxe = new Axe(54, TextDatabase.GoldAxe, TextDatabase.GoldAxeDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/Goldaxe"), new Entity());
-    public static readonly Axe MithrilAxe = new Axe(55, TextDatabase.MithrilAxe, TextDatabase.MithrilAxeDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/Mithrilaxe"), new Entity());
-    public static readonly Axe FloatiumAxe = new Axe(56, TextDatabase.FloatiumAxe, TextDatabase.FloatiumAxeDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/Floatiumaxe"), new Entity());
-    public static readonly Axe SunkiumAxe = new Axe(57, TextDatabase.SunkiumAxe, TextDatabase.SunkiumAxeDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/Sunkiumaxe"), new Entity());
+    public static readonly Axe CopperAxe = new Axe(62, TextDatabase.CopperAxe, TextDatabase.CopperAxeDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/Copperaxe"), new Entity());
+    public static readonly Axe IronAxe = new Axe(63, TextDatabase.IronAxe, TextDatabase.IronAxeDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/Ironaxe"), new Entity());
+    public static readonly Axe GoldAxe = new Axe(64, TextDatabase.GoldAxe, TextDatabase.GoldAxeDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/Goldaxe"), new Entity());
+    public static readonly Axe MithrilAxe = new Axe(65, TextDatabase.MithrilAxe, TextDatabase.MithrilAxeDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/Mithrilaxe"), new Entity());
+    public static readonly Axe FloatiumAxe = new Axe(66, TextDatabase.FloatiumAxe, TextDatabase.FloatiumAxeDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/Floatiumaxe"), new Entity());
+    public static readonly Axe SunkiumAxe = new Axe(67, TextDatabase.SunkiumAxe, TextDatabase.SunkiumAxeDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/Sunkiumaxe"), new Entity());
 
     /// <summary>
     /// Liste tous les items du jeu. (Utilisez avec foreach)

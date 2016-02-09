@@ -51,42 +51,42 @@ public class TextDatabase
         // Name
     public static readonly Text WoodenPickaxe = new Text("Pioche en bois", "Wooden pickaxe");
     public static readonly Text StonePickaxe = new Text("Pioche en pierre", "Stone pickaxe");
-    public static readonly Text CopperPickaxe = new Text("Pioche en pierre", "Stone pickaxe");
-    public static readonly Text IronPickaxe = new Text("Pioche en pierre", "Stone pickaxe");
-    public static readonly Text GoldPickaxe = new Text("Pioche en pierre", "Stone pickaxe");
-    public static readonly Text MithrilPickaxe = new Text("Pioche en pierre", "Stone pickaxe");
-    public static readonly Text FloatiumPickaxe = new Text("Pioche en pierre", "Stone pickaxe");
-    public static readonly Text SunkiumPickaxe = new Text("Pioche en pierre", "Stone pickaxe");
+    public static readonly Text CopperPickaxe = new Text("Pioche en copper", "Copper pickaxe");
+    public static readonly Text IronPickaxe = new Text("Pioche en fer", "Iron pickaxe");
+    public static readonly Text GoldPickaxe = new Text("Pioche en or", "Gold pickaxe");
+    public static readonly Text MithrilPickaxe = new Text("Pioche en mithril", "Mithril pickaxe");
+    public static readonly Text FloatiumPickaxe = new Text("Pioche en floatium", "Floatium pickaxe");
+    public static readonly Text SunkiumPickaxe = new Text("Pioche en sunkium", "Sunkium pickaxe");
 
-    public static readonly Text WoodenAxe = new Text("Hache en bois", "Wooden ax");
-    public static readonly Text StoneAxe = new Text("Hache en pierre", "Stone ax");
-    public static readonly Text CopperAxe = new Text("Hache en pierre", "Stone Axe");
-    public static readonly Text IronAxe = new Text("Hache en pierre", "Stone Axe");
-    public static readonly Text GoldAxe = new Text("Hache en pierre", "Stone Axe");
-    public static readonly Text MithrilAxe = new Text("Hache en pierre", "Stone Axe");
-    public static readonly Text FloatiumAxe = new Text("Hache en pierre", "Stone Axe");
-    public static readonly Text SunkiumAxe = new Text("Hache en pierre", "Stone Axe");
+    public static readonly Text WoodenAxe = new Text("Hache en bois", "Wooden axe");
+    public static readonly Text StoneAxe = new Text("Hache en pierre", "Stone axe");
+    public static readonly Text CopperAxe = new Text("Hache en copper", "Copper axe");
+    public static readonly Text IronAxe = new Text("Hache en fer", "Iron axe");
+    public static readonly Text GoldAxe = new Text("Hache en or", "Gold axe");
+    public static readonly Text MithrilAxe = new Text("Hache en mithril", "Mithril axe");
+    public static readonly Text FloatiumAxe = new Text("Hache en floatium", "Floatium axe");
+    public static readonly Text SunkiumAxe = new Text("Hache en sunkium", "Sunkium axe");
 
     // Description
 
     public static readonly Text WoodenPickaxeDescription = new Text("Un ensemble de morceaux de bois ressemblant à une pioche", "A set of wood pieces looking like a pickaxe");
     public static readonly Text StonePickaxeDescription = new Text("Un outil rudimentaire de pierre ressemblant à une pioche", "A rudimentary stone tool looking like a pickaxe");
-    public static readonly Text CopperPickaxeDescription = new Text("Un outil rudimentaire de pierre ressemblant à une pioche", "A rudimentary stone tool looking like a pickaxe");
-    public static readonly Text IronPickaxeDescription = new Text("Un outil rudimentaire de pierre ressemblant à une pioche", "A rudimentary stone tool looking like a pickaxe");
-    public static readonly Text GoldPickaxeDescription = new Text("Un outil rudimentaire de pierre ressemblant à une pioche", "A rudimentary stone tool looking like a pickaxe");
-    public static readonly Text MithrilPickaxeDescription = new Text("Un outil rudimentaire de pierre ressemblant à une pioche", "A rudimentary stone tool looking like a pickaxe");
-    public static readonly Text FloatiumPickaxeDescription = new Text("Un outil rudimentaire de pierre ressemblant à une pioche", "A rudimentary stone tool looking like a pickaxe");
-    public static readonly Text SunkiumPickaxeDescription = new Text("Un outil rudimentaire de pierre ressemblant à une pioche", "A rudimentary stone tool looking like a pickaxe");
+    public static readonly Text CopperPickaxeDescription = new Text("Une pioche de qualite douteuse", "Questionable quality pickaxe");
+    public static readonly Text IronPickaxeDescription = new Text("Une bonne pioche", "A good pickaxe");
+    public static readonly Text GoldPickaxeDescription = new Text("Une pioche pour riche", "An pickaxe to rich");
+    public static readonly Text MithrilPickaxeDescription = new Text("Une pioche legendaire", "A legendary pickaxe");
+    public static readonly Text FloatiumPickaxeDescription = new Text("Une pioche de solidite infaillible", "A foolproof solidity pickaxe");
+    public static readonly Text SunkiumPickaxeDescription = new Text("Une pioche de qualite", "A quality pickaxe");
 
 
-    public static readonly Text WoodenAxeDescription = new Text("Un ensemble de morceaux de bois ressemblant à une hache", "A set of wood pieces looking like an ax");
-    public static readonly Text StoneAxeDescription = new Text("Un outil rudimentaire de pierre ressemblant à une hache", "A rudimentary stone tool looking like an ax");
-    public static readonly Text CopperAxeDescription = new Text("Un outil rudimentaire de pierre ressemblant à une hache", "A rudimentary stone tool looking like a Axe");
-    public static readonly Text IronAxeDescription = new Text("Un outil rudimentaire de pierre ressemblant à une hache", "A rudimentary stone tool looking like a Axe");
-    public static readonly Text GoldAxeDescription = new Text("Un outil rudimentaire de pierre ressemblant à une hache", "A rudimentary stone tool looking like a Axe");
-    public static readonly Text MithrilAxeDescription = new Text("Un outil rudimentaire de pierre ressemblant à une hache", "A rudimentary stone tool looking like a Axe");
-    public static readonly Text FloatiumAxeDescription = new Text("Un outil rudimentaire de pierre ressemblant à une hache", "A rudimentary stone tool looking like a Axe");
-    public static readonly Text SunkiumAxeDescription = new Text("Un outil rudimentaire de pierre ressemblant à une hache", "A rudimentary stone tool looking like a Axe");
+    public static readonly Text WoodenAxeDescription = new Text("Un ensemble de morceaux de bois ressemblant à une hache", "A set of wood pieces looking like an axe");
+    public static readonly Text StoneAxeDescription = new Text("Un outil rudimentaire de pierre ressemblant à une hache", "A rudimentary stone tool looking like an axe");
+    public static readonly Text CopperAxeDescription = new Text("Une hache de qualite douteuse", "Questionable quality axe");
+    public static readonly Text IronAxeDescription = new Text("Une bonne hache", "A good axe");
+    public static readonly Text GoldAxeDescription = new Text("Une hache pour riche", "An axe to rich");
+    public static readonly Text MithrilAxeDescription = new Text("Une hache legendaire", "A legendary axe");
+    public static readonly Text FloatiumAxeDescription = new Text("Une hache de solidite infaillible", "A foolproof solidity axe");
+    public static readonly Text SunkiumAxeDescription = new Text("Une hache de qualite", "A quality axe");
 
     // Miscellanous
 
