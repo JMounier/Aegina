@@ -60,7 +60,10 @@ public class Menu : NetworkBehaviour
             this.inventory.SaveInventory();
             this.soundAudio.PlaySound(AudioClips.Button, 1f);
             PlayerPrefs.SetFloat("Sound_intensity", soundAudio.Volume);
-            this.NM.StopHost();
+            if (isServer)
+                this.NM.StopHost();
+            else
+                this.NM.StopClient();      
 
             // TO DO => StopServer / Save Map OR Deco
         }

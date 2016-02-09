@@ -39,6 +39,8 @@ namespace UnityEngine.Networking
 
             if (!NetworkClient.active && !NetworkServer.active && manager.matchMaker == null)
             {
+                if (!Cursor.visible)
+                    Cursor.visible = true;
                 if (Input.GetKeyDown(KeyCode.H))
                     Launch(TypeLaunch.Host);
                 else if (Input.GetKeyDown(KeyCode.C))
@@ -125,6 +127,7 @@ namespace UnityEngine.Networking
                 this.manager.StopHost();
             }
         }
+
         private void DrawMenu()
         {
             GUI.Box(new Rect(Screen.width / 2 - Screen.width / 6, Screen.height / 2 - 200, Screen.width / 3, 325), "MENU", this.skin.GetStyle("windows"));

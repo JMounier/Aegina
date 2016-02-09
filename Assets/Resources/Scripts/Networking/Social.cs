@@ -32,8 +32,9 @@ public class Social : NetworkBehaviour
             this.skin.GetStyle("chat").fontSize = (int)(Screen.height * 0.025f);
             this.skin.textField.fontSize = (int)(Screen.height * 0.025f);
             this.nameTextMesh.gameObject.SetActive(false);
-            this.CmdSetName(PlayerPrefs.GetString("PlayerName", ""));
-            this.CmdSendActivity(Activity.Connection, this.namePlayer);
+            string namePlayer = PlayerPrefs.GetString("PlayerName", "");
+            this.CmdSetName(namePlayer);
+            this.CmdSendActivity(Activity.Connection, namePlayer);
         }
     }
 
@@ -180,7 +181,6 @@ public class Social : NetworkBehaviour
                         if (cmd[1] == this.namePlayer)
                             sender.GetComponent<Social>().RpcReceiveMsg("<color=red>It's already your name</color>");
                         string last = this.namePlayer;
-                        PlayerPrefs.SetString("PlayerName", cmd[1]);
                         this.CmdSetName(cmd[1]);
                         foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
                             player.GetComponent<Social>().RpcReceiveMsg(last + " is now named as " + cmd[1] + ".");
@@ -236,16 +236,16 @@ public class Social : NetworkBehaviour
     /// <param name="msg"></param>
     /// <param name="name"></param>
     [Command]
-    private void CmdSendActivity(Activity act, string name)
+    private void CmdSendActivity(Activity act, string namePlayer)
     {
         string msg;
         switch (act)
         {
             case Activity.Connection:
-                msg = "<color=grey>* <i>" + name + "</i> join the game.</color>";
+                msg = "<color=grey>* <i>" + namePlayer + "</i> joined the game.</color>";
                 break;
             case Activity.Death:
-                msg = "* <i>" + name + "</i> died.";
+                msg = "* <i>" + namePlayer + "</i> died.";
                 break;
             default:
                 throw new System.ArgumentException("Activity is not valid");
