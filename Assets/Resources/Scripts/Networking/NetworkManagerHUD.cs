@@ -116,7 +116,7 @@ namespace UnityEngine.Networking
             }
             else if (type == TypeLaunch.Client)
             {
-                this.manager.StartClient();
+                NetworkClient nc = this.manager.StartClient();
             }
             else if (type == TypeLaunch.Server)
             {
@@ -127,6 +127,7 @@ namespace UnityEngine.Networking
                 this.manager.StopHost();
             }
         }
+
         private void DrawMenu()
         {
             GUI.Box(new Rect(Screen.width / 2 - Screen.width / 6, Screen.height / 2 - 200, Screen.width / 3, 325), "MENU", this.skin.GetStyle("windows"));

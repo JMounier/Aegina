@@ -181,7 +181,6 @@ public class Social : NetworkBehaviour
                         if (cmd[1] == this.namePlayer)
                             sender.GetComponent<Social>().RpcReceiveMsg("<color=red>It's already your name</color>");
                         string last = this.namePlayer;
-                        PlayerPrefs.SetString("PlayerName", cmd[1]);
                         this.CmdSetName(cmd[1]);
                         foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
                             player.GetComponent<Social>().RpcReceiveMsg(last + " is now named as " + cmd[1] + ".");
