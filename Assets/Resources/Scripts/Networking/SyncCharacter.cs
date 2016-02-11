@@ -66,10 +66,9 @@ public class SyncCharacter : NetworkBehaviour
     {
         if (!isLocalPlayer)
             return;
-
-        GUI.DrawTexture((new Rect(this.pos_x_lifeBar, this.pos_y_lifeBar, this.columns * 50, 14)), this.lifeBar[(int)this.life * 100 / this.lifeMax]);
-        GUI.DrawTexture((new Rect(this.pos_x_hungerBar, this.pos_y_hungerBar, Screen.width / 85, Screen.height / 2f)), this.hungerBar[(int)this.hunger * 100 / this.hungerMax]);
-        GUI.DrawTexture((new Rect(this.pos_x_hungerBar - Screen.width * 0.025f, this.pos_y_hungerBar, Screen.width / 85, Screen.height / 2f)), this.ThirstBar[(int)this.thirst * 100 / this.thirstMax]);
+        GUI.DrawTexture((new Rect(this.pos_x_lifeBar, this.pos_y_lifeBar, this.columns * 50, 14)), this.lifeBar[Mathf.CeilToInt(this.life * 100 / this.lifeMax)]);
+        GUI.DrawTexture((new Rect(this.pos_x_hungerBar, this.pos_y_hungerBar, Screen.width / 85, Screen.height / 2f)), this.hungerBar[Mathf.CeilToInt(this.hunger * 100 / this.hungerMax)]);
+        GUI.DrawTexture((new Rect(this.pos_x_hungerBar - Screen.width * 0.025f, this.pos_y_hungerBar, Screen.width / 85, Screen.height / 2f)), this.ThirstBar[Mathf.CeilToInt(this.thirst * 100 / this.thirstMax)]);
     }
 
     // Update is called once per frame
@@ -78,9 +77,9 @@ public class SyncCharacter : NetworkBehaviour
         this.Hunger -= Time.deltaTime * starvation;
         this.Thirst -= Time.deltaTime * thirstiness;
         if (this.character.transform.position.y <= -10)
-            this.Life -= 1;
+            this.Life -= 15 * Time.deltaTime;
         if (this.hunger == 0 || this.thirst == 0)
-            this.Life -= .05f;
+            this.Life -= Time.deltaTime;
     }
 
     /// <summary>
@@ -91,7 +90,7 @@ public class SyncCharacter : NetworkBehaviour
         this.life = this.lifeMax;
         this.hunger = this.hungerMax;
         this.thirst = this.thirstMax;
-        Vector3 newPos = new Vector3(Random.Range(-10,11), 7, Random.Range(-10, 11));
+        Vector3 newPos = new Vector3(Random.Range(-10f,10f), 8, Random.Range(-10f, 10f));
         this.character.transform.position = newPos;
     }
 
