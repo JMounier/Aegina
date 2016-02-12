@@ -111,7 +111,8 @@ public class Entity
     public float Life
     {
         get { return this.life; }
-        set {
+        set
+        {
             this.life = Mathf.Clamp(value, 0, this.lifeMax);
             if (this.life == 0)
                 this.Kill();
@@ -124,7 +125,11 @@ public class Entity
     public int LifeMax
     {
         get { return this.lifeMax; }
-        set { this.lifeMax = (int) Mathf.Clamp(value, 0f, float.PositiveInfinity); }
+        set
+        {
+            this.lifeMax = Mathf.Max(value, 0);
+            this.life = Mathf.Clamp(value, 0, this.lifeMax);
+        }
     }
 
     /// <summary>

@@ -110,22 +110,24 @@ namespace UnityEngine.Networking
 
         private void Launch(TypeLaunch type)
         {
-            if (type == TypeLaunch.Host)
+
+            switch (type)
             {
-                this.manager.StartHost();
+                case TypeLaunch.Host:
+                    this.manager.StartHost();
+                    break;
+                case TypeLaunch.Client:
+                    this.manager.StartClient();
+                    break;
+                case TypeLaunch.Server:
+                    this.manager.OnStartServer();
+                    break;
+                default:
+                    this.manager.StopHost();
+                    break;
             }
-            else if (type == TypeLaunch.Client)
-            {
-                this.manager.StartClient();
-            }
-            else if (type == TypeLaunch.Server)
-            {
-                this.manager.OnStartServer();
-            }
-            else if (type == TypeLaunch.Stop)
-            {
-                this.manager.StopHost();
-            }
+
+
         }
 
         private void DrawMenu()
@@ -207,6 +209,6 @@ namespace UnityEngine.Networking
             }
         }
 
-    }
+    } 
 }
 

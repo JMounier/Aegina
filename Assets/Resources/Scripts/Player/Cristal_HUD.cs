@@ -14,7 +14,6 @@ public class Cristal_HUD : NetworkBehaviour
     private int height;
     private GUISkin skin;
     private ItemStack[] need;
-    private SystemLanguage langue;
     private Inventory inventory;
 
     // Use this for initialization
