@@ -12,8 +12,7 @@ namespace UnityEngine.Networking
         private NetworkManager manager;
         private GUISkin skin;
         private Sound sound;
-        private int offsetX;
-        private int offsetY;
+        int posX, posY, width, height, spacing;
         private string playerName;
         private bool showGUI = true;
         private bool optionShown = false;
@@ -25,8 +24,11 @@ namespace UnityEngine.Networking
             this.manager = GetComponent<NetworkManager>();
             this.skin = Resources.Load<GUISkin>("Sprites/GUIskin/skin");
             this.skin.GetStyle("chat").fontSize = (int)(Screen.height * 0.025f);
-            this.offsetX = Screen.width / 2 - 100;
-            this.offsetY = Screen.height / 2 - 100;
+            this.posX = Screen.width / 8;
+            this.posY = Screen.height / 8;
+            this.width = Screen.width / 4;
+            this.height = Screen.height / 40;
+            this.spacing = this.height * 2;
             this.playerName = PlayerPrefs.GetString("PlayerName", "Enter a name");
             this.sound = GameObject.Find("Map").GetComponentInChildren<Sound>();
             if (playerName == "Enter a name")
@@ -55,9 +57,9 @@ namespace UnityEngine.Networking
         {
             if (!showGUI)
             {
-                
-                this.playerName = GUI.TextField(new Rect(this.offsetX - 100, this.offsetY + 80, 200, 20), this.playerName, 15);
-                if (this.playerName != "" && this.playerName != "Enter a name" && GUI.Button(new Rect(this.offsetX + 150, this.offsetY + 80, 75, 20), TextDatabase.Validate.GetText(), this.skin.GetStyle("button")))
+                GUI.Box(new Rect(Screen.width / 4, Screen.height / 6, Screen.width / 2, Screen.width / 12.8f), "", this.skin.GetStyle("aegina"));
+                this.playerName = GUI.TextField(new Rect(this.posX, this.posY, this.width, this.height), this.playerName, 15);
+                if (this.playerName != "" && this.playerName != "Enter a name" && GUI.Button(new Rect(this.posX, this.posY + this.spacing, this.width, this.height), TextDatabase.Validate.GetText(), this.skin.GetStyle("button")))
                 {
                     this.showGUI = true;
                     PlayerPrefs.SetString("PlayerName", this.playerName);
@@ -65,10 +67,6 @@ namespace UnityEngine.Networking
             }
             else if (!optionShown && !sonShown && !langueShown)
             {
-                int xpos = 10 + offsetX;
-                int ypos = 40 + offsetY;
-                int spacing = 30;
-                                
                 if (!this.manager.isNetworkActive)
                 {
                     // Verification of Sound when we come back to menu
@@ -77,28 +75,26 @@ namespace UnityEngine.Networking
                         this.sound = map.GetComponentInChildren<Sound>();
 
                     GUI.Box(new Rect(Screen.width / 4, Screen.height / 6, Screen.width / 2, Screen.width / 12.8f), "", this.skin.GetStyle("aegina"));
-                    if (GUI.Button(new Rect(xpos, ypos, 200, 20), TextDatabase.Play.GetText(), this.skin.GetStyle("button")))
+                    if (GUI.Button(new Rect(this.posX, this.posY, this.width, this.height), TextDatabase.Play.GetText(), this.skin.GetStyle("button")))
                     {
                         this.Launch(TypeLaunch.Host);
                         this.sound.PlaySound(AudioClips.Button, 1f);
                     }
-                    ypos += spacing;
 
-                    if (GUI.Button(new Rect(xpos, ypos, 105, 20), TextDatabase.Join.GetText(), this.skin.GetStyle("button")))
+                    if (GUI.Button(new Rect(this.posX, this.posY + this.spacing, this.width / 2 - 10, this.height), TextDatabase.Join.GetText(), this.skin.GetStyle("button")))
                     {
                         this.Launch(TypeLaunch.Client);
                         this.sound.PlaySound(AudioClips.Button, 1f);
                     }
-                    this.manager.networkAddress = GUI.TextField(new Rect(xpos + 110, ypos, 95, 20), this.manager.networkAddress);
-                    ypos += spacing;
 
-                    if (GUI.Button(new Rect(xpos, ypos, 200, 20), "Options(O)", skin.GetStyle("button")))
+                    this.manager.networkAddress = GUI.TextField(new Rect(this.posX + this.width * .5f + 10, this.posY + this.spacing, this.width / 2 - 10, this.height), this.manager.networkAddress);
+
+                    if (GUI.Button(new Rect(this.posX, this.posY + this.spacing * 2, this.width, this.height), "Options(O)", skin.GetStyle("button")))
                     {
                         this.optionShown = true;
                         this.sound.PlaySound(AudioClips.Button, 1f);
                     }
-                    ypos += spacing;
-                    if (GUI.Button(new Rect(xpos, ypos, 200, 20), TextDatabase.Quit.GetText(), skin.GetStyle("button")))
+                    if (GUI.Button(new Rect(this.posX, this.posY + this.spacing * 3, this.width, this.height), TextDatabase.Quit.GetText(), skin.GetStyle("button")))
                     {
                         this.sound.PlaySound(AudioClips.Button, 1f);
                         Application.Quit();
@@ -108,12 +104,12 @@ namespace UnityEngine.Networking
                 else if (!this.manager.IsClientConnected())
                 {
                     GUI.Box(new Rect(Screen.width / 4, Screen.height / 6, Screen.width / 2, Screen.width / 12.8f), "", this.skin.GetStyle("aegina"));
-                    if (GUI.Button(new Rect(xpos, ypos, 200, 20), TextDatabase.Cancel.GetText(), this.skin.GetStyle("button")))
+                    if (GUI.Button(new Rect(this.posX, this.posY, this.width, this.height), TextDatabase.Cancel.GetText(), this.skin.GetStyle("button")))
                     {
                         this.sound.PlaySound(AudioClips.Button, 1f);
                         this.Launch(TypeLaunch.Stop);
                     }
-                    GUI.Box(new Rect(xpos + 68, ypos, 200, 60), "<color=white>" + TextDatabase.Loading.GetText() + "</color>", this.skin.GetStyle("chat"));
+                    GUI.Box(new Rect(this.posX, this.posY + this.spacing, this.width, this.height), "<color=white>" + TextDatabase.Loading.GetText() + "</color>", this.skin.GetStyle("chat"));
                 }
             }
             else
@@ -151,30 +147,22 @@ namespace UnityEngine.Networking
         ///  Dessine l'interface des options.
         /// </summary>
         private void DrawOption()
-        {
-            int xpos = 10 + offsetX;
-            int ypos = 40 + offsetY;
-            int spacing = 30;
-
-            if (GUI.Button(new Rect(xpos, ypos, 200, 20), TextDatabase.Sound.GetText(), this.skin.GetStyle("button")))
+        {           
+            if (GUI.Button(new Rect(this.posX, this.posY, this.width, this.height), TextDatabase.Sound.GetText(), this.skin.GetStyle("button")))
             {
                 this.optionShown = false;
                 this.sonShown = true;
                 this.sound.PlaySound(AudioClips.Button, 1f);
             }
-
-            ypos += spacing;
-
-            if (GUI.Button(new Rect(xpos, ypos, 200, 20), TextDatabase.Language.GetText(), this.skin.GetStyle("button")))
+            
+            if (GUI.Button(new Rect(this.posX, this.posY + this.spacing, this.width, this.height), TextDatabase.Language.GetText(), this.skin.GetStyle("button")))
             {
                 this.optionShown = false;
                 this.langueShown = true;
                 this.sound.PlaySound(AudioClips.Button, 1f);
             }
 
-            ypos += spacing;
-
-            if (GUI.Button(new Rect(xpos, ypos, 200, 20), TextDatabase.Back.GetText(), this.skin.GetStyle("button")))
+            if (GUI.Button(new Rect(this.posX, this.posY + this.spacing * 2, this.width, this.height), TextDatabase.Back.GetText(), this.skin.GetStyle("button")))
             {
                 this.showGUI = true;
                 this.optionShown = false;
@@ -187,15 +175,9 @@ namespace UnityEngine.Networking
         /// </summary>
         private void DrawSon()
         {
-            int xpos = 10 + offsetX;
-            int ypos = 40 + offsetY;
-            int spacing = 30;
+            this.sound.Volume = GUI.HorizontalSlider(new Rect(this.posX, this.posY, this.width, this.height), this.sound.Volume, 0f, 1f, this.skin.GetStyle("horizontalslider"), this.skin.GetStyle("horizontalsliderthumb"));         
 
-            this.sound.Volume = GUI.HorizontalSlider(new Rect(xpos, ypos, 200, 20), this.sound.Volume, 0f, 1f, this.skin.GetStyle("horizontalslider"), this.skin.GetStyle("horizontalsliderthumb"));
-
-            ypos += spacing;
-
-            if (GUI.Button(new Rect(xpos, ypos, 200, 20), TextDatabase.Validate.GetText(), this.skin.GetStyle("button")))
+            if (GUI.Button(new Rect(this.posX, this.posY + this.spacing, this.width, this.height), TextDatabase.Validate.GetText(), this.skin.GetStyle("button")))
             {
                 this.optionShown = true;
                 this.sonShown = false;
@@ -203,9 +185,7 @@ namespace UnityEngine.Networking
                 this.sound.PlaySound(AudioClips.Button, 1f);
             }
 
-            ypos += spacing;
-
-            if (GUI.Button(new Rect(xpos, ypos, 200, 20), TextDatabase.Back.GetText(), this.skin.GetStyle("button")))
+            if (GUI.Button(new Rect(this.posX, this.posY + this.spacing * 2, this.width, this.height), TextDatabase.Back.GetText(), this.skin.GetStyle("button")))
             {
                 this.optionShown = true;
                 this.sonShown = false;
@@ -219,30 +199,21 @@ namespace UnityEngine.Networking
         /// </summary>
         private void DrawLangue()
         {
-            int xpos = 10 + offsetX;
-            int ypos = 40 + offsetY;
-            int spacing = 30;
-
-
-            if (GUI.Button(new Rect(xpos, ypos, 200, 20), TextDatabase.French.GetText(), this.skin.GetStyle("button")))
+            if (GUI.Button(new Rect(this.posX, this.posY, this.width, this.height), TextDatabase.French.GetText(), this.skin.GetStyle("button")))
             {
                 PlayerPrefs.SetInt("langue", 0);
                 Text.SetLanguage(SystemLanguage.French);
                 this.sound.PlaySound(AudioClips.Button, 1f);
             }
-
-            ypos += spacing;
-
-            if (GUI.Button(new Rect(xpos, ypos, 200, 20), TextDatabase.English.GetText(), this.skin.GetStyle("button")))
+            
+            if (GUI.Button(new Rect(this.posX, this.posY + this.spacing, this.width, this.height), TextDatabase.English.GetText(), this.skin.GetStyle("button")))
             {
                 PlayerPrefs.SetInt("langue", 1);
                 Text.SetLanguage(SystemLanguage.English);
                 this.sound.PlaySound(AudioClips.Button, 1f);
             }
-
-            ypos += spacing;
-
-            if (GUI.Button(new Rect(xpos, ypos, 200, 20), TextDatabase.Back.GetText(), this.skin.GetStyle("button")))
+            
+            if (GUI.Button(new Rect(this.posX, this.posY + this.spacing * 2, this.width, this.height), TextDatabase.Back.GetText(), this.skin.GetStyle("button")))
             {
                 this.optionShown = true;
                 this.langueShown = false;
