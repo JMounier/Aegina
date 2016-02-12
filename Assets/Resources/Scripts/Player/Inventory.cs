@@ -402,7 +402,7 @@ public class Inventory : NetworkBehaviour
         {
             ItemStack itemS = new ItemStack(new Item(ItemDatabase.Find(id)), quantity);
             AddItemStack(itemS);
-            CmdSetQuantity(itemS.Quantity, loot, gameObject.transform.position);
+            CmdSetQuantity(itemS.Quantity, loot, gameObject.GetComponentInChildren<CharacterCollision>().transform.position);
         }
     }
 
@@ -419,7 +419,7 @@ public class Inventory : NetworkBehaviour
             if (quantity == 0)
             {
                 loot.GetComponent<Loot>().Items.Items.Ent.Life = 0.18f;
-                loot.GetComponent<Loot>().Items.Items.Ent.Prefab.GetComponent<Rigidbody>().AddForce((posPlayer - loot.GetComponent<Loot>().Items.Items.Ent.Prefab.transform.position + Vector3.up * .4f) * 300);
+                loot.GetComponent<Loot>().Items.Items.Ent.Prefab.GetComponent<Rigidbody>().AddForce((posPlayer - loot.GetComponent<Loot>().Items.Items.Ent.Prefab.transform.position + Vector3.up * 1f) * 300);
             }
             else
                 loot.GetComponent<SphereCollider>().enabled = true;
