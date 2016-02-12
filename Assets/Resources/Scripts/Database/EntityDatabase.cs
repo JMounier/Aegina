@@ -49,6 +49,12 @@ public static class EntityDatabase
     public static readonly Rock StoneRock = new Rock(110, 100, Resources.Load<GameObject>("Prefabs/Elements/Rocks/Stone"), 1);
 
     // Chunk
+    public static readonly Chunk Chunk1_One = new Chunk(1005, Resources.Load<GameObject>("Prefabs/Chunks/Chunk1_One"), Bridges.One);
+    public static readonly Chunk Chunk1_TwoI = new Chunk(1005, Resources.Load<GameObject>("Prefabs/Chunks/Chunk1_TwoI"), Bridges.TwoI);
+    public static readonly Chunk Chunk1_TwoL = new Chunk(1005, Resources.Load<GameObject>("Prefabs/Chunks/Chunk1_TwoL"), Bridges.TwoL);
+    public static readonly Chunk Chunk1_Three = new Chunk(1005, Resources.Load<GameObject>("Prefabs/Chunks/Chunk1_Three"), Bridges.Three);
+    public static readonly Chunk Chunk1_All = new Chunk(1005, Resources.Load<GameObject>("Prefabs/Chunks/Chunk1_All"), Bridges.All);
+
     public static readonly Chunk Chunk2_One = new Chunk(1005, Resources.Load<GameObject>("Prefabs/Chunks/Chunk2_One"), Bridges.One);
     public static readonly Chunk Chunk2_TwoI = new Chunk(1006, Resources.Load<GameObject>("Prefabs/Chunks/Chunk2_TwoI"), Bridges.TwoI);
     public static readonly Chunk Chunk2_TwoL = new Chunk(1007, Resources.Load<GameObject>("Prefabs/Chunks/Chunk2_TwoL"), Bridges.TwoL);
@@ -138,10 +144,13 @@ public static class EntityDatabase
     {
         get
         {
+            yield return Chunk1_All;
+
             yield return Chunk2_One;
             yield return Chunk2_TwoI;
             yield return Chunk2_TwoL;
-            yield return Chunk2_Three;           
+            yield return Chunk2_Three;
+            yield return Chunk2_All;
         }
     }
 
