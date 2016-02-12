@@ -143,7 +143,7 @@ public class Social : NetworkBehaviour
                 // HELP
                 case "/help":
                     sender.GetComponent<Social>().RpcReceiveMsg("<color=green>---This is the list of commands---</color>\n" +
-                        "/time <value> \n/give <id> <quantity> \n/nick <name> \n/msg <player> <message>");
+                        "/time <value> \n/give <id> <quantity> \n/nick <name> \n/msg <player> <message> \n/tp <player>");
                     break;
 
                 // TIME
@@ -220,6 +220,27 @@ public class Social : NetworkBehaviour
                         sender.GetComponent<Social>().RpcReceiveMsg("<color=red>Usage: /msg <player> <message></color>");
                     }
                     break;
+                case "/tp":
+                    try
+                    {
+                        if (cmd[1].ToLower() == sender.GetComponent<Social>().namePlayer.ToLower())
+                        {
+                            sender.GetComponent<Social>().RpcReceiveMsg("<color=red>You are already where you are...</color>");
+                            return;
+                        }
+                        foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
+                            if (player.GetComponent<Social>().namePlayer.ToLower() == cmd[1].ToLower())
+                            {
+                                sender.GetComponent<Social>().RpcTeleport(player.GetComponentInChildren<CharacterCollision>().transform.position);
+                                return;
+                            }
+                        sender.GetComponent<Social>().RpcReceiveMsg("<color=red>Player " + cmd[1] + " doesn't find.</color>");
+                    }
+                    catch
+                    {
+                        sender.GetComponent<Social>().RpcReceiveMsg("<color=red>Usage: /tp <player></color>");
+                    }
+                    break;
                 default:
                     sender.GetComponent<Social>().RpcReceiveMsg("<color=red>Unknow command. Try /help for a list of commands.</color>");
                     break;
@@ -265,6 +286,17 @@ public class Social : NetworkBehaviour
             this.chat[i] = this.chat[i + 1];
         this.chat[this.chat.Length - 1] = msg;
     }
+
+   /// <summary>
+   /// Teleport the player to a position
+   /// </summary>
+   /// <param name="pos">The position of the teleportation</param>
+    [ClientRpc]
+    private void RpcTeleport(Vector3 pos)
+    {
+        gameObject.GetComponentInChildren<CharacterCollision>().transform.position = pos;
+    }
+    // Setters & Getters
 
     /// <summary>
     /// L'affichage du chat

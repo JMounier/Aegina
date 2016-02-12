@@ -91,18 +91,18 @@ public class TextDatabase
     // Miscellanous
 
     public static readonly Text Quit = new Text("Quitter", "Quit");
-    public static readonly Text Continuer = new Text("Continuer", "Continue");
-    public static readonly Text Son = new Text("Son", "Sound");
-    public static readonly Text SON = new Text("SON", "SOUND");
-    public static readonly Text Retour = new Text("Retour", "Back");
-    public static readonly Text Langue = new Text("Langue", "Language");
-    public static readonly Text LANGUE = new Text("LANGUE", "LANGUAGE");
-    public static readonly Text Francais = new Text("Français", "French");
-    public static readonly Text Anglais = new Text("Anglais", "English");
-    public static readonly Text Jouer = new Text("Jouer(H)", "Play(H)");
-    public static readonly Text Rejoindre = new Text("Rejoindre(C)", "join(C)");
+    public static readonly Text Continue = new Text("Continuer", "Continue");
+    public static readonly Text Sound = new Text("Son", "Sound");
+    public static readonly Text Back = new Text("Retour", "Back");
+    public static readonly Text Language = new Text("Langue", "Language");
+    public static readonly Text French = new Text("Français", "French");
+    public static readonly Text English = new Text("Anglais", "English");
+    public static readonly Text Play = new Text("Jouer(H)", "Play(H)");
+    public static readonly Text Join = new Text("Rejoindre(C)", "Join(C)");
     public static readonly Text Activate = new Text("Activer", "Activate");
     public static readonly Text Validate = new Text("Valider", "Validate");
+    public static readonly Text Cancel = new Text("Annuler", "Cancel");
+    public static readonly Text Loading = new Text("Chargement...", "Loading...");
 }
 
 

@@ -24,7 +24,6 @@ public class Menu : NetworkBehaviour
         this.inventory = GetComponentInParent<Inventory>();
         this.controller = GetComponentInParent<Controller>();
         this.skin = Resources.Load<GUISkin>("Sprites/GUIskin/skin");
-        Text.SetLanguage(PlayerPrefs.GetInt("langue", 0) == 0 ? SystemLanguage.French : SystemLanguage.English);
         this.NM = FindObjectOfType<NetworkManager>();
 
         this.soundAudio = GetComponentInChildren<Sound>();
@@ -49,7 +48,7 @@ public class Menu : NetworkBehaviour
     private void DrawMenu()
     {
         GUI.Box(new Rect(Screen.width / 2 - Screen.width / 6, Screen.height / 2 - 200, Screen.width / 3, 325), "MENU", this.skin.GetStyle("windows"));
-        if (GUI.Button(new Rect(Screen.width / 2 - 40, Screen.height / 2 - 120, 80, 40), TextDatabase.Continuer.GetText(), this.skin.GetStyle("button")))
+        if (GUI.Button(new Rect(Screen.width / 2 - 40, Screen.height / 2 - 120, 80, 40), TextDatabase.Continue.GetText(), this.skin.GetStyle("button")))
         {
             this.soundAudio.PlaySound(AudioClips.Button, 1f);
             this.menuShown = false;
@@ -81,19 +80,19 @@ public class Menu : NetworkBehaviour
     private void DrawOption()
     {
         GUI.Box(new Rect(Screen.width / 2 - Screen.width / 6, Screen.height / 2 - 200, Screen.width / 3, 325), "OPTIONS", this.skin.GetStyle("windows"));
-        if (GUI.Button(new Rect(Screen.width / 2 - 40, Screen.height / 2 + 40, 80, 40), TextDatabase.Retour.GetText(), this.skin.GetStyle("button")))
+        if (GUI.Button(new Rect(Screen.width / 2 - 40, Screen.height / 2 + 40, 80, 40), TextDatabase.Back.GetText(), this.skin.GetStyle("button")))
         {
             this.menuShown = true;
             this.optionShown = false;
             this.soundAudio.PlaySound(AudioClips.Button, 1f);
         }
-        if (GUI.Button(new Rect(Screen.width / 2 - 40, Screen.height / 2 - 40, 80, 40), TextDatabase.Son.GetText(), this.skin.GetStyle("button")))
+        if (GUI.Button(new Rect(Screen.width / 2 - 40, Screen.height / 2 - 40, 80, 40), TextDatabase.Sound.GetText(), this.skin.GetStyle("button")))
         {
             this.optionShown = false;
             this.sonShown = true;
             this.soundAudio.PlaySound(AudioClips.Button, 1f);
         }
-        if (GUI.Button(new Rect(Screen.width / 2 - 40, Screen.height / 2 - 120, 80, 40), TextDatabase.Langue.GetText(), this.skin.GetStyle("button")))
+        if (GUI.Button(new Rect(Screen.width / 2 - 40, Screen.height / 2 - 120, 80, 40), TextDatabase.Language.GetText(), this.skin.GetStyle("button")))
         {
             this.optionShown = false;
             this.langueShown = true;
@@ -106,8 +105,8 @@ public class Menu : NetworkBehaviour
     /// </summary>
     private void DrawSon()
     {
-        GUI.Box(new Rect(Screen.width / 2 - Screen.width / 6, Screen.height / 2 - 200, Screen.width / 3, 325), TextDatabase.SON.GetText(), this.skin.GetStyle("windows"));
-        if (GUI.Button(new Rect(Screen.width / 2 - 40, Screen.height / 2 + 40, 80, 40), TextDatabase.Retour.GetText(), this.skin.GetStyle("button")))
+        GUI.Box(new Rect(Screen.width / 2 - Screen.width / 6, Screen.height / 2 - 200, Screen.width / 3, 325), TextDatabase.Sound.GetText().ToUpper(), this.skin.GetStyle("windows"));
+        if (GUI.Button(new Rect(Screen.width / 2 - 40, Screen.height / 2 + 40, 80, 40), TextDatabase.Back.GetText(), this.skin.GetStyle("button")))
         {
             this.optionShown = true;
             this.sonShown = false;
@@ -122,20 +121,20 @@ public class Menu : NetworkBehaviour
     /// </summary>
     private void DrawLangue()
     {
-        GUI.Box(new Rect(Screen.width / 2 - Screen.width / 6, Screen.height / 2 - 200, Screen.width / 3, 325), TextDatabase.LANGUE.GetText(), this.skin.GetStyle("windows"));
-        if (GUI.Button(new Rect(Screen.width / 2 - 40, Screen.height / 2 + 40, 80, 40), TextDatabase.Retour.GetText(), this.skin.GetStyle("button")))
+        GUI.Box(new Rect(Screen.width / 2 - Screen.width / 6, Screen.height / 2 - 200, Screen.width / 3, 325), TextDatabase.Language.GetText().ToUpper(), this.skin.GetStyle("windows"));
+        if (GUI.Button(new Rect(Screen.width / 2 - 40, Screen.height / 2 + 40, 80, 40), TextDatabase.Back.GetText(), this.skin.GetStyle("button")))
         {
             this.optionShown = true;
             this.langueShown = false;
             this.soundAudio.PlaySound(AudioClips.Button, 1f);
         }
-        if (GUI.Button(new Rect(Screen.width / 2 - 40, Screen.height / 2 - 40, 80, 40), TextDatabase.Francais.GetText(), this.skin.GetStyle("button")))
+        if (GUI.Button(new Rect(Screen.width / 2 - 40, Screen.height / 2 - 40, 80, 40), TextDatabase.French.GetText(), this.skin.GetStyle("button")))
         {
             PlayerPrefs.SetInt("langue", 0);
             Text.SetLanguage(SystemLanguage.French);
             this.soundAudio.PlaySound(AudioClips.Button, 1f);
         }
-        if (GUI.Button(new Rect(Screen.width / 2 - 40, Screen.height / 2 - 120, 80, 40), TextDatabase.Anglais.GetText(), this.skin.GetStyle("button")))
+        if (GUI.Button(new Rect(Screen.width / 2 - 40, Screen.height / 2 - 120, 80, 40), TextDatabase.English.GetText(), this.skin.GetStyle("button")))
         {
             PlayerPrefs.SetInt("langue", 1);
             Text.SetLanguage(SystemLanguage.English);

@@ -37,7 +37,7 @@ public class Sound : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
+    {      
         int i = 0;
         int n = this.coolDown.Count;
         while (i < n)
