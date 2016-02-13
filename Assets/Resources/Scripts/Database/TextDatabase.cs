@@ -103,6 +103,7 @@ public class TextDatabase
     public static readonly Text Validate = new Text("Valider", "Validate");
     public static readonly Text Cancel = new Text("Annuler", "Cancel");
     public static readonly Text Loading = new Text("Chargement...", "Loading...");
+    public static readonly Text Settings = new Text("Options", "Settings");
 }
 
 

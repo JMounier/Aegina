@@ -91,7 +91,7 @@ namespace UnityEngine.Networking
 
                     this.manager.networkAddress = GUI.TextField(new Rect(this.posX + this.width * .5f + 10, this.posY + this.spacing, this.width / 2 - 10, this.height), this.manager.networkAddress, this.skin.textField);
 
-                    if (GUI.Button(new Rect(this.posX, this.posY + this.spacing * 2, this.width, this.height), "Options(O)", skin.GetStyle("button")))
+                    if (GUI.Button(new Rect(this.posX, this.posY + this.spacing * 2, this.width, this.height), TextDatabase.Settings.GetText(), skin.GetStyle("button")))
                     {
                         this.optionShown = true;
                         this.sound.PlaySound(AudioClips.Button, 1f);
