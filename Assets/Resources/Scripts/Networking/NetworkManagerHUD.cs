@@ -10,13 +10,11 @@ namespace UnityEngine.Networking
     {
         public enum TypeLaunch { Host, Client, Server, Stop };
         private NetworkManager manager;
-        private bool showGUI = true;
-        private int offsetX;
-        private int offsetY;
         private GUISkin skin;
-        private Menu menu;
+        private Sound sound;
+        int posX, posY, width, height, spacing;
         private string playerName;
-        private bool menuShown = false;
+        private bool showGUI = true;
         private bool optionShown = false;
         private bool sonShown = false;
         private bool langueShown = false;
@@ -25,9 +23,16 @@ namespace UnityEngine.Networking
         {
             this.manager = GetComponent<NetworkManager>();
             this.skin = Resources.Load<GUISkin>("Sprites/GUIskin/skin");
-            this.offsetX = Screen.width / 2 - 100;
-            this.offsetY = Screen.height / 2 - 100;
+            this.skin.GetStyle("chat").fontSize = (int)(Screen.height * 0.025f);
+            this.skin.GetStyle("chat").alignment = TextAnchor.MiddleCenter;
+            this.skin.textField.fontSize = (int)(Screen.height * 0.025f);
+            this.posX = (int)(Screen.width / 2.6f);
+            this.posY = (int)(Screen.height / 2.5f);
+            this.width = Screen.width / 4;
+            this.height = Screen.height / 30;
+            this.spacing = this.height * 2;
             this.playerName = PlayerPrefs.GetString("PlayerName", "Enter a name");
+            this.sound = GameObject.Find("Map").GetComponentInChildren<Sound>();
             if (playerName == "Enter a name")
                 this.showGUI = false;
         }
@@ -46,71 +51,83 @@ namespace UnityEngine.Networking
                 else if (Input.GetKeyDown(KeyCode.C))
                     Launch(TypeLaunch.Client);
                 else if (Input.GetKeyDown(KeyCode.O))
-                    this.menuShown = true;
+                    this.optionShown = true;
             }
         }
 
         void OnGUI()
         {
-            if (!menuShown && !optionShown && !sonShown && !langueShown)
+            if (!showGUI)
             {
-
-                if (!showGUI)
+                GUI.Box(new Rect(Screen.width / 4, Screen.height / 6, Screen.width / 2, Screen.width / 12.8f), "", this.skin.GetStyle("aegina"));
+                this.playerName = GUI.TextField(new Rect(this.posX, this.posY, this.width, this.height), this.playerName, 15, this.skin.textField);
+                if (this.playerName != "" && this.playerName != "Enter a name" && GUI.Button(new Rect(this.posX, this.posY + this.spacing, this.width, this.height), TextDatabase.Validate.GetText(), this.skin.GetStyle("button")))
                 {
-                    this.playerName = GUI.TextField(new Rect(this.offsetX - 100, this.offsetY + 80, 200, 20), this.playerName, 15);
-                    if (this.playerName != "" && this.playerName != "Enter a name" && GUI.Button(new Rect(this.offsetX + 150, this.offsetY + 80, 75, 20), TextDatabase.Validate.GetText(), this.skin.GetStyle("button")))
-                    {
-                        this.showGUI = true;
-                        PlayerPrefs.SetString("PlayerName", this.playerName);
-                    }
-                    return;
-                }
-
-                int xpos = 10 + offsetX;
-                int ypos = 40 + offsetY;
-                int spacing = 30;
-
-                if (!NetworkClient.active && !NetworkServer.active && manager.matchMaker == null)
-                {
-                    GUI.Box(new Rect(Screen.width / 2 - Screen.width / 5, Screen.height / 2 - 200, 13 * Screen.width / 30, 400), "MENU", this.skin.GetStyle("windows"));
-                    if (GUI.Button(new Rect(xpos, ypos, 200, 20), TextDatabase.Jouer.GetText(), this.skin.GetStyle("button")))
-                        this.Launch(TypeLaunch.Host);
-
-                    ypos += spacing;
-
-                    if (GUI.Button(new Rect(xpos, ypos, 105, 20), TextDatabase.Rejoindre.GetText(), this.skin.GetStyle("button")))
-                        this.Launch(TypeLaunch.Client);
-
-                    this.manager.networkAddress = GUI.TextField(new Rect(xpos + 110, ypos, 95, 20), this.manager.networkAddress);
-                    ypos += spacing;
-                    if (GUI.Button(new Rect(xpos, ypos, 200, 20), "Options(O)", skin.GetStyle("button")))
-                    {
-                        this.menuShown = true;
-                    }
-                    ypos += spacing;
-                    if (GUI.Button(new Rect(xpos, ypos, 200, 20), TextDatabase.Quit.GetText(), skin.GetStyle("button")))
-                        Application.Quit();
+                    this.showGUI = true;
+                    PlayerPrefs.SetString("PlayerName", this.playerName);
                 }
             }
-            else if (!NetworkClient.active && !NetworkServer.active)
+            else if (!optionShown && !sonShown && !langueShown)
             {
-                GUI.Box(new Rect(Screen.width / 2 - Screen.width / 5, Screen.height / 2 - 200, 13 * Screen.width / 30, 400), "MENU", this.skin.GetStyle("windows"));
-                if (menuShown)
+                if (!this.manager.isNetworkActive)
                 {
-                    this.DrawMenu();
+                    // Verification of Sound when we come back to menu
+                    GameObject map = GameObject.Find("Map");
+                    if (this.sound == null && map != null)
+                        this.sound = map.GetComponentInChildren<Sound>();
+
+                    GUI.Box(new Rect(Screen.width / 4, Screen.height / 6, Screen.width / 2, Screen.width / 12.8f), "", this.skin.GetStyle("aegina"));
+                    if (GUI.Button(new Rect(this.posX, this.posY, this.width, this.height), TextDatabase.Play.GetText(), this.skin.GetStyle("button")))
+                    {
+                        this.Launch(TypeLaunch.Host);
+                        this.sound.PlaySound(AudioClips.Button, 1f);
+                    }
+
+                    if (GUI.Button(new Rect(this.posX, this.posY + this.spacing, this.width / 2 - 10, this.height), TextDatabase.Join.GetText(), this.skin.GetStyle("button")))
+                    {
+                        this.Launch(TypeLaunch.Client);
+                        this.sound.PlaySound(AudioClips.Button, 1f);
+                    }
+
+                    this.manager.networkAddress = GUI.TextField(new Rect(this.posX + this.width * .5f + 10, this.posY + this.spacing, this.width / 2 - 10, this.height), this.manager.networkAddress, this.skin.textField);
+
+                    if (GUI.Button(new Rect(this.posX, this.posY + this.spacing * 2, this.width, this.height), "Options(O)", skin.GetStyle("button")))
+                    {
+                        this.optionShown = true;
+                        this.sound.PlaySound(AudioClips.Button, 1f);
+                    }
+                    if (GUI.Button(new Rect(this.posX, this.posY + this.spacing * 3, this.width, this.height), TextDatabase.Quit.GetText(), skin.GetStyle("button")))
+                    {
+                        this.sound.PlaySound(AudioClips.Button, 1f);
+                        Application.Quit();
+                    }
                 }
+
+                else if (!this.manager.IsClientConnected())
+                {
+                    GUI.Box(new Rect(Screen.width / 4, Screen.height / 6, Screen.width / 2, Screen.width / 12.8f), "", this.skin.GetStyle("aegina"));
+                    if (GUI.Button(new Rect(this.posX, this.posY, this.width, this.height), TextDatabase.Cancel.GetText(), this.skin.GetStyle("button")))
+                    {
+                        this.sound.PlaySound(AudioClips.Button, 1f);
+                        this.Launch(TypeLaunch.Stop);
+                    }
+                    GUI.Box(new Rect(this.posX, this.posY + this.spacing / 2, this.width, this.height * 2.5f), "<color=white>" + TextDatabase.Loading.GetText() + "</color>", this.skin.GetStyle("chat"));
+                }
+            }
+            else
+            {
+                GUI.Box(new Rect(Screen.width / 4, Screen.height / 6, Screen.width / 2, Screen.width / 12.8f), "", this.skin.GetStyle("aegina"));
                 if (this.optionShown)
                     this.DrawOption();
-                if (this.langueShown)
+                else if (this.langueShown)
                     this.DrawLangue();
-                if (this.sonShown)
+                else if (this.sonShown)
                     this.DrawSon();
             }
         }
 
         private void Launch(TypeLaunch type)
         {
-
             switch (type)
             {
                 case TypeLaunch.Host:
@@ -126,28 +143,6 @@ namespace UnityEngine.Networking
                     this.manager.StopHost();
                     break;
             }
-
-
-        }
-
-        private void DrawMenu()
-        {
-            GUI.Box(new Rect(Screen.width / 2 - Screen.width / 6, Screen.height / 2 - 200, Screen.width / 3, 325), "MENU", this.skin.GetStyle("windows"));
-            if (GUI.Button(new Rect(Screen.width / 2 - 40, Screen.height / 2 - 120, 80, 40), TextDatabase.Continuer.GetText(), this.skin.GetStyle("button")))
-            {
-                this.menuShown = false;
-            }
-            if (GUI.Button(new Rect(Screen.width / 2 - 40, Screen.height / 2 + 40, 80, 40), TextDatabase.Quit.GetText(), this.skin.GetStyle("button")))
-            {
-                Application.Quit();
-
-                // TO DO => StopServer / Save Map OR Deco
-            }
-            if (GUI.Button(new Rect(Screen.width / 2 - 40, Screen.height / 2 - 40, 80, 40), "Options", this.skin.GetStyle("button")))
-            {
-                this.menuShown = false;
-                this.optionShown = true;
-            }
         }
 
         /// <summary>
@@ -155,21 +150,25 @@ namespace UnityEngine.Networking
         /// </summary>
         private void DrawOption()
         {
-            GUI.Box(new Rect(Screen.width / 2 - Screen.width / 6, Screen.height / 2 - 200, Screen.width / 3, 325), "OPTIONS", this.skin.GetStyle("windows"));
-            if (GUI.Button(new Rect(Screen.width / 2 - 40, Screen.height / 2 + 40, 80, 40), TextDatabase.Retour.GetText(), this.skin.GetStyle("button")))
-            {
-                this.menuShown = true;
-                this.optionShown = false;
-            }
-            if (GUI.Button(new Rect(Screen.width / 2 - 40, Screen.height / 2 - 40, 80, 40), TextDatabase.Son.GetText(), this.skin.GetStyle("button")))
+            if (GUI.Button(new Rect(this.posX, this.posY, this.width, this.height), TextDatabase.Sound.GetText(), this.skin.GetStyle("button")))
             {
                 this.optionShown = false;
                 this.sonShown = true;
+                this.sound.PlaySound(AudioClips.Button, 1f);
             }
-            if (GUI.Button(new Rect(Screen.width / 2 - 40, Screen.height / 2 - 120, 80, 40), TextDatabase.Langue.GetText(), this.skin.GetStyle("button")))
+
+            if (GUI.Button(new Rect(this.posX, this.posY + this.spacing, this.width, this.height), TextDatabase.Language.GetText(), this.skin.GetStyle("button")))
             {
                 this.optionShown = false;
                 this.langueShown = true;
+                this.sound.PlaySound(AudioClips.Button, 1f);
+            }
+
+            if (GUI.Button(new Rect(this.posX, this.posY + this.spacing * 2, this.width, this.height), TextDatabase.Back.GetText(), this.skin.GetStyle("button")))
+            {
+                this.showGUI = true;
+                this.optionShown = false;
+                this.sound.PlaySound(AudioClips.Button, 1f);
             }
         }
 
@@ -178,11 +177,22 @@ namespace UnityEngine.Networking
         /// </summary>
         private void DrawSon()
         {
-            GUI.Box(new Rect(Screen.width / 2 - Screen.width / 6, Screen.height / 2 - 200, Screen.width / 3, 325), TextDatabase.SON.GetText(), this.skin.GetStyle("windows"));
-            if (GUI.Button(new Rect(Screen.width / 2 - 40, Screen.height / 2 + 40, 80, 40), TextDatabase.Retour.GetText(), this.skin.GetStyle("button")))
+            this.sound.Volume = GUI.HorizontalSlider(new Rect(this.posX, this.posY, this.width, this.height), this.sound.Volume, 0f, 1f, this.skin.GetStyle("horizontalslider"), this.skin.GetStyle("horizontalsliderthumb"));
+
+            if (GUI.Button(new Rect(this.posX, this.posY + this.spacing, this.width, this.height), TextDatabase.Validate.GetText(), this.skin.GetStyle("button")))
             {
                 this.optionShown = true;
                 this.sonShown = false;
+                PlayerPrefs.SetFloat("Sound_intensity", this.sound.Volume);
+                this.sound.PlaySound(AudioClips.Button, 1f);
+            }
+
+            if (GUI.Button(new Rect(this.posX, this.posY + this.spacing * 2, this.width, this.height), TextDatabase.Back.GetText(), this.skin.GetStyle("button")))
+            {
+                this.optionShown = true;
+                this.sonShown = false;
+                this.sound.Volume = PlayerPrefs.GetFloat("Sound_intensity", 0.1f);
+                this.sound.PlaySound(AudioClips.Button, 1f);
             }
         }
 
@@ -191,24 +201,28 @@ namespace UnityEngine.Networking
         /// </summary>
         private void DrawLangue()
         {
-            GUI.Box(new Rect(Screen.width / 2 - Screen.width / 6, Screen.height / 2 - 200, Screen.width / 3, 325), TextDatabase.LANGUE.GetText(), this.skin.GetStyle("windows"));
-            if (GUI.Button(new Rect(Screen.width / 2 - 40, Screen.height / 2 + 40, 80, 40), TextDatabase.Retour.GetText(), this.skin.GetStyle("button")))
-            {
-                this.optionShown = true;
-                this.langueShown = false;
-            }
-            if (GUI.Button(new Rect(Screen.width / 2 - 40, Screen.height / 2 - 40, 80, 40), TextDatabase.Francais.GetText(), this.skin.GetStyle("button")))
+            if (GUI.Button(new Rect(this.posX, this.posY, this.width, this.height), TextDatabase.French.GetText(), this.skin.GetStyle("button")))
             {
                 PlayerPrefs.SetInt("langue", 0);
                 Text.SetLanguage(SystemLanguage.French);
+                this.sound.PlaySound(AudioClips.Button, 1f);
             }
-            if (GUI.Button(new Rect(Screen.width / 2 - 40, Screen.height / 2 - 120, 80, 40), TextDatabase.Anglais.GetText(), this.skin.GetStyle("button")))
+
+            if (GUI.Button(new Rect(this.posX, this.posY + this.spacing, this.width, this.height), TextDatabase.English.GetText(), this.skin.GetStyle("button")))
             {
                 PlayerPrefs.SetInt("langue", 1);
                 Text.SetLanguage(SystemLanguage.English);
+                this.sound.PlaySound(AudioClips.Button, 1f);
+            }
+
+            if (GUI.Button(new Rect(this.posX, this.posY + this.spacing * 2, this.width, this.height), TextDatabase.Back.GetText(), this.skin.GetStyle("button")))
+            {
+                this.optionShown = true;
+                this.langueShown = false;
+                this.sound.PlaySound(AudioClips.Button, 1f);
             }
         }
 
-    } 
+    }
 }
 

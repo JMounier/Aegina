@@ -74,6 +74,8 @@ public class SyncCharacter : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!isLocalPlayer)
+            return;
         this.Hunger -= Time.deltaTime * starvation;
         this.Thirst -= Time.deltaTime * thirstiness;
         if (this.character.transform.position.y <= -10)
