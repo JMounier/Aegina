@@ -30,6 +30,7 @@ public class Social : NetworkBehaviour
             this.posX = (int)(Screen.width * 0.01f);
             this.skin = Resources.Load<GUISkin>("Sprites/GUIskin/skin");
             this.skin.GetStyle("chat").fontSize = (int)(Screen.height * 0.025f);
+            this.skin.GetStyle("chat").alignment = TextAnchor.MiddleLeft;
             this.skin.textField.fontSize = (int)(Screen.height * 0.025f);
             this.nameTextMesh.gameObject.SetActive(false);
             string namePlayer = PlayerPrefs.GetString("PlayerName", "");
