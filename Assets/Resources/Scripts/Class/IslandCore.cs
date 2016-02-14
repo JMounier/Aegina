@@ -58,7 +58,52 @@ public class IslandCore : Element
 		}
     }
 
-    // Methods       
+    // Methods  
+	/// <summary>
+	/// Instancie l'entite dans le monde. (Must be server!)
+	/// </summary>
+	public override void Spawn()
+	{
+		base.Spawn();
+		base.prefab.GetComponent<SyncCore> ().CmdSetTeam (T);
+	}
+
+	/// <summary>
+	/// Instancie l'entite dans le monde avec une position. (Must be server!)
+	/// </summary>
+	public override void Spawn(Vector3 pos)
+	{
+		base.Spawn(pos);
+		base.prefab.GetComponent<SyncCore> ().CmdSetTeam (T);
+
+	}
+
+	/// <summary>
+	/// Instancie l'entite dans le monde avec une position et un parent. (Must be server!)
+	/// </summary>
+	public override void Spawn(Vector3 pos, Transform parent)
+	{
+		base.Spawn(pos, parent);
+		base.prefab.GetComponent<SyncCore> ().CmdSetTeam (T);
+	}
+
+	/// <summary>
+	/// Instancie l'entite dans le monde avec une position et une rotation. (Must be server!)
+	/// </summary>
+	public override void Spawn(Vector3 pos, Quaternion rot)
+	{
+		base.Spawn(pos, rot);
+		base.prefab.GetComponent<SyncCore> ().CmdSetTeam (T);
+	}
+
+	/// <summary>
+	/// Instancie l'entite dans le monde avec une position et une rotation et un parent. (Must be server!)
+	/// </summary>
+	public override void Spawn(Vector3 pos, Quaternion rot, Transform parent)
+	{
+		base.Spawn(pos, rot, parent);
+		base.prefab.GetComponent<SyncCore>().CmdSetTeam(T);
+	}
     /// <summary>
     /// Reset le cristal lorsqu'il n'a plus de pv
     /// </summary>
@@ -83,8 +128,8 @@ public class IslandCore : Element
         set
         {
             this.t = value;
-			Debug.Log (value);
-            prefab.GetComponentInChildren<MeshRenderer>().material = Resources.Load<Material>("Models/Components/Islands/Materials/Team" + (int)value);
+			Debug.Log (base.Prefab);
+            //this.Prefab.GetComponentInChildren<MeshRenderer>().material = Resources.Load<Material>("Models/Components/Islands/Materials/Team" + (int)value);
         }
     }
 
