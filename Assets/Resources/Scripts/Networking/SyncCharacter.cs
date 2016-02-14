@@ -21,22 +21,23 @@ public class SyncCharacter : NetworkBehaviour
 
     private float pos_x_hungerBar, pos_y_hungerBar;
     private int pos_x_lifeBar, pos_y_lifeBar;
-    private int columns = 6;
 
     private GameObject character;
-
+    private Inventory inventory;
     // Use this for initialization
     void Start()
     {
         if (!isLocalPlayer)
             return;
 
+        this.inventory = gameObject.GetComponent<Inventory>();
+
         this.lifeMax = 100;
         this.hungerMax = 100;
         this.thirstMax = 100;
 
-        this.pos_x_lifeBar = (Screen.width - this.columns * 50) / 2;
-        this.pos_y_lifeBar = Screen.height - 68;
+        this.pos_x_lifeBar = (Screen.width - this.inventory.Columns * this.inventory.ToolbarSize) / 2;
+        this.pos_y_lifeBar = (int)(Screen.height - this.inventory.ToolbarSize * 1.3f);
         this.pos_x_hungerBar = Screen.width / 1.03f;
         this.pos_y_hungerBar = Screen.height * 0.0125f;
 
@@ -66,7 +67,7 @@ public class SyncCharacter : NetworkBehaviour
     {
         if (!isLocalPlayer)
             return;
-        GUI.DrawTexture((new Rect(this.pos_x_lifeBar, this.pos_y_lifeBar, this.columns * 50, 14)), this.lifeBar[Mathf.CeilToInt(this.life * 100 / this.lifeMax)]);
+        GUI.DrawTexture((new Rect(this.pos_x_lifeBar, this.pos_y_lifeBar, this.inventory.Columns * this.inventory.ToolbarSize, this.inventory.ToolbarSize/3.5f)), this.lifeBar[Mathf.CeilToInt(this.life * 100 / this.lifeMax)]);
         GUI.DrawTexture((new Rect(this.pos_x_hungerBar, this.pos_y_hungerBar, Screen.width / 85, Screen.height / 2f)), this.hungerBar[Mathf.CeilToInt(this.hunger * 100 / this.hungerMax)]);
         GUI.DrawTexture((new Rect(this.pos_x_hungerBar - Screen.width * 0.025f, this.pos_y_hungerBar, Screen.width / 85, Screen.height / 2f)), this.ThirstBar[Mathf.CeilToInt(this.thirst * 100 / this.thirstMax)]);
     }
@@ -92,7 +93,7 @@ public class SyncCharacter : NetworkBehaviour
         this.life = this.lifeMax;
         this.hunger = this.hungerMax;
         this.thirst = this.thirstMax;
-        Vector3 newPos = new Vector3(Random.Range(-10f,10f), 8, Random.Range(-10f, 10f));
+        Vector3 newPos = new Vector3(Random.Range(-10f, 10f), 8, Random.Range(-10f, 10f));
         this.character.transform.position = newPos;
     }
 

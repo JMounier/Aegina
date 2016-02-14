@@ -9,6 +9,7 @@ public class Inventory : NetworkBehaviour
     private int columns = 6;
     private int pos_x_inventory, pos_y_inventory;
     private int pos_x_toolbar, pos_y_toolbar;
+    private int size_inventory, size_toolbar;
     private int[] previndex = new int[2];
     private bool draggingItemStack = false;
     private int cursor = 0;
@@ -24,11 +25,13 @@ public class Inventory : NetworkBehaviour
     {
         if (!isLocalPlayer)
             return;
-        this.pos_x_inventory = (Screen.width - this.rows * 40 + 16) / 2;
-        this.pos_y_inventory = (Screen.height - this.columns * 40 + 31) / 2;
-        this.pos_x_toolbar = (Screen.width - this.columns * 50) / 2;
-        this.pos_y_toolbar = Screen.height - 50;
 
+        this.size_inventory = Screen.width / 22;
+        this.size_toolbar = Screen.width / 20;
+        this.pos_x_inventory = (Screen.width - this.columns * this.size_inventory) / 2;
+        this.pos_y_inventory = (int)((Screen.height - (this.rows + 0.5f) * this.size_inventory) / 2);
+        this.pos_x_toolbar = (Screen.width - this.columns * this.size_toolbar) / 2;
+        this.pos_y_toolbar = Screen.height - this.size_toolbar;
         this.slots = new ItemStack[this.rows, this.columns];
         this.ClearInventory();
         // this.LoadInventory();
@@ -39,7 +42,7 @@ public class Inventory : NetworkBehaviour
         this.AddItemStack(new ItemStack(new Item(ItemDatabase.Log), 64));
         this.AddItemStack(new ItemStack(new Item(ItemDatabase.CopperPickaxe), 1));
         this.AddItemStack(new ItemStack(new Item(ItemDatabase.Floatium), 7));
-        this.AddItemStack(new ItemStack(new Item(ItemDatabase.IronIngot), 14));    
+        this.AddItemStack(new ItemStack(new Item(ItemDatabase.IronIngot), 14));
 
         this.skin = Resources.Load<GUISkin>("Sprites/GUIskin/Skin");
         this.trans = gameObject.GetComponent<Transform>();
@@ -77,9 +80,9 @@ public class Inventory : NetworkBehaviour
             for (int j = 0; j < this.columns; j++)
             {
                 if (i == this.rows - 1)
-                    rect = new Rect(this.pos_x_inventory + j * 40, this.pos_y_inventory + i * 40 + 15, 40, 40);
+                    rect = new Rect(this.pos_x_inventory + j * this.size_inventory, this.pos_y_inventory + this.size_inventory * (i + .5f), this.size_inventory, this.size_inventory);
                 else
-                    rect = new Rect(this.pos_x_inventory + j * 40, this.pos_y_inventory + i * 40, 40, 40);
+                    rect = new Rect(this.pos_x_inventory + j * this.size_inventory, this.pos_y_inventory + i * this.size_inventory, this.size_inventory, this.size_inventory);
 
                 if (rect.Contains(Event.current.mousePosition))
                 {
@@ -182,7 +185,7 @@ public class Inventory : NetworkBehaviour
                 }
             }
         // Relachement de l'item hors de l'inventaire
-        rect = new Rect(pos_x_inventory, pos_y_inventory, columns * 40, rows * 40);
+        rect = new Rect(pos_x_inventory, pos_y_inventory, columns * this.size_inventory, (rows + .5f) * this.size_inventory);
         if (!rect.Contains(Event.current.mousePosition) && this.draggingItemStack && Event.current.button == 0 && Event.current.type == EventType.MouseUp)
         {
             this.Drop(this.selectedItem);
@@ -205,25 +208,25 @@ public class Inventory : NetworkBehaviour
     /// </summary>
     void DrawInventory()
     {
-        Rect rect = new Rect(this.pos_x_inventory - 8, this.pos_y_inventory - 8, this.columns * 40 + 16, this.rows * 40 + 31);
+        Rect rect = new Rect(this.pos_x_inventory - 8, this.pos_y_inventory - 8, this.columns * this.size_inventory + 16, (this.rows + .5f) * this.size_inventory + 16);
         GUI.Box(rect, "", this.skin.GetStyle("inventory"));
         for (int i = 0; i < this.rows; i++)
             for (int j = 0; j < this.columns; j++)
             {
                 // Dessin du slot
                 if (i == this.rows - 1)
-                    rect = new Rect(this.pos_x_inventory + j * 40, this.pos_y_inventory + i * 40 + 15, 40, 40);
+                    rect = new Rect(this.pos_x_inventory + j * this.size_inventory, this.pos_y_inventory + (i + .5f) * this.size_inventory, this.size_inventory, this.size_inventory);
                 else
-                    rect = new Rect(this.pos_x_inventory + j * 40, this.pos_y_inventory + i * 40, 40, 40);
+                    rect = new Rect(this.pos_x_inventory + j * this.size_inventory, this.pos_y_inventory + i * this.size_inventory, this.size_inventory, this.size_inventory);
                 GUI.Box(rect, "", this.skin.GetStyle("slot"));
 
                 if (this.slots[i, j].Items.ID != -1)
                 {
                     // Dessin de l'item + quantite
-                    rect.x += 6;
-                    rect.y += 6;
-                    rect.width -= 12;
-                    rect.height -= 12;
+                    rect.x += this.size_inventory / 7;
+                    rect.y += this.size_inventory / 7;
+                    rect.width -= this.size_inventory / 3.5f;
+                    rect.height -= this.size_inventory / 3.5f;
                     GUI.DrawTexture(rect, this.slots[i, j].Items.Icon);
                     if (this.slots[i, j].Quantity > 1)
                         GUI.Box(rect, this.slots[i, j].Quantity.ToString(), this.skin.GetStyle("quantity"));
@@ -232,13 +235,13 @@ public class Inventory : NetworkBehaviour
 
         if (this.draggingItemStack)
         {
-            GUI.DrawTexture(new Rect(Event.current.mousePosition.x, Event.current.mousePosition.y, 45, 45), this.selectedItem.Items.Icon);
+            GUI.DrawTexture(new Rect(Event.current.mousePosition.x, Event.current.mousePosition.y, this.size_inventory *1.125f, this.size_inventory*1.125f), this.selectedItem.Items.Icon);
             if (this.selectedItem.Quantity > 1)
-                GUI.Box(new Rect(Event.current.mousePosition.x, Event.current.mousePosition.y, 45, 45), this.selectedItem.Quantity.ToString(), this.skin.GetStyle("quantity2"));
+                GUI.Box(new Rect(Event.current.mousePosition.x, Event.current.mousePosition.y, this.size_inventory * 1.125f, this.size_inventory * 1.125f), this.selectedItem.Quantity.ToString(), this.skin.GetStyle("quantity2"));
         }
         if (this.tooltipshown)
         {
-            GUI.Box(new Rect(this.pos_x_inventory + (this.previndex[1] + 1) * 40, this.pos_y_inventory + this.previndex[0] * 40, 200, 35 + 20 * (this.selectedItem.Items.Description.Length / 35 + 1)),
+            GUI.Box(new Rect(this.pos_x_inventory + (this.previndex[1] + 1) * this.size_inventory, this.pos_y_inventory + this.previndex[0] * this.size_inventory, 200, 35 + 20 * (this.selectedItem.Items.Description.Length / 35 + 1)),
                 "<color=#ffffff>" + this.selectedItem.Items.Name + "</color>\n\n" + this.selectedItem.Items.Description, this.skin.GetStyle("tooltip"));
         }
     }
@@ -248,20 +251,20 @@ public class Inventory : NetworkBehaviour
     /// </summary>
     void DrawToolbar()
     {
-        Rect rect = new Rect(this.pos_x_toolbar, this.pos_y_toolbar, this.columns * 50, 50);
+        Rect rect = new Rect(this.pos_x_toolbar, this.pos_y_toolbar, this.columns * this.size_toolbar, this.size_toolbar);
         GUI.Box(rect, "", this.skin.GetStyle("toolbar"));
         for (int i = 0; i < this.columns; i++)
         {
-            rect = new Rect(this.pos_x_toolbar + i * 50, this.pos_y_toolbar, 50, 50);
+            rect = new Rect(this.pos_x_toolbar + i * this.size_toolbar, this.pos_y_toolbar, this.size_toolbar, this.size_toolbar);
             if (this.cursor == i)
                 GUI.Box(rect, "", this.skin.GetStyle("toolbar_selected"));
 
             if (this.slots[this.rows - 1, i].Items.ID != -1)
             {
-                rect.x += 8;
-                rect.y += 8;
-                rect.width -= 16;
-                rect.height -= 16;
+                rect.x += this.size_toolbar / 7;
+                rect.y += this.size_toolbar / 7;
+                rect.width -= this.size_toolbar / 3.5f;
+                rect.height -= this.size_toolbar / 3.5f;
                 GUI.DrawTexture(rect, this.slots[this.rows - 1, i].Items.Icon);
                 if (this.slots[this.rows - 1, i].Quantity != 1)
                     GUI.Box(rect, this.slots[this.rows - 1, i].Quantity.ToString(), this.skin.GetStyle("quantity"));
@@ -372,7 +375,7 @@ public class Inventory : NetworkBehaviour
         bool contain_all = true;
         int i = 0;
         int len = itlist.Length;
-        while(contain_all && i < len)
+        while (contain_all && i < len)
         {
             contain_all = contain_all && InventoryContains(itlist[i]);
             i += 1;
@@ -402,7 +405,7 @@ public class Inventory : NetworkBehaviour
         {
             if (this.slots[i, j].Items.ID == it.ID && this.slots[i, j].Items.Meta == it.Meta)
             {
-                if (this.slots[i,j].Quantity <= quantity)
+                if (this.slots[i, j].Quantity <= quantity)
                 {
                     quantity -= this.slots[i, j].Quantity;
                     this.slots[i, j] = new ItemStack();
@@ -560,7 +563,7 @@ public class Inventory : NetworkBehaviour
     {
         ItemDatabase.Find(id, meta).Spawn(pos + forward * 0.3f + Vector3.up * 0.7f, forward + Vector3.up, quantity);
     }
-    
+
     // Getters & Setters
 
     /// <summary>
@@ -596,5 +599,37 @@ public class Inventory : NetworkBehaviour
     {
         get { return this.slots[this.rows - 1, this.cursor]; }
         set { this.slots[this.rows - 1, this.cursor] = value; }
+    }
+
+    /// <summary>
+    /// La taille de la toolbar
+    /// </summary>
+    public int ToolbarSize
+    {
+        get { return this.size_toolbar; }
+    }
+
+    /// <summary>
+    /// La taille de l'inventaire
+    /// </summary>
+    public int InventorySize
+    {
+        get { return this.size_inventory; }
+    }
+
+    /// <summary>
+    /// Le nombre de lignes de l'inventaire
+    /// </summary>
+    public int Rows
+    {
+        get { return this.rows; }
+    }
+
+    /// <summary>
+    /// Le nombre de colonnes de l'inventaire
+    /// </summary>
+    public int Columns
+    {
+        get { return this.columns; }
     }
 }
