@@ -2,7 +2,7 @@
 	Properties{
 		_Color("Main Color", Color) = (.5,.5,.5,1)
 		_OutlineColor("Outline Color", Color) = (255,0,0,1)
-		_Outline("Outline width", Range(0.0, 0.05)) = .005
+		_Outline("Outline width", Range(0.0, 0.05)) = .001
 		_MainTex("Base (RGB)", 2D) = "white" { }
 	_BumpMap("Bumpmap", 2D) = "bump" {}
 	}
@@ -100,10 +100,10 @@
 										//Blend DstColor Zero // Multiplicative
 										//Blend DstColor SrcColor // 2x Multiplicative
 
-		CGPROGRAM
+	/*	CGPROGRAM
 #pragma vertex vert
 #pragma exclude_renderers gles xbox360 ps3
-		ENDCG
+		ENDCG*/
 		SetTexture[_MainTex]{ combine primary }
 	}
 
