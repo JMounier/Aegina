@@ -31,51 +31,6 @@ public class Element : Entity
 
     // Methods
     /// <summary>
-    /// Instancie l'entite dans le monde. (Must be server!)
-    /// </summary>
-    public override void Spawn()
-    {
-        base.Spawn();
-        base.prefab.GetComponent<SyncElement>().CmdSetElement(iD);
-    }
-
-    /// <summary>
-    /// Instancie l'entite dans le monde avec une position. (Must be server!)
-    /// </summary>
-    public override void Spawn(Vector3 pos)
-    {
-        base.Spawn(pos);
-        base.prefab.GetComponent<SyncElement>().CmdSetElement(iD);
-    }
-
-    /// <summary>
-    /// Instancie l'entite dans le monde avec une position et un parent. (Must be server!)
-    /// </summary>
-    public override void Spawn(Vector3 pos, Transform parent)
-    {
-        base.Spawn(pos, parent);
-        base.prefab.GetComponent<SyncElement>().CmdSetElement(iD);
-    }
-
-    /// <summary>
-    /// Instancie l'entite dans le monde avec une position et une rotation. (Must be server!)
-    /// </summary>
-    public override void Spawn(Vector3 pos, Quaternion rot)
-    {
-        base.Spawn(pos, rot);
-        base.prefab.GetComponent<SyncElement>().CmdSetElement(iD);
-    }
-
-    /// <summary>
-    /// Instancie l'entite dans le monde avec une position et une rotation et un parent. (Must be server!)
-    /// </summary>
-    public override void Spawn(Vector3 pos, Quaternion rot, Transform parent)
-    {
-        base.Spawn(pos, rot, parent);
-        base.prefab.GetComponent<SyncElement>().CmdSetElement(iD);
-    }
-
-    /// <summary>
     /// Appellez cette fonction pour detruire l'element.
     /// </summary>
     protected override void Kill()
