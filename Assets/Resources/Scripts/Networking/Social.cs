@@ -82,8 +82,8 @@ public class Social : NetworkBehaviour
             if (Event.current.type == EventType.used && Event.current.keyCode == KeyCode.Return)
             {
                 this.chatShown = false;
-                this.Validate();
                 GetComponent<Controller>().Pause = false;
+                this.Validate();
             }
             else if (Event.current.type == EventType.used && Event.current.keyCode == KeyCode.Escape)
             {
@@ -106,9 +106,9 @@ public class Social : NetworkBehaviour
     /// </summary>
     public void Validate()
     {
-        if (msg != "" && isLocalPlayer)
+        if (this.msg.Trim() != "" && isLocalPlayer)
         {
-            this.CmdSendMsg(this.msg, gameObject);
+            this.CmdSendMsg(this.msg.Trim(), gameObject);
             for (int i = 8; i > -1; i--)
                 this.log[i + 1] = this.log[i];
             this.log[0] = this.msg;
@@ -134,8 +134,7 @@ public class Social : NetworkBehaviour
     /// <param name="name"></param>
     [Command]
     private void CmdSendMsg(string msg, GameObject sender)
-    {
-        msg = msg.Trim();
+    {        
         if (msg[0] == '/')
         {
             string[] cmd = msg.Split();
