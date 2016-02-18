@@ -9,16 +9,10 @@ public class MapGeneration : NetworkBehaviour
     {
         if (isServer)
         {
-            EntityDatabase.RandChunk(Bridges.TwoL).Generate(0, 0, Directions.North, BiomeDatabase.RandBiome, gameObject);
-            EntityDatabase.RandChunk(Bridges.TwoL).Generate(0, 1, Directions.East, BiomeDatabase.RandBiome, gameObject, true);
+            EntityDatabase.RandChunk(Bridges.TwoL).Generate(0, 0, Directions.North, BiomeDatabase.RandBiome, gameObject, true);
+            EntityDatabase.RandChunk(Bridges.TwoL).Generate(0, 1, Directions.East, BiomeDatabase.RandBiome, gameObject);
             EntityDatabase.RandChunk(Bridges.TwoL).Generate(1, 1, Directions.South, BiomeDatabase.RandBiome, gameObject);
             EntityDatabase.RandChunk(Bridges.TwoL).Generate(1, 0, Directions.West, BiomeDatabase.RandBiome, gameObject);
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-
     }
 }

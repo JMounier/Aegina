@@ -74,7 +74,7 @@ public class Chunk : Entity
                     {
                         if (this.isPrisme)
                         {
-                            this.GenerateEntity(new IslandCore(EntityDatabase.IslandCore), ancre.gameObject);
+                            this.GenerateEntity(new Element(EntityDatabase.IslandCore as Element), ancre.gameObject);
                         }
                         else
                             this.GenerateEntity(this.b.Chose(), ancre.gameObject);

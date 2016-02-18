@@ -62,7 +62,7 @@ public static class EntityDatabase
     public static readonly Chunk Chunk2_All = new Chunk(1009, Resources.Load<GameObject>("Prefabs/Chunks/Chunk2_All"), Bridges.All);
 
     // IslandCore
-    public static readonly IslandCore IslandCore = new IslandCore(42, Resources.Load<GameObject>("Prefabs/Elements/Cristals/IslandCore"), Team.Neutre, 0, 0, 0);
+    public static readonly Element IslandCore = new Element(42, 100, Resources.Load<GameObject>("Prefabs/Elements/Cristals/IslandCore"), 0);
 
     /// <summary>
     /// Liste tous les entites du jeu. (Utilisez avec foreach)
@@ -73,7 +73,35 @@ public static class EntityDatabase
         {
             // Default
             yield return Default;
+            // Material
             yield return Log;
+            yield return Stone;
+            yield return Sand;
+            yield return Iron;
+            yield return Copper;
+            yield return Gold;
+            yield return Mithril;
+            yield return Floatium;
+            yield return Sunkium;
+
+            //Ingot
+            yield return IronIngot;
+            yield return CopperIngot;
+            yield return GoldIngot;
+            yield return MithrilIngot;
+            yield return FloatiumIngot;
+            yield return SunkiumIngot;
+
+            //Pickaxe
+            yield return IronPickaxe;
+            yield return CopperPickaxe;
+            yield return GoldPickaxe;
+            yield return MithrilPickaxe;
+            yield return FloatiumPickaxe;
+            yield return SunkiumPickaxe;
+
+
+
 
             // Tree
             foreach (Tree tree in Trees)
@@ -100,14 +128,16 @@ public static class EntityDatabase
     {
         get
         {
-            yield return IslandCore;
-
             // Flowers
             yield return Branch;
             yield return ForestFlower;
             yield return IceFlower;
             yield return SmallCactus;
             yield return LittleRock;
+
+
+            // IslandCore
+            yield return IslandCore;
         }
     }
 
@@ -144,6 +174,11 @@ public static class EntityDatabase
     {
         get
         {
+
+            yield return Chunk1_One;
+            yield return Chunk1_TwoI;
+            yield return Chunk1_TwoL;
+            yield return Chunk1_Three;
             yield return Chunk1_All;
 
             yield return Chunk2_One;
