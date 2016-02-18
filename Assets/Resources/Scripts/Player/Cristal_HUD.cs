@@ -12,6 +12,7 @@ public class Cristal_HUD : NetworkBehaviour
     private int pos_y;
     private int width;
     private int height;
+    private int space;
     private GUISkin skin;
     private ItemStack[] need;
     private Inventory inventory;
@@ -23,6 +24,7 @@ public class Cristal_HUD : NetworkBehaviour
         this.pos_y = Screen.height / 4;
         this.width = Screen.width / 2;
         this.height = Screen.height / 2;
+        this.space = Screen.height / 20;
         this.skin = Resources.Load<GUISkin>("Sprites/GUIskin/Skin");
         this.inventory = GetComponentInParent<Inventory>();
         this.cristal = new IslandCore();
@@ -59,7 +61,7 @@ public class Cristal_HUD : NetworkBehaviour
         {
             if (this.need[i].Quantity != 0)
             {
-                rect = new Rect(this.pos_x + j % 3 * 40 + 40, this.pos_y + j / 3 * 40 + 200, 40, 40);
+                rect = new Rect(this.pos_x + j % 3 * space + space, this.pos_y + height - 4 * space - 10 + j/3 * space, space, space);
                 GUI.Box(rect, "", this.skin.GetStyle("slot"));
 
                 // Dessin de l'item + quantite
@@ -75,7 +77,7 @@ public class Cristal_HUD : NetworkBehaviour
         }
         if (this.cristal.T == Team.Neutre)
         {
-            rect = new Rect(this.pos_x + 40, this.pos_y + 280, 80, 40);
+            rect = new Rect(this.pos_x + space, this.pos_y + height - 2 * space, 3 * space, space);
             if (GUI.Button(rect, TextDatabase.Activate.GetText(), this.skin.GetStyle("button")))
             {
                 if (this.inventory.InventoryContains(need))
