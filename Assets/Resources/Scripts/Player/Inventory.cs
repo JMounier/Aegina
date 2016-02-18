@@ -43,7 +43,9 @@ public class Inventory : NetworkBehaviour
         this.AddItemStack(new ItemStack(new Item(ItemDatabase.CopperPickaxe), 1));
         this.AddItemStack(new ItemStack(new Item(ItemDatabase.Floatium), 7));
         this.AddItemStack(new ItemStack(new Item(ItemDatabase.IronIngot), 14));
-
+        this.AddItemStack(new ItemStack(new Item(ItemDatabase.Iron), 15));
+        this.AddItemStack(new ItemStack(new Item(ItemDatabase.Gold), 1));
+        this.AddItemStack(new ItemStack(new Item(ItemDatabase.Copper), 15));
         this.skin = Resources.Load<GUISkin>("Sprites/GUIskin/Skin");
         this.trans = gameObject.GetComponent<Transform>();
     }
@@ -235,7 +237,7 @@ public class Inventory : NetworkBehaviour
 
         if (this.draggingItemStack)
         {
-            GUI.DrawTexture(new Rect(Event.current.mousePosition.x, Event.current.mousePosition.y, this.size_inventory *1.125f, this.size_inventory*1.125f), this.selectedItem.Items.Icon);
+            GUI.DrawTexture(new Rect(Event.current.mousePosition.x, Event.current.mousePosition.y, this.size_inventory * 1.125f, this.size_inventory * 1.125f), this.selectedItem.Items.Icon);
             if (this.selectedItem.Quantity > 1)
                 GUI.Box(new Rect(Event.current.mousePosition.x, Event.current.mousePosition.y, this.size_inventory * 1.125f, this.size_inventory * 1.125f), this.selectedItem.Quantity.ToString(), this.skin.GetStyle("quantity2"));
         }
