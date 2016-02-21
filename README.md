@@ -1,5 +1,5 @@
 # Aegina
-![Image](https://scontent-bru2-1.xx.fbcdn.net/hphotos-xap1/v/t1.0-9/1931139_166462900382516_4640780652673587309_n.jpg?oh=b850f32adca087688a03e3b8b14dce75&oe=5704EA7E "")
+![Image](http://img11.hostingpics.net/pics/873619presentation.png "")
 #### Description
 
 S2 project at EPITA.
