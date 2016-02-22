@@ -6,7 +6,6 @@ public enum AudioClips { Void, Walk1, Walk2, Run1, Run2, Run3, Button, Bag, Menu
 
 public class Sound : MonoBehaviour
 {
-
     private AudioSource source;
     private List<float[]> coolDown = new List<float[]>();
     private static AudioClip[] AudioclipArray = new AudioClip[11];
@@ -32,7 +31,7 @@ public class Sound : MonoBehaviour
         this.source.volume = this.volume;
         this.inGame = gameObject.GetComponent<CharacterCollision>() != null;
         if (this.inGame)
-            this.PlaySound(AudioClips.Void, 0f, Random.Range(0, 120), 42);
+            this.PlaySound(AudioClips.Void, 0f, Random.Range(0, 120), 42, 1);
     }
 
     // Update is called once per frame
@@ -54,7 +53,7 @@ public class Sound : MonoBehaviour
         if (this.inGame && this.IsReady(42))
         {
             int music = Random.Range((int)AudioClips.Forest, (int)AudioClips.Desert + 1);
-            this.PlaySound((AudioClips)music, 2f, Random.Range(420, 840), 42);
+            this.PlaySound((AudioClips)music, 2f, Random.Range(420, 840), 42, 1);
         }
     }
 
@@ -82,6 +81,16 @@ public class Sound : MonoBehaviour
     {
         this.source.PlayOneShot(AudioclipArray[(int)clip], vol);
         this.coolDown.Add(new float[2] { idCoolDown, coolDown });
+    }
+
+    /// <sumary>
+    /// Joue un son avec un volume choisi, cree un cooldown avec un id choisi et avec une distance de diffusion max.
+    /// </sumary>
+    public void PlaySound(AudioClips clip, float vol, float coolDown, float idCoolDown, float maxRange)
+    {
+        this.source.PlayOneShot(AudioclipArray[(int)clip], vol);
+        this.coolDown.Add(new float[2] { idCoolDown, coolDown });
+        this.source.maxDistance = maxRange;
     }
 
     /// <sumary>
