@@ -273,12 +273,12 @@ public class Inventory : NetworkBehaviour
             }
         }
     }
-
+        
     /// <summary>
     /// Permet d'ajotuer des objes dans l'inventaire.
     /// </summary>
     /// <param name="iStack"></param>
-    public void AddItemStack(ItemStack iStack)
+    private void AddItemStack(ItemStack iStack)
     {
         int i = 0;
         int j = 0;
@@ -504,11 +504,11 @@ public class Inventory : NetworkBehaviour
     /// <summary>
     /// Depuis les informations du loot, ajoute a l'inventaire les loots. Puis actualise la quantite. (Must be server)
     /// </summary>
-    /// <param name="id"></param>
-    /// <param name="quantity"></param>
-    /// <param name="loot"></param>
+    /// <param name="id">L'id de l'item a ajouter</param>
+    /// <param name="quantity">La quantite a ajouter</param>
+    /// <param name="loot">Mettre null si il n'est pas question de loot</param>
     [ClientRpc]
-    private void RpcAddItemStack(int id, int quantity, GameObject loot)
+    public void RpcAddItemStack(int id, int quantity, GameObject loot)
     {
         if (isLocalPlayer)
         {
