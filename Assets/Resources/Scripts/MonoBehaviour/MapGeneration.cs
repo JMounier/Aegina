@@ -9,7 +9,7 @@ public class MapGeneration : NetworkBehaviour
     void Start()
     {
         if (isServer)
-            new Chunk(EntityDatabase.Chunk2).Generate(0, 0, BiomeDatabase.RandBiome, gameObject);
+            new Chunk(EntityDatabase.Chunk2_One).Generate(0, 0, BiomeDatabase.RandBiome, gameObject);
 
     }
 
