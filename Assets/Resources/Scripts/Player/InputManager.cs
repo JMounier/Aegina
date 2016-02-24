@@ -16,6 +16,7 @@ public class InputManager : NetworkBehaviour
 
 
     private GameObject character;
+    private GameObject camera;
     private SyncElement nearElement;
 
     // Use this for initialization
@@ -26,6 +27,7 @@ public class InputManager : NetworkBehaviour
         if (!isLocalPlayer)
             return;
         this.character = GetComponentInChildren<CharacterCollision>().gameObject;
+        this.camera = GetComponentInChildren<Camera>().gameObject;
         this.inventaire = GetComponent<Inventory>();
         this.menu = GetComponent<Menu>();
         this.controller = GetComponent<Controller>();
@@ -43,36 +45,39 @@ public class InputManager : NetworkBehaviour
         if (!isLocalPlayer)
             return;
 
-        // recherche du plus proche
-        float dist = this.nearElement == null ? 0 : Vector3.Distance(this.nearElement.transform.position, this.character.transform.position);
-        int comp = 0;
-        bool changed = false;
-        foreach (Collider col in Physics.OverlapSphere(character.transform.position, 3.5f))
-            if (col.transform.parent != null && col.transform.parent.CompareTag("Elements"))
+        // Recherche du plus proche
+        float dist = float.PositiveInfinity;
+        SyncElement lastNearElement = this.nearElement;
+        this.nearElement = null;
+
+        Collider[] cols = Physics.OverlapSphere(this.camera.transform.position, 0.45f);
+        GameObject forbidden = null;
+        if (cols.Length > 0)
+            forbidden = cols[0].gameObject;
+
+        foreach (Collider col in Physics.OverlapSphere(this.character.transform.position, 3.5f))
+            if (col.transform.parent != null && col.transform.parent.CompareTag("Elements") && col.gameObject != forbidden
+                && Vector3.Distance(this.character.transform.position, col.transform.parent.transform.position) < dist)
             {
-                comp++;
-                if (this.nearElement == null || Vector3.Distance(this.character.transform.position, col.transform.parent.transform.position) < dist)
-                {
-                    if (this.nearElement != null)
-                    {
-                        foreach (Material mat in this.nearElement.GetComponentInChildren<MeshRenderer>().materials)
-                            mat.shader = Shader.Find("Standard");
-                    }
-                    this.nearElement = col.transform.parent.gameObject.GetComponent<SyncElement>();
-                    changed = true;
-                }
+                this.nearElement = col.transform.parent.gameObject.GetComponent<SyncElement>();
+                dist = Vector3.Distance(this.character.transform.position, col.transform.parent.transform.position);
             }
-        if (comp == 0 && this.nearElement != null)
+
+
+        if (this.nearElement != lastNearElement)
         {
-            foreach (Material mat in this.nearElement.GetComponentInChildren<MeshRenderer>().materials)
-                mat.shader = Shader.Find("Standard");
-            this.nearElement = null;
+            // Supprimer l'ancien outline
+            if (lastNearElement != null)
+                foreach (Material mat in lastNearElement.GetComponentInChildren<MeshRenderer>().materials)
+                    mat.shader = Shader.Find("Standard");
+
+            // Mettre le nouveau outline
+            if (this.nearElement != null)            
+                foreach (Material mat in this.nearElement.GetComponentInChildren<MeshRenderer>().materials)
+                    mat.shader = Shader.Find("Outlined");            
         }
-        else if (changed)
-        {
-            foreach (Material mat in this.nearElement.GetComponentInChildren<MeshRenderer>().materials)
-                mat.shader = Shader.Find("Outlined");
-        }
+
+        // Gestion Input
         if (Input.GetButtonDown("Inventory") && !this.menu.MenuShown && !this.menu.OptionShown && !this.social.ChatShown && !this.cristalHUD.Cristal_shown)
         {
             this.inventaire.InventoryShown = !this.inventaire.InventoryShown;
