@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.Networking;
 
 public class Controller : NetworkBehaviour
@@ -14,13 +15,6 @@ public class Controller : NetworkBehaviour
     private float jumpingBoost = .5f;
     private float jumpForce = 13000f;
     private float coolDownJump = 0;
-
-    [SyncVar]
-    private bool syncIsJumping;
-    [SyncVar]
-    private bool syncIsMoving;
-    [SyncVar]
-    private bool syncIsSprinting;
 
     private bool isJumping;
     private Animator anim;
@@ -52,12 +46,7 @@ public class Controller : NetworkBehaviour
         this.character = gameObject.GetComponentInChildren<CharacterCollision>().gameObject;
 
         this.soundAudio = gameObject.GetComponent<Sound>();
-        this.CmdSetStatus(false, false, true);
-        this.syncIsMoving = false;
-        this.syncIsSprinting = false;
-        this.syncIsJumping = true;
-
-
+      
         if (!isLocalPlayer)
         {
             this.cam.SetActive(false);
@@ -69,22 +58,7 @@ public class Controller : NetworkBehaviour
 
     // Update is called once per frame
     void Update()
-    {
-        // Check if the player is local
-        if (!isLocalPlayer)
-        {
-            if (!this.syncIsJumping && this.syncIsMoving)
-            {
-                if (this.syncIsSprinting && this.soundAudio.IsReady(2))
-                    gameObject.GetComponentInChildren<Sound>().PlaySound(0.2f, 0.2f, 2, AudioClips.Run1, AudioClips.Run2, AudioClips.Run3);
-
-                else if (this.soundAudio.IsReady(1))
-                    gameObject.GetComponentInChildren<Sound>().PlaySound(0.2f, 0.4f, 1, AudioClips.Walk1, AudioClips.Walk2);
-            }
-
-            return;
-        }
-
+    {       
         /*
              --------------------------
             | Deplacement de la camera |
@@ -153,7 +127,7 @@ public class Controller : NetworkBehaviour
         bool right = !this.pause && Input.GetButton("Right");
         bool left = !this.pause && Input.GetButton("Left");
         bool jump = !this.pause && Input.GetButton("Jump");
-        this.syncIsSprinting = !this.pause && Input.GetButton("Sprint");
+        bool isSprinting = !this.pause && Input.GetButton("Sprint");
 
         Vector3 move = new Vector3(0, 0, 0);
 
@@ -231,28 +205,29 @@ public class Controller : NetworkBehaviour
         }
 
 
-        this.syncIsMoving = move.x != 0 || move.z != 0;
+        bool isMoving = move.x != 0 || move.z != 0;
 
         // Apply the moves with the animation
         if (this.isJumping)
         {
             anim.SetInteger("Action", 3);
-            if (this.syncIsSprinting)
+            if (isSprinting)
                 move *= Time.deltaTime * (this.sprintSpeed + this.jumpingBoost);
             else
                 move *= Time.deltaTime * (this.walkSpeed + this.jumpingBoost);
         }
         else
         {
-            if (this.syncIsMoving)
+            if (isMoving)
             {
-                if (this.syncIsSprinting)
+                if (isSprinting)
                 {
                     move *= Time.deltaTime * this.sprintSpeed;
                     anim.SetInteger("Action", 2);
                     if (this.soundAudio.IsReady(2))
                     {
-                        this.soundAudio.PlaySound(0.2f, 0.2f, 2, AudioClips.Run1, AudioClips.Run2, AudioClips.Run3);
+                        AudioClips[] runs = new AudioClips[] { AudioClips.Run1, AudioClips.Run2, AudioClips.Run3 };
+                        this.soundAudio.CmdPlaySound(runs[Random.Range(0, runs.Length)], 0.2f, 0.2f, 2);
                     }
                 }
                 else
@@ -261,35 +236,23 @@ public class Controller : NetworkBehaviour
                     anim.SetInteger("Action", 1);
                     if (this.soundAudio.IsReady(1))
                     {
-                        this.soundAudio.PlaySound(0.2f, 0.4f, 1, AudioClips.Walk1, AudioClips.Walk2);
+                        AudioClips[] walks = new AudioClips[] { AudioClips.Walk1, AudioClips.Walk2 };
+                        this.soundAudio.CmdPlaySound(walks[Random.Range(0, walks.Length)], 0.2f, 0.4f, 1);
                     }
                 }
             }
             else
                 anim.SetInteger("Action", 0);
         }
-        this.CmdSetStatus(this.syncIsMoving, this.syncIsSprinting, this.isJumping);
         gameObject.transform.Translate(move, Space.World);
 
-        if (this.syncIsMoving)
+        if (isMoving)
         {
             Vector3 rotCam = new Vector3(this.character.transform.eulerAngles.x, this.cam.transform.eulerAngles.y + rotation, this.character.transform.eulerAngles.z);
             this.character.transform.rotation = Quaternion.Lerp(this.character.transform.rotation, Quaternion.Euler(rotCam), Time.deltaTime * 5);
         }
     }
-
-
-    /// <sumary>
-    /// Informe le serveur de jouer un son.
-    /// </sumary>
-    [Command]
-    private void CmdSetStatus(bool isMoving, bool isSprinting, bool isJumping)
-    {
-        this.syncIsMoving = isMoving;
-        this.syncIsSprinting = isSprinting;
-        this.syncIsJumping = isJumping;
-    }
-
+       
     // Setters | Getters
 
     /// <sumary>

@@ -58,7 +58,6 @@ public class Sound : NetworkBehaviour
             this.PlaySound((AudioClips)music, 2f, Random.Range(420, 840), 42);
         }
     }
-
     /// <sumary>
     /// Joue un son avec un volume choisi.
     /// </sumary>
@@ -95,6 +94,24 @@ public class Sound : NetworkBehaviour
             this.source.PlayOneShot(AudioclipArray[(int)clips[Random.Range(0, clips.Length)]], vol);
             this.coolDown.Add(new float[2] { idCoolDown, coolDown });
         }
+    }
+      
+    /// <sumary>
+    /// Joue un son random parmi les audioclip avec un volume choisi et cree un cooldown avec un id choisi.
+    /// </sumary>
+    [ClientRpc]
+    private void RpcPlaySound(AudioClips clip, float vol, float coolDown, float idCoolDown)
+    {
+        PlaySound(clip, vol, coolDown, idCoolDown);
+    }
+ 
+    /// <sumary>
+    /// Joue un son synchronise random parmi les audioclip avec un volume choisi et cree un cooldown avec un id choisi.
+    /// </sumary>
+    [Command]
+    public void CmdPlaySound(AudioClips clip, float vol, float coolDown, float idCoolDown)
+    {
+        RpcPlaySound(clip, vol, coolDown, idCoolDown);
     }
 
     /// <sumary>

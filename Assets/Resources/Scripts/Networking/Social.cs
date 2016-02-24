@@ -294,6 +294,7 @@ public class Social : NetworkBehaviour
     [ClientRpc]
     private void RpcTeleport(Vector3 pos)
     {
+        gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
         gameObject.GetComponentInChildren<CharacterCollision>().transform.position = pos;
     }
     // Setters & Getters
