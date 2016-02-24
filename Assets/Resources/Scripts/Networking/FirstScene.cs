@@ -3,12 +3,13 @@ using System.Collections;
 
 public class FirstScene : MonoBehaviour
 {
-
-
     private Light sun;
     private Camera cam;
-
-    private Sound sound;
+    private AudioSource source;
+    private AudioClip clipMenu;
+    private AudioClip clipButton;
+    private float cdMusic;
+    private float volume;
 
     private int diameter = 100;
     private float actual_time;
@@ -21,12 +22,15 @@ public class FirstScene : MonoBehaviour
         this.sun.gameObject.transform.TransformPoint(sun.transform.position);
 
         this.actual_time = 0f;
+        this.cdMusic = 0f;
+        this.volume = PlayerPrefs.GetFloat("Sound_intensity", 0.1f);
 
         // Camera
         this.cam = gameObject.GetComponentInChildren<Camera>();
 
-        // Sound 
-        this.sound = gameObject.GetComponentInChildren<Sound>();
+        this.source = gameObject.GetComponentInChildren<AudioSource>();
+        this.clipMenu = Resources.Load<AudioClip>("Sounds/Music/Menu");
+        this.clipButton = Resources.Load<AudioClip>("Sounds/Button/Button");
     }
 
     // Update is called once per frame
@@ -45,9 +49,12 @@ public class FirstScene : MonoBehaviour
         cam.transform.Translate(Vector3.left / 10);
 
         // Sound 
-        if (this.sound.IsReady(AudioClips.Menu))
-            this.sound.PlaySound(AudioClips.Menu, 1f, 112f);
-
+        this.cdMusic -= Time.deltaTime;
+        if (this.cdMusic <= 0)
+        {
+            this.source.PlayOneShot(this.clipMenu, 1f);
+            this.cdMusic = 112f;
+        }            
     }
 
 
@@ -57,5 +64,20 @@ public class FirstScene : MonoBehaviour
         float y = Mathf.Sin(time / this.cycleTime * 2 * Mathf.PI);
         Vector3 pos1 = new Vector3(x * this.diameter, y * this.diameter, 0);
         return pos1;
+    }
+
+    public float Volume
+    {
+        get { return this.volume; }
+        set
+        {
+            this.volume = Mathf.Clamp(value, 0f, 1f);
+            this.source.volume = this.volume;
+        }
+    }
+
+    public void PlayButtonSound()
+    {
+        this.source.PlayOneShot(this.clipButton, 1f);
     }
 }

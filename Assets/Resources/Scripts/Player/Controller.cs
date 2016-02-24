@@ -51,7 +51,7 @@ public class Controller : NetworkBehaviour
         this.cam = gameObject.GetComponentInChildren<Camera>().gameObject;
         this.character = gameObject.GetComponentInChildren<CharacterCollision>().gameObject;
 
-        this.soundAudio = this.character.GetComponent<Sound>();
+        this.soundAudio = gameObject.GetComponent<Sound>();
         this.CmdSetStatus(false, false, true);
         this.syncIsMoving = false;
         this.syncIsSprinting = false;

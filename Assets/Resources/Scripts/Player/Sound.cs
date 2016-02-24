@@ -1,17 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Networking;
 
-public enum AudioClips { Void, Walk1, Walk2, Run1, Run2, Run3, Button, Bag, Menu, Forest, Desert };
+public enum AudioClips { Void, Walk1, Walk2, Run1, Run2, Run3, Button, Bag, Forest, Desert };
 
-public class Sound : MonoBehaviour
+public class Sound : NetworkBehaviour
 {
 
     private AudioSource source;
     private List<float[]> coolDown = new List<float[]>();
-    private static AudioClip[] AudioclipArray = new AudioClip[11];
+    private static AudioClip[] AudioclipArray = new AudioClip[10];
     private float volume = 0.1f;
-    private bool inGame;
 
     // Use this for initialization
     void Start()
@@ -24,20 +24,21 @@ public class Sound : MonoBehaviour
         AudioclipArray[5] = Resources.Load<AudioClip>("Sounds/Player/Run3");
         AudioclipArray[6] = Resources.Load<AudioClip>("Sounds/Button/Button");
         AudioclipArray[7] = Resources.Load<AudioClip>("Sounds/Button/Bag");
-        AudioclipArray[8] = Resources.Load<AudioClip>("Sounds/Music/Menu");
-        AudioclipArray[9] = Resources.Load<AudioClip>("Sounds/Music/Forest");
-        AudioclipArray[10] = Resources.Load<AudioClip>("Sounds/Music/Desert");
-        this.source = gameObject.GetComponent<AudioSource>();
+        AudioclipArray[8] = Resources.Load<AudioClip>("Sounds/Music/Forest");
+        AudioclipArray[9] = Resources.Load<AudioClip>("Sounds/Music/Desert");
+        this.source = gameObject.GetComponentInChildren<AudioSource>();
         this.volume = PlayerPrefs.GetFloat("Sound_intensity", 0.1f);
         this.source.volume = this.volume;
-        this.inGame = gameObject.GetComponent<CharacterCollision>() != null;
-        if (this.inGame)
+        if (isLocalPlayer)
             this.PlaySound(AudioClips.Void, 0f, Random.Range(0, 120), 42);
     }
 
     // Update is called once per frame
     void Update()
-    {      
+    {
+        if (!isLocalPlayer)
+            return;
+
         int i = 0;
         int n = this.coolDown.Count;
         while (i < n)
@@ -51,7 +52,7 @@ public class Sound : MonoBehaviour
             i++;
         }
 
-        if (this.inGame && this.IsReady(42))
+        if (this.IsReady(42))
         {
             int music = Random.Range((int)AudioClips.Forest, (int)AudioClips.Desert + 1);
             this.PlaySound((AudioClips)music, 2f, Random.Range(420, 840), 42);
@@ -130,5 +131,4 @@ public class Sound : MonoBehaviour
             this.source.volume = this.volume;
         }
     }
-
 }
