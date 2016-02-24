@@ -30,7 +30,7 @@ public class Menu : NetworkBehaviour
         this.width = Screen.width / 4;
         this.height = Screen.height / 30;
         this.spacing = this.height * 2;
-        this.soundAudio = GetComponentInChildren<Sound>();
+        this.soundAudio = GetComponent<Sound>();
     }
     void OnGUI()
     {

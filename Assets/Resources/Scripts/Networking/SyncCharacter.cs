@@ -93,6 +93,7 @@ public class SyncCharacter : NetworkBehaviour
         this.life = this.lifeMax;
         this.hunger = this.hungerMax;
         this.thirst = this.thirstMax;
+        this.character.GetComponent<Rigidbody>().velocity = Vector3.zero;
         Vector3 newPos = new Vector3(Random.Range(-10f, 10f), 8, Random.Range(-10f, 10f));
         this.character.transform.position = newPos;
     }

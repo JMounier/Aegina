@@ -32,7 +32,7 @@ public class InputManager : NetworkBehaviour
         this.social = GetComponent<Social>();
         this.cristalHUD = GetComponent<Cristal_HUD>();
 
-        this.soundAudio = gameObject.GetComponentInChildren<Sound>();
+        this.soundAudio = gameObject.GetComponent<Sound>();
         Cursor.visible = false;
     }
 
