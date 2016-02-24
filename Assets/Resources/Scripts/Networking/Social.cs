@@ -167,7 +167,7 @@ public class Social : NetworkBehaviour
                     {
                         give = ItemDatabase.Find(int.Parse(cmd[1]));
                         sender.GetComponent<Inventory>().RpcAddItemStack(int.Parse(cmd[1]), int.Parse(cmd[2]), null);
-                        sender.GetComponent<Social>().RpcReceiveMsg("Give " + cmd[2] + " of " + give.Name + ".");
+                        sender.GetComponent<Social>().RpcReceiveMsg("Give " + cmd[2] + " of " + give.NameText.GetText(SystemLanguage.English) + ".");
                     }
                     catch
                     {

@@ -51,7 +51,7 @@ public class TextDatabase
         // Name
     public static readonly Text WoodenPickaxe = new Text("Pioche en bois", "Wooden pickaxe");
     public static readonly Text StonePickaxe = new Text("Pioche en pierre", "Stone pickaxe");
-    public static readonly Text CopperPickaxe = new Text("Pioche en copper", "Copper pickaxe");
+    public static readonly Text CopperPickaxe = new Text("Pioche en cuivre", "Copper pickaxe");
     public static readonly Text IronPickaxe = new Text("Pioche en fer", "Iron pickaxe");
     public static readonly Text GoldPickaxe = new Text("Pioche en or", "Gold pickaxe");
     public static readonly Text MithrilPickaxe = new Text("Pioche en mithril", "Mithril pickaxe");
@@ -60,7 +60,7 @@ public class TextDatabase
 
     public static readonly Text WoodenAxe = new Text("Hache en bois", "Wooden axe");
     public static readonly Text StoneAxe = new Text("Hache en pierre", "Stone axe");
-    public static readonly Text CopperAxe = new Text("Hache en copper", "Copper axe");
+    public static readonly Text CopperAxe = new Text("Hache en cuivre", "Copper axe");
     public static readonly Text IronAxe = new Text("Hache en fer", "Iron axe");
     public static readonly Text GoldAxe = new Text("Hache en or", "Gold axe");
     public static readonly Text MithrilAxe = new Text("Hache en mithril", "Mithril axe");
