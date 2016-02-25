@@ -24,6 +24,7 @@ public class Menu : NetworkBehaviour
         this.inventory = GetComponentInParent<Inventory>();
         this.controller = GetComponentInParent<Controller>();
         this.skin = Resources.Load<GUISkin>("Sprites/GUIskin/skin");
+        this.skin.GetStyle("button").fontSize = (int)(Screen.height * 0.025f);
         this.NM = FindObjectOfType<NetworkManager>();
         this.posX = (int)(Screen.width / 2.6f);
         this.posY = (int)(Screen.height / 2.5f);

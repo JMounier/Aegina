@@ -46,7 +46,7 @@ public class Controller : NetworkBehaviour
         this.character = gameObject.GetComponentInChildren<CharacterCollision>().gameObject;
 
         this.soundAudio = gameObject.GetComponent<Sound>();
-      
+
         if (!isLocalPlayer)
         {
             this.cam.SetActive(false);
@@ -61,7 +61,7 @@ public class Controller : NetworkBehaviour
     {
 
         if (!isLocalPlayer)
-            return;  
+            return;
         /*
              --------------------------
             | Deplacement de la camera |
@@ -230,7 +230,9 @@ public class Controller : NetworkBehaviour
                     if (this.soundAudio.IsReady(2))
                     {
                         AudioClips[] runs = new AudioClips[] { AudioClips.Run1, AudioClips.Run2, AudioClips.Run3 };
-                        this.soundAudio.CmdPlaySound(runs[Random.Range(0, runs.Length)], 1f, .2f, 2);
+                        AudioClips runRand = runs[Random.Range(0, runs.Length)];
+                        this.soundAudio.PlaySound(runRand, 1f, .2f, 2);
+                        this.soundAudio.CmdPlaySound(runRand, 1f);
                     }
                 }
                 else
@@ -240,7 +242,9 @@ public class Controller : NetworkBehaviour
                     if (this.soundAudio.IsReady(1))
                     {
                         AudioClips[] walks = new AudioClips[] { AudioClips.Walk1, AudioClips.Walk2, AudioClips.Walk3 };
-                        this.soundAudio.CmdPlaySound(walks[Random.Range(0, walks.Length)], 1f, .325f, 1);
+                        AudioClips walkRand = walks[Random.Range(0, walks.Length)];
+                        this.soundAudio.PlaySound(walkRand, 1f, .325f, 1);
+                        this.soundAudio.CmdPlaySound(walkRand, 1f);
                     }
                 }
             }
@@ -255,7 +259,7 @@ public class Controller : NetworkBehaviour
             this.character.transform.rotation = Quaternion.Lerp(this.character.transform.rotation, Quaternion.Euler(rotCam), Time.deltaTime * 5);
         }
     }
-       
+
     // Setters | Getters
 
     /// <sumary>

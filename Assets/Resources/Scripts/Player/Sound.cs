@@ -105,21 +105,22 @@ public class Sound : NetworkBehaviour
     }
 
     /// <sumary>
-    /// Joue un son random parmi les audioclip avec un volume choisi et cree un cooldown avec un id choisi.
+    /// Demande aux autre client de jouer un son avec un volume precis.
     /// </sumary>
     [ClientRpc]
-    private void RpcPlaySound(AudioClips clip, float vol, float coolDown, float idCoolDown)
+    private void RpcPlaySound(AudioClips clip, float vol)
     {
-        PlaySound(clip, vol, coolDown, idCoolDown);
+        if (!isLocalPlayer)        
+            PlaySound(clip, vol);        
     }
 
     /// <sumary>
-    /// Joue un son synchronise random parmi les audioclip avec un volume choisi et cree un cooldown avec un id choisi.
+    /// Joue un son pour les autres joueurs avec un volume choisi.
     /// </sumary>
     [Command]
-    public void CmdPlaySound(AudioClips clip, float vol, float coolDown, float idCoolDown)
+    public void CmdPlaySound(AudioClips clip, float vol)
     {
-        RpcPlaySound(clip, vol, coolDown, idCoolDown);
+        RpcPlaySound(clip, vol);
     }
 
     /// <sumary>
@@ -147,6 +148,10 @@ public class Sound : NetworkBehaviour
         }
         return true;
     }
+
+    /// <sumary>
+    /// Permet de changer le volume sonore.
+    /// </sumary>
     public float Volume
     {
         get { return this.volume; }

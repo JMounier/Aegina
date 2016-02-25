@@ -320,7 +320,7 @@ public class Inventory : NetworkBehaviour
             }
             j++;
         }
-        if (playSound && iStack.Quantity == 0 && this.sound.IsReady(AudioClips.Plop))
+        if (playSound && iStack.Quantity == 0)
             this.sound.PlaySound(AudioClips.Plop, .5f);
     }
 
