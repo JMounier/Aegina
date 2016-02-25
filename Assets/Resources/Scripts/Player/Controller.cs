@@ -58,7 +58,10 @@ public class Controller : NetworkBehaviour
 
     // Update is called once per frame
     void Update()
-    {       
+    {
+
+        if (!isLocalPlayer)
+            return;  
         /*
              --------------------------
             | Deplacement de la camera |
@@ -223,7 +226,7 @@ public class Controller : NetworkBehaviour
                 if (isSprinting)
                 {
                     move *= Time.deltaTime * this.sprintSpeed;
-                    anim.SetInteger("Action", 2);
+                    this.anim.SetInteger("Action", 2);
                     if (this.soundAudio.IsReady(2))
                     {
                         AudioClips[] runs = new AudioClips[] { AudioClips.Run1, AudioClips.Run2, AudioClips.Run3 };
@@ -233,7 +236,7 @@ public class Controller : NetworkBehaviour
                 else
                 {
                     move *= Time.deltaTime * this.walkSpeed;
-                    anim.SetInteger("Action", 1);
+                    this.anim.SetInteger("Action", 1);
                     if (this.soundAudio.IsReady(1))
                     {
                         AudioClips[] walks = new AudioClips[] { AudioClips.Walk1, AudioClips.Walk2, AudioClips.Walk3 };
@@ -242,7 +245,7 @@ public class Controller : NetworkBehaviour
                 }
             }
             else
-                anim.SetInteger("Action", 0);
+                this.anim.SetInteger("Action", 0);
         }
         gameObject.transform.Translate(move, Space.World);
 
