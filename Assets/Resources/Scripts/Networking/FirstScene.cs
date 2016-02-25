@@ -29,6 +29,7 @@ public class FirstScene : MonoBehaviour
         this.cam = gameObject.GetComponentInChildren<Camera>();
 
         this.source = gameObject.GetComponentInChildren<AudioSource>();
+        this.source.volume = this.volume;
         this.clipMenu = Resources.Load<AudioClip>("Sounds/Music/Menu");
         this.clipButton = Resources.Load<AudioClip>("Sounds/Button/Button");
     }
