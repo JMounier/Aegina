@@ -227,7 +227,7 @@ public class Controller : NetworkBehaviour
                     if (this.soundAudio.IsReady(2))
                     {
                         AudioClips[] runs = new AudioClips[] { AudioClips.Run1, AudioClips.Run2, AudioClips.Run3 };
-                        this.soundAudio.CmdPlaySound(runs[Random.Range(0, runs.Length)], 0.2f, 0.2f, 2);
+                        this.soundAudio.CmdPlaySound(runs[Random.Range(0, runs.Length)], 1f, .2f, 2);
                     }
                 }
                 else
@@ -236,8 +236,8 @@ public class Controller : NetworkBehaviour
                     anim.SetInteger("Action", 1);
                     if (this.soundAudio.IsReady(1))
                     {
-                        AudioClips[] walks = new AudioClips[] { AudioClips.Walk1, AudioClips.Walk2 };
-                        this.soundAudio.CmdPlaySound(walks[Random.Range(0, walks.Length)], 0.2f, 0.4f, 1);
+                        AudioClips[] walks = new AudioClips[] { AudioClips.Walk1, AudioClips.Walk2, AudioClips.Walk3 };
+                        this.soundAudio.CmdPlaySound(walks[Random.Range(0, walks.Length)], 1f, .325f, 1);
                     }
                 }
             }

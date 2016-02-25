@@ -19,6 +19,7 @@ public class Inventory : NetworkBehaviour
     private ItemStack selectedItem;
     private ItemStack[,] slots;
     private Transform trans;
+    private Sound sound;
 
     // Use this for initialization
     void Start()
@@ -34,20 +35,23 @@ public class Inventory : NetworkBehaviour
         this.pos_y_toolbar = Screen.height - this.size_toolbar;
         this.slots = new ItemStack[this.rows, this.columns];
         this.ClearInventory();
-        // this.LoadInventory();
-        // Tests
-        this.AddItemStack(new ItemStack(new Item(ItemDatabase.Stone), 42));
-        this.AddItemStack(new ItemStack(new Item(ItemDatabase.Log), 64));
-        this.AddItemStack(new ItemStack(new Item(ItemDatabase.Log), 64));
-        this.AddItemStack(new ItemStack(new Item(ItemDatabase.Log), 64));
-        this.AddItemStack(new ItemStack(new Item(ItemDatabase.CopperPickaxe), 1));
-        this.AddItemStack(new ItemStack(new Item(ItemDatabase.Floatium), 7));
-        this.AddItemStack(new ItemStack(new Item(ItemDatabase.IronIngot), 14));
-        this.AddItemStack(new ItemStack(new Item(ItemDatabase.Iron), 15));
-        this.AddItemStack(new ItemStack(new Item(ItemDatabase.Gold), 1));
-        this.AddItemStack(new ItemStack(new Item(ItemDatabase.Copper), 15));
+        // this.LoadInventory();       
+        
         this.skin = Resources.Load<GUISkin>("Sprites/GUIskin/Skin");
         this.trans = gameObject.GetComponent<Transform>();
+        this.sound = gameObject.GetComponent<Sound>();
+
+        // Premiere soutenance objets de bases
+        this.AddItemStack(new ItemStack(new Item(ItemDatabase.Stone), 42), false);
+        this.AddItemStack(new ItemStack(new Item(ItemDatabase.Log), 64), false);
+        this.AddItemStack(new ItemStack(new Item(ItemDatabase.Log), 64), false);
+        this.AddItemStack(new ItemStack(new Item(ItemDatabase.Log), 64), false);
+        this.AddItemStack(new ItemStack(new Item(ItemDatabase.CopperPickaxe), 1), false);
+        this.AddItemStack(new ItemStack(new Item(ItemDatabase.Floatium), 7), false);
+        this.AddItemStack(new ItemStack(new Item(ItemDatabase.IronIngot), 14), false);
+        this.AddItemStack(new ItemStack(new Item(ItemDatabase.Iron), 15), false);
+        this.AddItemStack(new ItemStack(new Item(ItemDatabase.Gold), 1), false);
+        this.AddItemStack(new ItemStack(new Item(ItemDatabase.Copper), 15), false);
     }
 
     // Methods
@@ -278,7 +282,7 @@ public class Inventory : NetworkBehaviour
     /// Permet d'ajotuer des objes dans l'inventaire.
     /// </summary>
     /// <param name="iStack"></param>
-    private void AddItemStack(ItemStack iStack)
+    private void AddItemStack(ItemStack iStack, bool playSound = true)
     {
         int i = 0;
         int j = 0;
@@ -316,6 +320,8 @@ public class Inventory : NetworkBehaviour
             }
             j++;
         }
+        if (playSound && iStack.Quantity == 0 && this.sound.IsReady(AudioClips.Plop))
+            this.sound.PlaySound(AudioClips.Plop, .5f);
     }
 
     /// <summary>
