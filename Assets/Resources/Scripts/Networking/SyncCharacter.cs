@@ -24,6 +24,8 @@ public class SyncCharacter : NetworkBehaviour
 
     private GameObject character;
     private Inventory inventory;
+    private Controller controller;
+
     // Use this for initialization
     void Start()
     {
@@ -31,7 +33,7 @@ public class SyncCharacter : NetworkBehaviour
             return;
 
         this.inventory = gameObject.GetComponent<Inventory>();
-
+        this.controller = gameObject.GetComponent<Controller>();
         this.lifeMax = 100;
         this.hungerMax = 100;
         this.thirstMax = 100;
@@ -81,6 +83,8 @@ public class SyncCharacter : NetworkBehaviour
         this.Thirst -= Time.deltaTime * thirstiness;
         if (this.character.transform.position.y <= -10)
             this.Life -= 15 * Time.deltaTime;
+        if (this.character.transform.position.y < 0 && !this.controller.IsJumping)
+            this.controller.IsJumping = true;
         if (this.hunger == 0 || this.thirst == 0)
             this.Life -= Time.deltaTime;
     }
