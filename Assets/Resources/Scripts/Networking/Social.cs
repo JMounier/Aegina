@@ -30,7 +30,8 @@ public class Social : NetworkBehaviour
             this.posX = (int)(Screen.width * 0.01f);
             this.skin = Resources.Load<GUISkin>("Sprites/GUIskin/skin");
             this.skin.GetStyle("chat").fontSize = (int)(Screen.height * 0.025f);
-            this.skin.GetStyle("chat").alignment = TextAnchor.MiddleLeft;
+            this.skin.GetStyle("chat").alignment = TextAnchor.LowerLeft;
+            this.skin.GetStyle("chat").fontStyle = FontStyle.Normal;
             this.skin.textField.fontSize = (int)(Screen.height * 0.025f);
             this.nameTextMesh.gameObject.SetActive(false);
             string namePlayer = PlayerPrefs.GetString("PlayerName", "");
@@ -74,7 +75,7 @@ public class Social : NetworkBehaviour
         if (this.chatShown)
         {
             GUI.SetNextControlName("Chat");
-            this.msg = GUI.TextField(new Rect(this.posX, this.posY, Screen.width * 0.3f, Screen.height * 0.04f), this.msg, this.skin.textField);
+            this.msg = GUI.TextField(new Rect(this.posX, this.posY, Screen.width * 0.3f, Screen.height * 0.04f), this.msg, 200, this.skin.textField);
 
             if (GUI.GetNameOfFocusedControl() == string.Empty)
                 GUI.FocusControl("Chat");
@@ -134,7 +135,7 @@ public class Social : NetworkBehaviour
     /// <param name="name"></param>
     [Command]
     private void CmdSendMsg(string msg, GameObject sender)
-    {        
+    {
         if (msg[0] == '/')
         {
             string[] cmd = msg.Split();
@@ -181,10 +182,15 @@ public class Social : NetworkBehaviour
                     {
                         if (cmd[1] == this.namePlayer)
                             sender.GetComponent<Social>().RpcReceiveMsg("<color=red>It's already your name</color>");
-                        string last = this.namePlayer;
-                        this.CmdSetName(cmd[1]);
-                        foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
-                            player.GetComponent<Social>().RpcReceiveMsg(last + " is now named as " + cmd[1] + ".");
+                        else if (cmd[1].Length > 15)
+                            sender.GetComponent<Social>().RpcReceiveMsg("<color=red>This name is too long</color>");
+                        else
+                        {
+                            string last = this.namePlayer;
+                            this.CmdSetName(cmd[1]);
+                            foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
+                                player.GetComponent<Social>().RpcReceiveMsg(last + " is now named as " + cmd[1] + ".");
+                        }
                     }
                     catch
                     {
@@ -288,10 +294,10 @@ public class Social : NetworkBehaviour
         this.chat[this.chat.Length - 1] = msg;
     }
 
-   /// <summary>
-   /// Teleport the player to a position
-   /// </summary>
-   /// <param name="pos">The position of the teleportation</param>
+    /// <summary>
+    /// Teleport the player to a position
+    /// </summary>
+    /// <param name="pos">The position of the teleportation</param>
     [ClientRpc]
     private void RpcTeleport(Vector3 pos)
     {

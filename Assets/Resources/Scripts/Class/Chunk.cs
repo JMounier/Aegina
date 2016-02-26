@@ -40,22 +40,8 @@ public class Chunk : Entity
         this.isPrisme = false;
     }
 
-    // Methods
-    public void Generate(int x, int y, Directions direction, Biome b, GameObject map)
-    {
-        this.isPrisme = false;
-        this.b = b;
-        Spawn(new Vector3(x * size, 0, y * size), Quaternion.Euler(new Vector3(0, 90 * (int)direction, 0)), map.transform);
-        Prefab.GetComponentInChildren<MeshRenderer>().materials = new Material[2] { b.Grass, b.Rock };
-        Prefab.GetComponent<SyncChunk>().BiomeId = b.ID;
-        foreach (Transform content in Prefab.transform)
-            if (content.CompareTag("Elements"))
-                foreach (Transform ancre in content.transform)
-                    if (ancre.CompareTag("Ancre") || ancre.CompareTag("MainAncre"))
-                        this.GenerateEntity(this.b.Chose(), ancre.gameObject);
-    }
-
-    public void Generate(int x, int y, Directions direction, Biome b, GameObject map, bool isPrisme)
+    // Methods 
+    public void Generate(int x, int y, Directions direction, Biome b, GameObject map, bool isPrisme = false)
     {
         this.isPrisme = isPrisme;
         this.b = b;
