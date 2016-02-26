@@ -25,15 +25,19 @@ namespace UnityEngine.Networking
             this.skin = Resources.Load<GUISkin>("Sprites/GUIskin/skin");
             this.skin.GetStyle("chat").fontSize = (int)(Screen.height * 0.025f);
             this.skin.GetStyle("chat").alignment = TextAnchor.MiddleCenter;
+            this.skin.GetStyle("chat").fontStyle = FontStyle.Bold;
             this.skin.textField.fontSize = (int)(Screen.height * 0.025f);
+            this.skin.textField.fontStyle = FontStyle.Bold;
+
+            this.skin.GetStyle("button").fontSize = (int)(Screen.height * 0.025f);
             this.posX = (int)(Screen.width / 2.6f);
             this.posY = (int)(Screen.height / 2.5f);
             this.width = Screen.width / 4;
             this.height = Screen.height / 30;
             this.spacing = this.height * 2;
-            this.playerName = PlayerPrefs.GetString("PlayerName", "Enter a name");
+            this.playerName = PlayerPrefs.GetString("PlayerName", "");
             this.firstScene = GameObject.Find("Map").GetComponent<FirstScene>();
-            if (playerName == "Enter a name")
+            if (playerName == "")
                 this.showGUI = false;
         }
 
@@ -60,8 +64,9 @@ namespace UnityEngine.Networking
             if (!showGUI)
             {
                 GUI.Box(new Rect(Screen.width / 4, Screen.height / 6, Screen.width / 2, Screen.width / 12.8f), "", this.skin.GetStyle("aegina"));
-                this.playerName = GUI.TextField(new Rect(this.posX, this.posY, this.width, this.height), this.playerName, 15, this.skin.textField);
-                if (this.playerName != "" && this.playerName != "Enter a name" && GUI.Button(new Rect(this.posX, this.posY + this.spacing, this.width, this.height), TextDatabase.Validate.GetText(), this.skin.GetStyle("button")))
+                GUI.Box(new Rect(this.posX, this.posY - this.spacing, this.width, this.height * 2.5f), "<color=white>" + TextDatabase.EnterName.GetText() + "</color>", this.skin.GetStyle("chat"));
+                this.playerName = GUI.TextField(new Rect(this.posX, this.posY + this.spacing, this.width, this.height), this.playerName.Trim(), 15, this.skin.textField);
+                if (this.playerName != "" && this.playerName != "Enter a name" && GUI.Button(new Rect(this.posX, this.posY + this.spacing * 2, this.width, this.height), TextDatabase.Validate.GetText(), this.skin.GetStyle("button")))
                 {
                     this.showGUI = true;
                     PlayerPrefs.SetString("PlayerName", this.playerName);
