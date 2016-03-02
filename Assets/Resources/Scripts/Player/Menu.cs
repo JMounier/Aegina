@@ -33,15 +33,13 @@ public class Menu : NetworkBehaviour
     {
         if (!isLocalPlayer)
             return;
-        if (menuShown)
-        {
-            this.DrawMenu();
-        }
-        if (this.optionShown)
+        if (menuShown)        
+            this.DrawMenu();        
+        else if (this.optionShown)
             this.DrawOption();
-        if (this.langueShown)
+        else if(this.langueShown)
             this.DrawLangue();
-        if (this.sonShown)
+        else if(this.sonShown)
             this.DrawSon();
     }
 

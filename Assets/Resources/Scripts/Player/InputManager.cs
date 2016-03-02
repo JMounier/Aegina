@@ -39,7 +39,7 @@ public class InputManager : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-       
+
         if (!isLocalPlayer)
             return;
 
@@ -54,7 +54,6 @@ public class InputManager : NetworkBehaviour
             this.inventaire.InventoryShown = !this.inventaire.InventoryShown;
             this.controller.Pause = !this.controller.Pause;
             this.soundAudio.PlaySound(AudioClips.Bag, 1f);
-            Cursor.visible = !Cursor.visible;
         }
 
         if (Input.GetKeyDown(KeyCode.Return) && !this.menu.MenuShown && !this.menu.OptionShown && !this.inventaire.InventoryShown && !this.cristalHUD.Cristal_shown)
@@ -73,7 +72,6 @@ public class InputManager : NetworkBehaviour
             {
                 this.cristalHUD.Cristal_shown = true;
                 this.controller.Pause = true;
-                Cursor.visible = true;
             }
         }
 
@@ -85,19 +83,16 @@ public class InputManager : NetworkBehaviour
             {
                 this.cristalHUD.Cristal_shown = false;
                 this.controller.Pause = false;
-                Cursor.visible = false;
             }
             else if (this.inventaire.InventoryShown)
             {
                 this.inventaire.InventoryShown = false;
                 this.controller.Pause = false;
-                Cursor.visible = false;
             }
             else if (this.social.ChatShown)
             {
                 this.social.ChatShown = false;
                 this.controller.Pause = false;
-                Cursor.visible = false;
             }
             else if (this.menu.OptionShown)
             {
@@ -118,9 +113,11 @@ public class InputManager : NetworkBehaviour
             {
                 this.menu.MenuShown = !this.menu.MenuShown;
                 this.controller.Pause = !this.controller.Pause;
-                Cursor.visible = !Cursor.visible;
             }
         }
+
+        // Visibilite du cursor
+        Cursor.visible = this.controller.Pause;
 
         // Gere la barre d'outil.
         if (Input.GetKeyDown(KeyCode.Alpha1))
@@ -151,5 +148,5 @@ public class InputManager : NetworkBehaviour
                     this.inventaire.UsedItem = new ItemStack();
             }
         }
-    }  
+    }
 }
