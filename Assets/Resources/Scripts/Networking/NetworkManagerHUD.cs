@@ -116,7 +116,7 @@ namespace UnityEngine.Networking
             }
             else if (type == TypeLaunch.Client)
             {
-                NetworkClient nc = this.manager.StartClient();
+                this.manager.StartClient();
             }
             else if (type == TypeLaunch.Server)
             {
