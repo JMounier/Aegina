@@ -276,7 +276,7 @@ public class Social : NetworkBehaviour
                 break;
             case Activity.Death:
                 foreach (GameObject p in GameObject.FindGameObjectsWithTag("Player"))
-                    p.GetComponent<Social>().RpcReceiveMsg("* <i>" + namePlayer + "</i> died.");
+                    p.GetComponent<Social>().RpcReceiveMsg("<color=grey>* <i>" + namePlayer + "</i> died.</color>");
                 break;
             default:
                 throw new System.ArgumentException("Activity is not valid");
