@@ -36,7 +36,7 @@ public class Social : NetworkBehaviour
             this.nameTextMesh.gameObject.SetActive(false);
             string namePlayer = PlayerPrefs.GetString("PlayerName", "");
             this.CmdSetName(namePlayer);
-            this.CmdSendActivity(Activity.Connection, namePlayer);
+            this.CmdSendActivity(Activity.Connection, gameObject);
         }
     }
 
@@ -264,22 +264,23 @@ public class Social : NetworkBehaviour
     /// <param name="msg"></param>
     /// <param name="name"></param>
     [Command]
-    private void CmdSendActivity(Activity act, string namePlayer)
+    public void CmdSendActivity(Activity act, GameObject player)
     {
-        string msg;
+        string nameP = player.GetComponent<Social>().namePlayer;
         switch (act)
         {
             case Activity.Connection:
-                msg = "<color=grey>* <i>" + namePlayer + "</i> joined the game.</color>";
+                foreach (GameObject p in GameObject.FindGameObjectsWithTag("Player"))
+                    if (p.GetComponent<Social>().namePlayer != nameP)
+                        p.GetComponent<Social>().RpcReceiveMsg("<color=grey>* <i>" + nameP + "</i> joined the game.</color>");
                 break;
             case Activity.Death:
-                msg = "* <i>" + namePlayer + "</i> died.";
+                foreach (GameObject p in GameObject.FindGameObjectsWithTag("Player"))
+                    p.GetComponent<Social>().RpcReceiveMsg("<color=grey>* <i>" + namePlayer + "</i> died.</color>");
                 break;
             default:
                 throw new System.ArgumentException("Activity is not valid");
-        }
-        foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
-            player.GetComponent<Social>().RpcReceiveMsg(msg);
+        }        
     }
 
     /// <summary>

@@ -107,6 +107,7 @@ public class SyncCharacter : NetworkBehaviour
     /// </summary>
     private void Kill()
     {
+        gameObject.GetComponent<Social>().CmdSendActivity(Activity.Death, gameObject);
         this.Spawn();
     }
 

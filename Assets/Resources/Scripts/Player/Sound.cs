@@ -3,14 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Networking;
 
-public enum AudioClips { Void, Walk1, Walk2, Walk3, Run1, Run2, Run3, Button, Bag, Forest, Desert, Plop };
+public enum AudioClips { Void, Walk1, Walk2, Walk3, Run1, Run2, Run3, Button, Bag, Forest, Desert, Winter, Plop };
 
 public class Sound : NetworkBehaviour
 {
 
     private AudioSource source;
     private List<float[]> coolDown = new List<float[]>();
-    private static AudioClip[] AudioclipArray = new AudioClip[12];
+    private static AudioClip[] AudioclipArray = new AudioClip[13];
     private float volume = 0.1f;
 
     // Use this for initialization
@@ -27,7 +27,8 @@ public class Sound : NetworkBehaviour
         AudioclipArray[8] = Resources.Load<AudioClip>("Sounds/Button/Bag");
         AudioclipArray[9] = Resources.Load<AudioClip>("Sounds/Music/Forest");
         AudioclipArray[10] = Resources.Load<AudioClip>("Sounds/Music/Desert");
-        AudioclipArray[11] = Resources.Load<AudioClip>("Sounds/Button/Plop");
+        AudioclipArray[11] = Resources.Load<AudioClip>("Sounds/Music/Winter");
+        AudioclipArray[12] = Resources.Load<AudioClip>("Sounds/Button/Plop");
         this.source = gameObject.GetComponentInChildren<AudioSource>();
         this.volume = PlayerPrefs.GetFloat("Sound_intensity", 0.1f);
         this.source.volume = this.volume;
@@ -63,7 +64,7 @@ public class Sound : NetworkBehaviour
 
         if (this.IsReady(42))
         {
-            this.PlaySound(2f, Random.Range(420, 840), 42, AudioClips.Desert, AudioClips.Forest);
+            this.PlaySound(2f, Random.Range(420, 840), 42, AudioClips.Desert, AudioClips.Forest, AudioClips.Winter);
         }
     }
     /// <sumary>
