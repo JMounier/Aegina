@@ -36,7 +36,6 @@ public class Element : Entity
     public override void Spawn()
     {
         base.Spawn();
-        base.prefab.GetComponent<SyncElement>().CmdSetElement(iD);
     }
 
     /// <summary>
@@ -45,7 +44,6 @@ public class Element : Entity
     public override void Spawn(Vector3 pos)
     {
         base.Spawn(pos);
-        base.prefab.GetComponent<SyncElement>().CmdSetElement(iD);
     }
 
     /// <summary>
@@ -54,7 +52,6 @@ public class Element : Entity
     public override void Spawn(Vector3 pos, Transform parent)
     {
         base.Spawn(pos, parent);
-        base.prefab.GetComponent<SyncElement>().CmdSetElement(iD);
     }
 
     /// <summary>
@@ -63,7 +60,6 @@ public class Element : Entity
     public override void Spawn(Vector3 pos, Quaternion rot)
     {
         base.Spawn(pos, rot);
-        base.prefab.GetComponent<SyncElement>().CmdSetElement(iD);
     }
 
     /// <summary>
@@ -72,7 +68,6 @@ public class Element : Entity
     public override void Spawn(Vector3 pos, Quaternion rot, Transform parent)
     {
         base.Spawn(pos, rot, parent);
-        base.prefab.GetComponent<SyncElement>().CmdSetElement(iD);
     }
 
     /// <summary>

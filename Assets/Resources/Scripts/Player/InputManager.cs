@@ -88,12 +88,13 @@ public class InputManager : NetworkBehaviour
 
         if (Input.GetButtonDown("Fire2") && !this.inventaire.InventoryShown && !this.menu.MenuShown && !this.menu.OptionShown && !this.social.ChatShown)
         {
-            Debug.Log(this.nearElement.Elmt);
+
             if (this.inventaire.UsedItem.Items is Consumable)
                 (this.inventaire.UsedItem.Items as Consumable).Consume();
 
-            else if (this.nearElement != null && this.nearElement.Elmt is IslandCore)
+            else if (this.nearElement != null && this.nearElement.GetComponent<SyncCore>() != null)
             {
+                this.cristalHUD.Cristal = this.nearElement.GetComponent<SyncCore>();
                 this.cristalHUD.Cristal_shown = true;
                 this.controller.Pause = true;
             }

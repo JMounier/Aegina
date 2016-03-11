@@ -2,19 +2,20 @@
 using System.Collections;
 using UnityEngine.Networking;
 
-public class SyncCore : SyncElement {
-	[SyncVar]
-	private Team team;
+public class SyncCore : SyncElement
+{
+    private IslandCore cristal;
 
-	// GETTERS && SETTERS
-	[Command]
-	public void CmdSetTeam(Team team)
-	{
-		this.Team = team;
-	}
+    public IslandCore Cristal
+    {
+        get { return this.cristal; }
+        set { this.cristal = value; }
+    }
 
-	public Team Team{
-		get{return this.team;}
-		set{ this.team = value;}
-	}
+    public void CmdSetTeam(Team team)
+    {
+        this.cristal.T = team;
+        Debug.Log(this);
+        this.GetComponentInChildren<MeshRenderer>().material = Resources.Load<Material>("Models/Components/Islands/Materials/Team" + (int)this.cristal.T);
+    }
 }

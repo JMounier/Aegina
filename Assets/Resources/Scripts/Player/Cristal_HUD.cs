@@ -6,7 +6,7 @@ using System;
 
 public class Cristal_HUD : NetworkBehaviour
 {
-    private IslandCore cristal;
+    private SyncCore cristal;
     private bool cristal_shown = false;
     private int pos_x;
     private int pos_y;
@@ -26,7 +26,6 @@ public class Cristal_HUD : NetworkBehaviour
         this.height = Screen.height / 2;
         this.skin = Resources.Load<GUISkin>("Sprites/GUIskin/Skin");
         this.inventory = GetComponentInParent<Inventory>();
-        this.cristal = new IslandCore();
     }
 
     // Update is called once per frame
@@ -48,9 +47,9 @@ public class Cristal_HUD : NetworkBehaviour
         Rect rect = new Rect(pos_x, pos_y, width, height);
         GUI.Box(rect, "", this.skin.GetStyle("inventory"));
         int j = 0;
-		for (int i = 0; i < this.cristal.Needs.Length; i++)
+		for (int i = 0; i < this.cristal.Cristal.Needs.Length; i++)
         {
-			if (this.cristal.Needs[i].Quantity != 0)
+			if (this.cristal.Cristal.Needs[i].Quantity != 0)
             {
                 rect = new Rect(this.pos_x + j % 3 * 40 + 40, this.pos_y + j / 3 * 40 + 200, 40, 40);
                 GUI.Box(rect, "", this.skin.GetStyle("slot"));
@@ -60,20 +59,20 @@ public class Cristal_HUD : NetworkBehaviour
                 rect.y += 6;
                 rect.width -= 12;
                 rect.height -= 12;
-                GUI.DrawTexture(rect, this.cristal.Needs[i].Items.Icon);
-				if (this.cristal.Needs[i].Quantity > 1)
-					GUI.Box(rect, this.cristal.Needs[i].Quantity.ToString(), this.skin.GetStyle("quantity"));
+                GUI.DrawTexture(rect, this.cristal.Cristal.Needs[i].Items.Icon);
+				if (this.cristal.Cristal.Needs[i].Quantity > 1)
+					GUI.Box(rect, this.cristal.Cristal.Needs[i].Quantity.ToString(), this.skin.GetStyle("quantity"));
                 j += 1;
             }
         }
-        if (this.cristal.T == Team.Neutre)
+        if (this.cristal.Cristal.T == Team.Neutre)
         {
             rect = new Rect(this.pos_x + 40, this.pos_y + 280, 80, 40);
             if (GUI.Button(rect, TextDatabase.Activate.GetText(), this.skin.GetStyle("button")))
             {
-				if (this.inventory.InventoryContains(cristal.Needs))
+				if (this.inventory.InventoryContains(cristal.Cristal.Needs))
                 {
-					this.inventory.DeleteItems(cristal.Needs);
+					this.inventory.DeleteItems(cristal.Cristal.Needs);
                     Activate();
                 }
             }
@@ -85,22 +84,22 @@ public class Cristal_HUD : NetworkBehaviour
     /// </summary>
     private void Activate()
     {
-        this.cristal.T = Team.Blue;
-        if (this.cristal.Level_tot == 0)
+        this.cristal.CmdSetTeam(Team.Blue);
+        if (this.cristal.Cristal.Level_tot == 0)
         {
             System.Random ran = new System.Random();
             int a = ran.Next(0, 10);
             if (a == 0)
             {
-                cristal.Level_portal += 2;
+                cristal.Cristal.Level_portal += 2;
             }
             else if (a <= 3)
             {
-                cristal.Level_prod += 2;
+                cristal.Cristal.Level_prod += 2;
             }
             else
             {
-                cristal.Level_atk += 2;
+                cristal.Cristal.Level_atk += 2;
             }
         }
     }
@@ -119,7 +118,7 @@ public class Cristal_HUD : NetworkBehaviour
     /// <summary>
     /// Le cristal gerer par le hud (celui actuellement proche du joueur)
     /// </summary>
-    public IslandCore Cristal
+    public SyncCore Cristal
     {
         get { return this.cristal; }
         set { this.cristal = value; }
