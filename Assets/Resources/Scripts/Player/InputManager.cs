@@ -145,8 +145,9 @@ public class InputManager : NetworkBehaviour
             }
         }
 
-        // Visibilite du cursor
+        // Visibilite et blocage du cursor
         Cursor.visible = this.controller.Pause;
+        Cursor.lockState = this.controller.Pause ? CursorLockMode.None : CursorLockMode.Locked;
 
         // Gere la barre d'outil.
         if (Input.GetKeyDown(KeyCode.Alpha1))
