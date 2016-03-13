@@ -35,9 +35,10 @@ public class Element : Entity
     /// </summary>
     protected override void Kill()
     {
-        foreach (DropConfig dc in this.dropConfigs)
+        foreach (var dc in this.dropConfigs)
         {
-            dc.I.Spawn(base.prefab.transform.position, Vector3.zero, Random.Range(dc.Min, dc.Max + 1));
+            Vector3 projection = new Vector3(Random.Range(-1f, 1f), Random.Range(0, 1f), Random.Range(-1f, 1f));
+            dc.I.Spawn(prefab.transform.position, projection, dc.Quantity);
         }
         base.Kill();
     }
@@ -77,7 +78,7 @@ public class DropConfig
         this.min = 0;
         this.max = 0;
     }
-    
+
     public DropConfig(Item i, int quantity)
     {
         this.i = i;
@@ -119,6 +120,14 @@ public class DropConfig
     {
         get { return this.max; }
         set { this.max = value; }
+    }
+
+    /// <summary>
+    /// Donne une qantite aleatoire correspondant aux bornes.
+    /// </summary>
+    public int Quantity
+    {
+        get { return Random.Range(this.min, this.max + 1); }
     }
 }
 

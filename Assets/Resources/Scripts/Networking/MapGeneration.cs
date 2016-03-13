@@ -13,6 +13,7 @@ public class MapGeneration : NetworkBehaviour
             EntityDatabase.RandChunk(Bridges.TwoL).Generate(0, 1, Directions.East, BiomeDatabase.RandBiome, gameObject, true);
             EntityDatabase.RandChunk(Bridges.TwoL).Generate(1, 1, Directions.South, BiomeDatabase.RandBiome, gameObject);
             EntityDatabase.RandChunk(Bridges.TwoL).Generate(1, 0, Directions.West, BiomeDatabase.RandBiome, gameObject);
+            new Mob(EntityDatabase.Boar).Spawn(new Vector3(0,7,0));
         }
     }
 }
