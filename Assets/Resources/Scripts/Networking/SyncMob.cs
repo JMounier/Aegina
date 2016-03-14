@@ -27,7 +27,7 @@ public class SyncMob : NetworkBehaviour
         */
 
         // Objectif atteind
-        if (this.path.Count == 0)
+        if (this.path.Count == 0 && this.isValid(gameObject.transform.position, .5f))
         {
             // Trouve un nouveau but
             Vector3 newGoal = goal;
@@ -36,12 +36,13 @@ public class SyncMob : NetworkBehaviour
             {
                 float randAngle = UnityEngine.Random.Range(0f, Mathf.PI * 2);
                 newGoal = new Vector3(Mathf.Cos(randAngle), 0, Mathf.Sin(randAngle)) * UnityEngine.Random.Range(10f, 25f) + goal;
-                isPossible = this.isValid(newGoal, 1f);
+                isPossible = this.isValid(newGoal, .5f);
             }
             goal = newGoal;
-            /*
+
             // Calcule le chemin => A*
-            List<State> closedList = new List<State>();
+            List<State> memory = new List<State>();
+            memory.Add(new State(0, 0, 0, new List<Vector3>()));
             Heap tas = new Heap();
             tas.Insert(0, new State(0, 0, 0, new List<Vector3>() { gameObject.transform.position }));
             while (!tas.IsEmpty)
@@ -49,6 +50,7 @@ public class SyncMob : NetworkBehaviour
                 Tuple<int, object> node = tas.ExtractMin();
                 State st = (State)node.Item2;
                 Vector3 pos = st.Path[st.Path.Count - 1];
+                // But atteind
                 if (Vector3.Distance(pos, this.goal) < 1)
                 {
                     this.path = st.Path;
@@ -59,39 +61,45 @@ public class SyncMob : NetworkBehaviour
                     foreach (State child in Neighbours(st))
                     {
                         Vector3 posChild = child.Path[child.Path.Count - 1];
-                        if (isValid(posChild, .5f) && !child.Exist(closedList) && !child.Exist(tas))
+                        if (isValid(posChild, .5f) && !child.Exist(memory))
+                        {
                             tas.Insert((int)(child.Cost + Vector3.Distance(posChild, goal)), child);
+                            memory.Add(child);
+                        }
                     }
-                    closedList.Add(st);
-                }               
+
+                }
             }
-            Debug.Log(gameObject.transform.position);
-            Debug.Log(this.path);  
-            */       
+        }
+        else if (this.path.Count > 0)
+        {
+            // TO DO
+            //Vector3 pos = this.path[0];
+            //this.path.RemoveAt(0);
         }
     }
-    
+
     private IEnumerable<State> Neighbours(State s)
     {
         Vector3 pos = s.Path[s.Path.Count - 1];
 
         List<Vector3> nPath = new List<Vector3>(s.Path);
-        nPath.Add(new Vector3(.5f, 0, 0) + pos);
+        nPath.Add(new Vector3(1, 0, 0) + pos);
         yield return new State(s.X + 1, s.Y, s.Cost + 1, nPath);
 
         nPath = new List<Vector3>(s.Path);
-        nPath.Add(new Vector3(-.5f, 0, 0) + pos);
+        nPath.Add(new Vector3(-1, 0, 0) + pos);
         yield return new State(s.X - 1, s.Y, s.Cost + 1, nPath);
 
         nPath = new List<Vector3>(s.Path);
-        nPath.Add(new Vector3(0, 0, .5f) + pos);
+        nPath.Add(new Vector3(0, 0, 1) + pos);
         yield return new State(s.X, s.Y + 1, s.Cost + 1, nPath);
 
         nPath = new List<Vector3>(s.Path);
-        nPath.Add(new Vector3(0, 0, -.5f) + pos);
+        nPath.Add(new Vector3(0, 0, -1) + pos);
         yield return new State(s.X, s.Y - 1, s.Cost + 1, nPath);
     }
-    
+
     private bool isValid(Vector3 pos, float range)
     {
         bool isOverGround = false;
@@ -104,7 +112,7 @@ public class SyncMob : NetworkBehaviour
         }
         return isOverGround;
     }
-    
+
     // Getters & Setters
     public Mob MyMob
     {
@@ -230,22 +238,10 @@ public class SyncMob : NetworkBehaviour
         public bool Exist(List<State> list)
         {
             foreach (State s in list)
-                if (s.X == this.X && s.Y == this.Y && s.Cost < this.Cost)
-                    return true;
+                if (s.X == this.X && s.Y == this.Y && s.Cost <= this.Cost)                
+                    return true;                
             return false;
-        }
-
-        public bool Exist(Heap heap)
-        {
-            foreach (Tuple<int, object> el in heap.List)
-            {
-                State s = (State)el.Item2;
-                if (s.X == this.X && s.Y == this.Y && s.Cost < this.Cost)
-                    return true;
-            }
-
-            return false;
-        }
+        }        
     }
 
     #endregion
