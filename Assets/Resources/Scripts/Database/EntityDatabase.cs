@@ -6,6 +6,7 @@ public static class EntityDatabase
 {
     // Default
     public static readonly Entity Default = new Entity();
+
     // Loot
     public static readonly Entity Log = new Entity(0, 60, Resources.Load<GameObject>("Prefabs/Loots/Log"));
     public static readonly Entity Stone = new Entity(1, 60, Resources.Load<GameObject>("Prefabs/Loots/Stone"));
@@ -22,7 +23,7 @@ public static class EntityDatabase
     public static readonly Entity GoldIngot = new Entity(11, 60, Resources.Load<GameObject>("Prefabs/Loots/GoldIngot"));
     public static readonly Entity MithrilIngot = new Entity(12, 60, Resources.Load<GameObject>("Prefabs/Loots/MithrilIngot"));
     public static readonly Entity FloatiumIngot = new Entity(13, 60, Resources.Load<GameObject>("Prefabs/Loots/FloatiumIngot"));
-    public static readonly Entity SunkiumIngot = new Entity(14, 60, Resources.Load<GameObject>("Prefabs/Loots/SunkiumIngot"));
+    public static readonly Entity SunkiumIngot = new Entity(14, 60, Resources.Load<GameObject>("Prefabs/Loots/SunkiumIngot"));    
 
     public static readonly Entity CopperPickaxe = new Entity(52, 60, Resources.Load<GameObject>("Prefabs/Loots/CopperPickaxe"));
     public static readonly Entity IronPickaxe = new Entity(53, 60, Resources.Load<GameObject>("Prefabs/Loots/IronPickaxe"));
@@ -48,6 +49,12 @@ public static class EntityDatabase
     // Rock
     public static readonly Rock StoneRock = new Rock(110, 100, Resources.Load<GameObject>("Prefabs/Elements/Rocks/Stone"), 1);
 
+    // IslandCore
+    public static readonly Element IslandCore = new Element(142, 100, Resources.Load<GameObject>("Prefabs/Elements/Cristals/IslandCore"), 0);
+
+    // Mobs
+    public static readonly Mob Boar = new Mob(500, 100, Resources.Load<GameObject>("Prefabs/Mobs/Boar"), 5, 10, 10, 1, 1.5f);
+
     // Chunk
     public static readonly Chunk Chunk1_One = new Chunk(1005, Resources.Load<GameObject>("Prefabs/Chunks/Chunk1_One"), Bridges.One);
     public static readonly Chunk Chunk1_TwoI = new Chunk(1005, Resources.Load<GameObject>("Prefabs/Chunks/Chunk1_TwoI"), Bridges.TwoI);
@@ -61,8 +68,7 @@ public static class EntityDatabase
     public static readonly Chunk Chunk2_Three = new Chunk(1008, Resources.Load<GameObject>("Prefabs/Chunks/Chunk2_Three"), Bridges.Three);
     public static readonly Chunk Chunk2_All = new Chunk(1009, Resources.Load<GameObject>("Prefabs/Chunks/Chunk2_All"), Bridges.All);
 
-    // IslandCore
-    public static readonly Element IslandCore = new Element(42, 100, Resources.Load<GameObject>("Prefabs/Elements/Cristals/IslandCore"), 0);
+    
 
     /// <summary>
     /// Liste tous les entites du jeu. (Utilisez avec foreach)

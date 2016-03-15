@@ -3,32 +3,38 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Networking;
 
-public enum AudioClips { Void, Walk1, Walk2, Walk3, Run1, Run2, Run3, Button, Bag, Forest, Desert, Winter, Plop };
+public enum AudioClips { Void, Walk1, Walk2, Walk3, Run1, Run2, Run3, Button, Bag, Plop, Forest, Desert, Winter };
 
 public class Sound : NetworkBehaviour
 {
 
     private AudioSource source;
     private List<float[]> coolDown = new List<float[]>();
-    private static AudioClip[] AudioclipArray = new AudioClip[13];
+    private static AudioClip[] AudioclipArray;
     private float volume = 0.1f;
 
     // Use this for initialization
     void Awake()
     {
-        AudioclipArray[0] = Resources.Load<AudioClip>("Sounds/Void");
-        AudioclipArray[1] = Resources.Load<AudioClip>("Sounds/Player/Walk1");
-        AudioclipArray[2] = Resources.Load<AudioClip>("Sounds/Player/Walk2");
-        AudioclipArray[3] = Resources.Load<AudioClip>("Sounds/Player/Walk3");
-        AudioclipArray[4] = Resources.Load<AudioClip>("Sounds/Player/Run1");
-        AudioclipArray[5] = Resources.Load<AudioClip>("Sounds/Player/Run2");
-        AudioclipArray[6] = Resources.Load<AudioClip>("Sounds/Player/Run3");
-        AudioclipArray[7] = Resources.Load<AudioClip>("Sounds/Button/Button");
-        AudioclipArray[8] = Resources.Load<AudioClip>("Sounds/Button/Bag");
-        AudioclipArray[9] = Resources.Load<AudioClip>("Sounds/Music/Forest");
-        AudioclipArray[10] = Resources.Load<AudioClip>("Sounds/Music/Desert");
-        AudioclipArray[11] = Resources.Load<AudioClip>("Sounds/Music/Winter");
-        AudioclipArray[12] = Resources.Load<AudioClip>("Sounds/Button/Plop");
+        AudioclipArray = new AudioClip[] {
+            Resources.Load<AudioClip>("Sounds/Void"),
+
+            Resources.Load<AudioClip>("Sounds/Player/Walk1"),
+            Resources.Load<AudioClip>("Sounds/Player/Walk2"),
+            Resources.Load<AudioClip>("Sounds/Player/Walk3"),
+            Resources.Load<AudioClip>("Sounds/Player/Run1"),
+            Resources.Load<AudioClip>("Sounds/Player/Run2"),
+            Resources.Load<AudioClip>("Sounds/Player/Run3"),
+
+            Resources.Load<AudioClip>("Sounds/Button/Button"),
+            Resources.Load<AudioClip>("Sounds/Button/Bag"),
+            Resources.Load<AudioClip>("Sounds/Button/Plop"),
+
+            Resources.Load<AudioClip>("Sounds/Music/Forest"),
+            Resources.Load<AudioClip>("Sounds/Music/Desert"),
+            Resources.Load<AudioClip>("Sounds/Music/Winter")
+            };
+
         this.source = gameObject.GetComponentInChildren<AudioSource>();
         this.volume = PlayerPrefs.GetFloat("Sound_intensity", 0.1f);
         this.source.volume = this.volume;
@@ -111,8 +117,8 @@ public class Sound : NetworkBehaviour
     [ClientRpc]
     private void RpcPlaySound(AudioClips clip, float vol)
     {
-        if (!isLocalPlayer)        
-            PlaySound(clip, vol);        
+        if (!isLocalPlayer)
+            PlaySound(clip, vol);
     }
 
     /// <sumary>
