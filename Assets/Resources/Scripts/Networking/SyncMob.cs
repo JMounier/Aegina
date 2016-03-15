@@ -15,6 +15,7 @@ public class SyncMob : NetworkBehaviour
     {
         this.goal = gameObject.transform.position;
         this.path = new List<Vector3>();
+        Debug.Log(this.myMob);
     }
 
     // Update is called once per frame
@@ -74,8 +75,14 @@ public class SyncMob : NetworkBehaviour
         else if (this.path.Count > 0)
         {
             // TO DO
-            //Vector3 pos = this.path[0];
-            //this.path.RemoveAt(0);
+            Vector3 pos = this.path[0];
+            //gameObject.transform.position = Vector3.Lerp(gameObject.transform.position, pos, Time.deltaTime * 15 * .2f);
+            gameObject.transform.LookAt(new Vector3(pos.x, gameObject.transform.position.y, pos.z) + Vector3.up * .05f);
+            Debug.Log(Time.deltaTime);
+            gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            gameObject.GetComponent<Rigidbody>().AddForce(gameObject.transform.forward * 3000f);
+            if (Vector3.Distance(gameObject.transform.position, pos) < 1)
+                this.path.RemoveAt(0);          
         }
     }
 
@@ -84,7 +91,7 @@ public class SyncMob : NetworkBehaviour
         Vector3 pos = s.Path[s.Path.Count - 1];
 
         List<Vector3> nPath = new List<Vector3>(s.Path);
-        nPath.Add(new Vector3(1, 0, 0) + pos);
+        nPath.Add(new Vector3(1f, 0, 0) + pos);
         yield return new State(s.X + 1, s.Y, s.Cost + 1, nPath);
 
         nPath = new List<Vector3>(s.Path);
@@ -92,18 +99,18 @@ public class SyncMob : NetworkBehaviour
         yield return new State(s.X - 1, s.Y, s.Cost + 1, nPath);
 
         nPath = new List<Vector3>(s.Path);
-        nPath.Add(new Vector3(0, 0, 1) + pos);
+        nPath.Add(new Vector3(0, 0, 1f) + pos);
         yield return new State(s.X, s.Y + 1, s.Cost + 1, nPath);
 
         nPath = new List<Vector3>(s.Path);
-        nPath.Add(new Vector3(0, 0, -1) + pos);
+        nPath.Add(new Vector3(0, 0, -1f) + pos);
         yield return new State(s.X, s.Y - 1, s.Cost + 1, nPath);
     }
 
     private bool isValid(Vector3 pos, float range)
     {
         bool isOverGround = false;
-        foreach (Collider col in Physics.OverlapSphere(pos, range))
+        foreach (Collider col in Physics.OverlapBox(pos, new Vector3(range, 1f, range)))
         {
             if (col.name.Contains("Island"))
                 isOverGround = true;
@@ -238,10 +245,10 @@ public class SyncMob : NetworkBehaviour
         public bool Exist(List<State> list)
         {
             foreach (State s in list)
-                if (s.X == this.X && s.Y == this.Y && s.Cost <= this.Cost)                
-                    return true;                
+                if (s.X == this.X && s.Y == this.Y && s.Cost <= this.Cost)
+                    return true;
             return false;
-        }        
+        }
     }
 
     #endregion
