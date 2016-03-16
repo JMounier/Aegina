@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.Networking;
+using System;
 
 public enum Activity { Connection, Death };
 
@@ -138,13 +139,13 @@ public class Social : NetworkBehaviour
     {
         if (msg[0] == '/')
         {
-            string[] cmd = msg.Split();
+            string[] cmd = msg.Split(default(Char[]), StringSplitOptions.RemoveEmptyEntries);
             switch (cmd[0].ToLower())
             {
                 // HELP
                 case "/help":
                     sender.GetComponent<Social>().RpcReceiveMsg("<color=green>---This is the list of commands---</color>\n" +
-                        "/time <value> \n/give <id> <quantity> \n/nick <name> \n/msg <player> <message> \n/tp <player>");
+                        "/time <value> \n/give <id> <quantity> \n/msg <player> <message> \n/tp <player>");
                     break;
 
                 // TIME
@@ -174,30 +175,8 @@ public class Social : NetworkBehaviour
                     {
                         sender.GetComponent<Social>().RpcReceiveMsg("<color=red>Usage: /give <id> <quantity></color>");
                     }
-                    break;
-
-                // NICK
-                case "/nick":
-                    try
-                    {
-                        if (cmd[1] == this.namePlayer)
-                            sender.GetComponent<Social>().RpcReceiveMsg("<color=red>It's already your name</color>");
-                        else if (cmd[1].Length > 15)
-                            sender.GetComponent<Social>().RpcReceiveMsg("<color=red>This name is too long</color>");
-                        else
-                        {
-                            string last = this.namePlayer;
-                            this.CmdSetName(cmd[1]);
-                            foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
-                                player.GetComponent<Social>().RpcReceiveMsg(last + " is now named as " + cmd[1] + ".");
-                        }
-                    }
-                    catch
-                    {
-                        sender.GetComponent<Social>().RpcReceiveMsg("<color=red>Usage: /nick <name></color>");
-                    }
-                    break;
-
+                    break;     
+                           
                 // MSG & M
                 case "/msg":
                 case "/m":
@@ -280,7 +259,7 @@ public class Social : NetworkBehaviour
                 break;
             default:
                 throw new System.ArgumentException("Activity is not valid");
-        }        
+        }
     }
 
     /// <summary>

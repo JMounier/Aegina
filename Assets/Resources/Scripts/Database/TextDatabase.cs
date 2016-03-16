@@ -105,6 +105,8 @@ public class TextDatabase
     public static readonly Text Loading = new Text("Chargement...", "Loading...");
     public static readonly Text Settings = new Text("Options", "Settings");
     public static readonly Text EnterName = new Text("Entrez un nom :", "Enter a name :");
+    public static readonly Text Character = new Text("Personnage", "Character");
+
 }
 
 

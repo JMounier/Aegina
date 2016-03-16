@@ -12,8 +12,8 @@ public class SyncCharacter : NetworkBehaviour
     private int thirstMax;
     private float thirst;
 
-    private static float starvation = 0.2f;
-    private static float thirstiness = 0.1f;
+    private static float starvation = 0.1f;
+    private static float thirstiness = 0.2f;
 
     private Texture2D[] lifeBar;
     private Texture2D[] hungerBar;
@@ -82,7 +82,7 @@ public class SyncCharacter : NetworkBehaviour
         this.Hunger -= Time.deltaTime * starvation;
         this.Thirst -= Time.deltaTime * thirstiness;
         if (this.character.transform.position.y <= -10)
-            this.Life -= 15 * Time.deltaTime;
+            this.Life -= 20 * Time.deltaTime;
         if (this.character.transform.position.y < 0 && !this.controller.IsJumping)
             this.controller.IsJumping = true;
         if (this.hunger == 0 || this.thirst == 0)
