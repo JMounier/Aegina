@@ -107,7 +107,10 @@ public class Item
     {
         get { return this.name.GetText(); }
     }
-
+    public Text NameText
+    {
+        get { return this.name; }
+    }
     /// <summary>
     /// Retourne la description de l'item dans la langue du joueur.
     /// </summary>
