@@ -9,12 +9,14 @@ public class SyncMob : NetworkBehaviour
     private Mob myMob;
     private Vector3 goal;
     private List<Vector3> path;
+    private Animator anim;
 
     // Use this for initialization
     void Start()
     {
         this.goal = gameObject.transform.position;
         this.path = new List<Vector3>();
+        this.anim = gameObject.GetComponent<Animator>();
         Debug.Log(this.myMob);
     }
 
@@ -74,15 +76,19 @@ public class SyncMob : NetworkBehaviour
         }
         else if (this.path.Count > 0)
         {
-            // TO DO
+            // Move the mob
+            this.anim.SetInteger("Action", 1);
             Vector3 pos = this.path[0];
-            //gameObject.transform.position = Vector3.Lerp(gameObject.transform.position, pos, Time.deltaTime * 15 * .2f);
-            gameObject.transform.LookAt(new Vector3(pos.x, gameObject.transform.position.y, pos.z) + Vector3.up * .05f);
-            Debug.Log(Time.deltaTime);
+            Vector3 viewRot = new Vector3(pos.x, gameObject.transform.position.y, pos.z) - transform.position;
+            if (viewRot != Vector3.zero)
+            {
+                Quaternion targetRotation = Quaternion.LookRotation(viewRot);
+                gameObject.transform.rotation = Quaternion.Lerp(gameObject.transform.rotation, targetRotation, Time.deltaTime * 5);
+            }
             gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
-            gameObject.GetComponent<Rigidbody>().AddForce(gameObject.transform.forward * 3000f);
-            if (Vector3.Distance(gameObject.transform.position, pos) < 1)
-                this.path.RemoveAt(0);          
+            gameObject.GetComponent<Rigidbody>().AddForce(gameObject.transform.forward * 180000f * Time.deltaTime);
+            if (Vector3.Distance(gameObject.transform.position, pos) < .75f)
+                this.path.RemoveAt(0);
         }
     }
 
@@ -114,7 +120,7 @@ public class SyncMob : NetworkBehaviour
         {
             if (col.name.Contains("Island"))
                 isOverGround = true;
-            else if (col.transform.parent != null && col.transform.parent.CompareTag("Elements"))
+            else if (col != gameObject.GetComponent<Collider>() && col.isTrigger == false)
                 return false;
         }
         return isOverGround;
