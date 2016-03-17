@@ -23,7 +23,7 @@ public static class EntityDatabase
     public static readonly Entity GoldIngot = new Entity(11, 60, Resources.Load<GameObject>("Prefabs/Loots/GoldIngot"));
     public static readonly Entity MithrilIngot = new Entity(12, 60, Resources.Load<GameObject>("Prefabs/Loots/MithrilIngot"));
     public static readonly Entity FloatiumIngot = new Entity(13, 60, Resources.Load<GameObject>("Prefabs/Loots/FloatiumIngot"));
-    public static readonly Entity SunkiumIngot = new Entity(14, 60, Resources.Load<GameObject>("Prefabs/Loots/SunkiumIngot"));    
+    public static readonly Entity SunkiumIngot = new Entity(14, 60, Resources.Load<GameObject>("Prefabs/Loots/SunkiumIngot"));
 
     public static readonly Entity CopperPickaxe = new Entity(52, 60, Resources.Load<GameObject>("Prefabs/Loots/CopperPickaxe"));
     public static readonly Entity IronPickaxe = new Entity(53, 60, Resources.Load<GameObject>("Prefabs/Loots/IronPickaxe"));
@@ -53,7 +53,7 @@ public static class EntityDatabase
     public static readonly Element IslandCore = new Element(142, 100, Resources.Load<GameObject>("Prefabs/Elements/Cristals/IslandCore"), 0);
 
     // Mobs
-    public static readonly Mob Boar = new Mob(500, 100, Resources.Load<GameObject>("Prefabs/Mobs/Boar"), 5, 10, 10, .1f, 1.5f);
+    public static readonly Mob Boar = new Mob(500, 100, Resources.Load<GameObject>("Prefabs/Mobs/Boar"), 5, 10, 10, 1f, 1.5f);
 
     // Chunk
     public static readonly Chunk Chunk1_One = new Chunk(1005, Resources.Load<GameObject>("Prefabs/Chunks/Chunk1_One"), Bridges.One);
@@ -68,7 +68,7 @@ public static class EntityDatabase
     public static readonly Chunk Chunk2_Three = new Chunk(1008, Resources.Load<GameObject>("Prefabs/Chunks/Chunk2_Three"), Bridges.Three);
     public static readonly Chunk Chunk2_All = new Chunk(1009, Resources.Load<GameObject>("Prefabs/Chunks/Chunk2_All"), Bridges.All);
 
-    
+
 
     /// <summary>
     /// Liste tous les entites du jeu. (Utilisez avec foreach)
@@ -107,8 +107,6 @@ public static class EntityDatabase
             yield return SunkiumPickaxe;
 
 
-
-
             // Tree
             foreach (Tree tree in Trees)
                 yield return tree;
@@ -124,6 +122,10 @@ public static class EntityDatabase
             // IslandCore
             foreach (Element el in Elements)
                 yield return el;
+
+            // Mobs
+            foreach (Mob mob in Mobs)
+                yield return mob;
         }
     }
 
@@ -192,6 +194,17 @@ public static class EntityDatabase
             yield return Chunk2_TwoL;
             yield return Chunk2_Three;
             yield return Chunk2_All;
+        }
+    }
+
+    /// <summary>
+    /// Liste tous les mobs du jeu. (Utilisez avec foreach)
+    /// </summary>
+    public static IEnumerable<Mob> Mobs
+    {
+        get
+        {
+            yield return Boar;
         }
     }
 

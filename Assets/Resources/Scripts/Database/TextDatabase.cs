@@ -97,8 +97,8 @@ public class TextDatabase
     public static readonly Text Language = new Text("Langue", "Language");
     public static readonly Text French = new Text("Français", "French");
     public static readonly Text English = new Text("Anglais", "English");
-    public static readonly Text Play = new Text("Jouer(H)", "Play(H)");
-    public static readonly Text Join = new Text("Rejoindre(C)", "Join(C)");
+    public static readonly Text Play = new Text("Jouer", "Play");
+    public static readonly Text Join = new Text("Rejoindre", "Join");
     public static readonly Text Activate = new Text("Activer", "Activate");
     public static readonly Text Validate = new Text("Valider", "Validate");
     public static readonly Text Cancel = new Text("Annuler", "Cancel");

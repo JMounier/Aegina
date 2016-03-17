@@ -44,25 +44,7 @@ namespace UnityEngine.Networking
             if (playerName == "")
                 this.showGUI = false;
         }
-
-        void Update()
-        {
-            if (!showGUI)
-                return;
-
-            if (!NetworkClient.active && !NetworkServer.active && manager.matchMaker == null)
-            {
-                if (!Cursor.visible)
-                    Cursor.visible = true;
-                if (Input.GetKeyDown(KeyCode.H))
-                    Launch(TypeLaunch.Host);
-                else if (Input.GetKeyDown(KeyCode.C))
-                    Launch(TypeLaunch.Client);
-                else if (Input.GetKeyDown(KeyCode.O))
-                    this.optionShown = true;
-            }
-        }
-
+               
         void OnGUI()
         {
             if (!showGUI)

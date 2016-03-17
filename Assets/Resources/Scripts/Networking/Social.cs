@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine.Networking;
 using System;
 
-public enum Activity { Connection, Death };
+public enum Activity { Connection, Deconnection, Death };
 
 public class Social : NetworkBehaviour
 {
@@ -154,7 +154,8 @@ public class Social : NetworkBehaviour
                     {
                         int time = cmd[1].ToLower() == "day" ? 300 : cmd[1].ToLower() == "night" ? 900 : int.Parse(cmd[1]);
                         GameObject.Find("Map").GetComponent<DayNightCycle>().SetTime(time);
-                        sender.GetComponent<Social>().RpcReceiveMsg("Set the time to " + cmd[1] + ".");
+                        foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
+                            player.GetComponent<Social>().RpcReceiveMsg("Set the time to " + cmd[1] + ".");
                     }
                     catch
                     {
@@ -256,6 +257,10 @@ public class Social : NetworkBehaviour
             case Activity.Death:
                 foreach (GameObject p in GameObject.FindGameObjectsWithTag("Player"))
                     p.GetComponent<Social>().RpcReceiveMsg("<color=grey>* <i>" + namePlayer + "</i> died.</color>");
+                break;
+            case Activity.Deconnection:
+                foreach (GameObject p in GameObject.FindGameObjectsWithTag("Player"))
+                    p.GetComponent<Social>().RpcReceiveMsg("<color=grey>* <i>" + namePlayer + "</i> leave the game.</color>");
                 break;
             default:
                 throw new System.ArgumentException("Activity is not valid");

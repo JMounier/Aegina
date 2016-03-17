@@ -59,36 +59,19 @@ public class Mob : Entity
         }
         base.Kill();
     }
-
-    public override void Spawn()
-    {
-        base.prefab.GetComponent<SyncMob>().MyMob = this;
-        base.Spawn();
-    }
-
+       
     public override void Spawn(Vector3 pos)
     {
-        base.prefab.GetComponent<SyncMob>().MyMob = this;
-        base.Spawn(pos);
-    }
-
-    public override void Spawn(Vector3 pos, Transform parent)
-    {
-        base.prefab.GetComponent<SyncMob>().MyMob = this;
-        base.Spawn(pos, parent);
+        base.Spawn(pos, GameObject.Find("Mobs").transform);
+        base.prefab.GetComponent<SyncMob>().MyMob = new Mob(this);
     }
 
     public override void Spawn(Vector3 pos, Quaternion rot)
     {
-        base.prefab.GetComponent<SyncMob>().MyMob = this;
+        base.Spawn(pos, GameObject.Find("Mobs").transform);
+        base.prefab.GetComponent<SyncMob>().MyMob = new Mob(this);
         base.Spawn(pos, rot);
-    }
-
-    public override void Spawn(Vector3 pos, Quaternion rot, Transform parent)
-    {
-        base.prefab.GetComponent<SyncMob>().MyMob = this;
-        base.Spawn(pos, rot, parent);
-    }
+    }  
 
     // Getters & Setters
 
