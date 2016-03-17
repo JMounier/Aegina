@@ -20,6 +20,8 @@ public class Inventory : NetworkBehaviour
     private ItemStack[,] slots;
     private Transform trans;
     private Sound sound;
+    private Item lastUseddItem;
+    private GameObject actualTool;
 
     // Use this for initialization
     void Start()
@@ -36,22 +38,46 @@ public class Inventory : NetworkBehaviour
         this.slots = new ItemStack[this.rows, this.columns];
         this.ClearInventory();
         // this.LoadInventory();       
-        
+
         this.skin = Resources.Load<GUISkin>("Sprites/GUIskin/Skin");
         this.trans = gameObject.GetComponent<Transform>();
         this.sound = gameObject.GetComponent<Sound>();
+        this.lastUseddItem = new Item();
 
         // Premiere soutenance objets de bases
         this.AddItemStack(new ItemStack(new Item(ItemDatabase.Stone), 42), false);
         this.AddItemStack(new ItemStack(new Item(ItemDatabase.Log), 64), false);
         this.AddItemStack(new ItemStack(new Item(ItemDatabase.Log), 64), false);
         this.AddItemStack(new ItemStack(new Item(ItemDatabase.Log), 64), false);
-        this.AddItemStack(new ItemStack(new Item(ItemDatabase.CopperPickaxe), 1), false);
+        this.AddItemStack(new ItemStack(new Pickaxe(ItemDatabase.CopperPickaxe), 1), false);
         this.AddItemStack(new ItemStack(new Item(ItemDatabase.Floatium), 7), false);
         this.AddItemStack(new ItemStack(new Item(ItemDatabase.IronIngot), 14), false);
         this.AddItemStack(new ItemStack(new Item(ItemDatabase.Iron), 15), false);
         this.AddItemStack(new ItemStack(new Item(ItemDatabase.Gold), 1), false);
         this.AddItemStack(new ItemStack(new Item(ItemDatabase.Copper), 15), false);
+    }
+
+    void Update()
+    {
+        if (this.lastUseddItem.ID != this.UsedItem.Items.ID)
+        {
+            if (this.lastUseddItem is Tool)
+            {               
+                NetworkServer.UnSpawn(this.actualTool);
+                GameObject.Destroy(this.actualTool);            
+            }
+            this.lastUseddItem = this.UsedItem.Items;
+            if (this.UsedItem.Items is Tool)
+            {
+                Tool outil = (Tool)this.UsedItem.Items;
+                this.actualTool = GameObject.Instantiate(outil.ToolPrefab, Vector3.zero, Quaternion.Euler(Vector3.zero)) as GameObject;
+                this.actualTool.transform.parent = gameObject.transform.FindChild("Character/Armature/WeaponSlot");
+                this.actualTool.transform.localPosition = outil.ToolPrefab.transform.localPosition;
+                this.actualTool.transform.localRotation = outil.ToolPrefab.transform.localRotation;
+                this.actualTool.transform.localScale = outil.ToolPrefab.transform.localScale;              
+                NetworkServer.Spawn(this.actualTool);            
+            }
+        }
     }
 
     // Methods
@@ -277,7 +303,7 @@ public class Inventory : NetworkBehaviour
             }
         }
     }
-        
+
     /// <summary>
     /// Permet d'ajotuer des objes dans l'inventaire.
     /// </summary>
@@ -397,7 +423,7 @@ public class Inventory : NetworkBehaviour
     /// <returns></returns>
     public bool InventoryContains(Craft craft)
     {
-       return InventoryContains(craft.Consume);
+        return InventoryContains(craft.Consume);
     }
 
     /// <summary>

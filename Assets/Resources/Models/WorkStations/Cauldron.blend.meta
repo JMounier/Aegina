@@ -1,0 +1,170 @@
+fileFormatVersion: 2
+guid: 246b9e90e48161a44a9fd457b945cd92
+timeCreated: 1458218642
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: Cylinder_000
+    100004: Cylinder_001
+    100006: Cylinder_002
+    100008: Cylinder_003
+    100010: Cylinder_004
+    100012: Cylinder_005
+    100014: Icosphere
+    100016: Icosphere_001
+    100018: Icosphere_002
+    100020: Icosphere_003
+    100022: Icosphere_004
+    100024: Icosphere_005
+    100026: Icosphere_006
+    100028: Icosphere_007
+    100030: Icosphere_008
+    100032: Icosphere_009
+    100034: Icosphere_010
+    100036: Torus
+    100038: Torus_001
+    400000: //RootNode
+    400002: Cylinder_000
+    400004: Cylinder_001
+    400006: Cylinder_002
+    400008: Cylinder_003
+    400010: Cylinder_004
+    400012: Cylinder_005
+    400014: Icosphere
+    400016: Icosphere_001
+    400018: Icosphere_002
+    400020: Icosphere_003
+    400022: Icosphere_004
+    400024: Icosphere_005
+    400026: Icosphere_006
+    400028: Icosphere_007
+    400030: Icosphere_008
+    400032: Icosphere_009
+    400034: Icosphere_010
+    400036: Torus
+    400038: Torus_001
+    2300000: Cylinder_000
+    2300002: Cylinder_001
+    2300004: Cylinder_002
+    2300006: Cylinder_003
+    2300008: Cylinder_004
+    2300010: Cylinder_005
+    2300012: Icosphere
+    2300014: Icosphere_001
+    2300016: Icosphere_002
+    2300018: Icosphere_003
+    2300020: Icosphere_004
+    2300022: Icosphere_005
+    2300024: Icosphere_006
+    2300026: Icosphere_007
+    2300028: Icosphere_008
+    2300030: Icosphere_009
+    2300032: Icosphere_010
+    2300034: Torus
+    2300036: Torus_001
+    3300000: Cylinder_000
+    3300002: Cylinder_001
+    3300004: Cylinder_002
+    3300006: Cylinder_003
+    3300008: Cylinder_004
+    3300010: Cylinder_005
+    3300012: Icosphere
+    3300014: Icosphere_001
+    3300016: Icosphere_002
+    3300018: Icosphere_003
+    3300020: Icosphere_004
+    3300022: Icosphere_005
+    3300024: Icosphere_006
+    3300026: Icosphere_007
+    3300028: Icosphere_008
+    3300030: Icosphere_009
+    3300032: Icosphere_010
+    3300034: Torus
+    3300036: Torus_001
+    4300000: Torus_001
+    4300002: Torus
+    4300004: Icosphere_010
+    4300006: Icosphere
+    4300008: Icosphere_008
+    4300010: Icosphere_007
+    4300012: Icosphere_006
+    4300014: Icosphere_005
+    4300016: Icosphere_004
+    4300018: Icosphere_003
+    4300020: Icosphere_002
+    4300022: Icosphere_001
+    4300024: Cylinder_000
+    4300026: Cylinder_005
+    4300028: Icosphere_009
+    4300030: Cylinder_004
+    4300032: Cylinder_001
+    4300034: Cylinder_002
+    4300036: Cylinder_003
+    7400000: Default Take
+    9500000: //RootNode
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleRotations: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

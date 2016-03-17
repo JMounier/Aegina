@@ -52,6 +52,7 @@ ModelImporter:
     100088: RShoulders_slot
     100090: ShieldBow_Slot
     100092: WeaponSlot
+    100094: Cylinder
     400000: Armature
     400002: Backet_Bone
     400004: CATHead
@@ -99,19 +100,31 @@ ModelImporter:
     400088: RShoulders_slot
     400090: ShieldBow_Slot
     400092: WeaponSlot
+    400094: Cylinder
     2300000: NPC_Beard_008
     2300002: NPC_Hair_009
+    2300004: Cylinder
     3300000: NPC_Beard_008
     3300002: NPC_Hair_009
+    3300004: Cylinder
     4300000: NPC_Man_Normal001
     4300002: NPC_Beard_008
     4300004: NPC_Hair_009
+    4300006: Cylinder
     7400000: AnimationSource
     7400002: Jump
     7400004: Run
     7400006: Idle
     7400008: Walk
     7400010: Fall
+    7400012: Begin_chop
+    7400014: Chop
+    7400016: End_chop
+    7400018: Begin_mine
+    7400020: Mine
+    7400022: End_mine
+    7400024: Eat
+    7400026: Attack
     9500000: //RootNode
     13700000: NPC_Man_Normal001
   materials:
@@ -735,6 +748,996 @@ ModelImporter:
       - path: Armature/ShieldBow_Slot
         weight: 1
       - path: Armature/WeaponSlot
+        weight: 1
+      - path: Character001
+        weight: 1
+      - path: NPC_Man_Normal001
+        weight: 1
+      - path: Particle_View_001
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Begin_chop
+      takeName: Default Take
+      firstFrame: 395
+      lastFrame: 400
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Armature
+        weight: 1
+      - path: Armature/Backet_Bone
+        weight: 1
+      - path: Armature/CATPelvis
+        weight: 1
+      - path: Armature/CATPelvis/CATLThigh
+        weight: 1
+      - path: Armature/CATPelvis/CATLThigh/CATLCalf
+        weight: 1
+      - path: Armature/CATPelvis/CATLThigh/CATLCalf/CATLFoot
+        weight: 1
+      - path: Armature/CATPelvis/CATLThigh/CATLCalf/CATLFoot/CATRigLLegDigit11
+        weight: 1
+      - path: Armature/CATPelvis/CATLThigh/CATLCalf/CATLFoot/CATRigLLegDigit11/CATRigLLegDigit12
+        weight: 1
+      - path: Armature/CATPelvis/CATRThigh
+        weight: 1
+      - path: Armature/CATPelvis/CATRThigh/CATRCalf
+        weight: 1
+      - path: Armature/CATPelvis/CATRThigh/CATRCalf/CATRFoot
+        weight: 1
+      - path: Armature/CATPelvis/CATRThigh/CATRCalf/CATRFoot/CATRToe1
+        weight: 1
+      - path: Armature/CATPelvis/CATRThigh/CATRCalf/CATRFoot/CATRToe1/CATRToe2
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATLClavicle
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATLClavicle/CATLArm
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATLClavicle/CATLArm/CATLForearm
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATLClavicle/CATLArm/CATLForearm/CATLHand
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATLClavicle/CATLArm/CATLForearm/CATLHand/CATLFingers1
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATLClavicle/CATLArm/CATLForearm/CATLHand/CATLFingers1/CATLFingers2
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATLClavicle/CATLArm/CATLForearm/CATLHand/CATLThumb1
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATLClavicle/CATLArm/CATLForearm/CATLHand/CATLThumb1/CATLThumb2
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATNeck
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATNeck/CATHead
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATRClavicle
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATRClavicle/CATRArm
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATRClavicle/CATRArm/CATRForearm
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATRClavicle/CATRArm/CATRForearm/CATRHand
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATRClavicle/CATRArm/CATRForearm/CATRHand/CATRFingers1
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATRClavicle/CATRArm/CATRForearm/CATRHand/CATRFingers1/CATRFingers2
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATRClavicle/CATRArm/CATRForearm/CATRHand/CATRThumb1
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATRClavicle/CATRArm/CATRForearm/CATRHand/CATRThumb1/CATRThumb2
+        weight: 1
+      - path: Armature/Head_slot
+        weight: 1
+      - path: Armature/Head_slot/NPC_Beard_008
+        weight: 1
+      - path: Armature/Head_slot/NPC_Hair_009
+        weight: 1
+      - path: Armature/LBracers_slot
+        weight: 1
+      - path: Armature/LShoulders_slot
+        weight: 1
+      - path: Armature/RBracers_slot
+        weight: 1
+      - path: Armature/RShoulders_slot
+        weight: 1
+      - path: Armature/ShieldBow_Slot
+        weight: 1
+      - path: Armature/WeaponSlot
+        weight: 1
+      - path: Character001
+        weight: 1
+      - path: NPC_Man_Normal001
+        weight: 1
+      - path: Particle_View_001
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Chop
+      takeName: Default Take
+      firstFrame: 420
+      lastFrame: 439
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Armature
+        weight: 1
+      - path: Armature/Backet_Bone
+        weight: 1
+      - path: Armature/CATPelvis
+        weight: 1
+      - path: Armature/CATPelvis/CATLThigh
+        weight: 1
+      - path: Armature/CATPelvis/CATLThigh/CATLCalf
+        weight: 1
+      - path: Armature/CATPelvis/CATLThigh/CATLCalf/CATLFoot
+        weight: 1
+      - path: Armature/CATPelvis/CATLThigh/CATLCalf/CATLFoot/CATRigLLegDigit11
+        weight: 1
+      - path: Armature/CATPelvis/CATLThigh/CATLCalf/CATLFoot/CATRigLLegDigit11/CATRigLLegDigit12
+        weight: 1
+      - path: Armature/CATPelvis/CATRThigh
+        weight: 1
+      - path: Armature/CATPelvis/CATRThigh/CATRCalf
+        weight: 1
+      - path: Armature/CATPelvis/CATRThigh/CATRCalf/CATRFoot
+        weight: 1
+      - path: Armature/CATPelvis/CATRThigh/CATRCalf/CATRFoot/CATRToe1
+        weight: 1
+      - path: Armature/CATPelvis/CATRThigh/CATRCalf/CATRFoot/CATRToe1/CATRToe2
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATLClavicle
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATLClavicle/CATLArm
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATLClavicle/CATLArm/CATLForearm
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATLClavicle/CATLArm/CATLForearm/CATLHand
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATLClavicle/CATLArm/CATLForearm/CATLHand/CATLFingers1
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATLClavicle/CATLArm/CATLForearm/CATLHand/CATLFingers1/CATLFingers2
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATLClavicle/CATLArm/CATLForearm/CATLHand/CATLThumb1
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATLClavicle/CATLArm/CATLForearm/CATLHand/CATLThumb1/CATLThumb2
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATNeck
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATNeck/CATHead
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATRClavicle
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATRClavicle/CATRArm
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATRClavicle/CATRArm/CATRForearm
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATRClavicle/CATRArm/CATRForearm/CATRHand
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATRClavicle/CATRArm/CATRForearm/CATRHand/CATRFingers1
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATRClavicle/CATRArm/CATRForearm/CATRHand/CATRFingers1/CATRFingers2
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATRClavicle/CATRArm/CATRForearm/CATRHand/CATRThumb1
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATRClavicle/CATRArm/CATRForearm/CATRHand/CATRThumb1/CATRThumb2
+        weight: 1
+      - path: Armature/Head_slot
+        weight: 1
+      - path: Armature/Head_slot/NPC_Beard_008
+        weight: 1
+      - path: Armature/Head_slot/NPC_Hair_009
+        weight: 1
+      - path: Armature/LBracers_slot
+        weight: 1
+      - path: Armature/LShoulders_slot
+        weight: 1
+      - path: Armature/RBracers_slot
+        weight: 1
+      - path: Armature/RShoulders_slot
+        weight: 1
+      - path: Armature/ShieldBow_Slot
+        weight: 1
+      - path: Armature/WeaponSlot
+        weight: 1
+      - path: Armature/WeaponSlot/Cylinder
+        weight: 1
+      - path: Character001
+        weight: 1
+      - path: NPC_Man_Normal001
+        weight: 1
+      - path: Particle_View_001
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: End_chop
+      takeName: Default Take
+      firstFrame: 455
+      lastFrame: 460
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Armature
+        weight: 1
+      - path: Armature/Backet_Bone
+        weight: 1
+      - path: Armature/CATPelvis
+        weight: 1
+      - path: Armature/CATPelvis/CATLThigh
+        weight: 1
+      - path: Armature/CATPelvis/CATLThigh/CATLCalf
+        weight: 1
+      - path: Armature/CATPelvis/CATLThigh/CATLCalf/CATLFoot
+        weight: 1
+      - path: Armature/CATPelvis/CATLThigh/CATLCalf/CATLFoot/CATRigLLegDigit11
+        weight: 1
+      - path: Armature/CATPelvis/CATLThigh/CATLCalf/CATLFoot/CATRigLLegDigit11/CATRigLLegDigit12
+        weight: 1
+      - path: Armature/CATPelvis/CATRThigh
+        weight: 1
+      - path: Armature/CATPelvis/CATRThigh/CATRCalf
+        weight: 1
+      - path: Armature/CATPelvis/CATRThigh/CATRCalf/CATRFoot
+        weight: 1
+      - path: Armature/CATPelvis/CATRThigh/CATRCalf/CATRFoot/CATRToe1
+        weight: 1
+      - path: Armature/CATPelvis/CATRThigh/CATRCalf/CATRFoot/CATRToe1/CATRToe2
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATLClavicle
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATLClavicle/CATLArm
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATLClavicle/CATLArm/CATLForearm
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATLClavicle/CATLArm/CATLForearm/CATLHand
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATLClavicle/CATLArm/CATLForearm/CATLHand/CATLFingers1
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATLClavicle/CATLArm/CATLForearm/CATLHand/CATLFingers1/CATLFingers2
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATLClavicle/CATLArm/CATLForearm/CATLHand/CATLThumb1
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATLClavicle/CATLArm/CATLForearm/CATLHand/CATLThumb1/CATLThumb2
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATNeck
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATNeck/CATHead
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATRClavicle
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATRClavicle/CATRArm
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATRClavicle/CATRArm/CATRForearm
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATRClavicle/CATRArm/CATRForearm/CATRHand
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATRClavicle/CATRArm/CATRForearm/CATRHand/CATRFingers1
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATRClavicle/CATRArm/CATRForearm/CATRHand/CATRFingers1/CATRFingers2
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATRClavicle/CATRArm/CATRForearm/CATRHand/CATRThumb1
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATRClavicle/CATRArm/CATRForearm/CATRHand/CATRThumb1/CATRThumb2
+        weight: 1
+      - path: Armature/Head_slot
+        weight: 1
+      - path: Armature/Head_slot/NPC_Beard_008
+        weight: 1
+      - path: Armature/Head_slot/NPC_Hair_009
+        weight: 1
+      - path: Armature/LBracers_slot
+        weight: 1
+      - path: Armature/LShoulders_slot
+        weight: 1
+      - path: Armature/RBracers_slot
+        weight: 1
+      - path: Armature/RShoulders_slot
+        weight: 1
+      - path: Armature/ShieldBow_Slot
+        weight: 1
+      - path: Armature/WeaponSlot
+        weight: 1
+      - path: Armature/WeaponSlot/Cylinder
+        weight: 1
+      - path: Character001
+        weight: 1
+      - path: NPC_Man_Normal001
+        weight: 1
+      - path: Particle_View_001
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Begin_mine
+      takeName: Default Take
+      firstFrame: 480
+      lastFrame: 485
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Armature
+        weight: 1
+      - path: Armature/Backet_Bone
+        weight: 1
+      - path: Armature/CATPelvis
+        weight: 1
+      - path: Armature/CATPelvis/CATLThigh
+        weight: 1
+      - path: Armature/CATPelvis/CATLThigh/CATLCalf
+        weight: 1
+      - path: Armature/CATPelvis/CATLThigh/CATLCalf/CATLFoot
+        weight: 1
+      - path: Armature/CATPelvis/CATLThigh/CATLCalf/CATLFoot/CATRigLLegDigit11
+        weight: 1
+      - path: Armature/CATPelvis/CATLThigh/CATLCalf/CATLFoot/CATRigLLegDigit11/CATRigLLegDigit12
+        weight: 1
+      - path: Armature/CATPelvis/CATRThigh
+        weight: 1
+      - path: Armature/CATPelvis/CATRThigh/CATRCalf
+        weight: 1
+      - path: Armature/CATPelvis/CATRThigh/CATRCalf/CATRFoot
+        weight: 1
+      - path: Armature/CATPelvis/CATRThigh/CATRCalf/CATRFoot/CATRToe1
+        weight: 1
+      - path: Armature/CATPelvis/CATRThigh/CATRCalf/CATRFoot/CATRToe1/CATRToe2
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATLClavicle
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATLClavicle/CATLArm
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATLClavicle/CATLArm/CATLForearm
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATLClavicle/CATLArm/CATLForearm/CATLHand
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATLClavicle/CATLArm/CATLForearm/CATLHand/CATLFingers1
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATLClavicle/CATLArm/CATLForearm/CATLHand/CATLFingers1/CATLFingers2
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATLClavicle/CATLArm/CATLForearm/CATLHand/CATLThumb1
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATLClavicle/CATLArm/CATLForearm/CATLHand/CATLThumb1/CATLThumb2
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATNeck
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATNeck/CATHead
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATRClavicle
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATRClavicle/CATRArm
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATRClavicle/CATRArm/CATRForearm
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATRClavicle/CATRArm/CATRForearm/CATRHand
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATRClavicle/CATRArm/CATRForearm/CATRHand/CATRFingers1
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATRClavicle/CATRArm/CATRForearm/CATRHand/CATRFingers1/CATRFingers2
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATRClavicle/CATRArm/CATRForearm/CATRHand/CATRThumb1
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATRClavicle/CATRArm/CATRForearm/CATRHand/CATRThumb1/CATRThumb2
+        weight: 1
+      - path: Armature/Head_slot
+        weight: 1
+      - path: Armature/Head_slot/NPC_Beard_008
+        weight: 1
+      - path: Armature/Head_slot/NPC_Hair_009
+        weight: 1
+      - path: Armature/LBracers_slot
+        weight: 1
+      - path: Armature/LShoulders_slot
+        weight: 1
+      - path: Armature/RBracers_slot
+        weight: 1
+      - path: Armature/RShoulders_slot
+        weight: 1
+      - path: Armature/ShieldBow_Slot
+        weight: 1
+      - path: Armature/WeaponSlot
+        weight: 1
+      - path: Armature/WeaponSlot/Cylinder
+        weight: 1
+      - path: Character001
+        weight: 1
+      - path: NPC_Man_Normal001
+        weight: 1
+      - path: Particle_View_001
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Mine
+      takeName: Default Take
+      firstFrame: 500
+      lastFrame: 519
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 1
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Armature
+        weight: 1
+      - path: Armature/Backet_Bone
+        weight: 1
+      - path: Armature/CATPelvis
+        weight: 1
+      - path: Armature/CATPelvis/CATLThigh
+        weight: 1
+      - path: Armature/CATPelvis/CATLThigh/CATLCalf
+        weight: 1
+      - path: Armature/CATPelvis/CATLThigh/CATLCalf/CATLFoot
+        weight: 1
+      - path: Armature/CATPelvis/CATLThigh/CATLCalf/CATLFoot/CATRigLLegDigit11
+        weight: 1
+      - path: Armature/CATPelvis/CATLThigh/CATLCalf/CATLFoot/CATRigLLegDigit11/CATRigLLegDigit12
+        weight: 1
+      - path: Armature/CATPelvis/CATRThigh
+        weight: 1
+      - path: Armature/CATPelvis/CATRThigh/CATRCalf
+        weight: 1
+      - path: Armature/CATPelvis/CATRThigh/CATRCalf/CATRFoot
+        weight: 1
+      - path: Armature/CATPelvis/CATRThigh/CATRCalf/CATRFoot/CATRToe1
+        weight: 1
+      - path: Armature/CATPelvis/CATRThigh/CATRCalf/CATRFoot/CATRToe1/CATRToe2
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATLClavicle
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATLClavicle/CATLArm
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATLClavicle/CATLArm/CATLForearm
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATLClavicle/CATLArm/CATLForearm/CATLHand
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATLClavicle/CATLArm/CATLForearm/CATLHand/CATLFingers1
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATLClavicle/CATLArm/CATLForearm/CATLHand/CATLFingers1/CATLFingers2
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATLClavicle/CATLArm/CATLForearm/CATLHand/CATLThumb1
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATLClavicle/CATLArm/CATLForearm/CATLHand/CATLThumb1/CATLThumb2
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATNeck
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATNeck/CATHead
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATRClavicle
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATRClavicle/CATRArm
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATRClavicle/CATRArm/CATRForearm
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATRClavicle/CATRArm/CATRForearm/CATRHand
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATRClavicle/CATRArm/CATRForearm/CATRHand/CATRFingers1
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATRClavicle/CATRArm/CATRForearm/CATRHand/CATRFingers1/CATRFingers2
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATRClavicle/CATRArm/CATRForearm/CATRHand/CATRThumb1
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATRClavicle/CATRArm/CATRForearm/CATRHand/CATRThumb1/CATRThumb2
+        weight: 1
+      - path: Armature/Head_slot
+        weight: 1
+      - path: Armature/Head_slot/NPC_Beard_008
+        weight: 1
+      - path: Armature/Head_slot/NPC_Hair_009
+        weight: 1
+      - path: Armature/LBracers_slot
+        weight: 1
+      - path: Armature/LShoulders_slot
+        weight: 1
+      - path: Armature/RBracers_slot
+        weight: 1
+      - path: Armature/RShoulders_slot
+        weight: 1
+      - path: Armature/ShieldBow_Slot
+        weight: 1
+      - path: Armature/WeaponSlot
+        weight: 1
+      - path: Armature/WeaponSlot/Cylinder
+        weight: 1
+      - path: Character001
+        weight: 1
+      - path: NPC_Man_Normal001
+        weight: 1
+      - path: Particle_View_001
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: End_mine
+      takeName: Default Take
+      firstFrame: 535
+      lastFrame: 540
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Armature
+        weight: 1
+      - path: Armature/Backet_Bone
+        weight: 1
+      - path: Armature/CATPelvis
+        weight: 1
+      - path: Armature/CATPelvis/CATLThigh
+        weight: 1
+      - path: Armature/CATPelvis/CATLThigh/CATLCalf
+        weight: 1
+      - path: Armature/CATPelvis/CATLThigh/CATLCalf/CATLFoot
+        weight: 1
+      - path: Armature/CATPelvis/CATLThigh/CATLCalf/CATLFoot/CATRigLLegDigit11
+        weight: 1
+      - path: Armature/CATPelvis/CATLThigh/CATLCalf/CATLFoot/CATRigLLegDigit11/CATRigLLegDigit12
+        weight: 1
+      - path: Armature/CATPelvis/CATRThigh
+        weight: 1
+      - path: Armature/CATPelvis/CATRThigh/CATRCalf
+        weight: 1
+      - path: Armature/CATPelvis/CATRThigh/CATRCalf/CATRFoot
+        weight: 1
+      - path: Armature/CATPelvis/CATRThigh/CATRCalf/CATRFoot/CATRToe1
+        weight: 1
+      - path: Armature/CATPelvis/CATRThigh/CATRCalf/CATRFoot/CATRToe1/CATRToe2
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATLClavicle
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATLClavicle/CATLArm
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATLClavicle/CATLArm/CATLForearm
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATLClavicle/CATLArm/CATLForearm/CATLHand
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATLClavicle/CATLArm/CATLForearm/CATLHand/CATLFingers1
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATLClavicle/CATLArm/CATLForearm/CATLHand/CATLFingers1/CATLFingers2
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATLClavicle/CATLArm/CATLForearm/CATLHand/CATLThumb1
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATLClavicle/CATLArm/CATLForearm/CATLHand/CATLThumb1/CATLThumb2
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATNeck
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATNeck/CATHead
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATRClavicle
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATRClavicle/CATRArm
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATRClavicle/CATRArm/CATRForearm
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATRClavicle/CATRArm/CATRForearm/CATRHand
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATRClavicle/CATRArm/CATRForearm/CATRHand/CATRFingers1
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATRClavicle/CATRArm/CATRForearm/CATRHand/CATRFingers1/CATRFingers2
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATRClavicle/CATRArm/CATRForearm/CATRHand/CATRThumb1
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATRClavicle/CATRArm/CATRForearm/CATRHand/CATRThumb1/CATRThumb2
+        weight: 1
+      - path: Armature/Head_slot
+        weight: 1
+      - path: Armature/Head_slot/NPC_Beard_008
+        weight: 1
+      - path: Armature/Head_slot/NPC_Hair_009
+        weight: 1
+      - path: Armature/LBracers_slot
+        weight: 1
+      - path: Armature/LShoulders_slot
+        weight: 1
+      - path: Armature/RBracers_slot
+        weight: 1
+      - path: Armature/RShoulders_slot
+        weight: 1
+      - path: Armature/ShieldBow_Slot
+        weight: 1
+      - path: Armature/WeaponSlot
+        weight: 1
+      - path: Armature/WeaponSlot/Cylinder
+        weight: 1
+      - path: Character001
+        weight: 1
+      - path: NPC_Man_Normal001
+        weight: 1
+      - path: Particle_View_001
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Eat
+      takeName: Default Take
+      firstFrame: 560
+      lastFrame: 600
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Armature
+        weight: 1
+      - path: Armature/Backet_Bone
+        weight: 1
+      - path: Armature/CATPelvis
+        weight: 1
+      - path: Armature/CATPelvis/CATLThigh
+        weight: 1
+      - path: Armature/CATPelvis/CATLThigh/CATLCalf
+        weight: 1
+      - path: Armature/CATPelvis/CATLThigh/CATLCalf/CATLFoot
+        weight: 1
+      - path: Armature/CATPelvis/CATLThigh/CATLCalf/CATLFoot/CATRigLLegDigit11
+        weight: 1
+      - path: Armature/CATPelvis/CATLThigh/CATLCalf/CATLFoot/CATRigLLegDigit11/CATRigLLegDigit12
+        weight: 1
+      - path: Armature/CATPelvis/CATRThigh
+        weight: 1
+      - path: Armature/CATPelvis/CATRThigh/CATRCalf
+        weight: 1
+      - path: Armature/CATPelvis/CATRThigh/CATRCalf/CATRFoot
+        weight: 1
+      - path: Armature/CATPelvis/CATRThigh/CATRCalf/CATRFoot/CATRToe1
+        weight: 1
+      - path: Armature/CATPelvis/CATRThigh/CATRCalf/CATRFoot/CATRToe1/CATRToe2
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATLClavicle
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATLClavicle/CATLArm
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATLClavicle/CATLArm/CATLForearm
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATLClavicle/CATLArm/CATLForearm/CATLHand
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATLClavicle/CATLArm/CATLForearm/CATLHand/CATLFingers1
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATLClavicle/CATLArm/CATLForearm/CATLHand/CATLFingers1/CATLFingers2
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATLClavicle/CATLArm/CATLForearm/CATLHand/CATLThumb1
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATLClavicle/CATLArm/CATLForearm/CATLHand/CATLThumb1/CATLThumb2
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATNeck
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATNeck/CATHead
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATRClavicle
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATRClavicle/CATRArm
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATRClavicle/CATRArm/CATRForearm
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATRClavicle/CATRArm/CATRForearm/CATRHand
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATRClavicle/CATRArm/CATRForearm/CATRHand/CATRFingers1
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATRClavicle/CATRArm/CATRForearm/CATRHand/CATRFingers1/CATRFingers2
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATRClavicle/CATRArm/CATRForearm/CATRHand/CATRThumb1
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATRClavicle/CATRArm/CATRForearm/CATRHand/CATRThumb1/CATRThumb2
+        weight: 1
+      - path: Armature/Head_slot
+        weight: 1
+      - path: Armature/Head_slot/NPC_Beard_008
+        weight: 1
+      - path: Armature/Head_slot/NPC_Hair_009
+        weight: 1
+      - path: Armature/LBracers_slot
+        weight: 1
+      - path: Armature/LShoulders_slot
+        weight: 1
+      - path: Armature/RBracers_slot
+        weight: 1
+      - path: Armature/RShoulders_slot
+        weight: 1
+      - path: Armature/ShieldBow_Slot
+        weight: 1
+      - path: Armature/WeaponSlot
+        weight: 1
+      - path: Armature/WeaponSlot/Cylinder
+        weight: 1
+      - path: Character001
+        weight: 1
+      - path: NPC_Man_Normal001
+        weight: 1
+      - path: Particle_View_001
+        weight: 1
+      maskType: 0
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Attack
+      takeName: Default Take
+      firstFrame: 620
+      lastFrame: 645
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events: []
+      transformMask:
+      - path: 
+        weight: 1
+      - path: Armature
+        weight: 1
+      - path: Armature/Backet_Bone
+        weight: 1
+      - path: Armature/CATPelvis
+        weight: 1
+      - path: Armature/CATPelvis/CATLThigh
+        weight: 1
+      - path: Armature/CATPelvis/CATLThigh/CATLCalf
+        weight: 1
+      - path: Armature/CATPelvis/CATLThigh/CATLCalf/CATLFoot
+        weight: 1
+      - path: Armature/CATPelvis/CATLThigh/CATLCalf/CATLFoot/CATRigLLegDigit11
+        weight: 1
+      - path: Armature/CATPelvis/CATLThigh/CATLCalf/CATLFoot/CATRigLLegDigit11/CATRigLLegDigit12
+        weight: 1
+      - path: Armature/CATPelvis/CATRThigh
+        weight: 1
+      - path: Armature/CATPelvis/CATRThigh/CATRCalf
+        weight: 1
+      - path: Armature/CATPelvis/CATRThigh/CATRCalf/CATRFoot
+        weight: 1
+      - path: Armature/CATPelvis/CATRThigh/CATRCalf/CATRFoot/CATRToe1
+        weight: 1
+      - path: Armature/CATPelvis/CATRThigh/CATRCalf/CATRFoot/CATRToe1/CATRToe2
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATLClavicle
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATLClavicle/CATLArm
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATLClavicle/CATLArm/CATLForearm
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATLClavicle/CATLArm/CATLForearm/CATLHand
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATLClavicle/CATLArm/CATLForearm/CATLHand/CATLFingers1
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATLClavicle/CATLArm/CATLForearm/CATLHand/CATLFingers1/CATLFingers2
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATLClavicle/CATLArm/CATLForearm/CATLHand/CATLThumb1
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATLClavicle/CATLArm/CATLForearm/CATLHand/CATLThumb1/CATLThumb2
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATNeck
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATNeck/CATHead
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATRClavicle
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATRClavicle/CATRArm
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATRClavicle/CATRArm/CATRForearm
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATRClavicle/CATRArm/CATRForearm/CATRHand
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATRClavicle/CATRArm/CATRForearm/CATRHand/CATRFingers1
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATRClavicle/CATRArm/CATRForearm/CATRHand/CATRFingers1/CATRFingers2
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATRClavicle/CATRArm/CATRForearm/CATRHand/CATRThumb1
+        weight: 1
+      - path: Armature/CATPelvis/CATSpine1/CATSpine2/CATSpine3/CATRClavicle/CATRArm/CATRForearm/CATRHand/CATRThumb1/CATRThumb2
+        weight: 1
+      - path: Armature/Head_slot
+        weight: 1
+      - path: Armature/Head_slot/NPC_Beard_008
+        weight: 1
+      - path: Armature/Head_slot/NPC_Hair_009
+        weight: 1
+      - path: Armature/LBracers_slot
+        weight: 1
+      - path: Armature/LShoulders_slot
+        weight: 1
+      - path: Armature/RBracers_slot
+        weight: 1
+      - path: Armature/RShoulders_slot
+        weight: 1
+      - path: Armature/ShieldBow_Slot
+        weight: 1
+      - path: Armature/WeaponSlot
+        weight: 1
+      - path: Armature/WeaponSlot/Cylinder
         weight: 1
       - path: Character001
         weight: 1
