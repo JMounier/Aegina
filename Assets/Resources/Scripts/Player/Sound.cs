@@ -76,14 +76,22 @@ public class Sound : NetworkBehaviour
         {
             if (this.IsReady(42))
             {
-                this.PlaySound(2f, Random.Range(420, 840), 42, this.Getbiome());
+                AudioClips clip = this.Getbiome();
+                if (clip == AudioClips.Void)
+                    this.PlaySound(2f, Random.Range(30, 60), 42, clip);
+                else
+                    this.PlaySound(2f, Random.Range(420, 840), 42, clip);
             }
         }
         else
         {
             if (this.IsReady(42))
             {
-                this.PlaySound(2f, Random.Range(420, 840), 42, this.Getbiome());
+                AudioClips clip = this.Getbiome();
+                if (clip == AudioClips.Void)
+                    this.PlaySound(2f, Random.Range(30, 60), 42, clip);
+                else
+                    this.PlaySound(2f, Random.Range(420, 840), 42, clip);
             }
         }
     }
@@ -136,12 +144,9 @@ public class Sound : NetworkBehaviour
                     case 0:
                         return AudioClips.Forest;
                     case 1:
-                        return AudioClips.Desert;
-                    case 2:
-                        return AudioClips.Winter;
+                        return AudioClips.Desert;                
                     default:
-                        Debug.Log("bad");
-                        return AudioClips.Forest;
+                        return AudioClips.Winter;
                 }
             }
         return AudioClips.Void;
