@@ -21,7 +21,6 @@ public class Inventory : NetworkBehaviour
     private Transform trans;
     private Sound sound;
     private Item lastUseddItem;
-    private GameObject actualTool;
 
     // Use this for initialization
     void Start()
@@ -70,20 +69,13 @@ public class Inventory : NetworkBehaviour
         if (this.lastUseddItem.ID != this.UsedItem.Items.ID)
         {
             if (this.lastUseddItem is Tool)
-            {               
-                NetworkServer.UnSpawn(this.actualTool);
-                GameObject.Destroy(this.actualTool);            
-            }
+                this.CmdRemoveTool();
+
             this.lastUseddItem = this.UsedItem.Items;
             if (this.UsedItem.Items is Tool)
             {
                 Tool outil = (Tool)this.UsedItem.Items;
-                this.actualTool = GameObject.Instantiate(outil.ToolPrefab, Vector3.zero, Quaternion.Euler(Vector3.zero)) as GameObject;
-                this.actualTool.transform.parent = gameObject.transform.FindChild("Character/Armature/WeaponSlot");
-                this.actualTool.transform.localPosition = outil.ToolPrefab.transform.localPosition;
-                this.actualTool.transform.localRotation = outil.ToolPrefab.transform.localRotation;
-                this.actualTool.transform.localScale = outil.ToolPrefab.transform.localScale;              
-                NetworkServer.Spawn(this.actualTool);            
+                this.CmdSetTool(outil.ID);
             }
         }
     }
@@ -520,10 +512,45 @@ public class Inventory : NetworkBehaviour
     }
 
     /// <summary>
+    /// Met l'outil dans la main du joueur.
+    /// </summary>
+    [Command]
+    private void CmdSetTool(int toolID)
+    {
+        Tool outil = (Tool)ItemDatabase.Find(toolID);
+        GameObject actualTool = GameObject.Instantiate(outil.ToolPrefab, Vector3.zero, Quaternion.Euler(Vector3.zero)) as GameObject;
+        actualTool.transform.parent = gameObject.transform.FindChild("Character/Armature/WeaponSlot");
+        actualTool.transform.localPosition = outil.ToolPrefab.transform.localPosition;
+        actualTool.transform.localRotation = outil.ToolPrefab.transform.localRotation;
+        actualTool.transform.localScale = outil.ToolPrefab.transform.localScale;
+        NetworkServer.Spawn(actualTool);
+        RpcSetTool(actualTool, outil.ToolPrefab.transform.localPosition, outil.ToolPrefab.transform.localRotation, outil.ToolPrefab.transform.localScale);
+    }
+
+    [ClientRpc]
+    public void RpcSetTool(GameObject obj, Vector3 pos, Quaternion rot, Vector3 scale)
+    {
+        obj.transform.parent = gameObject.transform.FindChild("Character/Armature/WeaponSlot");
+        obj.transform.localPosition = pos;
+        obj.transform.localRotation = rot;
+        obj.transform.localScale = scale;
+    }
+
+    /// <summary>
+    /// Retire l'objet dans la main du joueur.
+    /// </summary>
+    [Command]
+    private void CmdRemoveTool()
+    {
+        GameObject actualTool = gameObject.transform.FindChild("Character/Armature/WeaponSlot").GetChild(0).gameObject;
+        NetworkServer.UnSpawn(actualTool);
+        GameObject.Destroy(actualTool);
+    }
+
+    /// <summary>
     /// Informe l'inventaire de la colision avec un loot.
     /// </summary>
     /// <param name="loot"></param>
-    [Client]
     public void DetectLoot(GameObject loot)
     {
         if (isLocalPlayer)
