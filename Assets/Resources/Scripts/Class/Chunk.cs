@@ -74,7 +74,7 @@ public class Chunk : Entity
             rot.y = Random.Range(0, 360);
             if (e is IslandCore)
                 new IslandCore(e as IslandCore).Spawn(ancre.transform.position, Quaternion.Euler(rot), ancre.transform.parent);
-            if (e is Element)
+            else if (e is Element)
                 new Element(e as Element).Spawn(ancre.transform.position, Quaternion.Euler(rot), ancre.transform.parent);
             else
                 new Entity(e).Spawn(ancre.transform.position, Quaternion.Euler(rot), ancre.transform.parent);
