@@ -9,6 +9,7 @@ public class Craft
     private int id; 
     public enum Type
     {
+        None,
         Elementary,
         WorkTop,
         Consumable,
