@@ -14,7 +14,6 @@ public class Sound : NetworkBehaviour
     private float volume = 0.1f;
     private DayNightCycle DN;
 
-
     // Use this for initialization
     void Awake()
     {
@@ -47,8 +46,8 @@ public class Sound : NetworkBehaviour
         if (isLocalPlayer)
         {
             this.PlaySound(AudioClips.Void, 0f, Random.Range(30, 150), 42);
+            this.DN = GameObject.FindObjectOfType<DayNightCycle>();
         }
-        this.DN = gameObject.GetComponentInParent<DayNightCycle>();
     }
 
 
@@ -68,20 +67,23 @@ public class Sound : NetworkBehaviour
                 this.coolDown.RemoveAt(i);
                 n--;
             }
-            i++;
+            else
+            {
+                i++;
+            }
         }
         if (DN.ActualTime < 600)
         {
             if (this.IsReady(42))
             {
-                this.PlaySound(2f, Random.Range(420, 840), 42, AudioClips.Desert, AudioClips.Forest, AudioClips.Winter);
+                this.PlaySound(2f, Random.Range(420, 840), 42, this.Getbiome());
             }
         }
         else
         {
             if (this.IsReady(42))
             {
-                this.PlaySound(2f, Random.Range(420, 840), 42, AudioClips.Desert, AudioClips.Forest, AudioClips.Winter);
+                this.PlaySound(2f, Random.Range(420, 840), 42, this.Getbiome());
             }
         }
     }
@@ -123,9 +125,26 @@ public class Sound : NetworkBehaviour
         }
     }
 
-    public void biome()
+    public AudioClips Getbiome()
     {
-        
+        GameObject character = gameObject.GetComponentInChildren<CharacterCollision>().gameObject;
+        foreach (Collider col in Physics.OverlapBox(character.transform.position, new Vector3(1, 100, 1)))
+            if (col.gameObject.name.Contains("Island"))
+            {
+                switch (col.gameObject.GetComponentInParent<SyncChunk>().BiomeId)
+                {
+                    case 0:
+                        return AudioClips.Forest;
+                    case 1:
+                        return AudioClips.Desert;
+                    case 2:
+                        return AudioClips.Winter;
+                    default:
+                        Debug.Log("bad");
+                        return AudioClips.Forest;
+                }
+            }
+        return AudioClips.Void;
     }
 
     /// <sumary>
