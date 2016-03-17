@@ -390,6 +390,15 @@ public class Inventory : NetworkBehaviour
         }
         return contain_all;
     }
+    /// <summary>
+    /// Verifie si un Craft est possible
+    /// </summary>
+    /// <param name="craft"></param>
+    /// <returns></returns>
+    public bool InventoryContains(Craft craft)
+    {
+       return InventoryContains(craft.Consume);
+    }
 
     /// <summary>
     /// suprime une certaine quantite d'un objet dans l'inventaire
