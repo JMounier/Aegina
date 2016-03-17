@@ -28,6 +28,14 @@ public class Cristal_HUD : NetworkBehaviour
         this.inventory = GetComponentInParent<Inventory>();
     }
     // Update is called once per frame
+    void Update()
+    {
+        this.pos_x = Screen.width / 4;
+        this.pos_y = Screen.height / 4;
+        this.width = Screen.width / 2;
+        this.height = Screen.height / 2;
+        this.space = Screen.height / 25;
+    }
     void OnGUI()
     {
         if (!isLocalPlayer)
@@ -76,6 +84,62 @@ public class Cristal_HUD : NetworkBehaviour
                 }
             }
         }
+        else
+        {
+            rect = new Rect(this.pos_x + 5 * space, this.pos_y + height - 2 * space, 3 * space-5, space);
+            if (GUI.Button(rect, TextDatabase.Activate.GetText(), this.skin.GetStyle("button")))
+            {
+                if (this.inventory.InventoryContains(this.cristal.Needs))
+                {
+                    this.inventory.DeleteItems(this.cristal.Needs);
+                    Activate();
+                }
+            }
+            rect = new Rect(this.pos_x + 8 * space, this.pos_y + height - 2 * space, 3 * space - 5, space);
+            
+            if (GUI.Button(rect, TextDatabase.Activate.GetText(), this.skin.GetStyle("button")))
+            {
+                if (this.inventory.InventoryContains(this.cristal.Needs))
+                {
+                    this.inventory.DeleteItems(this.cristal.Needs);
+                    Activate();
+                }
+            }
+
+            rect = new Rect(this.pos_x + 11 * space, this.pos_y + height - 2 * space, 3 * space-5, space);
+            if (GUI.Button(rect, TextDatabase.Activate.GetText(), this.skin.GetStyle("button")))
+            {
+                if (this.inventory.InventoryContains(this.cristal.Needs))
+                {
+                    this.inventory.DeleteItems(this.cristal.Needs);
+                    Activate();
+                }
+            }
+
+            
+        }
+
+        for (int i = 0; i < 5; i++)
+        {
+            rect = new Rect(this.pos_x + 5 * space, this.pos_y + height - (4 + 2 * i) * space + i * space / 2, 3 * space - 5, space);
+            GUI.Box(rect, "", this.cristal.LevelAtk >= i + 1 ? skin.GetStyle("Slot") : skin.GetStyle("Inventory"));
+        }
+
+        for (int i = 0; i < 5; i++)
+        {
+            rect = new Rect(this.pos_x + 8 * space, this.pos_y + height - (4 + 2 * i) * space + i * space / 2, 3 * space - 5, space);
+            GUI.Box(rect, "", this.cristal.LevelProd >= i + 1 ? skin.GetStyle("Slot") : skin.GetStyle("Inventory"));
+        }
+        for (int i = 0; i < 5; i++)
+        {
+            rect = new Rect(this.pos_x + 11 * space, this.pos_y + height - (4 + 2 * i) * space + i * space / 2, 3 * space - 5, space);
+            GUI.Box(rect, "", this.cristal.LevelPortal >= i + 1 ? skin.GetStyle("Slot") : skin.GetStyle("Inventory"));
+        }
+        for (int i = 0; i < 3; i++)
+        {
+            rect = new Rect(this.pos_x + (5 + 3 * i) * space, this.pos_y + height - 12 * space, 3 * space - 5, space);
+            GUI.Box(rect, i.ToString(), skin.GetStyle("Tooltip"));
+        }
     }
 
     /// <summary>
@@ -100,6 +164,7 @@ public class Cristal_HUD : NetworkBehaviour
             {
                 this.CmdSetLevelAtk(2, this.cristal.gameObject);
             }
+
         }
     }
 
