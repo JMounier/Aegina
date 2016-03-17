@@ -59,6 +59,15 @@ public class Inventory : NetworkBehaviour
 
     void Update()
     {
+        if (!isLocalPlayer)
+            return;
+        this.size_inventory = Screen.width / 22;
+        this.size_toolbar = Screen.width / 20;
+        this.pos_x_inventory = (Screen.width - this.columns * this.size_inventory) / 2;
+        this.pos_y_inventory = (int)((Screen.height - (this.rows + 0.5f) * this.size_inventory) / 2);
+        this.pos_x_toolbar = (Screen.width - this.columns * this.size_toolbar) / 2;
+        this.pos_y_toolbar = Screen.height - this.size_toolbar;
+
         if (this.lastUseddItem.ID != this.UsedItem.Items.ID)
         {
             if (this.lastUseddItem is Tool)
@@ -255,10 +264,10 @@ public class Inventory : NetworkBehaviour
                 if (this.slots[i, j].Items.ID != -1)
                 {
                     // Dessin de l'item + quantite
-                    rect.x += this.size_inventory / 7;
-                    rect.y += this.size_inventory / 7;
-                    rect.width -= this.size_inventory / 3.5f;
-                    rect.height -= this.size_inventory / 3.5f;
+                    rect.x += this.size_inventory / 5;
+                    rect.y += this.size_inventory / 5;
+                    rect.width -= this.size_inventory / 2.5f;
+                    rect.height -= this.size_inventory / 2.5f;
                     GUI.DrawTexture(rect, this.slots[i, j].Items.Icon);
                     if (this.slots[i, j].Quantity > 1)
                         GUI.Box(rect, this.slots[i, j].Quantity.ToString(), this.skin.GetStyle("quantity"));
@@ -293,10 +302,10 @@ public class Inventory : NetworkBehaviour
 
             if (this.slots[this.rows - 1, i].Items.ID != -1)
             {
-                rect.x += this.size_toolbar / 7;
-                rect.y += this.size_toolbar / 7;
-                rect.width -= this.size_toolbar / 3.5f;
-                rect.height -= this.size_toolbar / 3.5f;
+                rect.x += this.size_inventory / 5;
+                rect.y += this.size_inventory / 5;
+                rect.width -= this.size_inventory / 2.5f;
+                rect.height -= this.size_inventory / 2.5f;
                 GUI.DrawTexture(rect, this.slots[this.rows - 1, i].Items.Icon);
                 if (this.slots[this.rows - 1, i].Quantity != 1)
                     GUI.Box(rect, this.slots[this.rows - 1, i].Quantity.ToString(), this.skin.GetStyle("quantity"));
