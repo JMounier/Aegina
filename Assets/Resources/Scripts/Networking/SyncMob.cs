@@ -14,14 +14,19 @@ public class SyncMob : NetworkBehaviour
     // Use this for initialization
     void Start()
     {
-        this.goal = gameObject.transform.position;
-        this.path = new List<Vector3>();
-        this.anim = gameObject.GetComponent<Animator>();
+        if (isServer)
+        {
+            this.goal = gameObject.transform.position;
+            this.path = new List<Vector3>();
+            this.anim = gameObject.GetComponent<Animator>();
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (!isServer)
+            return;
         /*
                 --------------------------
                |    Deplacement du mob    |
