@@ -2,31 +2,34 @@
 using System.Collections;
 using System.Collections.Generic;
 
+
+
 /// <summary>
 /// Utiliser cette classe pour creer une nouvelle element (Objet 3D avec lequel on interagit).
 /// </summary>
 public class Element : Entity
 {
+    public enum TypeElement { None, Tree, Rock, Small };
     protected DropConfig[] dropConfigs;
-    protected int armor;
+    protected TypeElement type;
 
     // Constructor
     public Element() : base()
     {
         this.dropConfigs = new DropConfig[0];
-        this.armor = 0;
+        this.type = TypeElement.None;
     }
 
     public Element(Element element) : base(element)
     {
         this.dropConfigs = element.dropConfigs;
-        this.armor = element.armor;
+        this.type = element.type;
     }
 
-    public Element(int id, int life, GameObject prefab, int armor, params DropConfig[] dropConfigs) : base(id, life, prefab)
+    public Element(int id, int life, GameObject prefab, TypeElement type, params DropConfig[] dropConfigs) : base(id, life, prefab)
     {
         this.dropConfigs = dropConfigs;
-        this.armor = armor;
+        this.type = type;
     }
 
     // Methods
@@ -38,27 +41,72 @@ public class Element : Entity
         foreach (var dc in this.dropConfigs)
         {
             Vector3 projection = new Vector3(Random.Range(-1f, 1f), Random.Range(0, 1f), Random.Range(-1f, 1f));
-            dc.I.Spawn(prefab.transform.position, projection, dc.Quantity);
+            new Item(dc.I).Spawn(prefab.transform.position, projection, dc.Quantity);
         }
         base.Kill();
     }
 
-    // Getters & Setters
     /// <summary>
-    /// Les point d'armure de l'element.
+    /// Instancie l'entite dans le monde. (Must be server!)
     /// </summary>
-    public int Armor
+    public override void Spawn()
     {
-        get { return this.armor; }
-        set { this.armor = value; }
+        base.Spawn();
+        base.prefab.GetComponent<SyncElement>().Elmt = new Element(this);
     }
 
+    /// <summary>
+    /// Instancie l'entite dans le monde avec une position. (Must be server!)
+    /// </summary>
+    public override void Spawn(Vector3 pos)
+    {
+        base.Spawn(pos);
+        base.prefab.GetComponent<SyncElement>().Elmt = new Element(this);
+    }
+
+    /// <summary>
+    /// Instancie l'entite dans le monde avec une position et un parent. (Must be server!)
+    /// </summary>
+    public override void Spawn(Vector3 pos, Transform parent)
+    {
+        base.Spawn(pos, parent);
+        base.prefab.GetComponent<SyncElement>().Elmt = new Element(this);
+    }
+
+    /// <summary>
+    /// Instancie l'entite dans le monde avec une position et une rotation. (Must be server!)
+    /// </summary>
+    public override void Spawn(Vector3 pos, Quaternion rot)
+    {
+        base.Spawn(pos, rot);
+        base.prefab.GetComponent<SyncElement>().Elmt = new Element(this);
+    }
+
+    /// <summary>
+    /// Instancie l'entite dans le monde avec une position et une rotation et un parent. (Must be server!)
+    /// </summary>
+    public override void Spawn(Vector3 pos, Quaternion rot, Transform parent)
+    {
+        base.Spawn(pos, rot, parent);
+        base.prefab.GetComponent<SyncElement>().Elmt = new Element(this);
+    }
+
+
+    // Getters & Setters
     /// <summary>
     /// Les loots spawnable a la mort de l'element.
     /// </summary>
     public DropConfig[] DropConfigs
     {
         get { return this.dropConfigs; }
+    }
+
+    /// <summary>
+    /// Le type d'element.
+    /// </summary>
+    public TypeElement Type
+    {
+        get { return this.type; }
     }
 }
 
@@ -129,22 +177,4 @@ public class DropConfig
     {
         get { return Random.Range(this.min, this.max + 1); }
     }
-}
-
-public class Tree : Element
-{
-    public Tree() : base() { }
-
-    public Tree(Tree tree) : base(tree) { }
-
-    public Tree(int id, int life, GameObject prefab, int armor, params DropConfig[] dropConfigs) : base(id, life, prefab, armor, dropConfigs) { }
-}
-
-public class Rock : Element
-{
-    public Rock() : base() { }
-
-    public Rock(Rock rock) : base(rock) { }
-
-    public Rock(int id, int life, GameObject prefab, int armor, params DropConfig[] dropConfigs) : base(id, life, prefab, armor, dropConfigs) { }
 }

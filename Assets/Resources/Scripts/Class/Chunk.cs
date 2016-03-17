@@ -58,10 +58,8 @@ public class Chunk : Entity
                     }
                     else if (ancre.CompareTag("MainAncre"))
                     {
-                        if (this.isPrisme)
-                        {
-                            this.GenerateEntity(new Element(EntityDatabase.IslandCore as Element), ancre.gameObject);
-                        }
+                        if (this.isPrisme)                        
+                            this.GenerateEntity(EntityDatabase.IslandCore, ancre.gameObject);                        
                         else
                             this.GenerateEntity(this.b.Chose(), ancre.gameObject);
                     }
@@ -74,7 +72,12 @@ public class Chunk : Entity
         {
             Vector3 rot = e.Prefab.transform.eulerAngles;
             rot.y = Random.Range(0, 360);
-            e.Spawn(ancre.transform.position, Quaternion.Euler(rot), ancre.transform.parent);
+            if (e is IslandCore)
+                new IslandCore(e as IslandCore).Spawn(ancre.transform.position, Quaternion.Euler(rot), ancre.transform.parent);
+            if (e is Element)
+                new Element(e as Element).Spawn(ancre.transform.position, Quaternion.Euler(rot), ancre.transform.parent);
+            else
+                new Entity(e).Spawn(ancre.transform.position, Quaternion.Euler(rot), ancre.transform.parent);
         }
         GameObject.Destroy(ancre);
     }

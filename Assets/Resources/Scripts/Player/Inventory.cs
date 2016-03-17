@@ -45,7 +45,6 @@ public class Inventory : NetworkBehaviour
         this.lastUseddItem = new Item();
 
         // Premiere soutenance objets de bases
-        this.AddItemStack(new ItemStack(new Item(ItemDatabase.Stone), 42), false);
         this.AddItemStack(new ItemStack(new Item(ItemDatabase.Log), 64), false);
         this.AddItemStack(new ItemStack(new Item(ItemDatabase.Log), 64), false);
         this.AddItemStack(new ItemStack(new Item(ItemDatabase.Log), 64), false);
@@ -562,7 +561,7 @@ public class Inventory : NetworkBehaviour
     {
         if (isLocalPlayer)
         {
-            ItemStack itemS = new ItemStack(new Item(ItemDatabase.Find(id)), quantity);
+            ItemStack itemS = new ItemStack(ItemDatabase.Find(id), quantity);
             AddItemStack(itemS);
             CmdSetQuantity(itemS.Quantity, loot, gameObject.GetComponentInChildren<CharacterCollision>().transform.position);
         }

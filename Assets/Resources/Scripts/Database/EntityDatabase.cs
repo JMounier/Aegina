@@ -33,24 +33,24 @@ public static class EntityDatabase
     public static readonly Entity SunkiumPickaxe = new Entity(57, 60, Resources.Load<GameObject>("Prefabs/Loots/SunkiumPickaxe"));
 
     // SmallElements
-    public static readonly Element Branch = new Element(90, 100, Resources.Load<GameObject>("Prefabs/Elements/SmallElements/Branch"), 1);
-    public static readonly Element ForestFlower = new Element(91, 100, Resources.Load<GameObject>("Prefabs/Elements/SmallElements/ForestFlower"), 1);
-    public static readonly Element IceFlower = new Element(92, 100, Resources.Load<GameObject>("Prefabs/Elements/SmallElements/IceFlower"), 1);
-    public static readonly Element SmallCactus = new Element(93, 100, Resources.Load<GameObject>("Prefabs/Elements/SmallElements/SmallCactus"), 1);
-    public static readonly Element LittleRock = new Element(93, 100, Resources.Load<GameObject>("Prefabs/Elements/SmallElements/LittleRock"), 1);
+    public static readonly Element Branch = new Element(90, 100, Resources.Load<GameObject>("Prefabs/Elements/SmallElements/Branch"), Element.TypeElement.Small);
+    public static readonly Element ForestFlower = new Element(91, 100, Resources.Load<GameObject>("Prefabs/Elements/SmallElements/ForestFlower"), Element.TypeElement.Small);
+    public static readonly Element IceFlower = new Element(92, 100, Resources.Load<GameObject>("Prefabs/Elements/SmallElements/IceFlower"), Element.TypeElement.Small);
+    public static readonly Element SmallCactus = new Element(93, 100, Resources.Load<GameObject>("Prefabs/Elements/SmallElements/SmallCactus"), Element.TypeElement.Small);
+    public static readonly Element LittleRock = new Element(93, 100, Resources.Load<GameObject>("Prefabs/Elements/SmallElements/LittleRock"), Element.TypeElement.Small);
 
     // Tree
-    public static readonly Tree Fir = new Tree(100, 100, Resources.Load<GameObject>("Prefabs/Elements/Trees/Fir"), 1);
-    public static readonly Tree SnowFir = new Tree(101, 100, Resources.Load<GameObject>("Prefabs/Elements/Trees/SnowFir"), 1);
-    public static readonly Tree Cactus = new Tree(102, 100, Resources.Load<GameObject>("Prefabs/Elements/Trees/Cactus"), 1);
-    public static readonly Tree Oak = new Tree(103, 100, Resources.Load<GameObject>("Prefabs/Elements/Trees/Oak"), 1);
-    public static readonly Tree SnowOak = new Tree(104, 100, Resources.Load<GameObject>("Prefabs/Elements/Trees/SnowOak"), 1);
+    public static readonly Element Fir = new Element(100, 100, Resources.Load<GameObject>("Prefabs/Elements/Trees/Fir"), Element.TypeElement.Tree, new DropConfig(ItemDatabase.Find(0), 1, 5));
+    public static readonly Element SnowFir = new Element(101, 100, Resources.Load<GameObject>("Prefabs/Elements/Trees/SnowFir"), Element.TypeElement.Tree);
+    public static readonly Element Cactus = new Element(102, 100, Resources.Load<GameObject>("Prefabs/Elements/Trees/Cactus"), Element.TypeElement.Tree);
+    public static readonly Element Oak = new Element(103, 100, Resources.Load<GameObject>("Prefabs/Elements/Trees/Oak"), Element.TypeElement.Tree);
+    public static readonly Element SnowOak = new Element(104, 100, Resources.Load<GameObject>("Prefabs/Elements/Trees/SnowOak"), Element.TypeElement.Tree);
 
     // Rock
-    public static readonly Rock StoneRock = new Rock(110, 100, Resources.Load<GameObject>("Prefabs/Elements/Rocks/Stone"), 1);
+    public static readonly Element StoneRock = new Element(110, 100, Resources.Load<GameObject>("Prefabs/Elements/Rocks/Stone"), Element.TypeElement.Rock, new DropConfig(ItemDatabase.Find(1), 1, 5));
 
     // IslandCore
-    public static readonly Element IslandCore = new Element(142, 100, Resources.Load<GameObject>("Prefabs/Elements/Cristals/IslandCore"), 0);
+    public static readonly IslandCore IslandCore = new IslandCore(142, Resources.Load<GameObject>("Prefabs/Elements/Cristals/IslandCore"), Team.Neutre, 0, 0, 0);
 
     // Mobs
     public static readonly Mob Boar = new Mob(500, 100, Resources.Load<GameObject>("Prefabs/Mobs/Boar"), 5, 10, 10, 1f, 1.5f);
@@ -106,15 +106,6 @@ public static class EntityDatabase
             yield return FloatiumPickaxe;
             yield return SunkiumPickaxe;
 
-
-            // Tree
-            foreach (Tree tree in Trees)
-                yield return tree;
-
-            // Rocks
-            foreach (Rock rock in Rocks)
-                yield return rock;
-
             // Chunk
             foreach (Chunk chunk in Chunks)
                 yield return chunk;
@@ -143,35 +134,18 @@ public static class EntityDatabase
             yield return SmallCactus;
             yield return LittleRock;
 
-
-            // IslandCore
-            yield return IslandCore;
-        }
-    }
-
-    /// <summary>
-    /// Liste tous les arbres du jeu. (Utilisez avec foreach)
-    /// </summary>
-    public static IEnumerable<Tree> Trees
-    {
-        get
-        {
+            // Tree
             yield return Fir;
             yield return SnowFir;
             yield return Cactus;
             yield return Oak;
             yield return SnowOak;
-        }
-    }
 
-    /// <summary>
-    /// Liste tous les roches du jeu. (Utilisez avec foreach)
-    /// </summary>
-    public static IEnumerable<Rock> Rocks
-    {
-        get
-        {
+            // Rocks
             yield return StoneRock;
+
+            // IslandCore
+            yield return IslandCore;
         }
     }
 
@@ -230,14 +204,12 @@ public static class EntityDatabase
         {
             if (i.ID == id)
             {
-                if (i is Tree)
-                    return new Tree((Tree)i);
-                else if (i is Rock)
-                    return new Rock((Rock)i);
-                else if (i is Chunk)
+                if (i is Chunk)
                     return new Chunk((Chunk)i);
                 else if (i is IslandCore)
                     return new IslandCore((IslandCore)i);
+                else if (i is Element)
+                    return new Element((Element)i);
                 else
                     return new Entity(i);
             }
