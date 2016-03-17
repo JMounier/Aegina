@@ -6,7 +6,8 @@ public class Craft
     private ItemStack product;
     private ItemStack[] consume;
     private bool fire, workbench, forge, brewer;
-    private int id; 
+    private int id;
+    private bool secret;
     public enum Type
     {
         None,
@@ -28,7 +29,7 @@ public class Craft
     /// <param name="forge"></param>
     /// <param name="brewer"></param>
     /// <param name="consume"></param>
-    public Craft(int id, ItemStack product, bool fire, bool workbench, bool forge, bool brewer, Type what, params ItemStack[] consume)
+    public Craft(int id, ItemStack product, bool fire, bool workbench, bool forge, bool brewer,bool secret, Type what, params ItemStack[] consume)
     {
         this.id = id;
         this.product = product;
@@ -38,6 +39,7 @@ public class Craft
         this.forge = forge;
         this.brewer = brewer;
         this.what = what;
+        this.secret = secret;
     }
     public Craft(Type what)
     {
@@ -49,6 +51,7 @@ public class Craft
         this.forge = false;
         this.brewer = false;
         this.what = what;
+        this.secret = false;
     }
     // Getters
     public ItemStack Product
