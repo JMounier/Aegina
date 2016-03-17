@@ -29,23 +29,23 @@ public static class ItemDatabase
     public static readonly Item SunkiumIngot = new Item(14, TextDatabase.SunkiumIngot, TextDatabase.SunkiumIngotDescription, 64, Resources.Load<Texture2D>("Sprites/Items/Ingots/SunkiumIngot"), new Entity(EntityDatabase.SunkiumIngot));
 
     // Tools
-    public static readonly Pickaxe WoodenPickaxe = new Pickaxe(50, TextDatabase.WoodenPickaxe, TextDatabase.WoodenPickaxeDescription, 50, 2, Resources.Load<Texture2D>("Sprites/Items/Tools/WoodenPickaxe"), new Entity());
-    public static readonly Pickaxe StonePickaxe = new Pickaxe(51, TextDatabase.StonePickaxe, TextDatabase.StonePickaxeDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/StonePickaxe"), new Entity());
-    public static readonly Pickaxe CopperPickaxe = new Pickaxe(52, TextDatabase.CopperPickaxe, TextDatabase.CopperPickaxeDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/CopperPickaxe"), new Entity(EntityDatabase.CopperPickaxe));
-    public static readonly Pickaxe IronPickaxe = new Pickaxe(53, TextDatabase.IronPickaxe, TextDatabase.IronPickaxeDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/IronPickaxe"), new Entity(EntityDatabase.IronPickaxe));
-    public static readonly Pickaxe GoldPickaxe = new Pickaxe(54, TextDatabase.GoldPickaxe, TextDatabase.GoldPickaxeDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/GoldPickaxe"), new Entity(EntityDatabase.GoldPickaxe));
-    public static readonly Pickaxe MithrilPickaxe = new Pickaxe(55, TextDatabase.MithrilPickaxe, TextDatabase.MithrilPickaxeDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/MithrilPickaxe"), new Entity(EntityDatabase.MithrilPickaxe));
-    public static readonly Pickaxe FloatiumPickaxe = new Pickaxe(56, TextDatabase.FloatiumPickaxe, TextDatabase.FloatiumPickaxeDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/FloatiumPickaxe"), new Entity(EntityDatabase.FloatiumPickaxe));
-    public static readonly Pickaxe SunkiumPickaxe = new Pickaxe(57, TextDatabase.SunkiumPickaxe, TextDatabase.SunkiumPickaxeDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/SunkiumPickaxe"), new Entity(EntityDatabase.SunkiumPickaxe));
+    public static readonly Pickaxe WoodenPickaxe = new Pickaxe(50, TextDatabase.WoodenPickaxe, TextDatabase.WoodenPickaxeDescription, 50, 2, Resources.Load<Texture2D>("Sprites/Items/Tools/WoodenPickaxe"), new Entity(), null);
+    public static readonly Pickaxe StonePickaxe = new Pickaxe(51, TextDatabase.StonePickaxe, TextDatabase.StonePickaxeDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/StonePickaxe"), new Entity(), null);
+    public static readonly Pickaxe CopperPickaxe = new Pickaxe(52, TextDatabase.CopperPickaxe, TextDatabase.CopperPickaxeDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/CopperPickaxe"), new Entity(EntityDatabase.CopperPickaxe), Resources.Load<GameObject>("Prefabs/Tools/Pickaxes/CopperPickaxe"));
+    public static readonly Pickaxe IronPickaxe = new Pickaxe(53, TextDatabase.IronPickaxe, TextDatabase.IronPickaxeDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/IronPickaxe"), new Entity(EntityDatabase.IronPickaxe), null);
+    public static readonly Pickaxe GoldPickaxe = new Pickaxe(54, TextDatabase.GoldPickaxe, TextDatabase.GoldPickaxeDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/GoldPickaxe"), new Entity(EntityDatabase.GoldPickaxe), null);
+    public static readonly Pickaxe MithrilPickaxe = new Pickaxe(55, TextDatabase.MithrilPickaxe, TextDatabase.MithrilPickaxeDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/MithrilPickaxe"), new Entity(EntityDatabase.MithrilPickaxe), null);
+    public static readonly Pickaxe FloatiumPickaxe = new Pickaxe(56, TextDatabase.FloatiumPickaxe, TextDatabase.FloatiumPickaxeDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/FloatiumPickaxe"), new Entity(EntityDatabase.FloatiumPickaxe), null);
+    public static readonly Pickaxe SunkiumPickaxe = new Pickaxe(57, TextDatabase.SunkiumPickaxe, TextDatabase.SunkiumPickaxeDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/SunkiumPickaxe"), new Entity(EntityDatabase.SunkiumPickaxe), null);
 
-    public static readonly Axe WoodenAxe = new Axe(60, TextDatabase.WoodenAxe, TextDatabase.WoodenAxeDescription, 50, 2, Resources.Load<Texture2D>("Sprites/Items/Tools/WoodenAxe"), new Entity());
-    public static readonly Axe StoneAxe = new Axe(61, TextDatabase.StoneAxe, TextDatabase.StoneAxeDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/StoneAxe"), new Entity());
-    public static readonly Axe CopperAxe = new Axe(62, TextDatabase.CopperAxe, TextDatabase.CopperAxeDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/Copperaxe"), new Entity());
-    public static readonly Axe IronAxe = new Axe(63, TextDatabase.IronAxe, TextDatabase.IronAxeDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/Ironaxe"), new Entity());
-    public static readonly Axe GoldAxe = new Axe(64, TextDatabase.GoldAxe, TextDatabase.GoldAxeDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/Goldaxe"), new Entity());
-    public static readonly Axe MithrilAxe = new Axe(65, TextDatabase.MithrilAxe, TextDatabase.MithrilAxeDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/Mithrilaxe"), new Entity());
-    public static readonly Axe FloatiumAxe = new Axe(66, TextDatabase.FloatiumAxe, TextDatabase.FloatiumAxeDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/Floatiumaxe"), new Entity());
-    public static readonly Axe SunkiumAxe = new Axe(67, TextDatabase.SunkiumAxe, TextDatabase.SunkiumAxeDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/Sunkiumaxe"), new Entity());
+    public static readonly Axe WoodenAxe = new Axe(60, TextDatabase.WoodenAxe, TextDatabase.WoodenAxeDescription, 50, 2, Resources.Load<Texture2D>("Sprites/Items/Tools/WoodenAxe"), new Entity(), null);
+    public static readonly Axe StoneAxe = new Axe(61, TextDatabase.StoneAxe, TextDatabase.StoneAxeDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/StoneAxe"), new Entity(), null);
+    public static readonly Axe CopperAxe = new Axe(62, TextDatabase.CopperAxe, TextDatabase.CopperAxeDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/Copperaxe"), new Entity(), null);
+    public static readonly Axe IronAxe = new Axe(63, TextDatabase.IronAxe, TextDatabase.IronAxeDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/Ironaxe"), new Entity(), null);
+    public static readonly Axe GoldAxe = new Axe(64, TextDatabase.GoldAxe, TextDatabase.GoldAxeDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/Goldaxe"), new Entity(), null);
+    public static readonly Axe MithrilAxe = new Axe(65, TextDatabase.MithrilAxe, TextDatabase.MithrilAxeDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/Mithrilaxe"), new Entity(), null);
+    public static readonly Axe FloatiumAxe = new Axe(66, TextDatabase.FloatiumAxe, TextDatabase.FloatiumAxeDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/Floatiumaxe"), new Entity(), null);
+    public static readonly Axe SunkiumAxe = new Axe(67, TextDatabase.SunkiumAxe, TextDatabase.SunkiumAxeDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/Sunkiumaxe"), new Entity(), null);
 
     /// <summary>
     /// Liste tous les items du jeu. (Utilisez avec foreach)
