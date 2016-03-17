@@ -36,6 +36,15 @@ public class SyncCore : SyncElement
     {
         gameObject.transform.Rotate(Vector3.up, 0.25f);
         gameObject.transform.Translate(Vector3.up * 0.005f * (Mathf.Sin(Time.time)));
+        
+    }
+    void NeedUpdate()
+    {
+        this.levelTot = this.levelProd + this.levelAttack + this.levelPortal;
+        if (this.levelTot != 0)
+        {
+            this.needs = new ItemStack[6] { new ItemStack(ItemDatabase.Iron, 10 * levelTot), new ItemStack(ItemDatabase.Gold, 5 * levelTot), new ItemStack(ItemDatabase.Copper, 10 * levelTot), new ItemStack(ItemDatabase.Mithril, 3 * levelTot), new ItemStack(ItemDatabase.Floatium, 3 * levelTot), new ItemStack(ItemDatabase.Sunkium, levelTot) };
+        }
     }
 
     #region Getters
@@ -93,24 +102,28 @@ public class SyncCore : SyncElement
     private void CmdSetLevelTot(int level)
     {
         this.levelTot = level;
+        NeedUpdate();
     }
     [Command]
     public void CmdSetLevelProd(int level)
     {
         this.levelProd = level;
         this.CmdSetLevelTot(level + this.levelAttack + this.levelPortal);
+        NeedUpdate();
     }
     [Command]
     public void CmdSetLevelAtk(int level)
     {
         this.levelAttack = level;
         this.CmdSetLevelTot(level + this.levelProd + this.levelPortal);
+        NeedUpdate();
     }
     [Command]
     public void CmdSetLevelPort(int level)
     {
         this.levelPortal = level;
         this.CmdSetLevelTot(level + this.levelAttack + this.levelProd);
+        NeedUpdate();
     }
 
     #endregion
