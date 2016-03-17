@@ -12,6 +12,8 @@ public class Sound : NetworkBehaviour
     private List<float[]> coolDown = new List<float[]>();
     private static AudioClip[] AudioclipArray;
     private float volume = 0.1f;
+    private DayNightCycle DN;
+
 
     // Use this for initialization
     void Awake()
@@ -46,6 +48,7 @@ public class Sound : NetworkBehaviour
         {
             this.PlaySound(AudioClips.Void, 0f, Random.Range(30, 150), 42);
         }
+        this.DN = gameObject.GetComponentInParent<DayNightCycle>();
     }
 
 
@@ -67,10 +70,19 @@ public class Sound : NetworkBehaviour
             }
             i++;
         }
-
-        if (this.IsReady(42))
+        if (DN.ActualTime < 600)
         {
-            this.PlaySound(2f, Random.Range(420, 840), 42, AudioClips.Desert, AudioClips.Forest, AudioClips.Winter);
+            if (this.IsReady(42))
+            {
+                this.PlaySound(2f, Random.Range(420, 840), 42, AudioClips.Desert, AudioClips.Forest, AudioClips.Winter);
+            }
+        }
+        else
+        {
+            if (this.IsReady(42))
+            {
+                this.PlaySound(2f, Random.Range(420, 840), 42, AudioClips.Desert, AudioClips.Forest, AudioClips.Winter);
+            }
         }
     }
     /// <sumary>
@@ -109,6 +121,11 @@ public class Sound : NetworkBehaviour
             this.source.PlayOneShot(AudioclipArray[(int)clips[Random.Range(0, clips.Length)]], vol);
             this.coolDown.Add(new float[2] { idCoolDown, coolDown });
         }
+    }
+
+    public void biome()
+    {
+        
     }
 
     /// <sumary>
