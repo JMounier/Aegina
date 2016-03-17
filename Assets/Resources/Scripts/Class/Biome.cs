@@ -71,7 +71,7 @@ public class Biome
             sum += sc.Ratio;
             if (rand < sum)
             {
-                return new Entity(sc.E);
+                return sc.E;
             }
         }
         throw new System.Exception("Biome.Chose : Weird rand");

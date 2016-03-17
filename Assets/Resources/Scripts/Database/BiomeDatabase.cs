@@ -10,21 +10,21 @@ public static class BiomeDatabase
 
     // Biome forest
     public static readonly Biome Forest = new Biome(0, Resources.Load<Material>("Models/Islands/Materials/Forest"), Resources.Load<Material>("Models/Islands/Materials/Forest_Rock"),
-        new SpawnConfig(new Entity(), .5f), new SpawnConfig(new Entity(EntityDatabase.Fir), 1), new SpawnConfig(new Entity(EntityDatabase.StoneRock), 1),
-        new SpawnConfig(new Entity(EntityDatabase.Oak), 2), new SpawnConfig(new Entity(EntityDatabase.ForestFlower), 1), new SpawnConfig(new Entity(EntityDatabase.Branch), 1),
-        new SpawnConfig(new Entity(EntityDatabase.LittleRock), 1));
+        new SpawnConfig(new Entity(), .5f), new SpawnConfig(EntityDatabase.Fir, 1), new SpawnConfig(EntityDatabase.StoneRock, 1),
+        new SpawnConfig(EntityDatabase.Oak, 2), new SpawnConfig(EntityDatabase.ForestFlower, 1), new SpawnConfig(EntityDatabase.Branch, 1),
+        new SpawnConfig(EntityDatabase.LittleRock, 1));
 
 
     // Biome Desert
     public static readonly Biome Desert = new Biome(1, Resources.Load<Material>("Models/Islands/Materials/Desert"), Resources.Load<Material>("Models/Islands/Materials/Desert_Rock"),
-        new SpawnConfig(new Entity(), 1f), new SpawnConfig(new Entity(EntityDatabase.Cactus), 1), new SpawnConfig(new Entity(EntityDatabase.StoneRock), 1),
-        new SpawnConfig(new Entity(EntityDatabase.SmallCactus), 1.5f), new SpawnConfig(new Entity(EntityDatabase.Branch), 2), new SpawnConfig(new Entity(EntityDatabase.LittleRock), 1));
+        new SpawnConfig(new Entity(), 1f), new SpawnConfig(EntityDatabase.Cactus, 1), new SpawnConfig(EntityDatabase.StoneRock, 1),
+        new SpawnConfig(EntityDatabase.SmallCactus, 1.5f), new SpawnConfig(EntityDatabase.Branch, 2), new SpawnConfig(EntityDatabase.LittleRock, 1));
 
 
     // Biome Ice
     public static readonly Biome Ice = new Biome(2, Resources.Load<Material>("Models/Islands/Materials/Ice"), Resources.Load<Material>("Models/Islands/Materials/Ice_Rock"),
-        new SpawnConfig(new Entity(), .5f), new SpawnConfig(new Entity(EntityDatabase.SnowFir), 3), new SpawnConfig(new Entity(EntityDatabase.StoneRock), 1),
-        new SpawnConfig(new Entity(EntityDatabase.SnowOak), 2), new SpawnConfig(new Entity(EntityDatabase.IceFlower), 1), new SpawnConfig(new Entity(EntityDatabase.LittleRock), 1));
+        new SpawnConfig(new Entity(), .5f), new SpawnConfig(EntityDatabase.SnowFir, 3), new SpawnConfig(EntityDatabase.StoneRock, 1),
+        new SpawnConfig(EntityDatabase.SnowOak, 2), new SpawnConfig(EntityDatabase.IceFlower, 1), new SpawnConfig(EntityDatabase.LittleRock, 1));
 
 
     /// <summary>

@@ -124,19 +124,7 @@ public static class ItemDatabase
     /// </summary>
     public static Item Find(int id)
     {
-        foreach (Item i in Items)
-        {
-            if (i.ID == id && i.Meta == 0)
-            {
-                if (i is Pickaxe)
-                    return new Pickaxe((Pickaxe)i);
-                else if (i is Axe)
-                    return new Axe((Axe)i);
-                else
-                    return new Item(i);
-            }
-        }
-        throw new System.Exception("Items.Find : Item not find");
+        return Find(id, 0);
     }
 
     /// <summary>
@@ -152,6 +140,8 @@ public static class ItemDatabase
                     return new Pickaxe((Pickaxe)i);
                 else if (i is Axe)
                     return new Axe((Axe)i);
+                else if (i is Sword)
+                    return new Sword((Sword)i);
                 else
                     return new Item(i);
             }

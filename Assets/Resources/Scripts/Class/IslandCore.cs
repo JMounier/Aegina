@@ -38,7 +38,7 @@ public class IslandCore : Element
         this.level_portal = cristal.level_portal;
     }
 
-    public IslandCore(int id, GameObject prefab, Team team, int level_attack, int level_prod, int level_portal) : base(id, 100, prefab, 1)
+    public IslandCore(int id, GameObject prefab, Team team, int level_attack, int level_prod, int level_portal) : base(id, 100, prefab, TypeElement.None)
     {
         this.t = team;
         this.level_attack = level_attack;

@@ -72,9 +72,9 @@ public class InputManager : NetworkBehaviour
                     mat.shader = Shader.Find("Standard");
 
             // Mettre le nouveau outline
-            if (this.nearElement != null)            
+            if (this.nearElement != null)
                 foreach (Material mat in this.nearElement.GetComponentInChildren<MeshRenderer>().materials)
-                    mat.shader = Shader.Find("Outlined");            
+                    mat.shader = Shader.Find("Outlined");
         }
 
         // Gestion Input
@@ -102,6 +102,8 @@ public class InputManager : NetworkBehaviour
                 this.cristalHUD.Cristal_shown = true;
                 this.controller.Pause = true;
             }
+            else if (this.nearElement != null && this.nearElement.GetComponent<SyncElement>() != null)
+                this.CmdInteractElement(this.nearElement.gameObject, this.inventaire.UsedItem.Items.ID);
         }
 
         if (Input.GetButtonDown("Cancel"))
@@ -178,5 +180,16 @@ public class InputManager : NetworkBehaviour
                     this.inventaire.UsedItem = new ItemStack();
             }
         }
+    }
+    [Command]
+    private void CmdInteractElement(GameObject element, int toolId)
+    {
+        Element elmt = element.GetComponent<SyncElement>().Elmt;
+        if (elmt.Type == Element.TypeElement.Small)
+            elmt.Life = 0;
+        else if (elmt.Type == Element.TypeElement.Rock && ItemDatabase.Find(toolId) is Pickaxe)
+            elmt.Life = 0;
+        else if (elmt.Type == Element.TypeElement.Tree && ItemDatabase.Find(toolId) is Axe)
+            elmt.Life = 0;
     }
 }
