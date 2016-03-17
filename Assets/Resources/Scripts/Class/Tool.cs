@@ -12,7 +12,7 @@ public class Tool : Item
     protected int miningEfficiency;
     protected int choppingEfficiency;
     protected GameObject toolPrefab;
-    
+
 
     // Constructors
     public Tool() : base()
@@ -35,7 +35,7 @@ public class Tool : Item
         this.toolPrefab = tool.toolPrefab;
     }
 
-    public Tool(int id, Text name, Text description, int durability, int damage, int miningEfficiency, int choppingEfficiency, Texture2D icon, Entity ent, GameObject toolPrefab) : 
+    public Tool(int id, Text name, Text description, int durability, int damage, int miningEfficiency, int choppingEfficiency, Texture2D icon, Entity ent, GameObject toolPrefab) :
         base(id, name, description, 1, icon, ent)
     {
         this.durability = durability;
@@ -108,6 +108,7 @@ public class Tool : Item
     /// </summary>
     public GameObject ToolPrefab
     {
+        set { this.toolPrefab = value; }
         get { return this.toolPrefab; }
     }
 }
@@ -119,14 +120,16 @@ public class Axe : Tool
 {
     // Constructors
     public Axe() : base() { }
-    
+
     public Axe(Axe axe) : base(axe) { }
 
     public Axe(int id, Text name, Text description, int durability, int efficiency, Texture2D icon, Entity ent, GameObject toolPrefab) :
-       base(id, name, description, durability, 5, 1, efficiency, icon, ent, toolPrefab) { }
+       base(id, name, description, durability, 5, 1, efficiency, icon, ent, toolPrefab)
+    { }
 
     public Axe(int id, int meta, Text name, Text description, int durability, int efficiency, Texture2D icon, Entity ent, GameObject toolPrefab) :
-       base(id, meta, name, description, durability, 5, 1, efficiency, icon, ent, toolPrefab) { }
+       base(id, meta, name, description, durability, 5, 1, efficiency, icon, ent, toolPrefab)
+    { }
 }
 
 /// <summary>
@@ -139,7 +142,8 @@ public class Pickaxe : Tool
     public Pickaxe(Pickaxe pickaxe) : base(pickaxe) { }
 
     public Pickaxe(int id, Text name, Text description, int durability, int efficiency, Texture2D icon, Entity ent, GameObject toolPrefab) :
-       base(id, name, description, durability, 3, efficiency, 1, icon, ent, toolPrefab) { }
+       base(id, name, description, durability, 3, efficiency, 1, icon, ent, toolPrefab)
+    { }
 
     public Pickaxe(int id, int meta, Text name, Text description, int durability, int efficiency, Texture2D icon, Entity ent, GameObject toolPrefab) :
        base(id, meta, name, description, durability, 3, efficiency, 1, icon, ent, toolPrefab)
@@ -156,5 +160,6 @@ public class Sword : Tool
     public Sword(Sword sword) : base(sword) { }
 
     public Sword(int id, int meta, Text name, Text description, int durability, int damage, Texture2D icon, Entity ent, GameObject toolPrefab) :
-       base(id, meta, name, description, durability, damage, 1, 1, icon, ent, toolPrefab) { }
+       base(id, meta, name, description, durability, damage, 1, 1, icon, ent, toolPrefab)
+    { }
 }
