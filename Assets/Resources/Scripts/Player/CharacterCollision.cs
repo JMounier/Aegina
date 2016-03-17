@@ -23,6 +23,6 @@ public class CharacterCollision : MonoBehaviour
     {
         foreach (Collider col in Physics.OverlapSphere(gameObject.transform.position, 1))
             if (col.CompareTag("Loot") && (col.GetType() == typeof(MeshCollider) || col.GetType() == typeof(BoxCollider)))
-                inventoryScript.CmdDetectLoot(col.gameObject);            
+                inventoryScript.DetectLoot(col.gameObject);            
     }
 }

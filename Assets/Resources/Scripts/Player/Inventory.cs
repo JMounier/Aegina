@@ -68,9 +68,9 @@ public class Inventory : NetworkBehaviour
 
         if (this.lastUseddItem.ID != this.UsedItem.Items.ID)
         {
-            if (this.lastUseddItem is Tool)            
+            if (this.lastUseddItem is Tool)
                 this.CmdRemoveTool();
-            
+
             this.lastUseddItem = this.UsedItem.Items;
             if (this.UsedItem.Items is Tool)
             {
@@ -524,6 +524,16 @@ public class Inventory : NetworkBehaviour
         actualTool.transform.localRotation = outil.ToolPrefab.transform.localRotation;
         actualTool.transform.localScale = outil.ToolPrefab.transform.localScale;
         NetworkServer.Spawn(actualTool);
+        RpcSetTool(actualTool, outil.ToolPrefab.transform.localPosition, outil.ToolPrefab.transform.localRotation, outil.ToolPrefab.transform.localScale);
+    }
+
+    [ClientRpc]
+    public void RpcSetTool(GameObject obj, Vector3 pos, Quaternion rot, Vector3 scale)
+    {
+        obj.transform.parent = gameObject.transform.FindChild("Character/Armature/WeaponSlot");
+        obj.transform.localPosition = pos;
+        obj.transform.localRotation = rot;
+        obj.transform.localScale = scale;
     }
 
     /// <summary>
@@ -541,8 +551,7 @@ public class Inventory : NetworkBehaviour
     /// Informe l'inventaire de la colision avec un loot.
     /// </summary>
     /// <param name="loot"></param>
-    [Command]
-    public void CmdDetectLoot(GameObject loot)
+    public void DetectLoot(GameObject loot)
     {
         if (isLocalPlayer)
             CmdGetItemStack(loot);
