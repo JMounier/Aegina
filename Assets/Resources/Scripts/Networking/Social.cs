@@ -51,7 +51,7 @@ public class Social : NetworkBehaviour
             {
                 if (player != null && !gameObject.Equals(player))
                 {
-                    Social other = player.GetComponent<Social>();
+                    Social other = player.GetComponent<Social>();                  
                     if (Vector3.Distance(player.GetComponentInChildren<CharacterCollision>().transform.position, gameObject.GetComponentInChildren<CharacterCollision>().transform.position) < 10)
                     {
                         other.GetComponent<Social>().nameTextMesh.gameObject.SetActive(true);
