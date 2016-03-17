@@ -12,6 +12,7 @@ public class Sound : NetworkBehaviour
     private List<float[]> coolDown = new List<float[]>();
     private static AudioClip[] AudioclipArray;
     private float volume = 0.1f;
+    private DayNightCycle DN;
 
     // Use this for initialization
     void Awake()
@@ -45,6 +46,7 @@ public class Sound : NetworkBehaviour
         if (isLocalPlayer)
         {
             this.PlaySound(AudioClips.Void, 0f, Random.Range(30, 150), 42);
+            this.DN = GameObject.FindObjectOfType<DayNightCycle>();
         }
     }
 
@@ -65,12 +67,32 @@ public class Sound : NetworkBehaviour
                 this.coolDown.RemoveAt(i);
                 n--;
             }
-            i++;
+            else
+            {
+                i++;
+            }
         }
-
-        if (this.IsReady(42))
+        if (DN.ActualTime < 600)
         {
-            this.PlaySound(2f, Random.Range(420, 840), 42, AudioClips.Desert, AudioClips.Forest, AudioClips.Winter);
+            if (this.IsReady(42))
+            {
+                AudioClips clip = this.Getbiome();
+                if (clip == AudioClips.Void)
+                    this.PlaySound(2f, Random.Range(30, 60), 42, clip);
+                else
+                    this.PlaySound(2f, Random.Range(420, 840), 42, clip);
+            }
+        }
+        else
+        {
+            if (this.IsReady(42))
+            {
+                AudioClips clip = this.Getbiome();
+                if (clip == AudioClips.Void)
+                    this.PlaySound(2f, Random.Range(30, 60), 42, clip);
+                else
+                    this.PlaySound(2f, Random.Range(420, 840), 42, clip);
+            }
         }
     }
     /// <sumary>
@@ -109,6 +131,25 @@ public class Sound : NetworkBehaviour
             this.source.PlayOneShot(AudioclipArray[(int)clips[Random.Range(0, clips.Length)]], vol);
             this.coolDown.Add(new float[2] { idCoolDown, coolDown });
         }
+    }
+
+    public AudioClips Getbiome()
+    {
+        GameObject character = gameObject.GetComponentInChildren<CharacterCollision>().gameObject;
+        foreach (Collider col in Physics.OverlapBox(character.transform.position, new Vector3(1, 100, 1)))
+            if (col.gameObject.name.Contains("Island"))
+            {
+                switch (col.gameObject.GetComponentInParent<SyncChunk>().BiomeId)
+                {
+                    case 0:
+                        return AudioClips.Forest;
+                    case 1:
+                        return AudioClips.Desert;                
+                    default:
+                        return AudioClips.Winter;
+                }
+            }
+        return AudioClips.Void;
     }
 
     /// <sumary>
