@@ -15,7 +15,7 @@ public static class CraftDatabase
     public static readonly Craft CutStone = new Craft(Craft.Type.Elementary);
     public static readonly Craft CopperIngot = new Craft(Craft.Type.Elementary);
     public static readonly Craft IronIngot = new Craft(10, new ItemStack(ItemDatabase.IronIngot, 1), false, false, true, false, false,Craft.Type.Elementary, new ItemStack(ItemDatabase.Iron, 3));
-    public static readonly Craft GoldIngot = new Craft(Craft.Type.Elementary);
+    public static readonly Craft GoldIngot = new Craft(11, new ItemStack(ItemDatabase.GoldIngot, 1), false, false, true, false, false, Craft.Type.Elementary, new ItemStack(ItemDatabase.Gold, 3));
     public static readonly Craft MithrilIngot = new Craft(Craft.Type.Elementary);
     public static readonly Craft FLoatiumIngot = new Craft(Craft.Type.Elementary);
     public static readonly Craft SunkiumIngot= new Craft(Craft.Type.Elementary);
