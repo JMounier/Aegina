@@ -119,12 +119,23 @@ public static class ItemDatabase
         }
     }
 
+   
+
     /// <summary>
     /// Retourne l'item correspondant a l'identifiant. (La copie)
     /// </summary>
     public static Item Find(int id)
     {
         return Find(id, 0);
+    }
+
+    /// <summary>
+    /// Retourne l'item correspondant au nom anglais. (La copie)
+    /// Ne fait pas attention a la casse.
+    /// </summary>
+    public static Item Find(string name)
+    {
+        return Find(name, 0);
     }
 
     /// <summary>
@@ -135,6 +146,29 @@ public static class ItemDatabase
         foreach (Item i in Items)
         {
             if (i.ID == id && i.Meta == meta)
+            {
+                if (i is Pickaxe)
+                    return new Pickaxe((Pickaxe)i);
+                else if (i is Axe)
+                    return new Axe((Axe)i);
+                else if (i is Sword)
+                    return new Sword((Sword)i);
+                else
+                    return new Item(i);
+            }
+        }
+        throw new System.Exception("Items.Find : Item not find");
+    }
+
+    /// <summary>
+    /// Retourne l'item correspondant au nom anglais et au metadonnee. (La copie)
+    /// Ne fait pas attention a la casse.
+    /// </summary>
+    public static Item Find(string name, int meta)
+    {
+        foreach (Item i in Items)
+        {
+            if (i.NameText.GetText(SystemLanguage.English).ToLower() == name.ToLower() && i.Meta == meta)
             {
                 if (i is Pickaxe)
                     return new Pickaxe((Pickaxe)i);

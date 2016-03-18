@@ -166,6 +166,20 @@ public class DayNightCycle : NetworkBehaviour
     }
 
     /// <summary>
+    /// Retourne si il fait jour ou nuit.
+    /// </summary>
+    public bool isDay
+    {
+        get
+        {
+            if (this.actual_time < this.cycleTime / 2)
+                return true;
+            return false;
+
+        }
+    }
+
+    /// <summary>
     /// Changer l'heure actuel de la journee. (Must be Server!)
     /// </summary>    
     public void SetTime(float time)
