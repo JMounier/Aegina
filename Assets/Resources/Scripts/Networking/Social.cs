@@ -107,7 +107,13 @@ public class Social : NetworkBehaviour
             textChat += str + "\n";
         GUI.Box(new Rect(this.posX, this.posY - Screen.height * 0.3f, Screen.width * 0.3f, Screen.height * 0.3f), textChat, this.skin.GetStyle("chat"));
     }
-       
+    void OnPlayerDisconnected(NetworkPlayer player)
+    {
+        Debug.Log("Clean up after player " + player);
+        Network.RemoveRPCs(player);
+        Network.DestroyPlayerObjects(player);
+    }
+
     /// <summary>
     /// Valid le message entre par l'utilisateur
     /// </summary>
@@ -140,7 +146,7 @@ public class Social : NetworkBehaviour
                 // HELP
                 case "/help":
                     sender.GetComponent<Social>().RpcReceiveMsg("<color=green>---This is the list of commands---</color>\n" +
-                        "/time <value> \n/give <player> <id> [quantity] \n/msg <player> <message> \n/tp <player>");
+                        "/time <value> \n/give <player> <id> [quantity] \n/msg <player> <message> \n/tp <player>\n/kick <player>");
                     break;
 
                 // TIME
@@ -257,6 +263,24 @@ public class Social : NetworkBehaviour
                         sender.GetComponent<Social>().RpcReceiveMsg("<color=red>Usage: /tp <player></color>");
                     }
                     break;
+                case "/kick":
+                    try
+                    {
+                        foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
+                            if (player.GetComponent<Social>().namePlayer.ToLower() == cmd[1].ToLower())
+                            {
+                                player.GetComponent<Social>().RpcKickPlayer();
+                                foreach (GameObject p in GameObject.FindGameObjectsWithTag("Player"))
+                                    p.GetComponent<Social>().RpcReceiveMsg(this.namePlayer + " kick " + cmd[1] + ".");
+                                return;
+                            }
+                        sender.GetComponent<Social>().RpcReceiveMsg("<color=red>Player " + cmd[1] + " doesn't find.</color>");
+                    }
+                    catch
+                    {
+                        sender.GetComponent<Social>().RpcReceiveMsg("<color=red>Usage: /kick <player></color>");
+                    }
+                    break;
                 default:
                     sender.GetComponent<Social>().RpcReceiveMsg("<color=red>Unknow command. Try /help for a list of commands.</color>");
                     break;
@@ -275,6 +299,15 @@ public class Social : NetworkBehaviour
     private void CmdSetName(string name)
     {
         this.namePlayer = name;
+    }
+
+    [ClientRpc]
+    private void RpcKickPlayer()
+    {
+        if (isLocalPlayer && isServer)
+            GameObject.Find("NetworkManager").GetComponent<NetworkManager>().StopHost();
+        else if (isLocalPlayer)
+            GameObject.Find("NetworkManager").GetComponent<NetworkManager>().StopClient();
     }
 
     /// <summary>

@@ -101,6 +101,15 @@ public class Inventory : NetworkBehaviour
         }
     }
 
+    public override void OnStartClient()
+    {
+        foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
+        {
+            player.GetComponent<Inventory>().CmdRemoveTool();
+            player.GetComponent<Inventory>().lastUseddItem = new Item();
+        }
+    }
+
     /// <summary>
     /// S'occupe de toute les interractions entre la souris et l'inventaire, permet le drag and drop et dessinne la tooltip.
     /// </summary>
@@ -542,9 +551,12 @@ public class Inventory : NetworkBehaviour
     [Command]
     private void CmdRemoveTool()
     {
-        GameObject actualTool = gameObject.transform.FindChild("Character/Armature/WeaponSlot").GetChild(0).gameObject;
-        NetworkServer.UnSpawn(actualTool);
-        GameObject.Destroy(actualTool);
+        if (gameObject.transform.FindChild("Character/Armature/WeaponSlot").childCount > 0)
+        {
+            GameObject actualTool = gameObject.transform.FindChild("Character/Armature/WeaponSlot").GetChild(0).gameObject;
+            NetworkServer.UnSpawn(actualTool);
+            GameObject.Destroy(actualTool);
+        }
     }
 
     /// <summary>
