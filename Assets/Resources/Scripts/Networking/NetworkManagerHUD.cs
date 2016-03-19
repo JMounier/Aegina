@@ -44,7 +44,14 @@ namespace UnityEngine.Networking
             if (playerName == "")
                 this.showGUI = false;
         }
-               
+
+        void OnPlayerDisconnected(NetworkPlayer networkPlayer)
+        {
+            // TO DO (Verifier si cette fct est bien appelle...)
+            Network.RemoveRPCs(networkPlayer);
+            Network.DestroyPlayerObjects(networkPlayer);
+        }
+
         void OnGUI()
         {
             if (!showGUI)
@@ -118,7 +125,7 @@ namespace UnityEngine.Networking
                     this.DrawCharacter();
             }
         }
-
+                
         private string RemoveSpecialCharacter(string str)
         {
             string newstr = "";
