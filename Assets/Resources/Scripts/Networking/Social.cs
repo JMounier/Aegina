@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine.Networking;
 using System;
 
-public enum Activity { Connection, Deconnection, Death };
+public enum Activity { Connection, Death };
 
 public class Social : NetworkBehaviour
 {
@@ -21,6 +21,7 @@ public class Social : NetworkBehaviour
     private int logIndex = 0;
 
     private string[] chat = new string[5] { "\n", "\n", "\n", "\n", "\n" };
+    private string[] playerList = new string[0];
 
     // Use this for initialization
     void Start()
@@ -35,6 +36,7 @@ public class Social : NetworkBehaviour
             this.skin.GetStyle("chat").fontSize = (int)(Screen.height * 0.025f);
             this.skin.GetStyle("chat").alignment = TextAnchor.LowerLeft;
             this.skin.GetStyle("chat").fontStyle = FontStyle.Normal;
+            this.skin.GetStyle("chat").normal.textColor = Color.grey;
             this.skin.textField.fontSize = (int)(Screen.height * 0.025f);
 
             // PlayerName
@@ -52,6 +54,7 @@ public class Social : NetworkBehaviour
         {
             // Set rotation of name well
             foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
+            {
                 if (player != null && !gameObject.Equals(player))
                 {
                     Social other = player.GetComponent<Social>();
@@ -65,6 +68,18 @@ public class Social : NetworkBehaviour
                     else
                         other.GetComponent<Social>().nameTextMesh.gameObject.SetActive(false);
                 }
+            }
+            
+            // Update the list of players
+            List<string> playerList = new List<string>();
+            foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
+                playerList.Add(player.GetComponent<Social>().namePlayer);
+            if (playerList.Count < this.playerList.Length)
+                foreach (string name in this.playerList)
+                    if (!playerList.Contains(name))
+                        foreach (GameObject p in GameObject.FindGameObjectsWithTag("Player"))
+                            p.GetComponent<Social>().RpcReceiveMsg("<color=grey>* <i>" + name + "</i> leave the game.</color>");
+            this.playerList = playerList.ToArray();
         }
     }
 
@@ -73,13 +88,9 @@ public class Social : NetworkBehaviour
         if (!isLocalPlayer)
             return;
 
-        if (GameObject.Find("Map").GetComponent<DayNightCycle>().isDay)
-            this.skin.GetStyle("chat").normal.textColor = Color.black;
-        else
-            this.skin.GetStyle("chat").normal.textColor = Color.white;
-
+        // Display chat
         if (this.chatShown)
-        {
+        {            
             GUI.SetNextControlName("Chat");
             this.msg = GUI.TextField(new Rect(this.posX, this.posY, Screen.width * 0.3f, Screen.height * 0.04f), this.msg, 200, this.skin.textField);
 
@@ -106,12 +117,17 @@ public class Social : NetworkBehaviour
         foreach (string str in this.chat)
             textChat += str + "\n";
         GUI.Box(new Rect(this.posX, this.posY - Screen.height * 0.3f, Screen.width * 0.3f, Screen.height * 0.3f), textChat, this.skin.GetStyle("chat"));
-    }
-    void OnPlayerDisconnected(NetworkPlayer player)
-    {
-        Debug.Log("Clean up after player " + player);
-        Network.RemoveRPCs(player);
-        Network.DestroyPlayerObjects(player);
+
+        // Display list of players
+        if (Input.GetButton("ListPlayer"))
+        {
+            float y = 0;
+            foreach (string name in this.playerList)
+            {
+                GUI.Box(new Rect(Screen.width/2 - Screen.width * 0.075f, y, Screen.width * 0.15f, Screen.height * 0.04f), name, this.skin.GetStyle("button"));
+                y += Screen.height * 0.04f;
+            }
+        }
     }
 
     /// <summary>
@@ -301,6 +317,9 @@ public class Social : NetworkBehaviour
         this.namePlayer = name;
     }
 
+    /// <summary>
+    /// Deconnecte le joueur du serveur.
+    /// </summary>
     [ClientRpc]
     private void RpcKickPlayer()
     {
@@ -309,7 +328,7 @@ public class Social : NetworkBehaviour
         else if (isLocalPlayer)
             GameObject.Find("NetworkManager").GetComponent<NetworkManager>().StopClient();
     }
-
+       
     /// <summary>
     /// Envoi une nouvel activite au server
     /// </summary>
@@ -328,10 +347,6 @@ public class Social : NetworkBehaviour
             case Activity.Death:
                 foreach (GameObject p in GameObject.FindGameObjectsWithTag("Player"))
                     p.GetComponent<Social>().RpcReceiveMsg("<color=grey>* <i>" + this.namePlayer + "</i> died.</color>");
-                break;
-            case Activity.Deconnection:
-                foreach (GameObject p in GameObject.FindGameObjectsWithTag("Player"))
-                    p.GetComponent<Social>().RpcReceiveMsg("<color=grey>* <i>" + this.namePlayer + "</i> leave the game.</color>");
                 break;
             default:
                 throw new System.ArgumentException("Activity is not valid");
@@ -387,5 +402,19 @@ public class Social : NetworkBehaviour
             else
                 this.msg = log[this.logIndex];
         }
+    }
+}
+
+public class NetworkManagerBis : NetworkManager
+{
+    void OnDisconnectedFromServer(NetworkDisconnection info)
+    {
+        if (Network.isServer)
+            Debug.Log("Local server connection disconnected");
+        else
+            if (info == NetworkDisconnection.LostConnection)
+            Debug.Log("Lost connection to the server");
+        else
+            Debug.Log("Successfully diconnected from the server");
     }
 }

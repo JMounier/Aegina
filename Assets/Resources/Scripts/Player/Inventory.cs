@@ -679,7 +679,12 @@ public class Inventory : NetworkBehaviour
     public int Cursors
     {
         get { return this.cursor; }
-        set { this.cursor = value % this.columns; }
+        set
+        {
+            this.cursor = value % this.columns;
+            if (this.cursor < 0)
+                this.cursor += this.columns;
+        }
     }
 
     /// <summary>
