@@ -86,10 +86,18 @@ public static class PathFinding
         // Methods
         public void Insert(int key, object value)
         {
-            int i = 0;
-            while (i < this.size && key > this.heap[i].Item1)
-                i++;
-            this.heap.Insert(i, new Tuple<int, object>(key, value));
+            int d = 0;
+            int f = this.size - 1;
+            int m;
+            while (d <= f)
+            {
+                m = (d + f) / 2;
+                if (key > this.heap[m].Item1)
+                    d = m + 1;
+                else
+                    f = m - 1;
+            }
+            this.heap.Insert(d, new Tuple<int, object>(key, value));
             this.size++;
         }
 
