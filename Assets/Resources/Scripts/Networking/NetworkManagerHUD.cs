@@ -324,7 +324,7 @@ namespace UnityEngine.Networking
                 int i;
                 for (i = 0; i < Mathf.Min(worldsList.Count, 3); i++)
                 {
-                    Rect rect = new Rect(this.posX, this.posY + (1 + i) * spacing, this.width, this.height);
+                    Rect rect = new Rect(this.posX, this.posY + (1 + i) * spacing - (3 - i) * 6, this.width, this.height * 2 + 5);
                     if (GUI.Button(rect, worldsList[(i + worldindex) % worldsList.Count], world == worldsList[(i + worldindex) % worldsList.Count] ? skin.GetStyle("slot") : skin.GetStyle("Button")))
                     {
                         world = worldsList[(i + worldindex) % worldsList.Count];
@@ -382,8 +382,8 @@ namespace UnityEngine.Networking
                 int i = 0;
                 for (i = 0; i < Mathf.Min(3, ipList.Count); i++)
                 {
-                    Rect rect = new Rect(this.posX, this.posY + (2 + i) * spacing, this.width, this.height);
-                    if (GUI.Button(rect, PlayerPrefs.GetString(ipList[(i + ipindex) % ipList.Count]), this.manager.networkAddress == ipList[(i + ipindex) % ipList.Count] ? skin.GetStyle("slot") : skin.GetStyle("Button")))
+                    Rect rect = new Rect(this.posX, this.posY + (2 + i) * spacing-(3-i)*6, this.width, this.height*2+5);
+                    if (GUI.Button(rect, PlayerPrefs.GetString(ipList[(i + ipindex) % ipList.Count])+"\n"+ipList[(i + ipindex) % ipList.Count], this.manager.networkAddress == ipList[(i + ipindex) % ipList.Count] ? skin.GetStyle("slot") : skin.GetStyle("Button")))
                     {
                         this.manager.networkAddress = ipList[(i + ipindex) % ipList.Count];
                         this.firstScene.PlayButtonSound();
@@ -425,7 +425,7 @@ namespace UnityEngine.Networking
                 rectarrow = new Rect(this.posX + this.width + 10, this.posY + (Mathf.Min(4, worldsList.Count + 1)) * spacing, this.spacing / 2, this.spacing / 2);
                 if (GUI.Button(rectarrow, "\\/", skin.GetStyle("button")))
                 {
-                    worldindex = (ipindex + 1) % ipList.Count;
+                    ipindex = (ipindex + 1) % ipList.Count;
                     this.firstScene.PlayButtonSound();
                 }
             }
