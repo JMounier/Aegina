@@ -83,7 +83,7 @@ namespace UnityEngine.Networking
                 worldsList[i] = worldsList[i].Remove(0, Application.dataPath.Length + 7);
             }
             int j = 0;
-            while (PlayerPrefs.GetString("ip" + j.ToString(), " ") != " ")
+            while (PlayerPrefs.GetString("ip" + j.ToString(), "") != "")
             {
                 ipList.Add(PlayerPrefs.GetString("ip" + j.ToString()));
                 j++;
@@ -156,6 +156,7 @@ namespace UnityEngine.Networking
                     {
                         this.firstScene.PlayButtonSound();
                         this.Launch(TypeLaunch.Stop);
+                        this.manager.networkAddress = "localhost";
                     }
                     GUI.Box(new Rect(this.posX, this.posY + this.spacing / 2, this.width, this.height * 2.5f), "<color=white>" + TextDatabase.Loading.GetText() + "</color>", this.skin.GetStyle("chat"));
                 }
@@ -331,7 +332,7 @@ namespace UnityEngine.Networking
                         this.firstScene.PlayButtonSound();
                     }
                 }
-                Rect rect1 = new Rect(this.posX, this.posY + (1 + i) * spacing, this.width / 2 - 10, this.height);
+                Rect rect1 = new Rect(this.posX, this.posY + (1 + i) * spacing, this.width / 3 - 5, this.height);
                 if (GUI.Button(rect1, TextDatabase.Play.GetText(), skin.GetStyle("button")))
                 {
                     if (world != "")
@@ -341,12 +342,22 @@ namespace UnityEngine.Networking
                     }
                     this.firstScene.PlayButtonSound();
                 }
-                rect1 = new Rect(this.posX + this.width * .5f + 10, this.posY + (1 + i) * spacing, this.width / 2 - 10, this.height);
+                rect1 = new Rect(this.posX + this.width * .33f + 5, this.posY + (1 + i) * spacing, this.width / 3 - 5, this.height);
                 if (GUI.Button(rect1, "Create", skin.GetStyle("button")))
                 {
                     worldsShown = false;
                     worldcreateShown = true;
                     this.firstScene.PlayButtonSound();
+                }
+                rect1 = new Rect(this.posX + this.width * .66f + 10, this.posY + (1 + i) * spacing, this.width / 3 - 5, this.height);
+                if (GUI.Button(rect1,"Delete",skin.GetStyle("button")))
+                {
+                    worldsList.Remove(world);
+                    foreach (string file in Directory.GetFiles(Application.dataPath+"/saves/"+world))
+                    {
+                        File.Delete(file);
+                    }
+                    Directory.Delete(Application.dataPath + "/Saves/" + world);
                 }
             }
             else
@@ -389,7 +400,7 @@ namespace UnityEngine.Networking
                         this.firstScene.PlayButtonSound();
                     }
                 }
-                Rect rect1 = new Rect(this.posX, this.posY + (2 + i) * spacing, this.width / 2 - 10, this.height);
+                Rect rect1 = new Rect(this.posX, this.posY + (2 + i) * spacing, this.width / 3 - 5, this.height);
                 if (GUI.Button(rect1, TextDatabase.Join.GetText(), skin.GetStyle("button")))
                 {
                     if (this.manager.networkAddress != "")
@@ -399,12 +410,27 @@ namespace UnityEngine.Networking
                     }
                     this.firstScene.PlayButtonSound();
                 }
-                rect1 = new Rect(this.posX + this.width * .5f + 10, this.posY + (2 + i) * spacing, this.width / 2 - 10, this.height);
+                rect1 = new Rect(this.posX + this.width * .33f + 5, this.posY + (2 + i) * spacing, this.width / 3 - 5, this.height);
                 if (GUI.Button(rect1, "Create", skin.GetStyle("button")))
                 {
                     listServShown = false;
                     ipserveurshown = true;
                     this.firstScene.PlayButtonSound();
+                }
+                rect1 = new Rect(this.posX + this.width * .66f + 10, this.posY + (2 + i) * spacing, this.width / 3 - 5, this.height);
+                if (GUI.Button(rect1, "Delete", skin.GetStyle("button")))
+                {
+                    int temp = this.ipList.IndexOf(this.manager.networkAddress);
+                    this.ipList.Remove(this.manager.networkAddress);
+                    for (int k = temp; temp < ipList.Count; k++)
+                    {
+                        PlayerPrefs.SetString("ip" + k, PlayerPrefs.GetString("ip" + (k + 1)));
+                    }
+                    PlayerPrefs.SetString(this.manager.networkAddress, "");
+                    PlayerPrefs.SetString("ip" + ipList.Count, "");
+                    if (ipList.Count == 0)
+                        this.listServShown = false;
+                    
                 }
             }
             else
@@ -412,7 +438,7 @@ namespace UnityEngine.Networking
                 listServShown = false;
                 ipserveurshown = true;
             }
-            if (worldsList.Count > 3)
+            if (ipList.Count > 3)
             {
                 Rect rectarrow = new Rect(this.posX + this.width + 10, this.posY + 2 * spacing, this.spacing / 2, this.spacing / 2);
                 if (GUI.Button(rectarrow, "/\\", skin.GetStyle("button")))
@@ -477,7 +503,6 @@ namespace UnityEngine.Networking
                         System.Random genSeed = new System.Random();
                         System.IO.File.WriteAllText(Application.dataPath + "/Saves/" + this.world + "/properties", (seed == 0 ? genSeed.Next(int.MaxValue) : seed).ToString() + "|300");
                         worldsList.Add(this.world);
-                        this.Launch(TypeLaunch.Host);
                     }
                 }
                 this.firstScene.PlayButtonSound();
@@ -503,14 +528,13 @@ namespace UnityEngine.Networking
             Rect rect = new Rect(this.posX, this.posY + 3 * this.spacing, this.width, this.height);
             if (GUI.Button(rect, "Create", skin.GetStyle("button")))
             {
-                if (newipname != "" && this.manager.networkAddress != "")
+                if (newipname != "" && this.manager.networkAddress != "" && !this.ipList.Contains(this.manager.networkAddress))
                 {
                     this.ipserveurshown = false;
                     PlayerPrefs.SetString("ip" + ipList.Count, this.manager.networkAddress);
                     PlayerPrefs.SetString(this.manager.networkAddress, this.newipname);
                     this.newipname = "Serveur";
                     ipList.Add(this.manager.networkAddress);
-                    this.Launch(TypeLaunch.Client);
                 }
                 this.firstScene.PlayButtonSound();
             }
