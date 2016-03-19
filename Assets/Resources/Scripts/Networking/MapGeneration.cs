@@ -5,14 +5,21 @@ using UnityEngine.Networking;
 public class MapGeneration : NetworkBehaviour
 {
     private int worldSeed;
-
+    private NetworkManagerHUD nm;
+    private DayNightCycle dnc;
     // Use this for initialization    
     void Start()
     {
         if (isServer)
         {
-            this.worldSeed = 42;
-            
+            this.nm = GameObject.Find("NetworkManager").GetComponent<NetworkManagerHUD>();
+            this.dnc = GameObject.Find("Map").GetComponent<DayNightCycle>();
+
+            string[] properties = System.IO.File.ReadAllText(Application.dataPath + "/Saves/" + this.nm.World + "/properties").Split('|');
+            this.worldSeed = int.Parse(properties[0]);
+            Debug.Log(float.Parse(properties[1]));
+            this.dnc.SetTime(float.Parse(properties[1]));
+
             this.GenerateChunk(0, 0, Bridges.TwoL, Directions.North);
             this.GenerateChunk(0, 1, Bridges.TwoL, Directions.East, true);
             this.GenerateChunk(1, 1, Bridges.TwoL, Directions.South);

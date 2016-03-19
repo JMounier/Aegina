@@ -21,7 +21,7 @@ namespace UnityEngine.Networking
         private List<string> ipList = new List<string>();
         private int idindex, worldindex = 0;
         private string world = "";
-        private string newWorldName = "";
+        private string newWorldName = "World";
 
         private bool showGUI = true;
         private bool optionShown = false;
@@ -388,11 +388,13 @@ namespace UnityEngine.Networking
                     }
                     if (possible)
                     {
-                        world = newWorldName;
-                        worldcreateShown = false;
-                        Directory.CreateDirectory(Application.dataPath + "/Saves/" + world);
-                        //to do : create World
-                        worldsList.Add(world);
+                        this.world = this.newWorldName;
+                        this.newWorldName = "World";
+                        this.worldcreateShown = false;
+                        Directory.CreateDirectory(Application.dataPath + "/Saves/" + this.world);
+                        System.Random genSeed = new System.Random();
+                        System.IO.File.WriteAllText(Application.dataPath + "/Saves/" + this.world + "/properties",genSeed.Next(int.MaxValue).ToString() + "|300");                       
+                        worldsList.Add(this.world);
                         this.Launch(TypeLaunch.Host);
                     }
                 }

@@ -16,7 +16,7 @@ public class DayNightCycle : NetworkBehaviour
     private float cycleTime = 1200;
 
     // Use this for initialization
-    void Start()
+    void Awake()
     {
         // init Astres (moon and sun)
         this.sun = gameObject.GetComponentInChildren<Light>();
