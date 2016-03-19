@@ -83,7 +83,6 @@ namespace UnityEngine.Networking
                 ipList.Add(PlayerPrefs.GetString("ip" + j.ToString()));
                 j++;
             }
-            Debug.Log(ipList.Count);
         }
 
         void OnGUI()

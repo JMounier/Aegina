@@ -51,8 +51,7 @@ public class Chunk : Entity
         foreach (Transform content in Prefab.transform)
             if (content.CompareTag("Elements"))
                 foreach (Transform ancre in content.transform)
-                {
-                    if (x == 0 && y == 0)
+                {                   
                     if (ancre.CompareTag("Ancre"))
                         this.GenerateEntity(this.b.Chose(rand), ancre.gameObject);
 

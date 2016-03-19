@@ -23,7 +23,6 @@ public class MapGeneration : NetworkBehaviour
             new Mob(EntityDatabase.Boar).Spawn(new Vector3(0, 7, -5));
             new Mob(EntityDatabase.Boar).Spawn(new Vector3(-5, 7, 0));
             new Mob(EntityDatabase.Boar).Spawn(new Vector3(0, 7, 0));
-
         }
     }
 
