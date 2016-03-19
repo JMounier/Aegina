@@ -8,7 +8,8 @@
 sysinfo.txt
 *.stackdump
 ProjectVersion.txt
- 
+Saves*
+
 # ===================================== #
 # Visual Studio / MonoDevelop generated #
 # ===================================== #
@@ -32,4 +33,4 @@ ProjectVersion.txt
 .Trashes
 Icon?
 ehthumbs.db
-[Tt]humbs.db
+*[Tt]humbs.db*
