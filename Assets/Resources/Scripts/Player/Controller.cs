@@ -70,7 +70,8 @@ public class Controller : NetworkBehaviour
 
         // Get new distance
         if (!this.pause)
-            this.distance -= Input.mouseScrollDelta.y * this.sensitivityScroll;
+            if (Input.GetKey("left ctrl")) 
+                this.distance -= Input.mouseScrollDelta.y * this.sensitivityScroll;
         this.distance = Mathf.Clamp(this.distance, this.distanceMin, this.distanceMax);
 
         // TPS

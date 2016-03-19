@@ -152,6 +152,15 @@ public class InputManager : NetworkBehaviour
         Cursor.lockState = this.controller.Pause ? CursorLockMode.None : CursorLockMode.Locked;
 
         // Gere la barre d'outil.
+        if (!Input.GetKey("left ctrl"))
+        {
+            if (Input.GetAxis("Mouse ScrollWheel") > 0)
+                this.inventaire.Cursors++;
+
+            if (Input.GetAxis("Mouse ScrollWheel") < 0)
+                this.inventaire.Cursors--;
+        }
+            
         if (Input.GetKeyDown(KeyCode.Alpha1))
             this.inventaire.Cursors = 0;
 
