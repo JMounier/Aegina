@@ -67,6 +67,15 @@ public class TextDatabase
     public static readonly Text FloatiumAxe = new Text("Hache en floatium", "Floatium axe");
     public static readonly Text SunkiumAxe = new Text("Hache en sunkium", "Sunkium axe");
 
+    public static readonly Text WoodenSword = new Text("epee en bois", "Wooden Sword");
+    public static readonly Text StoneSword = new Text("epee en pierre", "Stone Sword");
+    public static readonly Text CopperSword = new Text("epee en cuivre", "Copper Sword");
+    public static readonly Text IronSword = new Text("epee en fer", "Iron Sword");
+    public static readonly Text GoldSword = new Text("epee en or", "Gold Sword");
+    public static readonly Text MithrilSword = new Text("epee en mithril", "Mithril Sword");
+    public static readonly Text FloatiumSword = new Text("epee en floatium", "Floatium Sword");
+    public static readonly Text SunkiumSword = new Text("epee en sunkium", "Sunkium Sword");
+
     // Description
 
     public static readonly Text WoodenPickaxeDescription = new Text("Un ensemble de morceaux de bois ressemblant à une pioche", "A set of wood pieces looking like a pickaxe");
@@ -87,6 +96,15 @@ public class TextDatabase
     public static readonly Text MithrilAxeDescription = new Text("Une hache legendaire", "A legendary axe");
     public static readonly Text FloatiumAxeDescription = new Text("Une hache de solidite infaillible", "A foolproof solidity axe");
     public static readonly Text SunkiumAxeDescription = new Text("Une hache de qualite", "A quality axe");
+
+    public static readonly Text WoodenSwordDescription = new Text("Un ensemble de morceaux de bois ressemblant à une epee", "A set of wood pieces looking like a sword");
+    public static readonly Text StoneSwordDescription = new Text("Un outil rudimentaire de pierre ressemblant à une epee", "A rudimentary stone tool looking like a sword");
+    public static readonly Text CopperSwordDescription = new Text("Une epee de qualite douteuse", "Questionable quality sword");
+    public static readonly Text IronSwordDescription = new Text("Une bonne epee", "A good sword");
+    public static readonly Text GoldSwordDescription = new Text("Une epee pour riche", "An sword to rich");
+    public static readonly Text MithrilSwordDescription = new Text("Une epee legendaire", "A legendary sword");
+    public static readonly Text FloatiumSwordDescription = new Text("Une epee de solidite infaillible", "A foolproof solidity sword");
+    public static readonly Text SunkiumSwordDescription = new Text("Une epee de qualite", "A quality sword");
 
     // Miscellanous
 

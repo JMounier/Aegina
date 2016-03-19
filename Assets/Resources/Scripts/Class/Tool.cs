@@ -158,6 +158,9 @@ public class Sword : Tool
     // Constructors
     public Sword() : base() { }
     public Sword(Sword sword) : base(sword) { }
+    public Sword(int id, Text name, Text description, int durability, int efficiency, Texture2D icon, Entity ent, GameObject toolPrefab) :
+       base(id, name, description, durability, 3, efficiency, 1, icon, ent, toolPrefab)
+    { }
 
     public Sword(int id, int meta, Text name, Text description, int durability, int damage, Texture2D icon, Entity ent, GameObject toolPrefab) :
        base(id, meta, name, description, durability, damage, 1, 1, icon, ent, toolPrefab)

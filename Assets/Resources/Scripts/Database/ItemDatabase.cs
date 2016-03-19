@@ -45,6 +45,14 @@ public static class ItemDatabase
     public static readonly Axe FloatiumAxe = new Axe(65, TextDatabase.FloatiumAxe, TextDatabase.FloatiumAxeDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/Floatiumaxe"), new Entity(), null);
     public static readonly Axe SunkiumAxe = new Axe(66, TextDatabase.SunkiumAxe, TextDatabase.SunkiumAxeDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/Sunkiumaxe"), new Entity(), null);
 
+    public static readonly Sword StoneSword = new Sword(70, TextDatabase.StoneSword, TextDatabase.StoneSwordDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/StoneSword"), new Entity(), null);
+    public static readonly Sword CopperSword = new Sword(71, TextDatabase.CopperSword, TextDatabase.CopperSwordDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/CopperSword"), new Entity(), null);
+    public static readonly Sword IronSword = new Sword(72, TextDatabase.IronSword, TextDatabase.IronSwordDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/IronSword"), new Entity(), null);
+    public static readonly Sword GoldSword = new Sword(73, TextDatabase.GoldSword, TextDatabase.GoldSwordDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/GoldSword"), new Entity(), null);
+    public static readonly Sword MithrilSword = new Sword(74, TextDatabase.MithrilSword, TextDatabase.MithrilSwordDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/MithrilSword"), new Entity(), null);
+    public static readonly Sword FloatiumSword = new Sword(75, TextDatabase.FloatiumSword, TextDatabase.FloatiumSwordDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/FloatiumSword"), new Entity(), null);
+    public static readonly Sword SunkiumSword = new Sword(76, TextDatabase.SunkiumSword, TextDatabase.SunkiumSwordDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/SunkiumSword"), new Entity(), null);
+
     /// <summary>
     /// Liste tous les items du jeu. (Utilisez avec foreach)
     /// </summary>
@@ -80,6 +88,9 @@ public static class ItemDatabase
 
             foreach (Axe axe in Axes)
                 yield return axe;
+
+            foreach (Sword sword in Swords)
+                yield return sword;
         }
     }
 
@@ -119,7 +130,25 @@ public static class ItemDatabase
         }
     }
 
-   
+    /// <summary>
+    /// Liste tous les epee du jeu. (Utilisez avec foreach)
+    /// </summary>
+    public static IEnumerable<Sword> Swords
+    {
+        get
+        {
+            yield return StoneSword;
+            yield return IronSword;
+            yield return GoldSword;
+            yield return MithrilSword;
+            yield return CopperSword;
+            yield return SunkiumSword;
+            yield return FloatiumSword;
+
+        }
+    }
+
+
 
     /// <summary>
     /// Retourne l'item correspondant a l'identifiant. (La copie)
