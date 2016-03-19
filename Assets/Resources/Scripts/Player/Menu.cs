@@ -33,6 +33,15 @@ public class Menu : NetworkBehaviour
         this.spacing = this.height * 2;
         this.soundAudio = GetComponent<Sound>();
     }
+
+    void Update()
+    {
+        this.posX = (int)(Screen.width / 2.6f);
+        this.posY = (int)(Screen.height / 2.5f);
+        this.width = Screen.width / 4;
+        this.height = Screen.height / 30;
+    }
+
     void OnGUI()
     {
         if (!isLocalPlayer)
