@@ -17,7 +17,6 @@ public class MapGeneration : NetworkBehaviour
 
             string[] properties = System.IO.File.ReadAllText(Application.dataPath + "/Saves/" + this.nm.World + "/properties").Split('|');
             this.worldSeed = int.Parse(properties[0]);
-            Debug.Log(float.Parse(properties[1]));
             this.dnc.SetTime(float.Parse(properties[1]));
 
             this.GenerateChunk(0, 0, Bridges.TwoL, Directions.North);
