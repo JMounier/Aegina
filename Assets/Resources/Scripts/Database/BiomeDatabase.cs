@@ -58,16 +58,13 @@ public static class BiomeDatabase
     /// <summary>
     /// Retourne un biome random. (En copie)
     /// </summary>
-    public static Biome RandBiome
-    {
-        get
-        {
+    public static Biome RandBiome(System.Random rand)
+    {        
             List<Biome> biomes = new List<Biome>();
             foreach (Biome biome in Biomes)
                 if (biome.ID > -1)
                     biomes.Add(biome);
 
-            return new Biome(biomes[Random.Range(0, biomes.Count)]);
-        }
+            return new Biome(biomes[rand.Next(biomes.Count)]);        
     }
 }

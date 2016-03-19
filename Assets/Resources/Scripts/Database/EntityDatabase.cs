@@ -185,14 +185,14 @@ public static class EntityDatabase
     /// <summary>
     /// Retourne un chunk aleatoire. (Une copie)
     /// </summary>
-    public static Chunk RandChunk(Bridges bridge)
+    public static Chunk RandChunk(Bridges bridge, System.Random rand)
     {
         List<Chunk> chunks = new List<Chunk>();
         foreach (Chunk c in Chunks)
             if (c.Bridge == bridge)
                 chunks.Add(c);
 
-        return new Chunk(chunks[Random.Range(0, chunks.Count)]);
+        return new Chunk(chunks[rand.Next(chunks.Count)]);
     }
 
     /// <summary>

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+using System;
 /// <summary>
 ///  Les differentes sorties possibles.
 /// </summary>
@@ -41,10 +41,10 @@ public class Chunk : Entity
     }
 
     // Methods 
-    public void Generate(int x, int y, Directions direction, Biome b, GameObject map, bool isPrisme = false)
+    public void Generate(int x, int y, System.Random rand, Directions direction, GameObject map, bool isPrisme = false)
     {
         this.isPrisme = isPrisme;
-        this.b = b;
+        this.b = BiomeDatabase.RandBiome(rand);
         Spawn(new Vector3(x * size, 0, y * size), Quaternion.Euler(new Vector3(0, 90 * (int)direction, 0)), map.transform);
         Prefab.GetComponentInChildren<MeshRenderer>().materials = new Material[2] { b.Grass, b.Rock };
         Prefab.GetComponent<SyncChunk>().BiomeId = b.ID;
@@ -52,17 +52,16 @@ public class Chunk : Entity
             if (content.CompareTag("Elements"))
                 foreach (Transform ancre in content.transform)
                 {
+                    if (x == 0 && y == 0)
                     if (ancre.CompareTag("Ancre"))
-                    {
-                        this.GenerateEntity(this.b.Chose(), ancre.gameObject);
-                    }
+                        this.GenerateEntity(this.b.Chose(rand), ancre.gameObject);
+
                     else if (ancre.CompareTag("MainAncre"))
-                    {
-                        if (this.isPrisme)                        
-                            this.GenerateEntity(EntityDatabase.IslandCore, ancre.gameObject);                        
+                        if (this.isPrisme)
+                            this.GenerateEntity(EntityDatabase.IslandCore, ancre.gameObject);
                         else
-                            this.GenerateEntity(this.b.Chose(), ancre.gameObject);
-                    }
+                            this.GenerateEntity(this.b.Chose(rand), ancre.gameObject);
+
                 }
     }
 
@@ -71,7 +70,7 @@ public class Chunk : Entity
         if (e.ID != -1)
         {
             Vector3 rot = e.Prefab.transform.eulerAngles;
-            rot.y = Random.Range(0, 360);
+            rot.y = UnityEngine.Random.Range(0, 360);
             if (e is IslandCore)
                 new IslandCore(e as IslandCore).Spawn(ancre.transform.position, Quaternion.Euler(rot), ancre.transform.parent);
             else if (e is Element)
@@ -80,7 +79,7 @@ public class Chunk : Entity
                 new Entity(e).Spawn(ancre.transform.position, Quaternion.Euler(rot), ancre.transform.parent);
         }
         GameObject.Destroy(ancre);
-    }
+    }  
 
     // Getters & Setters
     /// <summary>

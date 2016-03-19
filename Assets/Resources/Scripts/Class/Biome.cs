@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 /// <summary>
 /// Utiliser cette classe pour creer un nouveau biome.
@@ -24,11 +25,11 @@ public class Biome
     public Biome(Biome biome)
     {
         this.iD = biome.ID;
-        this.spawnConfiguration =biome.spawnConfiguration;
+        this.spawnConfiguration = biome.spawnConfiguration;
         this.grass = biome.Grass;
         this.rock = biome.Rock;
     }
-     
+
     public Biome(int id, Material grass, Material rock, params Entity[] spawnableEntity)
     {
         this.iD = id;
@@ -48,10 +49,10 @@ public class Biome
         this.spawnConfiguration = spawnConfiguration;
         float sum = 0f;
 
-        for (int i = 0; i < spawnConfiguration.Length; i++)        
+        for (int i = 0; i < spawnConfiguration.Length; i++)
             sum += spawnConfiguration[i].Ratio;
-        
-        for (int i = 0; i < spawnConfiguration.Length; i++)        
+
+        for (int i = 0; i < spawnConfiguration.Length; i++)
             this.spawnConfiguration[i].Ratio /= sum;
         this.grass = grass;
         this.rock = rock;
@@ -61,22 +62,20 @@ public class Biome
     /// <summary>
     /// Genere une entite du biome sur l'ancre avec une rotation aleatoire sur Y. (Must be server!)
     /// </summary>
-    public Entity Chose()
+    public Entity Chose(System.Random rand)
     {
-        float rand = Random.Range(0f, 1f);
+        float r = (float)rand.NextDouble();
         float sum = 0f;
         for (int i = 0; i < this.spawnConfiguration.Length; i++)
         {
             SpawnConfig sc = this.spawnConfiguration[i];
             sum += sc.Ratio;
-            if (rand < sum)
-            {
-                return sc.E;
-            }
+            if (r < sum)            
+                return sc.E;            
         }
         throw new System.Exception("Biome.Chose : Weird rand");
     }
-      
+
     // Getters & Setters
     /// <summary>
     /// L'identifiant unique du biome.
@@ -117,7 +116,7 @@ public class SpawnConfig
         this.e = new Entity();
         this.ratio = 1f;
     }
-    
+
     public SpawnConfig(Entity e)
     {
         this.e = e;
@@ -129,7 +128,7 @@ public class SpawnConfig
         this.e = e;
         this.ratio = ratio;
     }
-    
+
     // Getter & Setter
 
     /// <summary>
