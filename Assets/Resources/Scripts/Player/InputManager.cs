@@ -133,15 +133,17 @@ public class InputManager : NetworkBehaviour
                         this.syncCharacter.Hunger += 10 * consum.E.Power;
                         this.inventaire.UsedItem.Quantity--;
                         break;
-                    case Effect.EffectType.Thirst:
-                        this.syncCharacter.Thirst += 10 * consum.E.Power;
-                        this.inventaire.UsedItem.Quantity--;
+                    case Effect.EffectType.Thirst:                       
                         break;
                     case Effect.EffectType.Refreshment:
+                        this.syncCharacter.Thirst += 10 * consum.E.Power;
+                        this.inventaire.UsedItem.Quantity--;
                         break;
                     default:
                         break;
                 }
+                if (this.inventaire.UsedItem.Quantity == 0)
+                    this.inventaire.UsedItem = new ItemStack();
             }
 
             else if (this.nearElement != null && this.nearElement.GetComponent<SyncCore>() != null)

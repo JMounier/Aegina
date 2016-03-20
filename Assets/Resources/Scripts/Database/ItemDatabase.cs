@@ -33,17 +33,17 @@ public static class ItemDatabase
     public static readonly Item Bowl = new Item(17, TextDatabase.Bowl, TextDatabase.BowlDescription, 64, Resources.Load<Texture2D>("Sprites/Items/Elementaries/Bowl"), new Entity(EntityDatabase.Bowl));
     public static readonly Item CuttedStone = new Item(18, TextDatabase.CuttedStone, TextDatabase.CuttedStoneDescription, 64, Resources.Load<Texture2D>("Sprites/Items/Elementaries/CuttedStone"), new Entity(EntityDatabase.CuttedStone));
     //potions
-    public static readonly Consumable AquaPotion = new Consumable(19, TextDatabase.AquaPotion,TextDatabase.AquaPotionDescription,64, Resources.Load<Texture2D>("Prefabs/Items/Elementaries/AquaPotion"),new Entity(EntityDatabase.AquaPotion),new Effect(Effect.EffectType.Refreshment,2));
-    public static readonly Consumable BluePotion = new Consumable(20,TextDatabase.BluePotion,TextDatabase.BluePotionDescription, 64, Resources.Load<Texture2D>("Prefabs/Items/Elementaries/BluePotion"),new Entity(EntityDatabase.BluePotion),new Effect(Effect.EffectType.Refreshment,3));
-    public static readonly Consumable GreenPotion = new Consumable(21,TextDatabase.GreenPotion,TextDatabase.GreenPotionDescription, 64, Resources.Load<Texture2D>("Prefabs/Items/Elementaries/GreenPotion"),new Entity(EntityDatabase.GreenPotion),new Effect(Effect.EffectType.Saturation,2));
-    public static readonly Consumable PurplePotion = new Consumable(22,TextDatabase.PurplePotion,TextDatabase.PurplePotionDescription, 64, Resources.Load<Texture2D>("Prefabs/Items/Elementaries/PurplePotion"),new Entity(EntityDatabase.PurplePotion),new Effect(Effect.EffectType.InstantHealth,2));
-    public static readonly Consumable RedPotion = new Consumable(23,TextDatabase.RedPotion,TextDatabase.RedPotionDescription, 64, Resources.Load<Texture2D>("Prefabs/Items/Elementaries/RedPotion"),new Entity(EntityDatabase.RedPotion),new Effect(Effect.EffectType.InstantHealth,3));
-    public static readonly Consumable YellowPotion = new Consumable(24,TextDatabase.YellowPotion,TextDatabase.YellowPotionDescription, 64, Resources.Load<Texture2D>("Prefabs/Items/Elementaries/YellowPotion"),new Entity(EntityDatabase.YellowPotion),new Effect(Effect.EffectType.Saturation,3));
+    public static readonly Consumable AquaPotion = new Consumable(19, TextDatabase.AquaPotion, TextDatabase.AquaPotionDescription, 64, Resources.Load<Texture2D>("Sprites/Items/Potions/AquaPotion"), new Entity(EntityDatabase.AquaPotion), new Effect(Effect.EffectType.Refreshment, 2));
+    public static readonly Consumable BluePotion = new Consumable(20, TextDatabase.BluePotion, TextDatabase.BluePotionDescription, 64, Resources.Load<Texture2D>("Sprites/Items/Potions/BluePotion"), new Entity(EntityDatabase.BluePotion), new Effect(Effect.EffectType.Refreshment, 3));
+    public static readonly Consumable GreenPotion = new Consumable(21, TextDatabase.GreenPotion, TextDatabase.GreenPotionDescription, 64, Resources.Load<Texture2D>("Sprites/Items/Potions/GreenPotion"), new Entity(EntityDatabase.GreenPotion), new Effect(Effect.EffectType.Saturation, 2));
+    public static readonly Consumable PurplePotion = new Consumable(22, TextDatabase.PurplePotion, TextDatabase.PurplePotionDescription, 64, Resources.Load<Texture2D>("Sprites/Items/Potions/PurplePotion"), new Entity(EntityDatabase.PurplePotion), new Effect(Effect.EffectType.InstantHealth, 2));
+    public static readonly Consumable RedPotion = new Consumable(23, TextDatabase.RedPotion, TextDatabase.RedPotionDescription, 64, Resources.Load<Texture2D>("Sprites/Items/Potions/RedPotion"), new Entity(EntityDatabase.RedPotion), new Effect(Effect.EffectType.InstantHealth, 3));
+    public static readonly Consumable YellowPotion = new Consumable(24, TextDatabase.YellowPotion, TextDatabase.YellowPotionDescription, 64, Resources.Load<Texture2D>("Sprites/Items/Potions/YellowPotion"), new Entity(EntityDatabase.YellowPotion), new Effect(Effect.EffectType.Saturation, 3));
 
-    public static readonly Item Forge = new Item(25,TextDatabase.Forge,TextDatabase.ForgeDescription, 64, Resources.Load<Texture2D>("Prefabs/Items/Elementaries/Forge"),new Entity(EntityDatabase.Forge));
-    public static readonly Item Cauldron = new Item(26,TextDatabase.Cauldron,TextDatabase.CauldronDescription, 64, Resources.Load<Texture2D>("Prefabs/Items/Elementaries/Cauldron"),new Entity(EntityDatabase.Cauldron));
-    public static readonly Item Workbench = new Item(27,TextDatabase.Workbench,TextDatabase.WorkbenchDescription, 64, Resources.Load<Texture2D>("Prefabs/Items/Elementaries/Workbench"),new Entity(EntityDatabase.Workbench));
-    public static readonly Item Firepit = new Item(28,TextDatabase.Firepit,TextDatabase.FirepitDescription, 64, Resources.Load<Texture2D>("Prefabs/Items/Elementaries/Firepit"),new Entity(EntityDatabase.Firepit));
+    public static readonly Item Forge = new Item(25, TextDatabase.Forge, TextDatabase.ForgeDescription, 64, Resources.Load<Texture2D>("Sprites/Items/WorkStation/Forge"), new Entity(EntityDatabase.Forge));
+    public static readonly Item Cauldron = new Item(26, TextDatabase.Cauldron, TextDatabase.CauldronDescription, 64, Resources.Load<Texture2D>("Sprites/Items/WorkStation/Cauldron"), new Entity(EntityDatabase.Cauldron));
+    public static readonly Item Workbench = new Item(27, TextDatabase.Workbench, TextDatabase.WorkbenchDescription, 64, Resources.Load<Texture2D>("Sprites/Items/WorkStation/Workbench"), new Entity(EntityDatabase.Workbench));
+    public static readonly Item Firepit = new Item(28, TextDatabase.Firepit, TextDatabase.FirepitDescription, 64, Resources.Load<Texture2D>("Sprites/Items/WorkStation/Firepit"), new Entity(EntityDatabase.Firepit));
     // Tools
     public static readonly Pickaxe StonePickaxe = new Pickaxe(50, TextDatabase.StonePickaxe, TextDatabase.StonePickaxeDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/StonePickaxe"), new Entity(), null);
     public static readonly Pickaxe CopperPickaxe = new Pickaxe(51, TextDatabase.CopperPickaxe, TextDatabase.CopperPickaxeDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/CopperPickaxe"), new Entity(EntityDatabase.CopperPickaxe), Resources.Load<GameObject>("Prefabs/Tools/Pickaxes/CopperPickaxe"));
@@ -98,6 +98,17 @@ public static class ItemDatabase
             yield return FloatiumIngot;
             yield return SunkiumIngot;
 
+            yield return WoodenPlank;
+            yield return Glass;
+            yield return CuttedStone;
+            yield return Bowl;
+
+            //Workbenches
+            yield return Forge;
+            yield return Cauldron;
+            yield return Workbench;
+            yield return Firepit;
+
             // Tools
             foreach (Pickaxe pickaxe in Pickaxes)
                 yield return pickaxe;
@@ -107,6 +118,9 @@ public static class ItemDatabase
 
             foreach (Sword sword in Swords)
                 yield return sword;
+
+            foreach (Consumable cons in Consumables)
+                yield return cons;
         }
     }
 
@@ -164,6 +178,21 @@ public static class ItemDatabase
         }
     }
 
+    /// <summary>
+    /// Liste tous les consomables du jeu. (Utilisez avec foreach)
+    /// </summary>
+    public static IEnumerable<Consumable> Consumables
+    {
+        get
+        {
+            yield return AquaPotion;
+            yield return BluePotion;
+            yield return GreenPotion;
+            yield return PurplePotion;
+            yield return RedPotion;
+            yield return YellowPotion;
+        }
+    }
 
 
     /// <summary>
@@ -198,6 +227,8 @@ public static class ItemDatabase
                     return new Axe((Axe)i);
                 else if (i is Sword)
                     return new Sword((Sword)i);
+                else if (i is Consumable)
+                    return new Consumable((Consumable)i);
                 else
                     return new Item(i);
             }
@@ -221,6 +252,8 @@ public static class ItemDatabase
                     return new Axe((Axe)i);
                 else if (i is Sword)
                     return new Sword((Sword)i);
+                else if (i is Consumable)
+                    return new Consumable((Consumable)i);
                 else
                     return new Item(i);
             }

@@ -36,7 +36,7 @@ public class Consumable : Item
     /// </summary>
     public Effect E
     {
-        get { return this.E; }
+        get { return this.e; }
         set { this.e = value; }
     }
 }

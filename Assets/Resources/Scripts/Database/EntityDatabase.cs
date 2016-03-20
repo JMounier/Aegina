@@ -48,39 +48,39 @@ public static class EntityDatabase
     public static readonly Entity FloatiumSword = new Entity(63, 60, Resources.Load<GameObject>("Prefabs/Loots/FloatiumSword"));
     public static readonly Entity SunkiumSword = new Entity(64, 60, Resources.Load<GameObject>("Prefabs/Loots/SunkiumSword"));
 
-    public static readonly Entity Forge = new Entity(65,60, Resources.Load<GameObject>("Prefabs/Loots/Forge"));
-    public static readonly Entity Cauldron = new Entity(66,60, Resources.Load<GameObject>("Prefabs/Loots/Cauldron"));
-    public static readonly Entity Workbench = new Entity(67,60, Resources.Load<GameObject>("Prefabs/Loots/Workbench"));
-    public static readonly Entity Firepit = new Entity(68,60, Resources.Load<GameObject>("Prefabs/Loots/Firepit"));
+    public static readonly Entity Forge = new Entity(65, 60, Resources.Load<GameObject>("Prefabs/Loots/Forge"));
+    public static readonly Entity Cauldron = new Entity(66, 60, Resources.Load<GameObject>("Prefabs/Loots/Cauldron"));
+    public static readonly Entity Workbench = new Entity(67, 60, Resources.Load<GameObject>("Prefabs/Loots/Workbench"));
+    public static readonly Entity Firepit = new Entity(68, 60, Resources.Load<GameObject>("Prefabs/Loots/Firepit"));
 
-    public static readonly Entity AquaPotion = new Entity(69,60, Resources.Load<GameObject>("Prefabs/Loots/AquaPotion"));
-    public static readonly Entity BluePotion = new Entity(70,60, Resources.Load<GameObject>("Prefabs/Loots/BluePotion"));
-    public static readonly Entity GreenPotion = new Entity(71,60, Resources.Load<GameObject>("Prefabs/Loots/GreenPotion"));
-    public static readonly Entity PurplePotion = new Entity(72,60, Resources.Load<GameObject>("Prefabs/Loots/PurplePotion"));
-    public static readonly Entity RedPotion = new Entity(73,60, Resources.Load<GameObject>("Prefabs/Loots/RedPotion"));
-    public static readonly Entity YellowPotion = new Entity(74,60, Resources.Load<GameObject>("Prefabs/Loots/YellowPotion"));
+    public static readonly Entity AquaPotion = new Entity(69, 60, Resources.Load<GameObject>("Prefabs/Loots/AquaPotion"));
+    public static readonly Entity BluePotion = new Entity(70, 60, Resources.Load<GameObject>("Prefabs/Loots/BluePotion"));
+    public static readonly Entity GreenPotion = new Entity(71, 60, Resources.Load<GameObject>("Prefabs/Loots/GreenPotion"));
+    public static readonly Entity PurplePotion = new Entity(72, 60, Resources.Load<GameObject>("Prefabs/Loots/PurplePotion"));
+    public static readonly Entity RedPotion = new Entity(73, 60, Resources.Load<GameObject>("Prefabs/Loots/RedPotion"));
+    public static readonly Entity YellowPotion = new Entity(74, 60, Resources.Load<GameObject>("Prefabs/Loots/YellowPotion"));
 
-    public static readonly Entity WoodenPlank = new Entity(75,60, Resources.Load<GameObject>("Prefabs/Loots/WoodenPlank"));
-    public static readonly Entity Glass = new Entity(76,60, Resources.Load<GameObject>("Prefabs/Loots/Glass"));
-    public static readonly Entity Bowl = new Entity(77,60, Resources.Load<GameObject>("Prefabs/Loots/Bowl"));
-    public static readonly Entity CuttedStone = new Entity(78,60, Resources.Load<GameObject>("Prefabs/Loots/CuttedStone"));
+    public static readonly Entity WoodenPlank = new Entity(75, 60, Resources.Load<GameObject>("Prefabs/Loots/WoodenPlank"));
+    public static readonly Entity Glass = new Entity(76, 60, Resources.Load<GameObject>("Prefabs/Loots/Glass"));
+    public static readonly Entity Bowl = new Entity(77, 60, Resources.Load<GameObject>("Prefabs/Loots/Bowl"));
+    public static readonly Entity CuttedStone = new Entity(78, 60, Resources.Load<GameObject>("Prefabs/Loots/CuttedStone"));
 
     // SmallElements
-    public static readonly Element Branch = new Element(90, 100, Resources.Load<GameObject>("Prefabs/Elements/SmallElements/Branch"), Element.TypeElement.Small,0);
-    public static readonly Element ForestFlower = new Element(91, 100, Resources.Load<GameObject>("Prefabs/Elements/SmallElements/ForestFlower"), Element.TypeElement.Small,0);
-    public static readonly Element IceFlower = new Element(92, 100, Resources.Load<GameObject>("Prefabs/Elements/SmallElements/IceFlower"), Element.TypeElement.Small,0);
-    public static readonly Element SmallCactus = new Element(93, 100, Resources.Load<GameObject>("Prefabs/Elements/SmallElements/SmallCactus"), Element.TypeElement.Small,0);
-    public static readonly Element LittleRock = new Element(93, 100, Resources.Load<GameObject>("Prefabs/Elements/SmallElements/LittleRock"), Element.TypeElement.Small,0, new DropConfig(ItemDatabase.Find(1), 1));
+    public static readonly Element Branch = new Element(90, 100, Resources.Load<GameObject>("Prefabs/Elements/SmallElements/Branch"), Element.TypeElement.Small, 0);
+    public static readonly Element ForestFlower = new Element(91, 100, Resources.Load<GameObject>("Prefabs/Elements/SmallElements/ForestFlower"), Element.TypeElement.Small, 0);
+    public static readonly Element IceFlower = new Element(92, 100, Resources.Load<GameObject>("Prefabs/Elements/SmallElements/IceFlower"), Element.TypeElement.Small, 0);
+    public static readonly Element SmallCactus = new Element(93, 100, Resources.Load<GameObject>("Prefabs/Elements/SmallElements/SmallCactus"), Element.TypeElement.Small, 0);
+    public static readonly Element LittleRock = new Element(93, 100, Resources.Load<GameObject>("Prefabs/Elements/SmallElements/LittleRock"), Element.TypeElement.Small, 0, new DropConfig(ItemDatabase.Find(1), 1));
 
     // Tree
-    public static readonly Element Fir = new Element(100, 100, Resources.Load<GameObject>("Prefabs/Elements/Trees/Fir"), Element.TypeElement.Tree,0, new DropConfig(ItemDatabase.Find(0), 1, 5));
-    public static readonly Element SnowFir = new Element(101, 100, Resources.Load<GameObject>("Prefabs/Elements/Trees/SnowFir"), Element.TypeElement.Tree,0);
-    public static readonly Element Cactus = new Element(102, 100, Resources.Load<GameObject>("Prefabs/Elements/Trees/Cactus"), Element.TypeElement.Tree,0);
-    public static readonly Element Oak = new Element(103, 100, Resources.Load<GameObject>("Prefabs/Elements/Trees/Oak"), Element.TypeElement.Tree,0);
-    public static readonly Element SnowOak = new Element(104, 100, Resources.Load<GameObject>("Prefabs/Elements/Trees/SnowOak"), Element.TypeElement.Tree,0);
+    public static readonly Element Fir = new Element(100, 100, Resources.Load<GameObject>("Prefabs/Elements/Trees/Fir"), Element.TypeElement.Tree, 0, new DropConfig(ItemDatabase.Find(0), 1, 5));
+    public static readonly Element SnowFir = new Element(101, 100, Resources.Load<GameObject>("Prefabs/Elements/Trees/SnowFir"), Element.TypeElement.Tree, 0);
+    public static readonly Element Cactus = new Element(102, 100, Resources.Load<GameObject>("Prefabs/Elements/Trees/Cactus"), Element.TypeElement.Tree, 0);
+    public static readonly Element Oak = new Element(103, 100, Resources.Load<GameObject>("Prefabs/Elements/Trees/Oak"), Element.TypeElement.Tree, 0);
+    public static readonly Element SnowOak = new Element(104, 100, Resources.Load<GameObject>("Prefabs/Elements/Trees/SnowOak"), Element.TypeElement.Tree, 0);
 
     // Rock
-    public static readonly Element StoneRock = new Element(110, 100, Resources.Load<GameObject>("Prefabs/Elements/Rocks/Stone"), Element.TypeElement.Rock,0, new DropConfig(ItemDatabase.Find(1), 1, 5));
+    public static readonly Element StoneRock = new Element(110, 100, Resources.Load<GameObject>("Prefabs/Elements/Rocks/Stone"), Element.TypeElement.Rock, 0, new DropConfig(ItemDatabase.Find(1), 1, 5));
 
     // IslandCore
     public static readonly IslandCore IslandCore = new IslandCore(142, Resources.Load<GameObject>("Prefabs/Elements/Cristals/IslandCore"), Team.Neutre, 0, 0, 0);
@@ -122,6 +122,10 @@ public static class EntityDatabase
             yield return Mithril;
             yield return Floatium;
             yield return Sunkium;
+            yield return WoodenPlank;
+            yield return Glass;
+            yield return Bowl;
+            yield return CuttedStone;
 
             //Ingot
             yield return IronIngot;
@@ -131,6 +135,14 @@ public static class EntityDatabase
             yield return FloatiumIngot;
             yield return SunkiumIngot;
 
+            //Axe
+            yield return IronAxe;
+            yield return CopperAxe;
+            yield return GoldAxe;
+            yield return MithrilAxe;
+            yield return FloatiumAxe;
+            yield return SunkiumAxe;
+
             //Pickaxe
             yield return IronPickaxe;
             yield return CopperPickaxe;
@@ -138,6 +150,28 @@ public static class EntityDatabase
             yield return MithrilPickaxe;
             yield return FloatiumPickaxe;
             yield return SunkiumPickaxe;
+
+            //Sword
+            yield return IronSword;
+            yield return CopperSword;
+            yield return GoldSword;
+            yield return MithrilSword;
+            yield return FloatiumSword;
+            yield return SunkiumSword;
+
+            //Potions
+            yield return AquaPotion;
+            yield return BluePotion;
+            yield return GreenPotion;
+            yield return RedPotion;
+            yield return PurplePotion;
+            yield return YellowPotion;
+
+            //Workbenches
+            yield return Forge;
+            yield return Cauldron;
+            yield return Workbench;
+            yield return Firepit;
 
             // Chunk
             foreach (Chunk chunk in Chunks)

@@ -179,12 +179,7 @@ public class ItemStack
     public int Quantity
     {
         get { return this.quantity; }
-        set
-        {
-            this.quantity = Mathf.Clamp(value, 0, items.Size);
-            if (this.quantity == 0)
-                this.items = new Item();
-        }
+        set { this.quantity = Mathf.Clamp(value, 0, items.Size); }
     }
 
     public Item Items
