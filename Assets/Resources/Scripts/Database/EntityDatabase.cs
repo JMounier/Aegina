@@ -32,6 +32,23 @@ public static class EntityDatabase
     public static readonly Entity FloatiumPickaxe = new Entity(56, 60, Resources.Load<GameObject>("Prefabs/Loots/FloatiumPickaxe"));
     public static readonly Entity SunkiumPickaxe = new Entity(57, 60, Resources.Load<GameObject>("Prefabs/Loots/SunkiumPickaxe"));
 
+    public static readonly Entity Forge = new Entity(56,60, Resources.Load<GameObject>("Prefabs/Loots/Forge"));
+    public static readonly Entity Cauldron = new Entity(57,60, Resources.Load<GameObject>("Prefabs/Loots/Cauldron"));
+    public static readonly Entity Workbench = new Entity(58,60, Resources.Load<GameObject>("Prefabs/Loots/Workbench"));
+    public static readonly Entity Firepit = new Entity(59,60, Resources.Load<GameObject>("Prefabs/Loots/Firepit"));
+
+    public static readonly Entity AquaPotion = new Entity(60,60, Resources.Load<GameObject>("Prefabs/Loots/AquaPotion"));
+    public static readonly Entity BluePotion = new Entity(61,60, Resources.Load<GameObject>("Prefabs/Loots/BluePotion"));
+    public static readonly Entity GreenPotion = new Entity(62,60, Resources.Load<GameObject>("Prefabs/Loots/GreenPotion"));
+    public static readonly Entity PurplePotion = new Entity(63,60, Resources.Load<GameObject>("Prefabs/Loots/PurplePotion"));
+    public static readonly Entity RedPotion = new Entity(64,60, Resources.Load<GameObject>("Prefabs/Loots/RedPotion"));
+    public static readonly Entity YellowPotion = new Entity(65,60, Resources.Load<GameObject>("Prefabs/Loots/YellowPotion"));
+
+    public static readonly Entity WoodenPlank = new Entity(66,60, Resources.Load<GameObject>("Prefabs/Loots/WoodenPlank"));
+    public static readonly Entity Glass = new Entity(67,60, Resources.Load<GameObject>("Prefabs/Loots/Glass"));
+    public static readonly Entity Bowl = new Entity(68,60, Resources.Load<GameObject>("Prefabs/Loots/Bowl"));
+    public static readonly Entity CuttedStone = new Entity(69,60, Resources.Load<GameObject>("Prefabs/Loots/CuttedStone"));
+
     // SmallElements
     public static readonly Element Branch = new Element(90, 100, Resources.Load<GameObject>("Prefabs/Elements/SmallElements/Branch"), Element.TypeElement.Small,0);
     public static readonly Element ForestFlower = new Element(91, 100, Resources.Load<GameObject>("Prefabs/Elements/SmallElements/ForestFlower"), Element.TypeElement.Small,0);
