@@ -13,10 +13,10 @@ public class InputManager : NetworkBehaviour
     private Cristal_HUD cristalHUD;
 
     private Sound soundAudio;
-
+    private Animator anim;
 
     private GameObject character;
-    private GameObject camera;
+    private GameObject cam;
     private SyncElement nearElement;
 
     // Use this for initialization
@@ -27,12 +27,13 @@ public class InputManager : NetworkBehaviour
         if (!isLocalPlayer)
             return;
         this.character = GetComponentInChildren<CharacterCollision>().gameObject;
-        this.camera = GetComponentInChildren<Camera>().gameObject;
+        this.cam = GetComponentInChildren<Camera>().gameObject;
         this.inventaire = GetComponent<Inventory>();
         this.menu = GetComponent<Menu>();
         this.controller = GetComponent<Controller>();
         this.social = GetComponent<Social>();
         this.cristalHUD = GetComponent<Cristal_HUD>();
+        this.anim = gameObject.GetComponent<Animator>();
 
         this.soundAudio = gameObject.GetComponent<Sound>();
         Cursor.visible = false;
@@ -50,7 +51,7 @@ public class InputManager : NetworkBehaviour
         SyncElement lastNearElement = this.nearElement;
         this.nearElement = null;
 
-        Collider[] cols = Physics.OverlapSphere(this.camera.transform.position, 0.45f);
+        Collider[] cols = Physics.OverlapSphere(this.cam.transform.position, 0.45f);
         GameObject forbidden = null;
         if (cols.Length > 0)
             forbidden = cols[0].gameObject;
@@ -91,7 +92,7 @@ public class InputManager : NetworkBehaviour
             this.controller.Pause = true;
         }
 
-        if (Input.GetButtonDown("Fire2") && !this.inventaire.InventoryShown && !this.menu.MenuShown && !this.menu.OptionShown && !this.social.ChatShown)
+        if (Input.GetButton("Fire2") && !this.inventaire.InventoryShown && !this.menu.MenuShown && !this.menu.OptionShown && !this.social.ChatShown)
         {
             if (this.inventaire.UsedItem.Items is Consumable)
                 (this.inventaire.UsedItem.Items as Consumable).Consume();
@@ -160,7 +161,7 @@ public class InputManager : NetworkBehaviour
             if (Input.GetAxis("Mouse ScrollWheel") < 0)
                 this.inventaire.Cursors--;
         }
-            
+
         if (Input.GetKeyDown(KeyCode.Alpha1))
             this.inventaire.Cursors = 0;
 
@@ -190,15 +191,101 @@ public class InputManager : NetworkBehaviour
             }
         }
     }
+
     [Command]
     private void CmdInteractElement(GameObject element, int toolId)
     {
         Element elmt = element.GetComponent<SyncElement>().Elmt;
         if (elmt.Type == Element.TypeElement.Small)
-            elmt.Life = 0;
+        {
+            this.RpcDoInteract(Element.TypeElement.Small);
+        }
         else if (elmt.Type == Element.TypeElement.Rock && ItemDatabase.Find(toolId) is Pickaxe)
-            elmt.Life = 0;
+        {
+            this.RpcDoInteract(Element.TypeElement.Rock);
+        }
         else if (elmt.Type == Element.TypeElement.Tree && ItemDatabase.Find(toolId) is Axe)
-            elmt.Life = 0;
+        {
+            this.RpcDoInteract(Element.TypeElement.Tree);
+        }
     }
+
+    [Command]
+    private void CmdDamageElm(GameObject element, float damage)
+    {
+        element.GetComponent<SyncElement>().Elmt.GetDamage(damage);
+    }
+   [ClientRpc]
+    private void RpcDoInteract(Element.TypeElement type)
+    {
+        if (!isLocalPlayer)
+            return;
+        if (Vector3.Distance(this.character.transform.position, this.nearElement.transform.position) <1.5f)
+        {
+            switch (type)
+            {
+                case Element.TypeElement.Tree:
+                    if (this.anim.GetInteger("Action") != 5)
+                    {
+                        this.soundAudio.PlaySound(AudioClips.Void, 0, 0.1f, 613);
+                        this.anim.SetInteger("Action", 5);
+                    }
+                    else if (soundAudio.IsReady(613))
+                    {
+                        this.soundAudio.PlaySound(AudioClips.Void, 1, 0.1f, 613);
+                        this.soundAudio.CmdPlaySound(AudioClips.Void, 1);
+                        this.CmdDamageElm(this.nearElement.gameObject, (this.inventaire.UsedItem.Items as Tool).Damage);
+                        if (this.nearElement == null)
+                            this.anim.SetInteger("Action", 0);
+                    }
+                    break;
+                case Element.TypeElement.Rock:
+                    if (this.anim.GetInteger("Action") != 4)
+                    {
+                        this.soundAudio.PlaySound(AudioClips.Void, 0, 0.1f, 612);
+                        this.anim.SetInteger("Action", 4);
+                    }
+                    else if (soundAudio.IsReady(612))
+                    {
+                        this.soundAudio.PlaySound(AudioClips.Void, 1, 0.1f, 612);
+                        this.soundAudio.CmdPlaySound(AudioClips.Void, 1);
+                        this.CmdDamageElm(this.nearElement.gameObject, (this.inventaire.UsedItem.Items as Tool).Damage);
+                        if (this.nearElement == null)
+                            this.anim.SetInteger("Action", 0);
+                    }
+                    break;
+                case Element.TypeElement.Small:
+                    if (this.anim.GetInteger("Action") != 8)
+                    {
+                        this.soundAudio.PlaySound(AudioClips.Void, 0, 0.1f, 614);
+                        this.anim.SetInteger("Action", 8);
+                    }
+                    else if (soundAudio.IsReady(614))
+                    {
+                        this.soundAudio.PlaySound(AudioClips.Void, 1, 0.1f, 614);
+                        this.soundAudio.CmdPlaySound(AudioClips.Void, 1);
+                        this.CmdDamageElm(this.nearElement.gameObject, this.nearElement.Elmt.Life);
+                        if (this.nearElement == null)
+                            this.anim.SetInteger("Action", 0);
+                    }
+                    break;
+                default:
+                    break;
+            }
+            
+        }
+        else
+        {
+            // FIXE ME
+            PathFinding.AStarPath(this.gameObject, this.nearElement.transform.position);
+        }
+    }
+
+
+    #region Getters/Setters
+    public SyncElement NearElement
+    {
+        get { return this.nearElement; }
+    }
+    #endregion
 }
