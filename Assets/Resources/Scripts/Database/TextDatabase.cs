@@ -166,6 +166,8 @@ public class TextDatabase
     public static readonly Text AttackPower = new Text("Pouvoir d'attaque", "Attaque power");
     public static readonly Text GrowingPower = new Text("Pouvoir de croissance", "Growing power");
     public static readonly Text PortalPower = new Text("Pouvoir de portail", "Portal Power");
+    public static readonly Text Respawn = new Text("Reaparaitre", "Respawn");
+    public static readonly Text Start = new Text("Debuter", "Start");
 
 }
 

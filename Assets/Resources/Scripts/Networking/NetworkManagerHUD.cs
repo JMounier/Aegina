@@ -190,7 +190,7 @@ namespace UnityEngine.Networking
             return newstr;
         }
 
-        private void Launch(TypeLaunch type)
+        public void Launch(TypeLaunch type)
         {
             switch (type)
             {
@@ -333,7 +333,7 @@ namespace UnityEngine.Networking
                     }
                 }
                 Rect rect1 = new Rect(this.posX, this.posY + (1 + i) * spacing, this.width / 3 - 5, this.height);
-                if (GUI.Button(rect1, TextDatabase.Play.GetText(), skin.GetStyle("button")))
+                if (GUI.Button(rect1, TextDatabase.Start.GetText(), skin.GetStyle("button")))
                 {
                     if (world != "")
                     {
@@ -401,7 +401,7 @@ namespace UnityEngine.Networking
                     }
                 }
                 Rect rect1 = new Rect(this.posX, this.posY + (2 + i) * spacing, this.width / 3 - 5, this.height);
-                if (GUI.Button(rect1, TextDatabase.Join.GetText(), skin.GetStyle("button")))
+                if (GUI.Button(rect1, TextDatabase.Start.GetText(), skin.GetStyle("button")))
                 {
                     if (this.manager.networkAddress != "")
                     {
