@@ -18,7 +18,7 @@ public class Item
     public Item()
     {
         this.size = 0;
-        this.name = new Text() ;
+        this.name = new Text();
         this.iD = -1;
         this.meta = 0;
         this.description = new Text();
@@ -70,20 +70,20 @@ public class Item
             this.ent.Spawn(pos, GameObject.Find("Loots").transform);
             this.ent.Prefab.GetComponent<Rigidbody>().AddRelativeForce(force * 120);
             this.ent.Prefab.GetComponent<Loot>().Items = new ItemStack(new Item(this), quantity);
-        }  
+        }
     }
 
     /// <summary>
     /// Instancie l'item dans le monde avec une position et une rotation et une quantite. (Must be server!)
     /// </summary>
-    public void Spawn(Vector3 pos, Quaternion rot, Vector3 force,  int quantity)
+    public void Spawn(Vector3 pos, Quaternion rot, Vector3 force, int quantity)
     {
         if (quantity > 0)
         {
             this.ent.Spawn(pos, rot, GameObject.Find("Loots").transform);
             this.ent.Prefab.GetComponent<Rigidbody>().AddRelativeForce(force * 120);
             this.ent.Prefab.GetComponent<Loot>().Items = new ItemStack(new Item(this), quantity);
-        } 
+        }
     }
 
     // Getter & Setters
@@ -167,7 +167,7 @@ public class ItemStack
         this.items = new Item();
         this.quantity = 0;
     }
-        
+
     public ItemStack(Item items, int quantity)
     {
         this.items = items;
@@ -179,7 +179,12 @@ public class ItemStack
     public int Quantity
     {
         get { return this.quantity; }
-        set { this.quantity = Mathf.Clamp(value, 0, items.Size); }
+        set
+        {
+            this.quantity = Mathf.Clamp(value, 0, items.Size);
+            if (this.quantity == 0)
+                this.items = new Item();
+        }
     }
 
     public Item Items

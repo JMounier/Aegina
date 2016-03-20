@@ -213,7 +213,7 @@ public static class ItemDatabase
     {
         foreach (Item i in Items)
         {
-            if (i.NameText.GetText(SystemLanguage.English).ToLower() == name.ToLower() && i.Meta == meta)
+            if (i.NameText.GetText(SystemLanguage.English).ToLower().Replace(" ", "") == name.ToLower() && i.Meta == meta)
             {
                 if (i is Pickaxe)
                     return new Pickaxe((Pickaxe)i);

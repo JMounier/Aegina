@@ -14,6 +14,7 @@ public class InputManager : NetworkBehaviour
 
     private Sound soundAudio;
     private Animator anim;
+    private SyncCharacter syncCharacter;
 
     private GameObject character;
     private GameObject cam;
@@ -34,6 +35,7 @@ public class InputManager : NetworkBehaviour
         this.social = GetComponent<Social>();
         this.cristalHUD = GetComponent<Cristal_HUD>();
         this.anim = gameObject.GetComponent<Animator>();
+        this.syncCharacter = gameObject.GetComponent<SyncCharacter>();
 
         this.soundAudio = gameObject.GetComponent<Sound>();
         Cursor.visible = false;
@@ -95,7 +97,52 @@ public class InputManager : NetworkBehaviour
         if (Input.GetButton("Fire2") && !this.inventaire.InventoryShown && !this.menu.MenuShown && !this.menu.OptionShown && !this.social.ChatShown)
         {
             if (this.inventaire.UsedItem.Items is Consumable)
-                (this.inventaire.UsedItem.Items as Consumable).Consume();
+            {
+                Consumable consum = this.inventaire.UsedItem.Items as Consumable;
+                switch (consum.E.ET)
+                {
+                    case Effect.EffectType.Speed:
+                        break;
+                    case Effect.EffectType.Slowness:
+                        break;
+                    case Effect.EffectType.Haste:
+                        break;
+                    case Effect.EffectType.MiningFatigue:
+                        break;
+                    case Effect.EffectType.Strength:
+                        break;
+                    case Effect.EffectType.InstantHealth:
+                        this.syncCharacter.Life += 10 * consum.E.Power;
+                        this.inventaire.UsedItem.Quantity--;
+                        break;
+                    case Effect.EffectType.InstantDamage:
+                        break;
+                    case Effect.EffectType.JumpBoost:
+                        break;
+                    case Effect.EffectType.Regeneration:
+                        break;
+                    case Effect.EffectType.Resistance:
+                        break;
+                    case Effect.EffectType.Hunger:
+                        break;
+                    case Effect.EffectType.Weakness:
+                        break;
+                    case Effect.EffectType.Poison:
+                        break;
+                    case Effect.EffectType.Saturation:
+                        this.syncCharacter.Hunger += 10 * consum.E.Power;
+                        this.inventaire.UsedItem.Quantity--;
+                        break;
+                    case Effect.EffectType.Thirst:
+                        this.syncCharacter.Thirst += 10 * consum.E.Power;
+                        this.inventaire.UsedItem.Quantity--;
+                        break;
+                    case Effect.EffectType.Refreshment:
+                        break;
+                    default:
+                        break;
+                }
+            }
 
             else if (this.nearElement != null && this.nearElement.GetComponent<SyncCore>() != null)
             {
@@ -215,12 +262,12 @@ public class InputManager : NetworkBehaviour
     {
         element.GetComponent<SyncElement>().Elmt.GetDamage(damage);
     }
-   [ClientRpc]
+    [ClientRpc]
     private void RpcDoInteract(Element.TypeElement type)
     {
         if (!isLocalPlayer)
             return;
-        if (Vector3.Distance(this.character.transform.position, this.nearElement.transform.position) <1.5f)
+        if (Vector3.Distance(this.character.transform.position, this.nearElement.transform.position) < 1.5f)
         {
             switch (type)
             {
@@ -254,7 +301,7 @@ public class InputManager : NetworkBehaviour
                             this.anim.SetInteger("Action", 0);
                     }
                     break;
-                case Element.TypeElement.Small:
+                default:
                     if (this.anim.GetInteger("Action") != 8)
                     {
                         this.soundAudio.PlaySound(AudioClips.Void, 0, 0.1f, 614);
@@ -269,16 +316,11 @@ public class InputManager : NetworkBehaviour
                             this.anim.SetInteger("Action", 0);
                     }
                     break;
-                default:
-                    break;
             }
-            
+
         }
-        else
-        {
-            // FIXE ME
-            PathFinding.AStarPath(this.gameObject, this.nearElement.transform.position);
-        }
+        else if (true)        
+            PathFinding.AStarPath(this.gameObject, this.nearElement.transform.position, 1.5f);        
     }
 
 
