@@ -38,6 +38,9 @@ public class Controller : NetworkBehaviour
     // Use for Sound
     private Sound soundAudio;
 
+    //
+    private InputManager im;
+
     // Use this for initialization
     void Start()
     {
@@ -45,6 +48,7 @@ public class Controller : NetworkBehaviour
         this.cam = gameObject.GetComponentInChildren<Camera>().gameObject;
         this.character = gameObject.GetComponentInChildren<CharacterCollision>().gameObject;
 
+        this.im = gameObject.GetComponent<InputManager>();
         this.soundAudio = gameObject.GetComponent<Sound>();
 
         if (!isLocalPlayer)
@@ -249,7 +253,7 @@ public class Controller : NetworkBehaviour
                     }
                 }
             }
-            else
+            else if (this.anim.GetInteger("Action") <= 3 || !Input.GetButton("Fire2") || this.im.NearElement == null)
                 this.anim.SetInteger("Action", 0);
         }
         gameObject.transform.Translate(move, Space.World);

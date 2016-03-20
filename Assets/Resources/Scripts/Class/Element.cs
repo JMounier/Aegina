@@ -12,24 +12,28 @@ public class Element : Entity
     public enum TypeElement { None, Tree, Rock, Small };
     protected DropConfig[] dropConfigs;
     protected TypeElement type;
+    protected int armor;
 
     // Constructor
     public Element() : base()
     {
         this.dropConfigs = new DropConfig[0];
         this.type = TypeElement.None;
+        this.armor = 0;
     }
 
     public Element(Element element) : base(element)
     {
         this.dropConfigs = element.dropConfigs;
         this.type = element.type;
+        this.armor = element.armor;
     }
 
-    public Element(int id, int life, GameObject prefab, TypeElement type, params DropConfig[] dropConfigs) : base(id, life, prefab)
+    public Element(int id, int life, GameObject prefab, TypeElement type, int armor, params DropConfig[] dropConfigs) : base(id, life, prefab)
     {
         this.dropConfigs = dropConfigs;
         this.type = type;
+        this.armor = armor;
     }
 
     // Methods
@@ -40,7 +44,7 @@ public class Element : Entity
     {
         foreach (var dc in this.dropConfigs)
         {
-            Vector3 projection = new Vector3(Random.Range(-1f, 1f), Random.Range(0, 1f), Random.Range(-1f, 1f));
+            Vector3 projection = new Vector3(Random.Range(-1f, 1f), Random.Range(1f, 2f), Random.Range(-1f, 1f));
             new Item(dc.I).Spawn(prefab.transform.position, projection, dc.Quantity);
         }
         base.Kill();
@@ -91,6 +95,10 @@ public class Element : Entity
         base.prefab.GetComponent<SyncElement>().Elmt = new Element(this);
     }
 
+    public void GetDamage(float damage)
+    {
+        this.Life -= Mathf.Max(damage - this.armor, 0);
+    }
 
     // Getters & Setters
     /// <summary>
@@ -107,6 +115,11 @@ public class Element : Entity
     public TypeElement Type
     {
         get { return this.type; }
+    }
+
+    public int Armor
+    {
+        get { return this.armor; }
     }
 }
 
