@@ -28,8 +28,22 @@ public static class ItemDatabase
     public static readonly Item FloatiumIngot = new Item(13, TextDatabase.FloatiumIngot, TextDatabase.FloatiumIngotDescription, 64, Resources.Load<Texture2D>("Sprites/Items/Ingots/FloatiumIngot"), new Entity(EntityDatabase.FloatiumIngot));
     public static readonly Item SunkiumIngot = new Item(14, TextDatabase.SunkiumIngot, TextDatabase.SunkiumIngotDescription, 64, Resources.Load<Texture2D>("Sprites/Items/Ingots/SunkiumIngot"), new Entity(EntityDatabase.SunkiumIngot));
 
-    public static readonly Item WoodenPlank = new Item(15,TextDatabase.WoodenPlank,TextDatabase.WoodenPlankDescription,20,Resources.Load<Texture2D>("Sprites/Items/Elementaries/Woodenplank"),)
+    public static readonly Item WoodenPlank = new Item(15, TextDatabase.WoodenPlank, TextDatabase.WoodenPlankDescription, 20, Resources.Load<Texture2D>("Sprites/Items/Elementaries/WoodenPlank"), new Entity(EntityDatabase.WoodenPlank));
+    public static readonly Item Glass = new Item(16, TextDatabase.Glass, TextDatabase.GlassDescription, 64, Resources.Load<Texture2D>("Sprites/Items/Elementaries/Glass"), new Entity(EntityDatabase.Glass));
+    public static readonly Item Bowl = new Item(17, TextDatabase.Bowl, TextDatabase.BowlDescription, 64, Resources.Load<Texture2D>("Sprites/Items/Elementaries/Bowl"), new Entity(EntityDatabase.Bowl));
+    public static readonly Item CuttedStone = new Item(18, TextDatabase.CuttedStone, TextDatabase.CuttedStoneDescription, 64, Resources.Load<Texture2D>("Sprites/Items/Elementaries/CuttedStone"), new Entity(EntityDatabase.CuttedStone));
+    //potions
+    public static readonly Item AquaPotion = new Item(19, TextDatabase.AquaPotion,TextDatabase.AquaPotionDescription,64, Resources.Load<Texture2D>("Prefabs/Items/Elementaries/AquaPotion"),new Entity(EntityDatabase.AquaPotion));
+    public static readonly Item BluePotion = new Item(20,TextDatabase.BluePotion,TextDatabase.BluePotionDescription, 64, Resources.Load<Texture2D>("Prefabs/Items/Elementaries/BluePotion"),new Entity(EntityDatabase.BluePotion));
+    public static readonly Item GreenPotion = new Item(21,TextDatabase.GreenPotion,TextDatabase.GreenPotionDescription, 64, Resources.Load<Texture2D>("Prefabs/Items/Elementaries/GreenPotion"),new Entity(EntityDatabase.GreenPotion));
+    public static readonly Item PurplePotion = new Item(22,TextDatabase.PurplePotion,TextDatabase.PurplePotionDescription, 64, Resources.Load<Texture2D>("Prefabs/Items/Elementaries/PurplePotion"),new Entity(EntityDatabase.PurplePotion));
+    public static readonly Item RedPotion = new Item(23,TextDatabase.RedPotion,TextDatabase.RedPotionDescription, 64, Resources.Load<Texture2D>("Prefabs/Items/Elementaries/RedPotion"),new Entity(EntityDatabase.RedPotion));
+    public static readonly Item YellowPotion = new Item(24,TextDatabase.YellowPotion,TextDatabase.YellowPotionDescription, 64, Resources.Load<Texture2D>("Prefabs/Items/Elementaries/YellowPotion"),new Entity(EntityDatabase.YellowPotion));
 
+    public static readonly Item Forge = new Item(25,TextDatabase.Forge,TextDatabase.ForgeDescription, 64, Resources.Load<Texture2D>("Prefabs/Items/Elementaries/Forge"),new Entity(EntityDatabase.Forge));
+    public static readonly Item Cauldron = new Item(26,TextDatabase.Cauldron,TextDatabase.CauldronDescription, 64, Resources.Load<Texture2D>("Prefabs/Items/Elementaries/Cauldron"),new Entity(EntityDatabase.Cauldron));
+    public static readonly Item Workbench = new Item(27,TextDatabase.Workbench,TextDatabase.WorkbenchDescription, 64, Resources.Load<Texture2D>("Prefabs/Items/Elementaries/Workbench"),new Entity(EntityDatabase.Workbench));
+    public static readonly Item Firepit = new Item(28,TextDatabase.Firepit,TextDatabase.FirepitDescription, 64, Resources.Load<Texture2D>("Prefabs/Items/Elementaries/Firepit"),new Entity(EntityDatabase.Firepit));
     // Tools
     public static readonly Pickaxe StonePickaxe = new Pickaxe(50, TextDatabase.StonePickaxe, TextDatabase.StonePickaxeDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/StonePickaxe"), new Entity(), null);
     public static readonly Pickaxe CopperPickaxe = new Pickaxe(51, TextDatabase.CopperPickaxe, TextDatabase.CopperPickaxeDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/CopperPickaxe"), new Entity(EntityDatabase.CopperPickaxe), Resources.Load<GameObject>("Prefabs/Tools/Pickaxes/CopperPickaxe"));
