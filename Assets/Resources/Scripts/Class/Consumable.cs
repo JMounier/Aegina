@@ -27,17 +27,7 @@ public class Consumable : Item
     public Consumable(int id, int meta, Text name, Text description, int size, Texture2D icon, Entity ent, Effect e) : base(id, meta, name, description, size, icon, ent)
     {
         this.e = e;
-    }
-
-    // Methods
-
-    /// <summary>
-    /// Consume l'objet et applique ces effets.
-    /// </summary>
-    public void Consume()
-    {
-        // To do
-    }
+    } 
 
     // Getter & Setters
 
@@ -61,6 +51,7 @@ public class Effect
 
     private EffectType et;
     private int power;
+    private float duration;
 
     // Constructors
     public Effect()
