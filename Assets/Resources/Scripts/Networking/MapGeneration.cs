@@ -4,21 +4,14 @@ using UnityEngine.Networking;
 
 public class MapGeneration : NetworkBehaviour
 {
-    private int worldSeed;
-    private NetworkManagerHUD nm;
-    private DayNightCycle dnc;
+    Save save;
+
     // Use this for initialization    
     void Start()
     {
         if (isServer)
         {
-            this.nm = GameObject.Find("NetworkManager").GetComponent<NetworkManagerHUD>();
-            this.dnc = GameObject.Find("Map").GetComponent<DayNightCycle>();
-
-            string[] properties = System.IO.File.ReadAllText(Application.dataPath + "/Saves/" + this.nm.World + "/properties").Split('|');
-            this.worldSeed = int.Parse(properties[0]);
-            this.dnc.SetTime(float.Parse(properties[1]));
-
+            this.save = gameObject.GetComponent<Save>();
             this.GenerateChunk(0, 0, Bridges.TwoL, Directions.North);
             this.GenerateChunk(0, 1, Bridges.TwoL, Directions.East, true);
             this.GenerateChunk(1, 1, Bridges.TwoL, Directions.South);
@@ -33,7 +26,7 @@ public class MapGeneration : NetworkBehaviour
 
     private void GenerateChunk(int x, int y, Bridges bridge, Directions dir, bool islandCore = false)
     {
-        System.Random rand = new System.Random(chunkSeed(x, y, this.worldSeed));
+        System.Random rand = new System.Random(chunkSeed(x, y, this.save.Seed));
         EntityDatabase.RandChunk(bridge, rand).Generate(x, y, rand, dir, gameObject, islandCore);
     }
 
@@ -47,13 +40,5 @@ public class MapGeneration : NetworkBehaviour
     private int chunkSeed(int x, int y, int seedWord)
     {
         return (467 * x - 131 * y + 1) * seedWord;
-    }
-
-    /// <summary>
-    /// Retourne le seed du monde.
-    /// </summary>
-    public int WorldSeed
-    {
-        get { return this.worldSeed; }
-    }
+    }       
 }

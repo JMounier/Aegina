@@ -7,6 +7,7 @@ public class SyncElement : NetworkBehaviour {
     [SyncVar]
     private Vector3 rotation;
     private Element elmt;
+    private int idSave;
 
     // Use this for initialization
     void Start()
@@ -21,5 +22,11 @@ public class SyncElement : NetworkBehaviour {
     {
         set { this.elmt = value; }
         get { return this.elmt; }
+    }
+
+    public int IdSave
+    {
+        get { return this.idSave; }
+        set { this.idSave = value; }
     }
 }

@@ -60,7 +60,6 @@ public class Chunk : Entity
                             this.GenerateEntity(EntityDatabase.IslandCore, ancre.gameObject);
                         else
                             this.GenerateEntity(this.b.Chose(rand), ancre.gameObject);
-
                 }
     }
 
