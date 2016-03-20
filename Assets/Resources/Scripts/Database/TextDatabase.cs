@@ -29,7 +29,24 @@ public class TextDatabase
     public static readonly Text FloatiumIngot = new Text("Lingot de floatium", "Floatium ingot");
     public static readonly Text SunkiumIngot = new Text("Lingot de sunkium", "Sunkium ingot");
 
-        // Description
+    public static readonly Text Forge = new Text("Forge", "Forge");
+    public static readonly Text Cauldron = new Text("Chaudron", "Cauldron");
+    public static readonly Text Workbench = new Text("Table de travail", "Workbench");
+    public static readonly Text Firepit = new Text("Feu", "Firepit");
+
+    public static readonly Text AquaPotion = new Text("Potion aqua", "Aqua potion");
+    public static readonly Text BluePotion = new Text("Potion bleu", "Blue potion");
+    public static readonly Text GreenPotion = new Text("Potion verte", "Green potion");
+    public static readonly Text PurplePotion = new Text("Potion violette", "Purple potion");
+    public static readonly Text RedPotion = new Text("Potion rouge", "Red potion");
+    public static readonly Text YellowPotion = new Text("Potion jaune", "Yellow potion");
+
+    public static readonly Text WoodenPlank = new Text("Planche de bois", "Wooden plank");
+    public static readonly Text Glass = new Text("Verre", "Glass");
+    public static readonly Text Bowl = new Text("Bol", "Bowl");
+    public static readonly Text CuttedStone = new Text("Pierre taillé", "Cutted stone");
+
+    // Description
     public static readonly Text LogDescription = new Text("Un morceau de bois pouvant servir pour créer d'autres objets", "A piece of wood usable to make other objects");
     public static readonly Text StoneDescription = new Text("Une pierre pouvant servir pour créer d'autres objets", "A piece of stone usable to make other objects");
     public static readonly Text SandDescription = new Text("Du sable... Vous pouvez faire un chateau de sable avec.", "some sand... you can make a sand castle... ");
@@ -47,8 +64,25 @@ public class TextDatabase
     public static readonly Text FloatiumIngotDescription = new Text("Un lingot de floatium pouvant être utiliser pour construire d'autres objets", "A floatium ingot usable to make other objects");
     public static readonly Text SunkiumIngotDescription = new Text("Un lingot de sunkium pouvant être utiliser pour construire d'autres objets", "A sunkium ingot usable to make other objects");
 
+    public static readonly Text ForgeDescription = new Text("Une forge rudimentaire faite avec quelques pierres. Cette forge permet de faire fondre des metaux", " A rudimentary forge made with some stone. This forge can melt metal");
+    public static readonly Text CauldronDescription = new Text("Un chaudron de sorciere, ideal pour faire des potions", "A witch cauldron ideal to make potion");
+    public static readonly Text WorkbenchDescription = new Text("Une table de travail pouvant servir pour... travailler", "A workbench usable to... work");
+    public static readonly Text FirepitDescription = new Text("Feu !!! Viande !!! Repas !!!", "Fire !!! Meat !!! Meal !!!");
+
+    public static readonly Text AquaPotionDescription = new Text("Une potion couleur aqua, etrange", "An aqua color potion, strange");
+    public static readonly Text BluePotionDescription = new Text("Une potion couleur bleu, etrange", "A blue color potion, strange");
+    public static readonly Text GreenPotionDescription = new Text("Une potion couleur verte, etrange", "A green color potion, strange");
+    public static readonly Text PurplePotionDescription = new Text("Une potion couleur purple, etrange", "A purple color potion, strange");
+    public static readonly Text RedPotionDescription = new Text("Une potion couleur rouge, etrange", "A red color potion, strange");
+    public static readonly Text YellowPotionDescription = new Text("Une potion couleur jaune, etrange", "A yellow color potion, strange");
+
+    public static readonly Text WoodenPlankDescription = new Text("Une planche de bois pouvant servir a creer des meubles", "A Wooden plank usable to make furnitures");
+    public static readonly Text GlassDescription = new Text("Du verre, la lumiere passe au travers", "Glass, light pass throught");
+    public static readonly Text BowlDescription = new Text("Un bol pratique pour contenir de la nourriture", "A bowl handy to contain food");
+    public static readonly Text CuttedStoneDescription = new Text("Une pierre taillé utilisable pour des construction", "A cutted stone usable for construction");
+
     // Tools
-        // Name
+    // Name
     public static readonly Text WoodenPickaxe = new Text("Pioche en bois", "Wooden pickaxe");
     public static readonly Text StonePickaxe = new Text("Pioche en pierre", "Stone pickaxe");
     public static readonly Text CopperPickaxe = new Text("Pioche en cuivre", "Copper pickaxe");
@@ -124,6 +158,14 @@ public class TextDatabase
     public static readonly Text Settings = new Text("Options", "Settings");
     public static readonly Text EnterName = new Text("Entrez un nom :", "Enter a name :");
     public static readonly Text Character = new Text("Personnage", "Character");
+    public static readonly Text WorldName = new Text("Nom du monde", "World name");
+    public static readonly Text Create = new Text("Créer", "Create");
+    public static readonly Text Upgrade = new Text("Amélioration", "Upgrade");
+    public static readonly Text Seed = new Text("Seed (facultatif)", "Seed (optional)");
+    public static readonly Text Delete = new Text("Supprimer", "Delete");
+    public static readonly Text AttackPower = new Text("Pouvoir d'attaque", "Attaque power");
+    public static readonly Text GrowingPower = new Text("Pouvoir de croissance", "Growing power");
+    public static readonly Text PortalPower = new Text("Pouvoir de portail", "Portal Power");
 
 }
 

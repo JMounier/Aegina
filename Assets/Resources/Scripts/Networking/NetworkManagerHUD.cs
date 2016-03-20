@@ -343,14 +343,14 @@ namespace UnityEngine.Networking
                     this.firstScene.PlayButtonSound();
                 }
                 rect1 = new Rect(this.posX + this.width * .33f + 5, this.posY + (1 + i) * spacing, this.width / 3 - 5, this.height);
-                if (GUI.Button(rect1, "Create", skin.GetStyle("button")))
+                if (GUI.Button(rect1, TextDatabase.Create.GetText(), skin.GetStyle("button")))
                 {
                     worldsShown = false;
                     worldcreateShown = true;
                     this.firstScene.PlayButtonSound();
                 }
                 rect1 = new Rect(this.posX + this.width * .66f + 10, this.posY + (1 + i) * spacing, this.width / 3 - 5, this.height);
-                if (GUI.Button(rect1,"Delete",skin.GetStyle("button")))
+                if (GUI.Button(rect1,TextDatabase.Delete.GetText(),skin.GetStyle("button")))
                 {
                     worldsList.Remove(world);
                     foreach (string file in Directory.GetFiles(Application.dataPath+"/saves/"+world))
@@ -411,14 +411,14 @@ namespace UnityEngine.Networking
                     this.firstScene.PlayButtonSound();
                 }
                 rect1 = new Rect(this.posX + this.width * .33f + 5, this.posY + (2 + i) * spacing, this.width / 3 - 5, this.height);
-                if (GUI.Button(rect1, "Create", skin.GetStyle("button")))
+                if (GUI.Button(rect1, TextDatabase.Create.GetText(), skin.GetStyle("button")))
                 {
                     listServShown = false;
                     ipserveurshown = true;
                     this.firstScene.PlayButtonSound();
                 }
                 rect1 = new Rect(this.posX + this.width * .66f + 10, this.posY + (2 + i) * spacing, this.width / 3 - 5, this.height);
-                if (GUI.Button(rect1, "Delete", skin.GetStyle("button")))
+                if (GUI.Button(rect1, TextDatabase.Delete.GetText(), skin.GetStyle("button")))
                 {
                     int temp = this.ipList.IndexOf(this.manager.networkAddress);
                     this.ipList.Remove(this.manager.networkAddress);
@@ -465,7 +465,7 @@ namespace UnityEngine.Networking
         {
             GUI.Box(new Rect(this.posX, this.posY - this.height - 10, this.width, this.height), TextDatabase.EnterName.GetText(), skin.GetStyle("inventory"));
             newWorldName = this.RemoveSpecialCharacter(GUI.TextField(new Rect(this.posX, this.posY, this.width, this.height), newWorldName, this.skin.textField), true);
-            GUI.Box(new Rect(this.posX, this.posY - this.height - 10 + 2 * this.spacing, this.width, this.height), "Seed (facultatif)", this.skin.GetStyle("inventory"));
+            GUI.Box(new Rect(this.posX, this.posY - this.height - 10 + 2 * this.spacing, this.width, this.height), TextDatabase.Seed.GetText(), this.skin.GetStyle("inventory"));
             Rect rect = new Rect(this.posX, this.posY + 2 * this.spacing, this.width, this.height);
             seedstr = GUI.TextField(rect, seedstr, 15, skin.textField);
             try
@@ -477,7 +477,7 @@ namespace UnityEngine.Networking
                 seed = 0;
             }
             rect = new Rect(this.posX, this.posY + 3 * this.spacing, this.width, this.height);
-            if (GUI.Button(rect, "Create", skin.GetStyle("button")))
+            if (GUI.Button(rect, TextDatabase.Create.GetText(), skin.GetStyle("button")))
             {
                 if (newWorldName != "")
                 {
@@ -526,7 +526,7 @@ namespace UnityEngine.Networking
             GUI.Box(new Rect(this.posX, this.posY - this.height - 10 + 2 * this.spacing, this.width, this.height), "IP", this.skin.GetStyle("inventory"));
             this.manager.networkAddress = GUI.TextField(new Rect(this.posX, this.posY + 2 * this.spacing, this.width, this.height), this.manager.networkAddress, this.skin.textField);
             Rect rect = new Rect(this.posX, this.posY + 3 * this.spacing, this.width, this.height);
-            if (GUI.Button(rect, "Create", skin.GetStyle("button")))
+            if (GUI.Button(rect, TextDatabase.Create.GetText(), skin.GetStyle("button")))
             {
                 if (newipname != "" && this.manager.networkAddress != "" && !this.ipList.Contains(this.manager.networkAddress))
                 {
