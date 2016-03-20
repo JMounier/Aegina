@@ -260,21 +260,23 @@ public class Controller : NetworkBehaviour
             }
             else if (this.path.Count > 0)
             {
+
+                // FIXE ME
                 Vector3 pos = this.path[0];
 
-                if (PathFinding.isValidPosition(pos, .5f, gameObject))
+                if (PathFinding.isValidPosition(pos, .5f, this.character))
                 {
                     this.anim.SetInteger("Action", 1);
-                    Vector3 viewRot = new Vector3(pos.x, gameObject.transform.position.y, pos.z) - transform.position;
+                    Vector3 viewRot = this.character.transform.position - new Vector3(pos.x, this.character.transform.position.y, pos.z);
                     if (viewRot != Vector3.zero)
                     {
                         Quaternion targetRotation = Quaternion.LookRotation(viewRot);
-                        gameObject.transform.rotation = Quaternion.Lerp(gameObject.transform.rotation, targetRotation, Time.deltaTime * 5);
+                        this.character.transform.rotation = Quaternion.Lerp(this.character.transform.rotation, targetRotation, Time.deltaTime * 5);
                     }
                     // look here pour des probleme de syncro
-                    gameObject.transform.Translate(gameObject.transform.forward * Time.deltaTime * this.WalkSpeed, Space.World);
-                    //gameObject.GetComponent<Rigidbody>().AddForce(gameObject.transform.forward * 180000f * Time.deltaTime * this.WalkSpeed);
-                    if (Vector3.Distance(gameObject.transform.position, pos) < .75f)
+                    gameObject.transform.Translate(this.character.transform.forward * Time.deltaTime * this.WalkSpeed, Space.World);
+                    //gameObject.GetComponentInChildren<Rigidbody>().AddForce(gameObject.transform.forward * Time.deltaTime * this.WalkSpeed);
+                    if (Vector3.Distance(this.character.transform.position, pos) < .75f)
                         this.path.RemoveAt(0);
                 }
                 else
@@ -346,5 +348,11 @@ public class Controller : NetworkBehaviour
     {
         get { return this.jumpForce; }
         set { this.jumpForce = value; }
+    }
+
+    public List<Vector3> Path
+    {
+        get { return this.path; }
+        set { this.path = value; }
     }
 }
