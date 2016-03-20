@@ -4,28 +4,42 @@ using System;
 
 public static class PathFinding
 {
-    public static List<Vector3> AStarPath(GameObject obj, Vector3 goal)
+    /// <summary>
+    /// Find the best path between a gameobject and a position. (The position must be valid)
+    /// </summary>
+    /// <param name="obj"></param>
+    /// <param name="goal"></param>
+    /// <param name="around"></param>
+    /// <returns></returns>
+    public static List<Vector3> AStarPath(GameObject obj, Vector3 goal, float around = 1f)
     {
         List<State> memory = new List<State>();
-        memory.Add(new State(0, 0, 0, new List<Vector3>()));
+        memory.Add(new State(obj.transform.position.x, obj.transform.position.y, obj.transform.position.z, 0, null));
         Heap tas = new Heap();
-        tas.Insert(0, new State(0, 0, 0, new List<Vector3>() { obj.transform.position }));
+        tas.Insert(0, new State(obj.transform.position.x, obj.transform.position.y, obj.transform.position.z, 0, null));
         while (!tas.IsEmpty)
         {
             Tuple<int, object> node = tas.ExtractMin();
             State st = (State)node.Item2;
-            Vector3 pos = st.Path[st.Path.Count - 1];
+            Vector3 pos = st.Position;
+
             // But atteind
-            if (Vector3.Distance(pos, goal) < 1)
-            {                
+            if (Vector3.Distance(pos, goal) < around)
+            {
                 tas.Clear();
-                return st.Path;
+                List<Vector3> path = new List<Vector3>();
+                while (st.Father != null)
+                {
+                    path.Insert(0, st.Position);
+                    st = st.Father;
+                }
+                return path;
             }
             else
             {
                 foreach (State child in Neighbours(st))
                 {
-                    Vector3 posChild = child.Path[child.Path.Count - 1];
+                    Vector3 posChild = child.Position;
                     if (isValidPosition(posChild, .5f, obj) && !child.Exist(memory))
                     {
                         tas.Insert((int)(child.Cost + Vector3.Distance(posChild, goal)), child);
@@ -39,23 +53,11 @@ public static class PathFinding
 
     private static IEnumerable<State> Neighbours(State s)
     {
-        Vector3 pos = s.Path[s.Path.Count - 1];
-
-        List<Vector3> nPath = new List<Vector3>(s.Path);
-        nPath.Add(new Vector3(1f, 0, 0) + pos);
-        yield return new State(s.X + 1, s.Y, s.Cost + 1, nPath);
-
-        nPath = new List<Vector3>(s.Path);
-        nPath.Add(new Vector3(-1, 0, 0) + pos);
-        yield return new State(s.X - 1, s.Y, s.Cost + 1, nPath);
-
-        nPath = new List<Vector3>(s.Path);
-        nPath.Add(new Vector3(0, 0, 1f) + pos);
-        yield return new State(s.X, s.Y + 1, s.Cost + 1, nPath);
-
-        nPath = new List<Vector3>(s.Path);
-        nPath.Add(new Vector3(0, 0, -1f) + pos);
-        yield return new State(s.X, s.Y - 1, s.Cost + 1, nPath);
+        Vector3 pos = s.Position;
+        yield return new State(s.X + 1, s.Y, s.Z, s.Cost + 1, s);
+        yield return new State(s.X - 1, s.Y, s.Z, s.Cost + 1, s);
+        yield return new State(s.X, s.Y, s.Z + 1, s.Cost + 1, s);
+        yield return new State(s.X, s.Y, s.Z - 1, s.Cost + 1, s);
     }
 
     public static bool isValidPosition(Vector3 pos, float range, GameObject obj)
@@ -156,46 +158,58 @@ public static class PathFinding
 
     private class State
     {
-        private List<Vector3> list;
-        private int v1;
-        private int v2;
-        private int v3;
+        private State father;
+        private float x;
+        private float y;
+        private float z;
+        private int cost;
 
-        public State(int v1, int v2, int v3, List<Vector3> list)
+        public State(float x, float y, float z, int cost, State father)
         {
-            this.v1 = v1;
-            this.v2 = v2;
-            this.v3 = v3;
-            this.list = list;
+            this.x = x;
+            this.y = y;
+            this.z = z;
+            this.cost = cost;
+            this.father = father;
         }
 
-        public List<Vector3> Path
+        public State Father
         {
-            get { return this.list; }
+            get { return this.father; }
         }
 
-        public int X
+        public float X
         {
-            set { this.v1 = value; }
-            get { return this.v1; }
+            set { this.x = value; }
+            get { return this.x; }
         }
 
-        public int Y
+        public float Y
         {
-            set { this.v2 = value; }
-            get { return this.v2; }
+            set { this.y = value; }
+            get { return this.y; }
         }
 
+        public float Z
+        {
+            set { this.z = value; }
+            get { return this.z; }
+        }
+
+        public Vector3 Position
+        {
+            get { return new Vector3(this.x, this.y, this.z); }
+        }
         public int Cost
         {
-            set { this.v3 = value; }
-            get { return this.v3; }
+            set { this.cost = value; }
+            get { return this.cost; }
         }
 
         public bool Exist(List<State> list)
         {
             foreach (State s in list)
-                if (s.X == this.X && s.Y == this.Y && s.Cost <= this.Cost)
+                if (s.X == this.X && s.Y == this.Y && s.Z == this.Z && s.Cost <= this.Cost)
                     return true;
             return false;
         }

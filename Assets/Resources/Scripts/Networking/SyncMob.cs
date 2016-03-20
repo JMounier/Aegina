@@ -52,18 +52,27 @@ public class SyncMob : NetworkBehaviour
         }
 
         // Move the mob
-        this.anim.SetInteger("Action", 1);
-        Vector3 pos = this.path[0];
-        Vector3 viewRot = new Vector3(pos.x, gameObject.transform.position.y, pos.z) - transform.position;
-        if (viewRot != Vector3.zero)
+        if (this.path.Count > 0)
         {
-            Quaternion targetRotation = Quaternion.LookRotation(viewRot);
-            gameObject.transform.rotation = Quaternion.Lerp(gameObject.transform.rotation, targetRotation, Time.deltaTime * 5);
+            Vector3 pos = this.path[0];
+
+            if (PathFinding.isValidPosition(pos, .5f, gameObject))
+            {
+                this.anim.SetInteger("Action", 1);
+                Vector3 viewRot = new Vector3(pos.x, gameObject.transform.position.y, pos.z) - transform.position;
+                if (viewRot != Vector3.zero)
+                {
+                    Quaternion targetRotation = Quaternion.LookRotation(viewRot);
+                    gameObject.transform.rotation = Quaternion.Lerp(gameObject.transform.rotation, targetRotation, Time.deltaTime * 5);
+                }
+                gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+                gameObject.GetComponent<Rigidbody>().AddForce(gameObject.transform.forward * 180000f * Time.deltaTime * this.myMob.WalkSpeed);
+                if (Vector3.Distance(gameObject.transform.position, pos) < .75f)
+                    this.path.RemoveAt(0);
+            }
+            else
+                this.anim.SetInteger("Action", 0);
         }
-        gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
-        gameObject.GetComponent<Rigidbody>().AddForce(gameObject.transform.forward * 180000f * Time.deltaTime * this.myMob.WalkSpeed);
-        if (Vector3.Distance(gameObject.transform.position, pos) < .75f)
-            this.path.RemoveAt(0);
     }
 
 
