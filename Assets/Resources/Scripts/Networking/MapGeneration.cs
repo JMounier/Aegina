@@ -23,12 +23,11 @@ public class MapGeneration : NetworkBehaviour
             this.GenerateChunk(0, 1, Bridges.TwoL, Directions.East, true);
             this.GenerateChunk(1, 1, Bridges.TwoL, Directions.South);
             this.GenerateChunk(1, 0, Bridges.TwoL, Directions.West);
-        
-            new Mob(EntityDatabase.Boar).Spawn(new Vector3(0, 7, 0));
-            new Mob(EntityDatabase.Boar).Spawn(new Vector3(5, 7, 5));
-            new Mob(EntityDatabase.Boar).Spawn(new Vector3(0, 7, -5));
-            new Mob(EntityDatabase.Boar).Spawn(new Vector3(-5, 7, 0));
-            new Mob(EntityDatabase.Boar).Spawn(new Vector3(0, 7, 0));
+
+            for (int i = 0; i < 15; i++)
+            {
+                new Mob(EntityDatabase.Boar).Spawn(new Vector3(Random.Range(-15, 15), 7, Random.Range(-15, 15)));
+            }          
         }
     }
 
