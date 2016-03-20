@@ -44,7 +44,7 @@ public class Element : Entity
     {
         foreach (var dc in this.dropConfigs)
         {
-            Vector3 projection = new Vector3(Random.Range(-1f, 1f), Random.Range(2f, 3f), Random.Range(-1f, 1f));
+            Vector3 projection = new Vector3(Random.Range(-1f, 1f), Random.Range(1f, 2f), Random.Range(-1f, 1f));
             new Item(dc.I).Spawn(prefab.transform.position, projection, dc.Quantity);
         }
         base.Kill();
