@@ -33,12 +33,12 @@ public static class ItemDatabase
     public static readonly Item Bowl = new Item(17, TextDatabase.Bowl, TextDatabase.BowlDescription, 64, Resources.Load<Texture2D>("Sprites/Items/Elementaries/Bowl"), new Entity(EntityDatabase.Bowl));
     public static readonly Item CuttedStone = new Item(18, TextDatabase.CuttedStone, TextDatabase.CuttedStoneDescription, 64, Resources.Load<Texture2D>("Sprites/Items/Elementaries/CuttedStone"), new Entity(EntityDatabase.CuttedStone));
     //potions
-    public static readonly Item AquaPotion = new Item(19, TextDatabase.AquaPotion,TextDatabase.AquaPotionDescription,64, Resources.Load<Texture2D>("Prefabs/Items/Elementaries/AquaPotion"),new Entity(EntityDatabase.AquaPotion));
-    public static readonly Item BluePotion = new Item(20,TextDatabase.BluePotion,TextDatabase.BluePotionDescription, 64, Resources.Load<Texture2D>("Prefabs/Items/Elementaries/BluePotion"),new Entity(EntityDatabase.BluePotion));
-    public static readonly Item GreenPotion = new Item(21,TextDatabase.GreenPotion,TextDatabase.GreenPotionDescription, 64, Resources.Load<Texture2D>("Prefabs/Items/Elementaries/GreenPotion"),new Entity(EntityDatabase.GreenPotion));
-    public static readonly Item PurplePotion = new Item(22,TextDatabase.PurplePotion,TextDatabase.PurplePotionDescription, 64, Resources.Load<Texture2D>("Prefabs/Items/Elementaries/PurplePotion"),new Entity(EntityDatabase.PurplePotion));
-    public static readonly Item RedPotion = new Item(23,TextDatabase.RedPotion,TextDatabase.RedPotionDescription, 64, Resources.Load<Texture2D>("Prefabs/Items/Elementaries/RedPotion"),new Entity(EntityDatabase.RedPotion));
-    public static readonly Item YellowPotion = new Item(24,TextDatabase.YellowPotion,TextDatabase.YellowPotionDescription, 64, Resources.Load<Texture2D>("Prefabs/Items/Elementaries/YellowPotion"),new Entity(EntityDatabase.YellowPotion));
+    public static readonly Consumable AquaPotion = new Consumable(19, TextDatabase.AquaPotion,TextDatabase.AquaPotionDescription,64, Resources.Load<Texture2D>("Prefabs/Items/Elementaries/AquaPotion"),new Entity(EntityDatabase.AquaPotion),new Effect(Effect.EffectType.Refreshment,2));
+    public static readonly Consumable BluePotion = new Consumable(20,TextDatabase.BluePotion,TextDatabase.BluePotionDescription, 64, Resources.Load<Texture2D>("Prefabs/Items/Elementaries/BluePotion"),new Entity(EntityDatabase.BluePotion),new Effect(Effect.EffectType.Refreshment,3));
+    public static readonly Consumable GreenPotion = new Consumable(21,TextDatabase.GreenPotion,TextDatabase.GreenPotionDescription, 64, Resources.Load<Texture2D>("Prefabs/Items/Elementaries/GreenPotion"),new Entity(EntityDatabase.GreenPotion),new Effect(Effect.EffectType.Saturation,2));
+    public static readonly Consumable PurplePotion = new Consumable(22,TextDatabase.PurplePotion,TextDatabase.PurplePotionDescription, 64, Resources.Load<Texture2D>("Prefabs/Items/Elementaries/PurplePotion"),new Entity(EntityDatabase.PurplePotion),new Effect(Effect.EffectType.InstantHealth,2));
+    public static readonly Consumable RedPotion = new Consumable(23,TextDatabase.RedPotion,TextDatabase.RedPotionDescription, 64, Resources.Load<Texture2D>("Prefabs/Items/Elementaries/RedPotion"),new Entity(EntityDatabase.RedPotion),new Effect(Effect.EffectType.InstantHealth,3));
+    public static readonly Consumable YellowPotion = new Consumable(24,TextDatabase.YellowPotion,TextDatabase.YellowPotionDescription, 64, Resources.Load<Texture2D>("Prefabs/Items/Elementaries/YellowPotion"),new Entity(EntityDatabase.YellowPotion),new Effect(Effect.EffectType.Saturation,3));
 
     public static readonly Item Forge = new Item(25,TextDatabase.Forge,TextDatabase.ForgeDescription, 64, Resources.Load<Texture2D>("Prefabs/Items/Elementaries/Forge"),new Entity(EntityDatabase.Forge));
     public static readonly Item Cauldron = new Item(26,TextDatabase.Cauldron,TextDatabase.CauldronDescription, 64, Resources.Load<Texture2D>("Prefabs/Items/Elementaries/Cauldron"),new Entity(EntityDatabase.Cauldron));
@@ -53,21 +53,21 @@ public static class ItemDatabase
     public static readonly Pickaxe FloatiumPickaxe = new Pickaxe(55, TextDatabase.FloatiumPickaxe, TextDatabase.FloatiumPickaxeDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/FloatiumPickaxe"), new Entity(EntityDatabase.FloatiumPickaxe), null);
     public static readonly Pickaxe SunkiumPickaxe = new Pickaxe(56, TextDatabase.SunkiumPickaxe, TextDatabase.SunkiumPickaxeDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/SunkiumPickaxe"), new Entity(EntityDatabase.SunkiumPickaxe), null);
 
-    public static readonly Axe StoneAxe = new Axe(60, TextDatabase.StoneAxe, TextDatabase.StoneAxeDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/StoneAxe"), new Entity(), null);
-    public static readonly Axe CopperAxe = new Axe(61, TextDatabase.CopperAxe, TextDatabase.CopperAxeDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/Copperaxe"), new Entity(), null);
-    public static readonly Axe IronAxe = new Axe(62, TextDatabase.IronAxe, TextDatabase.IronAxeDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/Ironaxe"), new Entity(), null);
-    public static readonly Axe GoldAxe = new Axe(63, TextDatabase.GoldAxe, TextDatabase.GoldAxeDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/Goldaxe"), new Entity(), null);
-    public static readonly Axe MithrilAxe = new Axe(64, TextDatabase.MithrilAxe, TextDatabase.MithrilAxeDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/Mithrilaxe"), new Entity(), null);
-    public static readonly Axe FloatiumAxe = new Axe(65, TextDatabase.FloatiumAxe, TextDatabase.FloatiumAxeDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/Floatiumaxe"), new Entity(), null);
-    public static readonly Axe SunkiumAxe = new Axe(66, TextDatabase.SunkiumAxe, TextDatabase.SunkiumAxeDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/Sunkiumaxe"), new Entity(), null);
+    public static readonly Axe StoneAxe = new Axe(60, TextDatabase.StoneAxe, TextDatabase.StoneAxeDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/StoneAxe"), new Entity(EntityDatabase.StoneAxe), null);
+    public static readonly Axe CopperAxe = new Axe(61, TextDatabase.CopperAxe, TextDatabase.CopperAxeDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/CopperAxe"), new Entity(EntityDatabase.CopperAxe), null);
+    public static readonly Axe IronAxe = new Axe(62, TextDatabase.IronAxe, TextDatabase.IronAxeDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/IronAxe"), new Entity(EntityDatabase.IronAxe), null);
+    public static readonly Axe GoldAxe = new Axe(63, TextDatabase.GoldAxe, TextDatabase.GoldAxeDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/GoldAxe"), new Entity(EntityDatabase.GoldAxe), null);
+    public static readonly Axe MithrilAxe = new Axe(64, TextDatabase.MithrilAxe, TextDatabase.MithrilAxeDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/MithrilAxe"), new Entity(EntityDatabase.MithrilAxe), null);
+    public static readonly Axe FloatiumAxe = new Axe(65, TextDatabase.FloatiumAxe, TextDatabase.FloatiumAxeDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/FloatiumAxe"), new Entity(EntityDatabase.FloatiumAxe), null);
+    public static readonly Axe SunkiumAxe = new Axe(66, TextDatabase.SunkiumAxe, TextDatabase.SunkiumAxeDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/SunkiumAxe"), new Entity(EntityDatabase.SunkiumAxe), null);
 
-    public static readonly Sword StoneSword = new Sword(70, TextDatabase.StoneSword, TextDatabase.StoneSwordDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/StoneSword"), new Entity(), null);
-    public static readonly Sword CopperSword = new Sword(71, TextDatabase.CopperSword, TextDatabase.CopperSwordDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/CopperSword"), new Entity(), null);
-    public static readonly Sword IronSword = new Sword(72, TextDatabase.IronSword, TextDatabase.IronSwordDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/IronSword"), new Entity(), null);
-    public static readonly Sword GoldSword = new Sword(73, TextDatabase.GoldSword, TextDatabase.GoldSwordDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/GoldSword"), new Entity(), null);
-    public static readonly Sword MithrilSword = new Sword(74, TextDatabase.MithrilSword, TextDatabase.MithrilSwordDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/MithrilSword"), new Entity(), null);
-    public static readonly Sword FloatiumSword = new Sword(75, TextDatabase.FloatiumSword, TextDatabase.FloatiumSwordDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/FloatiumSword"), new Entity(), null);
-    public static readonly Sword SunkiumSword = new Sword(76, TextDatabase.SunkiumSword, TextDatabase.SunkiumSwordDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/SunkiumSword"), new Entity(), null);
+    public static readonly Sword StoneSword = new Sword(70, TextDatabase.StoneSword, TextDatabase.StoneSwordDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/StoneSword"), new Entity(EntityDatabase.StoneSword), null);
+    public static readonly Sword CopperSword = new Sword(71, TextDatabase.CopperSword, TextDatabase.CopperSwordDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/CopperSword"), new Entity(EntityDatabase.CopperSword), null);
+    public static readonly Sword IronSword = new Sword(72, TextDatabase.IronSword, TextDatabase.IronSwordDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/IronSword"), new Entity(EntityDatabase.IronSword), null);
+    public static readonly Sword GoldSword = new Sword(73, TextDatabase.GoldSword, TextDatabase.GoldSwordDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/GoldSword"), new Entity(EntityDatabase.GoldSword), null);
+    public static readonly Sword MithrilSword = new Sword(74, TextDatabase.MithrilSword, TextDatabase.MithrilSwordDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/MithrilSword"), new Entity(EntityDatabase.MithrilSword), null);
+    public static readonly Sword FloatiumSword = new Sword(75, TextDatabase.FloatiumSword, TextDatabase.FloatiumSwordDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/FloatiumSword"), new Entity(EntityDatabase.FloatiumSword), null);
+    public static readonly Sword SunkiumSword = new Sword(76, TextDatabase.SunkiumSword, TextDatabase.SunkiumSwordDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/SunkiumSword"), new Entity(EntityDatabase.SunkiumSword), null);
 
     /// <summary>
     /// Liste tous les items du jeu. (Utilisez avec foreach)
