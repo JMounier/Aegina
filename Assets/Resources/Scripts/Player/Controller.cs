@@ -40,6 +40,7 @@ public class Controller : NetworkBehaviour
 
     //
     private InputManager im;
+    private List<Vector3> path;
 
     // Use this for initialization
     void Start()
@@ -50,6 +51,8 @@ public class Controller : NetworkBehaviour
 
         this.im = gameObject.GetComponent<InputManager>();
         this.soundAudio = gameObject.GetComponent<Sound>();
+
+        this.path = new List<Vector3>();
 
         if (!isLocalPlayer)
         {
@@ -74,7 +77,7 @@ public class Controller : NetworkBehaviour
 
         // Get new distance
         if (!this.pause)
-            if (Input.GetKey("left ctrl")) 
+            if (Input.GetKey("left ctrl"))
                 this.distance -= Input.mouseScrollDelta.y * this.sensitivityScroll;
         this.distance = Mathf.Clamp(this.distance, this.distanceMin, this.distanceMax);
 
@@ -154,7 +157,7 @@ public class Controller : NetworkBehaviour
         // Moves
         float angle = Mathf.Deg2Rad * (360 - this.cam.transform.rotation.eulerAngles.y);
         int rotation = 0;
-        if ((right && left) || (!right && !left))
+        if ((right == left))
         {
             if (forward && !back)
             {
@@ -167,7 +170,7 @@ public class Controller : NetworkBehaviour
                 rotation = 0;
             }
         }
-        else if ((forward && back) || (!forward && !back))
+        else if ((forward == back))
         {
             angle += Mathf.PI / 2;
             if (right && !left)
@@ -218,6 +221,7 @@ public class Controller : NetworkBehaviour
         // Apply the moves with the animation
         if (this.isJumping)
         {
+            this.path = new List<Vector3>();
             anim.SetInteger("Action", 3);
             if (isSprinting)
                 move *= Time.deltaTime * (this.sprintSpeed + this.jumpingBoost);
@@ -228,6 +232,7 @@ public class Controller : NetworkBehaviour
         {
             if (isMoving)
             {
+                this.path = new List<Vector3>();
                 if (isSprinting)
                 {
                     move *= Time.deltaTime * this.sprintSpeed;
@@ -252,6 +257,28 @@ public class Controller : NetworkBehaviour
                         this.soundAudio.CmdPlaySound(walkRand, 1f);
                     }
                 }
+            }
+            else if (this.path.Count > 0)
+            {
+                Vector3 pos = this.path[0];
+
+                if (PathFinding.isValidPosition(pos, .5f, gameObject))
+                {
+                    this.anim.SetInteger("Action", 1);
+                    Vector3 viewRot = new Vector3(pos.x, gameObject.transform.position.y, pos.z) - transform.position;
+                    if (viewRot != Vector3.zero)
+                    {
+                        Quaternion targetRotation = Quaternion.LookRotation(viewRot);
+                        gameObject.transform.rotation = Quaternion.Lerp(gameObject.transform.rotation, targetRotation, Time.deltaTime * 5);
+                    }
+                    // look here pour des probleme de syncro
+                    gameObject.transform.Translate(gameObject.transform.forward * Time.deltaTime * this.WalkSpeed, Space.World);
+                    //gameObject.GetComponent<Rigidbody>().AddForce(gameObject.transform.forward * 180000f * Time.deltaTime * this.WalkSpeed);
+                    if (Vector3.Distance(gameObject.transform.position, pos) < .75f)
+                        this.path.RemoveAt(0);
+                }
+                else
+                    this.anim.SetInteger("Action", 0);
             }
             else if (this.anim.GetInteger("Action") <= 3 || !Input.GetButton("Fire2") || this.im.NearElement == null)
                 this.anim.SetInteger("Action", 0);
