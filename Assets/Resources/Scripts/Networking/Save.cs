@@ -37,7 +37,10 @@ public class Save : NetworkBehaviour
     {
         this.coolDownSave -= Time.deltaTime;
         if (this.coolDownSave <= 0)
+        {
             this.SaveWorld();
+            this.coolDownSave = 60;
+        }
     }
 
     public void SaveWorld()
