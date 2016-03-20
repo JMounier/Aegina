@@ -87,7 +87,7 @@ public class Cristal_HUD : NetworkBehaviour
         else
         {
             rect = new Rect(this.pos_x + 5 * space, this.pos_y + height - 2 * space, 3 * space-5, space);
-            if (GUI.Button(rect, TextDatabase.Activate.GetText(), this.skin.GetStyle("button")))
+            if (GUI.Button(rect, TextDatabase.Upgrade.GetText(), this.skin.GetStyle("button")))
             {
                 if (this.inventory.InventoryContains(this.cristal.Needs))
                 {
@@ -97,7 +97,7 @@ public class Cristal_HUD : NetworkBehaviour
             }
             rect = new Rect(this.pos_x + 8 * space, this.pos_y + height - 2 * space, 3 * space - 5, space);
             
-            if (GUI.Button(rect, TextDatabase.Activate.GetText(), this.skin.GetStyle("button")))
+            if (GUI.Button(rect, TextDatabase.Upgrade.GetText(), this.skin.GetStyle("button")))
             {
                 if (this.inventory.InventoryContains(this.cristal.Needs))
                 {
@@ -107,7 +107,7 @@ public class Cristal_HUD : NetworkBehaviour
             }
 
             rect = new Rect(this.pos_x + 11 * space, this.pos_y + height - 2 * space, 3 * space-5, space);
-            if (GUI.Button(rect, TextDatabase.Activate.GetText(), this.skin.GetStyle("button")))
+            if (GUI.Button(rect, TextDatabase.Upgrade.GetText(), this.skin.GetStyle("button")))
             {
                 if (this.inventory.InventoryContains(this.cristal.Needs))
                 {
@@ -138,7 +138,7 @@ public class Cristal_HUD : NetworkBehaviour
         for (int i = 0; i < 3; i++)
         {
             rect = new Rect(this.pos_x + (5 + 3 * i) * space, this.pos_y + height - 12 * space, 3 * space - 5, space);
-            GUI.Box(rect, i.ToString(), skin.GetStyle("Tooltip"));
+            GUI.Box(rect, i == 0 ? TextDatabase.AttackPower.GetText(): i == 1 ? TextDatabase.GrowingPower.GetText() : TextDatabase.PortalPower.GetText(), skin.GetStyle("Tooltip"));
         }
     }
 

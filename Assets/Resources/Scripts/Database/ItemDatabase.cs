@@ -28,6 +28,8 @@ public static class ItemDatabase
     public static readonly Item FloatiumIngot = new Item(13, TextDatabase.FloatiumIngot, TextDatabase.FloatiumIngotDescription, 64, Resources.Load<Texture2D>("Sprites/Items/Ingots/FloatiumIngot"), new Entity(EntityDatabase.FloatiumIngot));
     public static readonly Item SunkiumIngot = new Item(14, TextDatabase.SunkiumIngot, TextDatabase.SunkiumIngotDescription, 64, Resources.Load<Texture2D>("Sprites/Items/Ingots/SunkiumIngot"), new Entity(EntityDatabase.SunkiumIngot));
 
+    public static readonly Item WoodenPlank = new Item(15,TextDatabase.WoodenPlank,TextDatabase.WoodenPlankDescription,20,Resources.Load<Texture2D>("Sprites/Items/Elementaries/Woodenplank"),)
+
     // Tools
     public static readonly Pickaxe StonePickaxe = new Pickaxe(50, TextDatabase.StonePickaxe, TextDatabase.StonePickaxeDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/StonePickaxe"), new Entity(), null);
     public static readonly Pickaxe CopperPickaxe = new Pickaxe(51, TextDatabase.CopperPickaxe, TextDatabase.CopperPickaxeDescription, 200, 3, Resources.Load<Texture2D>("Sprites/Items/Tools/CopperPickaxe"), new Entity(EntityDatabase.CopperPickaxe), Resources.Load<GameObject>("Prefabs/Tools/Pickaxes/CopperPickaxe"));
