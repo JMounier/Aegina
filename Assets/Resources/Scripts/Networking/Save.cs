@@ -74,6 +74,22 @@ public class Save : NetworkBehaviour
     }
 
     /// <summary>
+    /// Supprime a la sauvegarde un chunk.
+    /// A appeller lorsque l'on souhaite degenere un chunk.
+    /// </summary>
+    /// <param name="x">La position x du chunk.</param>
+    /// <param name="y">La position y du chunk.</param>
+    public void RemoveChunk(int x, int y)
+    {
+        for (int i = 0; i < this.chunks.Count; i++)
+            if (this.chunks[i].X == x && this.chunks[i].Y == y)
+            {
+                this.chunks.RemoveAt(i);
+                break;
+            }
+    }
+
+    /// <summary>
     /// Retourne la liste des id des elements modifie sur le chunk.
     /// </summary>
     /// <param name="x">La position x du chunk.</param>
@@ -141,14 +157,9 @@ class ChunkSave
         {
             foreach (string str in File.ReadAllText(this.path).Split('|'))
             {
-                try
-                {
-                    this.idSave.Add(int.Parse(str));
-                }
-                catch (System.FormatException e)
-                {
-                    throw new System.Exception("Fichier de chunk corompu : " + e.Message);
-                }
+                int id;
+                if (int.TryParse(str, out id))
+                    this.idSave.Add(id);
             }
         }
         else
