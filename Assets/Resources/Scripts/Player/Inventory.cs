@@ -36,7 +36,6 @@ public class Inventory : NetworkBehaviour
         this.pos_y_toolbar = Screen.height - this.size_toolbar;
         this.slots = new ItemStack[this.rows, this.columns];
         this.ClearInventory();
-        // this.LoadInventory();       
 
         this.skin = Resources.Load<GUISkin>("Sprites/GUIskin/Skin");
         this.trans = gameObject.GetComponent<Transform>();
@@ -231,7 +230,6 @@ public class Inventory : NetworkBehaviour
         {
             this.Drop(this.selectedItem);
             this.draggingItemStack = false;
-            this.SaveInventory();
         }
         // Relachement d'un item hors de l'inventaire
         if (!rect.Contains(Event.current.mousePosition) && this.draggingItemStack && Event.current.button == 1 && Event.current.type == EventType.MouseUp)
@@ -240,7 +238,6 @@ public class Inventory : NetworkBehaviour
             this.selectedItem.Quantity--;
             if (this.selectedItem.Quantity == 0)
                 this.draggingItemStack = false;
-            this.SaveInventory();
         }
     }
 
@@ -495,29 +492,6 @@ public class Inventory : NetworkBehaviour
         for (int i = 0; i < this.rows; i++)
             for (int j = 0; j < this.columns; j++)
                 this.slots[i, j] = new ItemStack();
-    }
-
-    /// <summary>
-    /// Sauvegarde l'inventaire en local.
-    /// </summary>
-    public void SaveInventory()
-    {
-        for (int i = 0; i < this.rows; i++)
-            for (int j = 0; j < this.columns; j++)
-                PlayerPrefs.SetString("Inventory " + i + " " + j, this.slots[i, j].Items.ID + " " + this.slots[i, j].Items.Meta + " " + this.slots[i, j].Quantity);
-    }
-
-    /// <summary>
-    /// Recupere l'inventaire local.
-    /// </summary>
-    public void LoadInventory()
-    {
-        for (int i = 0; i < this.rows; i++)
-            for (int j = 0; j < this.columns; j++)
-            {
-                string[] save = PlayerPrefs.GetString("Inventory " + i + " " + j, "-1 0 0").Split();
-                this.slots[i, j] = new ItemStack(ItemDatabase.Find(System.Convert.ToInt32(save[0]), System.Convert.ToInt32(save[1])), System.Convert.ToInt32(save[2]));
-            }
     }
 
     /// <summary>

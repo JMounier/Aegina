@@ -42,57 +42,66 @@ public class Element : Entity
     /// </summary>
     protected override void Kill()
     {
-        foreach (var dc in this.dropConfigs)
+        foreach (DropConfig dc in this.dropConfigs)
         {
             Vector3 projection = new Vector3(Random.Range(-1f, 1f), Random.Range(1f, 2f), Random.Range(-1f, 1f));
             new Item(dc.I).Spawn(prefab.transform.position, projection, dc.Quantity);
         }
+        int idSave = base.prefab.GetComponent<SyncElement>().IdSave;
+        int x = (int)(base.prefab.transform.parent.parent.position.x / Chunk.Size);
+        int y = (int)(base.prefab.transform.parent.parent.position.z / Chunk.Size);
+        GameObject.Find("Map").GetComponent<Save>().SaveDestroyedElement(x, y, idSave);
         base.Kill();
     }
 
     /// <summary>
     /// Instancie l'entite dans le monde. (Must be server!)
     /// </summary>
-    public override void Spawn()
+    public void Spawn(int idSave)
     {
         base.Spawn();
         base.prefab.GetComponent<SyncElement>().Elmt = new Element(this);
+        base.prefab.GetComponent<SyncElement>().IdSave = idSave;
     }
 
     /// <summary>
     /// Instancie l'entite dans le monde avec une position. (Must be server!)
     /// </summary>
-    public override void Spawn(Vector3 pos)
+    public void Spawn(Vector3 pos, int idSave)
     {
         base.Spawn(pos);
         base.prefab.GetComponent<SyncElement>().Elmt = new Element(this);
+        base.prefab.GetComponent<SyncElement>().IdSave = idSave;
     }
 
     /// <summary>
     /// Instancie l'entite dans le monde avec une position et un parent. (Must be server!)
     /// </summary>
-    public override void Spawn(Vector3 pos, Transform parent)
+    public void Spawn(Vector3 pos, Transform parent, int idSave)
     {
         base.Spawn(pos, parent);
         base.prefab.GetComponent<SyncElement>().Elmt = new Element(this);
+        base.prefab.GetComponent<SyncElement>().IdSave = idSave;
     }
 
     /// <summary>
     /// Instancie l'entite dans le monde avec une position et une rotation. (Must be server!)
     /// </summary>
-    public override void Spawn(Vector3 pos, Quaternion rot)
+    public void Spawn(Vector3 pos, Quaternion rot, int idSave)
     {
         base.Spawn(pos, rot);
         base.prefab.GetComponent<SyncElement>().Elmt = new Element(this);
+        base.prefab.GetComponent<SyncElement>().IdSave = idSave;
     }
 
     /// <summary>
     /// Instancie l'entite dans le monde avec une position et une rotation et un parent. (Must be server!)
     /// </summary>
-    public override void Spawn(Vector3 pos, Quaternion rot, Transform parent)
+    public void Spawn(Vector3 pos, Quaternion rot, Transform parent, int idSave)
     {
         base.Spawn(pos, rot, parent);
         base.prefab.GetComponent<SyncElement>().Elmt = new Element(this);
+        base.prefab.GetComponent<SyncElement>().IdSave = idSave;
     }
 
     public void GetDamage(float damage)

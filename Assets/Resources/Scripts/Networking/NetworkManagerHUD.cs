@@ -23,7 +23,6 @@ namespace UnityEngine.Networking
         private int ipindex = 0;
         private string world = "";
         private string newWorldName = "World";
-        private int seed = 0;
         private string seedstr = "";
         private string newipname = "Serveur";
 
@@ -59,10 +58,10 @@ namespace UnityEngine.Networking
             this.firstScene = GameObject.Find("Map").GetComponent<FirstScene>();
             if (playerName == "")
                 this.showGUI = false;
-            if (!Directory.Exists(Application.dataPath + "/Saves"))
-            {
+
+            if (!Directory.Exists(Application.dataPath + "/Saves"))            
                 Directory.CreateDirectory(Application.dataPath + "/Saves");
-            }
+            
         }
         void Update()
         {
@@ -350,10 +349,10 @@ namespace UnityEngine.Networking
                     this.firstScene.PlayButtonSound();
                 }
                 rect1 = new Rect(this.posX + this.width * .66f + 10, this.posY + (1 + i) * spacing, this.width / 3 - 5, this.height);
-                if (GUI.Button(rect1,TextDatabase.Delete.GetText(),skin.GetStyle("button")))
+                if (GUI.Button(rect1, TextDatabase.Delete.GetText(), skin.GetStyle("button")))
                 {
                     worldsList.Remove(world);
-                    foreach (string file in Directory.GetFiles(Application.dataPath+"/saves/"+world))
+                    foreach (string file in Directory.GetFiles(Application.dataPath + "/saves/" + world))
                     {
                         File.Delete(file);
                     }
@@ -393,8 +392,8 @@ namespace UnityEngine.Networking
                 int i = 0;
                 for (i = 0; i < Mathf.Min(3, ipList.Count); i++)
                 {
-                    Rect rect = new Rect(this.posX, this.posY + (2 + i) * spacing-(3-i)*6, this.width, this.height*2+5);
-                    if (GUI.Button(rect, PlayerPrefs.GetString(ipList[(i + ipindex) % ipList.Count])+"\n"+ipList[(i + ipindex) % ipList.Count], this.manager.networkAddress == ipList[(i + ipindex) % ipList.Count] ? skin.GetStyle("slot") : skin.GetStyle("Button")))
+                    Rect rect = new Rect(this.posX, this.posY + (2 + i) * spacing - (3 - i) * 6, this.width, this.height * 2 + 5);
+                    if (GUI.Button(rect, PlayerPrefs.GetString(ipList[(i + ipindex) % ipList.Count]) + "\n" + ipList[(i + ipindex) % ipList.Count], this.manager.networkAddress == ipList[(i + ipindex) % ipList.Count] ? skin.GetStyle("slot") : skin.GetStyle("Button")))
                     {
                         this.manager.networkAddress = ipList[(i + ipindex) % ipList.Count];
                         this.firstScene.PlayButtonSound();
@@ -430,7 +429,7 @@ namespace UnityEngine.Networking
                     PlayerPrefs.SetString("ip" + ipList.Count, "");
                     if (ipList.Count == 0)
                         this.listServShown = false;
-                    
+
                 }
             }
             else
@@ -467,15 +466,7 @@ namespace UnityEngine.Networking
             newWorldName = this.RemoveSpecialCharacter(GUI.TextField(new Rect(this.posX, this.posY, this.width, this.height), newWorldName, this.skin.textField), true);
             GUI.Box(new Rect(this.posX, this.posY - this.height - 10 + 2 * this.spacing, this.width, this.height), TextDatabase.Seed.GetText(), this.skin.GetStyle("inventory"));
             Rect rect = new Rect(this.posX, this.posY + 2 * this.spacing, this.width, this.height);
-            seedstr = GUI.TextField(rect, seedstr, 15, skin.textField);
-            try
-            {
-                seed = int.Parse(seedstr);
-            }
-            catch (System.Exception)
-            {
-                seed = 0;
-            }
+            seedstr = GUI.TextField(rect, seedstr, 15, skin.textField);        
             rect = new Rect(this.posX, this.posY + 3 * this.spacing, this.width, this.height);
             if (GUI.Button(rect, TextDatabase.Create.GetText(), skin.GetStyle("button")))
             {
@@ -499,10 +490,13 @@ namespace UnityEngine.Networking
                         this.world = this.newWorldName;
                         this.newWorldName = "World";
                         this.worldcreateShown = false;
-                        Directory.CreateDirectory(Application.dataPath + "/Saves/" + this.world);
                         System.Random genSeed = new System.Random();
-                        System.IO.File.WriteAllText(Application.dataPath + "/Saves/" + this.world + "/properties", (seed == 0 ? genSeed.Next(int.MaxValue) : seed).ToString() + "|300");
-                        worldsList.Add(this.world);
+                        int seed = 0;
+                        if (!int.TryParse(this.seedstr, out seed))
+                            seed = genSeed.Next(int.MaxValue);
+
+                        Save.CreateWorld(this.world, seed);
+                        this.worldsList.Add(this.world);
                     }
                 }
                 this.firstScene.PlayButtonSound();
@@ -547,9 +541,7 @@ namespace UnityEngine.Networking
             }
         }
 
-
         //Getters
-
         public string World
         {
             get { return world; }

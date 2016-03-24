@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 using System;
 /// <summary>
 ///  Les differentes sorties possibles.
@@ -12,7 +12,7 @@ public enum Directions { North, East, South, West };
 /// </summary>
 public class Chunk : Entity
 {
-    private static int size = 100;
+    public readonly static int Size = 100;
 
     private Bridges bridge;
     private Biome b;
@@ -43,42 +43,57 @@ public class Chunk : Entity
     // Methods 
     public void Generate(int x, int y, System.Random rand, Directions direction, GameObject map, bool isPrisme = false)
     {
+        // Load the chunk
+        Save save = map.GetComponent<Save>();
+        save.AddChunk(x, y);
+        List<int> chunkSave = save.LoadChunk(x, y);
+        int posSave = 0;
+
         this.isPrisme = isPrisme;
         this.b = BiomeDatabase.RandBiome(rand);
-        Spawn(new Vector3(x * size, 0, y * size), Quaternion.Euler(new Vector3(0, 90 * (int)direction, 0)), map.transform);
+        Spawn(new Vector3(x * Size, 0, y * Size), Quaternion.Euler(new Vector3(0, 90 * (int)direction, 0)), map.transform);
         Prefab.GetComponentInChildren<MeshRenderer>().materials = new Material[2] { b.Grass, b.Rock };
         Prefab.GetComponent<SyncChunk>().BiomeId = b.ID;
+
+        int idSave = 0;
         foreach (Transform content in Prefab.transform)
             if (content.CompareTag("Elements"))
                 foreach (Transform ancre in content.transform)
-                {                   
+                {
                     if (ancre.CompareTag("Ancre"))
-                        this.GenerateEntity(this.b.Chose(rand), ancre.gameObject);
+                    {
+                        if (posSave < chunkSave.Count && chunkSave[posSave] == idSave)
+                            posSave++;
+                        else
+                            this.GenerateEntity(this.b.Chose(rand), ancre.gameObject, idSave);
+                        idSave++;
+                    }
 
                     else if (ancre.CompareTag("MainAncre"))
+                    {
                         if (this.isPrisme)
-                            this.GenerateEntity(EntityDatabase.IslandCore, ancre.gameObject);
-                        else
-                            this.GenerateEntity(this.b.Chose(rand), ancre.gameObject);
-
+                            this.GenerateEntity(EntityDatabase.IslandCore, ancre.gameObject, idSave);
+                        idSave++;
+                    }
                 }
     }
 
-    private void GenerateEntity(Entity e, GameObject ancre)
+    private void GenerateEntity(Entity e, GameObject ancre, int idSave)
     {
         if (e.ID != -1)
         {
             Vector3 rot = e.Prefab.transform.eulerAngles;
             rot.y = UnityEngine.Random.Range(0, 360);
             if (e is IslandCore)
-                new IslandCore(e as IslandCore).Spawn(ancre.transform.position, Quaternion.Euler(rot), ancre.transform.parent);
+                new IslandCore(e as IslandCore).Spawn(ancre.transform.position, Quaternion.Euler(rot), ancre.transform.parent, idSave);
             else if (e is Element)
-                new Element(e as Element).Spawn(ancre.transform.position, Quaternion.Euler(rot), ancre.transform.parent);
+                new Element(e as Element).Spawn(ancre.transform.position, Quaternion.Euler(rot), ancre.transform.parent, idSave);
             else
-                new Entity(e).Spawn(ancre.transform.position, Quaternion.Euler(rot), ancre.transform.parent);
+                throw new Exception("You want to spwan something else than an element in the chunk...");
+
         }
         GameObject.Destroy(ancre);
-    }  
+    }
 
     // Getters & Setters
     /// <summary>
