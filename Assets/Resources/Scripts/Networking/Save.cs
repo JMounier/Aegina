@@ -44,6 +44,9 @@ public class Save : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!isServer)
+            return;
+
         this.coolDownSave -= Time.deltaTime;
         if (this.coolDownSave <= 0)
         {
