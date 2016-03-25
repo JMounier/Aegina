@@ -246,7 +246,7 @@ public class Inventory : NetworkBehaviour
     /// </summary>
     void DrawInventory()
     {
-        Rect rect = new Rect(this.pos_x_inventory - 8, this.pos_y_inventory - 8, this.columns * this.size_inventory + 16, (this.rows + .5f) * this.size_inventory + 16);
+        Rect rect = new Rect(this.pos_x_inventory - 24, this.pos_y_inventory - 32, this.columns * this.size_inventory + 48, (this.rows + .5f) * this.size_inventory + 64);
         GUI.Box(rect, "", this.skin.GetStyle("inventory"));
         for (int i = 0; i < this.rows; i++)
             for (int j = 0; j < this.columns; j++)
