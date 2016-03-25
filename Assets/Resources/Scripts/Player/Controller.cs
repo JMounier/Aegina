@@ -9,6 +9,9 @@ public class Controller : NetworkBehaviour
     private GameObject cam;
     private GameObject character;
 
+    // Components
+    private SyncCharacter syncChar;
+
     // Use for Character
     private float walkSpeed = 3f;
     private float sprintSpeed = 5f;
@@ -38,7 +41,7 @@ public class Controller : NetworkBehaviour
     // Use for Sound
     private Sound soundAudio;
 
-    //
+    // Pathfinding
     private InputManager im;
     private List<Vector3> path;
 
@@ -48,6 +51,7 @@ public class Controller : NetworkBehaviour
         this.anim = gameObject.GetComponent<Animator>();
         this.cam = gameObject.GetComponentInChildren<Camera>().gameObject;
         this.character = gameObject.GetComponentInChildren<CharacterCollision>().gameObject;
+        this.syncChar = gameObject.GetComponent<SyncCharacter>();
 
         this.im = gameObject.GetComponent<InputManager>();
         this.soundAudio = gameObject.GetComponent<Sound>();
@@ -145,7 +149,7 @@ public class Controller : NetworkBehaviour
         // Jump
         if (jump && !this.isJumping && this.coolDownJump <= 0)
         {
-            this.character.GetComponent<Rigidbody>().AddForce(0, jumpForce, 0);
+            this.character.GetComponent<Rigidbody>().AddForce(0, jumpForce + this.syncChar.Jump, 0);
             this.isJumping = true;
             this.coolDownJump = 0.2f;
         }
@@ -224,9 +228,9 @@ public class Controller : NetworkBehaviour
             this.path = new List<Vector3>();
             anim.SetInteger("Action", 3);
             if (isSprinting)
-                move *= Time.deltaTime * (this.sprintSpeed + this.jumpingBoost);
+                move *= Time.deltaTime * (this.sprintSpeed + this.jumpingBoost + this.syncChar.Speed);
             else
-                move *= Time.deltaTime * (this.walkSpeed + this.jumpingBoost);
+                move *= Time.deltaTime * (this.walkSpeed + this.jumpingBoost + this.syncChar.Speed);
         }
         else
         {
@@ -235,7 +239,7 @@ public class Controller : NetworkBehaviour
                 this.path = new List<Vector3>();
                 if (isSprinting)
                 {
-                    move *= Time.deltaTime * this.sprintSpeed;
+                    move *= Time.deltaTime * (this.sprintSpeed + this.syncChar.Speed);
                     this.anim.SetInteger("Action", 2);
                     if (this.soundAudio.IsReady(2))
                     {
@@ -247,7 +251,7 @@ public class Controller : NetworkBehaviour
                 }
                 else
                 {
-                    move *= Time.deltaTime * this.walkSpeed;
+                    move *= Time.deltaTime * (this.walkSpeed + this.syncChar.Speed);
                     this.anim.SetInteger("Action", 1);
                     if (this.soundAudio.IsReady(1))
                     {
@@ -260,14 +264,12 @@ public class Controller : NetworkBehaviour
             }
             else if (this.path.Count > 0)
             {
-
-                // FIXE ME
                 Vector3 pos = this.path[0];
 
                 if (PathFinding.isValidPosition(pos, .5f, this.character))
                 {
                     this.anim.SetInteger("Action", 1);
-                    Vector3 viewRot = new Vector3(-pos.x, this.character.transform.position.y, -pos.z) - new Vector3( -this.character.transform.position.x, this.character.transform.position.y, -this.character.transform.position.z);
+                    Vector3 viewRot = new Vector3(-pos.x, this.character.transform.position.y, -pos.z) - new Vector3(-this.character.transform.position.x, this.character.transform.position.y, -this.character.transform.position.z);
                     if (viewRot != Vector3.zero)
                     {
                         Quaternion targetRotation = Quaternion.LookRotation(viewRot);
@@ -278,9 +280,7 @@ public class Controller : NetworkBehaviour
                     //gameObject.GetComponentInChildren<Rigidbody>().AddForce(gameObject.transform.forward * Time.deltaTime * this.WalkSpeed);
                     if (Vector3.Distance(this.character.transform.position, pos) < 1)
                         this.path.RemoveAt(0);
-                }
-                else
-                    this.anim.SetInteger("Action", 0);
+                }               
             }
             else if (this.anim.GetInteger("Action") <= 3 || !Input.GetButton("Fire2") || this.im.NearElement == null)
                 this.anim.SetInteger("Action", 0);

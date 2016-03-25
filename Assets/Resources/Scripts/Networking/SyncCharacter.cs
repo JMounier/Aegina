@@ -4,13 +4,19 @@ using UnityEngine.Networking;
 
 public class SyncCharacter : NetworkBehaviour
 {
-
+    // Carateristiques
     private int lifeMax;
     private float life;
     private int hungerMax;
     private float hunger;
     private int thirstMax;
     private float thirst;
+
+    // Bonus / Malus
+    private float speed = 0f;
+    private float cdSpeed = 0f;
+    private float jump = 0f;
+    private float cdJump = 0f;
 
     private static float starvation = 0.1f;
     private static float thirstiness = 0.2f;
@@ -64,6 +70,19 @@ public class SyncCharacter : NetworkBehaviour
     {
         if (!isLocalPlayer)
             return;
+
+        // Bonus
+        if (this.cdJump <= 0)
+            this.jump = 0;
+        else
+            this.cdJump -= Time.deltaTime;
+
+        if (this.cdSpeed <= 0)
+            this.speed = 0;
+        else
+            this.cdSpeed -= Time.deltaTime;
+
+        // Bars
         GUI.DrawTexture((new Rect((Screen.width - this.inventory.Columns * this.inventory.ToolbarSize) / 2, (int)(Screen.height - this.inventory.ToolbarSize * 1.3f), this.inventory.Columns * this.inventory.ToolbarSize, this.inventory.ToolbarSize/3.5f)), this.lifeBar[Mathf.CeilToInt(this.life * 100 / this.lifeMax)]);
         GUI.DrawTexture((new Rect(Screen.width / 1.03f, Screen.height * 0.0125f, Screen.width / 85, Screen.height / 2f)), this.hungerBar[Mathf.CeilToInt(this.hunger * 100 / this.hungerMax)]);
         GUI.DrawTexture((new Rect(Screen.width / 1.03f - Screen.width * 0.025f, Screen.height * 0.0125f, Screen.width / 85, Screen.height / 2f)), this.ThirstBar[Mathf.CeilToInt(this.thirst * 100 / this.thirstMax)]);
@@ -176,5 +195,41 @@ public class SyncCharacter : NetworkBehaviour
     {
         get { return this.thirst; }
         set { this.thirst = Mathf.Clamp(value, 0f, this.thirstMax); }
+    }
+
+    /// <summary>
+    /// Le bonus de vitesse du personnage.
+    /// </summary>
+    public float Speed
+    {
+        get { return this.speed; }
+        set { this.speed = value; }
+    }
+
+    /// <summary>
+    /// La duree du bonus de vitesse restant du personnage.
+    /// </summary>
+    public float CdSpeed
+    {
+        get { return this.cdSpeed; }
+        set { this.cdSpeed = value; }
+    }
+
+    /// <summary>
+    /// Le bonus de saut du personnage.
+    /// </summary>
+    public float Jump
+    {
+        get { return this.jump; }
+        set { this.jump = value; }
+    }
+
+    /// <summary>
+    /// La duree du bonus de saut restant du personnage.
+    /// </summary>
+    public float CdJump
+    {
+        get { return this.cdJump; }
+        set { this.cdJump = value; }
     }
 }

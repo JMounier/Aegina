@@ -20,6 +20,8 @@ public class InputManager : NetworkBehaviour
     private GameObject cam;
     private SyncElement nearElement;
 
+    private float cdConsume = 1f;
+
     // Use this for initialization
     void Start()
     {
@@ -94,56 +96,66 @@ public class InputManager : NetworkBehaviour
             this.controller.Pause = true;
         }
 
+        bool useConsumable = false;
         if (Input.GetButton("Fire2") && !this.inventaire.InventoryShown && !this.menu.MenuShown && !this.menu.OptionShown && !this.social.ChatShown)
         {
             if (this.inventaire.UsedItem.Items is Consumable)
             {
-                Consumable consum = this.inventaire.UsedItem.Items as Consumable;
-                switch (consum.E.ET)
+                this.anim.SetInteger("Action", 7);
+                this.cdConsume -= Time.deltaTime;
+                useConsumable = true;
+                if (this.cdConsume < 0)
                 {
-                    case Effect.EffectType.Speed:
-                        break;
-                    case Effect.EffectType.Slowness:
-                        break;
-                    case Effect.EffectType.Haste:
-                        break;
-                    case Effect.EffectType.MiningFatigue:
-                        break;
-                    case Effect.EffectType.Strength:
-                        break;
-                    case Effect.EffectType.InstantHealth:
-                        this.syncCharacter.Life += 10 * consum.E.Power;
-                        this.inventaire.UsedItem.Quantity--;
-                        break;
-                    case Effect.EffectType.InstantDamage:
-                        break;
-                    case Effect.EffectType.JumpBoost:
-                        break;
-                    case Effect.EffectType.Regeneration:
-                        break;
-                    case Effect.EffectType.Resistance:
-                        break;
-                    case Effect.EffectType.Hunger:
-                        break;
-                    case Effect.EffectType.Weakness:
-                        break;
-                    case Effect.EffectType.Poison:
-                        break;
-                    case Effect.EffectType.Saturation:
-                        this.syncCharacter.Hunger += 10 * consum.E.Power;
-                        this.inventaire.UsedItem.Quantity--;
-                        break;
-                    case Effect.EffectType.Thirst:                       
-                        break;
-                    case Effect.EffectType.Refreshment:
-                        this.syncCharacter.Thirst += 10 * consum.E.Power;
-                        this.inventaire.UsedItem.Quantity--;
-                        break;
-                    default:
-                        break;
+                    this.cdConsume = 1;
+                    Consumable consum = this.inventaire.UsedItem.Items as Consumable;
+                    switch (consum.E.ET)
+                    {
+                        case Effect.EffectType.Speed:
+                            this.syncCharacter.Speed = consum.E.Power * 2;
+                            this.syncCharacter.CdSpeed = consum.E.Power * 30;
+                            break;
+                        case Effect.EffectType.Slowness:
+                            break;
+                        case Effect.EffectType.Haste:
+                            break;
+                        case Effect.EffectType.MiningFatigue:
+                            break;
+                        case Effect.EffectType.Strength:
+                            break;
+                        case Effect.EffectType.InstantHealth:
+                            this.syncCharacter.Life += 10 * consum.E.Power;
+                            break;
+                        case Effect.EffectType.InstantDamage:
+                            break;
+                        case Effect.EffectType.JumpBoost:
+                            this.syncCharacter.Jump = consum.E.Power * 5000;
+                            this.syncCharacter.CdJump = consum.E.Power * 30;
+                            break;
+                        case Effect.EffectType.Regeneration:
+                            break;
+                        case Effect.EffectType.Resistance:
+                            break;
+                        case Effect.EffectType.Hunger:
+                            break;
+                        case Effect.EffectType.Weakness:
+                            break;
+                        case Effect.EffectType.Poison:
+                            break;
+                        case Effect.EffectType.Saturation:
+                            this.syncCharacter.Hunger += 10 * consum.E.Power;
+                            break;
+                        case Effect.EffectType.Thirst:
+                            break;
+                        case Effect.EffectType.Refreshment:
+                            this.syncCharacter.Thirst += 10 * consum.E.Power;
+                            break;
+                        default:
+                            break;
+                    }
+                    this.inventaire.UsedItem.Quantity--;
+                    if (this.inventaire.UsedItem.Quantity == 0)
+                        this.inventaire.UsedItem = new ItemStack();
                 }
-                if (this.inventaire.UsedItem.Quantity == 0)
-                    this.inventaire.UsedItem = new ItemStack();
             }
 
             else if (this.nearElement != null && this.nearElement.GetComponent<SyncCore>() != null)
@@ -155,6 +167,9 @@ public class InputManager : NetworkBehaviour
             else if (this.nearElement != null && this.nearElement.GetComponent<SyncElement>() != null)
                 this.CmdInteractElement(this.nearElement.gameObject, this.inventaire.UsedItem.Items.ID);
         }
+
+        if (!useConsumable)
+            this.cdConsume = 1;
 
         if (Input.GetButtonDown("Cancel"))
         {
@@ -284,8 +299,7 @@ public class InputManager : NetworkBehaviour
                         this.soundAudio.PlaySound(AudioClips.Void, 1, 0.1f, 613);
                         this.soundAudio.CmdPlaySound(AudioClips.Void, 1);
                         this.CmdDamageElm(this.nearElement.gameObject, (this.inventaire.UsedItem.Items as Tool).Damage);
-                        if (this.nearElement == null)
-                            this.anim.SetInteger("Action", 0);
+
                     }
                     break;
                 case Element.TypeElement.Rock:
@@ -299,8 +313,6 @@ public class InputManager : NetworkBehaviour
                         this.soundAudio.PlaySound(AudioClips.Void, 1, 0.1f, 612);
                         this.soundAudio.CmdPlaySound(AudioClips.Void, 1);
                         this.CmdDamageElm(this.nearElement.gameObject, (this.inventaire.UsedItem.Items as Tool).Damage);
-                        if (this.nearElement == null)
-                            this.anim.SetInteger("Action", 0);
                     }
                     break;
                 default:
@@ -313,16 +325,15 @@ public class InputManager : NetworkBehaviour
                     {
                         this.soundAudio.PlaySound(AudioClips.Void, 1, 0.1f, 614);
                         this.soundAudio.CmdPlaySound(AudioClips.Void, 1);
-                        this.CmdDamageElm(this.nearElement.gameObject, this.nearElement.Elmt.Life);
-                        if (this.nearElement == null)
-                            this.anim.SetInteger("Action", 0);
+                        this.CmdDamageElm(this.nearElement.gameObject, int.MaxValue);
                     }
                     break;
             }
-
+            if (this.nearElement == null)
+                this.anim.SetInteger("Action", 0);
         }
-        else if (true)        
-            this.controller.Path = PathFinding.AStarPath(this.character, this.nearElement.transform.position, .75f, 1.5f, this.nearElement.gameObject);        
+        else if (true)
+            this.controller.Path = PathFinding.AStarPath(this.character, this.nearElement.transform.position, .75f, 1.5f, this.nearElement.gameObject);
     }
 
     #region Getters/Setters
