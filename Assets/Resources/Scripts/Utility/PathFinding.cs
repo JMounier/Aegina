@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using System;
+using UnityEngine.Networking;
 
 public static class PathFinding
 {
@@ -11,14 +12,16 @@ public static class PathFinding
     /// <param name="goal"></param>
     /// <param name="around"></param>
     /// <returns></returns>
-    public static List<Vector3> AStarPath(GameObject obj, Vector3 goal, float around = 1f)
+    public static List<Vector3> AStarPath(GameObject obj, Vector3 goal, float accuracy = 1f, float around = 1f, params GameObject[] ignore)
     {
         List<State> memory = new List<State>();
         memory.Add(new State(obj.transform.position.x, obj.transform.position.y, obj.transform.position.z, 0, null));
         Heap tas = new Heap();
         tas.Insert(0, new State(obj.transform.position.x, obj.transform.position.y, obj.transform.position.z, 0, null));
-        while (!tas.IsEmpty)
+        int count = 1000;
+        while (!tas.IsEmpty && count > 0)
         {
+            count--;
             Tuple<int, object> node = tas.ExtractMin();
             State st = (State)node.Item2;
             Vector3 pos = st.Position;
@@ -37,10 +40,10 @@ public static class PathFinding
             }
             else
             {
-                foreach (State child in Neighbours(st))
+                foreach (State child in Neighbours(st, accuracy))
                 {
                     Vector3 posChild = child.Position;
-                    if (isValidPosition(posChild, .5f, obj) && !child.Exist(memory))
+                    if (isValidPosition(posChild, accuracy, obj, ignore) && !child.Exist(memory))
                     {
                         tas.Insert((int)(child.Cost + Vector3.Distance(posChild, goal)), child);
                         memory.Add(child);
@@ -48,19 +51,20 @@ public static class PathFinding
                 }
             }
         }
-        return new List<Vector3>();
+        Debug.Log("Not find");
+        return new List<Vector3>() { goal };
     }
 
-    private static IEnumerable<State> Neighbours(State s)
+    private static IEnumerable<State> Neighbours(State s, float accuracy)
     {
         Vector3 pos = s.Position;
-        yield return new State(s.X + 1, s.Y, s.Z, s.Cost + 1, s);
-        yield return new State(s.X - 1, s.Y, s.Z, s.Cost + 1, s);
-        yield return new State(s.X, s.Y, s.Z + 1, s.Cost + 1, s);
-        yield return new State(s.X, s.Y, s.Z - 1, s.Cost + 1, s);
+        yield return new State(s.X + accuracy, s.Y, s.Z, s.Cost + 1, s);
+        yield return new State(s.X - accuracy, s.Y, s.Z, s.Cost + 1, s);
+        yield return new State(s.X, s.Y, s.Z + accuracy, s.Cost + 1, s);
+        yield return new State(s.X, s.Y, s.Z - accuracy, s.Cost + 1, s);
     }
 
-    public static bool isValidPosition(Vector3 pos, float range, GameObject obj)
+    public static bool isValidPosition(Vector3 pos, float range, GameObject obj, params GameObject[] ignore)
     {
         bool isOverGround = false;
         foreach (Collider col in Physics.OverlapBox(pos, new Vector3(range, 1f, range)))
@@ -68,7 +72,17 @@ public static class PathFinding
             if (col.name.Contains("Island"))
                 isOverGround = true;
             else if (col != obj.GetComponent<Collider>() && col.isTrigger == false)
-                return false;
+            {
+                bool contain = false;
+                foreach (GameObject o in ignore)
+                    if (col == o.GetComponent<Collider>())
+                    {
+                        contain = true;
+                        break;
+                    }
+                if (!contain)
+                    return false;
+            }
         }
         return isOverGround;
     }

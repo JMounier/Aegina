@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: e22663a9e1bcf8f4d9682162acec6931
-timeCreated: 1457871984
+guid: 667bd1d6bddd4584c9b96401aadbd9aa
+timeCreated: 1458877557
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
@@ -64,8 +64,8 @@ ModelImporter:
     400054: Cube
     400056: //RootNode
     4300000: Cube
-    7400000: Animations
-    7400002: Walk
+    7400000: Walk
+    7400002: Armature_002Action
     7400004: Iddle
     7400006: Run
     7400008: Attack
@@ -94,7 +94,7 @@ ModelImporter:
     clipAnimations:
     - serializedVersion: 16
       name: Walk
-      takeName: Armature_002Action
+      takeName: Default Take
       firstFrame: 0
       lastFrame: 30
       wrapMode: 0
@@ -361,7 +361,7 @@ ModelImporter:
       cycleOffset: 0
       loop: 0
       hasAdditiveReferencePose: 0
-      loopTime: 0
+      loopTime: 1
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 0
