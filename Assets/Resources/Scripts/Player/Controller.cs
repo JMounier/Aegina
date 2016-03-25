@@ -267,16 +267,16 @@ public class Controller : NetworkBehaviour
                 if (PathFinding.isValidPosition(pos, .5f, this.character))
                 {
                     this.anim.SetInteger("Action", 1);
-                    Vector3 viewRot = this.character.transform.position - new Vector3(pos.x, this.character.transform.position.y, pos.z);
+                    Vector3 viewRot = new Vector3(-pos.x, this.character.transform.position.y, -pos.z) - new Vector3( -this.character.transform.position.x, this.character.transform.position.y, -this.character.transform.position.z);
                     if (viewRot != Vector3.zero)
                     {
                         Quaternion targetRotation = Quaternion.LookRotation(viewRot);
                         this.character.transform.rotation = Quaternion.Lerp(this.character.transform.rotation, targetRotation, Time.deltaTime * 5);
                     }
                     // look here pour des probleme de syncro
-                    gameObject.transform.Translate(this.character.transform.forward * Time.deltaTime * this.WalkSpeed, Space.World);
+                    gameObject.transform.Translate(-this.character.transform.forward * Time.deltaTime * this.WalkSpeed, Space.World);
                     //gameObject.GetComponentInChildren<Rigidbody>().AddForce(gameObject.transform.forward * Time.deltaTime * this.WalkSpeed);
-                    if (Vector3.Distance(this.character.transform.position, pos) < .75f)
+                    if (Vector3.Distance(this.character.transform.position, pos) < 1)
                         this.path.RemoveAt(0);
                 }
                 else
