@@ -315,6 +315,7 @@ public class Social : NetworkBehaviour
     private void CmdSetName(string name)
     {
         this.namePlayer = name;
+        GameObject.Find("Map").GetComponent<Save>().AddPlayer(gameObject);
     }
 
     /// <summary>
@@ -403,18 +404,9 @@ public class Social : NetworkBehaviour
                 this.msg = log[this.logIndex];
         }
     }
-}
 
-public class NetworkManagerBis : NetworkManager
-{
-    void OnDisconnectedFromServer(NetworkDisconnection info)
+    public string PlayerName
     {
-        if (Network.isServer)
-            Debug.Log("Local server connection disconnected");
-        else
-            if (info == NetworkDisconnection.LostConnection)
-            Debug.Log("Lost connection to the server");
-        else
-            Debug.Log("Successfully diconnected from the server");
+        get { return this.namePlayer; }
     }
 }
