@@ -12,12 +12,21 @@ public class MapGeneration : NetworkBehaviour
         if (isServer)
         {
             this.save = gameObject.GetComponent<Save>();
-            this.GenerateChunk(0, 0, Bridges.TwoL, Directions.North);
-            this.GenerateChunk(0, 1, Bridges.TwoL, Directions.East, true);
+            this.GenerateChunk(0, 0, Bridges.Three, Directions.East);
+            this.GenerateChunk(1, 0, Bridges.All, Directions.North);
+            this.GenerateChunk(2, 0, Bridges.One, Directions.West);
+            this.GenerateChunk(-1, 0, Bridges.Three, Directions.East);
+            this.GenerateChunk(-2, 0, Bridges.One, Directions.East);
+            this.GenerateChunk(0, 1, Bridges.Three, Directions.West);
+            this.GenerateChunk(0, 2, Bridges.One, Directions.South);
+            this.GenerateChunk(-1, 1, Bridges.One, Directions.East);
             this.GenerateChunk(1, 1, Bridges.TwoL, Directions.South);
-            this.GenerateChunk(1, 0, Bridges.TwoL, Directions.West);
+            this.GenerateChunk(1, -1, Bridges.TwoL, Directions.West);
+            this.GenerateChunk(-1, -1, Bridges.TwoL, Directions.North);
+            this.GenerateChunk(0, -1, Bridges.All, Directions.East);
+            this.GenerateChunk(0, -2, Bridges.One, Directions.North);
 
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 5; i++)
             {
                 new Mob(EntityDatabase.Boar).Spawn(new Vector3(Random.Range(-20, 20), 7, Random.Range(-20, 20)));
             }          

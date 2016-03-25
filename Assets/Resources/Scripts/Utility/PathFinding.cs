@@ -51,7 +51,6 @@ public static class PathFinding
                 }
             }
         }
-        Debug.Log("Not find");
         return new List<Vector3>() { goal };
     }
 

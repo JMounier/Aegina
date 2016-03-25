@@ -322,9 +322,8 @@ public class InputManager : NetworkBehaviour
 
         }
         else if (true)        
-            PathFinding.AStarPath(this.gameObject, this.nearElement.transform.position, 1.5f);        
+            PathFinding.AStarPath(this.character, this.nearElement.transform.position, .75f, 1.5f, this.nearElement.gameObject);        
     }
-
 
     #region Getters/Setters
     public SyncElement NearElement
