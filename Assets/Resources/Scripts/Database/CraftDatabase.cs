@@ -10,16 +10,16 @@ public static class CraftDatabase
     public static readonly Craft Brewer = new Craft(Craft.Type.WorkTop);
 
     public static readonly Craft Stick = new Craft(Craft.Type.Elementary);
-    public static readonly Craft Plank = new Craft(Craft.Type.Elementary);
-    public static readonly Craft Cup = new Craft(Craft.Type.Elementary);
-    public static readonly Craft CutStone = new Craft(Craft.Type.Elementary);
-    public static readonly Craft CopperIngot = new Craft(Craft.Type.Elementary);
+    public static readonly Craft Plank = new Craft(6, new ItemStack(ItemDatabase.WoodenPlank, 1), false, false, true, false, false, Craft.Type.Elementary, new ItemStack(ItemDatabase.Log, 3));
+    public static readonly Craft Cup = new Craft(7, new ItemStack(ItemDatabase.Bowl, 2), false, true, false, false, false, Craft.Type.Elementary, new ItemStack(ItemDatabase.Log, 3));
+    public static readonly Craft CutStone = new Craft(8, new ItemStack(ItemDatabase.CuttedStone, 1), false, true, false, false, false, Craft.Type.Elementary, new ItemStack(ItemDatabase.Stone, 3));
+    public static readonly Craft CopperIngot = new Craft(9, new ItemStack(ItemDatabase.CopperIngot, 1), false, false, true, false, false, Craft.Type.Elementary, new ItemStack(ItemDatabase.Copper, 3));
     public static readonly Craft IronIngot = new Craft(10, new ItemStack(ItemDatabase.IronIngot, 1), false, false, true, false, false,Craft.Type.Elementary, new ItemStack(ItemDatabase.Iron, 3));
     public static readonly Craft GoldIngot = new Craft(11, new ItemStack(ItemDatabase.GoldIngot, 1), false, false, true, false, false, Craft.Type.Elementary, new ItemStack(ItemDatabase.Gold, 3));
-    public static readonly Craft MithrilIngot = new Craft(Craft.Type.Elementary);
-    public static readonly Craft FLoatiumIngot = new Craft(Craft.Type.Elementary);
-    public static readonly Craft SunkiumIngot= new Craft(Craft.Type.Elementary);
-    public static readonly Craft Glass = new Craft(Craft.Type.Elementary);
+    public static readonly Craft MithrilIngot = new Craft(12, new ItemStack(ItemDatabase.MithrilIngot, 1), false, false, true, false, false, Craft.Type.Elementary, new ItemStack(ItemDatabase.Mithril, 3));
+    public static readonly Craft FLoatiumIngot = new Craft(12, new ItemStack(ItemDatabase.FloatiumIngot, 1), false, false, true, false, false, Craft.Type.Elementary, new ItemStack(ItemDatabase.Floatium, 3));
+    public static readonly Craft SunkiumIngot= new Craft(13, new ItemStack(ItemDatabase.SunkiumIngot, 1), false, false, true, false, false, Craft.Type.Elementary, new ItemStack(ItemDatabase.Sunkium, 3));
+    public static readonly Craft Glass = new Craft(14, new ItemStack(ItemDatabase.Glass, 1), false, false, true, false, false, Craft.Type.Elementary, new ItemStack(ItemDatabase.Sand, 3));
 
     public static readonly Craft CactusAndFlowerSalad = new Craft(Craft.Type.Consumable);
     public static readonly Craft MeatBrochette = new Craft(Craft.Type.Consumable);
