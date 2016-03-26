@@ -46,6 +46,12 @@ public class TextDatabase
     public static readonly Text Bowl = new Text("Bol", "Bowl");
     public static readonly Text CuttedStone = new Text("Pierre taillé", "Cutted stone");
 
+    public static readonly Text Apple = new Text("Une pomme bien rouge et juteuse", "A bright red and juicy apple");
+    public static readonly Text Cactus = new Text("Un petit cactus avec une fleur dessus. Il semble contenir une bonne quantite d'eau", "A little cactus with a flozer on it. It seem to contain a good amount of water");
+    public static readonly Text Petal = new Text("Un petale de fleur. C'est jolie mais peut utile. Vous n'allez pas le manger tout de meme ?", "A flower petal. It's beautiful but useless. You will not eat it, is it ? ");
+
+    public static readonly Text CactusWater = new Text("De l'eau dans un cactus pour etancher la soif", "Water in a cactus to quench his thirst");
+    public static readonly Text MeatBall = new Text("Viannnnnde", "Meaaaaat");
     // Description
     public static readonly Text LogDescription = new Text("Un morceau de bois pouvant servir pour créer d'autres objets", "A piece of wood usable to make other objects");
     public static readonly Text StoneDescription = new Text("Une pierre pouvant servir pour créer d'autres objets", "A piece of stone usable to make other objects");
