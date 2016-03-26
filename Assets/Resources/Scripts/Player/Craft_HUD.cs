@@ -21,13 +21,19 @@ public class Craft_HUD : MonoBehaviour {
         this.skin = Resources.Load<GUISkin>("Sprites/GUISkin/skin");
         this.Craftslist = new List<Craft>[5];
         this.CraftElementary = new List<Craft>();
-        this.CraftElementary.Add(CraftDatabase.IronIngot);
-        this.CraftElementary.Add(CraftDatabase.GoldIngot);
+        this.CraftWorkTop = new List<Craft>();
+        this.CraftConsumable = new List<Craft>();
+        this.CraftTools = new List<Craft>();
+        this.CraftArmor = new List<Craft>();
         this.Craftslist[0] = CraftElementary;
         this.Craftslist[1] = CraftWorkTop;
         this.Craftslist[2] = CraftConsumable;
         this.Craftslist[3] = CraftTools;
         this.Craftslist[4] = CraftArmor;
+        foreach (Craft craft in CraftDatabase.Crafts)
+        {
+            this.Craftslist[(int)(craft.What) - 1].Add(craft);
+        }
         craftindex = 0;
         showcraft = false;
         pos = -1;
@@ -51,11 +57,10 @@ public class Craft_HUD : MonoBehaviour {
     {
         if (inventory.InventoryShown)
         {
+            GUI.Box(new Rect(0, 2 * Screen.height / 9 - Screen.height / 20, 1 * Screen.height / 7, 5 * Screen.height / 9 + Screen.height / 10), "", this.type != Craft.Type.None ? skin.GetStyle("craftframe_open") : skin.GetStyle("craftframe_close"));
             Categoryze();
             if (showcraft)
-            {
                 Craft_used_HUD();
-            }
         }
         
 	}
@@ -67,7 +72,7 @@ public class Craft_HUD : MonoBehaviour {
         for (int i = 0; i < 5; i++)
         {
             Rect box = new Rect(0,(i+2)*Screen.height/9,Screen.height/9,Screen.height/9);
-            if (GUI.Button(box, Resources.Load<Texture>("Sprites/"/*to fix*/), skin.GetStyle("Inventory")))
+            if (GUI.Button(box, Resources.Load<Texture>("Sprites/"/*to fix*/), skin.GetStyle("slot")))
             {
                 craftindex = 0;
                 if (this.type == (Craft.Type)(i+1))
@@ -96,31 +101,23 @@ public class Craft_HUD : MonoBehaviour {
             return;
         }
         Rect box = new Rect();
-        if (GUI.Button(box,"",skin.GetStyle("Inventory")))
-        {
-            craftindex = (craftindex - 1) % (Craftslist[(int)this.type - 1].Count);
-        }
         for (int i = 0; i < 10; i++)
         {
             box = new Rect(Screen.height / 9, 2 * Screen.height / 9 + i * Screen.height / 18, Screen.height / 18, Screen.height / 18);
-            if (i == 0 || i == 9)
-            {
-                GUI.Box(box,Craftslist[(int)this.type - 1][(craftindex + i) % (Craftslist[(int)this.type - 1].Count)].Product.Items.Icon, skin.GetStyle("Inventory"));
-            }
-            else if (GUI.Button(box, Craftslist[(int)this.type - 1][(craftindex + i) % (Craftslist[(int)this.type - 1].Count)].Product.Items.Icon, skin.GetStyle("Inventory")))
+             if (GUI.Button(box, Craftslist[(int)this.type - 1][(craftindex + i) % (Craftslist[(int)this.type - 1].Count)].Product.Items.Icon, skin.GetStyle("Inventory")))
             {
                 showcraft = this.pos != i;
                 this.pos = i;
                 this.craftshow = Craftslist[(int)this.type - 1][(craftindex + i) % (Craftslist[(int)this.type - 1].Count)];
             }
         }
-        box = new Rect(Screen.height / 9, 2 * Screen.height / 9, Screen.height / 18, Screen.height / 36);
-        if (GUI.Button(box, "", skin.GetStyle("Inventory")))
+        box = new Rect(Screen.height / 9, 2 * Screen.height / 9 - Screen.height / 18, Screen.height / 18, Screen.height / 18);
+        if (GUI.Button(box, "", skin.GetStyle("up_arrow")))
         {
             craftindex = (craftindex - 1) % (Craftslist[(int)this.type - 1].Count);
         }
-        box = new Rect(Screen.height / 9, 7 * Screen.height / 9 - Screen.height / 38, Screen.height / 18, Screen.height / 36);
-        if (GUI.Button(box, "", skin.GetStyle("Inventory")))
+        box = new Rect(Screen.height / 9, 7 * Screen.height / 9, Screen.height / 18, Screen.height / 18);
+        if (GUI.Button(box, "", skin.GetStyle("down_arrow")))
         {
             craftindex = (craftindex + 1) % (Craftslist[(int)this.type - 1].Count);
         }
