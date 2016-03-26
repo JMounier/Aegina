@@ -17,9 +17,9 @@ public class MapGeneration : NetworkBehaviour
             this.GenerateChunk(1, 1, Bridges.TwoL, Directions.South);
             this.GenerateChunk(1, 0, Bridges.TwoL, Directions.West);
 
-            for (int i = 0; i < 15; i++)
+            for (int i = 0; i < 10; i++)
             {
-                new Mob(EntityDatabase.Boar).Spawn(new Vector3(Random.Range(-15, 15), 7, Random.Range(-15, 15)));
+                new Mob(EntityDatabase.Boar).Spawn(new Vector3(Random.Range(-20, 20), 7, Random.Range(-20, 20)));
             }          
         }
     }

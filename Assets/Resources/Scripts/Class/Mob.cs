@@ -11,6 +11,7 @@ public class Mob : Entity
     private float vision;
     private float walkSpeed;
     private float runSpeed;
+    private float attackSpeed;
 
     private DropConfig[] dropConfigs;
 
@@ -23,6 +24,7 @@ public class Mob : Entity
         this.vision = 0;
         this.walkSpeed = 0;
         this.walkSpeed = 0;
+        this.attackSpeed = 0;
         this.dropConfigs = new DropConfig[0];
     }
 
@@ -33,16 +35,18 @@ public class Mob : Entity
         this.vision = mob.vision;
         this.walkSpeed = mob.walkSpeed;
         this.runSpeed = mob.runSpeed;
+        this.attackSpeed = mob.attackSpeed;
         this.dropConfigs = mob.dropConfigs;
     }
 
-    public Mob(int id, int life, GameObject prefab, int groupSize, int damage, float vision, float walkSpeed, float runSpeed, params DropConfig[] dropConfigs) : base(id, life, prefab)
+    public Mob(int id, int life, GameObject prefab, int groupSize, int damage, float vision, float walkSpeed, float runSpeed, float attackSpeed, params DropConfig[] dropConfigs) : base(id, life, prefab)
     {
         this.groupSize = groupSize;
         this.damage = damage;
         this.vision = vision;
         this.walkSpeed = walkSpeed;
         this.runSpeed = runSpeed;
+        this.attackSpeed = attackSpeed;
         this.dropConfigs = dropConfigs;
     }
 
@@ -118,6 +122,15 @@ public class Mob : Entity
     {
         get { return this.runSpeed; }
         set { this.runSpeed = value; }
+    }
+
+    /// <summary>
+    /// La vitesse d'attaque du mob.
+    /// </summary>
+    public float AttackSpeed
+    {
+        get { return this.attackSpeed; }
+        set { this.attackSpeed = value; }
     }
 
     /// <summary>
