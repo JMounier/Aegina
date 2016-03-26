@@ -101,7 +101,17 @@ public static class EntityDatabase
     public static readonly Chunk Chunk2_Three = new Chunk(1008, Resources.Load<GameObject>("Prefabs/Chunks/Chunk2_Three"), Bridges.Three);
     public static readonly Chunk Chunk2_All = new Chunk(1009, Resources.Load<GameObject>("Prefabs/Chunks/Chunk2_All"), Bridges.All);
 
+    public static readonly Chunk Chunk3_One = new Chunk(1010, Resources.Load<GameObject>("Prefabs/Chunks/Chunk3_One"), Bridges.One);
+    public static readonly Chunk Chunk3_TwoI = new Chunk(1011, Resources.Load<GameObject>("Prefabs/Chunks/Chunk3_TwoI"), Bridges.TwoI);
+    public static readonly Chunk Chunk3_TwoL = new Chunk(1012, Resources.Load<GameObject>("Prefabs/Chunks/Chunk3_TwoL"), Bridges.TwoL);
+    public static readonly Chunk Chunk3_Three = new Chunk(1013, Resources.Load<GameObject>("Prefabs/Chunks/Chunk3_Three"), Bridges.Three);
+    public static readonly Chunk Chunk3_All = new Chunk(1014, Resources.Load<GameObject>("Prefabs/Chunks/Chunk3_All"), Bridges.All);
 
+    public static readonly Chunk Chunk4_One = new Chunk(1015, Resources.Load<GameObject>("Prefabs/Chunks/Chunk4_One"), Bridges.One);
+    public static readonly Chunk Chunk4_TwoI = new Chunk(1016, Resources.Load<GameObject>("Prefabs/Chunks/Chunk4_TwoI"), Bridges.TwoI);
+    public static readonly Chunk Chunk4_TwoL = new Chunk(1017, Resources.Load<GameObject>("Prefabs/Chunks/Chunk4_TwoL"), Bridges.TwoL);
+    public static readonly Chunk Chunk4_Three = new Chunk(1018, Resources.Load<GameObject>("Prefabs/Chunks/Chunk4_Three"), Bridges.Three);
+    public static readonly Chunk Chunk4_All = new Chunk(1019, Resources.Load<GameObject>("Prefabs/Chunks/Chunk4_All"), Bridges.All);
 
     /// <summary>
     /// Liste tous les entites du jeu. (Utilisez avec foreach)
@@ -235,6 +245,18 @@ public static class EntityDatabase
             yield return Chunk2_TwoL;
             yield return Chunk2_Three;
             yield return Chunk2_All;
+
+            yield return Chunk3_One;
+            yield return Chunk3_TwoI;
+            yield return Chunk3_TwoL;
+            yield return Chunk3_Three;
+            yield return Chunk3_All;
+
+            yield return Chunk4_One;
+            yield return Chunk4_TwoI;
+            yield return Chunk4_TwoL;
+            yield return Chunk4_Three;
+            yield return Chunk4_All;
         }
     }
 
