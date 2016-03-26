@@ -29,11 +29,11 @@ public class Inventory : NetworkBehaviour
             return;
 
         this.size_inventory = Screen.width / 22;
-        this.size_toolbar = Screen.width / 20;
+        this.size_toolbar = (Screen.width / 20);
         this.pos_x_inventory = (Screen.width - this.columns * this.size_inventory) / 2;
         this.pos_y_inventory = (int)((Screen.height - (this.rows + 0.5f) * this.size_inventory) / 2);
         this.pos_x_toolbar = (Screen.width - this.columns * this.size_toolbar) / 2;
-        this.pos_y_toolbar = Screen.height - this.size_toolbar;
+        this.pos_y_toolbar = Screen.height - this.size_toolbar-5;
         this.slots = new ItemStack[this.rows, this.columns];
         this.ClearInventory();
 
@@ -289,7 +289,9 @@ public class Inventory : NetworkBehaviour
     /// </summary>
     void DrawToolbar()
     {
-        Rect rect = new Rect(this.pos_x_toolbar, this.pos_y_toolbar, this.columns * this.size_toolbar, this.size_toolbar);
+        Rect rect = new Rect(this.pos_x_toolbar - 10, this.pos_y_toolbar - 11, this.columns * this.size_toolbar + 20, this.size_toolbar + 11);
+        GUI.Box(rect, "", this.skin.GetStyle("frame"));
+        rect = new Rect(this.pos_x_toolbar, this.pos_y_toolbar, this.columns * this.size_toolbar, this.size_toolbar);
         GUI.Box(rect, "", this.skin.GetStyle("toolbar"));
         for (int i = 0; i < this.columns; i++)
         {
