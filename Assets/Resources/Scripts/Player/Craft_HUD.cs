@@ -110,6 +110,10 @@ public class Craft_HUD : MonoBehaviour {
                 this.pos = i;
                 this.craftshow = Craftslist[(int)this.type - 1][(craftindex + i) % (Craftslist[(int)this.type - 1].Count)];
             }
+            if (Craftslist[(int)this.type - 1][(craftindex + i) % (Craftslist[(int)this.type - 1].Count)].Product.Quantity > 1)
+            {
+                GUI.Box(box, Craftslist[(int)this.type - 1][(craftindex + i) % (Craftslist[(int)this.type - 1].Count)].Product.Quantity.ToString(), skin.GetStyle("Quantity"));
+            }
         }
         box = new Rect(Screen.height / 9, 2 * Screen.height / 9 - Screen.height / 18, Screen.height / 18, Screen.height / 18);
         if (GUI.Button(box, "", skin.GetStyle("up_arrow")))
@@ -136,7 +140,10 @@ public class Craft_HUD : MonoBehaviour {
         {
             box = new Rect((3 + i) * Screen.height / 18, 2 * Screen.height / 9 + pos * Screen.height / 18, Screen.height / 18, Screen.height / 18);
             GUI.Box(box, item.Items.Icon, skin.GetStyle("Slot"));
-            GUI.Box(box, item.Quantity.ToString(), skin.GetStyle("Quantity"));
+            if (item.Quantity > 1)
+            {
+                GUI.Box(box, item.Quantity.ToString(), skin.GetStyle("Quantity"));
+            }
             if (box.Contains(Event.current.mousePosition))
             {
                 tooltip = true;

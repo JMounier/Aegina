@@ -326,7 +326,7 @@ namespace UnityEngine.Networking
                 for (i = 0; i < Mathf.Min(worldsList.Count, 3); i++)
                 {
                     Rect rect = new Rect(this.posX, this.posY + (1 + i) * spacing - (3 - i) * 6, this.width, this.height * 2 + 5);
-                    if (GUI.Button(rect, worldsList[(i + worldindex) % worldsList.Count], world == worldsList[(i + worldindex) % worldsList.Count] ? skin.GetStyle("slot") : skin.GetStyle("Button")))
+                    if (GUI.Button(rect, worldsList[(i + worldindex) % worldsList.Count], world == worldsList[(i + worldindex) % worldsList.Count] ? skin.GetStyle("second_button_actif") : skin.GetStyle("second_button")))
                     {
                         world = worldsList[(i + worldindex) % worldsList.Count];
                         this.firstScene.PlayButtonSound();
@@ -406,7 +406,7 @@ namespace UnityEngine.Networking
                 for (i = 0; i < Mathf.Min(3, ipList.Count); i++)
                 {
                     Rect rect = new Rect(this.posX, this.posY + (2 + i) * spacing - (3 - i) * 6, this.width, this.height * 2 + 5);
-                    if (GUI.Button(rect, PlayerPrefs.GetString(ipList[(i + ipindex) % ipList.Count]) + "\n" + ipList[(i + ipindex) % ipList.Count], this.manager.networkAddress == ipList[(i + ipindex) % ipList.Count] ? skin.GetStyle("slot") : skin.GetStyle("Button")))
+                    if (GUI.Button(rect, PlayerPrefs.GetString(ipList[(i + ipindex) % ipList.Count]) + "\n" + ipList[(i + ipindex) % ipList.Count], this.manager.networkAddress == ipList[(i + ipindex) % ipList.Count] ? skin.GetStyle("second_button_actif") : skin.GetStyle("second_button")))
                     {
                         this.manager.networkAddress = ipList[(i + ipindex) % ipList.Count];
                         this.firstScene.PlayButtonSound();
