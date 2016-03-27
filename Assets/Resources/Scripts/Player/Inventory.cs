@@ -17,11 +17,16 @@ public class Inventory : NetworkBehaviour
     private bool tooltipshown = false;
     private GUISkin skin;
     private ItemStack selectedItem;
+    /// <summary>
+    /// Utilisation : slots[rows, columns]
+    /// </summary>
     private ItemStack[,] slots;
     private Transform trans;
     private Sound sound;
     private Item lastUseddItem;
+    private Save saver;
 
+    #region Behaviour Methods
     // Use this for initialization
     void Start()
     {
@@ -33,7 +38,7 @@ public class Inventory : NetworkBehaviour
         this.pos_x_inventory = (Screen.width - this.columns * this.size_inventory) / 2;
         this.pos_y_inventory = (int)((Screen.height - (this.rows + 0.5f) * this.size_inventory) / 2);
         this.pos_x_toolbar = (Screen.width - this.columns * this.size_toolbar) / 2;
-        this.pos_y_toolbar = Screen.height - this.size_toolbar-5;
+        this.pos_y_toolbar = Screen.height - this.size_toolbar - 5;
         this.slots = new ItemStack[this.rows, this.columns];
         this.ClearInventory();
 
@@ -41,17 +46,9 @@ public class Inventory : NetworkBehaviour
         this.trans = gameObject.GetComponent<Transform>();
         this.sound = gameObject.GetComponent<Sound>();
         this.lastUseddItem = new Item();
+        this.saver = GameObject.Find("Map").GetComponent<Save>();
 
-        // Premiere soutenance objets de bases
-        this.AddItemStack(new ItemStack(new Item(ItemDatabase.Log), 64), false);
-        this.AddItemStack(new ItemStack(new Item(ItemDatabase.Log), 64), false);
-        this.AddItemStack(new ItemStack(new Item(ItemDatabase.Log), 64), false);
-        this.AddItemStack(new ItemStack(new Pickaxe(ItemDatabase.CopperPickaxe), 1), false);
-        this.AddItemStack(new ItemStack(new Item(ItemDatabase.Floatium), 7), false);
-        this.AddItemStack(new ItemStack(new Item(ItemDatabase.IronIngot), 14), false);
-        this.AddItemStack(new ItemStack(new Item(ItemDatabase.Iron), 15), false);
-        this.AddItemStack(new ItemStack(new Item(ItemDatabase.Gold), 1), false);
-        this.AddItemStack(new ItemStack(new Item(ItemDatabase.Copper), 15), false);
+        this.CmdLoadInventory();
     }
 
     void Update()
@@ -65,6 +62,7 @@ public class Inventory : NetworkBehaviour
         this.pos_x_toolbar = (Screen.width - this.columns * this.size_toolbar) / 2;
         this.pos_y_toolbar = Screen.height - this.size_toolbar;
 
+        // Mise de l'outil dans la main du joueur
         if (this.lastUseddItem.ID != this.UsedItem.Items.ID)
         {
             if (this.lastUseddItem is Tool)
@@ -108,7 +106,9 @@ public class Inventory : NetworkBehaviour
             player.GetComponent<Inventory>().lastUseddItem = new Item();
         }
     }
+    #endregion
 
+    #region Interaction and Draw
     /// <summary>
     /// S'occupe de toute les interractions entre la souris et l'inventaire, permet le drag and drop et dessinne la tooltip.
     /// </summary>
@@ -356,8 +356,11 @@ public class Inventory : NetworkBehaviour
         }
         if (playSound && iStack.Quantity == 0)
             this.sound.PlaySound(AudioClips.Plop, .5f);
+        this.SaveInventory();
     }
+    #endregion
 
+    #region Public Methods
     /// <summary>
     /// Verifie si une quantite d'objet se trouve dans l'inventaire.
     /// </summary>
@@ -496,6 +499,9 @@ public class Inventory : NetworkBehaviour
                 this.slots[i, j] = new ItemStack();
     }
 
+    #endregion
+
+    #region Looting
     /// <summary>
     /// Met l'outil dans la main du joueur.
     /// </summary>
@@ -630,15 +636,87 @@ public class Inventory : NetworkBehaviour
         ItemDatabase.Find(id, meta).Spawn(pos + forward * 0.3f + Vector3.up * 0.7f, forward + Vector3.up, quantity);
     }
 
-    // Getters & Setters
+    #endregion
 
+    #region Save & Load
+    /// <summary>
+    /// Sauvegarde l'inventaire et l'envoi au serveur.
+    /// </summary>
+    private void SaveInventory()
+    {
+        string save = "";
+        for (int i = 0; i < this.rows; i++)
+            for (int j = 0; j < this.columns; j++)
+            {
+                if (this.slots[i, j].Items.ID != -1)
+                    save += i + ":" + j + ":" + this.slots[i, j].Items.ID + ":" + this.slots[i, j].Quantity + "|";
+            }
+        this.CmdSaveInventory(save);
+    }
+
+    /// <summary>
+    /// Sauvegarde l'inventaire sur le serveur. 
+    /// Rq : Appelez SaveInventory pour creer le str et appeller cette fct.
+    /// </summary>
+    /// <param name="save"></param>
+    [Command]
+    private void CmdSaveInventory(string save)
+    {
+        this.saver.SavePlayerInventory(gameObject, save);
+    }
+
+    /// <summary>
+    /// Charge l'inventaire du personnage.
+    /// </summary>
+    [Command]
+    private void CmdLoadInventory()
+    {
+        RpcLoadInventory(this.saver.LoadPlayer(gameObject).Inventory);
+    }
+
+    /// <summary>
+    /// Charge l'inventaire du personnage. (Must be server)
+    /// Rq : Appellez CmdLoadInventory pour automatiquement charger l'inventaire du joueur.
+    /// </summary>
+    /// <param name="str"></param>
+    [ClientRpc]
+    private void RpcLoadInventory(string save)
+    {
+        if (isLocalPlayer)
+        {
+            string[] strSlots = save.Split('|');
+            foreach (string itemStack in strSlots)
+            {
+                if (itemStack != "")
+                {
+                    string[] info = itemStack.Split(':');
+                    try
+                    {
+                        this.slots[int.Parse(info[0]), int.Parse(info[1])] = new ItemStack(ItemDatabase.Find(int.Parse(info[2])), int.Parse(info[3]));
+                    }
+                    catch
+                    {
+                        throw new System.ArgumentException("Le save (str) est corompu : " + itemStack);
+                    }
+                }
+            }
+        }
+    }
+    #endregion
+
+    #region Getters & Setters
     /// <summary>
     /// Si l'inventaire est affiché.
     /// </summary>
     public bool InventoryShown
     {
         get { return this.inventoryShown; }
-        set { this.inventoryShown = value; }
+        set
+        {
+            this.inventoryShown = value;
+            if (!this.inventoryShown)
+                this.SaveInventory();
+        }
     }
 
     /// <summary>
@@ -669,7 +747,11 @@ public class Inventory : NetworkBehaviour
     public ItemStack UsedItem
     {
         get { return this.slots[this.rows - 1, this.cursor]; }
-        set { this.slots[this.rows - 1, this.cursor] = value; }
+        set
+        {
+            this.slots[this.rows - 1, this.cursor] = value;
+            this.SaveInventory();
+        }
     }
 
     /// <summary>
@@ -703,4 +785,5 @@ public class Inventory : NetworkBehaviour
     {
         get { return this.columns; }
     }
+    #endregion
 }

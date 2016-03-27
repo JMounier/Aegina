@@ -6,20 +6,22 @@ public class SyncCharacter : NetworkBehaviour
 {
     // Carateristiques
     private int lifeMax;
-    private float life;
+    [SyncVar] private float life;
     private int hungerMax;
-    private float hunger;
+    [SyncVar] private float hunger;
     private int thirstMax;
-    private float thirst;
+    [SyncVar] private float thirst;
 
     // Bonus / Malus
-    private float speed = 0f;
-    private float cdSpeed = 0f;
-    private float jump = 0f;
-    private float cdJump = 0f;
+    [SyncVar] private float speed;
+    [SyncVar] private float cdSpeed;
 
-    private static float starvation = 0.1f;
-    private static float thirstiness = 0.2f;
+    [SyncVar] private float jump;
+    [SyncVar] private float cdJump;
+
+    // Constants
+    private readonly static float starvation = 0.1f;
+    private readonly static float thirstiness = 0.2f;
 
     private Texture2D[] lifeBar;
     private Texture2D[] hungerBar;
@@ -34,16 +36,25 @@ public class SyncCharacter : NetworkBehaviour
 
     // Use this for initialization
     void Start()
-    {
+    {       
         if (!isLocalPlayer)
             return;
 
         this.inventory = gameObject.GetComponent<Inventory>();
         this.controller = gameObject.GetComponent<Controller>();
+
         this.lifeMax = 100;
         this.hungerMax = 100;
         this.thirstMax = 100;
+        this.life = 100;
+        this.hunger = 100;
+        this.thirst = 100;
+        this.speed = 0;
+        this.cdSpeed = 0;
+        this.jump = 0;
+        this.cdJump = 0;
 
+        // Initialisation des images
         this.lifeBar = new Texture2D[101];
         for (int i = 0; i < 101; i++)
         {
@@ -62,8 +73,8 @@ public class SyncCharacter : NetworkBehaviour
             this.ThirstBar[i] = Resources.Load<Texture2D>("Sprites/Bars/Thirst/ThirstBar" + i.ToString());
         }
 
-        this.character = gameObject.GetComponentInChildren<CharacterCollision>().gameObject;
-        this.Spawn();
+        this.character = gameObject.transform.FindChild("Character").gameObject;
+        this.CmdLoad();
     }
 
     void OnGUI()
@@ -83,8 +94,8 @@ public class SyncCharacter : NetworkBehaviour
             this.cdSpeed -= Time.deltaTime;
 
         // Bars
-      
-        GUI.DrawTexture((new Rect((Screen.width - this.inventory.Columns * this.inventory.ToolbarSize) / 2, (int)(Screen.height - this.inventory.ToolbarSize * 1.6f), this.inventory.Columns * this.inventory.ToolbarSize, this.inventory.ToolbarSize/3.5f)), this.lifeBar[Mathf.CeilToInt(this.life * 100 / this.lifeMax)]);
+
+        GUI.DrawTexture((new Rect((Screen.width - this.inventory.Columns * this.inventory.ToolbarSize) / 2, (int)(Screen.height - this.inventory.ToolbarSize * 1.6f), this.inventory.Columns * this.inventory.ToolbarSize, this.inventory.ToolbarSize / 3.5f)), this.lifeBar[Mathf.CeilToInt(this.life * 100 / this.lifeMax)]);
         GUI.DrawTexture((new Rect(Screen.width / 1.03f, Screen.height * 0.0125f, Screen.width / 85, Screen.height / 2f)), this.hungerBar[Mathf.CeilToInt(this.hunger * 100 / this.hungerMax)]);
         GUI.DrawTexture((new Rect(Screen.width / 1.03f - Screen.width * 0.025f, Screen.height * 0.0125f, Screen.width / 85, Screen.height / 2f)), this.ThirstBar[Mathf.CeilToInt(this.thirst * 100 / this.thirstMax)]);
     }
@@ -126,7 +137,23 @@ public class SyncCharacter : NetworkBehaviour
         this.Spawn();
     }
 
-    // Getter/Setter
+    [Command]
+    private void CmdLoad()
+    {
+        PlayerSave save = GameObject.Find("Map").GetComponent<Save>().LoadPlayer(gameObject);
+        this.life = save.Life;
+        this.hunger = save.Hunger;
+        this.thirst = save.Thirst;
+        this.speed = save.Speed;
+        this.cdSpeed = save.CdSpeed;
+        this.jump = save.Jump;
+        this.cdJump = save.CdJump;
+
+        Vector3 newPos = new Vector3(save.X, 7, save.Y);
+        this.character.transform.position = newPos;
+    }
+
+    #region Getter & Setter
     /// <summary>
     /// La vie de l'entite.
     /// </summary>
@@ -135,10 +162,16 @@ public class SyncCharacter : NetworkBehaviour
         get { return this.life; }
         set
         {
-            this.life = Mathf.Clamp(value, 0f, this.lifeMax);
+            this.CmdLife(Mathf.Clamp(value, 0f, this.lifeMax));
             if (this.life == 0)
                 this.Kill();
         }
+    }
+
+    [Command]
+    private void CmdLife(float life)
+    {
+        this.life = life;
     }
 
     /// <summary>
@@ -173,13 +206,19 @@ public class SyncCharacter : NetworkBehaviour
     public float Hunger
     {
         get { return this.hunger; }
-        set { this.hunger = Mathf.Clamp(value, 0f, this.hungerMax); }
+        set { this.CmdHunger(Mathf.Clamp(value, 0f, this.hungerMax)); }
+    }
+
+    [Command]
+    private void CmdHunger(float hunger)
+    {
+        this.hunger = hunger;
     }
 
     /// <summary>
     /// La soif maximum du joueur.
     /// </summary>
-    public int Thirst_max
+    public int ThirstMax
     {
         get { return this.thirstMax; }
         set
@@ -195,7 +234,13 @@ public class SyncCharacter : NetworkBehaviour
     public float Thirst
     {
         get { return this.thirst; }
-        set { this.thirst = Mathf.Clamp(value, 0f, this.thirstMax); }
+        set { this.CmdThirst(Mathf.Clamp(value, 0f, this.thirstMax)); }
+    }
+
+    [Command]
+    private void CmdThirst(float thirst)
+    {
+        this.thirst = thirst;
     }
 
     /// <summary>
@@ -204,7 +249,13 @@ public class SyncCharacter : NetworkBehaviour
     public float Speed
     {
         get { return this.speed; }
-        set { this.speed = value; }
+        set { this.CmdSpeed(value); }
+    }
+
+    [Command]
+    private void CmdSpeed(float speed)
+    {
+        this.speed = speed;
     }
 
     /// <summary>
@@ -213,7 +264,13 @@ public class SyncCharacter : NetworkBehaviour
     public float CdSpeed
     {
         get { return this.cdSpeed; }
-        set { this.cdSpeed = value; }
+        set { this.CmdCdSpeed(value); }
+    }
+
+    [Command]
+    private void CmdCdSpeed(float cdSpeed)
+    {
+        this.cdSpeed = cdSpeed;
     }
 
     /// <summary>
@@ -222,7 +279,13 @@ public class SyncCharacter : NetworkBehaviour
     public float Jump
     {
         get { return this.jump; }
-        set { this.jump = value; }
+        set { this.CmdJump(value); }
+    }
+
+    [Command]
+    private void CmdJump(float jump)
+    {
+        this.jump = jump;
     }
 
     /// <summary>
@@ -231,6 +294,13 @@ public class SyncCharacter : NetworkBehaviour
     public float CdJump
     {
         get { return this.cdJump; }
-        set { this.cdJump = value; }
+        set { this.CmdCdJump(value); }
     }
+
+    [Command]
+    private void CmdCdJump(float cdJump)
+    {
+        this.cdJump = cdJump;
+    }
+    #endregion
 }

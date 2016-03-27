@@ -30,7 +30,10 @@ public class Save : NetworkBehaviour
         {
             this.dnc = gameObject.GetComponent<DayNightCycle>();
             this.nameWorld = GameObject.Find("NetworkManager").GetComponent<NetworkManagerHUD>().World;
+
             this.chunks = new List<ChunkSave>();
+            this.players = new List<PlayerSave>();
+
             this.worldPath = Application.dataPath + "/Saves/" + this.nameWorld + "/";
             this.chunksPath = worldPath + "/Chunks/";
             this.playersPath = worldPath + "/Players/";
@@ -295,6 +298,8 @@ public class PlayerSave
     {
         this.namePlayer = go.GetComponent<Social>().PlayerName;
         this.path = pathPlayer + namePlayer;
+        this.player = go;        
+
         if (File.Exists(this.path))
         {
             string[] save = File.ReadAllLines(this.path);
@@ -314,8 +319,8 @@ public class PlayerSave
         }
         else
         {
-            this.x = 0;
-            this.y = 0;
+            this.x = Random.Range(-10f, 10f);
+            this.y = Random.Range(-10f, 10f);
             this.life = 100;
             this.hunger = 100;
             this.thirst = 100;
@@ -323,24 +328,27 @@ public class PlayerSave
             this.cdSpeed = 0;
             this.jump = 0;
             this.cdJump = 0;
+
+            this.inventory = "";
         }
     }
 
     public void Save()
     {
-        this.X = this.Player.transform.FindChild("Character").position.x;
-        this.Y = this.Player.transform.FindChild("Character").position.z;
-        this.Life = this.Player.GetComponent<SyncCharacter>().Life;
-        this.Hunger = this.Player.GetComponent<SyncCharacter>().Hunger;
-        this.Thirst = this.Player.GetComponent<SyncCharacter>().Thirst;
-        this.Speed = this.Player.GetComponent<SyncCharacter>().Speed;
-        this.CdSpeed = this.Player.GetComponent<SyncCharacter>().CdSpeed;
-        this.Jump = this.Player.GetComponent<SyncCharacter>().Jump;
-        this.CdJump = this.Player.GetComponent<SyncCharacter>().CdJump;
+        this.x = this.Player.transform.FindChild("Character").position.x;
+        this.y = this.Player.transform.FindChild("Character").position.z;
+        this.life = this.Player.GetComponent<SyncCharacter>().Life;
+        this.hunger = this.Player.GetComponent<SyncCharacter>().Hunger;
+        this.thirst = this.Player.GetComponent<SyncCharacter>().Thirst;
+        this.speed = this.Player.GetComponent<SyncCharacter>().Speed;
+        this.cdSpeed = this.Player.GetComponent<SyncCharacter>().CdSpeed;
+        this.jump = this.Player.GetComponent<SyncCharacter>().Jump;
+        this.cdJump = this.Player.GetComponent<SyncCharacter>().CdJump;
 
         using (StreamWriter file = new StreamWriter(this.path))
         {
-            file.WriteLine(this.x + '|' + this.y + '|' + this.life + '|' + this.hunger + '|' + this.thirst + '|' + this.speed + '|' + this.cdSpeed + '|' + this.jump + '|' + this.cdJump);
+            file.WriteLine(this.x.ToString() + '|' + this.y.ToString() + '|' + this.life.ToString() + '|' + this.hunger.ToString() + '|' + this.thirst.ToString() +
+                '|' + this.speed.ToString() + '|' + this.cdSpeed.ToString() + '|' + this.jump.ToString() + '|' + this.cdJump.ToString());
             file.WriteLine(this.inventory);
         }
     }
