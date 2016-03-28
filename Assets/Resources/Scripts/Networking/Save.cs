@@ -21,6 +21,7 @@ public class Save : NetworkBehaviour
     private string nameWorld;
     private int seed;
     private List<ChunkSave> chunks;
+    private List<PlayerSave> players;
 
     // Use this for initialization
     void Start()
@@ -29,7 +30,10 @@ public class Save : NetworkBehaviour
         {
             this.dnc = gameObject.GetComponent<DayNightCycle>();
             this.nameWorld = GameObject.Find("NetworkManager").GetComponent<NetworkManagerHUD>().World;
+
             this.chunks = new List<ChunkSave>();
+            this.players = new List<PlayerSave>();
+
             this.worldPath = Application.dataPath + "/Saves/" + this.nameWorld + "/";
             this.chunksPath = worldPath + "/Chunks/";
             this.playersPath = worldPath + "/Players/";
@@ -63,6 +67,8 @@ public class Save : NetworkBehaviour
         File.WriteAllText(this.worldPath + "properties", this.seed.ToString() + "|" + ((int)this.dnc.ActualTime).ToString());
         foreach (ChunkSave cs in this.chunks)
             cs.Save();
+        foreach (PlayerSave ps in this.players)
+            ps.Save();
     }
 
     /// <summary>
@@ -119,6 +125,56 @@ public class Save : NetworkBehaviour
                 cs.SaveDestroyedElement(idSave);
     }
 
+    /// <summary>
+    /// Ajoute un joueur a la sauvegarde.
+    /// A appeller lors de la connexion d'un joueur.
+    /// </summary>
+    /// <param name="go"></param>
+    public void AddPlayer(GameObject go)
+    {
+        this.players.Add(new PlayerSave(go, this.playersPath));
+    }
+
+    /// <summary>
+    /// Supprime un joueur de la sauvegarde.
+    /// A appeller lors de la deconnexion de celui-ci.
+    /// </summary>
+    /// <param name="go"></param>
+    public void RemovePlayer(GameObject go)
+    {
+        foreach (PlayerSave player in this.players)
+            if (player.Player.Equals(go))
+                this.players.Remove(player);
+    }
+
+    /// <summary>
+    /// Charge le joueur en retournant son PlayerSave.
+    /// </summary>
+    /// <param name="go"></param>
+    public PlayerSave LoadPlayer(GameObject go)
+    {
+        foreach (PlayerSave player in this.players)
+            if (player.Player.Equals(go))
+                return player;
+        throw new System.Exception("Player not added or doesn't exist");
+    }
+
+    /// <summary>
+    /// Charge le joueur en retournant son PlayerSave.
+    /// </summary>
+    /// <param name="go"></param>
+    public void SavePlayerInventory(GameObject go, string inventory)
+    {
+        foreach (PlayerSave player in this.players)
+            if (player.Player.Equals(go))
+                player.Inventory = inventory;
+    }
+
+    /// <summary>
+    /// Cree un monde.
+    /// </summary>
+    /// <param name="name"></param>
+    /// <param name="seed"></param>
     public static void CreateWorld(string name, int seed)
     {
         Directory.CreateDirectory(Application.dataPath + "/Saves/" + name);
@@ -226,5 +282,140 @@ class ChunkSave
     public List<int> ListIdSave
     {
         get { return this.idSave; }
+    }
+}
+
+/// <summary>
+/// Represente la sauvegarder d'un joueur.
+/// </summary>
+public class PlayerSave
+{
+    private float x, y, life, hunger, thirst, speed, cdSpeed, jump, cdJump;
+    private string inventory, namePlayer, path;
+    GameObject player;
+
+    public PlayerSave(GameObject go, string pathPlayer)
+    {
+        this.namePlayer = go.GetComponent<Social>().PlayerName;
+        this.path = pathPlayer + namePlayer;
+        this.player = go;        
+
+        if (File.Exists(this.path))
+        {
+            string[] save = File.ReadAllLines(this.path);
+            string[] properties = save[0].Split('|');
+
+            this.x = float.Parse(properties[0]);
+            this.y = float.Parse(properties[1]);
+            this.life = float.Parse(properties[2]);
+            this.hunger = float.Parse(properties[3]);
+            this.thirst = float.Parse(properties[4]);
+            this.speed = float.Parse(properties[5]);
+            this.cdSpeed = float.Parse(properties[6]);
+            this.jump = float.Parse(properties[7]);
+            this.cdJump = float.Parse(properties[8]);
+
+            this.inventory = save[1];
+        }
+        else
+        {
+            this.x = Random.Range(-10f, 10f);
+            this.y = Random.Range(-10f, 10f);
+            this.life = 100;
+            this.hunger = 100;
+            this.thirst = 100;
+            this.speed = 0;
+            this.cdSpeed = 0;
+            this.jump = 0;
+            this.cdJump = 0;
+
+            this.inventory = "";
+        }
+    }
+
+    public void Save()
+    {
+        this.x = this.Player.transform.FindChild("Character").position.x;
+        this.y = this.Player.transform.FindChild("Character").position.z;
+        this.life = this.Player.GetComponent<SyncCharacter>().Life;
+        this.hunger = this.Player.GetComponent<SyncCharacter>().Hunger;
+        this.thirst = this.Player.GetComponent<SyncCharacter>().Thirst;
+        this.speed = this.Player.GetComponent<SyncCharacter>().Speed;
+        this.cdSpeed = this.Player.GetComponent<SyncCharacter>().CdSpeed;
+        this.jump = this.Player.GetComponent<SyncCharacter>().Jump;
+        this.cdJump = this.Player.GetComponent<SyncCharacter>().CdJump;
+
+        using (StreamWriter file = new StreamWriter(this.path))
+        {
+            file.WriteLine(this.x.ToString() + '|' + this.y.ToString() + '|' + this.life.ToString() + '|' + this.hunger.ToString() + '|' + this.thirst.ToString() +
+                '|' + this.speed.ToString() + '|' + this.cdSpeed.ToString() + '|' + this.jump.ToString() + '|' + this.cdJump.ToString());
+            file.WriteLine(this.inventory);
+        }
+    }
+
+    public float X
+    {
+        get { return this.x; }
+        set { this.x = value; }
+    }
+
+    public float Y
+    {
+        get { return this.y; }
+        set { this.y = value; }
+    }
+
+    public float Life
+    {
+        get { return this.life; }
+        set { this.life = value; }
+    }
+
+    public float Hunger
+    {
+        get { return this.hunger; }
+        set { this.hunger = value; }
+    }
+
+    public float Thirst
+    {
+        get { return this.thirst; }
+        set { this.thirst = value; }
+    }
+
+    public float Speed
+    {
+        get { return this.speed; }
+        set { this.speed = value; }
+    }
+
+    public float CdSpeed
+    {
+        get { return this.cdSpeed; }
+        set { this.cdSpeed = value; }
+    }
+
+    public float Jump
+    {
+        get { return this.jump; }
+        set { this.jump = value; }
+    }
+
+    public float CdJump
+    {
+        get { return this.cdJump; }
+        set { this.cdJump = value; }
+    }
+
+    public string Inventory
+    {
+        get { return this.inventory; }
+        set { this.inventory = value; }
+    }
+
+    public GameObject Player
+    {
+        get { return this.player; }
+        set { this.player = value; }
     }
 }
