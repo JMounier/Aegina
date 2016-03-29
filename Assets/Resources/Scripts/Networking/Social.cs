@@ -371,7 +371,7 @@ public class Social : NetworkBehaviour
     /// </summary>
     /// <param name="pos">The position of the teleportation</param>
     [ClientRpc]
-    private void RpcTeleport(Vector3 pos)
+    public void RpcTeleport(Vector3 pos)
     {
         gameObject.GetComponentInChildren<CharacterCollision>().GetComponent<Rigidbody>().velocity = Vector3.zero;
         gameObject.GetComponentInChildren<CharacterCollision>().transform.position = pos;

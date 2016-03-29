@@ -24,7 +24,6 @@ public class Inventory : NetworkBehaviour
     private Transform trans;
     private Sound sound;
     private Item lastUseddItem;
-    private Save saver;
 
     #region Behaviour Methods
     // Use this for initialization
@@ -46,7 +45,6 @@ public class Inventory : NetworkBehaviour
         this.trans = gameObject.GetComponent<Transform>();
         this.sound = gameObject.GetComponent<Sound>();
         this.lastUseddItem = new Item();
-        this.saver = GameObject.Find("Map").GetComponent<Save>();
 
         this.CmdLoadInventory();
     }
@@ -662,7 +660,7 @@ public class Inventory : NetworkBehaviour
     [Command]
     private void CmdSaveInventory(string save)
     {
-        this.saver.SavePlayerInventory(gameObject, save);
+        GameObject.Find("Map").GetComponent<Save>().SavePlayerInventory(gameObject, save);
     }
 
     /// <summary>
@@ -671,7 +669,7 @@ public class Inventory : NetworkBehaviour
     [Command]
     private void CmdLoadInventory()
     {
-        RpcLoadInventory(this.saver.LoadPlayer(gameObject).Inventory);
+        RpcLoadInventory(GameObject.Find("Map").GetComponent<Save>().LoadPlayer(gameObject).Inventory);
     }
 
     /// <summary>
