@@ -116,7 +116,7 @@ public class SyncCharacter : NetworkBehaviour
         this.Hunger -= Time.deltaTime * starvation;
         this.Thirst -= Time.deltaTime * thirstiness;
         if (this.character.transform.position.y <= -10)
-            this.Life -= 20 * Time.deltaTime;
+            this.Life -= 30 * Time.deltaTime;
         if (this.character.transform.position.y < 0 && !this.controller.IsJumping)
             this.controller.IsJumping = true;
         if (this.hunger == 0 || this.thirst == 0)
@@ -124,12 +124,13 @@ public class SyncCharacter : NetworkBehaviour
     }
 
     /// <summary>
-    /// Spawn le joueur.
+    /// Tue le joueur et le fait respawn dans le monde.
     /// </summary>
-    private void Spawn()
+    private void Kill()
     {
         if (isLocalPlayer)
         {
+            gameObject.GetComponent<Social>().CmdSendActivity(Activity.Death, gameObject);
             this.CmdLife(this.lifeMax);
             this.CmdHunger(this.hungerMax);
             this.CmdThirst(this.thirstMax);
@@ -139,15 +140,6 @@ public class SyncCharacter : NetworkBehaviour
             Vector3 newPos = new Vector3(Random.Range(-10f, 10f), 7, Random.Range(-10f, 10f));
             this.character.transform.position = newPos;
         }
-    }
-
-    /// <summary>
-    /// Tue le joueur et le fait respawn dans le monde.
-    /// </summary>
-    private void Kill()
-    {
-        gameObject.GetComponent<Social>().CmdSendActivity(Activity.Death, gameObject);
-        this.Spawn();
     }
 
     [Command]
@@ -176,7 +168,7 @@ public class SyncCharacter : NetworkBehaviour
         set
         {
             this.CmdLife(Mathf.Clamp(value, 0f, this.lifeMax));
-            if (value == 0)
+            if (value <= 0)
                 this.Kill();
         }
     }

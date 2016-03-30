@@ -69,7 +69,7 @@ public class Social : NetworkBehaviour
                         other.GetComponent<Social>().nameTextMesh.gameObject.SetActive(false);
                 }
             }
-            
+
             // Update the list of players
             List<string> playerList = new List<string>();
             foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
@@ -90,7 +90,7 @@ public class Social : NetworkBehaviour
 
         // Display chat
         if (this.chatShown)
-        {            
+        {
             GUI.SetNextControlName("Chat");
             this.msg = GUI.TextField(new Rect(this.posX, this.posY, Screen.width * 0.3f, Screen.height * 0.04f), this.msg, 200, this.skin.textField);
 
@@ -124,7 +124,7 @@ public class Social : NetworkBehaviour
             float y = 0;
             foreach (string name in this.playerList)
             {
-                GUI.Box(new Rect(Screen.width/2 - Screen.width * 0.075f, y, Screen.width * 0.15f, Screen.height * 0.04f), name, this.skin.GetStyle("button"));
+                GUI.Box(new Rect(Screen.width / 2 - Screen.width * 0.075f, y, Screen.width * 0.15f, Screen.height * 0.04f), name, this.skin.GetStyle("button"));
                 y += Screen.height * 0.04f;
             }
         }
@@ -162,7 +162,7 @@ public class Social : NetworkBehaviour
                 // HELP
                 case "/help":
                     sender.GetComponent<Social>().RpcReceiveMsg("<color=green>---This is the list of commands---</color>\n" +
-                        "/time <value> \n/give <player> <id> [quantity] \n/msg <player> <message> \n/tp <player>\n/kick <player>");
+                        "/time <value> \n/give <player> <id> [quantity] \n/msg <player> <message> \n/tp <player>\n/kick <player> \n/save");
                     break;
 
                 // TIME
@@ -256,6 +256,7 @@ public class Social : NetworkBehaviour
                         sender.GetComponent<Social>().RpcReceiveMsg("<color=red>Usage: /msg <player> <message></color>");
                     }
                     break;
+                // TP
                 case "/tp":
                     try
                     {
@@ -279,6 +280,7 @@ public class Social : NetworkBehaviour
                         sender.GetComponent<Social>().RpcReceiveMsg("<color=red>Usage: /tp <player></color>");
                     }
                     break;
+                // KICK
                 case "/kick":
                     try
                     {
@@ -296,6 +298,12 @@ public class Social : NetworkBehaviour
                     {
                         sender.GetComponent<Social>().RpcReceiveMsg("<color=red>Usage: /kick <player></color>");
                     }
+                    break;
+                // SAVE
+                case "/save":
+                    GameObject.Find("Map").GetComponent<Save>().SaveWorld();
+                    foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
+                        player.GetComponent<Social>().RpcReceiveMsg("The world has been forced save.");
                     break;
                 default:
                     sender.GetComponent<Social>().RpcReceiveMsg("<color=red>Unknow command. Try /help for a list of commands.</color>");
@@ -329,7 +337,7 @@ public class Social : NetworkBehaviour
         else if (isLocalPlayer)
             GameObject.Find("NetworkManager").GetComponent<NetworkManager>().StopClient();
     }
-       
+
     /// <summary>
     /// Envoi une nouvel activite au server
     /// </summary>
@@ -405,6 +413,9 @@ public class Social : NetworkBehaviour
         }
     }
 
+    /// <summary>
+    /// Le nom du joueur.
+    /// </summary>
     public string PlayerName
     {
         get { return this.namePlayer; }

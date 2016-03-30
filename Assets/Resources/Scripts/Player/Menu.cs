@@ -62,7 +62,7 @@ public class Menu : NetworkBehaviour
     private void DrawMenu()
     {
         GUI.Box(new Rect(Screen.width / 4, Screen.height / 6, Screen.width / 2, Screen.width / 12.8f), "", this.skin.GetStyle("aegina"));
-        
+
         if (GUI.Button(new Rect(this.posX, this.posY, this.width, this.height), TextDatabase.Continue.GetText(), this.skin.GetStyle("button")))
         {
             this.soundAudio.PlaySound(AudioClips.Button, 1f);
@@ -86,8 +86,23 @@ public class Menu : NetworkBehaviour
                 this.NM.StopHost();
             }
             else
-                this.NM.StopClient();
+                CmdDisconnect();
         }
+    }
+
+    [Command]
+    private void CmdDisconnect()
+    {
+        GameObject.Find("Map").GetComponent<Save>().RemovePlayer(gameObject);
+        RpcDisconnect();
+
+    }
+
+    [ClientRpc]
+    private void RpcDisconnect()
+    {
+        if (isLocalPlayer)
+            this.NM.StopClient();
     }
 
 
@@ -117,7 +132,7 @@ public class Menu : NetworkBehaviour
             this.menuShown = true;
             this.optionShown = false;
             this.soundAudio.PlaySound(AudioClips.Button, 1f);
-        }                
+        }
     }
 
     /// <summary>
@@ -126,7 +141,7 @@ public class Menu : NetworkBehaviour
     private void DrawSon()
     {
         GUI.Box(new Rect(Screen.width / 4, Screen.height / 6, Screen.width / 2, Screen.width / 12.8f), "", this.skin.GetStyle("aegina"));
-        
+
         this.soundAudio.Volume = GUI.HorizontalSlider(new Rect(this.posX, this.posY, this.width, this.height), this.soundAudio.Volume, 0f, 1f, this.skin.GetStyle("horizontalslider"), this.skin.GetStyle("horizontalsliderthumb"));
 
         if (GUI.Button(new Rect(this.posX, this.posY + this.spacing, this.width, this.height), TextDatabase.Validate.GetText(), this.skin.GetStyle("button")))
@@ -172,7 +187,7 @@ public class Menu : NetworkBehaviour
             this.optionShown = true;
             this.langueShown = false;
             this.soundAudio.PlaySound(AudioClips.Button, 1f);
-        }        
+        }
     }
 
     // Getters & Setters

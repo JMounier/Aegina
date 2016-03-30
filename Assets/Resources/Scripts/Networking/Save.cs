@@ -53,10 +53,7 @@ public class Save : NetworkBehaviour
 
         this.coolDownSave -= Time.deltaTime;
         if (this.coolDownSave <= 0)
-        {
             this.SaveWorld();
-            this.coolDownSave = 60;
-        }
     }
 
     /// <summary>
@@ -64,11 +61,15 @@ public class Save : NetworkBehaviour
     /// </summary>
     public void SaveWorld()
     {
+        this.coolDownSave = 60;
         File.WriteAllText(this.worldPath + "properties", this.seed.ToString() + "|" + ((int)this.dnc.ActualTime).ToString());
         foreach (ChunkSave cs in this.chunks)
             cs.Save();
         foreach (PlayerSave ps in this.players)
-            ps.Save();
+            if (ps.Player == null)
+                this.players.Remove(ps);
+            else
+                ps.Save();
     }
 
     /// <summary>
@@ -83,7 +84,7 @@ public class Save : NetworkBehaviour
     }
 
     /// <summary>
-    /// Supprime a la sauvegarde un chunk.
+    /// Sauvegarde un joueur et l'enleve du tracking.
     /// A appeller lorsque l'on souhaite degenere un chunk.
     /// </summary>
     /// <param name="x">La position x du chunk.</param>
@@ -93,6 +94,7 @@ public class Save : NetworkBehaviour
         for (int i = 0; i < this.chunks.Count; i++)
             if (this.chunks[i].X == x && this.chunks[i].Y == y)
             {
+                this.chunks[i].Save();
                 this.chunks.RemoveAt(i);
                 break;
             }
@@ -136,7 +138,7 @@ public class Save : NetworkBehaviour
     }
 
     /// <summary>
-    /// Supprime un joueur de la sauvegarde.
+    /// Sauvegarde un joueur et l'enleve du tracking.
     /// A appeller lors de la deconnexion de celui-ci.
     /// </summary>
     /// <param name="go"></param>
@@ -144,7 +146,11 @@ public class Save : NetworkBehaviour
     {
         foreach (PlayerSave player in this.players)
             if (player.Player.Equals(go))
+            {
+                player.Save();
                 this.players.Remove(player);
+                break;
+            }
     }
 
     /// <summary>
@@ -298,7 +304,7 @@ public class PlayerSave
     {
         this.namePlayer = go.GetComponent<Social>().PlayerName;
         this.path = pathPlayer + namePlayer;
-        this.player = go;        
+        this.player = go;
 
         if (File.Exists(this.path))
         {
