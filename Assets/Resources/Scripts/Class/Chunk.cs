@@ -55,8 +55,11 @@ public class Chunk : Entity
 
         // Set good biome
         foreach (Transform child in Prefab.transform)
-            if (child.name.Contains("Island"))            
-                child.GetComponent<MeshRenderer>().materials = new Material[2] { b.Grass, b.Rock };             
+            if (child.name.Contains("Island"))
+                if (child.GetComponent<MeshRenderer>().materials[0].name.Contains("Rock"))
+                    child.GetComponent<MeshRenderer>().materials = new Material[2] { b.Rock, b.Grass };
+                else
+                    child.GetComponent<MeshRenderer>().materials = new Material[2] { b.Grass, b.Rock };
 
         Prefab.GetComponent<SyncChunk>().BiomeId = b.ID;
 
