@@ -6,18 +6,25 @@ public class SyncCharacter : NetworkBehaviour
 {
     // Carateristiques
     private int lifeMax;
-    [SyncVar] private float life;
+    [SyncVar]
+    private float life;
     private int hungerMax;
-    [SyncVar] private float hunger;
+    [SyncVar]
+    private float hunger;
     private int thirstMax;
-    [SyncVar] private float thirst;
+    [SyncVar]
+    private float thirst;
 
     // Bonus / Malus
-    [SyncVar] private float speed;
-    [SyncVar] private float cdSpeed;
+    [SyncVar]
+    private float speed;
+    [SyncVar]
+    private float cdSpeed;
 
-    [SyncVar] private float jump;
-    [SyncVar] private float cdJump;
+    [SyncVar]
+    private float jump;
+    [SyncVar]
+    private float cdJump;
 
     // Constants
     private readonly static float starvation = 0.1f;
@@ -36,9 +43,9 @@ public class SyncCharacter : NetworkBehaviour
 
     // Use this for initialization
     void Start()
-    {       
-        if (!isLocalPlayer)
-            return;
+    {
+        if (!isLocalPlayer)        
+            return;        
 
         this.inventory = gameObject.GetComponent<Inventory>();
         this.controller = gameObject.GetComponent<Controller>();
@@ -103,12 +110,13 @@ public class SyncCharacter : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!isLocalPlayer)
+        if (!isLocalPlayer)        
             return;
+        
         this.Hunger -= Time.deltaTime * starvation;
         this.Thirst -= Time.deltaTime * thirstiness;
         if (this.character.transform.position.y <= -10)
-            this.Life -= 20 * Time.deltaTime;
+            this.Life -= 30 * Time.deltaTime;
         if (this.character.transform.position.y < 0 && !this.controller.IsJumping)
             this.controller.IsJumping = true;
         if (this.hunger == 0 || this.thirst == 0)
@@ -116,25 +124,22 @@ public class SyncCharacter : NetworkBehaviour
     }
 
     /// <summary>
-    /// Spawn le joueur.
-    /// </summary>
-    private void Spawn()
-    {
-        this.life = this.lifeMax;
-        this.hunger = this.hungerMax;
-        this.thirst = this.thirstMax;
-        this.character.GetComponent<Rigidbody>().velocity = Vector3.zero;
-        Vector3 newPos = new Vector3(Random.Range(-10f, 10f), 7, Random.Range(-10f, 10f));
-        this.character.transform.position = newPos;
-    }
-
-    /// <summary>
     /// Tue le joueur et le fait respawn dans le monde.
     /// </summary>
     private void Kill()
     {
-        gameObject.GetComponent<Social>().CmdSendActivity(Activity.Death, gameObject);
-        this.Spawn();
+        if (isLocalPlayer)
+        {
+            gameObject.GetComponent<Social>().CmdSendActivity(Activity.Death, gameObject);
+            this.CmdLife(this.lifeMax);
+            this.CmdHunger(this.hungerMax);
+            this.CmdThirst(this.thirstMax);
+            this.CmdSpeed(0);
+            this.CmdJump(0);
+            this.character.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            Vector3 newPos = new Vector3(Random.Range(-10f, 10f), 7, Random.Range(-10f, 10f));
+            this.character.transform.position = newPos;
+        }
     }
 
     [Command]
@@ -150,7 +155,7 @@ public class SyncCharacter : NetworkBehaviour
         this.cdJump = save.CdJump;
 
         Vector3 newPos = new Vector3(save.X, 7, save.Y);
-        this.character.transform.position = newPos;
+        gameObject.GetComponent<Social>().RpcTeleport(newPos);
     }
 
     #region Getter & Setter
@@ -163,7 +168,7 @@ public class SyncCharacter : NetworkBehaviour
         set
         {
             this.CmdLife(Mathf.Clamp(value, 0f, this.lifeMax));
-            if (this.life == 0)
+            if (value <= 0)
                 this.Kill();
         }
     }
