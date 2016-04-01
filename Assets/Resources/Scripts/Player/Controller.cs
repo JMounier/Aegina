@@ -43,7 +43,8 @@ public class Controller : NetworkBehaviour
 
     // Pathfinding
     private InputManager im;
-    private List<Vector3> path;
+    private GameObject objectiv;
+    private Element.TypeElement oType;
 
     // Use this for initialization
     void Start()
@@ -56,7 +57,8 @@ public class Controller : NetworkBehaviour
         this.im = gameObject.GetComponent<InputManager>();
         this.soundAudio = gameObject.GetComponent<Sound>();
 
-        this.path = new List<Vector3>();
+        this.objectiv = null;
+        this.oType = Element.TypeElement.None;
 
         if (!isLocalPlayer)
         {
@@ -225,7 +227,8 @@ public class Controller : NetworkBehaviour
         // Apply the moves with the animation
         if (this.isJumping)
         {
-            this.path = new List<Vector3>();
+            this.objectiv = null;
+            this.oType = Element.TypeElement.None;
             anim.SetInteger("Action", 3);
             if (isSprinting)
                 move *= Time.deltaTime * (this.sprintSpeed + this.jumpingBoost + this.syncChar.Speed);
@@ -236,7 +239,8 @@ public class Controller : NetworkBehaviour
         {
             if (isMoving)
             {
-                this.path = new List<Vector3>();
+                this.objectiv = null;
+                this.oType = Element.TypeElement.None;
                 if (isSprinting)
                 {
                     move *= Time.deltaTime * (this.sprintSpeed + this.syncChar.Speed);
@@ -262,25 +266,25 @@ public class Controller : NetworkBehaviour
                     }
                 }
             }
-            else if (this.path.Count > 0)
+            else if (this.objectiv != null)
             {
-                Vector3 pos = this.path[0];
+                Vector3 pos = this.objectiv.transform.position;
 
-                if (PathFinding.isValidPosition(pos, .5f, this.character))
+                this.anim.SetInteger("Action", 1);
+                Vector3 viewRot = new Vector3(-pos.x, this.character.transform.position.y, -pos.z) - new Vector3(-this.character.transform.position.x, this.character.transform.position.y, -this.character.transform.position.z);
+                if (viewRot != Vector3.zero)
                 {
-                    this.anim.SetInteger("Action", 1);
-                    Vector3 viewRot = new Vector3(-pos.x, this.character.transform.position.y, -pos.z) - new Vector3(-this.character.transform.position.x, this.character.transform.position.y, -this.character.transform.position.z);
-                    if (viewRot != Vector3.zero)
-                    {
-                        Quaternion targetRotation = Quaternion.LookRotation(viewRot);
-                        this.character.transform.rotation = Quaternion.Lerp(this.character.transform.rotation, targetRotation, Time.deltaTime * 5);
-                    }
-                    // look here pour des probleme de syncro
-                    gameObject.transform.Translate(-this.character.transform.forward * Time.deltaTime * this.WalkSpeed, Space.World);
-                    //gameObject.GetComponentInChildren<Rigidbody>().AddForce(gameObject.transform.forward * Time.deltaTime * this.WalkSpeed);
-                    if (Vector3.Distance(this.character.transform.position, pos) < 1)
-                        this.path.RemoveAt(0);
-                }               
+                    Quaternion targetRotation = Quaternion.LookRotation(viewRot);
+                    this.character.transform.rotation = Quaternion.Lerp(this.character.transform.rotation, targetRotation, Time.deltaTime * 5);
+                }
+                // look here pour des probleme de syncro
+                gameObject.transform.Translate(-this.character.transform.forward * Time.deltaTime * this.WalkSpeed, Space.World);
+                //gameObject.GetComponentInChildren<Rigidbody>().AddForce(gameObject.transform.forward * Time.deltaTime * this.WalkSpeed);
+                if (Vector3.Distance(this.character.transform.position, pos) < 1.5)
+                {
+                    this.objectiv = null;
+                    this.oType = Element.TypeElement.None;
+                }
             }
             else if (this.anim.GetInteger("Action") <= 3 || !Input.GetButton("Fire2") || this.im.NearElement == null)
                 this.anim.SetInteger("Action", 0);
@@ -350,9 +354,15 @@ public class Controller : NetworkBehaviour
         set { this.jumpForce = value; }
     }
 
-    public List<Vector3> Path
+    public GameObject Objectiv
     {
-        get { return this.path; }
-        set { this.path = value; }
+        get { return this.objectiv; }
+        set { this.objectiv = value; }
+    }
+
+    public Element.TypeElement OType
+    {
+        get { return this.oType; }
+        set { this.oType = value; }
     }
 }

@@ -18,7 +18,7 @@ public class InputManager : NetworkBehaviour
 
     private GameObject character;
     private GameObject cam;
-    private SyncElement nearElement;
+    private GameObject nearElement;
 
     private float cdConsume = 1f;
 
@@ -52,7 +52,7 @@ public class InputManager : NetworkBehaviour
 
         // Recherche du plus proche
         float dist = float.PositiveInfinity;
-        SyncElement lastNearElement = this.nearElement;
+        GameObject lastNearElement = this.nearElement;
         this.nearElement = null;
 
         Collider[] cols = Physics.OverlapSphere(this.cam.transform.position, 0.45f);
@@ -64,7 +64,7 @@ public class InputManager : NetworkBehaviour
             if (col.transform.parent != null && col.transform.parent.CompareTag("Elements") && col.gameObject != forbidden
                 && Vector3.Distance(this.character.transform.position, col.transform.parent.transform.position) < dist)
             {
-                this.nearElement = col.transform.parent.gameObject.GetComponent<SyncElement>();
+                this.nearElement = col.transform.parent.gameObject;
                 dist = Vector3.Distance(this.character.transform.position, col.transform.parent.transform.position);
             }
 
@@ -333,11 +333,14 @@ public class InputManager : NetworkBehaviour
                 this.anim.SetInteger("Action", 0);
         }
         else if (true)
-            this.controller.Path = PathFinding.AStarPath(this.character, this.nearElement.transform.position, .75f, 1.5f, this.nearElement.gameObject);
+        {
+            this.controller.Objectiv = this.nearElement;
+            this.controller.OType = type;
+        }
     }
 
     #region Getters/Setters
-    public SyncElement NearElement
+    public GameObject NearElement
     {
         get { return this.nearElement; }
     }
