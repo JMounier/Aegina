@@ -54,12 +54,16 @@ public class Chunk : Entity
         Spawn(new Vector3(x * Size, 0, y * Size), Quaternion.Euler(new Vector3(0, 90 * (int)direction, 0)), map.transform);
 
         // Set good biome
+        List<Vector3> posIslands = new List<Vector3>();
         foreach (Transform child in Prefab.transform)
             if (child.name.Contains("Island"))
+            {
+                posIslands.Add(child.transform.position);
                 if (child.GetComponent<MeshRenderer>().materials[0].name.Contains("Rock"))
                     child.GetComponent<MeshRenderer>().materials = new Material[2] { b.Rock, b.Grass };
                 else
                     child.GetComponent<MeshRenderer>().materials = new Material[2] { b.Grass, b.Rock };
+            }
 
         Prefab.GetComponent<SyncChunk>().BiomeId = b.ID;
 
@@ -85,6 +89,9 @@ public class Chunk : Entity
                         idSave++;
                     }
                 }
+
+        // Generate Graph
+        Prefab.GetComponent<SyncChunk>().MyGraph = new Graph(posIslands.ToArray());
     }
 
     private void GenerateEntity(Entity e, GameObject ancre, int idSave)

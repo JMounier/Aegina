@@ -58,24 +58,38 @@ public class Mob : Entity
     {
         foreach (var dc in this.dropConfigs)
         {
-            Vector3 projection = new Vector3(Random.Range(-1f,1f), Random.Range(0, 1f), Random.Range(-1f, 1f));
+            Vector3 projection = new Vector3(Random.Range(-1f, 1f), Random.Range(0, 1f), Random.Range(-1f, 1f));
             dc.I.Spawn(prefab.transform.position, projection, dc.Quantity);
         }
         base.Kill();
     }
-       
+
     public override void Spawn(Vector3 pos)
     {
-        base.Spawn(pos, GameObject.Find("Mobs").transform);
+        Transform mob = null;
+        foreach (Collider col in Physics.OverlapBox(pos, new Vector3(5, 100, 5)))
+            if (col.gameObject.name.Contains("Island"))
+            {
+                mob = col.transform.parent.FindChild("Mob");
+                break;
+            }
+        base.Spawn(pos, mob);
         base.prefab.GetComponent<SyncMob>().MyMob = new Mob(this);
     }
 
     public override void Spawn(Vector3 pos, Quaternion rot)
     {
-        base.Spawn(pos, GameObject.Find("Mobs").transform);
+        Transform mob = null;
+        foreach (Collider col in Physics.OverlapBox(pos, new Vector3(5, 100, 5)))
+            if (col.gameObject.name.Contains("Island"))
+            {
+                mob = col.transform.parent.FindChild("Mob");
+                break;
+            }
+        base.Spawn(pos, mob);
         base.prefab.GetComponent<SyncMob>().MyMob = new Mob(this);
         base.Spawn(pos, rot);
-    }  
+    }
 
     // Getters & Setters
 
