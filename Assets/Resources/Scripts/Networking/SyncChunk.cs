@@ -9,7 +9,9 @@ public class SyncChunk : NetworkBehaviour
     private Vector3 rotation;
 
     [SyncVar]
-    private int biomeId;  
+    private int biomeId;
+
+    private Graph myGraph;
 
     // Use this for initialization
     void Start()
@@ -30,5 +32,11 @@ public class SyncChunk : NetworkBehaviour
     {
         get { return this.biomeId; }
         set { this.biomeId = value; }
+    }
+
+    public Graph MyGraph
+    {
+        get { return this.myGraph; }
+        set { this.myGraph = value; }
     }
 }

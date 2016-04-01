@@ -6,7 +6,7 @@
     {
         Item1 = item1;
         Item2 = item2;
-    }
+    }    
 }
 
 public static class Tuple
