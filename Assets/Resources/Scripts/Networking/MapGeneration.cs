@@ -41,7 +41,7 @@ public class MapGeneration : NetworkBehaviour
         System.Random rand = new System.Random(chunkSeed(x, y, this.save.Seed));
         EntityDatabase.RandChunk(bridge, rand).Generate(x, y, rand, dir, gameObject, islandCore);
     }
-
+    
     /// <summary>
     /// Retourne le seed propre a un chunk avec sa position et le seed du monde.
     /// </summary>

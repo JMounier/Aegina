@@ -6,16 +6,19 @@ using UnityEngine.Networking;
 public class Graph
 {
     private Dictionary<string, Node> nodes;
+    private List<Node> origins;
 
     public Graph(params Vector3[] origins)
     {
         this.nodes = new Dictionary<string, Node>();
+        this.origins = new List<Node>();
 
         foreach (Vector3 o in origins)
         {
             Vector3 origin = new Vector3(Convert.ToSingle(Math.Round(o.x * 2, 0) / 2), 7f, Convert.ToSingle(Math.Round(o.z * 2, 0) / 2));
             Queue<Node> file = new Queue<Node>();
             Node node = new Node(isValidPosition(origin), origin);
+            this.origins.Add(node);
             file.Enqueue(node);
             this.nodes.Add(VectorToString(origin), node);
             while (file.Count > 0)
@@ -24,16 +27,69 @@ public class Graph
                 foreach (Vector3 posNeighbour in Neighbours(node))
                 {
                     string posNeighbourString = VectorToString(posNeighbour);
-                    if (!this.nodes.ContainsKey(posNeighbourString) && isOverGround(posNeighbour))
+                    if (isOverGround(posNeighbour))
                     {
-                        Node neighbour = new Node(isValidPosition(posNeighbour), posNeighbour);
-                        node.Neighbours.Add(neighbour);
-                        neighbour.Neighbours.Add(node);
-                        this.nodes.Add(posNeighbourString, neighbour);
-                        file.Enqueue(neighbour);
+                        if (!this.nodes.ContainsKey(posNeighbourString))
+                        {
+                            Node neighbour = new Node(isValidPosition(posNeighbour), posNeighbour);
+                            node.Neighbours.Add(neighbour);
+                            neighbour.Neighbours.Add(node);
+                            this.nodes.Add(posNeighbourString, neighbour);
+                            file.Enqueue(neighbour);
+                        }
+                        else if (!node.Neighbours.Contains(this.nodes[posNeighbourString]))
+                        {
+                            node.Neighbours.Add(this.nodes[posNeighbourString]);
+                            this.nodes[posNeighbourString].Neighbours.Add(node);
+                        }
                     }
                 }
             }
+        }
+    }
+
+    public void DebugDrawGraph()
+    {
+        // Draw graph
+        Queue<Node> file = new Queue<Node>();
+        foreach (Node origin in this.origins)
+        {
+            origin.LastCost = 0;
+            file.Enqueue(origin);
+        }
+        while (file.Count > 0)
+        {
+            Node node = file.Dequeue();
+            foreach (Node neighbour in node.Neighbours)
+            {
+                if (!node.IsValid || !neighbour.IsValid)
+                    Debug.DrawLine(node.Position, neighbour.Position, Color.red);
+                else
+                    Debug.DrawLine(node.Position, neighbour.Position, Color.green);
+
+                if (neighbour.LastCost > 0)
+                {
+                    neighbour.LastCost = 0;
+                    file.Enqueue(neighbour);
+                }
+            }
+        }
+
+        // Clear graph
+        foreach (Node origin in this.origins)
+        {
+            origin.Reset();
+            file.Enqueue(origin);
+        }
+        while (file.Count > 0)
+        {
+            Node node = file.Dequeue();
+            foreach (Node neighbour in node.Neighbours)
+                if (neighbour.LastCost == 0)
+                {
+                    neighbour.Reset();
+                    file.Enqueue(neighbour);
+                }
         }
     }
 
@@ -77,10 +133,10 @@ public class Graph
     /// <param name="goal">Must be valid !</param>
     /// <param name="around"></param>
     /// <returns></returns>
-    public List<Vector3> AStarPath(Node origin, Node goal, float around = 1f)
+    public List<Node> AStarPath(Node origin, Node goal, float around = 1f)
     {
         if (!goal.IsValid)
-            return new List<Vector3>();
+            return new List<Node>();
 
         List<Node> memory = new List<Node>();
         Heap tas = new Heap();
@@ -96,10 +152,10 @@ public class Graph
             if (node == goal)
             {
                 tas.Clear();
-                List<Vector3> path = new List<Vector3>();
+                List<Node> path = new List<Node>();
                 while (node.Father != null)
                 {
-                    path.Insert(0, node.Position);
+                    path.Insert(0, node);
                     node = node.Father;
                 }
                 foreach (Node n in memory)
@@ -123,7 +179,7 @@ public class Graph
             n.Reset();
         memory.Clear();
         //Debug.Log("Not find : " + goal.Position);
-        return new List<Vector3>();
+        return new List<Node>();
     }
 
     private static IEnumerable<Vector3> Neighbours(Node node)
@@ -137,7 +193,7 @@ public class Graph
     public static bool isValidPosition(Vector3 pos)
     {
         bool isOverGround = false;
-        foreach (Collider col in Physics.OverlapBox(pos, new Vector3(.5f, 1f, .5f)))
+        foreach (Collider col in Physics.OverlapBox(pos, new Vector3(.25f, 1f, .25f)))
         {
             if (!col.isTrigger)
                 if (col.name.Contains("Island"))
@@ -150,7 +206,7 @@ public class Graph
 
     public static bool isOverGround(Vector3 pos)
     {
-        foreach (Collider col in Physics.OverlapBox(pos, new Vector3(.5f, 1f, .5f)))
+        foreach (Collider col in Physics.OverlapBox(pos, new Vector3(.25f, 1f, .25f)))
             if (col.isTrigger == false && col.name.Contains("Island"))
                 return true;
         return false;

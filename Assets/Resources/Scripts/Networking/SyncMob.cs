@@ -8,7 +8,7 @@ public class SyncMob : NetworkBehaviour
 {
 
     private Mob myMob;
-    private List<Vector3> path;
+    private List<Node> path;
     private Animator anim;
     private bool focus = false;
     private Node node;
@@ -21,7 +21,7 @@ public class SyncMob : NetworkBehaviour
         if (isServer)
         {
             this.goal = null;
-            this.path = new List<Vector3>();
+            this.path = new List<Node>();
             this.anim = gameObject.GetComponent<Animator>();
             this.anim.SetInteger("Action", 0);
             this.chunk = gameObject.transform.parent.parent.GetComponent<SyncChunk>();
@@ -33,6 +33,10 @@ public class SyncMob : NetworkBehaviour
     {
         if (!isServer)
             return;
+
+        if (gameObject.transform.position.y < -10)
+            this.myMob.Life = 0;
+
         /*
                 --------------------------
                |    Deplacement du mob    |
@@ -43,7 +47,7 @@ public class SyncMob : NetworkBehaviour
         this.node = chunk.MyGraph.GetNode(gameObject.transform.position);
         if (this.node == null)
         {
-            this.myMob.Life = 0;
+            Move(gameObject.transform.position + gameObject.transform.forward);
             return;
         }
         this.node.IsValid = false;
@@ -71,19 +75,19 @@ public class SyncMob : NetworkBehaviour
 
             float randAngle = UnityEngine.Random.Range(0f, Mathf.PI * 2);
             this.goal = this.chunk.GetComponent<SyncChunk>().MyGraph.GetNode(new Vector3(Mathf.Cos(randAngle),
-                0, Mathf.Sin(randAngle)) * UnityEngine.Random.Range(10f, 40f) + this.transform.position);
-            
+                0, Mathf.Sin(randAngle)) * UnityEngine.Random.Range(10f, 30f) + this.transform.position);
+
             // Calcule le chemin => A*
             if (this.goal != null && this.goal.IsValid)
                 this.path = this.chunk.GetComponent<SyncChunk>().MyGraph.AStarPath(this.node, this.goal);
         }
-
+                     
         // Move the mob
         if (this.path.Count > 0)
         {
-            this.Move(this.path[0]);
-            if (Vector3.Distance(gameObject.transform.position, this.path[0]) < .5f)
-                this.path.RemoveAt(0);
+            this.Move(this.path[0].Position);
+            if (this.node == this.path[0])            
+                this.path.RemoveAt(0);            
         }
     }
 

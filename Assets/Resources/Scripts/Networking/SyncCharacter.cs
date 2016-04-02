@@ -44,8 +44,8 @@ public class SyncCharacter : NetworkBehaviour
     // Use this for initialization
     void Start()
     {
-        if (!isLocalPlayer)        
-            return;        
+        if (!isLocalPlayer)
+            return;
 
         this.inventory = gameObject.GetComponent<Inventory>();
         this.controller = gameObject.GetComponent<Controller>();
@@ -109,8 +109,8 @@ public class SyncCharacter : NetworkBehaviour
 
     // Update is called once per frame
     void Update()
-    {
-        if (!isLocalPlayer)        
+    {       
+        if (!isLocalPlayer)
             return;
         
         this.Hunger -= Time.deltaTime * starvation;
