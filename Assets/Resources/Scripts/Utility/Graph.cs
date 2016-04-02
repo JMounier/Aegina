@@ -188,6 +188,10 @@ public class Graph
         yield return node.Position + new Vector3(.5f, 0, 0);
         yield return node.Position - new Vector3(0, 0, .5f);
         yield return node.Position + new Vector3(0, 0, .5f);
+        yield return node.Position - new Vector3(.5f, 0, .5f);
+        yield return node.Position + new Vector3(.5f, 0, .5f);
+        yield return node.Position - new Vector3(-.5f, 0, .5f);
+        yield return node.Position + new Vector3(-.5f, 0, .5f);
     }
 
     public static bool isValidPosition(Vector3 pos)

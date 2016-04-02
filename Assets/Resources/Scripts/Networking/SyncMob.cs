@@ -44,6 +44,7 @@ public class SyncMob : NetworkBehaviour
         */
         if (this.node != null)
             this.node.IsValid = true;
+
         this.node = chunk.MyGraph.GetNode(gameObject.transform.position);
         if (this.node == null)
         {
@@ -52,9 +53,7 @@ public class SyncMob : NetworkBehaviour
         }
         this.node.IsValid = false;
 
-
-
-        // Recher du joueur le plus proche
+        // Recherche du joueur le plus proche
         GameObject nearPlayer = null;
         float dist = float.PositiveInfinity;
         foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
@@ -77,17 +76,17 @@ public class SyncMob : NetworkBehaviour
             this.goal = this.chunk.GetComponent<SyncChunk>().MyGraph.GetNode(new Vector3(Mathf.Cos(randAngle),
                 0, Mathf.Sin(randAngle)) * UnityEngine.Random.Range(10f, 30f) + this.transform.position);
 
-            // Calcule le chemin => A*
+            // Calcule le chemin => A*           
             if (this.goal != null && this.goal.IsValid)
                 this.path = this.chunk.GetComponent<SyncChunk>().MyGraph.AStarPath(this.node, this.goal);
         }
-                     
+
         // Move the mob
         if (this.path.Count > 0)
         {
             this.Move(this.path[0].Position);
-            if (this.node == this.path[0])            
-                this.path.RemoveAt(0);            
+            if (this.node == this.path[0])
+                this.path.RemoveAt(0);
         }
     }
 
