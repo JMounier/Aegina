@@ -133,11 +133,8 @@ public class Graph
     /// <param name="goal">Must be valid !</param>
     /// <param name="around"></param>
     /// <returns></returns>
-    public List<Node> AStarPath(Node origin, Node goal, float around = 1f)
+    public List<Node> AStarPath(Node origin, Node goal, float around = 0f)
     {
-        if (!goal.IsValid)
-            return new List<Node>();
-
         List<Node> memory = new List<Node>();
         Heap tas = new Heap();
         origin.LastCost = 0;
@@ -149,7 +146,7 @@ public class Graph
             Node node = (Node)elem.Item2;
 
             // But atteind
-            if (node == goal)
+            if (Vector3.Distance(node.Position, goal.Position) <= around)
             {
                 tas.Clear();
                 List<Node> path = new List<Node>();
@@ -170,7 +167,7 @@ public class Graph
                 {
                     neighbour.LastCost = node.LastCost + 1;
                     neighbour.Father = node;
-                    tas.Insert((int)(neighbour.LastCost + Vector3.Distance(neighbour.Position, goal.Position)), neighbour);
+                    tas.Insert((int)(neighbour.LastCost / 2f + Vector3.Distance(neighbour.Position, goal.Position)), neighbour);
                     memory.Add(neighbour);
                 }
             }

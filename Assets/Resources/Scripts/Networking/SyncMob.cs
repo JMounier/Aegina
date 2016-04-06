@@ -10,10 +10,16 @@ public class SyncMob : NetworkBehaviour
     private Mob myMob;
     private List<Node> path;
     private Animator anim;
-    private bool focus = false;
     private Node node;
     private Node goal;
     private SyncChunk chunk;
+
+    // Status
+    private bool focus = false;
+
+    // Cool downs
+    private float cdMove = 0;
+    private float cdAttack = 0;
 
     // Use this for initialization
     void Start()
@@ -40,18 +46,14 @@ public class SyncMob : NetworkBehaviour
         /*
                 --------------------------
                |    Deplacement du mob    |
-                -------------------------- 
+                --------------------------
         */
-        if (this.node != null)
-            this.node.IsValid = true;
-
         this.node = chunk.MyGraph.GetNode(gameObject.transform.position);
         if (this.node == null)
         {
             Move(gameObject.transform.position + gameObject.transform.forward);
             return;
         }
-        this.node.IsValid = false;
 
         // Recherche du joueur le plus proche
         GameObject nearPlayer = null;
@@ -65,8 +67,44 @@ public class SyncMob : NetworkBehaviour
                 dist = d;
             }
         }
+        // Check le focus
+        if (dist < this.myMob.Vision)
+            focus = true;
 
-        if (this.path.Count == 0)
+        // Focus
+        if (focus)
+        {
+            this.cdAttack += Time.deltaTime;
+            // Attack
+            if (dist < 1f && this.cdAttack > 1 / this.myMob.AttackSpeed)
+            {
+                this.cdAttack = 0;
+                Vector3 viewRot = nearPlayer.transform.FindChild("Character").position - transform.position;
+                if (viewRot != Vector3.zero)
+                {
+                    Quaternion targetRotation = Quaternion.LookRotation(viewRot);
+                    gameObject.transform.rotation = Quaternion.Lerp(gameObject.transform.rotation, targetRotation, Time.deltaTime * 5);
+                }
+                this.path.Clear();
+                this.anim.SetInteger("Action", 3);
+                nearPlayer.GetComponent<SyncCharacter>().Life -= this.myMob.Damage;
+            }
+            // Run to the player
+            else if (dist >= 1f && (this.path.Count == 0 || this.cdAttack > 3f))
+            {
+                this.cdAttack = 1f;
+                this.goal = this.chunk.GetComponent<SyncChunk>().MyGraph.GetNode(nearPlayer.transform.FindChild("Character").position);
+                if (this.goal != null && this.goal.IsValid)
+                    this.path = this.chunk.GetComponent<SyncChunk>().MyGraph.AStarPath(this.node, this.goal, .71f);
+                else
+                {
+                    this.anim.SetInteger("Action", 0);
+                    this.focus = false;
+                }
+            }
+        }
+
+        else if (this.path.Count == 0)
         {
             this.anim.SetInteger("Action", 0);
             // Trouve un nouveau but
@@ -78,15 +116,24 @@ public class SyncMob : NetworkBehaviour
 
             // Calcule le chemin => A*           
             if (this.goal != null && this.goal.IsValid)
-                this.path = this.chunk.GetComponent<SyncChunk>().MyGraph.AStarPath(this.node, this.goal);
+                this.path = this.chunk.GetComponent<SyncChunk>().MyGraph.AStarPath(this.node, this.goal, .71f);
         }
 
         // Move the mob
         if (this.path.Count > 0)
         {
+            this.cdMove += Time.deltaTime;
             this.Move(this.path[0].Position);
-            if (this.node == this.path[0])
+            if (this.cdMove >= 1.5f)
+            {
+                this.path.Clear();
+                this.cdMove = 0f;
+            }
+            else if (this.node == this.path[0])
+            {
                 this.path.RemoveAt(0);
+                this.cdMove = 0;
+            }
         }
     }
 
@@ -96,7 +143,6 @@ public class SyncMob : NetworkBehaviour
     /// <param name="pos">La position que le mob doit atteindre.</param>
     private void Move(Vector3 pos)
     {
-        this.anim.SetInteger("Action", 1);
         Vector3 viewRot = new Vector3(pos.x, gameObject.transform.position.y, pos.z) - transform.position;
         if (viewRot != Vector3.zero)
         {
@@ -105,9 +151,15 @@ public class SyncMob : NetworkBehaviour
         }
         gameObject.GetComponent<Rigidbody>().velocity = new Vector3(0, gameObject.GetComponent<Rigidbody>().velocity.y, 0);
         if (!this.focus)
+        {
+            this.anim.SetInteger("Action", 1);
             gameObject.GetComponent<Rigidbody>().AddForce(gameObject.transform.forward * 180000f * Time.deltaTime * this.myMob.WalkSpeed);
+        }
         else
+        {
+            this.anim.SetInteger("Action", 2);
             gameObject.GetComponent<Rigidbody>().AddForce(gameObject.transform.forward * 180000f * Time.deltaTime * this.myMob.RunSpeed);
+        }
     }
 
     // Getters & Setters
