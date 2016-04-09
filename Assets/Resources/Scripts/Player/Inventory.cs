@@ -78,7 +78,7 @@ public class Inventory : NetworkBehaviour
             }
             if (this.UsedItem.Items is WorckTop)
             {
-                GameObject charact = gameObject.GetComponent<Rigidbody>().gameObject;
+                GameObject charact = gameObject.transform.FindChild("Character").gameObject;
                 (this.UsedItem.Items as WorckTop).Previsu = GameObject.Instantiate((this.UsedItem.Items as WorckTop).Previsu, charact.transform.position - charact.transform.forward, Quaternion.identity) as GameObject;
                 (this.UsedItem.Items as WorckTop).Previsu.transform.LookAt(new Vector3(charact.transform.position.x, (this.UsedItem.Items as WorckTop).Previsu.transform.position.y, charact.transform.position.z));
             }
