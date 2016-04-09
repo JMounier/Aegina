@@ -32,18 +32,21 @@ public static class ItemDatabase
     public static readonly Item Glass = new Item(16, TextDatabase.Glass, TextDatabase.GlassDescription, 64, Resources.Load<Texture2D>("Sprites/Items/Elementaries/Glass"), new Entity(EntityDatabase.Glass));
     public static readonly Item Bowl = new Item(17, TextDatabase.Bowl, TextDatabase.BowlDescription, 64, Resources.Load<Texture2D>("Sprites/Items/Elementaries/Bowl"), new Entity(EntityDatabase.Bowl));
     public static readonly Item CuttedStone = new Item(18, TextDatabase.CuttedStone, TextDatabase.CuttedStoneDescription, 64, Resources.Load<Texture2D>("Sprites/Items/Elementaries/CuttedStone"), new Entity(EntityDatabase.CuttedStone));
-    //potions
-    public static readonly Consumable AquaPotion = new Consumable(19, TextDatabase.AquaPotion, TextDatabase.AquaPotionDescription, 64, Resources.Load<Texture2D>("Sprites/Items/Potions/AquaPotion"), new Entity(EntityDatabase.AquaPotion), new Effect(Effect.EffectType.Refreshment, 2));
-    public static readonly Consumable BluePotion = new Consumable(20, TextDatabase.BluePotion, TextDatabase.BluePotionDescription, 64, Resources.Load<Texture2D>("Sprites/Items/Potions/BluePotion"), new Entity(EntityDatabase.BluePotion), new Effect(Effect.EffectType.Refreshment, 3));
-    public static readonly Consumable GreenPotion = new Consumable(21, TextDatabase.GreenPotion, TextDatabase.GreenPotionDescription, 64, Resources.Load<Texture2D>("Sprites/Items/Potions/GreenPotion"), new Entity(EntityDatabase.GreenPotion), new Effect(Effect.EffectType.Poison, 2));
-    public static readonly Consumable PurplePotion = new Consumable(22, TextDatabase.PurplePotion, TextDatabase.PurplePotionDescription, 64, Resources.Load<Texture2D>("Sprites/Items/Potions/PurplePotion"), new Entity(EntityDatabase.PurplePotion), new Effect(Effect.EffectType.Speed, 1));
-    public static readonly Consumable RedPotion = new Consumable(23, TextDatabase.RedPotion, TextDatabase.RedPotionDescription, 64, Resources.Load<Texture2D>("Sprites/Items/Potions/RedPotion"), new Entity(EntityDatabase.RedPotion), new Effect(Effect.EffectType.Regeneration, 1));
-    public static readonly Consumable YellowPotion = new Consumable(24, TextDatabase.YellowPotion, TextDatabase.YellowPotionDescription, 64, Resources.Load<Texture2D>("Sprites/Items/Potions/YellowPotion"), new Entity(EntityDatabase.YellowPotion), new Effect(Effect.EffectType.JumpBoost, 1));
+    // Potions
+    public static readonly Consumable AquaPotion = new Consumable(19, TextDatabase.AquaPotion, TextDatabase.AquaPotionDescription, 64, Resources.Load<Texture2D>("Sprites/Items/Potions/AquaPotion"), new Entity(EntityDatabase.AquaPotion), new Effect(Effect.EffectType.Refreshment, 2), Resources.Load<GameObject>("Prefabs/Items/Potions/Aqua"));
+    public static readonly Consumable BluePotion = new Consumable(20, TextDatabase.BluePotion, TextDatabase.BluePotionDescription, 64, Resources.Load<Texture2D>("Sprites/Items/Potions/BluePotion"), new Entity(EntityDatabase.BluePotion), new Effect(Effect.EffectType.Refreshment, 3), Resources.Load<GameObject>("Prefabs/Items/Potions/Blue"));
+    public static readonly Consumable GreenPotion = new Consumable(21, TextDatabase.GreenPotion, TextDatabase.GreenPotionDescription, 64, Resources.Load<Texture2D>("Sprites/Items/Potions/GreenPotion"), new Entity(EntityDatabase.GreenPotion), new Effect(Effect.EffectType.Poison, 2), Resources.Load<GameObject>("Prefabs/Items/Potions/Green"));
+    public static readonly Consumable PurplePotion = new Consumable(22, TextDatabase.PurplePotion, TextDatabase.PurplePotionDescription, 64, Resources.Load<Texture2D>("Sprites/Items/Potions/PurplePotion"), new Entity(EntityDatabase.PurplePotion), new Effect(Effect.EffectType.Speed, 1), Resources.Load<GameObject>("Prefabs/Items/Potions/Purple"));
+    public static readonly Consumable RedPotion = new Consumable(23, TextDatabase.RedPotion, TextDatabase.RedPotionDescription, 64, Resources.Load<Texture2D>("Sprites/Items/Potions/RedPotion"), new Entity(EntityDatabase.RedPotion), new Effect(Effect.EffectType.Regeneration, 1), Resources.Load<GameObject>("Prefabs/Items/Potions/Red"));
+    public static readonly Consumable YellowPotion = new Consumable(24, TextDatabase.YellowPotion, TextDatabase.YellowPotionDescription, 64, Resources.Load<Texture2D>("Sprites/Items/Potions/YellowPotion"), new Entity(EntityDatabase.YellowPotion), new Effect(Effect.EffectType.JumpBoost, 1), Resources.Load<GameObject>("Prefabs/Items/Potions/Yellow"));
+    // Food 
+    public static readonly Consumable MeatBalls = new Consumable(25, TextDatabase.RedPotion, TextDatabase.RedPotionDescription, 64, Resources.Load<Texture2D>("Sprites/Items/Foods/MeatBalls"), new Entity(EntityDatabase.MeatBalls), new Effect(Effect.EffectType.Saturation, 2), Resources.Load<GameObject>("Prefabs/Items/Foods/MeatBalls"));
+    public static readonly Consumable WaterCact = new Consumable(26, TextDatabase.YellowPotion, TextDatabase.YellowPotionDescription, 64, Resources.Load<Texture2D>("Sprites/Items/Foods/WaterCact"), new Entity(EntityDatabase.WaterCact), new Effect(Effect.EffectType.Refreshment, 2), Resources.Load<GameObject>("Prefabs/Items/Foods/WaterCact"));
 
-    public static readonly Item Forge = new Item(25, TextDatabase.Forge, TextDatabase.ForgeDescription, 64, Resources.Load<Texture2D>("Sprites/Items/WorkStation/Forge"), new Entity(EntityDatabase.Forge));
-    public static readonly Item Cauldron = new Item(26, TextDatabase.Cauldron, TextDatabase.CauldronDescription, 64, Resources.Load<Texture2D>("Sprites/Items/WorkStation/Cauldron"), new Entity(EntityDatabase.Cauldron));
-    public static readonly Item Workbench = new Item(27, TextDatabase.Workbench, TextDatabase.WorkbenchDescription, 64, Resources.Load<Texture2D>("Sprites/Items/WorkStation/Workbench"), new Entity(EntityDatabase.Workbench));
-    public static readonly Item Firepit = new Item(28, TextDatabase.Firepit, TextDatabase.FirepitDescription, 64, Resources.Load<Texture2D>("Sprites/Items/WorkStation/Firepit"), new Entity(EntityDatabase.Firepit));
+    public static readonly Item Forge = new Item(40, TextDatabase.Forge, TextDatabase.ForgeDescription, 64, Resources.Load<Texture2D>("Sprites/Items/WorkStation/Forge"), new Entity(EntityDatabase.Forge));
+    public static readonly Item Cauldron = new Item(41, TextDatabase.Cauldron, TextDatabase.CauldronDescription, 64, Resources.Load<Texture2D>("Sprites/Items/WorkStation/Cauldron"), new Entity(EntityDatabase.Cauldron));
+    public static readonly Item Workbench = new Item(42, TextDatabase.Workbench, TextDatabase.WorkbenchDescription, 64, Resources.Load<Texture2D>("Sprites/Items/WorkStation/Workbench"), new Entity(EntityDatabase.Workbench));
+    public static readonly Item Firepit = new Item(43, TextDatabase.Firepit, TextDatabase.FirepitDescription, 64, Resources.Load<Texture2D>("Sprites/Items/WorkStation/Firepit"), new Entity(EntityDatabase.Firepit));
     // Tools
     public static readonly Pickaxe StonePickaxe = new Pickaxe(50, TextDatabase.StonePickaxe, TextDatabase.StonePickaxeDescription, 100, 100, Resources.Load<Texture2D>("Sprites/Items/Tools/StonePickaxe"), new Entity(), null);
     public static readonly Pickaxe CopperPickaxe = new Pickaxe(51, TextDatabase.CopperPickaxe, TextDatabase.CopperPickaxeDescription, 150, 150, Resources.Load<Texture2D>("Sprites/Items/Tools/CopperPickaxe"), new Entity(EntityDatabase.CopperPickaxe), Resources.Load<GameObject>("Prefabs/Tools/Pickaxes/CopperPickaxe"));
@@ -69,6 +72,9 @@ public static class ItemDatabase
     public static readonly Sword FloatiumSword = new Sword(75, TextDatabase.FloatiumSword, TextDatabase.FloatiumSwordDescription, 200, 250, Resources.Load<Texture2D>("Sprites/Items/Tools/FloatiumSword"), new Entity(EntityDatabase.FloatiumSword), Resources.Load<GameObject>("Prefabs/Tools/Weapons/Swords/FloatiumSword"));
     public static readonly Sword SunkiumSword = new Sword(76, TextDatabase.SunkiumSword, TextDatabase.SunkiumSwordDescription, 500, 300, Resources.Load<Texture2D>("Sprites/Items/Tools/SunkiumSword"), new Entity(EntityDatabase.SunkiumSword), Resources.Load<GameObject>("Prefabs/Tools/Weapons/Swords/SunkiumSword"));
 
+    public static readonly Item Cact = new Item(80, TextDatabase.WoodenPlank, TextDatabase.WoodenPlankDescription, 80, Resources.Load<Texture2D>("Sprites/Items/Plants/Cact"), new Entity(EntityDatabase.Cact));
+    public static readonly Item Petal = new Item(81, TextDatabase.Glass, TextDatabase.GlassDescription, 81, Resources.Load<Texture2D>("Sprites/Items/Plants/Petal"), new Entity(EntityDatabase.Petal));
+    
     /// <summary>
     /// Liste tous les items du jeu. (Utilisez avec foreach)
     /// </summary>
@@ -98,6 +104,8 @@ public static class ItemDatabase
             yield return FloatiumIngot;
             yield return SunkiumIngot;
 
+            yield return Cact;
+            yield return Petal;
             yield return WoodenPlank;
             yield return Glass;
             yield return CuttedStone;
@@ -191,6 +199,8 @@ public static class ItemDatabase
             yield return PurplePotion;
             yield return RedPotion;
             yield return YellowPotion;
+            yield return MeatBalls;
+            yield return WaterCact;
         }
     }
 

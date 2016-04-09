@@ -63,14 +63,13 @@ public class Inventory : NetworkBehaviour
         // Mise de l'outil dans la main du joueur
         if (this.lastUseddItem.ID != this.UsedItem.Items.ID)
         {
-            if (this.lastUseddItem is Tool)
+            if (this.lastUseddItem is Tool || this.lastUseddItem is Consumable)
                 this.CmdRemoveTool();
 
             this.lastUseddItem = this.UsedItem.Items;
-            if (this.UsedItem.Items is Tool)
+            if (this.UsedItem.Items is Tool || this.UsedItem.Items is Consumable)
             {
-                Tool outil = (Tool)this.UsedItem.Items;
-                this.CmdSetTool(outil.ID);
+                this.CmdSetTool(this.UsedItem.Items.ID);
             }
         }
     }
@@ -506,14 +505,28 @@ public class Inventory : NetworkBehaviour
     [Command]
     private void CmdSetTool(int toolID)
     {
-        Tool outil = (Tool)ItemDatabase.Find(toolID);
-        GameObject actualTool = GameObject.Instantiate(outil.ToolPrefab, Vector3.zero, Quaternion.Euler(Vector3.zero)) as GameObject;
+        GameObject actualTool = null;
+        GameObject toolPrefab = null;
+
+        Item item = ItemDatabase.Find(toolID);
+        if (item is Tool)
+        {
+            Tool outil = (Tool)item;
+            toolPrefab = outil.ToolPrefab;
+        }
+        else
+        {
+            Consumable comsumable = (Consumable)item;
+            toolPrefab = comsumable.ConsumablePrefab;
+        }
+
+        actualTool = GameObject.Instantiate(toolPrefab, Vector3.zero, Quaternion.Euler(Vector3.zero)) as GameObject;
         actualTool.transform.parent = gameObject.transform.FindChild("Character/Armature/WeaponSlot");
-        actualTool.transform.localPosition = outil.ToolPrefab.transform.localPosition;
-        actualTool.transform.localRotation = outil.ToolPrefab.transform.localRotation;
-        actualTool.transform.localScale = outil.ToolPrefab.transform.localScale;
+        actualTool.transform.localPosition = toolPrefab.transform.localPosition;
+        actualTool.transform.localRotation = toolPrefab.transform.localRotation;
+        actualTool.transform.localScale = toolPrefab.transform.localScale;
         NetworkServer.Spawn(actualTool);
-        RpcSetTool(actualTool, outil.ToolPrefab.transform.localPosition, outil.ToolPrefab.transform.localRotation, outil.ToolPrefab.transform.localScale);
+        RpcSetTool(actualTool, toolPrefab.transform.localPosition, toolPrefab.transform.localRotation, toolPrefab.transform.localScale);
     }
 
     [ClientRpc]
