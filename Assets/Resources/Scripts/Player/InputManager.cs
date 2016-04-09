@@ -280,7 +280,6 @@ public class InputManager : NetworkBehaviour
     [Command]
     private void CmdAttack(float damage)
     {
-        Debug.Log(damage);
         RaycastHit cible = new RaycastHit();
         if (Physics.Raycast(this.character.transform.position, -this.character.transform.forward, out cible, 1))
         {
