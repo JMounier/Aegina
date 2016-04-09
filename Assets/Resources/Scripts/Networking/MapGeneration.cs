@@ -41,7 +41,7 @@ public class MapGeneration : NetworkBehaviour
         System.Random rand = new System.Random(chunkSeed(x, y, this.save.Seed));
         EntityDatabase.RandChunk(bridge, rand).Generate(x, y, rand, dir, gameObject, islandCore);
     }
-    
+
     /// <summary>
     /// Retourne le seed propre a un chunk avec sa position et le seed du monde.
     /// </summary>
@@ -52,5 +52,43 @@ public class MapGeneration : NetworkBehaviour
     private int chunkSeed(int x, int y, int seedWord)
     {
         return (467 * x - 131 * y + 1) * seedWord;
+    }
+
+    /// <summary>
+    /// Transform a seed in string to int.
+    /// </summary>
+    /// <param name="seed"></param>
+    /// <returns></returns>
+    public static int SeedToInt(string seed)
+    {
+        seed = seed.ToLower();
+        int s = 0;
+        int power = 0;
+        for (int i = seed.Length - 1; i > -1; i--)
+        {
+            if (seed[i] >= '0' && seed[i] <= '9')
+                s += (int) ((seed[i] - '0') * Mathf.Pow(36, power));
+            if (seed[i] >= 'a' && seed[i] <= 'z')
+                s += (int)((seed[i] - 'a' + 10) * Mathf.Pow(36, power));
+            power++;
+        }
+        return s;
+    }
+
+    /// <summary>
+    /// Transform a seed in int to string.
+    /// </summary>
+    /// <param name="seed"></param>
+    /// <returns></returns>
+    public static string SeedToString(int seed)
+    {
+        string s = "";
+        string tab = "0123456789abcdefghijklmnopqrstuvwxyz";
+        while (seed > 0)
+        {
+            s = tab[seed % 36] + s;
+            seed /= 36;
+        }
+        return s;
     }
 }

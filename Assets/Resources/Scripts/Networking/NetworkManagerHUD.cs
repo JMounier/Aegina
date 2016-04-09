@@ -136,7 +136,7 @@ namespace UnityEngine.Networking
             {
                 GUI.Box(new Rect(Screen.width / 4, Screen.height / 6, Screen.width / 2, Screen.width / 12.8f), "", this.skin.GetStyle("aegina"));
                 GUI.Box(new Rect(this.posX, this.posY - this.spacing, this.width, this.height * 2.5f), "<color=white>" + TextDatabase.EnterName.GetText() + "</color>", this.skin.GetStyle("chat"));
-                this.playerName = GUI.TextField(new Rect(this.posX, this.posY + this.spacing, this.width, this.height), this.RemoveSpecialCharacter(this.playerName), 15, this.skin.textField);
+                this.playerName = GUI.TextField(new Rect(this.posX, this.posY + this.spacing, this.width, this.height), this.RemoveSpecialCharacter(this.playerName, "abcdefghijklmnopqrstuvwxyz123456789-_", false), 15, this.skin.textField);
                 if (this.playerName != "" && GUI.Button(new Rect(this.posX, this.posY + this.spacing * 2, this.width, this.height), TextDatabase.Validate.GetText(), this.skin.GetStyle("button")))
                 {
                     this.showGUI = true;
@@ -219,13 +219,17 @@ namespace UnityEngine.Networking
             }
         }
 
-        private string RemoveSpecialCharacter(string str, bool space = false)
+        private string RemoveSpecialCharacter(string str, string authorized, bool casseSensitive = true)
         {
             string newstr = "";
             foreach (char c in str)
             {
-                if ((c >= '0' && c <= '9') || (c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || c == '_' || (space && c == ' '))
-                    newstr += c;
+                foreach (char c2 in authorized)
+                    if (c == c2 || (!casseSensitive && c.ToString().ToLower() == c2.ToString().ToLower()))
+                    {
+                        newstr += c;
+                        break;
+                    }
             }
             return newstr;
         }
@@ -313,7 +317,7 @@ namespace UnityEngine.Networking
         private void DrawCharacter()
         {
             GUI.Box(new Rect(this.posX, this.posY - this.spacing, this.width, this.height * 2.5f), "<color=white>" + TextDatabase.EnterName.GetText() + "</color>", this.skin.GetStyle("chat"));
-            this.playerName = GUI.TextField(new Rect(this.posX, this.posY + this.spacing, this.width, this.height), this.RemoveSpecialCharacter(this.playerName), 15, this.skin.textField);
+            this.playerName = GUI.TextField(new Rect(this.posX, this.posY + this.spacing, this.width, this.height), this.RemoveSpecialCharacter(this.playerName, "abcdefghijklmnopqrstuvwxyz123456789-_", false), 15, this.skin.textField);
             if (this.playerName != "" && GUI.Button(new Rect(this.posX, this.posY + this.spacing * 2, this.width, this.height), TextDatabase.Validate.GetText(), this.skin.GetStyle("button")))
             {
                 this.characterShown = false;
@@ -517,10 +521,10 @@ namespace UnityEngine.Networking
         private void DrawWorldCreate()
         {
             GUI.Box(new Rect(this.posX, this.posY - this.height - 10, this.width, this.height), TextDatabase.EnterName.GetText(), skin.GetStyle("inventory"));
-            newWorldName = this.RemoveSpecialCharacter(GUI.TextField(new Rect(this.posX, this.posY, this.width, this.height), newWorldName, this.skin.textField), true);
+            newWorldName = this.RemoveSpecialCharacter(GUI.TextField(new Rect(this.posX, this.posY, this.width, this.height), newWorldName, this.skin.textField), "abcdefghijklmnopqrstuvwxyz123456789-_ ", false);
             GUI.Box(new Rect(this.posX, this.posY - this.height - 10 + 2 * this.spacing, this.width, this.height), TextDatabase.Seed.GetText(), this.skin.GetStyle("inventory"));
             Rect rect = new Rect(this.posX, this.posY + 2 * this.spacing, this.width, this.height);
-            seedstr = GUI.TextField(rect, seedstr, 15, skin.textField);
+            seedstr = GUI.TextField(rect, this.RemoveSpecialCharacter(seedstr, "abcdefghijklmnopqrstuvwxyz123456789", false), 15, skin.textField);
             rect = new Rect(this.posX, this.posY - this.height - 10 + 4 * this.spacing, this.width / 2 - 10, this.height);
             if (GUI.Button(rect, "Coop", this.skin.GetStyle("button")))
             {
@@ -557,8 +561,10 @@ namespace UnityEngine.Networking
                         this.worldcreateShown = false;
                         System.Random genSeed = new System.Random();
                         int seed = 0;
-                        if (!int.TryParse(this.seedstr, out seed))
+                        if (seedstr == "")
                             seed = genSeed.Next(int.MaxValue);
+                        else
+                            seed = MapGeneration.SeedToInt(seedstr);
                         //to do ajout du type de monde lors de la creation
                         Save.CreateWorld(this.world, seed);
                         this.worldsList.Add(this.world);
@@ -588,7 +594,7 @@ namespace UnityEngine.Networking
         private void DrawServeurCreate()
         {
             GUI.Box(new Rect(this.posX, this.posY - this.height - 10, this.width, this.height), TextDatabase.EnterName.GetText(), skin.GetStyle("inventory"));
-            newipname = this.RemoveSpecialCharacter(GUI.TextField(new Rect(this.posX, this.posY, this.width, this.height), newipname, this.skin.textField), true);
+            newipname = this.RemoveSpecialCharacter(GUI.TextField(new Rect(this.posX, this.posY, this.width, this.height), newipname, this.skin.textField), "0123456789.:abcdefghijklmnopqrstuvwxyz");
             GUI.Box(new Rect(this.posX, this.posY - this.height - 10 + 2 * this.spacing, this.width, this.height), "IP", this.skin.GetStyle("inventory"));
             this.manager.networkAddress = GUI.TextField(new Rect(this.posX, this.posY + 2 * this.spacing, this.width, this.height), this.manager.networkAddress, this.skin.textField);
             Rect rect = new Rect(this.posX, this.posY + 3 * this.spacing, this.width, this.height);

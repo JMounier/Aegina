@@ -333,8 +333,11 @@ public class PlayerSave
         }
         else
         {
-            this.x = Random.Range(-10f, 10f);
-            this.y = Random.Range(-10f, 10f);
+            Vector3 newPos = new Vector3(Random.Range(-10f, 10f), 7, Random.Range(-10f, 10f));
+            while (!Graph.isValidPosition(newPos))
+                newPos = new Vector3(Random.Range(-10f, 10f), 7, Random.Range(-10f, 10f));
+            this.x = newPos.x;
+            this.y = newPos.z;
             this.life = 100;
             this.hunger = 100;
             this.thirst = 100;
