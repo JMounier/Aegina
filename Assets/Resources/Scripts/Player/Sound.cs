@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Networking;
 
-public enum AudioClips { Void, Walk1, Walk2, Walk3, Run1, Run2, Run3, Button, Bag, Plop, Forest, Desert, Winter };
+public enum AudioClips { Void, Walk1, Walk2, Walk3, Run1, Run2, Run3, chopping, mining, playerAttack, cooking, playerDeath, drinking, eating, forge, picking, workbensh, Button, Bag, Plop, Forest, Desert, Winter };
 
 public class Sound : NetworkBehaviour
 {
@@ -26,6 +26,16 @@ public class Sound : NetworkBehaviour
             Resources.Load<AudioClip>("Sounds/Player/Run1"),
             Resources.Load<AudioClip>("Sounds/Player/Run2"),
             Resources.Load<AudioClip>("Sounds/Player/Run3"),
+            Resources.Load<AudioClip>("Sounds/Player/Chopping"),
+            Resources.Load<AudioClip>("Sounds/Player/Mining"),
+            Resources.Load<AudioClip>("Sounds/Player/Attack"),
+            Resources.Load<AudioClip>("Sounds/Player/CookingPot"),
+            Resources.Load<AudioClip>("Sounds/Player/Death"),
+            Resources.Load<AudioClip>("Sounds/Player/Drink"),
+            Resources.Load<AudioClip>("Sounds/Player/Eat"),
+            Resources.Load<AudioClip>("Sounds/Player/Forge"),
+            Resources.Load<AudioClip>("Sounds/Player/Pickup"),
+            Resources.Load<AudioClip>("Sounds/Player/Workbensh"),
 
             Resources.Load<AudioClip>("Sounds/Button/Button"),
             Resources.Load<AudioClip>("Sounds/Button/Bag"),

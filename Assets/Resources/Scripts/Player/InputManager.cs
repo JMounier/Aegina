@@ -335,34 +335,37 @@ public class InputManager : NetworkBehaviour
                     else if (soundAudio.IsReady(613))
                     {
                         this.soundAudio.PlaySound(AudioClips.Void, 1, 0.1f, 613);
-                        this.soundAudio.CmdPlaySound(AudioClips.Void, 1);
-                        this.CmdDamageElm(this.nearElement.gameObject, (this.inventaire.UsedItem.Items as Tool).Damage);
+                        this.soundAudio.PlaySound(AudioClips.chopping, 1);
+                        this.soundAudio.CmdPlaySound(AudioClips.chopping, 1);
+                        this.CmdDamageElm(this.nearElement.gameObject, (this.inventaire.UsedItem.Items as Tool).ChoppingEfficiency / 100 * 5);
 
                     }
                     break;
                 case Element.TypeElement.Rock:
                     if (this.anim.GetInteger("Action") != 4)
                     {
-                        this.soundAudio.PlaySound(AudioClips.Void, 0, 0.1f, 612);
+                        this.soundAudio.PlaySound(AudioClips.Void, 0, 0.3f * 4f, 612);
                         this.anim.SetInteger("Action", 4);
                     }
                     else if (soundAudio.IsReady(612))
                     {
-                        this.soundAudio.PlaySound(AudioClips.Void, 1, 0.1f, 612);
-                        this.soundAudio.CmdPlaySound(AudioClips.Void, 1);
-                        this.CmdDamageElm(this.nearElement.gameObject, (this.inventaire.UsedItem.Items as Tool).Damage);
+                        this.soundAudio.PlaySound(AudioClips.Void, 1, 1.25f, 612);
+                        this.soundAudio.PlaySound(AudioClips.mining, 1);
+                        this.soundAudio.CmdPlaySound(AudioClips.mining, 1);
+                        this.CmdDamageElm(this.nearElement.gameObject, (this.inventaire.UsedItem.Items as Tool).MiningEfficiency / 100 * 5);
                     }
                     break;
                 default:
                     if (this.anim.GetInteger("Action") != 8)
                     {
-                        this.soundAudio.PlaySound(AudioClips.Void, 0, 0.1f, 614);
+                        this.soundAudio.PlaySound(AudioClips.Void, 0, 0.2f, 614);
                         this.anim.SetInteger("Action", 8);
                     }
                     else if (soundAudio.IsReady(614))
                     {
-                        this.soundAudio.PlaySound(AudioClips.Void, 1, 0.1f, 614);
-                        this.soundAudio.CmdPlaySound(AudioClips.Void, 1);
+                        this.soundAudio.PlaySound(AudioClips.Void, 1, 0.5f, 614);
+                        this.soundAudio.PlaySound(AudioClips.picking, 1);
+                        this.soundAudio.CmdPlaySound(AudioClips.picking, 1);
                         this.CmdDamageElm(this.nearElement.gameObject, int.MaxValue);
                     }
                     break;
