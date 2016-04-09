@@ -51,7 +51,7 @@ public class Element : Entity
         int x = (int)(base.prefab.transform.parent.parent.position.x / Chunk.Size);
         int y = (int)(base.prefab.transform.parent.parent.position.z / Chunk.Size);
         GameObject.Find("Map").GetComponent<Save>().SaveDestroyedElement(x, y, idSave);
-        base.Kill();
+        base.Kill();       
     }
 
     /// <summary>

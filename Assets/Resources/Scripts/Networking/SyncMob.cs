@@ -35,7 +35,7 @@ public class SyncMob : NetworkBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (!isServer)
             return;
@@ -68,26 +68,31 @@ public class SyncMob : NetworkBehaviour
             }
         }
         // Check le focus
-        if (dist < this.myMob.Vision)
+        if (dist < this.myMob.Vision && !focus)
+        {
             focus = true;
+            this.path.Clear();
+        }
 
         // Focus
         if (focus)
         {
             this.cdAttack += Time.deltaTime;
             // Attack
-            if (dist < 1f && this.cdAttack > 1 / this.myMob.AttackSpeed)
+            if (dist < 1f && this.cdAttack < 1 / this.myMob.AttackSpeed)
             {
-                this.cdAttack = 0;
-                this.View(nearPlayer.transform.position);
+                this.View(nearPlayer.transform.FindChild("Character").position);
                 this.path.Clear();
                 this.anim.SetInteger("Action", 3);
+            }
+            else if (dist < 1f)
+            {
                 nearPlayer.GetComponent<SyncCharacter>().Life -= this.myMob.Damage;
+                this.cdAttack = 0;
             }
             // Run to the player
-            else if (dist >= 1f && (this.path.Count == 0 || this.cdAttack > 3f))
+            else if (dist >= 1f && this.path.Count == 0)
             {
-                this.cdAttack = 1f;
                 this.goal = this.chunk.GetComponent<SyncChunk>().MyGraph.GetNode(nearPlayer.transform.FindChild("Character").position);
                 if (this.goal != null && this.goal.IsValid)
                     this.path = this.chunk.GetComponent<SyncChunk>().MyGraph.AStarPath(this.node, this.goal, .71f);
@@ -117,8 +122,8 @@ public class SyncMob : NetworkBehaviour
 
         // Move the mob       
         if (this.path.Count > 0)
-        {           
- 
+        {
+
             this.cdMove += Time.deltaTime;
             this.Move(this.path[0].Position);
             if (this.cdMove >= 1.5f)
@@ -145,12 +150,12 @@ public class SyncMob : NetworkBehaviour
         if (!this.focus)
         {
             this.anim.SetInteger("Action", 1);
-            gameObject.GetComponent<Rigidbody>().AddForce(gameObject.transform.forward * 180000f * Time.deltaTime * this.myMob.WalkSpeed * dist);
+            gameObject.GetComponent<Rigidbody>().AddForce(gameObject.transform.forward * this.myMob.WalkSpeed * 2000f);
         }
         else
         {
             this.anim.SetInteger("Action", 2);
-            gameObject.GetComponent<Rigidbody>().AddForce(gameObject.transform.forward * 180000f * Time.deltaTime * this.myMob.RunSpeed * dist);
+            gameObject.GetComponent<Rigidbody>().AddForce(gameObject.transform.forward * this.myMob.RunSpeed * 2000f);
         }
     }
 

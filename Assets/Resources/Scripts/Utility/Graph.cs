@@ -8,6 +8,7 @@ public class Graph
     private Dictionary<string, Node> nodes;
     private List<Node> origins;
 
+    #region Methods
     public Graph(params Vector3[] origins)
     {
         this.nodes = new Dictionary<string, Node>();
@@ -47,73 +48,7 @@ public class Graph
             }
         }
     }
-
-    public void DebugDrawGraph()
-    {
-        // Draw graph
-        Queue<Node> file = new Queue<Node>();
-        foreach (Node origin in this.origins)
-        {
-            origin.LastCost = 0;
-            file.Enqueue(origin);
-        }
-        while (file.Count > 0)
-        {
-            Node node = file.Dequeue();
-            foreach (Node neighbour in node.Neighbours)
-            {
-                if (!node.IsValid || !neighbour.IsValid)
-                    Debug.DrawLine(node.Position, neighbour.Position, Color.red);
-                else
-                    Debug.DrawLine(node.Position, neighbour.Position, Color.green);
-
-                if (neighbour.LastCost > 0)
-                {
-                    neighbour.LastCost = 0;
-                    file.Enqueue(neighbour);
-                }
-            }
-        }
-
-        // Clear graph
-        foreach (Node origin in this.origins)
-        {
-            origin.Reset();
-            file.Enqueue(origin);
-        }
-        while (file.Count > 0)
-        {
-            Node node = file.Dequeue();
-            foreach (Node neighbour in node.Neighbours)
-                if (neighbour.LastCost == 0)
-                {
-                    neighbour.Reset();
-                    file.Enqueue(neighbour);
-                }
-        }
-    }
-
-    /// <summary>
-    /// Transforme une position sous forme d'un Tuple.
-    /// </summary>
-    /// <param name="pos">La position en vecteur.</param>
-    /// <returns></returns>
-    public static string VectorToString(Vector3 pos)
-    {
-        return Math.Round(pos.x * 2, 0).ToString() + ":" + Math.Round(pos.z * 2, 0).ToString();
-    }
-
-    /// <summary>
-    /// Transforme une position sous forme d'un Vecteur.
-    /// </summary>
-    /// <param name="pos">La position en Tuple</param>
-    /// <returns></returns>
-    public static Vector3 StringToVector(string pos)
-    {
-        string[] cut = pos.Split(':');
-        return new Vector3(float.Parse(cut[0]) / 2, 7f, float.Parse(cut[1]) / 2);
-    }
-
+        
     public Node GetNode(Vector3 pos)
     {
         try
@@ -178,6 +113,67 @@ public class Graph
         return new List<Node>();
     }
 
+    public void DebugDrawGraph()
+    {
+        // Draw graph
+        Queue<Node> file = new Queue<Node>();
+        foreach (Node origin in this.origins)
+        {
+            origin.LastCost = 0;
+            file.Enqueue(origin);
+        }
+        while (file.Count > 0)
+        {
+            Node node = file.Dequeue();
+            foreach (Node neighbour in node.Neighbours)
+            {
+                if (!node.IsValid || !neighbour.IsValid)
+                    Debug.DrawLine(node.Position, neighbour.Position, Color.red);
+                else
+                    Debug.DrawLine(node.Position, neighbour.Position, Color.green);
+
+                if (neighbour.LastCost > 0)
+                {
+                    neighbour.LastCost = 0;
+                    file.Enqueue(neighbour);
+                }
+            }
+        }
+
+        // Clear graph
+        foreach (Node origin in this.origins)
+        {
+            origin.Reset();
+            file.Enqueue(origin);
+        }
+        while (file.Count > 0)
+        {
+            Node node = file.Dequeue();
+            foreach (Node neighbour in node.Neighbours)
+                if (neighbour.LastCost == 0)
+                {
+                    neighbour.Reset();
+                    file.Enqueue(neighbour);
+                }
+        }
+    }
+
+    /// <summary>
+    /// Recalcul la validite d'une partie du graph, a appeler lors de la destruction d'un element par exemple.
+    /// </summary>
+    /// <param name="pos"></param>
+    public void Reset(Node node)
+    {
+        if (!node.IsValid && isValidPosition(node.Position))
+        {
+            node.IsValid = true;
+            foreach (Node neighbour in node.Neighbours)
+                Reset(neighbour);
+        }                
+    }
+    #endregion
+
+    #region Statics methods
     private static IEnumerable<Vector3> Neighbours(Node node)
     {
         yield return node.Position - new Vector3(.5f, 0, 0);
@@ -212,88 +208,27 @@ public class Graph
         return false;
     }
 
-    private class Heap<Element>
+    /// <summary>
+    /// Transforme une position sous forme d'un Tuple.
+    /// </summary>
+    /// <param name="pos">La position en vecteur.</param>
+    /// <returns></returns>
+    public static string VectorToString(Vector3 pos)
     {
-        private int size;
-        private List<Tuple<float, Element>> heap;
-
-        // Constructor
-        public Heap()
-        {
-            this.size = 0;
-            this.heap = new List<Tuple<float, Element>>();
-        }
-
-        // Methods
-        public void Insert(float key, Element value)
-        {
-            int g = 0;
-            int d = this.size - 1;
-            int m;
-            while (g < d)
-            {
-                m = (g + d) / 2;
-                if (key > this.heap[m].Item1)
-                    g = m + 1;
-                else
-                    d = m - 1;
-            }
-            this.heap.Insert(g, new Tuple<float, Element>(key, value));
-            this.size++;
-        }
-
-        public Tuple<float, Element> ExtractMin()
-        {
-            if (this.size == 0)
-                throw new Exception("The heap is empty");
-            this.size--;
-            Tuple<float, Element> max = this.heap[0];
-            this.heap.RemoveAt(0);
-            return max;
-        }
-
-        public Tuple<float, Element> ExtractMax()
-        {
-            if (this.size == 0)
-                throw new Exception("The heap is empty");
-            this.size--;
-            Tuple<float, Element> min = this.heap[this.size];
-            this.heap.RemoveAt(this.size);
-            return min;
-        }
-
-        public void Clear()
-        {
-            this.size = 0;
-            this.heap.Clear();
-        }
-
-        // Getters & Setters
-
-        /// <summary>
-        /// The number of element in the heap.
-        /// </summary>
-        public int Size
-        {
-            get { return this.size; }
-        }
-
-        /// <summary>
-        /// Return true if the heap is empty.
-        /// </summary>
-        public bool IsEmpty
-        {
-            get { return this.size == 0; }
-        }
-
-        /// <summary>
-        /// La liste contenant cles et valeur du tas.
-        /// </summary>
-        public List<Tuple<float, Element>> List
-        {
-            get { return this.heap; }
-        }
+        return Math.Round(pos.x * 2, 0).ToString() + ":" + Math.Round(pos.z * 2, 0).ToString();
     }
+
+    /// <summary>
+    /// Transforme une position sous forme d'un Vecteur.
+    /// </summary>
+    /// <param name="pos">La position en Tuple</param>
+    /// <returns></returns>
+    public static Vector3 StringToVector(string pos)
+    {
+        string[] cut = pos.Split(':');
+        return new Vector3(float.Parse(cut[0]) / 2, 7f, float.Parse(cut[1]) / 2);
+    }
+    #endregion
 }
 
 public class Node
@@ -365,5 +300,88 @@ public class Node
     {
         this.lastCost = float.PositiveInfinity;
         this.father = null;
+    }
+}
+
+public class Heap<Element>
+{
+    private int size;
+    private List<Tuple<float, Element>> heap;
+
+    // Constructor
+    public Heap()
+    {
+        this.size = 0;
+        this.heap = new List<Tuple<float, Element>>();
+    }
+
+    // Methods
+    public void Insert(float key, Element value)
+    {
+        int g = 0;
+        int d = this.size - 1;
+        int m;
+        while (g < d)
+        {
+            m = (g + d) / 2;
+            if (key > this.heap[m].Item1)
+                g = m + 1;
+            else
+                d = m - 1;
+        }
+        this.heap.Insert(g, new Tuple<float, Element>(key, value));
+        this.size++;
+    }
+
+    public Tuple<float, Element> ExtractMin()
+    {
+        if (this.size == 0)
+            throw new Exception("The heap is empty");
+        this.size--;
+        Tuple<float, Element> max = this.heap[0];
+        this.heap.RemoveAt(0);
+        return max;
+    }
+
+    public Tuple<float, Element> ExtractMax()
+    {
+        if (this.size == 0)
+            throw new Exception("The heap is empty");
+        this.size--;
+        Tuple<float, Element> min = this.heap[this.size];
+        this.heap.RemoveAt(this.size);
+        return min;
+    }
+
+    public void Clear()
+    {
+        this.size = 0;
+        this.heap.Clear();
+    }
+
+    // Getters & Setters
+
+    /// <summary>
+    /// The number of element in the heap.
+    /// </summary>
+    public int Size
+    {
+        get { return this.size; }
+    }
+
+    /// <summary>
+    /// Return true if the heap is empty.
+    /// </summary>
+    public bool IsEmpty
+    {
+        get { return this.size == 0; }
+    }
+
+    /// <summary>
+    /// La liste contenant cles et valeur du tas.
+    /// </summary>
+    public List<Tuple<float, Element>> List
+    {
+        get { return this.heap; }
     }
 }

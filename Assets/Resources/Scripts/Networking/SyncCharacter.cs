@@ -44,7 +44,7 @@ public class SyncCharacter : NetworkBehaviour
     private Texture2D[] hungerBar;
     private Texture2D[] ThirstBar;
 
-    
+
     private GameObject character;
     private Inventory inventory;
     private Controller controller;
@@ -192,7 +192,7 @@ public class SyncCharacter : NetworkBehaviour
         this.lifeMax = 100;
         this.thirstMax = 100;
         this.hungerMax = 100;
-        
+
         this.life = save.Life;
         this.hunger = save.Hunger;
         this.thirst = save.Thirst;
@@ -218,7 +218,10 @@ public class SyncCharacter : NetworkBehaviour
         get { return this.life; }
         set
         {
-            this.CmdLife(Mathf.Clamp(value, 0f, this.lifeMax));
+            if (isServer)
+                this.life = Mathf.Clamp(value, 0f, this.lifeMax);
+            else
+                this.CmdLife(Mathf.Clamp(value, 0f, this.lifeMax));
         }
     }
 
@@ -260,7 +263,13 @@ public class SyncCharacter : NetworkBehaviour
     public float Hunger
     {
         get { return this.hunger; }
-        set { this.CmdHunger(Mathf.Clamp(value, 0f, this.hungerMax)); }
+        set
+        {
+            if (isServer)
+                this.hunger = Mathf.Clamp(value, 0f, this.hungerMax);
+            else
+                this.CmdHunger(Mathf.Clamp(value, 0f, this.hungerMax));
+        }
     }
 
     [Command]
@@ -288,7 +297,13 @@ public class SyncCharacter : NetworkBehaviour
     public float Thirst
     {
         get { return this.thirst; }
-        set { this.CmdThirst(Mathf.Clamp(value, 0f, this.thirstMax)); }
+        set
+        {
+            if (isServer)
+                this.thirst = Mathf.Clamp(value, 0f, this.thirstMax);
+            else
+                this.CmdThirst(Mathf.Clamp(value, 0f, this.thirstMax));
+        }
     }
 
     [Command]
@@ -303,7 +318,13 @@ public class SyncCharacter : NetworkBehaviour
     public float Speed
     {
         get { return this.speed; }
-        set { this.CmdSpeed(value); }
+        set
+        {
+            if (isServer)
+                this.speed = value;
+            else
+                this.CmdSpeed(value);
+        }
     }
 
     [Command]
@@ -318,7 +339,13 @@ public class SyncCharacter : NetworkBehaviour
     public float CdSpeed
     {
         get { return this.cdSpeed; }
-        set { this.CmdCdSpeed(value); }
+        set
+        {
+            if (isServer)
+                this.cdSpeed = value;
+            else
+                this.CmdCdSpeed(value);
+        }
     }
 
     [Command]
@@ -333,7 +360,13 @@ public class SyncCharacter : NetworkBehaviour
     public float Jump
     {
         get { return this.jump; }
-        set { this.CmdJump(value); }
+        set
+        {
+            if (isServer)
+                this.jump = value;
+            else
+                this.CmdJump(value);
+        }
     }
 
     [Command]
@@ -348,7 +381,13 @@ public class SyncCharacter : NetworkBehaviour
     public float CdJump
     {
         get { return this.cdJump; }
-        set { this.CmdCdJump(value); }
+        set
+        {
+            if (isServer)
+                this.cdJump = value;
+            else
+                this.CmdCdJump(value);
+        }
     }
 
     [Command]
@@ -363,7 +402,13 @@ public class SyncCharacter : NetworkBehaviour
     public float Regen
     {
         get { return this.regen; }
-        set { this.CmdRegen(value); }
+        set
+        {
+            if (isServer)
+                this.regen = value;
+            else
+                this.CmdRegen(value);
+        }
     }
 
     [Command]
@@ -378,7 +423,13 @@ public class SyncCharacter : NetworkBehaviour
     public float CdRegen
     {
         get { return this.cdRegen; }
-        set { this.CmdCdRegen(value); }
+        set
+        {
+            if (isServer)
+                this.cdRegen = value;
+            else
+                this.CmdCdRegen(value);
+        }
     }
 
     [Command]
@@ -393,7 +444,13 @@ public class SyncCharacter : NetworkBehaviour
     public float Poison
     {
         get { return this.poison; }
-        set { this.CmdPoison(value); }
+        set
+        {
+            if (isServer)
+                this.poison = value;
+            else
+                this.CmdPoison(value);
+        }
     }
 
     [Command]
@@ -408,7 +465,13 @@ public class SyncCharacter : NetworkBehaviour
     public float CdPoison
     {
         get { return this.cdPoison; }
-        set { this.CmdCdPoison(value); }
+        set
+        {
+            if (isServer)
+                this.cdPoison = value;
+            else
+                this.CmdCdPoison(value);
+        }
     }
 
     [Command]
