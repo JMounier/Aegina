@@ -475,7 +475,7 @@ namespace UnityEngine.Networking
                 {
                     int temp = this.ipList.IndexOf(this.manager.networkAddress);
                     this.ipList.Remove(this.manager.networkAddress);
-                    for (int k = temp; temp < ipList.Count; k++)
+                    for (int k = temp; k < ipList.Count; k++)
                     {
                         PlayerPrefs.SetString("ip" + k, PlayerPrefs.GetString("ip" + (k + 1)));
                     }
