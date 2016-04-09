@@ -9,7 +9,7 @@ using System.Collections.Generic;
 /// </summary>
 public class Element : Entity
 {
-    public enum TypeElement { None, Tree, Rock, Small };
+    public enum TypeElement { None, Tree, Rock, Small, WorkTop };
     protected DropConfig[] dropConfigs;
     protected TypeElement type;
     protected int armor;
