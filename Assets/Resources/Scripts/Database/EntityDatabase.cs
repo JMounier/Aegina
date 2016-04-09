@@ -80,7 +80,13 @@ public static class EntityDatabase
     public static readonly Element SnowOak = new Element(104, 100, Resources.Load<GameObject>("Prefabs/Elements/Trees/SnowOak"), Element.TypeElement.Tree, 0);
 
     // Rock
-    public static readonly Element StoneRock = new Element(110, 100, Resources.Load<GameObject>("Prefabs/Elements/Rocks/Stone"), Element.TypeElement.Rock, 0, new DropConfig(ItemDatabase.Find(1), 1, 5));
+    public static readonly Element StoneRock = new Element(110, 100, Resources.Load<GameObject>("Prefabs/Elements/Rocks/Stone"), Element.TypeElement.Rock, 0, new DropConfig(ItemDatabase.Find(1), 4, 8));
+    public static readonly Element CopperRock = new Element(111, 100, Resources.Load<GameObject>("Prefabs/Elements/Rocks/CopperStone"), Element.TypeElement.Rock, 0, new DropConfig(ItemDatabase.Find(3), 1, 4), new DropConfig(ItemDatabase.Find(1), 2, 4));
+    public static readonly Element IronRock = new Element(112, 100, Resources.Load<GameObject>("Prefabs/Elements/Rocks/IronStone"), Element.TypeElement.Rock, 0, new DropConfig(ItemDatabase.Find(4), 1, 4), new DropConfig(ItemDatabase.Find(1), 2, 4));
+    public static readonly Element GoldRock = new Element(113, 100, Resources.Load<GameObject>("Prefabs/Elements/Rocks/GoldStone"), Element.TypeElement.Rock, 0, new DropConfig(ItemDatabase.Find(5), 1, 4), new DropConfig(ItemDatabase.Find(1), 2, 4));
+    public static readonly Element MithrilRock = new Element(114, 100, Resources.Load<GameObject>("Prefabs/Elements/Rocks/MithrilStone"), Element.TypeElement.Rock, 0, new DropConfig(ItemDatabase.Find(6), 1, 4), new DropConfig(ItemDatabase.Find(1), 2, 4));
+    public static readonly Element FloatiumRock = new Element(115, 100, Resources.Load<GameObject>("Prefabs/Elements/Rocks/FloatiumStone"), Element.TypeElement.Rock, 0, new DropConfig(ItemDatabase.Find(7), 1, 3), new DropConfig(ItemDatabase.Find(1), 2, 4));
+    public static readonly Element SunkiumRock = new Element(116, 100, Resources.Load<GameObject>("Prefabs/Elements/Rocks/SunkiumStone"), Element.TypeElement.Rock, 0, new DropConfig(ItemDatabase.Find(8), 1, 3), new DropConfig(ItemDatabase.Find(1), 2, 4));
 
     // IslandCore
     public static readonly IslandCore IslandCore = new IslandCore(142, Resources.Load<GameObject>("Prefabs/Elements/Cristals/IslandCore"), Team.Neutre, 0, 0, 0);
@@ -220,6 +226,12 @@ public static class EntityDatabase
 
             // Rocks
             yield return StoneRock;
+            yield return CopperRock;
+            yield return IronRock;
+            yield return GoldRock;
+            yield return MithrilRock;
+            yield return FloatiumRock;
+            yield return SunkiumRock;
 
             // IslandCore
             yield return IslandCore;
