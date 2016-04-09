@@ -78,21 +78,15 @@ public class SyncCharacter : NetworkBehaviour
         // Initialisation des images
         this.lifeBar = new Texture2D[101];
         for (int i = 0; i < 101; i++)
-        {
             this.lifeBar[i] = Resources.Load<Texture2D>("Sprites/Bars/Life/LifeBar" + i.ToString());
-        }
 
         this.hungerBar = new Texture2D[101];
         for (int i = 0; i < 101; i++)
-        {
             this.hungerBar[i] = Resources.Load<Texture2D>("Sprites/Bars/Hunger/HungerBar" + i.ToString());
-        }
 
         this.ThirstBar = new Texture2D[101];
         for (int i = 0; i < 101; i++)
-        {
             this.ThirstBar[i] = Resources.Load<Texture2D>("Sprites/Bars/Thirst/ThirstBar" + i.ToString());
-        }
 
         this.character = gameObject.transform.FindChild("Character").gameObject;
         this.CmdLoad();
@@ -128,6 +122,7 @@ public class SyncCharacter : NetworkBehaviour
 
         if (this.cdRegen <= 0)
             this.Regen = 0;
+        else
         {
             this.Life += Time.deltaTime * this.regen;
             this.CdRegen -= Time.deltaTime;
@@ -141,7 +136,7 @@ public class SyncCharacter : NetworkBehaviour
             this.CdPoison -= Time.deltaTime;
         }
 
-        
+
 
         this.Hunger -= Time.deltaTime * starvation;
         this.Thirst -= Time.deltaTime * thirstiness;
