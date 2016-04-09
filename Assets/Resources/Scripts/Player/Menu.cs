@@ -91,7 +91,7 @@ public class Menu : NetworkBehaviour
     }
 
     [Command]
-    private void CmdDisconnect()
+    public void CmdDisconnect()
     {
         GameObject.Find("Map").GetComponent<Save>().RemovePlayer(gameObject);
         RpcDisconnect();

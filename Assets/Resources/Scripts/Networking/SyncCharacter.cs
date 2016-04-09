@@ -40,6 +40,7 @@ public class SyncCharacter : NetworkBehaviour
     private readonly static float starvation = 0.1f;
     private readonly static float thirstiness = 0.2f;
 
+    private GUISkin skin;
     private Texture2D[] lifeBar;
     private Texture2D[] hungerBar;
     private Texture2D[] ThirstBar;
@@ -52,12 +53,14 @@ public class SyncCharacter : NetworkBehaviour
     // Use this for initialization
     void Start()
     {
+        this.character = gameObject.transform.FindChild("Character").gameObject;
 
         if (!isLocalPlayer)
             return;
 
         this.inventory = gameObject.GetComponent<Inventory>();
         this.controller = gameObject.GetComponent<Controller>();
+        this.skin = Resources.Load<GUISkin>("Sprites/GUIskin/skin");
 
         this.lifeMax = 100;
         this.hungerMax = 100;
@@ -88,7 +91,6 @@ public class SyncCharacter : NetworkBehaviour
         for (int i = 0; i < 101; i++)
             this.ThirstBar[i] = Resources.Load<Texture2D>("Sprites/Bars/Thirst/ThirstBar" + i.ToString());
 
-        this.character = gameObject.transform.FindChild("Character").gameObject;
         this.CmdLoad();
     }
 
@@ -101,6 +103,45 @@ public class SyncCharacter : NetworkBehaviour
         GUI.DrawTexture((new Rect((Screen.width - this.inventory.Columns * this.inventory.ToolbarSize) / 2, (int)(Screen.height - this.inventory.ToolbarSize * 1.6f), this.inventory.Columns * this.inventory.ToolbarSize, this.inventory.ToolbarSize / 3.5f)), this.lifeBar[Mathf.CeilToInt(this.life * 100 / this.lifeMax)]);
         GUI.DrawTexture((new Rect(Screen.width / 1.03f, Screen.height * 0.0125f, Screen.width / 85, Screen.height / 2f)), this.hungerBar[Mathf.CeilToInt(this.hunger * 100 / this.hungerMax)]);
         GUI.DrawTexture((new Rect(Screen.width / 1.03f - Screen.width * 0.025f, Screen.height * 0.0125f, Screen.width / 85, Screen.height / 2f)), this.ThirstBar[Mathf.CeilToInt(this.thirst * 100 / this.thirstMax)]);
+
+        if (!this.character.activeInHierarchy)
+        {            
+            bool press = false;
+            GUI.Box(new Rect(Screen.width / 3, Screen.height / 3, Screen.width / 3, Screen.height / 3), "", skin.GetStyle("menu"));
+            if (GUI.Button(new Rect(5 * Screen.width / 12, Screen.height / 2 - 100, Screen.width / 4, 100), TextDatabase.Respawn.GetText(), skin.GetStyle("button")))
+            {
+                press = true;
+            }
+            if (GUI.Button(new Rect(5 * Screen.width / 12, Screen.height / 2 + 100, Screen.width / 4, 100), TextDatabase.Quit.GetText(), skin.GetStyle("button")))
+            {
+                press = true;
+                if (isServer)
+                {
+                    GameObject.Find("Map").GetComponent<Save>().SaveWorld();
+                    GameObject.Find("NetworkManager").GetComponent<NetworkManager>().StopHost();
+                }
+                else
+                    GetComponent<Menu>().CmdDisconnect();
+            }
+            if (press)
+            {
+                this.character.SetActive(true);
+                GetComponent<Controller>().Pause = false;
+                this.CmdLife(this.lifeMax);
+                this.CmdHunger(this.hungerMax);
+                this.CmdThirst(this.thirstMax);
+                this.CmdPoison(0);
+                this.CmdRegen(0);
+                this.CmdSpeed(0);
+                this.CmdJump(0);
+                this.character.GetComponent<Rigidbody>().velocity = Vector3.zero;
+                Vector3 newPos = new Vector3(Random.Range(-10f, 10f), 7, Random.Range(-10f, 10f));
+                while (!Graph.isValidPosition(newPos))
+                    newPos = new Vector3(Random.Range(-10f, 10f), 7, Random.Range(-10f, 10f));
+                this.character.transform.position = newPos;
+                GetComponent<Sound>().PlaySound(AudioClips.Button, 1f);
+            }
+        }
     }
 
     // Update is called once per frame
@@ -108,7 +149,6 @@ public class SyncCharacter : NetworkBehaviour
     {
         if (!isLocalPlayer)
         {
-            //Debug.Log(this.life);
             return;
         }
 
@@ -159,19 +199,11 @@ public class SyncCharacter : NetworkBehaviour
     /// </summary>
     private void Kill()
     {
-        if (isLocalPlayer)
+        if (isLocalPlayer && this.character.activeInHierarchy)
         {
+            this.character.SetActive(false);
             gameObject.GetComponent<Social>().CmdSendActivity(Activity.Death, gameObject);
-            this.CmdLife(this.lifeMax);
-            this.CmdHunger(this.hungerMax);
-            this.CmdThirst(this.thirstMax);
-            this.CmdPoison(0);
-            this.CmdRegen(0);
-            this.CmdSpeed(0);
-            this.CmdJump(0);
-            this.character.GetComponent<Rigidbody>().velocity = Vector3.zero;
-            Vector3 newPos = new Vector3(Random.Range(-10f, 10f), 7, Random.Range(-10f, 10f));
-            this.character.transform.position = newPos;
+            GetComponent<Controller>().Pause = true;
         }
     }
     /// <summary>
@@ -193,17 +225,17 @@ public class SyncCharacter : NetworkBehaviour
         this.thirstMax = 100;
         this.hungerMax = 100;
 
-        this.life = save.Life;
-        this.hunger = save.Hunger;
-        this.thirst = save.Thirst;
-        this.speed = save.Speed;
-        this.cdSpeed = save.CdSpeed;
-        this.jump = save.Jump;
-        this.cdJump = save.CdJump;
-        this.regen = save.Regen;
-        this.cdRegen = save.CdRegen;
-        this.poison = save.Poison;
-        this.cdPoison = save.CdPoison;
+        this.Life = save.Life;
+        this.Hunger = save.Hunger;
+        this.Thirst = save.Thirst;
+        this.Speed = save.Speed;
+        this.CdSpeed = save.CdSpeed;
+        this.Jump = save.Jump;
+        this.CdJump = save.CdJump;
+        this.Regen = save.Regen;
+        this.CdRegen = save.CdRegen;
+        this.Poison = save.Poison;
+        this.CdPoison = save.CdPoison;
 
         Vector3 newPos = new Vector3(save.X, 7, save.Y);
         gameObject.GetComponent<Social>().RpcTeleport(newPos);

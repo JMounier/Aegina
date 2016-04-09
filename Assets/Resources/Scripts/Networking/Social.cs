@@ -163,7 +163,7 @@ public class Social : NetworkBehaviour
                 // HELP
                 case "/help":
                     sender.GetComponent<Social>().RpcReceiveMsg("<color=green>---This is the list of commands---</color>\n" +
-                        "/time <value> \n/give <player> <id> [quantity] \n/msg <player> <message> \n/tp <player>\n/kick <player> \n/save");
+                        "/time <value> \n/give <player> <id> [quantity] \n/msg <player> <message> \n/tp <player>\n/kick <player> \n/save \n/seed");
                     break;
 
                 // TIME
@@ -305,6 +305,10 @@ public class Social : NetworkBehaviour
                     GameObject.Find("Map").GetComponent<Save>().SaveWorld();
                     foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
                         player.GetComponent<Social>().RpcReceiveMsg("The world has been forcefully saved.");
+                    break;
+                // SEED
+                case "/seed":
+                    sender.GetComponent<Social>().RpcReceiveMsg("Seed : " + MapGeneration.SeedToString(GameObject.Find("Map").GetComponent<Save>().Seed));
                     break;
                 default:
                     sender.GetComponent<Social>().RpcReceiveMsg("<color=red>Unknow command. Try /help for a list of commands.</color>");
