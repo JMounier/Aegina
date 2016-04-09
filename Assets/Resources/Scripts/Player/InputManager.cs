@@ -281,7 +281,7 @@ public class InputManager : NetworkBehaviour
     private void CmdAttack(float damage)
     {
         RaycastHit cible = new RaycastHit();
-        if (Physics.Raycast(this.character.transform.position, -this.character.transform.forward, out cible, 1))
+        if (Physics.Raycast(new Vector3(this.character.transform.position.x,7,this.character.transform.position.z), -this.character.transform.forward, out cible, 1))
         {
             if (cible.collider.gameObject.name == "Character")
             {
