@@ -2,9 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class Craft_HUD : MonoBehaviour {
+public class Craft_HUD : MonoBehaviour
+{
     private Inventory inventory;
-    private List<Craft> CraftElementary,CraftWorkTop,CraftConsumable,CraftTools,CraftArmor;
+    private List<Craft> CraftElementary, CraftWorkTop, CraftConsumable, CraftTools, CraftArmor;
     private List<Craft>[] Craftslist;
     private Craft.Type type;
     private bool[] nearwork;
@@ -13,8 +14,10 @@ public class Craft_HUD : MonoBehaviour {
     private bool showcraft;
     private int pos;
     private Craft craftshow;
-	// Use this for initialization
-	void Start ()
+    private bool tooltip = false;
+    private Item tooltipItem;
+    // Use this for initialization
+    void Start()
     {
         this.inventory = gameObject.GetComponent<Inventory>();
         this.type = Craft.Type.None;
@@ -32,15 +35,19 @@ public class Craft_HUD : MonoBehaviour {
         this.Craftslist[4] = CraftArmor;
         foreach (Craft craft in CraftDatabase.Crafts)
         {
-            this.Craftslist[(int)(craft.What) - 1].Add(craft);
+            if (!craft.Secret)
+            {
+                this.Craftslist[(int)(craft.What) - 1].Add(craft);
+            }
+
         }
         craftindex = 0;
         showcraft = false;
         pos = -1;
         craftshow = new Craft(Craft.Type.None);
-	}
-	
-	// Update is called once per frame
+    }
+
+    // Update is called once per frame
     void Update()
     {
         nearwork = what_is_near();
@@ -53,8 +60,9 @@ public class Craft_HUD : MonoBehaviour {
             }
         }
     }
-	private void OnGUI ()
+    private void OnGUI()
     {
+        tooltip = false;
         if (inventory.InventoryShown)
         {
             GUI.Box(new Rect(0, 2 * Screen.height / 9 - Screen.height / 20, 1 * Screen.height / 7, 5 * Screen.height / 9 + Screen.height / 10), "", this.type != Craft.Type.None ? skin.GetStyle("craftframe_open") : skin.GetStyle("craftframe_close"));
@@ -62,8 +70,12 @@ public class Craft_HUD : MonoBehaviour {
             if (showcraft)
                 Craft_used_HUD();
         }
-        
-	}
+        if (tooltip)
+        {
+            GUI.Box(new Rect(Event.current.mousePosition.x, Event.current.mousePosition.y, 200, 35 + 20 * (tooltipItem.Description.Length / 35 + 1)),
+                "<color=#ffffff>" + tooltipItem.Name + "</color>\n\n" + tooltipItem.Description, this.skin.GetStyle("tooltip"));
+        }
+    }
     /// <summary>
     /// Affiche l'interface de craft
     /// </summary>
@@ -71,22 +83,24 @@ public class Craft_HUD : MonoBehaviour {
     {
         for (int i = 0; i < 5; i++)
         {
-            Rect box = new Rect(0,(i+2)*Screen.height/9,Screen.height/9,Screen.height/9);
-            if (GUI.Button(box, Resources.Load<Texture>("Sprites/"/*to fix*/), skin.GetStyle("slot")))
+            Rect box = new Rect(0, (i + 2) * Screen.height / 9, Screen.height / 9, Screen.height / 9);
+            if (GUI.Button(box, "", skin.GetStyle("slot")))
             {
                 craftindex = 0;
-                if (this.type == (Craft.Type)(i+1))
+                if (this.type == (Craft.Type)(i + 1))
                 {
                     this.type = Craft.Type.None;
                 }
                 else
                 {
-                    this.type = (Craft.Type)(i+1);
+                    this.type = (Craft.Type)(i + 1);
                 }
                 this.showcraft = false;
                 this.pos = -1;
                 this.craftindex = 0;
             }
+            box = new Rect(10, (i + 2) * Screen.height / 9 + 10, Screen.height / 9 - 20, Screen.height / 9 - 20);
+            GUI.Box(box, Resources.Load<Texture2D>("Sprites/CraftsIcon/Craft" + (i + 1)), skin.GetStyle("Quantity"));
         }
         sub_Categoryze(this.type);
     }
@@ -104,7 +118,7 @@ public class Craft_HUD : MonoBehaviour {
         for (int i = 0; i < 10; i++)
         {
             box = new Rect(Screen.height / 9, 2 * Screen.height / 9 + i * Screen.height / 18, Screen.height / 18, Screen.height / 18);
-             if (GUI.Button(box, Craftslist[(int)this.type - 1][(craftindex + i) % (Craftslist[(int)this.type - 1].Count)].Product.Items.Icon, skin.GetStyle("Inventory")))
+            if (GUI.Button(box, Craftslist[(int)this.type - 1][(craftindex + i) % (Craftslist[(int)this.type - 1].Count)].Product.Items.Icon, skin.GetStyle("Inventory")))
             {
                 showcraft = this.pos != i;
                 this.pos = i;
@@ -114,6 +128,12 @@ public class Craft_HUD : MonoBehaviour {
             {
                 GUI.Box(box, Craftslist[(int)this.type - 1][(craftindex + i) % (Craftslist[(int)this.type - 1].Count)].Product.Quantity.ToString(), skin.GetStyle("Quantity"));
             }
+            if (box.Contains(Event.current.mousePosition))
+            {
+                tooltip = true;
+                tooltipItem = Craftslist[(int)this.type - 1][(craftindex + i) % (Craftslist[(int)this.type - 1].Count)].Product.Items;
+            }
+
         }
         box = new Rect(Screen.height / 9, 2 * Screen.height / 9 - Screen.height / 18, Screen.height / 18, Screen.height / 18);
         if (GUI.Button(box, "", skin.GetStyle("up_arrow")))
@@ -125,6 +145,7 @@ public class Craft_HUD : MonoBehaviour {
         {
             craftindex = (craftindex + 1) % (Craftslist[(int)this.type - 1].Count);
         }
+
     }
     /// <summary>
     /// affiche les elements necessaires
@@ -134,38 +155,37 @@ public class Craft_HUD : MonoBehaviour {
     {
         Rect box = new Rect();
         int i = 0;
-        bool tooltip = false;
-        Item tooltipItem = new Item();
         foreach (ItemStack item in craftshow.Consume)
         {
             box = new Rect((3 + i) * Screen.height / 18, 2 * Screen.height / 9 + pos * Screen.height / 18, Screen.height / 18, Screen.height / 18);
             GUI.Box(box, item.Items.Icon, skin.GetStyle("Slot"));
-            if (item.Quantity > 1)
-            {
-                GUI.Box(box, item.Quantity.ToString(), skin.GetStyle("Quantity"));
-            }
+            Rect littlebox = new Rect((3 + i) * Screen.height / 18 + 5, 2 * Screen.height / 9 + pos * Screen.height / 18, Screen.height / 18 - 10, Screen.height / 18);
+            GUI.Box(littlebox, inventory.InventoryContains(item) ? item.Quantity.ToString() : "<color=#ff0000>" + item.Quantity.ToString() + "</color>", skin.GetStyle("Quantity"));
             if (box.Contains(Event.current.mousePosition))
             {
                 tooltip = true;
                 tooltipItem = item.Items;
             }
             i += 1;
-
-            box = new Rect((3 + i) * Screen.height / 18, 2 * Screen.height / 9 + pos * Screen.height / 18, Screen.height / 18, Screen.height / 18);
-            if(GUI.Button(box, "", this.skin.GetStyle("Slot")))
-            {
-                if (inventory.InventoryContains(craftshow) && inventory.InventoryContains(new ItemStack()))
-                {
-                    inventory.DeleteItems(craftshow.Consume);
-                    inventory.RpcAddItemStack(craftshow.Product.Items.ID, craftshow.Product.Quantity, null);
-                }
-            }
-            if (tooltip)
-            {
-                GUI.Box(new Rect(Event.current.mousePosition.x, Event.current.mousePosition.y, 200, 35 + 20 * (tooltipItem.Description.Length / 35 + 1)),
-                "<color=#ffffff>" + tooltipItem.Name + "</color>\n\n" + tooltipItem.Description, this.skin.GetStyle("tooltip"));
-            }
         }
+        box = new Rect((3 + i) * Screen.height / 18, 2 * Screen.height / 9 + pos * Screen.height / 18, Screen.height / 18, Screen.height / 18);
+        bool RecipeComplete = inventory.InventoryContains(craftshow);
+        bool ContainPlace = inventory.InventoryContains(new ItemStack());
+        bool WorkTopNear = true;//a modifier plus tard
+        if (WorkTopNear && inventory.InventoryContains(craftshow) && inventory.InventoryContains(new ItemStack()))
+        {
+            if (GUI.Button(box, Resources.Load<Texture2D>("Sprites/CraftsIcon/Valid"), this.skin.GetStyle("Slot")))
+            {
+                inventory.DeleteItems(craftshow.Consume);
+                inventory.RpcAddItemStack(craftshow.Product.Items.ID, craftshow.Product.Quantity, null);
+            }
+
+        }
+        else
+        {
+            GUI.Box(box, Resources.Load<Texture2D>("Sprites/CraftsIcon/Invalid"), this.skin.GetStyle("Slot"));
+        }
+
     }
     /// <summary>
     /// recherche les atelier proche

@@ -21,7 +21,7 @@ public class InputManager : NetworkBehaviour
     private GameObject nearElement;
 
     private float cdConsume = 1f;
-    private float cdAttack = 1f;
+    private float cdAttack = 0;
 
     // Use this for initialization
     void Start()
@@ -107,7 +107,7 @@ public class InputManager : NetworkBehaviour
                 useConsumable = true;
                 if (this.cdConsume < 0)
                 {
-                    this.cdConsume = 1;
+                    this.cdConsume = 0.5f;
                     Consumable consum = this.inventaire.UsedItem.Items as Consumable;
                     switch (consum.E.ET)
                     {
