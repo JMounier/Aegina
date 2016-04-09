@@ -300,7 +300,7 @@ class ChunkSave
 /// </summary>
 public class PlayerSave
 {
-    private float x, y, life, hunger, thirst, speed, cdSpeed, jump, cdJump;
+    private float x, y, life, hunger, thirst, speed, cdSpeed, jump, cdJump, regen, cdRegen, poison, cdPoison;
     private string inventory, namePlayer, path;
     GameObject player;
 
@@ -324,6 +324,10 @@ public class PlayerSave
             this.cdSpeed = float.Parse(properties[6]);
             this.jump = float.Parse(properties[7]);
             this.cdJump = float.Parse(properties[8]);
+            this.regen = float.Parse(properties[9]);
+            this.cdRegen = float.Parse(properties[10]);
+            this.poison = float.Parse(properties[11]);
+            this.cdPoison = float.Parse(properties[12]);
 
             this.inventory = save[1];
         }
@@ -338,7 +342,10 @@ public class PlayerSave
             this.cdSpeed = 0;
             this.jump = 0;
             this.cdJump = 0;
-
+            this.regen = 0;
+            this.cdRegen = 0;
+            this.poison = 0;
+            this.cdPoison = 0;
             this.inventory = "";
         }
     }
@@ -354,11 +361,16 @@ public class PlayerSave
         this.cdSpeed = this.Player.GetComponent<SyncCharacter>().CdSpeed;
         this.jump = this.Player.GetComponent<SyncCharacter>().Jump;
         this.cdJump = this.Player.GetComponent<SyncCharacter>().CdJump;
+        this.regen = this.Player.GetComponent<SyncCharacter>().Regen;
+        this.cdRegen = this.Player.GetComponent<SyncCharacter>().CdRegen;
+        this.poison = this.Player.GetComponent<SyncCharacter>().Poison;
+        this.cdPoison = this.Player.GetComponent<SyncCharacter>().CdPoison;
 
         using (StreamWriter file = new StreamWriter(this.path))
         {
             file.WriteLine(this.x.ToString() + '|' + this.y.ToString() + '|' + this.life.ToString() + '|' + this.hunger.ToString() + '|' + this.thirst.ToString() +
-                '|' + this.speed.ToString() + '|' + this.cdSpeed.ToString() + '|' + this.jump.ToString() + '|' + this.cdJump.ToString());
+                '|' + this.speed.ToString() + '|' + this.cdSpeed.ToString() + '|' + this.jump.ToString() + '|' + this.cdJump.ToString()
+                + '|' + this.regen.ToString() + '|' + this.cdRegen.ToString() + '|' + this.poison.ToString() + '|' + this.cdPoison.ToString());
             file.WriteLine(this.inventory);
         }
     }
@@ -415,6 +427,30 @@ public class PlayerSave
     {
         get { return this.cdJump; }
         set { this.cdJump = value; }
+    }
+
+    public float Regen
+    {
+        get { return this.regen; }
+        set { this.regen = value; }
+    }
+
+    public float CdRegen
+    {
+        get { return this.cdRegen; }
+        set { this.cdRegen = value; }
+    }
+
+    public float Poison
+    {
+        get { return this.poison; }
+        set { this.poison = value; }
+    }
+
+    public float CdPoison
+    {
+        get { return this.cdPoison; }
+        set { this.cdPoison = value; }
     }
 
     public string Inventory

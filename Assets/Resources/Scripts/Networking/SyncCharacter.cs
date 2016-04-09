@@ -26,6 +26,16 @@ public class SyncCharacter : NetworkBehaviour
     [SyncVar]
     private float cdJump;
 
+    [SyncVar]
+    private float regen;
+    [SyncVar]
+    private float cdRegen;
+
+    [SyncVar]
+    private float poison;
+    [SyncVar]
+    private float cdPoison;
+
     // Constants
     private readonly static float starvation = 0.1f;
     private readonly static float thirstiness = 0.2f;
@@ -44,8 +54,8 @@ public class SyncCharacter : NetworkBehaviour
     // Use this for initialization
     void Start()
     {
-        if (!isLocalPlayer)        
-            return;        
+        if (!isLocalPlayer)
+            return;
 
         this.inventory = gameObject.GetComponent<Inventory>();
         this.controller = gameObject.GetComponent<Controller>();
@@ -60,25 +70,23 @@ public class SyncCharacter : NetworkBehaviour
         this.cdSpeed = 0;
         this.jump = 0;
         this.cdJump = 0;
+        this.regen = 0;
+        this.cdRegen = 0;
+        this.poison = 0;
+        this.cdPoison = 0;
 
         // Initialisation des images
         this.lifeBar = new Texture2D[101];
         for (int i = 0; i < 101; i++)
-        {
             this.lifeBar[i] = Resources.Load<Texture2D>("Sprites/Bars/Life/LifeBar" + i.ToString());
-        }
 
         this.hungerBar = new Texture2D[101];
         for (int i = 0; i < 101; i++)
-        {
             this.hungerBar[i] = Resources.Load<Texture2D>("Sprites/Bars/Hunger/HungerBar" + i.ToString());
-        }
 
         this.ThirstBar = new Texture2D[101];
         for (int i = 0; i < 101; i++)
-        {
             this.ThirstBar[i] = Resources.Load<Texture2D>("Sprites/Bars/Thirst/ThirstBar" + i.ToString());
-        }
 
         this.character = gameObject.transform.FindChild("Character").gameObject;
         this.CmdLoad();
@@ -89,19 +97,7 @@ public class SyncCharacter : NetworkBehaviour
         if (!isLocalPlayer)
             return;
 
-        // Bonus
-        if (this.cdJump <= 0)
-            this.jump = 0;
-        else
-            this.cdJump -= Time.deltaTime;
-
-        if (this.cdSpeed <= 0)
-            this.speed = 0;
-        else
-            this.cdSpeed -= Time.deltaTime;
-
         // Bars
-
         GUI.DrawTexture((new Rect((Screen.width - this.inventory.Columns * this.inventory.ToolbarSize) / 2, (int)(Screen.height - this.inventory.ToolbarSize * 1.6f), this.inventory.Columns * this.inventory.ToolbarSize, this.inventory.ToolbarSize / 3.5f)), this.lifeBar[Mathf.CeilToInt(this.life * 100 / this.lifeMax)]);
         GUI.DrawTexture((new Rect(Screen.width / 1.03f, Screen.height * 0.0125f, Screen.width / 85, Screen.height / 2f)), this.hungerBar[Mathf.CeilToInt(this.hunger * 100 / this.hungerMax)]);
         GUI.DrawTexture((new Rect(Screen.width / 1.03f - Screen.width * 0.025f, Screen.height * 0.0125f, Screen.width / 85, Screen.height / 2f)), this.ThirstBar[Mathf.CeilToInt(this.thirst * 100 / this.thirstMax)]);
@@ -110,9 +106,38 @@ public class SyncCharacter : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!isLocalPlayer)        
+        if (!isLocalPlayer)
             return;
-        
+
+        // Bonus
+        if (this.cdJump <= 0)
+            this.Jump = 0;
+        else
+            this.CdJump -= Time.deltaTime;
+
+        if (this.cdSpeed <= 0)
+            this.Speed = 0;
+        else
+            this.CdSpeed -= Time.deltaTime;
+
+        if (this.cdRegen <= 0)
+            this.Regen = 0;
+        else
+        {
+            this.Life += Time.deltaTime * this.regen;
+            this.CdRegen -= Time.deltaTime;
+        }
+
+        if (this.cdPoison <= 0)
+            this.Poison = 0;
+        else
+        {
+            this.Life -= Time.deltaTime * this.poison;
+            this.CdPoison -= Time.deltaTime;
+        }
+
+
+
         this.Hunger -= Time.deltaTime * starvation;
         this.Thirst -= Time.deltaTime * thirstiness;
         if (this.character.transform.position.y <= -10)
@@ -153,6 +178,10 @@ public class SyncCharacter : NetworkBehaviour
         this.cdSpeed = save.CdSpeed;
         this.jump = save.Jump;
         this.cdJump = save.CdJump;
+        this.regen = save.Regen;
+        this.cdRegen = save.CdRegen;
+        this.poison = save.Poison;
+        this.cdPoison = save.CdPoison;
 
         Vector3 newPos = new Vector3(save.X, 7, save.Y);
         gameObject.GetComponent<Social>().RpcTeleport(newPos);
@@ -306,6 +335,66 @@ public class SyncCharacter : NetworkBehaviour
     private void CmdCdJump(float cdJump)
     {
         this.cdJump = cdJump;
+    }
+
+    /// <summary>
+    /// Le bonus de regen du personnage.
+    /// </summary>
+    public float Regen
+    {
+        get { return this.regen; }
+        set { this.CmdRegen(value); }
+    }
+
+    [Command]
+    private void CmdRegen(float regen)
+    {
+        this.regen = regen;
+    }
+
+    /// <summary>
+    /// La duree du bonus de regen restant du personnage.
+    /// </summary>
+    public float CdRegen
+    {
+        get { return this.cdRegen; }
+        set { this.CmdCdRegen(value); }
+    }
+
+    [Command]
+    private void CmdCdRegen(float cdRegen)
+    {
+        this.cdRegen = cdRegen;
+    }
+
+    /// <summary>
+    /// Le bonus de saut du personnage.
+    /// </summary>
+    public float Poison
+    {
+        get { return this.poison; }
+        set { this.CmdPoison(value); }
+    }
+
+    [Command]
+    private void CmdPoison(float poison)
+    {
+        this.poison = poison;
+    }
+
+    /// <summary>
+    /// La duree du bonus de saut restant du personnage.
+    /// </summary>
+    public float CdPoison
+    {
+        get { return this.cdPoison; }
+        set { this.CmdCdPoison(value); }
+    }
+
+    [Command]
+    private void CmdCdPoison(float cdPoison)
+    {
+        this.cdPoison = cdPoison;
     }
     #endregion
 }

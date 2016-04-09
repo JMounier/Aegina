@@ -132,6 +132,8 @@ public class InputManager : NetworkBehaviour
                             this.syncCharacter.CdJump = consum.E.Power * 30;
                             break;
                         case Effect.EffectType.Regeneration:
+                            this.syncCharacter.Regen = consum.E.Power;
+                            this.syncCharacter.CdRegen = consum.E.Power * 15;
                             break;
                         case Effect.EffectType.Resistance:
                             break;
@@ -140,6 +142,8 @@ public class InputManager : NetworkBehaviour
                         case Effect.EffectType.Weakness:
                             break;
                         case Effect.EffectType.Poison:
+                            this.syncCharacter.Poison = consum.E.Power ;
+                            this.syncCharacter.CdPoison = consum.E.Power * 15;
                             break;
                         case Effect.EffectType.Saturation:
                             this.syncCharacter.Hunger += 10 * consum.E.Power;
