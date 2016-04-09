@@ -290,7 +290,7 @@ public class InputManager : NetworkBehaviour
             }
             else if (cible.collider.gameObject.tag == "Mob")
             {
-                //cible.collider.gameObject.GetComponentInParent<SyncMob>().ReceiveDamage(damage);
+                cible.collider.gameObject.GetComponentInParent<SyncMob>().ReceiveDamage(damage);
             }
         }
     }

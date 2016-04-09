@@ -13,20 +13,28 @@ public class SyncChunk : NetworkBehaviour
 
     private Graph myGraph;
 
+    [SerializeField]
+    private bool debugGraph = false;
+
     // Use this for initialization
     void Start()
     {
-        if (isServer)        
+        if (isServer)
             this.rotation = gameObject.transform.eulerAngles;
-            
-        
+
         else
         {
             gameObject.transform.eulerAngles = rotation;
             Biome b = BiomeDatabase.Find(this.biomeId);
             gameObject.GetComponentInChildren<MeshRenderer>().materials = new Material[2] { b.Grass, b.Rock };
         }
-    }  
+    }
+
+    void Update()
+    {
+        if (isServer && debugGraph)
+            this.myGraph.DebugDrawGraph();
+    }
 
     public int BiomeId
     {
