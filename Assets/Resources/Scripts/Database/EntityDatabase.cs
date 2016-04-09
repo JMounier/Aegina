@@ -130,6 +130,12 @@ public static class EntityDatabase
     public static readonly Chunk Chunk5_TwoL = new Chunk(1022, Resources.Load<GameObject>("Prefabs/Chunks/Chunk5_TwoL"), Bridges.TwoL);
     public static readonly Chunk Chunk5_Three = new Chunk(1023, Resources.Load<GameObject>("Prefabs/Chunks/Chunk5_Three"), Bridges.Three);
 
+    public static readonly Chunk Chunk6_One = new Chunk(1024, Resources.Load<GameObject>("Prefabs/Chunks/Chunk6_One"), Bridges.One);
+    public static readonly Chunk Chunk6_TwoI = new Chunk(1025, Resources.Load<GameObject>("Prefabs/Chunks/Chunk6_TwoI"), Bridges.TwoI);
+    public static readonly Chunk Chunk6_TwoL = new Chunk(1026, Resources.Load<GameObject>("Prefabs/Chunks/Chunk6_TwoL"), Bridges.TwoL);
+    public static readonly Chunk Chunk6_Three = new Chunk(1027, Resources.Load<GameObject>("Prefabs/Chunks/Chunk6_Three"), Bridges.Three);
+    public static readonly Chunk Chunk6_All = new Chunk(1028, Resources.Load<GameObject>("Prefabs/Chunks/Chunk6_All"), Bridges.All);
+
     /// <summary>
     /// Liste tous les entites du jeu. (Utilisez avec foreach)
     /// </summary>
@@ -291,6 +297,12 @@ public static class EntityDatabase
             yield return Chunk5_TwoI;
             yield return Chunk5_TwoL;
             yield return Chunk5_Three;
+
+            yield return Chunk6_One;
+            yield return Chunk6_TwoI;
+            yield return Chunk6_TwoL;
+            yield return Chunk6_Three;
+            yield return Chunk6_All;
         }
     }
 
