@@ -162,8 +162,26 @@ public class Social : NetworkBehaviour
             {
                 // HELP
                 case "/help":
-                    sender.GetComponent<Social>().RpcReceiveMsg("<color=green>---This is the list of commands---</color>\n" +
-                        "/time <value> \n/give <player> <id> [quantity] \n/msg <player> <message> \n/tp <player>\n/kick <player> \n/save \n/seed");
+                    try
+                    {
+                        int page = 1;
+                        if (cmd.Length > 1)
+                            page = int.Parse(cmd[1]);
+                        if (page == 1)
+                            sender.GetComponent<Social>().RpcReceiveMsg("<color=green>-- This is the list of commands --</color>\n" +
+                            "/help [page] \n/time <value> \n/give <player> <id> [quantity] \n/msg <player> <message> \n/tp <player> \n" +
+                            "<color=green>------------ Page 1 of 2 -----------</color>");
+                        else if (page == 2)
+                            sender.GetComponent<Social>().RpcReceiveMsg("<color=green>---This is the list of commands---</color>\n" +
+                            "/kick <player> \n/save \n/seed \n/kill <player> \n/effect <player> <id> [power] \n" +
+                            "<color=green>------------ Page 2 of 2 -----------</color>");
+                        else
+                            throw new Exception();
+                    }
+                    catch
+                    {
+                        sender.GetComponent<Social>().RpcReceiveMsg("<color=red>Usage: /help [page]</color>");
+                    }
                     break;
 
                 // TIME
@@ -290,7 +308,7 @@ public class Social : NetworkBehaviour
                             {
                                 player.GetComponent<Social>().RpcKickPlayer();
                                 foreach (GameObject p in GameObject.FindGameObjectsWithTag("Player"))
-                                    p.GetComponent<Social>().RpcReceiveMsg(this.namePlayer + " kick " + cmd[1] + ".");
+                                    p.GetComponent<Social>().RpcReceiveMsg(this.namePlayer + " kick " + player.GetComponent<Social>().namePlayer + ".");
                                 return;
                             }
                         sender.GetComponent<Social>().RpcReceiveMsg("<color=red>Player " + cmd[1] + " doesn't find.</color>");
@@ -309,6 +327,105 @@ public class Social : NetworkBehaviour
                 // SEED
                 case "/seed":
                     sender.GetComponent<Social>().RpcReceiveMsg("Seed : " + MapGeneration.SeedToString(GameObject.Find("Map").GetComponent<Save>().Seed));
+                    break;
+                // KILL
+                case "/kill":
+                    try
+                    {
+                        foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
+                            if (player.GetComponent<Social>().namePlayer.ToLower() == cmd[1].ToLower())
+                            {
+                                player.GetComponent<SyncCharacter>().Life = 0;
+                                foreach (GameObject p in GameObject.FindGameObjectsWithTag("Player"))
+                                    if (this.namePlayer.ToLower() == cmd[1].ToLower())
+                                        p.GetComponent<Social>().RpcReceiveMsg(this.namePlayer + " commited suicide.");
+                                    else
+                                        p.GetComponent<Social>().RpcReceiveMsg(this.namePlayer + " kill " + player.GetComponent<Social>().namePlayer + ".");
+                                return;
+                            }
+                        sender.GetComponent<Social>().RpcReceiveMsg("<color=red>Player " + cmd[1] + " doesn't find.</color>");
+                    }
+                    catch
+                    {
+                        sender.GetComponent<Social>().RpcReceiveMsg("<color=red>Usage: /kill <player></color>");
+                    }
+                    break;
+                // Effect
+                case "/effect":
+                    try
+                    {
+                        foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
+                            if (player.GetComponent<Social>().namePlayer.ToLower() == cmd[1].ToLower())
+                            {
+                                SyncCharacter syncCharacter = player.GetComponent<SyncCharacter>();
+                                Effect.EffectType effect = ((Effect.EffectType) int.Parse(cmd[2]));
+                                int power = 1;
+                                if (cmd.Length > 3)
+                                    power = int.Parse(cmd[3]);
+
+                                switch (effect)
+                                {
+                                    case Effect.EffectType.Speed:
+                                        syncCharacter.Speed = power * 2;
+                                        syncCharacter.CdSpeed = power * 30;
+                                        sender.GetComponent<Social>().RpcReceiveMsg("Effect speed level " + power + " applied.");
+                                        break;
+                                    case Effect.EffectType.Slowness:
+                                        break;
+                                    case Effect.EffectType.Haste:
+                                        break;
+                                    case Effect.EffectType.MiningFatigue:
+                                        break;
+                                    case Effect.EffectType.Strength:
+                                        break;
+                                    case Effect.EffectType.InstantHealth:
+                                        syncCharacter.Life += 10 * power;
+                                        sender.GetComponent<Social>().RpcReceiveMsg("Effect instant health level " + power + " applied.");
+                                        break;
+                                    case Effect.EffectType.InstantDamage:
+                                        break;
+                                    case Effect.EffectType.JumpBoost:
+                                        syncCharacter.Jump = power * 5000;
+                                        syncCharacter.CdJump = power * 30;
+                                        sender.GetComponent<Social>().RpcReceiveMsg("Effect instant damage level " + power + " applied.");
+                                        break;
+                                    case Effect.EffectType.Regeneration:
+                                        syncCharacter.Regen = power;
+                                        syncCharacter.CdRegen = power * 15;
+                                        sender.GetComponent<Social>().RpcReceiveMsg("Effect regeneration level " + power + " applied.");
+                                        break;
+                                    case Effect.EffectType.Resistance:
+                                        break;
+                                    case Effect.EffectType.Hunger:
+                                        break;
+                                    case Effect.EffectType.Weakness:
+                                        break;
+                                    case Effect.EffectType.Poison:
+                                        syncCharacter.Poison = power;
+                                        syncCharacter.CdPoison = power * 15;
+                                        sender.GetComponent<Social>().RpcReceiveMsg("Effect poison level " + power + " applied.");
+                                        break;
+                                    case Effect.EffectType.Saturation:
+                                        syncCharacter.Hunger += 10 * power;
+                                        sender.GetComponent<Social>().RpcReceiveMsg("Effect saturation level " + power + " applied.");
+                                        break;
+                                    case Effect.EffectType.Thirst:
+                                        break;
+                                    case Effect.EffectType.Refreshment:
+                                        syncCharacter.Thirst += 10 * power;
+                                        sender.GetComponent<Social>().RpcReceiveMsg("Effect refreshment level " + power + " applied.");
+                                        break;
+                                    default:
+                                        break;
+                                }
+                                return;
+                            }
+                        sender.GetComponent<Social>().RpcReceiveMsg("<color=red>Player " + cmd[1] + " doesn't find.</color>");
+                    }
+                    catch
+                    {
+                        sender.GetComponent<Social>().RpcReceiveMsg("<color=red>Usage: /effect <player> <id> [power]</color>");
+                    }
                     break;
                 default:
                     sender.GetComponent<Social>().RpcReceiveMsg("<color=red>Unknow command. Try /help for a list of commands.</color>");
