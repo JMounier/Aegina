@@ -47,7 +47,6 @@ public class Inventory : NetworkBehaviour
         this.lastUseddItem = new Item();
 
         this.CmdLoadInventory();
-        GameObject.Find("NetworkManager").GetComponent<NetworkManagerHUD>().IsLoad();
     }
 
     void Update()
