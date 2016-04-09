@@ -36,9 +36,16 @@ namespace UnityEngine.Networking
         private bool listServShown = false;
         private bool worldcreateShown = false;
         private bool ipserveurshown = false;
+        private bool loading = false;
+        private float incr;
+        private float incg;
+        private float incb;
 
         void Awake()
         {
+            this.incr = Random.Range(-0.02f, 0.02f);
+            this.incg = Random.Range(-0.02f, 0.02f);
+            this.incb = Random.Range(-0.02f, 0.02f);
             this.manager = GetComponent<NetworkManager>();
             this.skin = Resources.Load<GUISkin>("Sprites/GUIskin/skin");
             this.skin.GetStyle("chat").fontSize = (int)(Screen.height * 0.025f);
@@ -60,9 +67,9 @@ namespace UnityEngine.Networking
             if (playerName == "")
                 this.showGUI = false;
 
-            if (!Directory.Exists(Application.dataPath + "/Saves"))            
+            if (!Directory.Exists(Application.dataPath + "/Saves"))
                 Directory.CreateDirectory(Application.dataPath + "/Saves");
-            
+            this.skin.GetStyle("loading").normal.textColor = Color.black;
         }
         void Update()
         {
@@ -92,6 +99,39 @@ namespace UnityEngine.Networking
 
         void OnGUI()
         {
+            if (loading)
+            {
+                GUI.Box(new Rect(0, 0, Screen.width, Screen.height), "loading", skin.GetStyle("loading"));
+                Color skinColor = this.skin.GetStyle("loading").normal.textColor;
+                float r = skinColor.r + incr;
+                if (r > 1)
+                {
+                    incr = Random.Range(-0.02f, 0);
+                }
+                if (r < 0)
+                {
+                    incr = Random.Range(0, 0.02f);
+                }
+                float g = skinColor.g + incg;
+                if (g > 1)
+                {
+                    incg = Random.Range(-0.02f, 0);
+                }
+                if (g < 0)
+                {
+                    incg = Random.Range(0, 0.02f);
+                }
+                float b = skinColor.b + incb;
+                if (b > 1)
+                {
+                    incb = Random.Range(-0.02f, 0);
+                }
+                if (b < 0)
+                {
+                    incb = Random.Range(0, 0.02f);
+                }
+                this.skin.GetStyle("loading").normal.textColor = new Color(r, g, b);
+            }
             if (!showGUI)
             {
                 GUI.Box(new Rect(Screen.width / 4, Screen.height / 6, Screen.width / 2, Screen.width / 12.8f), "", this.skin.GetStyle("aegina"));
@@ -207,6 +247,7 @@ namespace UnityEngine.Networking
                     this.manager.StopHost();
                     break;
             }
+            this.loading = true;
         }
 
         /// <summary>
@@ -353,7 +394,7 @@ namespace UnityEngine.Networking
                 if (GUI.Button(rect1, TextDatabase.Delete.GetText(), skin.GetStyle("button")))
                 {
                     worldsList.Remove(world);
-                    foreach (string file in Directory.GetFiles(Application.dataPath+ "/saves/" + world + "/Chunks"))
+                    foreach (string file in Directory.GetFiles(Application.dataPath + "/saves/" + world + "/Chunks"))
                     {
                         File.Delete(file);
                     }
@@ -481,12 +522,12 @@ namespace UnityEngine.Networking
             Rect rect = new Rect(this.posX, this.posY + 2 * this.spacing, this.width, this.height);
             seedstr = GUI.TextField(rect, seedstr, 15, skin.textField);
             rect = new Rect(this.posX, this.posY - this.height - 10 + 4 * this.spacing, this.width / 2 - 10, this.height);
-            if (GUI.Button(rect,"Coop",this.skin.GetStyle("button")))
+            if (GUI.Button(rect, "Coop", this.skin.GetStyle("button")))
             {
                 this.typegame = "Coop";
             }
-            rect = new Rect(this.posX + this.width/2, this.posY - this.height - 10 + 4 * this.spacing, this.width / 2 - 10, this.height);
-            if (GUI.Button(rect,"Joueur Contre Joueur",this.skin.GetStyle("button")))
+            rect = new Rect(this.posX + this.width / 2, this.posY - this.height - 10 + 4 * this.spacing, this.width / 2 - 10, this.height);
+            if (GUI.Button(rect, "Joueur Contre Joueur", this.skin.GetStyle("button")))
             {
                 this.typegame = "Joueur Contre Joueur";
             }
@@ -529,7 +570,7 @@ namespace UnityEngine.Networking
             }
             else
             {
-                GUI.Box(rect,TextDatabase.Create.GetText(),this.skin.GetStyle("slot"));
+                GUI.Box(rect, TextDatabase.Create.GetText(), this.skin.GetStyle("slot"));
             }
             rect = new Rect(this.posX, this.posY + 6 * this.spacing, this.width, this.height);
             if (GUI.Button(rect, TextDatabase.Back.GetText(), skin.GetStyle("button")))
@@ -571,7 +612,10 @@ namespace UnityEngine.Networking
                 this.firstScene.PlayButtonSound();
             }
         }
-
+        public void IsLoad()
+        {
+            loading = false;
+        }
         //Getters
         public string World
         {
