@@ -124,11 +124,11 @@ public class Axe : Tool
     public Axe(Axe axe) : base(axe) { }
 
     public Axe(int id, Text name, Text description, int durability, int efficiency, Texture2D icon, Entity ent, GameObject toolPrefab) :
-       base(id, name, description, durability, 5, 1, efficiency, icon, ent, toolPrefab)
+       base(id, name, description, durability, 100+efficiency/3, 1, efficiency, icon, ent, toolPrefab)
     { }
 
     public Axe(int id, int meta, Text name, Text description, int durability, int efficiency, Texture2D icon, Entity ent, GameObject toolPrefab) :
-       base(id, meta, name, description, durability, 5, 1, efficiency, icon, ent, toolPrefab)
+       base(id, meta, name, description, durability, 100+efficiency/3, 1, efficiency, icon, ent, toolPrefab)
     { }
 }
 
@@ -142,11 +142,11 @@ public class Pickaxe : Tool
     public Pickaxe(Pickaxe pickaxe) : base(pickaxe) { }
 
     public Pickaxe(int id, Text name, Text description, int durability, int efficiency, Texture2D icon, Entity ent, GameObject toolPrefab) :
-       base(id, name, description, durability, 3, efficiency, 1, icon, ent, toolPrefab)
+       base(id, name, description, durability, 100 + efficiency/4, efficiency, 1, icon, ent, toolPrefab)
     { }
 
     public Pickaxe(int id, int meta, Text name, Text description, int durability, int efficiency, Texture2D icon, Entity ent, GameObject toolPrefab) :
-       base(id, meta, name, description, durability, 3, efficiency, 1, icon, ent, toolPrefab)
+       base(id, meta, name, description, durability, 100 + efficiency/4, efficiency, 1, icon, ent, toolPrefab)
     { }
 }
 
@@ -158,8 +158,8 @@ public class Sword : Tool
     // Constructors
     public Sword() : base() { }
     public Sword(Sword sword) : base(sword) { }
-    public Sword(int id, Text name, Text description, int durability, int efficiency, Texture2D icon, Entity ent, GameObject toolPrefab) :
-       base(id, name, description, durability, 3, efficiency, 1, icon, ent, toolPrefab)
+    public Sword(int id, Text name, Text description, int durability, int damage, Texture2D icon, Entity ent, GameObject toolPrefab) :
+       base(id, name, description, durability, damage, 1, 1, icon, ent, toolPrefab)
     { }
 
     public Sword(int id, int meta, Text name, Text description, int durability, int damage, Texture2D icon, Entity ent, GameObject toolPrefab) :
