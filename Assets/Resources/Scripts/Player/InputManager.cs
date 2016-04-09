@@ -21,6 +21,7 @@ public class InputManager : NetworkBehaviour
     private GameObject nearElement;
 
     private float cdConsume = 1f;
+    private float cdAttack = 1f;
 
     // Use this for initialization
     void Start()
@@ -142,7 +143,7 @@ public class InputManager : NetworkBehaviour
                         case Effect.EffectType.Weakness:
                             break;
                         case Effect.EffectType.Poison:
-                            this.syncCharacter.Poison = consum.E.Power ;
+                            this.syncCharacter.Poison = consum.E.Power;
                             this.syncCharacter.CdPoison = consum.E.Power * 15;
                             break;
                         case Effect.EffectType.Saturation:
@@ -174,7 +175,24 @@ public class InputManager : NetworkBehaviour
 
         if (!useConsumable)
             this.cdConsume = 1;
-
+        //gestion de l'attaque
+        if (cdAttack > 0)
+            cdAttack -= Time.deltaTime;
+        if (Input.GetButton("Fire1") && cdAttack <= 0 && !this.inventaire.InventoryShown && !this.menu.MenuShown && !this.menu.OptionShown && !this.social.ChatShown)
+        {
+            float damage = 0f;
+            Item item = this.inventaire.UsedItem.Items;
+            if (item is Tool)
+            {
+                damage = 5f * ((item as Tool).Damage) / 100f;
+            }
+            else
+            {
+                damage = 5f;
+            }
+            CmdAttack(damage);
+            cdAttack = 1f;
+        }
         if (Input.GetButtonDown("Cancel"))
         {
             this.soundAudio.PlaySound(AudioClips.Button, 1f);
@@ -259,7 +277,24 @@ public class InputManager : NetworkBehaviour
             }
         }
     }
-
+    [Command]
+    private void CmdAttack(float damage)
+    {
+        Debug.Log(damage);
+        RaycastHit cible = new RaycastHit();
+        if (Physics.Raycast(this.character.transform.position, -this.character.transform.forward, out cible, 1))
+        {
+            if (cible.collider.gameObject.name == "Character")
+            {
+                //to do : verification de la team
+                cible.collider.gameObject.GetComponentInParent<SyncCharacter>().ReceiveDamage(damage);
+            }
+            else if (cible.collider.gameObject.tag == "Mob")
+            {
+                //cible.collider.gameObject.GetComponentInParent<SyncMob>().ReceiveDamage(damage);
+            }
+        }
+    }
     [Command]
     private void CmdInteractElement(GameObject element, int toolId)
     {

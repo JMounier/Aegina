@@ -166,6 +166,14 @@ public class SyncCharacter : NetworkBehaviour
             this.character.transform.position = newPos;
         }
     }
+    /// <summary>
+    /// informe le joueur au'il doit prendre des degats. MUST BE SERVER
+    /// </summary>
+    /// <param name="damage"></param>
+    public void ReceiveDamage(float damage)
+    {
+        this.Life -= damage; //il faudra gere l'armure
+    }
 
     [Command]
     private void CmdLoad()
