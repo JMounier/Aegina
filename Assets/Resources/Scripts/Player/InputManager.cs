@@ -51,6 +51,7 @@ public class InputManager : NetworkBehaviour
         if (!isLocalPlayer)
             return;
 
+        #region Near Element
         // Recherche du plus proche
         float dist = float.PositiveInfinity;
         GameObject lastNearElement = this.nearElement;
@@ -82,6 +83,15 @@ public class InputManager : NetworkBehaviour
                 foreach (Material mat in this.nearElement.GetComponentInChildren<MeshRenderer>().materials)
                     mat.shader = Shader.Find("Outlined");
         }
+        #endregion
+
+
+        //deplace la previsu en main
+        if (this.inventaire.UsedItem.Items is WorckTop)
+        {
+            (this.inventaire.UsedItem.Items as WorckTop).Previsu.transform.position = (this.character.transform.position - this.character.transform.forward);
+            (this.inventaire.UsedItem.Items as WorckTop).Previsu.transform.LookAt(new Vector3(this.character.transform.position.x, (this.inventaire.UsedItem.Items as WorckTop).Previsu.transform.position.y, this.character.transform.position.z));
+        }
 
         // Gestion Input
         if (Input.GetButtonDown("Inventory") && !this.menu.MenuShown && !this.menu.OptionShown && !this.social.ChatShown && !this.cristalHUD.Cristal_shown)
@@ -96,11 +106,15 @@ public class InputManager : NetworkBehaviour
             this.social.ChatShown = true;
             this.controller.Pause = true;
         }
-
+        #region Fire2 
         bool useConsumable = false;
         if (Input.GetButton("Fire2") && !this.inventaire.InventoryShown && !this.menu.MenuShown && !this.menu.OptionShown && !this.social.ChatShown)
         {
-            if (this.inventaire.UsedItem.Items is Consumable)
+            if (this.inventaire.UsedItem.Items is WorckTop)
+            {
+                // fixe me dispawn la previsu + spawn le prefab
+            }
+            else if (this.inventaire.UsedItem.Items is Consumable)
             {
                 this.anim.SetInteger("Action", 7);
                 this.cdConsume -= Time.deltaTime;
@@ -172,9 +186,11 @@ public class InputManager : NetworkBehaviour
             else if (this.nearElement != null && this.nearElement.GetComponent<SyncElement>() != null)
                 this.CmdInteractElement(this.nearElement.gameObject, this.inventaire.UsedItem.Items.ID);
         }
-
         if (!useConsumable)
             this.cdConsume = 1;
+        #endregion
+
+        #region Fire1
         //gestion de l'attaque
         if (cdAttack > 0)
             cdAttack -= Time.deltaTime;
@@ -193,6 +209,9 @@ public class InputManager : NetworkBehaviour
             CmdAttack(damage);
             cdAttack = 1f;
         }
+        #endregion
+
+        #region Cancel
         if (Input.GetButtonDown("Cancel"))
         {
             this.soundAudio.PlaySound(AudioClips.Button, 1f);
@@ -233,11 +252,13 @@ public class InputManager : NetworkBehaviour
                 this.controller.Pause = !this.controller.Pause;
             }
         }
+        #endregion
 
         // Visibilite et blocage du cursor
         Cursor.visible = this.controller.Pause;
         Cursor.lockState = this.controller.Pause ? CursorLockMode.None : CursorLockMode.Locked;
 
+        #region ToolBar
         // Gere la barre d'outil.
         if (!Input.GetKey("left ctrl"))
         {
@@ -276,12 +297,14 @@ public class InputManager : NetworkBehaviour
                     this.inventaire.UsedItem = new ItemStack();
             }
         }
+        #endregion
+
     }
     [Command]
     private void CmdAttack(float damage)
     {
         RaycastHit cible = new RaycastHit();
-        if (Physics.Raycast(new Vector3(this.character.transform.position.x,7,this.character.transform.position.z), -this.character.transform.forward, out cible, 1))
+        if (Physics.Raycast(new Vector3(this.character.transform.position.x, 7, this.character.transform.position.z), -this.character.transform.forward, out cible, 1))
         {
             if (cible.collider.gameObject.name == "Character")
             {
@@ -340,7 +363,6 @@ public class InputManager : NetworkBehaviour
                         this.soundAudio.PlaySound(AudioClips.chopping, 1);
                         this.soundAudio.CmdPlaySound(AudioClips.chopping, 1);
                         this.CmdDamageElm(this.nearElement.gameObject, (this.inventaire.UsedItem.Items as Tool).ChoppingEfficiency / 100 * 5);
-
                     }
                     break;
                 case Element.TypeElement.Rock:

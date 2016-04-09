@@ -66,10 +66,21 @@ public class Inventory : NetworkBehaviour
             if (this.lastUseddItem is Tool || this.lastUseddItem is Consumable)
                 this.CmdRemoveTool();
 
+            if (this.lastUseddItem is WorckTop)
+            {
+                // fixe me
+                // despawn la previsu; 
+            }
             this.lastUseddItem = this.UsedItem.Items;
             if (this.UsedItem.Items is Tool || this.UsedItem.Items is Consumable)
             {
                 this.CmdSetTool(this.UsedItem.Items.ID);
+            }
+            if (this.UsedItem.Items is WorckTop)
+            {
+                GameObject charact = gameObject.transform.FindChild("Character").gameObject;
+                (this.UsedItem.Items as WorckTop).Previsu = GameObject.Instantiate((this.UsedItem.Items as WorckTop).Previsu, charact.transform.position - charact.transform.forward, Quaternion.identity) as GameObject;
+                (this.UsedItem.Items as WorckTop).Previsu.transform.LookAt(new Vector3(charact.transform.position.x, (this.UsedItem.Items as WorckTop).Previsu.transform.position.y, charact.transform.position.z));
             }
         }
     }
