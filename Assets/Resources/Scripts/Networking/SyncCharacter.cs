@@ -44,9 +44,7 @@ public class SyncCharacter : NetworkBehaviour
     private Texture2D[] hungerBar;
     private Texture2D[] ThirstBar;
 
-    private float pos_x_hungerBar, pos_y_hungerBar;
-    private int pos_x_lifeBar, pos_y_lifeBar;
-
+    
     private GameObject character;
     private Inventory inventory;
     private Controller controller;
@@ -54,6 +52,7 @@ public class SyncCharacter : NetworkBehaviour
     // Use this for initialization
     void Start()
     {
+
         if (!isLocalPlayer)
             return;
 
@@ -74,6 +73,7 @@ public class SyncCharacter : NetworkBehaviour
         this.cdRegen = 0;
         this.poison = 0;
         this.cdPoison = 0;
+
 
         // Initialisation des images
         this.lifeBar = new Texture2D[101];
@@ -105,9 +105,15 @@ public class SyncCharacter : NetworkBehaviour
 
     // Update is called once per frame
     void Update()
-    {       
+    {
         if (!isLocalPlayer)
+        {
+            //Debug.Log(this.life);
             return;
+        }
+
+        if (this.life <= 0)
+            this.Kill();
 
         // Bonus
         if (this.cdJump <= 0)
@@ -159,6 +165,8 @@ public class SyncCharacter : NetworkBehaviour
             this.CmdLife(this.lifeMax);
             this.CmdHunger(this.hungerMax);
             this.CmdThirst(this.thirstMax);
+            this.CmdPoison(0);
+            this.CmdRegen(0);
             this.CmdSpeed(0);
             this.CmdJump(0);
             this.character.GetComponent<Rigidbody>().velocity = Vector3.zero;
@@ -178,7 +186,13 @@ public class SyncCharacter : NetworkBehaviour
     [Command]
     private void CmdLoad()
     {
+
         PlayerSave save = GameObject.Find("Map").GetComponent<Save>().LoadPlayer(gameObject);
+
+        this.lifeMax = 100;
+        this.thirstMax = 100;
+        this.hungerMax = 100;
+        
         this.life = save.Life;
         this.hunger = save.Hunger;
         this.thirst = save.Thirst;
@@ -205,8 +219,6 @@ public class SyncCharacter : NetworkBehaviour
         set
         {
             this.CmdLife(Mathf.Clamp(value, 0f, this.lifeMax));
-            if (value <= 0)
-                this.Kill();
         }
     }
 
@@ -225,7 +237,7 @@ public class SyncCharacter : NetworkBehaviour
         set
         {
             this.lifeMax = Mathf.Max(value, 0);
-            this.life = Mathf.Clamp(value, 0f, this.lifeMax);
+            this.Life = Mathf.Clamp(value, 0f, this.lifeMax);
         }
     }
 
@@ -238,7 +250,7 @@ public class SyncCharacter : NetworkBehaviour
         set
         {
             this.hungerMax = Mathf.Max(value, 0);
-            this.hunger = Mathf.Clamp(value, 0f, this.hungerMax);
+            this.Hunger = Mathf.Clamp(value, 0f, this.hungerMax);
         }
     }
 
@@ -266,7 +278,7 @@ public class SyncCharacter : NetworkBehaviour
         set
         {
             this.thirstMax = Mathf.Max(value, 0);
-            this.thirst = Mathf.Clamp(value, 0f, this.thirstMax);
+            this.Thirst = Mathf.Clamp(value, 0f, this.thirstMax);
         }
     }
 

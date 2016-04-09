@@ -27,10 +27,10 @@ public class InputManager : NetworkBehaviour
     void Start()
     {
         this.nearElement = null;
+        this.character = GetComponentInChildren<CharacterCollision>().gameObject;
 
         if (!isLocalPlayer)
             return;
-        this.character = GetComponentInChildren<CharacterCollision>().gameObject;
         this.cam = GetComponentInChildren<Camera>().gameObject;
         this.inventaire = GetComponent<Inventory>();
         this.menu = GetComponent<Menu>();
@@ -297,6 +297,8 @@ public class InputManager : NetworkBehaviour
     [Command]
     private void CmdInteractElement(GameObject element, int toolId)
     {
+        if (element == null)
+            return;
         Element elmt = element.GetComponent<SyncElement>().Elmt;
         if (elmt.Type == Element.TypeElement.Small)
         {
