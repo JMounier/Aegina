@@ -19,9 +19,9 @@ public class Cristal_HUD : NetworkBehaviour
     // Use this for initialization
     void Start()
     {
-        this.pos_x = Screen.width / 4;
+        this.pos_x = Screen.width / 3;
         this.pos_y = Screen.height / 4;
-        this.width = Screen.width / 2;
+        this.width = Screen.width / 3+50;
         this.height = Screen.height / 2;
         this.space = Screen.height / 20;
         this.skin = Resources.Load<GUISkin>("Sprites/GUIskin/Skin");
@@ -30,9 +30,9 @@ public class Cristal_HUD : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        this.pos_x = Screen.width / 4;
+        this.pos_x = Screen.width / 3;
         this.pos_y = Screen.height / 4;
-        this.width = Screen.width / 2;
+        this.width = Screen.width / 3+50;
         this.height = Screen.height / 2;
         this.space = Screen.height / 25;
     }
@@ -56,7 +56,7 @@ public class Cristal_HUD : NetworkBehaviour
         int j = 0;
         for (int i = 0; i < this.cristal.Needs.Length; i++)
         {
-            if (this.cristal.Needs[i].Quantity != 0)
+            if (this.cristal.Needs[i].Quantity != 0 && cristal.Upgrade < 3)
             {
                 rect = new Rect(this.pos_x + j % 3 * space + space, this.pos_y + height - 4 * space - 10 + j / 3 * space, space, space);
                 GUI.Box(rect, "", this.skin.GetStyle("slot"));
@@ -84,7 +84,7 @@ public class Cristal_HUD : NetworkBehaviour
                 }
             }
         }
-        else
+        else if (this.cristal.Upgrade < 3)
         {
             rect = new Rect(this.pos_x + 5 * space, this.pos_y + height - 3 * space + 15, 3 * space-5, space);
             if (GUI.Button(rect, TextDatabase.Upgrade.GetText(), this.skin.GetStyle("button")))
@@ -92,7 +92,8 @@ public class Cristal_HUD : NetworkBehaviour
                 if (this.inventory.InventoryContains(this.cristal.Needs))
                 {
                     this.inventory.DeleteItems(this.cristal.Needs);
-                    Activate();
+                    Upgrade(0);
+                    this.cristal.Upgrade += 1;
                 }
             }
             rect = new Rect(this.pos_x + 8 * space, this.pos_y + height - 3 * space + 15, 3 * space - 5, space);
@@ -102,7 +103,8 @@ public class Cristal_HUD : NetworkBehaviour
                 if (this.inventory.InventoryContains(this.cristal.Needs))
                 {
                     this.inventory.DeleteItems(this.cristal.Needs);
-                    Activate();
+                    Upgrade(1);
+                    this.cristal.Upgrade += 1;
                 }
             }
 
@@ -112,7 +114,8 @@ public class Cristal_HUD : NetworkBehaviour
                 if (this.inventory.InventoryContains(this.cristal.Needs))
                 {
                     this.inventory.DeleteItems(this.cristal.Needs);
-                    Activate();
+                    Upgrade(2);
+                    this.cristal.Upgrade += 1;
                 }
             }
 
@@ -165,6 +168,21 @@ public class Cristal_HUD : NetworkBehaviour
                 this.CmdSetLevelAtk(2, this.cristal.gameObject);
             }
 
+        }
+    }
+    private void Upgrade(int stats)
+    {
+        if (stats == 0)
+        {
+            this.CmdSetLevelAtk(this.cristal.GetComponent<SyncCore>().LevelAtk + 1, this.cristal.gameObject);
+        }
+        else if (stats == 1)
+        {
+            this.CmdSetLevelProd(this.cristal.GetComponent<SyncCore>().LevelProd + 1, this.cristal.gameObject);
+        }
+        else
+        {
+            this.CmdSetLevelPort(this.cristal.GetComponent<SyncCore>().LevelPortal + 1, this.cristal.gameObject);
         }
     }
 
