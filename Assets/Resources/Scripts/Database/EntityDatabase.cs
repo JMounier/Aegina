@@ -25,6 +25,9 @@ public static class EntityDatabase
     public static readonly Entity FloatiumIngot = new Entity(13, 60, Resources.Load<GameObject>("Prefabs/Loots/FloatiumIngot"));
     public static readonly Entity SunkiumIngot = new Entity(14, 60, Resources.Load<GameObject>("Prefabs/Loots/SunkiumIngot"));
 
+    public static readonly Entity Cact = new Entity(15, 60, Resources.Load<GameObject>("Prefabs/Loots/Cact"));
+    public static readonly Entity Petal = new Entity(16, 60, Resources.Load<GameObject>("Prefabs/Loots/Petal"));
+
     public static readonly Entity StoneAxe = new Entity(21, 60, Resources.Load<GameObject>("Prefabs/Loots/StoneAxe"));
     public static readonly Entity CopperAxe = new Entity(22, 60, Resources.Load<GameObject>("Prefabs/Loots/CopperAxe"));
     public static readonly Entity IronAxe = new Entity(23, 60, Resources.Load<GameObject>("Prefabs/Loots/IronAxe"));
@@ -60,10 +63,13 @@ public static class EntityDatabase
     public static readonly Entity RedPotion = new Entity(73, 60, Resources.Load<GameObject>("Prefabs/Loots/RedPotion"));
     public static readonly Entity YellowPotion = new Entity(74, 60, Resources.Load<GameObject>("Prefabs/Loots/YellowPotion"));
 
-    public static readonly Entity WoodenPlank = new Entity(75, 60, Resources.Load<GameObject>("Prefabs/Loots/WoodenPlank"));
-    public static readonly Entity Glass = new Entity(76, 60, Resources.Load<GameObject>("Prefabs/Loots/Glass"));
-    public static readonly Entity Bowl = new Entity(77, 60, Resources.Load<GameObject>("Prefabs/Loots/Bowl"));
-    public static readonly Entity CuttedStone = new Entity(78, 60, Resources.Load<GameObject>("Prefabs/Loots/CuttedStone"));
+    public static readonly Entity MeatBalls = new Entity(75, 60, Resources.Load<GameObject>("Prefabs/Loots/MeatBalls"));
+    public static readonly Entity WaterCact = new Entity(76, 60, Resources.Load<GameObject>("Prefabs/Loots/WaterCact"));
+
+    public static readonly Entity WoodenPlank = new Entity(77, 60, Resources.Load<GameObject>("Prefabs/Loots/WoodenPlank"));
+    public static readonly Entity Glass = new Entity(78, 60, Resources.Load<GameObject>("Prefabs/Loots/Glass"));
+    public static readonly Entity Bowl = new Entity(79, 60, Resources.Load<GameObject>("Prefabs/Loots/Bowl"));
+    public static readonly Entity CuttedStone = new Entity(80, 60, Resources.Load<GameObject>("Prefabs/Loots/CuttedStone"));
 
     // SmallElements
     public static readonly Element Branch = new Element(90, 100, Resources.Load<GameObject>("Prefabs/Elements/SmallElements/Branch"), Element.TypeElement.Small, 0);
@@ -147,6 +153,8 @@ public static class EntityDatabase
             yield return Glass;
             yield return Bowl;
             yield return CuttedStone;
+            yield return Cact;
+            yield return Petal;
 
             //Ingot
             yield return IronIngot;
@@ -187,6 +195,10 @@ public static class EntityDatabase
             yield return RedPotion;
             yield return PurplePotion;
             yield return YellowPotion;
+
+            //Food 
+            yield return MeatBalls;
+            yield return Cact; 
 
             //Workbenches
             yield return Forge;

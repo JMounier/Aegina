@@ -7,26 +7,30 @@ using System.Collections;
 public class Consumable : Item
 {
     private Effect e;
-
+    private GameObject consumablePrefab; 
     // Constructors
     public Consumable() : base()
     {
         this.e = new Effect();
+        this.consumablePrefab = null;
     }
 
     public Consumable(Consumable consumable) : base(consumable)
     {
         this.e = consumable.e;
+        this.consumablePrefab = consumable.consumablePrefab;
     }
 
-    public Consumable(int id, Text name, Text description, int size, Texture2D icon, Entity ent, Effect e) : base(id, name, description, size, icon, ent)
+    public Consumable(int id, Text name, Text description, int size, Texture2D icon, Entity ent, Effect e, GameObject consumablePrefab) : base(id, name, description, size, icon, ent)
     {
         this.e = e;
+        this.consumablePrefab = consumablePrefab;
     }
 
-    public Consumable(int id, int meta, Text name, Text description, int size, Texture2D icon, Entity ent, Effect e) : base(id, meta, name, description, size, icon, ent)
+    public Consumable(int id, int meta, Text name, Text description, int size, Texture2D icon, Entity ent, Effect e, GameObject consumablePrefab) : base(id, meta, name, description, size, icon, ent)
     {
         this.e = e;
+        this.consumablePrefab = consumablePrefab;
     } 
 
     // Getter & Setters
@@ -38,6 +42,12 @@ public class Consumable : Item
     {
         get { return this.e; }
         set { this.e = value; }
+    }
+
+    public GameObject ConsumablePrefab
+    {
+        get { return this.consumablePrefab; }
+        set { this.consumablePrefab = value;  }
     }
 }
 
