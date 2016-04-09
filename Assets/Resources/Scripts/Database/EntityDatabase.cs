@@ -98,7 +98,7 @@ public static class EntityDatabase
     public static readonly IslandCore IslandCore = new IslandCore(142, Resources.Load<GameObject>("Prefabs/Elements/Cristals/IslandCore"), Team.Neutre, 0, 0, 0);
 
     // Mobs
-    public static readonly Mob Boar = new Mob(500, 100, Resources.Load<GameObject>("Prefabs/Mobs/Boar"), 5, 7, 10, .75f, 2f, 1f);
+    public static readonly Mob Boar = new Mob(500, 20, Resources.Load<GameObject>("Prefabs/Mobs/Boar"), 5, 7, 6, .75f, 2f, 1.5f);
 
     // Chunk
     public static readonly Chunk Chunk1_One = new Chunk(1005, Resources.Load<GameObject>("Prefabs/Chunks/Chunk1_One"), Bridges.One);

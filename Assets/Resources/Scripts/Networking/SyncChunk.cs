@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using System.Collections;
+using System.Collections.Generic;
 using UnityEngine.Networking;
 
 public class SyncChunk : NetworkBehaviour
@@ -12,7 +12,7 @@ public class SyncChunk : NetworkBehaviour
     private int biomeId;
 
     private Graph myGraph;
-
+    private List<Tuple<float, Vector3>> toReset;
     [SerializeField]
     private bool debugGraph = false;
 
@@ -20,8 +20,10 @@ public class SyncChunk : NetworkBehaviour
     void Start()
     {
         if (isServer)
+        {
             this.rotation = gameObject.transform.eulerAngles;
-
+            this.toReset = new List<Tuple<float, Vector3>>();
+        }
         else
         {
             gameObject.transform.eulerAngles = rotation;
@@ -32,8 +34,18 @@ public class SyncChunk : NetworkBehaviour
 
     void Update()
     {
-        if (isServer && debugGraph)
+        if (debugGraph)
             this.myGraph.DebugDrawGraph();
+        if (this.toReset.Count > 0)        
+            if (this.ToReset[0].Item1 <= 0)
+            {
+                Node node = this.myGraph.GetNode(this.toReset[0].Item2);
+                if (node != null)
+                    this.myGraph.Reset(node);
+                this.toReset.RemoveAt(0);
+            }
+            else            
+               this.ToReset[0].Item1 -= Time.deltaTime;         
     }
 
     public int BiomeId
@@ -46,5 +58,11 @@ public class SyncChunk : NetworkBehaviour
     {
         get { return this.myGraph; }
         set { this.myGraph = value; }
+    }
+
+    public List<Tuple<float, Vector3>> ToReset
+    {
+        get { return this.toReset; }
+        set { this.toReset = value;}
     }
 }

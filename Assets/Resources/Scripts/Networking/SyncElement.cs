@@ -18,6 +18,11 @@ public class SyncElement : NetworkBehaviour {
             gameObject.transform.eulerAngles = rotation;
     }
 
+    void OnDestroy()
+    {
+        gameObject.transform.parent.parent.GetComponent<SyncChunk>().ToReset.Add(new Tuple<float, Vector3>(.5f, gameObject.transform.position));
+    }
+
     public Element Elmt
     {
         set { this.elmt = value; }
