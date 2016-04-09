@@ -101,7 +101,7 @@ namespace UnityEngine.Networking
         {
             if (loading)
             {
-                GUI.Box(new Rect(0, 0, Screen.width, Screen.height), "loading", skin.GetStyle("loading"));
+                GUI.Box(new Rect(0, 0, Screen.width, Screen.height), TextDatabase.Loading.GetText(), skin.GetStyle("loading"));
                 Color skinColor = this.skin.GetStyle("loading").normal.textColor;
                 float r = skinColor.r + incr;
                 if (r > 1)
@@ -527,7 +527,7 @@ namespace UnityEngine.Networking
                 this.typegame = "Coop";
             }
             rect = new Rect(this.posX + this.width / 2, this.posY - this.height - 10 + 4 * this.spacing, this.width / 2 - 10, this.height);
-            if (GUI.Button(rect, "Joueur Contre Joueur", this.skin.GetStyle("button")))
+            if (GUI.Button(rect, TextDatabase.PVP.GetText(), this.skin.GetStyle("button")))
             {
                 this.typegame = "Joueur Contre Joueur";
             }
@@ -615,6 +615,7 @@ namespace UnityEngine.Networking
         public void IsLoad()
         {
             loading = false;
+            this.skin.GetStyle("loading").normal.textColor = Color.black;
         }
         //Getters
         public string World

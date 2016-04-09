@@ -174,6 +174,10 @@ public class TextDatabase
     public static readonly Text PortalPower = new Text("Pouvoir de portail", "Portal Power");
     public static readonly Text Respawn = new Text("Reaparaitre", "Respawn");
     public static readonly Text Start = new Text("Debuter", "Start");
+    public static readonly Text PVP = new Text("Joueur contre Joueur", "Player versus Player");
+    public static readonly Text WorktopAbsent = new Text("l'etablie necessaire ne se trouve pas à porté", "Necessary woktop is not present \n");
+    public static readonly Text DontHaveItem = new Text("Tu ne possède pas les objets necessaire pour cette recette", "You don't have the necessary item for this recipe \n");
+    public static readonly Text InventoryFull = new Text("Ton inventaire est plein", "Your inventory is full");
 
 }
 

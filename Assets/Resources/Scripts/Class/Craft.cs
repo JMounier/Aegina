@@ -78,7 +78,10 @@ public class Craft
     {
         get { return Brewer; }
     }
-
+    public bool Secret
+    {
+        get { return secret; }
+    }
     public Type What
     {
         get { return what; }
