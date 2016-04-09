@@ -136,14 +136,14 @@ public class Graph
     public List<Node> AStarPath(Node origin, Node goal, float around = 0f)
     {
         List<Node> memory = new List<Node>();
-        Heap tas = new Heap();
+        Heap<Node> tas = new Heap<Node>();
         origin.LastCost = 0;
         tas.Insert(0, origin);
         memory.Add(origin);
         while (!tas.IsEmpty)
         {
-            Tuple<int, object> elem = tas.ExtractMin();
-            Node node = (Node)elem.Item2;
+            Tuple<float, Node> elem = tas.ExtractMin();
+            Node node = elem.Item2;
 
             // But atteind
             if (Vector3.Distance(node.Position, goal.Position) <= around)
@@ -165,9 +165,9 @@ public class Graph
             {
                 if (neighbour.IsValid && neighbour.LastCost > node.LastCost + 1)
                 {
-                    neighbour.LastCost = node.LastCost + 1;
+                    neighbour.LastCost = node.LastCost + Vector3.Distance(node.Position, neighbour.Position);
                     neighbour.Father = node;
-                    tas.Insert((int)(neighbour.LastCost / 2f + Vector3.Distance(neighbour.Position, goal.Position)), neighbour);
+                    tas.Insert(neighbour.LastCost + Vector3.Distance(neighbour.Position, goal.Position), neighbour);
                     memory.Add(neighbour);
                 }
             }
@@ -175,7 +175,6 @@ public class Graph
         foreach (Node n in memory)
             n.Reset();
         memory.Clear();
-        //Debug.Log("Not find : " + goal.Position);
         return new List<Node>();
     }
 
@@ -213,20 +212,20 @@ public class Graph
         return false;
     }
 
-    private class Heap
+    private class Heap<Element>
     {
         private int size;
-        private List<Tuple<int, object>> heap;
+        private List<Tuple<float, Element>> heap;
 
         // Constructor
         public Heap()
         {
             this.size = 0;
-            this.heap = new List<Tuple<int, object>>();
+            this.heap = new List<Tuple<float, Element>>();
         }
 
         // Methods
-        public void Insert(int key, object value)
+        public void Insert(float key, Element value)
         {
             int g = 0;
             int d = this.size - 1;
@@ -239,26 +238,26 @@ public class Graph
                 else
                     d = m - 1;
             }
-            this.heap.Insert(g, new Tuple<int, object>(key, value));
+            this.heap.Insert(g, new Tuple<float, Element>(key, value));
             this.size++;
         }
 
-        public Tuple<int, object> ExtractMin()
+        public Tuple<float, Element> ExtractMin()
         {
             if (this.size == 0)
                 throw new Exception("The heap is empty");
             this.size--;
-            Tuple<int, object> max = this.heap[0];
+            Tuple<float, Element> max = this.heap[0];
             this.heap.RemoveAt(0);
             return max;
         }
 
-        public Tuple<int, object> ExtractMax()
+        public Tuple<float, Element> ExtractMax()
         {
             if (this.size == 0)
                 throw new Exception("The heap is empty");
             this.size--;
-            Tuple<int, object> min = this.heap[this.size];
+            Tuple<float, Element> min = this.heap[this.size];
             this.heap.RemoveAt(this.size);
             return min;
         }
@@ -290,7 +289,7 @@ public class Graph
         /// <summary>
         /// La liste contenant cles et valeur du tas.
         /// </summary>
-        public List<Tuple<int, object>> List
+        public List<Tuple<float, Element>> List
         {
             get { return this.heap; }
         }
@@ -300,7 +299,7 @@ public class Graph
 public class Node
 {
     private bool isValid;
-    private int lastCost;
+    private float lastCost;
     private Vector3 pos;
     private Node father;
     private List<Node> neighbours;
@@ -308,7 +307,7 @@ public class Node
     public Node(bool isValid, Vector3 pos)
     {
         this.isValid = isValid;
-        this.lastCost = int.MaxValue;
+        this.lastCost = float.PositiveInfinity;
         this.pos = new Vector3(pos.x, 7f, pos.z);
         this.father = null;
         this.neighbours = new List<Node>();
@@ -350,7 +349,7 @@ public class Node
         set { this.pos = value; }
     }
 
-    public int LastCost
+    public float LastCost
     {
         set { this.lastCost = value; }
         get { return this.lastCost; }
@@ -364,7 +363,7 @@ public class Node
 
     public void Reset()
     {
-        this.lastCost = int.MaxValue;
+        this.lastCost = float.PositiveInfinity;
         this.father = null;
     }
 }

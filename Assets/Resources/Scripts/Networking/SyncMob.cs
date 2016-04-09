@@ -79,12 +79,7 @@ public class SyncMob : NetworkBehaviour
             if (dist < 1f && this.cdAttack > 1 / this.myMob.AttackSpeed)
             {
                 this.cdAttack = 0;
-                Vector3 viewRot = nearPlayer.transform.FindChild("Character").position - transform.position;
-                if (viewRot != Vector3.zero)
-                {
-                    Quaternion targetRotation = Quaternion.LookRotation(viewRot);
-                    gameObject.transform.rotation = Quaternion.Lerp(gameObject.transform.rotation, targetRotation, Time.deltaTime * 5);
-                }
+                this.View(nearPlayer.transform.position);
                 this.path.Clear();
                 this.anim.SetInteger("Action", 3);
                 nearPlayer.GetComponent<SyncCharacter>().Life -= this.myMob.Damage;
@@ -100,6 +95,7 @@ public class SyncMob : NetworkBehaviour
                 {
                     this.anim.SetInteger("Action", 0);
                     this.focus = false;
+                    this.View(nearPlayer.transform.position);
                 }
             }
         }
@@ -119,9 +115,10 @@ public class SyncMob : NetworkBehaviour
                 this.path = this.chunk.GetComponent<SyncChunk>().MyGraph.AStarPath(this.node, this.goal, .71f);
         }
 
-        // Move the mob
+        // Move the mob       
         if (this.path.Count > 0)
-        {
+        {           
+ 
             this.cdMove += Time.deltaTime;
             this.Move(this.path[0].Position);
             if (this.cdMove >= 1.5f)
@@ -138,10 +135,30 @@ public class SyncMob : NetworkBehaviour
     }
 
     /// <summary>
-    /// De[;ace le mob en ligne droite vers la position.
+    /// Deplace le mob en ligne droite vers la position.
     /// </summary>
     /// <param name="pos">La position que le mob doit atteindre.</param>
     private void Move(Vector3 pos)
+    {
+        this.View(pos);
+        float dist = Vector3.Distance(gameObject.transform.position, pos);
+        if (!this.focus)
+        {
+            this.anim.SetInteger("Action", 1);
+            gameObject.GetComponent<Rigidbody>().AddForce(gameObject.transform.forward * 180000f * Time.deltaTime * this.myMob.WalkSpeed * dist);
+        }
+        else
+        {
+            this.anim.SetInteger("Action", 2);
+            gameObject.GetComponent<Rigidbody>().AddForce(gameObject.transform.forward * 180000f * Time.deltaTime * this.myMob.RunSpeed * dist);
+        }
+    }
+
+    /// <summary>
+    /// Fait regarder le personnage dans la direction pos.
+    /// </summary>
+    /// <param name="pos"></param>
+    private void View(Vector3 pos)
     {
         Vector3 viewRot = new Vector3(pos.x, gameObject.transform.position.y, pos.z) - transform.position;
         if (viewRot != Vector3.zero)
@@ -150,19 +167,21 @@ public class SyncMob : NetworkBehaviour
             gameObject.transform.rotation = Quaternion.Lerp(gameObject.transform.rotation, targetRotation, Time.deltaTime * 5);
         }
         gameObject.GetComponent<Rigidbody>().velocity = new Vector3(0, gameObject.GetComponent<Rigidbody>().velocity.y, 0);
-        if (!this.focus)
-        {
-            this.anim.SetInteger("Action", 1);
-            gameObject.GetComponent<Rigidbody>().AddForce(gameObject.transform.forward * 180000f * Time.deltaTime * this.myMob.WalkSpeed);
-        }
-        else
-        {
-            this.anim.SetInteger("Action", 2);
-            gameObject.GetComponent<Rigidbody>().AddForce(gameObject.transform.forward * 180000f * Time.deltaTime * this.myMob.RunSpeed);
-        }
     }
 
     // Getters & Setters
+    /// <summary>
+    /// Fait subir des degat au mob. (Must be server !)
+    /// </summary>
+    /// <param name="damage"></param>
+    public void ReceiveDamage(float damage)
+    {
+        this.myMob.Life -= damage;
+    }
+
+    /// <summary>
+    /// Le mob lier au gameobject. (Must be server !)
+    /// </summary>
     public Mob MyMob
     {
         get { return this.myMob; }
