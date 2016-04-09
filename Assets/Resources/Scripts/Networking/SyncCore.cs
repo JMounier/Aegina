@@ -14,6 +14,8 @@ public class SyncCore : SyncElement
     private int levelProd;
     [SyncVar]
     private int levelPortal;
+    [SyncVar]
+    private int upgrade = 0;
     private ItemStack[] needs;
 
     void Start()
@@ -43,7 +45,7 @@ public class SyncCore : SyncElement
         this.levelTot = this.levelProd + this.levelAttack + this.levelPortal;
         if (this.levelTot != 0)
         {
-            this.needs = new ItemStack[6] { new ItemStack(ItemDatabase.Iron, 10 * levelTot), new ItemStack(ItemDatabase.Gold, 5 * levelTot), new ItemStack(ItemDatabase.Copper, 10 * levelTot), new ItemStack(ItemDatabase.Mithril, 3 * levelTot), new ItemStack(ItemDatabase.Floatium, 3 * levelTot), new ItemStack(ItemDatabase.Sunkium, levelTot) };
+            this.needs = new ItemStack[6] { new ItemStack(ItemDatabase.Iron, 10 * levelTot+10*levelAttack), new ItemStack(ItemDatabase.Gold, 5 * levelTot+5*levelProd), new ItemStack(ItemDatabase.Copper, 20 * levelTot-10*levelPortal), new ItemStack(ItemDatabase.Mithril, 3 * levelTot+3*levelProd+6*levelPortal), new ItemStack(ItemDatabase.Floatium, 3 * levelTot + 3*levelAttack + 6*levelPortal), new ItemStack(ItemDatabase.Sunkium, levelTot + 2*levelPortal) };
         }
     }
 
@@ -51,6 +53,11 @@ public class SyncCore : SyncElement
     public Team T
     {
         get { return (Team)this.team; }
+    }
+    public int Upgrade
+    {
+        get { return upgrade; }
+        set { upgrade = value; }
     }
     /// <summary>
     /// Le niveau total du cristal
@@ -109,21 +116,18 @@ public class SyncCore : SyncElement
     {
         this.levelProd = level;
         this.CmdSetLevelTot(level + this.levelAttack + this.levelPortal);
-        NeedUpdate();
     }
     [Command]
     public void CmdSetLevelAtk(int level)
     {
         this.levelAttack = level;
         this.CmdSetLevelTot(level + this.levelProd + this.levelPortal);
-        NeedUpdate();
     }
     [Command]
     public void CmdSetLevelPort(int level)
     {
         this.levelPortal = level;
         this.CmdSetLevelTot(level + this.levelAttack + this.levelProd);
-        NeedUpdate();
     }
 
     #endregion
