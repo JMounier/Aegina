@@ -1,26 +1,26 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class WorckTop : Item {
+public class WorkTop : Item {
 
     private GameObject previsu;
 
-    public WorckTop() : base()
+    public WorkTop() : base()
     {
         this.previsu = null;
     }
 
-    public WorckTop(WorckTop item) : base(item)
+    public WorkTop(WorkTop item) : base(item)
     {
         this.previsu = item.previsu;
     }
 
-    public WorckTop(int id, Text name, Text description, int size, Texture2D icon, Entity ent, GameObject previsualisation) : base(id,name,description,size,icon,ent)
+    public WorkTop(int id, Text name, Text description, int size, Texture2D icon, Entity ent, GameObject previsualisation) : base(id,name,description,size,icon,ent)
     {
         this.previsu = previsualisation;
     }
 
-    public WorckTop(int id, int meta, Text name, Text description, int size, Texture2D icon, Entity ent, GameObject previsualisation) : base(id,meta,name,description,size,icon,ent)
+    public WorkTop(int id, int meta, Text name, Text description, int size, Texture2D icon, Entity ent, GameObject previsualisation) : base(id,meta,name,description,size,icon,ent)
     {
         this.previsu = previsualisation;
     }

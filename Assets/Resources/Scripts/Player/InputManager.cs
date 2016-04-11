@@ -87,10 +87,10 @@ public class InputManager : NetworkBehaviour
 
 
         //deplace la previsu en main
-        if (this.inventaire.UsedItem.Items is WorckTop)
+        if (this.inventaire.UsedItem.Items is WorkTop)
         {
-            (this.inventaire.UsedItem.Items as WorckTop).Previsu.transform.position = (this.character.transform.position - this.character.transform.forward);
-            (this.inventaire.UsedItem.Items as WorckTop).Previsu.transform.LookAt(new Vector3(this.character.transform.position.x, (this.inventaire.UsedItem.Items as WorckTop).Previsu.transform.position.y, this.character.transform.position.z));
+            (this.inventaire.UsedItem.Items as WorkTop).Previsu.transform.position = (this.character.transform.position - this.character.transform.forward);
+            (this.inventaire.UsedItem.Items as WorkTop).Previsu.transform.LookAt(new Vector3(this.character.transform.position.x, (this.inventaire.UsedItem.Items as WorkTop).Previsu.transform.position.y, this.character.transform.position.z));
         }
 
         // Gestion Input
@@ -110,7 +110,7 @@ public class InputManager : NetworkBehaviour
         bool useConsumable = false;
         if (Input.GetButton("Fire2") && !this.inventaire.InventoryShown && !this.menu.MenuShown && !this.menu.OptionShown && !this.social.ChatShown)
         {
-            if (this.inventaire.UsedItem.Items is WorckTop)
+            if (this.inventaire.UsedItem.Items is WorkTop)
             {
                 // fixe me dispawn la previsu + spawn le prefab
             }

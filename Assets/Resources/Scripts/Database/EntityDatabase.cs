@@ -52,7 +52,7 @@ public static class EntityDatabase
     public static readonly Entity SunkiumSword = new Entity(64, 60, Resources.Load<GameObject>("Prefabs/Loots/SunkiumSword"));
 
     public static readonly Entity Forge = new Entity(65, 60, Resources.Load<GameObject>("Prefabs/Loots/Forge"));
-    public static readonly Entity Cauldron = new Entity(66, 60, Resources.Load<GameObject>("Prefabs/Loots/Cauldron"));
+    public static readonly Entity CauldronLoot = new Entity(66, 60, Resources.Load<GameObject>("Prefabs/Loots/Cauldron"));
     public static readonly Entity Workbench = new Entity(67, 60, Resources.Load<GameObject>("Prefabs/Loots/Workbench"));
     public static readonly Entity Firepit = new Entity(68, 60, Resources.Load<GameObject>("Prefabs/Loots/Firepit"));
 
@@ -208,7 +208,7 @@ public static class EntityDatabase
 
             //Workbenches
             yield return Forge;
-            yield return Cauldron;
+            yield return CauldronLoot;
             yield return Workbench;
             yield return Firepit;
 
