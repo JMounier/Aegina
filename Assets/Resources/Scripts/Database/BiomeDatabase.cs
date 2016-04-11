@@ -40,7 +40,6 @@ public static class BiomeDatabase
     {
         get
         {
-            // Default
             yield return Default;
             yield return Forest;
             yield return Ice;

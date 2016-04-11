@@ -136,9 +136,9 @@ public class Save : NetworkBehaviour
     /// A appeller lors de la connexion d'un joueur.
     /// </summary>
     /// <param name="go"></param>
-    public void AddPlayer(GameObject go)
+    public void AddPlayer(GameObject go, bool isHost)
     {
-        this.players.Add(new PlayerSave(go, this.playersPath));
+        this.players.Add(new PlayerSave(go, this.playersPath, isHost));
     }
 
     /// <summary>
@@ -302,9 +302,11 @@ public class PlayerSave
 {
     private float x, y, life, hunger, thirst, speed, cdSpeed, jump, cdJump, regen, cdRegen, poison, cdPoison;
     private string inventory, namePlayer, path;
+    private bool isOp;
+
     GameObject player;
 
-    public PlayerSave(GameObject go, string pathPlayer)
+    public PlayerSave(GameObject go, string pathPlayer, bool isServer)
     {
         this.namePlayer = go.GetComponent<Social>().PlayerName;
         this.path = pathPlayer + namePlayer;
@@ -330,6 +332,7 @@ public class PlayerSave
             this.cdPoison = float.Parse(properties[12]);
 
             this.inventory = save[1];
+            this.isOp = bool.Parse(save[2]) || isServer;
         }
         else
         {
@@ -350,6 +353,7 @@ public class PlayerSave
             this.poison = 0;
             this.cdPoison = 0;
             this.inventory = "";
+            this.isOp = isServer;
         }
     }
 
@@ -375,6 +379,7 @@ public class PlayerSave
                 '|' + this.speed.ToString() + '|' + this.cdSpeed.ToString() + '|' + this.jump.ToString() + '|' + this.cdJump.ToString()
                 + '|' + this.regen.ToString() + '|' + this.cdRegen.ToString() + '|' + this.poison.ToString() + '|' + this.cdPoison.ToString());
             file.WriteLine(this.inventory);
+            file.WriteLine(this.isOp.ToString());
         }
     }
 
@@ -460,6 +465,12 @@ public class PlayerSave
     {
         get { return this.inventory; }
         set { this.inventory = value; }
+    }
+
+    public bool IsOp
+    {
+        get { return this.isOp;}
+        set { this.isOp = value; }
     }
 
     public GameObject Player
