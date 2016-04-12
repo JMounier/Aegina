@@ -372,6 +372,7 @@ public class PlayerSave
         this.cdRegen = this.Player.GetComponent<SyncCharacter>().CdRegen;
         this.poison = this.Player.GetComponent<SyncCharacter>().Poison;
         this.cdPoison = this.Player.GetComponent<SyncCharacter>().CdPoison;
+        this.isOp = this.Player.GetComponent<Social>().IsOp;
 
         using (StreamWriter file = new StreamWriter(this.path))
         {

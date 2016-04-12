@@ -277,5 +277,6 @@ public class Social : NetworkBehaviour
     public bool IsOp
     {
         get { return this.isOp; }
+        set { this.isOp = value; }
     }
 }
