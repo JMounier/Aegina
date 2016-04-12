@@ -74,14 +74,14 @@ public class Social : NetworkBehaviour
             return;
 
         if (this.chatShown)
-        {
+        {            
             GUI.SetNextControlName("Chat");
             this.msg = GUI.TextField(new Rect(this.posX, this.posY, Screen.width * 0.3f, Screen.height * 0.04f), this.msg, 200, this.skin.textField);
 
-            if (GUI.GetNameOfFocusedControl() == string.Empty)
+            if (GUI.GetNameOfFocusedControl() == "")
                 GUI.FocusControl("Chat");
-
-            if (Event.current.type == EventType.used && Event.current.keyCode == KeyCode.Return)
+                       
+            if (Event.current.type == EventType.used && (Event.current.keyCode == KeyCode.Return || Event.current.keyCode == KeyCode.End))
             {
                 this.chatShown = false;
                 GetComponent<Controller>().Pause = false;
@@ -176,8 +176,8 @@ public class Social : NetworkBehaviour
                     {
                         sender.GetComponent<Social>().RpcReceiveMsg("<color=red>Usage: /give <id> <quantity></color>");
                     }
-                    break;     
-                           
+                    break;
+
                 // MSG & M
                 case "/msg":
                 case "/m":
