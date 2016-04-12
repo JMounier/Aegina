@@ -48,7 +48,8 @@ public class Command
     {
         int n = 0;
         foreach (Command c in Commands)
-            n++;
+            if (!c.opOnly || isOp)
+                n++;
         return n;
     }
 
@@ -338,8 +339,8 @@ public class Command
                                 if (player.GetComponent<Social>().PlayerName.ToLower() == parameters[0].ToLower())
                                     p.GetComponent<Social>().RpcReceiveMsg(player.GetComponent<Social>().PlayerName + " has been op by " + namePlayer + ".");
                         }
-                        else                        
-                            sender.GetComponent<Social>().RpcReceiveMsg("<color=red>" + player.GetComponent<Social>().PlayerName + " is already op.</color>");                        
+                        else
+                            sender.GetComponent<Social>().RpcReceiveMsg("<color=red>" + player.GetComponent<Social>().PlayerName + " is already op.</color>");
                         return;
                     }
                 sender.GetComponent<Social>().RpcReceiveMsg("<color=red>Player " + parameters[0] + " doesn't find.</color>");

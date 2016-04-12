@@ -34,9 +34,11 @@ public class SyncChunk : NetworkBehaviour
 
     void Update()
     {
+        if (!isServer)
+            return;
         if (debugGraph)
             this.myGraph.DebugDrawGraph();
-        if (this.toReset.Count > 0)        
+        if (this.toReset.Count > 0)
             if (this.ToReset[0].Item1 <= 0)
             {
                 Node node = this.myGraph.GetNode(this.toReset[0].Item2);
@@ -44,8 +46,8 @@ public class SyncChunk : NetworkBehaviour
                     this.myGraph.Reset(node);
                 this.toReset.RemoveAt(0);
             }
-            else            
-               this.ToReset[0].Item1 -= Time.deltaTime;         
+            else
+                this.ToReset[0].Item1 -= Time.deltaTime;
     }
 
     public int BiomeId
@@ -63,6 +65,6 @@ public class SyncChunk : NetworkBehaviour
     public List<Tuple<float, Vector3>> ToReset
     {
         get { return this.toReset; }
-        set { this.toReset = value;}
+        set { this.toReset = value; }
     }
 }
