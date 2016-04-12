@@ -106,13 +106,20 @@ public class InputManager : NetworkBehaviour
             this.social.ChatShown = true;
             this.controller.Pause = true;
         }
+
         #region Fire2 
         bool useConsumable = false;
         if (Input.GetButton("Fire2") && !this.inventaire.InventoryShown && !this.menu.MenuShown && !this.menu.OptionShown && !this.social.ChatShown)
         {
             if (this.inventaire.UsedItem.Items is WorkTop)
             {
-                // fixe me dispawn la previsu + spawn le prefab
+                if ((this.inventaire.UsedItem.Items as WorkTop).Previsu.GetComponent<Previsu>().IsAvailable())
+                {
+                    CmdSpawnElm((this.inventaire.UsedItem.Items as WorkTop).ElementID, (this.inventaire.UsedItem.Items as WorkTop).Previsu);
+                    this.inventaire.UsedItem.Quantity -= 1;
+                    if (this.inventaire.UsedItem.Quantity <= 0)
+                        this.inventaire.UsedItem = new ItemStack();
+                }
             }
             else if (this.inventaire.UsedItem.Items is Consumable)
             {
@@ -300,6 +307,8 @@ public class InputManager : NetworkBehaviour
         #endregion
 
     }
+
+
     [Command]
     private void CmdAttack(float damage)
     {
@@ -317,6 +326,20 @@ public class InputManager : NetworkBehaviour
             }
         }
     }
+
+    #region  Interact Element
+    /// <summary>
+    /// spawn an Element on server.
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="pos"></param>
+    [Command]
+    private void CmdSpawnElm(int id, GameObject pos)
+    {
+        (EntityDatabase.Find(id) as Element).Spawn(pos.transform.position, pos.transform.rotation, pos.transform.parent, 0);
+    }
+
+
     [Command]
     private void CmdInteractElement(GameObject element, int toolId)
     {
@@ -403,6 +426,8 @@ public class InputManager : NetworkBehaviour
             this.controller.OType = type;
         }
     }
+
+    #endregion
 
     #region Getters/Setters
     public GameObject NearElement

@@ -66,22 +66,29 @@ public class Inventory : NetworkBehaviour
             if (this.lastUseddItem is Tool || this.lastUseddItem is Consumable)
                 this.CmdRemoveTool();
 
-            if (this.lastUseddItem is WorkTop)
-            {
-                GameObject.Destroy((this.lastUseddItem as WorkTop).Previsu);
-            }
-            this.lastUseddItem = this.UsedItem.Items;
             if (this.UsedItem.Items is Tool || this.UsedItem.Items is Consumable)
             {
                 this.CmdSetTool(this.UsedItem.Items.ID);
             }
+
+            if (this.lastUseddItem is WorkTop)
+            {
+                GameObject.Destroy((this.lastUseddItem as WorkTop).Previsu);
+                this.lastUseddItem = ItemDatabase.Find(this.lastUseddItem.ID);
+            }
+
             if (this.UsedItem.Items is WorkTop)
             {
                 GameObject charact = gameObject.transform.FindChild("Character").gameObject;
-                this.lastUseddItem = ItemDatabase.Find(this.lastUseddItem.ID);
-                (this.UsedItem.Items as WorkTop).Previsu = GameObject.Instantiate((this.UsedItem.Items as WorkTop).Previsu, charact.transform.position - charact.transform.forward, Quaternion.identity) as GameObject;
-                (this.UsedItem.Items as WorkTop).Previsu.transform.LookAt(new Vector3(charact.transform.position.x, (this.UsedItem.Items as WorkTop).Previsu.transform.position.y, charact.transform.position.z));
+                this.UsedItem.Items = ItemDatabase.Find(this.UsedItem.Items.ID);
+                (this.UsedItem.Items as WorkTop).Previsu = GameObject.Instantiate((this.UsedItem.Items as WorkTop).Previsu);
+                // set pose rot and parent
+                (this.UsedItem.Items as WorkTop).Previsu.transform.position = (charact.transform.position - charact.transform.forward);
+                (this.UsedItem.Items as WorkTop).Previsu.transform.SetParent(Previsu.GetHierarchy((this.UsedItem.Items as WorkTop).Previsu.transform.position));
+                (this.UsedItem.Items as WorkTop).Previsu.transform.LookAt(new Vector3(charact.transform.position.x, (this.UsedItem.Items as WorkTop).Previsu.transform.position.y, charact.transform.position.z));                
             }
+
+            this.lastUseddItem = this.UsedItem.Items;
         }
     }
 

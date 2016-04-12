@@ -94,6 +94,9 @@ public static class EntityDatabase
     public static readonly Element FloatiumRock = new Element(115, 100, Resources.Load<GameObject>("Prefabs/Elements/Rocks/FloatiumStone"), Element.TypeElement.Rock, 0, new DropConfig(ItemDatabase.Find(7), 1, 3), new DropConfig(ItemDatabase.Find(1), 2, 4));
     public static readonly Element SunkiumRock = new Element(116, 100, Resources.Load<GameObject>("Prefabs/Elements/Rocks/SunkiumStone"), Element.TypeElement.Rock, 0, new DropConfig(ItemDatabase.Find(8), 1, 3), new DropConfig(ItemDatabase.Find(1), 2, 4));
 
+    // WorkTop
+    public static readonly Element Cauldron = new Element(130, 100, Resources.Load<GameObject>("Prefabs/Elements/PuttedObjects/Cauldron"), Element.TypeElement.WorkTop, 0, new DropConfig(ItemDatabase.Find(41), 1));
+
     // IslandCore
     public static readonly IslandCore IslandCore = new IslandCore(142, Resources.Load<GameObject>("Prefabs/Elements/Cristals/IslandCore"), Team.Neutre, 0, 0, 0);
 
@@ -204,7 +207,7 @@ public static class EntityDatabase
 
             //Food 
             yield return MeatBalls;
-            yield return Cact; 
+            yield return Cact;
 
             //Workbenches
             yield return Forge;
@@ -256,8 +259,13 @@ public static class EntityDatabase
             yield return FloatiumRock;
             yield return SunkiumRock;
 
+            // WorkTop
+            yield return Cauldron;
+
             // IslandCore
             yield return IslandCore;
+
+
         }
     }
 
@@ -349,6 +357,6 @@ public static class EntityDatabase
                     return new Entity(i);
             }
         }
-        throw new System.Exception("Items.Find : Item not find");
+        throw new System.Exception("Items.Find : Item not found");
     }
 }

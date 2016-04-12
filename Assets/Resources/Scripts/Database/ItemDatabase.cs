@@ -45,7 +45,7 @@ public static class ItemDatabase
 
     // WorckTops
     public static readonly Item Forge = new Item(40, TextDatabase.Forge, TextDatabase.ForgeDescription, 64, Resources.Load<Texture2D>("Sprites/Items/WorkStation/Forge"), new Entity(EntityDatabase.Forge));
-    public static readonly WorkTop Cauldron = new WorkTop(41, TextDatabase.Cauldron, TextDatabase.CauldronDescription, 64, Resources.Load<Texture2D>("Sprites/Items/WorkStation/Cauldron"), new Entity(EntityDatabase.CauldronLoot), Resources.Load<GameObject>("Prefabs/Elements/Previsualisations/Cauldron"));
+    public static readonly WorkTop Cauldron = new WorkTop(41, TextDatabase.Cauldron, TextDatabase.CauldronDescription, 64, Resources.Load<Texture2D>("Sprites/Items/WorkStation/Cauldron"), new Entity(EntityDatabase.CauldronLoot), Resources.Load<GameObject>("Prefabs/Elements/Previsualisations/Cauldron"), 130);
     public static readonly Item Workbench = new Item(42, TextDatabase.Workbench, TextDatabase.WorkbenchDescription, 64, Resources.Load<Texture2D>("Sprites/Items/WorkStation/Workbench"), new Entity(EntityDatabase.Workbench));
     public static readonly Item Firepit = new Item(43, TextDatabase.Firepit, TextDatabase.FirepitDescription, 64, Resources.Load<Texture2D>("Sprites/Items/WorkStation/Firepit"), new Entity(EntityDatabase.Firepit));
 
