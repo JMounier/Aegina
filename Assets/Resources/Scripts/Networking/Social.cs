@@ -14,6 +14,8 @@ public class Social : NetworkBehaviour
     private string namePlayer;
     [SyncVar]
     private bool chatShown = false;
+    private bool isOp = false;
+
     private int posX, posY;
     private GUISkin skin;
     private string msg = "";
@@ -138,7 +140,7 @@ public class Social : NetworkBehaviour
     {
         if (this.msg.Trim() != "" && isLocalPlayer)
         {
-            this.CmdSendMsg(this.msg.Trim(), gameObject);
+            this.CmdSendMsg(this.msg.Trim());
             for (int i = 8; i > -1; i--)
                 this.log[i + 1] = this.log[i];
             this.log[0] = this.msg;
@@ -153,168 +155,10 @@ public class Social : NetworkBehaviour
     /// <param name="msg"></param>
     /// <param name="name"></param>
     [Command]
-    private void CmdSendMsg(string msg, GameObject sender)
+    private void CmdSendMsg(string msg)
     {
         if (msg[0] == '/')
-        {
-            string[] cmd = msg.Split(default(Char[]), StringSplitOptions.RemoveEmptyEntries);
-            switch (cmd[0].ToLower())
-            {
-                // HELP
-                case "/help":
-                    sender.GetComponent<Social>().RpcReceiveMsg("<color=green>---This is the list of commands---</color>\n" +
-                        "/time <value> \n/give <player> <id> [quantity] \n/msg <player> <message> \n/tp <player>\n/kick <player> \n/save \n/seed");
-                    break;
-
-                // TIME
-                case "/time":
-                    try
-                    {
-                        int time = cmd[1].ToLower() == "day" ? 300 : cmd[1].ToLower() == "night" ? 900 : int.Parse(cmd[1]);
-                        GameObject.Find("Map").GetComponent<DayNightCycle>().SetTime(time);
-                        foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
-                            player.GetComponent<Social>().RpcReceiveMsg(this.namePlayer + " set the time to " + cmd[1] + ".");
-                    }
-                    catch
-                    {
-                        sender.GetComponent<Social>().RpcReceiveMsg("<color=red>Usage: /time <value></color>");
-                    }
-                    break;
-
-                // GIVE
-                case "/give":
-                    try
-                    {
-                        Item give;
-                        GameObject recipient = null;
-                        foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
-                            if (player.GetComponent<Social>().namePlayer.ToLower() == cmd[1].ToLower())
-                                recipient = player;
-                        if (recipient == null)
-                        {
-                            sender.GetComponent<Social>().RpcReceiveMsg("<color=red>Player " + cmd[1] + " doesn't find.</color>");
-                            return;
-                        }
-                        int id;
-                        switch (cmd.Length)
-                        {
-                            case 3:
-                                if (int.TryParse(cmd[2], out id))
-                                    give = ItemDatabase.Find(id);
-                                else
-                                    give = ItemDatabase.Find(cmd[2]);
-
-                                recipient.GetComponent<Inventory>().RpcAddItemStack(give.ID, 1, null);
-                                sender.GetComponent<Social>().RpcReceiveMsg("Give 1 of " + give.NameText.GetText(SystemLanguage.English) + ".");
-                                if (!sender.Equals(recipient))
-                                    recipient.GetComponent<Social>().RpcReceiveMsg("Give 1 of " + give.NameText.GetText(SystemLanguage.English) + ".");
-                                break;
-                            default:
-                                if (int.TryParse(cmd[2], out id))
-                                    give = ItemDatabase.Find(id);
-                                else
-                                    give = ItemDatabase.Find(cmd[2]);
-
-                                recipient.GetComponent<Inventory>().RpcAddItemStack(give.ID, int.Parse(cmd[3]), null);
-                                sender.GetComponent<Social>().RpcReceiveMsg("Give " + int.Parse(cmd[3]) + " of " + give.NameText.GetText(SystemLanguage.English) + ".");
-                                if (!sender.Equals(recipient))
-                                    recipient.GetComponent<Social>().RpcReceiveMsg("Give " + int.Parse(cmd[3]) + " of " + give.NameText.GetText(SystemLanguage.English) + ".");
-                                break;
-                        }
-                    }
-                    catch
-                    {
-                        sender.GetComponent<Social>().RpcReceiveMsg("<color=red>Usage: /give <player> <id> [quantity]</color>");
-                    }
-                    break;
-
-                // MSG & M
-                case "/msg":
-                case "/m":
-                    try
-                    {
-                        if (cmd.Length < 3)
-                            throw new System.Exception();
-                        if (cmd[1].ToLower() == sender.GetComponent<Social>().namePlayer.ToLower())
-                        {
-                            sender.GetComponent<Social>().RpcReceiveMsg("<color=red>Do you feel alone ?</color>");
-                            return;
-                        }
-                        string text = "";
-                        for (int i = 2; i < cmd.Length; i++)
-                            text += cmd[i] + " ";
-                        foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
-                            if (player.GetComponent<Social>().namePlayer.ToLower() == cmd[1].ToLower())
-                            {
-                                player.GetComponent<Social>().RpcReceiveMsg("<color=grey><b>[" + sender.GetComponent<Social>().namePlayer + " -> You]</b></color> " + text);
-                                sender.GetComponent<Social>().RpcReceiveMsg("<color=grey><b>[You -> " + player.GetComponent<Social>().namePlayer + "]</b></color> " + text);
-                                return;
-                            }
-                        sender.GetComponent<Social>().RpcReceiveMsg("<color=red>Player " + cmd[1] + " doesn't find.</color>");
-                    }
-                    catch
-                    {
-                        sender.GetComponent<Social>().RpcReceiveMsg("<color=red>Usage: /msg <player> <message></color>");
-                    }
-                    break;
-                // TP
-                case "/tp":
-                    try
-                    {
-                        if (cmd[1].ToLower() == this.namePlayer)
-                        {
-                            sender.GetComponent<Social>().RpcReceiveMsg("<color=red>You are already where you are...</color>");
-                            return;
-                        }
-                        foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
-                            if (player.GetComponent<Social>().namePlayer.ToLower() == cmd[1].ToLower())
-                            {
-                                player.GetComponent<Social>().RpcReceiveMsg(this.namePlayer + " teleported on you.");
-                                sender.GetComponent<Social>().RpcReceiveMsg("You were teleported on " + cmd[1] + ".");
-                                sender.GetComponent<Social>().RpcTeleport(player.GetComponentInChildren<CharacterCollision>().transform.position);
-                                return;
-                            }
-                        sender.GetComponent<Social>().RpcReceiveMsg("<color=red>Player " + cmd[1] + " doesn't find.</color>");
-                    }
-                    catch
-                    {
-                        sender.GetComponent<Social>().RpcReceiveMsg("<color=red>Usage: /tp <player></color>");
-                    }
-                    break;
-                // KICK
-                case "/kick":
-                    try
-                    {
-                        foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
-                            if (player.GetComponent<Social>().namePlayer.ToLower() == cmd[1].ToLower())
-                            {
-                                player.GetComponent<Social>().RpcKickPlayer();
-                                foreach (GameObject p in GameObject.FindGameObjectsWithTag("Player"))
-                                    p.GetComponent<Social>().RpcReceiveMsg(this.namePlayer + " kick " + cmd[1] + ".");
-                                return;
-                            }
-                        sender.GetComponent<Social>().RpcReceiveMsg("<color=red>Player " + cmd[1] + " doesn't find.</color>");
-                    }
-                    catch
-                    {
-                        sender.GetComponent<Social>().RpcReceiveMsg("<color=red>Usage: /kick <player></color>");
-                    }
-                    break;
-                // SAVE
-                case "/save":
-                    GameObject.Find("Map").GetComponent<Save>().SaveWorld();
-                    foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
-                        player.GetComponent<Social>().RpcReceiveMsg("The world has been forcefully saved.");
-                    break;
-                // SEED
-                case "/seed":
-                    sender.GetComponent<Social>().RpcReceiveMsg("Seed : " + MapGeneration.SeedToString(GameObject.Find("Map").GetComponent<Save>().Seed));
-                    break;
-                default:
-                    sender.GetComponent<Social>().RpcReceiveMsg("<color=red>Unknow command. Try /help for a list of commands.</color>");
-                    break;
-            }
-        }
+            Command.LaunchCommand(msg, gameObject);
         else
             foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
                 player.GetComponent<Social>().RpcReceiveMsg("<b>[" + this.namePlayer + "]</b> " + msg);
@@ -325,17 +169,18 @@ public class Social : NetworkBehaviour
     /// </summary>
     /// <param name="name"></param>
     [Command]
-    private void CmdSetName(string name)
+    public void CmdSetName(string name)
     {
         this.namePlayer = name;
-        GameObject.Find("Map").GetComponent<Save>().AddPlayer(gameObject);
+        GameObject.Find("Map").GetComponent<Save>().AddPlayer(gameObject, isLocalPlayer);
+        this.isOp = GameObject.Find("Map").GetComponent<Save>().LoadPlayer(gameObject).IsOp;
     }
 
     /// <summary>
     /// Deconnecte le joueur du serveur.
     /// </summary>
     [ClientRpc]
-    private void RpcKickPlayer()
+    public void RpcKickPlayer()
     {
         if (isLocalPlayer && isServer)
             GameObject.Find("NetworkManager").GetComponent<NetworkManager>().StopHost();
@@ -372,7 +217,7 @@ public class Social : NetworkBehaviour
     /// </summary>
     /// <param name="msg"></param>
     [ClientRpc]
-    private void RpcReceiveMsg(string msg)
+    public void RpcReceiveMsg(string msg)
     {
         for (int i = 0; i < this.chat.Length - 1; i++)
             this.chat[i] = this.chat[i + 1];
@@ -424,5 +269,14 @@ public class Social : NetworkBehaviour
     public string PlayerName
     {
         get { return this.namePlayer; }
+    }
+
+    /// <summary>
+    /// Renvoi si le joueur est un operateur.
+    /// </summary>
+    public bool IsOp
+    {
+        get { return this.isOp; }
+        set { this.isOp = value; }
     }
 }
