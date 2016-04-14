@@ -162,13 +162,13 @@ public class Graph
     /// Recalcul la validite d'une partie du graph, a appeler lors de la destruction d'un element par exemple.
     /// </summary>
     /// <param name="pos"></param>
-    public void Reset(Node node)
+    public void Reset(Node node, bool validity = true)
     {
-        if (!node.IsValid && isValidPosition(node.Position))
+        if (node.IsValid != validity && isValidPosition(node.Position) == validity)
         {
-            node.IsValid = true;
+            node.IsValid = validity;
             foreach (Node neighbour in node.Neighbours)
-                Reset(neighbour);
+                Reset(neighbour, validity);
         }                
     }
     #endregion

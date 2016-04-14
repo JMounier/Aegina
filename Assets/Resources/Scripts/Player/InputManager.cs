@@ -23,6 +23,7 @@ public class InputManager : NetworkBehaviour
     private float cdConsume = 1f;
     private float cdAttack = 0;
 
+    private bool validplace;
     // Use this for initialization
     void Start()
     {
@@ -39,6 +40,7 @@ public class InputManager : NetworkBehaviour
         this.cristalHUD = GetComponent<Cristal_HUD>();
         this.anim = gameObject.GetComponent<Animator>();
         this.syncCharacter = gameObject.GetComponent<SyncCharacter>();
+        this.validplace = false;
 
         this.soundAudio = gameObject.GetComponent<Sound>();
         Cursor.visible = false;
@@ -93,12 +95,26 @@ public class InputManager : NetworkBehaviour
 
 
         //deplace la previsu en main
-        if (this.inventaire.UsedItem.Items is WorckTop)
+        if (this.inventaire.UsedItem.Items is WorkTop)
         {
-            (this.inventaire.UsedItem.Items as WorckTop).Previsu.transform.position = (this.character.transform.position - this.character.transform.forward);
-            (this.inventaire.UsedItem.Items as WorckTop).Previsu.transform.LookAt(new Vector3(this.character.transform.position.x, (this.inventaire.UsedItem.Items as WorckTop).Previsu.transform.position.y, this.character.transform.position.z));
+            WorkTop wt = this.inventaire.UsedItem.Items as WorkTop;
+            wt.Previsu.transform.position = (this.character.transform.position - this.character.transform.forward);
+            wt.Previsu.transform.LookAt(new Vector3(this.character.transform.position.x, wt.Previsu.transform.position.y, this.character.transform.position.z));
+            
+            bool isValid = wt.IsValid();
+            if (isValid != this.validplace)
+            {
+                Material mat = Resources.Load<Material>("Models/WorkStations/Materials/Previsu" + (isValid ? 1 : 2));
+                foreach (MeshRenderer mesh in wt.Previsu.GetComponentsInChildren<MeshRenderer>())
+                {
+                    Material[] mats = new Material[mesh.materials.Length];
+                    for (int i = 0; i < mats.Length; i++)
+                        mats[i] = mat;
+                    mesh.materials = mats;
+                }
+            }
+            this.validplace = isValid;
         }
-
         // Gestion Input
         if (Input.GetButtonDown("Inventory") && !this.menu.MenuShown && !this.menu.OptionShown && !this.social.ChatShown && !this.cristalHUD.Cristal_shown)
         {
@@ -112,13 +128,22 @@ public class InputManager : NetworkBehaviour
             this.social.ChatShown = true;
             this.controller.Pause = true;
         }
+
         #region Fire2 
         bool useConsumable = false;
         if (Input.GetButton("Fire2") && !this.inventaire.InventoryShown && !this.menu.MenuShown && !this.menu.OptionShown && !this.social.ChatShown)
         {
-            if (this.inventaire.UsedItem.Items is WorckTop)
+            if (this.inventaire.UsedItem.Items is WorkTop)
             {
-                // fixe me dispawn la previsu + spawn le prefab
+                WorkTop wt = this.inventaire.UsedItem.Items as WorkTop;
+                if (wt.IsValid() && this.soundAudio.IsReady(615))
+                {
+                    CmdSpawnElm(wt.ElementID, wt.Previsu);
+                    this.inventaire.UsedItem.Quantity -= 1;
+                    if (this.inventaire.UsedItem.Quantity <= 0)
+                        this.inventaire.UsedItem = new ItemStack();
+                    this.soundAudio.PlaySound(AudioClips.Void, 0, 1, 615);
+                }
             }
             else if (this.inventaire.UsedItem.Items is Consumable)
             {
@@ -316,6 +341,8 @@ public class InputManager : NetworkBehaviour
         #endregion
 
     }
+
+
     [Command]
     private void CmdAttack(float damage)
     {
@@ -333,6 +360,22 @@ public class InputManager : NetworkBehaviour
             }
         }
     }
+
+    #region  Interact Element
+    /// <summary>
+    /// spawn an Element on server.
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="pos"></param>
+    [Command]
+    private void CmdSpawnElm(int id, GameObject pos)
+    {
+        Element elm = (EntityDatabase.Find(id) as Element);
+        elm.Spawn(pos.transform.position, pos.transform.rotation, pos.transform.parent, 0);
+        elm.Prefab.GetComponent<SyncElement>().updateGraph();
+    }
+
+
     [Command]
     private void CmdInteractElement(GameObject element, int toolId)
     {
@@ -419,6 +462,9 @@ public class InputManager : NetworkBehaviour
             this.controller.OType = type;
         }
     }
+
+    #endregion
+
 
     public void IAmDead()
     {

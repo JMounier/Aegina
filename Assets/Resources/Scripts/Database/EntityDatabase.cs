@@ -52,7 +52,7 @@ public static class EntityDatabase
     public static readonly Entity SunkiumSword = new Entity(64, 60, Resources.Load<GameObject>("Prefabs/Loots/SunkiumSword"));
 
     public static readonly Entity Forge = new Entity(65, 60, Resources.Load<GameObject>("Prefabs/Loots/Forge"));
-    public static readonly Entity Cauldron = new Entity(66, 60, Resources.Load<GameObject>("Prefabs/Loots/Cauldron"));
+    public static readonly Entity CauldronLoot = new Entity(66, 60, Resources.Load<GameObject>("Prefabs/Loots/Cauldron"));
     public static readonly Entity Workbench = new Entity(67, 60, Resources.Load<GameObject>("Prefabs/Loots/Workbench"));
     public static readonly Entity Firepit = new Entity(68, 60, Resources.Load<GameObject>("Prefabs/Loots/Firepit"));
 
@@ -93,6 +93,9 @@ public static class EntityDatabase
     public static readonly Element MithrilRock = new Element(114, 100, Resources.Load<GameObject>("Prefabs/Elements/Rocks/MithrilStone"), Element.TypeElement.Rock, 0, new DropConfig(ItemDatabase.Find(6), 1, 4), new DropConfig(ItemDatabase.Find(1), 2, 4));
     public static readonly Element FloatiumRock = new Element(115, 100, Resources.Load<GameObject>("Prefabs/Elements/Rocks/FloatiumStone"), Element.TypeElement.Rock, 0, new DropConfig(ItemDatabase.Find(7), 1, 3), new DropConfig(ItemDatabase.Find(1), 2, 4));
     public static readonly Element SunkiumRock = new Element(116, 100, Resources.Load<GameObject>("Prefabs/Elements/Rocks/SunkiumStone"), Element.TypeElement.Rock, 0, new DropConfig(ItemDatabase.Find(8), 1, 3), new DropConfig(ItemDatabase.Find(1), 2, 4));
+
+    // WorkTop
+    public static readonly Element Cauldron = new Element(130, 100, Resources.Load<GameObject>("Prefabs/Elements/PuttedObjects/Cauldron"), Element.TypeElement.WorkTop, 0, new DropConfig(ItemDatabase.Find(41), 1));
 
     // IslandCore
     public static readonly IslandCore IslandCore = new IslandCore(142, Resources.Load<GameObject>("Prefabs/Elements/Cristals/IslandCore"), Team.Neutre, 0, 0, 0);
@@ -215,11 +218,11 @@ public static class EntityDatabase
 
             //Food 
             yield return MeatBalls;
-            yield return Cact; 
+            yield return Cact;
 
             //Workbenches
             yield return Forge;
-            yield return Cauldron;
+            yield return CauldronLoot;
             yield return Workbench;
             yield return Firepit;
 
@@ -267,8 +270,13 @@ public static class EntityDatabase
             yield return FloatiumRock;
             yield return SunkiumRock;
 
+            // WorkTop
+            yield return Cauldron;
+
             // IslandCore
             yield return IslandCore;
+
+
         }
     }
 
@@ -372,6 +380,6 @@ public static class EntityDatabase
                     return new Entity(i);
             }
         }
-        throw new System.Exception("Items.Find : Item not find");
+        throw new System.Exception("Items.Find : Item not found");
     }
 }

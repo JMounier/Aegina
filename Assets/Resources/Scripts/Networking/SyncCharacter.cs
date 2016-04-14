@@ -108,7 +108,6 @@ public class SyncCharacter : NetworkBehaviour
         {            
             bool press = false;
             bool dead = false;
-            GUI.Box(new Rect(Screen.width / 3, Screen.height / 3, Screen.width / 3, Screen.height / 3), "", skin.GetStyle("menu"));
             if (GUI.Button(new Rect(5 * Screen.width / 12, Screen.height / 2 - 100, Screen.width / 4, 100), TextDatabase.Respawn.GetText(), skin.GetStyle("button")))
             {
                 press = true;
