@@ -101,11 +101,11 @@ public static class EntityDatabase
     public static readonly Mob Boar = new Mob(500, 20, Resources.Load<GameObject>("Prefabs/Mobs/Boar"), 5, 7, 6, .75f, 2f, 1.5f);
 
     // Chunk
-    public static readonly Chunk Chunk1_One = new Chunk(1005, Resources.Load<GameObject>("Prefabs/Chunks/Chunk1_One"), Bridges.One);
-    public static readonly Chunk Chunk1_TwoI = new Chunk(1005, Resources.Load<GameObject>("Prefabs/Chunks/Chunk1_TwoI"), Bridges.TwoI);
-    public static readonly Chunk Chunk1_TwoL = new Chunk(1005, Resources.Load<GameObject>("Prefabs/Chunks/Chunk1_TwoL"), Bridges.TwoL);
-    public static readonly Chunk Chunk1_Three = new Chunk(1005, Resources.Load<GameObject>("Prefabs/Chunks/Chunk1_Three"), Bridges.Three);
-    public static readonly Chunk Chunk1_All = new Chunk(1005, Resources.Load<GameObject>("Prefabs/Chunks/Chunk1_All"), Bridges.All);
+    public static readonly Chunk Chunk1_One = new Chunk(1000, Resources.Load<GameObject>("Prefabs/Chunks/Chunk1_One"), Bridges.One);
+    public static readonly Chunk Chunk1_TwoI = new Chunk(1001, Resources.Load<GameObject>("Prefabs/Chunks/Chunk1_TwoI"), Bridges.TwoI);
+    public static readonly Chunk Chunk1_TwoL = new Chunk(1002, Resources.Load<GameObject>("Prefabs/Chunks/Chunk1_TwoL"), Bridges.TwoL);
+    public static readonly Chunk Chunk1_Three = new Chunk(1003, Resources.Load<GameObject>("Prefabs/Chunks/Chunk1_Three"), Bridges.Three);
+    public static readonly Chunk Chunk1_All = new Chunk(1004, Resources.Load<GameObject>("Prefabs/Chunks/Chunk1_All"), Bridges.All);
 
     public static readonly Chunk Chunk2_One = new Chunk(1005, Resources.Load<GameObject>("Prefabs/Chunks/Chunk2_One"), Bridges.One);
     public static readonly Chunk Chunk2_TwoI = new Chunk(1006, Resources.Load<GameObject>("Prefabs/Chunks/Chunk2_TwoI"), Bridges.TwoI);
@@ -142,6 +142,11 @@ public static class EntityDatabase
 	public static readonly Chunk Chunk7_Three = new Chunk(1032, Resources.Load<GameObject>("Prefabs/Chunks/Chunk7_Three"), Bridges.Three);
 	public static readonly Chunk Chunk7_All = new Chunk(1033, Resources.Load<GameObject>("Prefabs/Chunks/Chunk7_All"), Bridges.All);
 
+    public static readonly Chunk Chunk8_One = new Chunk(1034, Resources.Load<GameObject>("Prefabs/Chunks/Chunk8_One"), Bridges.One);
+    public static readonly Chunk Chunk8_TwoI = new Chunk(1035, Resources.Load<GameObject>("Prefabs/Chunks/Chunk8_TwoI"), Bridges.TwoI);
+    public static readonly Chunk Chunk8_TwoL = new Chunk(1036, Resources.Load<GameObject>("Prefabs/Chunks/Chunk8_TwoL"), Bridges.TwoL);
+    public static readonly Chunk Chunk8_Three = new Chunk(1037, Resources.Load<GameObject>("Prefabs/Chunks/Chunk8_Three"), Bridges.Three);
+    public static readonly Chunk Chunk8_All = new Chunk(1038, Resources.Load<GameObject>("Prefabs/Chunks/Chunk8_All"), Bridges.All);
     /// <summary>
     /// Liste tous les entites du jeu. (Utilisez avec foreach)
     /// </summary>
@@ -315,6 +320,12 @@ public static class EntityDatabase
             yield return Chunk7_TwoL;
             yield return Chunk7_Three;
             yield return Chunk7_All;
+
+            yield return Chunk8_One;
+            yield return Chunk8_TwoI;
+            yield return Chunk8_TwoL;
+            yield return Chunk8_Three;
+            yield return Chunk8_All;
         }
     }
 
