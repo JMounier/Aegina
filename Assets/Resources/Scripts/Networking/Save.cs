@@ -65,11 +65,15 @@ public class Save : NetworkBehaviour
         File.WriteAllText(this.worldPath + "properties", this.seed.ToString() + "|" + ((int)this.dnc.ActualTime).ToString());
         foreach (ChunkSave cs in this.chunks)
             cs.Save();
-        foreach (PlayerSave ps in this.players)
-            if (ps.Player == null)
-                this.players.Remove(ps);
+        int i = 0;
+        while (i < this.players.Count)
+            if (this.players[i].Player == null)
+                this.players.RemoveAt(i);
             else
-                ps.Save();
+            {
+                this.players[i].Save();
+                i++;
+            }
     }
 
     /// <summary>

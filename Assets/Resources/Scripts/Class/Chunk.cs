@@ -52,9 +52,15 @@ public class Chunk : Entity
         this.isPrisme = isPrisme;
         this.b = BiomeDatabase.RandBiome(rand);
         Spawn(new Vector3(x * Size, 0, y * Size), Quaternion.Euler(new Vector3(0, 90 * (int)direction, 0)), map.transform);
-        Prefab.GetComponentInChildren<MeshRenderer>().materials = new Material[2] { b.Grass, b.Rock };
+
+        // Set good biome
+        foreach (Transform child in Prefab.transform)
+            if (child.name.Contains("Island"))            
+                child.GetComponent<MeshRenderer>().materials = new Material[2] { b.Grass, b.Rock };             
+
         Prefab.GetComponent<SyncChunk>().BiomeId = b.ID;
 
+        // Generate elements
         int idSave = 0;
         foreach (Transform content in Prefab.transform)
             if (content.CompareTag("Elements"))

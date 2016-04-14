@@ -303,7 +303,7 @@ public class Social : NetworkBehaviour
                 case "/save":
                     GameObject.Find("Map").GetComponent<Save>().SaveWorld();
                     foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
-                        player.GetComponent<Social>().RpcReceiveMsg("The world has been forced save.");
+                        player.GetComponent<Social>().RpcReceiveMsg("The world has been forcefully saved.");
                     break;
                 default:
                     sender.GetComponent<Social>().RpcReceiveMsg("<color=red>Unknow command. Try /help for a list of commands.</color>");
