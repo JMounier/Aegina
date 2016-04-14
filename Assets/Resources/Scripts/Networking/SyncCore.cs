@@ -96,6 +96,10 @@ public class SyncCore : SyncElement
         get { return this.needs; }
     }
 
+    public Team Team
+    {
+        get { return team; }
+    }
     #endregion
 
     #region Cmd

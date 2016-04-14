@@ -50,6 +50,12 @@ public class InputManager : NetworkBehaviour
 
         if (!isLocalPlayer)
             return;
+        // Visibilite et blocage du cursor
+        Cursor.visible = this.controller.Pause;
+        Cursor.lockState = this.controller.Pause ? CursorLockMode.None : CursorLockMode.Locked;
+
+        if (!this.character.activeInHierarchy)
+            return;
 
         #region Near Element
         // Recherche du plus proche
@@ -197,17 +203,30 @@ public class InputManager : NetworkBehaviour
         if (Input.GetButton("Fire1") && cdAttack <= 0 && !this.inventaire.InventoryShown && !this.menu.MenuShown && !this.menu.OptionShown && !this.social.ChatShown)
         {
             float damage = 0f;
+            SyncChunk Actual_chunk = null;
+            foreach (Collider col in Physics.OverlapBox(this.character.transform.position, new Vector3(5, 100, 5)))
+            {
+                if (col.gameObject.name.Contains("Island"))
+                {
+                    Actual_chunk = col.transform.parent.GetComponent<SyncChunk>();
+                    break;
+                }
+            }
+            if (Actual_chunk != null && Actual_chunk.Cristal.Team == Team.Blue)//a modifier qund les teams seront implementer
+            {
+                damage += Actual_chunk.Cristal.LevelAtk;
+            }
             Item item = this.inventaire.UsedItem.Items;
             if (item is Tool)
             {
-                damage = 5f * ((item as Tool).Damage) / 100f;
+                damage += damage + 5f * ((item as Tool).Damage) / 100f;
             }
             else
             {
-                damage = 5f;
+                damage += 5f;
             }
             CmdAttack(damage);
-            cdAttack = 1f;
+            cdAttack = 0.5f;
         }
         #endregion
 
@@ -254,9 +273,6 @@ public class InputManager : NetworkBehaviour
         }
         #endregion
 
-        // Visibilite et blocage du cursor
-        Cursor.visible = this.controller.Pause;
-        Cursor.lockState = this.controller.Pause ? CursorLockMode.None : CursorLockMode.Locked;
 
         #region ToolBar
         // Gere la barre d'outil.
@@ -402,6 +418,18 @@ public class InputManager : NetworkBehaviour
             this.controller.Objectiv = this.nearElement;
             this.controller.OType = type;
         }
+    }
+
+    public void IAmDead()
+    {
+        this.menu.MenuShown = false;
+        this.menu.SonShown = false;
+        this.menu.OptionShown = false;
+        this.cristalHUD.Cristal_shown = false;
+        this.inventaire.InventoryShown = false;
+        this.social.ChatShown = false;
+        this.menu.LangueShown = false;
+        this.controller.Pause = true;
     }
 
     #region Getters/Setters

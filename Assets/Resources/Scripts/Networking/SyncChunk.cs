@@ -11,6 +11,11 @@ public class SyncChunk : NetworkBehaviour
     [SyncVar]
     private int biomeId;
 
+    [SyncVar]
+    private bool isCristal;
+
+    private SyncCore cristal;
+
     private Graph myGraph;
     private List<Tuple<float, Vector3>> toReset;
     [SerializeField]
@@ -50,6 +55,10 @@ public class SyncChunk : NetworkBehaviour
                 this.ToReset[0].Item1 -= Time.deltaTime;
     }
 
+    public void FindCristal()
+    {
+        this.cristal = this.transform.FindChild("Elements").FindChild("IslandCore(Clone)").GetComponent<SyncCore>();
+    }
     public int BiomeId
     {
         get { return this.biomeId; }
@@ -66,5 +75,17 @@ public class SyncChunk : NetworkBehaviour
     {
         get { return this.toReset; }
         set { this.toReset = value; }
+    }
+
+    public bool IsCristal
+    {
+        get { return this.isCristal; }
+        set { this.isCristal = value; }
+    }
+
+    public SyncCore Cristal
+    {
+        get { return this.cristal; }
+        set { this.cristal = value; }
     }
 }

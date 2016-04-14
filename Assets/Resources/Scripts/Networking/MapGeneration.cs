@@ -12,7 +12,7 @@ public class MapGeneration : NetworkBehaviour
         if (isServer)
         {
             this.save = gameObject.GetComponent<Save>();
-            this.GenerateChunk(0, 0, Bridges.Three, Directions.East);
+            this.GenerateChunk(0, 0, Bridges.Three, Directions.East,true);
             this.GenerateChunk(1, 0, Bridges.All, Directions.North);
             this.GenerateChunk(2, 0, Bridges.One, Directions.West);
             this.GenerateChunk(-1, 0, Bridges.Three, Directions.East);
