@@ -30,8 +30,11 @@ public class WorkTop : Item {
         this.previsu = previsualisation;
         this.elementID = elementID;
     }
-
-
+    
+    public bool IsValid()
+    {
+        return this.previsu.transform.parent.parent.GetComponent<SyncChunk>().MyGraph.GetNode(this.previsu.transform.position).IsValid;
+    }
 
 
     #region Getters/Setters

@@ -23,6 +23,7 @@ public class InputManager : NetworkBehaviour
     private float cdConsume = 1f;
     private float cdAttack = 0;
 
+    private bool validplace;
     // Use this for initialization
     void Start()
     {
@@ -39,6 +40,7 @@ public class InputManager : NetworkBehaviour
         this.cristalHUD = GetComponent<Cristal_HUD>();
         this.anim = gameObject.GetComponent<Animator>();
         this.syncCharacter = gameObject.GetComponent<SyncCharacter>();
+        this.validplace = true;
 
         this.soundAudio = gameObject.GetComponent<Sound>();
         Cursor.visible = false;
@@ -89,10 +91,18 @@ public class InputManager : NetworkBehaviour
         //deplace la previsu en main
         if (this.inventaire.UsedItem.Items is WorkTop)
         {
-            (this.inventaire.UsedItem.Items as WorkTop).Previsu.transform.position = (this.character.transform.position - this.character.transform.forward);
-            (this.inventaire.UsedItem.Items as WorkTop).Previsu.transform.LookAt(new Vector3(this.character.transform.position.x, (this.inventaire.UsedItem.Items as WorkTop).Previsu.transform.position.y, this.character.transform.position.z));
+            WorkTop wt = this.inventaire.UsedItem.Items as WorkTop;
+            wt.Previsu.transform.position = (this.character.transform.position - this.character.transform.forward);
+            wt.Previsu.transform.LookAt(new Vector3(this.character.transform.position.x, wt.Previsu.transform.position.y, this.character.transform.position.z));
+            //faut peut etre detect le changement
+            bool isValid = wt.IsValid();
+            if (isValid != this.validplace)
+                foreach (MeshRenderer mesh in wt.Previsu.GetComponentsInChildren<MeshRenderer>())
+                    for (int i = 0; i < mesh.materials.Length; i++)
+                        mesh.materials[i] = Resources.Load<Material>("Models/WorkStations/Materials/Previsu" + (isValid ? 1 : 2));
+            this.validplace = isValid;
+            Debug.Log(isValid);
         }
-
         // Gestion Input
         if (Input.GetButtonDown("Inventory") && !this.menu.MenuShown && !this.menu.OptionShown && !this.social.ChatShown && !this.cristalHUD.Cristal_shown)
         {
@@ -113,12 +123,14 @@ public class InputManager : NetworkBehaviour
         {
             if (this.inventaire.UsedItem.Items is WorkTop)
             {
-                if ((this.inventaire.UsedItem.Items as WorkTop).Previsu.GetComponent<Previsu>().IsAvailable())
+                WorkTop wt = this.inventaire.UsedItem.Items as WorkTop;
+                if (wt.IsValid() && this.soundAudio.IsReady(615))
                 {
-                    CmdSpawnElm((this.inventaire.UsedItem.Items as WorkTop).ElementID, (this.inventaire.UsedItem.Items as WorkTop).Previsu);
+                    CmdSpawnElm(wt.ElementID, wt.Previsu);
                     this.inventaire.UsedItem.Quantity -= 1;
                     if (this.inventaire.UsedItem.Quantity <= 0)
                         this.inventaire.UsedItem = new ItemStack();
+                    this.soundAudio.PlaySound(AudioClips.Void, 0, 1, 615);
                 }
             }
             else if (this.inventaire.UsedItem.Items is Consumable)
