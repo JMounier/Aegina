@@ -2,7 +2,8 @@
 using System.Collections;
 using UnityEngine.Networking;
 
-public class SyncElement : NetworkBehaviour {
+public class SyncElement : NetworkBehaviour
+{
 
     [SyncVar]
     private Vector3 rotation;
@@ -23,6 +24,12 @@ public class SyncElement : NetworkBehaviour {
         gameObject.transform.parent.parent.GetComponent<SyncChunk>().ToReset.Add(new Tuple<float, Vector3>(.5f, gameObject.transform.position));
     }
 
+
+    public void updateGraph()
+    {
+        Graph graph = gameObject.transform.parent.parent.GetComponent<SyncChunk>().MyGraph;
+        graph.Reset(graph.GetNode(gameObject.transform.position), false);
+    }
 
     public Element Elmt
     {

@@ -97,11 +97,17 @@ public class InputManager : NetworkBehaviour
             //faut peut etre detect le changement
             bool isValid = wt.IsValid();
             if (isValid != this.validplace)
+            {
+                Material mat = Resources.Load<Material>("Models/WorkStations/Materials/Previsu" + (isValid ? 1 : 2));
                 foreach (MeshRenderer mesh in wt.Previsu.GetComponentsInChildren<MeshRenderer>())
-                    for (int i = 0; i < mesh.materials.Length; i++)
-                        mesh.materials[i] = Resources.Load<Material>("Models/WorkStations/Materials/Previsu" + (isValid ? 1 : 2));
+                {
+                    Material[] mats = new Material[mesh.materials.Length];
+                    for (int i = 0; i < mats.Length; i++)
+                        mats[i] = mat;
+                    mesh.materials = mats;
+                }
+            }
             this.validplace = isValid;
-            Debug.Log(isValid);
         }
         // Gestion Input
         if (Input.GetButtonDown("Inventory") && !this.menu.MenuShown && !this.menu.OptionShown && !this.social.ChatShown && !this.cristalHUD.Cristal_shown)
@@ -348,7 +354,9 @@ public class InputManager : NetworkBehaviour
     [Command]
     private void CmdSpawnElm(int id, GameObject pos)
     {
-        (EntityDatabase.Find(id) as Element).Spawn(pos.transform.position, pos.transform.rotation, pos.transform.parent, 0);
+        Element elm = (EntityDatabase.Find(id) as Element);
+        elm.Spawn(pos.transform.position, pos.transform.rotation, pos.transform.parent, 0);
+        elm.Prefab.GetComponent<SyncElement>().updateGraph();
     }
 
 
