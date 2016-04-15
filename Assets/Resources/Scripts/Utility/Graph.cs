@@ -213,7 +213,7 @@ public class Graph
     /// </summary>
     /// <param name="pos">La position en vecteur.</param>
     /// <returns></returns>
-    public static string VectorToString(Vector3 pos)
+    private static string VectorToString(Vector3 pos)
     {
         return Math.Round(pos.x * 2, 0).ToString() + ":" + Math.Round(pos.z * 2, 0).ToString();
     }
@@ -223,7 +223,7 @@ public class Graph
     /// </summary>
     /// <param name="pos">La position en Tuple</param>
     /// <returns></returns>
-    public static Vector3 StringToVector(string pos)
+    private static Vector3 StringToVector(string pos)
     {
         string[] cut = pos.Split(':');
         return new Vector3(float.Parse(cut[0]) / 2, 7f, float.Parse(cut[1]) / 2);

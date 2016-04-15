@@ -53,17 +53,7 @@ public class Element : Entity
         GameObject.Find("Map").GetComponent<Save>().SaveDestroyedElement(x, y, idSave);
         base.Kill();       
     }
-
-    /// <summary>
-    /// Instancie l'entite dans le monde. (Must be server!)
-    /// </summary>
-    public void Spawn(int idSave)
-    {
-        base.Spawn();
-        base.prefab.GetComponent<SyncElement>().Elmt = new Element(this);
-        base.prefab.GetComponent<SyncElement>().IdSave = idSave;
-    }
-
+       
     /// <summary>
     /// Instancie l'entite dans le monde avec une position. (Must be server!)
     /// </summary>
