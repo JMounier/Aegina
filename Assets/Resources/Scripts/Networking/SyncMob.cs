@@ -69,12 +69,12 @@ public class SyncMob : NetworkBehaviour
             }
         }
         // Check le focus
-        if (!this.focus && dist < this.myMob.Vision && nearPlayer.transform.FindChild("Character").gameObject.activeInHierarchy)
+        if (!this.focus && dist < this.myMob.Vision && nearPlayer.GetComponent<SyncCharacter>().Life > 0)
         {
             this.focus = true;
             this.path.Clear();
         }
-        if (this.focus && !nearPlayer.transform.FindChild("Character").gameObject.activeInHierarchy)
+        if (this.focus && nearPlayer.GetComponent<SyncCharacter>().Life <= 0)
             this.focus = false;
 
         // Focus
@@ -97,10 +97,15 @@ public class SyncMob : NetworkBehaviour
             else if (dist >= 1f && this.path.Count == 0)
             {
                 this.goal = this.chunk.GetComponent<SyncChunk>().MyGraph.GetNode(nearPlayer.transform.FindChild("Character").position);
-                if (this.goal == null)
-                    this.focus = false;
-                else if (!this.goal.IsValid)
+                if (this.goal != null && this.goal.IsValid)
+                {
                     this.path = this.chunk.GetComponent<SyncChunk>().MyGraph.AStarPath(this.node, this.goal, .71f);
+                    if (path.Count == 0)
+                    {
+                        this.focus = false;
+                        Move(gameObject.transform.position - nearPlayer.transform.FindChild("Character").position);
+                    }
+                }
                 else
                 {
                     this.anim.SetInteger("Action", 0);

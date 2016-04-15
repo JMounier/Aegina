@@ -130,6 +130,26 @@ public class Save : NetworkBehaviour
             if (cs.X == x && cs.Y == y)
                 cs.SaveDestroyedElement(idSave);
     }
+    
+    /// <summary>
+    /// Sauvegarde la destruction d'un wortop du chunk
+    /// </summary>
+    public void SaveDestroyedWorktop(int x, int y, Element worktop)
+    {
+        foreach (ChunkSave cs in this.chunks)
+            if (cs.X == x && cs.Y == y)
+                cs.WorkTops.Remove(worktop);
+    }
+
+    /// <summary>
+    /// Sauvegarde la construction d'un wortop du chunk
+    /// </summary>
+    public void SaveBuildWorktop(int x, int y, Element worktop)
+    {
+        foreach (ChunkSave cs in this.chunks)
+            if (cs.X == x && cs.Y == y)
+                cs.WorkTops.Add(worktop);
+    }
 
     /// <summary>
     /// Ajoute un joueur a la sauvegarde.
@@ -208,6 +228,7 @@ class ChunkSave
     private int x;
     private int y;
     private List<int> idSave;
+    private List<Element> workTops;
     private string path;
 
     /// <summary>
@@ -221,14 +242,35 @@ class ChunkSave
         this.x = x;
         this.y = y;
         this.idSave = new List<int>();
+        this.workTops = new List<Element>();
         this.path = pathChunk + x.ToString() + "_" + y.ToString();
         if (File.Exists(this.path))
         {
-            foreach (string str in File.ReadAllText(this.path).Split('|'))
+            string[] lines = File.ReadAllLines(this.path);
+            foreach (string str in lines[0].Split('|'))
             {
                 int id;
                 if (int.TryParse(str, out id))
                     this.idSave.Add(id);
+            }
+            if (lines.Length > 1)
+            foreach (string str in lines[1].Split('|'))
+            {
+                string[] components = str.Split(':');
+                int id;
+                if (int.TryParse(components[0], out id))
+                {
+                    float posX = float.Parse(components[1]);
+                    float posY = float.Parse(components[2]);
+                    float posZ = float.Parse(components[3]);
+                    float rotX = float.Parse(components[4]);
+                    float rotY = float.Parse(components[5]);
+                    float rotZ = float.Parse(components[6]);
+                    Element wt = EntityDatabase.Find(id) as Element;
+                    wt.Prefab.transform.position = new Vector3(posX, posY, posZ);
+                    wt.Prefab.transform.eulerAngles = new Vector3(rotX, rotY, rotZ);
+                    this.workTops.Add(wt);
+                }
             }
         }
         else
@@ -264,6 +306,10 @@ class ChunkSave
         {
             foreach (int id in this.idSave)
                 file.Write(id.ToString() + '|');
+            file.Write("\n");
+            foreach (Element wt in this.workTops)
+                file.Write(wt.ID.ToString() + ":" + wt.Prefab.transform.position.x.ToString() + ":" + wt.Prefab.transform.position.y.ToString() + ":" + wt.Prefab.transform.position.z.ToString() + ":"
+                    + wt.Prefab.transform.rotation.eulerAngles.x.ToString() + ":" + wt.Prefab.transform.rotation.eulerAngles.y.ToString() + ":" + wt.Prefab.transform.rotation.eulerAngles.x.ToString() + "|");
         }
     }
 
@@ -292,6 +338,12 @@ class ChunkSave
     public List<int> ListIdSave
     {
         get { return this.idSave; }
+    }
+
+    public List<Element> WorkTops
+    {
+        get { return this.workTops; }
+        set { this.workTops = value; }
     }
 }
 
@@ -470,7 +522,7 @@ public class PlayerSave
 
     public bool IsOp
     {
-        get { return this.isOp;}
+        get { return this.isOp; }
         set { this.isOp = value; }
     }
 
