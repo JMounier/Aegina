@@ -32,6 +32,7 @@ public static class ItemDatabase
     public static readonly Item Glass = new Item(16, TextDatabase.Glass, TextDatabase.GlassDescription, 64, Resources.Load<Texture2D>("Sprites/Items/Elementaries/Glass"), new Entity(EntityDatabase.Glass));
     public static readonly Item Bowl = new Item(17, TextDatabase.Bowl, TextDatabase.BowlDescription, 64, Resources.Load<Texture2D>("Sprites/Items/Elementaries/Bowl"), new Entity(EntityDatabase.Bowl));
     public static readonly Item CuttedStone = new Item(18, TextDatabase.CuttedStone, TextDatabase.CuttedStoneDescription, 64, Resources.Load<Texture2D>("Sprites/Items/Elementaries/CuttedStone"), new Entity(EntityDatabase.CuttedStone));
+    
     // Potions
     public static readonly Consumable AquaPotion = new Consumable(19, TextDatabase.AquaPotion, TextDatabase.AquaPotionDescription, 64, Resources.Load<Texture2D>("Sprites/Items/Potions/AquaPotion"), new Entity(EntityDatabase.AquaPotion), new Effect(Effect.EffectType.Refreshment, 2), Resources.Load<GameObject>("Prefabs/Items/Potions/Aqua"));
     public static readonly Consumable BluePotion = new Consumable(20, TextDatabase.BluePotion, TextDatabase.BluePotionDescription, 64, Resources.Load<Texture2D>("Sprites/Items/Potions/BluePotion"), new Entity(EntityDatabase.BluePotion), new Effect(Effect.EffectType.Refreshment, 3), Resources.Load<GameObject>("Prefabs/Items/Potions/Blue"));
@@ -42,6 +43,8 @@ public static class ItemDatabase
     // Foods
     public static readonly Consumable MeatBalls = new Consumable(25, TextDatabase.RedPotion, TextDatabase.RedPotionDescription, 64, Resources.Load<Texture2D>("Sprites/Items/Foods/MeatBalls"), new Entity(EntityDatabase.MeatBalls), new Effect(Effect.EffectType.Saturation, 2), Resources.Load<GameObject>("Prefabs/Items/Foods/MeatBalls"));
     public static readonly Consumable WaterCact = new Consumable(26, TextDatabase.YellowPotion, TextDatabase.YellowPotionDescription, 64, Resources.Load<Texture2D>("Sprites/Items/Foods/WaterCact"), new Entity(EntityDatabase.WaterCact), new Effect(Effect.EffectType.Refreshment, 2), Resources.Load<GameObject>("Prefabs/Items/Foods/WaterCact"));
+    public static readonly Consumable Mushroom = new Consumable(27, TextDatabase.Mushroom, TextDatabase.MushroomDescription, 64, Resources.Load<Texture2D>("Sprites/Items/Plants/Mushroom"), new Entity(EntityDatabase.MushroomLoot), new Effect(Effect.EffectType.Saturation, 2), Resources.Load<GameObject>("Prefabs/Items/Foods/Mushroom"));
+    public static readonly Consumable RedMushroom = new Consumable(28, TextDatabase.RedMushroom, TextDatabase.RedMushroom, 64, Resources.Load<Texture2D>("Sprites/Items/Plants/RedMushroom"), new Entity(EntityDatabase.RedMushroomLoot), new Effect(Effect.EffectType.Poison, 2), Resources.Load<GameObject>("Prefabs/Items/Foods/RedMushroom"));
 
     // WorckTops
     public static readonly Item Forge = new Item(40, TextDatabase.Forge, TextDatabase.ForgeDescription, 1, Resources.Load<Texture2D>("Sprites/Items/WorkStation/Forge"), new Entity(EntityDatabase.Forge));
@@ -76,6 +79,10 @@ public static class ItemDatabase
 
     public static readonly Item Cact = new Item(80, TextDatabase.WoodenPlank, TextDatabase.WoodenPlankDescription, 80, Resources.Load<Texture2D>("Sprites/Items/Plants/Cact"), new Entity(EntityDatabase.Cact));
     public static readonly Item Petal = new Item(81, TextDatabase.Glass, TextDatabase.GlassDescription, 81, Resources.Load<Texture2D>("Sprites/Items/Plants/Petal"), new Entity(EntityDatabase.Petal));
+    public static readonly Item Stick = new Item(82, TextDatabase.Stick, TextDatabase.Stick, 64, Resources.Load<Texture2D>("Sprites/Items/Elementaries/Stick"), new Entity(EntityDatabase.Stick));
+    public static readonly Item Gigot = new Item(83, TextDatabase.Gigot, TextDatabase.Gigot, 64, Resources.Load<Texture2D>("Sprites/Items/Animals/Gigot"), new Entity(EntityDatabase.Gigot));
+    public static readonly Item Fang = new Item(84, TextDatabase.Fang, TextDatabase.Fang, 64, Resources.Load<Texture2D>("Sprites/Items/Animals/Fang"), new Entity(EntityDatabase.Fang));
+    public static readonly Item Hide = new Item(85, TextDatabase.Hide, TextDatabase.Hide, 64, Resources.Load<Texture2D>("Sprites/Items/Animals/Hide"), new Entity(EntityDatabase.Hide));
 
     /// <summary>
     /// Liste tous les items du jeu. (Utilisez avec foreach)
@@ -108,6 +115,10 @@ public static class ItemDatabase
 
             yield return Cact;
             yield return Petal;
+            yield return Stick;
+            yield return Gigot;
+            yield return Fang;
+            yield return Hide;
             yield return WoodenPlank;
             yield return Glass;
             yield return CuttedStone;
@@ -203,6 +214,8 @@ public static class ItemDatabase
             yield return YellowPotion;
             yield return MeatBalls;
             yield return WaterCact;
+            yield return Mushroom;
+            yield return RedMushroom;
         }
     }
 

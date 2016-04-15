@@ -8,6 +8,8 @@ public static class EntityDatabase
     public static readonly Entity Default = new Entity();
 
     // Loot
+
+    // Loot
     public static readonly Entity Log = new Entity(0, 60, Resources.Load<GameObject>("Prefabs/Loots/Log"));
     public static readonly Entity Stone = new Entity(1, 60, Resources.Load<GameObject>("Prefabs/Loots/Stone"));
     public static readonly Entity Sand = new Entity(2, 60, Resources.Load<GameObject>("Prefabs/Loots/Sand"));
@@ -70,6 +72,13 @@ public static class EntityDatabase
     public static readonly Entity Glass = new Entity(78, 60, Resources.Load<GameObject>("Prefabs/Loots/Glass"));
     public static readonly Entity Bowl = new Entity(79, 60, Resources.Load<GameObject>("Prefabs/Loots/Bowl"));
     public static readonly Entity CuttedStone = new Entity(80, 60, Resources.Load<GameObject>("Prefabs/Loots/CuttedStone"));
+    public static readonly Entity Stick = new Entity(81, 60, Resources.Load<GameObject>("Prefabs/Loots/Stick"));
+    public static readonly Entity Gigot = new Entity(82, 60, Resources.Load<GameObject>("Prefabs/Loots/Gigot"));
+    public static readonly Entity Hide = new Entity(83, 60, Resources.Load<GameObject>("Prefabs/Loots/Hide"));
+    public static readonly Entity Fang = new Entity(84, 60, Resources.Load<GameObject>("Prefabs/Loots/Fang"));
+    public static readonly Entity MushroomLoot = new Entity(85, 60, Resources.Load<GameObject>("Prefabs/Loots/Mushroom"));
+    public static readonly Entity RedMushroomLoot = new Entity(86, 60, Resources.Load<GameObject>("Prefabs/Loots/RedMushroom"));
+
 
     // SmallElements
     public static readonly Element Branch = new Element(90, 100, Resources.Load<GameObject>("Prefabs/Elements/SmallElements/Branch"), Element.TypeElement.Small, 0);
@@ -78,12 +87,12 @@ public static class EntityDatabase
     public static readonly Element SmallCactus = new Element(93, 100, Resources.Load<GameObject>("Prefabs/Elements/SmallElements/SmallCactus"), Element.TypeElement.Small, 0);
     public static readonly Element LittleRock = new Element(93, 100, Resources.Load<GameObject>("Prefabs/Elements/SmallElements/LittleRock"), Element.TypeElement.Small, 0, new DropConfig(ItemDatabase.Find(1), 1));
     public static readonly Element Mushroom = new Element(94, 100, Resources.Load<GameObject>("Prefabs/Elements/SmallElements/Mushroom"), Element.TypeElement.Small, 0);
-    public static readonly Element RedMushroom = new Element(95, 100, Resources.Load<GameObject>("Prefabs/Elements/SmallElements/BadMushroom"), Element.TypeElement.Small, 0);
+    public static readonly Element RedMushroom = new Element(95, 100, Resources.Load<GameObject>("Prefabs/Elements/SmallElements/RedMushroom"), Element.TypeElement.Small, 0);
 
     // Tree
     public static readonly Element Fir = new Element(100, 100, Resources.Load<GameObject>("Prefabs/Elements/Trees/Fir"), Element.TypeElement.Tree, 0, new DropConfig(ItemDatabase.Find(0), 1, 5));
     public static readonly Element SnowFir = new Element(101, 100, Resources.Load<GameObject>("Prefabs/Elements/Trees/SnowFir"), Element.TypeElement.Tree, 0, new DropConfig(ItemDatabase.Find(0), 1, 5));
-    public static readonly Element Cactus = new Element(102, 100, Resources.Load<GameObject>("Prefabs/Elements/Trees/Cactus"), Element.TypeElement.Tree, 0);
+    public static readonly Element Cactus = new Element(102, 100, Resources.Load<GameObject>("Prefabs/Elements/Trees/Cactus"), Element.TypeElement.Tree, 0, new DropConfig(ItemDatabase.Find(80), 1, 5), new DropConfig(ItemDatabase.Find(81), 1, 5));
     public static readonly Element Oak = new Element(103, 100, Resources.Load<GameObject>("Prefabs/Elements/Trees/Oak"), Element.TypeElement.Tree, 0, new DropConfig(ItemDatabase.Find(0), 1, 5));
     public static readonly Element SnowOak = new Element(104, 100, Resources.Load<GameObject>("Prefabs/Elements/Trees/SnowOak"), Element.TypeElement.Tree, 0, new DropConfig(ItemDatabase.Find(0), 1, 5));
     public static readonly Element FallOak1 = new Element(105, 100, Resources.Load<GameObject>("Prefabs/Elements/Trees/FallOak1"), Element.TypeElement.Tree, 0, new DropConfig(ItemDatabase.Find(0), 1, 5));
@@ -105,7 +114,7 @@ public static class EntityDatabase
     public static readonly IslandCore IslandCore = new IslandCore(142, Resources.Load<GameObject>("Prefabs/Elements/Cristals/IslandCore"), Team.Neutre, 0, 0, 0);
 
     // Mobs
-    public static readonly Mob Boar = new Mob(500, 20, Resources.Load<GameObject>("Prefabs/Mobs/Boar"), 15, 7, 6, .8f, 2.2f, 1.5f, new DropConfig(ItemDatabase.Find(81), 1, 3));
+    public static readonly Mob Boar = new Mob(500, 20, Resources.Load<GameObject>("Prefabs/Mobs/Boar"), 15, 7, 6, .8f, 2.2f, 1.5f, new DropConfig(ItemDatabase.Find(83), 0, 1), new DropConfig(ItemDatabase.Find(84), 0, 1), new DropConfig(ItemDatabase.Find(84), 0, 1));
 
     // Chunk
     public static readonly Chunk Chunk1_One = new Chunk(1000, Resources.Load<GameObject>("Prefabs/Chunks/Chunk1_One"), Bridges.One);
@@ -143,11 +152,11 @@ public static class EntityDatabase
     public static readonly Chunk Chunk6_Three = new Chunk(1027, Resources.Load<GameObject>("Prefabs/Chunks/Chunk6_Three"), Bridges.Three);
     public static readonly Chunk Chunk6_All = new Chunk(1028, Resources.Load<GameObject>("Prefabs/Chunks/Chunk6_All"), Bridges.All);
 
-	public static readonly Chunk Chunk7_One = new Chunk(1029, Resources.Load<GameObject>("Prefabs/Chunks/Chunk7_One"), Bridges.One);
-	public static readonly Chunk Chunk7_TwoI = new Chunk(1030, Resources.Load<GameObject>("Prefabs/Chunks/Chunk7_TwoI"), Bridges.TwoI);
-	public static readonly Chunk Chunk7_TwoL = new Chunk(1031, Resources.Load<GameObject>("Prefabs/Chunks/Chunk7_TwoL"), Bridges.TwoL);
-	public static readonly Chunk Chunk7_Three = new Chunk(1032, Resources.Load<GameObject>("Prefabs/Chunks/Chunk7_Three"), Bridges.Three);
-	public static readonly Chunk Chunk7_All = new Chunk(1033, Resources.Load<GameObject>("Prefabs/Chunks/Chunk7_All"), Bridges.All);
+    public static readonly Chunk Chunk7_One = new Chunk(1029, Resources.Load<GameObject>("Prefabs/Chunks/Chunk7_One"), Bridges.One);
+    public static readonly Chunk Chunk7_TwoI = new Chunk(1030, Resources.Load<GameObject>("Prefabs/Chunks/Chunk7_TwoI"), Bridges.TwoI);
+    public static readonly Chunk Chunk7_TwoL = new Chunk(1031, Resources.Load<GameObject>("Prefabs/Chunks/Chunk7_TwoL"), Bridges.TwoL);
+    public static readonly Chunk Chunk7_Three = new Chunk(1032, Resources.Load<GameObject>("Prefabs/Chunks/Chunk7_Three"), Bridges.Three);
+    public static readonly Chunk Chunk7_All = new Chunk(1033, Resources.Load<GameObject>("Prefabs/Chunks/Chunk7_All"), Bridges.All);
 
     public static readonly Chunk Chunk8_One = new Chunk(1034, Resources.Load<GameObject>("Prefabs/Chunks/Chunk8_One"), Bridges.One);
     public static readonly Chunk Chunk8_TwoI = new Chunk(1035, Resources.Load<GameObject>("Prefabs/Chunks/Chunk8_TwoI"), Bridges.TwoI);
@@ -179,6 +188,10 @@ public static class EntityDatabase
             yield return CuttedStone;
             yield return Cact;
             yield return Petal;
+            yield return Stick;
+            yield return Gigot;
+            yield return Hide;
+            yield return Fang;
 
             //Ingot
             yield return IronIngot;
@@ -221,8 +234,8 @@ public static class EntityDatabase
             yield return YellowPotion;
 
             //Food 
-            yield return MeatBalls;
-            yield return Cact;
+            //yield return MeatBalls;
+            //yield return Cact;
 
             //Workbenches
             yield return Forge;
