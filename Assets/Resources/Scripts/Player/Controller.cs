@@ -280,7 +280,7 @@ public class Controller : NetworkBehaviour
                 // look here pour des probleme de syncro
                 gameObject.transform.Translate(-this.character.transform.forward * Time.deltaTime * this.WalkSpeed, Space.World);
                 //gameObject.GetComponentInChildren<Rigidbody>().AddForce(gameObject.transform.forward * Time.deltaTime * this.WalkSpeed);
-                if (Vector3.Distance(this.character.transform.position, pos) < 1.5)
+                if (Vector3.Distance(this.character.transform.position, pos) < 1.25f)
                 {
                     this.objectiv = null;
                     this.oType = Element.TypeElement.None;

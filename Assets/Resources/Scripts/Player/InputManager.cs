@@ -81,6 +81,7 @@ public class InputManager : NetworkBehaviour
 
         if (this.nearElement != lastNearElement)
         {
+            gameObject.GetComponent<Sound>().PlaySound(AudioClips.Void, 0, 0.2f, 616);
             // Supprimer l'ancien outline
             if (lastNearElement != null)
                 foreach (Material mat in lastNearElement.GetComponentInChildren<MeshRenderer>().materials)
@@ -215,7 +216,9 @@ public class InputManager : NetworkBehaviour
                 this.controller.Pause = true;
             }
             else if (this.nearElement != null && this.nearElement.GetComponent<SyncElement>() != null)
+            {
                 this.CmdInteractElement(this.nearElement.gameObject, this.inventaire.UsedItem.Items.ID);
+            }
         }
         if (!useConsumable)
             this.cdConsume = 1;
@@ -404,24 +407,26 @@ public class InputManager : NetworkBehaviour
     [ClientRpc]
     private void RpcDoInteract(Element.TypeElement type)
     {
-        if (!isLocalPlayer)
+        if (!isLocalPlayer || !this.soundAudio.IsReady(616))
             return;
-        if (Vector3.Distance(this.character.transform.position, this.nearElement.transform.position) < 1.5f)
+        if (Vector3.Distance(this.character.transform.position, this.nearElement.transform.position) < 1.25f)
         {
+            Vector3 or = 2 * this.character.transform.position - this.nearElement.transform.position;
+            this.character.transform.LookAt(new Vector3( or.x,this.character.transform.position.y, or.z ));
             switch (type)
             {
                 case Element.TypeElement.Tree:
                     if (this.anim.GetInteger("Action") != 5)
                     {
-                        this.soundAudio.PlaySound(AudioClips.Void, 0, 0.1f, 613);
+                        this.soundAudio.PlaySound(AudioClips.Void, 0, 0.3f * 4f, 613);
                         this.anim.SetInteger("Action", 5);
                     }
                     else if (soundAudio.IsReady(613))
                     {
-                        this.soundAudio.PlaySound(AudioClips.Void, 1, 0.1f, 613);
+                        this.soundAudio.PlaySound(AudioClips.Void, 1, 1.25f, 613);
                         this.soundAudio.PlaySound(AudioClips.chopping, 1);
                         this.soundAudio.CmdPlaySound(AudioClips.chopping, 1);
-                        this.CmdDamageElm(this.nearElement.gameObject, (this.inventaire.UsedItem.Items as Tool).ChoppingEfficiency / 100 * 5);
+                        this.CmdDamageElm(this.nearElement.gameObject, (this.inventaire.UsedItem.Items as Tool).ChoppingEfficiency / 100 * 7.5f);
                     }
                     break;
                 case Element.TypeElement.Rock:
@@ -435,18 +440,18 @@ public class InputManager : NetworkBehaviour
                         this.soundAudio.PlaySound(AudioClips.Void, 1, 1.25f, 612);
                         this.soundAudio.PlaySound(AudioClips.mining, 1);
                         this.soundAudio.CmdPlaySound(AudioClips.mining, 1);
-                        this.CmdDamageElm(this.nearElement.gameObject, (this.inventaire.UsedItem.Items as Tool).MiningEfficiency / 100 * 5);
+                        this.CmdDamageElm(this.nearElement.gameObject, (this.inventaire.UsedItem.Items as Tool).MiningEfficiency / 100 * 7.5f);
                     }
                     break;
                 default:
                     if (this.anim.GetInteger("Action") != 8)
                     {
-                        this.soundAudio.PlaySound(AudioClips.Void, 0, 0.2f, 614);
+                        this.soundAudio.PlaySound(AudioClips.Void, 0, 0.4f, 614);
                         this.anim.SetInteger("Action", 8);
                     }
                     else if (soundAudio.IsReady(614))
                     {
-                        this.soundAudio.PlaySound(AudioClips.Void, 1, 0.5f, 614);
+                        this.soundAudio.PlaySound(AudioClips.Void, 1, 0.6f, 614);
                         this.soundAudio.PlaySound(AudioClips.picking, 1);
                         this.soundAudio.CmdPlaySound(AudioClips.picking, 1);
                         this.CmdDamageElm(this.nearElement.gameObject, int.MaxValue);
@@ -456,7 +461,7 @@ public class InputManager : NetworkBehaviour
             if (this.nearElement == null)
                 this.anim.SetInteger("Action", 0);
         }
-        else if (true)
+        else
         {
             this.controller.Objectiv = this.nearElement;
             this.controller.OType = type;
