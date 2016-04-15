@@ -77,13 +77,17 @@ public static class EntityDatabase
     public static readonly Element IceFlower = new Element(92, 100, Resources.Load<GameObject>("Prefabs/Elements/SmallElements/IceFlower"), Element.TypeElement.Small, 0);
     public static readonly Element SmallCactus = new Element(93, 100, Resources.Load<GameObject>("Prefabs/Elements/SmallElements/SmallCactus"), Element.TypeElement.Small, 0);
     public static readonly Element LittleRock = new Element(93, 100, Resources.Load<GameObject>("Prefabs/Elements/SmallElements/LittleRock"), Element.TypeElement.Small, 0, new DropConfig(ItemDatabase.Find(1), 1));
+    public static readonly Element Mushroom = new Element(94, 100, Resources.Load<GameObject>("Prefabs/Elements/SmallElements/Mushroom"), Element.TypeElement.Small, 0);
+    public static readonly Element RedMushroom = new Element(95, 100, Resources.Load<GameObject>("Prefabs/Elements/SmallElements/BadMushroom"), Element.TypeElement.Small, 0);
 
     // Tree
     public static readonly Element Fir = new Element(100, 100, Resources.Load<GameObject>("Prefabs/Elements/Trees/Fir"), Element.TypeElement.Tree, 0, new DropConfig(ItemDatabase.Find(0), 1, 5));
-    public static readonly Element SnowFir = new Element(101, 100, Resources.Load<GameObject>("Prefabs/Elements/Trees/SnowFir"), Element.TypeElement.Tree, 0);
+    public static readonly Element SnowFir = new Element(101, 100, Resources.Load<GameObject>("Prefabs/Elements/Trees/SnowFir"), Element.TypeElement.Tree, 0, new DropConfig(ItemDatabase.Find(0), 1, 5));
     public static readonly Element Cactus = new Element(102, 100, Resources.Load<GameObject>("Prefabs/Elements/Trees/Cactus"), Element.TypeElement.Tree, 0);
-    public static readonly Element Oak = new Element(103, 100, Resources.Load<GameObject>("Prefabs/Elements/Trees/Oak"), Element.TypeElement.Tree, 0);
-    public static readonly Element SnowOak = new Element(104, 100, Resources.Load<GameObject>("Prefabs/Elements/Trees/SnowOak"), Element.TypeElement.Tree, 0);
+    public static readonly Element Oak = new Element(103, 100, Resources.Load<GameObject>("Prefabs/Elements/Trees/Oak"), Element.TypeElement.Tree, 0, new DropConfig(ItemDatabase.Find(0), 1, 5));
+    public static readonly Element SnowOak = new Element(104, 100, Resources.Load<GameObject>("Prefabs/Elements/Trees/SnowOak"), Element.TypeElement.Tree, 0, new DropConfig(ItemDatabase.Find(0), 1, 5));
+    public static readonly Element FallOak1 = new Element(105, 100, Resources.Load<GameObject>("Prefabs/Elements/Trees/FallOak1"), Element.TypeElement.Tree, 0, new DropConfig(ItemDatabase.Find(0), 1, 5));
+    public static readonly Element FallOak2 = new Element(106, 100, Resources.Load<GameObject>("Prefabs/Elements/Trees/FallOak2"), Element.TypeElement.Tree, 0, new DropConfig(ItemDatabase.Find(0), 1, 5));
 
     // Rock
     public static readonly Element StoneRock = new Element(110, 100, Resources.Load<GameObject>("Prefabs/Elements/Rocks/Stone"), Element.TypeElement.Rock, 0, new DropConfig(ItemDatabase.Find(1), 4, 8));
@@ -247,12 +251,14 @@ public static class EntityDatabase
     {
         get
         {
-            // Flowers
+            // Small Elements
             yield return Branch;
             yield return ForestFlower;
             yield return IceFlower;
             yield return SmallCactus;
             yield return LittleRock;
+            yield return RedMushroom;
+            yield return Mushroom;
 
             // Tree
             yield return Fir;
@@ -260,6 +266,8 @@ public static class EntityDatabase
             yield return Cactus;
             yield return Oak;
             yield return SnowOak;
+            yield return FallOak1;
+            yield return FallOak2;
 
             // Rocks
             yield return StoneRock;

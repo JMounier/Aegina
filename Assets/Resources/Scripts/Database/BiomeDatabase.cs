@@ -10,27 +10,63 @@ public static class BiomeDatabase
 
     // Biome forest
     public static readonly Biome Forest = new Biome(0, Resources.Load<Material>("Models/Islands/Materials/Forest"), Resources.Load<Material>("Models/Islands/Materials/Forest_Rock"),
-        new SpawnConfig(new Entity(), 3f), new SpawnConfig(EntityDatabase.Fir, 5), new SpawnConfig(EntityDatabase.StoneRock, 3),
-        new SpawnConfig(EntityDatabase.CopperRock, 0.6f), new SpawnConfig(EntityDatabase.IronRock, 0.4f), new SpawnConfig(EntityDatabase.GoldRock, 0.2f),
-        new SpawnConfig(EntityDatabase.MithrilRock, 0.2f), new SpawnConfig(EntityDatabase.FloatiumRock, 0.1f), new SpawnConfig(EntityDatabase.SunkiumRock, 0.05f),
-        new SpawnConfig(EntityDatabase.Oak, 6), new SpawnConfig(EntityDatabase.ForestFlower, 4), new SpawnConfig(EntityDatabase.Branch, 4),
-        new SpawnConfig(EntityDatabase.LittleRock, 2));
 
-
+        new SpawnConfig(new Entity(), 3f),
+    #region Tree
+        new SpawnConfig(EntityDatabase.Fir, 5), new SpawnConfig(EntityDatabase.Oak, 6),
+    #endregion
+    #region Rock
+        new SpawnConfig(EntityDatabase.StoneRock, 3), new SpawnConfig(EntityDatabase.CopperRock, 0.6f), new SpawnConfig(EntityDatabase.IronRock, 0.4f),
+        new SpawnConfig(EntityDatabase.GoldRock, 0.2f), new SpawnConfig(EntityDatabase.MithrilRock, 0.2f), new SpawnConfig(EntityDatabase.FloatiumRock, 0.1f),
+        new SpawnConfig(EntityDatabase.SunkiumRock, 0.05f),
+    #endregion
+    #region Small Element
+         new SpawnConfig(EntityDatabase.ForestFlower, 4), new SpawnConfig(EntityDatabase.Branch, 4), new SpawnConfig(EntityDatabase.LittleRock, 2));
+    #endregion    
     // Biome Desert
     public static readonly Biome Desert = new Biome(1, Resources.Load<Material>("Models/Islands/Materials/Desert"), Resources.Load<Material>("Models/Islands/Materials/Desert_Rock"),
-        new SpawnConfig(new Entity(), 3), new SpawnConfig(EntityDatabase.Cactus, 2), new SpawnConfig(EntityDatabase.StoneRock, 4),
-        new SpawnConfig(EntityDatabase.CopperRock, 0.6f), new SpawnConfig(EntityDatabase.IronRock, 0.4f), new SpawnConfig(EntityDatabase.GoldRock, 0.2f),
-        new SpawnConfig(EntityDatabase.MithrilRock, 0.2f), new SpawnConfig(EntityDatabase.FloatiumRock, 0.1f), new SpawnConfig(EntityDatabase.SunkiumRock, 0.05f),
+        new SpawnConfig(new Entity(), 3),
+    #region Tree
+        new SpawnConfig(EntityDatabase.Cactus, 2),
+    #endregion
+    #region Rock
+        new SpawnConfig(EntityDatabase.StoneRock, 4), new SpawnConfig(EntityDatabase.CopperRock, 0.6f), new SpawnConfig(EntityDatabase.IronRock, 0.4f),
+        new SpawnConfig(EntityDatabase.GoldRock, 0.2f), new SpawnConfig(EntityDatabase.MithrilRock, 0.2f), new SpawnConfig(EntityDatabase.FloatiumRock, 0.1f),
+        new SpawnConfig(EntityDatabase.SunkiumRock, 0.05f),
+
+    #endregion
+    #region Small Element
         new SpawnConfig(EntityDatabase.SmallCactus, 2), new SpawnConfig(EntityDatabase.Branch, 2), new SpawnConfig(EntityDatabase.LittleRock, 2));
-
-
+    #endregion
     // Biome Ice
     public static readonly Biome Ice = new Biome(2, Resources.Load<Material>("Models/Islands/Materials/Ice"), Resources.Load<Material>("Models/Islands/Materials/Ice_Rock"),
-        new SpawnConfig(new Entity(), 3), new SpawnConfig(EntityDatabase.SnowFir, 5), new SpawnConfig(EntityDatabase.StoneRock, 3),
+        new SpawnConfig(new Entity(), 3),
+    #region Tree
+        new SpawnConfig(EntityDatabase.SnowFir, 5), new SpawnConfig(EntityDatabase.SnowOak, 7),
+    #endregion
+    #region Rock
+        new SpawnConfig(EntityDatabase.StoneRock, 3),
         new SpawnConfig(EntityDatabase.CopperRock, 0.6f), new SpawnConfig(EntityDatabase.IronRock, 0.4f), new SpawnConfig(EntityDatabase.GoldRock, 0.2f),
         new SpawnConfig(EntityDatabase.MithrilRock, 0.2f), new SpawnConfig(EntityDatabase.FloatiumRock, 0.1f), new SpawnConfig(EntityDatabase.SunkiumRock, 0.05f),
-        new SpawnConfig(EntityDatabase.SnowOak, 7), new SpawnConfig(EntityDatabase.IceFlower, 5), new SpawnConfig(EntityDatabase.LittleRock, 3));
+    #endregion
+    #region Small Element
+        new SpawnConfig(EntityDatabase.IceFlower, 5), new SpawnConfig(EntityDatabase.LittleRock, 3));
+    #endregion
+    // Biome Fall
+    public static readonly Biome Fall = new Biome(3, Resources.Load<Material>("Models/Islands/Materials/Fall"), Resources.Load<Material>("Models/Islands/Materials/Fall_Rock"),
+        new SpawnConfig(new Entity(), 3f),
+    #region Tree
+        new SpawnConfig(EntityDatabase.Fir, 0.5f), new SpawnConfig(EntityDatabase.Oak, 0.5f), new SpawnConfig(EntityDatabase.FallOak1, 6), new SpawnConfig(EntityDatabase.FallOak2, 4),
+    #endregion
+    #region Rock
+        new SpawnConfig(EntityDatabase.StoneRock, 3), new SpawnConfig(EntityDatabase.CopperRock, 0.6f), new SpawnConfig(EntityDatabase.IronRock, 0.4f),
+        new SpawnConfig(EntityDatabase.GoldRock, 0.2f), new SpawnConfig(EntityDatabase.MithrilRock, 0.2f), new SpawnConfig(EntityDatabase.FloatiumRock, 0.1f),
+        new SpawnConfig(EntityDatabase.SunkiumRock, 0.05f),
+    #endregion
+    #region Small Element
+        new SpawnConfig(EntityDatabase.ForestFlower, 3), new SpawnConfig(EntityDatabase.Branch, 3), new SpawnConfig(EntityDatabase.RedMushroom, 3),
+        new SpawnConfig(EntityDatabase.Mushroom, 3), new SpawnConfig(EntityDatabase.LittleRock, 2));
+    #endregion
 
 
     /// <summary>
@@ -44,6 +80,7 @@ public static class BiomeDatabase
             yield return Forest;
             yield return Ice;
             yield return Desert;
+            yield return Fall;
         }
     }
 
@@ -64,12 +101,12 @@ public static class BiomeDatabase
     /// Retourne un biome random. (En copie)
     /// </summary>
     public static Biome RandBiome(System.Random rand)
-    {        
-            List<Biome> biomes = new List<Biome>();
-            foreach (Biome biome in Biomes)
-                if (biome.ID > -1)
-                    biomes.Add(biome);
+    {
+        List<Biome> biomes = new List<Biome>();
+        foreach (Biome biome in Biomes)
+            if (biome.ID > -1)
+                biomes.Add(biome);
 
-            return new Biome(biomes[rand.Next(biomes.Count)]);        
+        return new Biome(biomes[rand.Next(biomes.Count)]);
     }
 }
