@@ -233,9 +233,11 @@ public class InputManager : NetworkBehaviour
             this.soundAudio.PlaySound(AudioClips.Void, 0, 0.3f * 4f, 620);
             this.anim.SetInteger("Action", 6);
             this.soundAudio.PlaySound(AudioClips.Void, 1, 1.25f, 620);
-            this.soundAudio.PlaySound(AudioClips.playerAttack, 1);
-            this.soundAudio.CmdPlaySound(AudioClips.playerAttack, 1);
-
+            if (this.inventaire.UsedItem.Items is Sword)
+            {
+                this.soundAudio.PlaySound(AudioClips.playerAttack, 1);
+                this.soundAudio.CmdPlaySound(AudioClips.playerAttack, 1);
+            }
             float damage = 0f;
             SyncChunk Actual_chunk = null;
             foreach (Collider col in Physics.OverlapBox(this.character.transform.position, new Vector3(5, 100, 5)))
