@@ -101,7 +101,7 @@ public class InputManager : NetworkBehaviour
             WorkTop wt = this.inventaire.UsedItem.Items as WorkTop;
             wt.Previsu.transform.position = (this.character.transform.position - this.character.transform.forward);
             wt.Previsu.transform.LookAt(new Vector3(this.character.transform.position.x, wt.Previsu.transform.position.y, this.character.transform.position.z));
-            
+
             bool isValid = wt.IsValid();
             if (isValid != this.validplace)
             {
@@ -228,8 +228,16 @@ public class InputManager : NetworkBehaviour
         //gestion de l'attaque
         if (cdAttack > 0)
             cdAttack -= Time.deltaTime;
-        if (Input.GetButton("Fire1") && cdAttack <= 0 && !this.inventaire.InventoryShown && !this.menu.MenuShown && !this.menu.OptionShown && !this.social.ChatShown)
+        if (Input.GetButton("Fire1") && cdAttack <= 0 && !this.inventaire.InventoryShown && !this.menu.MenuShown && !this.menu.OptionShown && !this.social.ChatShown && !this.menu.LangueShown)
         {
+            this.soundAudio.PlaySound(AudioClips.Void, 0, 0.3f * 4f, 620);
+            this.anim.SetInteger("Action", 6);
+            this.soundAudio.PlaySound(AudioClips.Void, 1, 1.25f, 620);
+            if (this.inventaire.UsedItem.Items is Sword)
+            {
+                this.soundAudio.PlaySound(AudioClips.playerAttack, 1);
+                this.soundAudio.CmdPlaySound(AudioClips.playerAttack, 1);
+            }
             float damage = 0f;
             SyncChunk Actual_chunk = null;
             foreach (Collider col in Physics.OverlapBox(this.character.transform.position, new Vector3(5, 100, 5)))
@@ -240,7 +248,7 @@ public class InputManager : NetworkBehaviour
                     break;
                 }
             }
-            if (Actual_chunk != null && Actual_chunk.Cristal.Team == Team.Blue)//a modifier qund les teams seront implementer
+            if (Actual_chunk != null && Actual_chunk.IsCristal && Actual_chunk.Cristal.Team == Team.Blue)//a modifier quand les teams seront implementer
             {
                 damage += Actual_chunk.Cristal.LevelAtk;
             }
@@ -254,8 +262,9 @@ public class InputManager : NetworkBehaviour
                 damage += 5f;
             }
             CmdAttack(damage);
-            cdAttack = 0.5f;
+            cdAttack = 0.8f;
         }
+
         #endregion
 
         #region Cancel
@@ -374,7 +383,7 @@ public class InputManager : NetworkBehaviour
     private void CmdSpawnElm(int id, GameObject pos)
     {
         Element elm = (EntityDatabase.Find(id) as Element);
-        elm.Spawn(pos.transform.position, pos.transform.rotation, pos.transform.parent, 0);
+        elm.Spawn(pos.transform.position, pos.transform.rotation, pos.transform.parent, -1);
         elm.Prefab.GetComponent<SyncElement>().updateGraph();
     }
 
@@ -412,7 +421,7 @@ public class InputManager : NetworkBehaviour
         if (Vector3.Distance(this.character.transform.position, this.nearElement.transform.position) < 1.25f)
         {
             Vector3 or = 2 * this.character.transform.position - this.nearElement.transform.position;
-            this.character.transform.LookAt(new Vector3( or.x,this.character.transform.position.y, or.z ));
+            this.character.transform.LookAt(new Vector3(or.x, this.character.transform.position.y, or.z));
             switch (type)
             {
                 case Element.TypeElement.Tree:
