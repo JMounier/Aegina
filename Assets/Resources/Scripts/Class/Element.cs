@@ -50,18 +50,11 @@ public class Element : Entity
         int idSave = base.prefab.GetComponent<SyncElement>().IdSave;
         int x = (int)(base.prefab.transform.parent.parent.position.x / Chunk.Size);
         int y = (int)(base.prefab.transform.parent.parent.position.z / Chunk.Size);
-        GameObject.Find("Map").GetComponent<Save>().SaveDestroyedElement(x, y, idSave);
-        base.Kill();       
-    }
-       
-    /// <summary>
-    /// Instancie l'entite dans le monde avec une position. (Must be server!)
-    /// </summary>
-    public void Spawn(Vector3 pos, int idSave)
-    {
-        base.Spawn(pos);
-        base.prefab.GetComponent<SyncElement>().Elmt = new Element(this);
-        base.prefab.GetComponent<SyncElement>().IdSave = idSave;
+        if (idSave == -1)
+            GameObject.Find("Map").GetComponent<Save>().SaveDestroyedWorktop(x, y, this);
+        else
+            GameObject.Find("Map").GetComponent<Save>().SaveDestroyedElement(x, y, idSave);
+        base.Kill();
     }
 
     /// <summary>
@@ -72,16 +65,12 @@ public class Element : Entity
         base.Spawn(pos, parent);
         base.prefab.GetComponent<SyncElement>().Elmt = new Element(this);
         base.prefab.GetComponent<SyncElement>().IdSave = idSave;
-    }
-
-    /// <summary>
-    /// Instancie l'entite dans le monde avec une position et une rotation. (Must be server!)
-    /// </summary>
-    public void Spawn(Vector3 pos, Quaternion rot, int idSave)
-    {
-        base.Spawn(pos, rot);
-        base.prefab.GetComponent<SyncElement>().Elmt = new Element(this);
-        base.prefab.GetComponent<SyncElement>().IdSave = idSave;
+        if (idSave == -1)
+        {
+            int x = (int)(parent.parent.position.x / Chunk.Size);
+            int y = (int)(parent.parent.position.y / Chunk.Size);
+            GameObject.Find("Map").GetComponent<Save>().SaveBuildWorktop(x, y, this);
+        }
     }
 
     /// <summary>
@@ -92,6 +81,12 @@ public class Element : Entity
         base.Spawn(pos, rot, parent);
         base.prefab.GetComponent<SyncElement>().Elmt = new Element(this);
         base.prefab.GetComponent<SyncElement>().IdSave = idSave;
+        if (idSave == -1)
+        {
+            int x = (int)(parent.parent.position.x / Chunk.Size);
+            int y = (int)(parent.parent.position.y / Chunk.Size);
+            GameObject.Find("Map").GetComponent<Save>().SaveBuildWorktop(x, y, this);
+        }
     }
 
     public void GetDamage(float damage)
