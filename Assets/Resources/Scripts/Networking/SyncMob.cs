@@ -39,7 +39,6 @@ public class SyncMob : NetworkBehaviour
     {
         if (!isServer)
             return;
-
         if (gameObject.transform.position.y < -10)
         {
             this.myMob.Life = 0;
@@ -70,14 +69,16 @@ public class SyncMob : NetworkBehaviour
             }
         }
         // Check le focus
-        if (dist < this.myMob.Vision && !focus)
+        if (!this.focus && dist < this.myMob.Vision && nearPlayer.transform.FindChild("Character").gameObject.activeInHierarchy)
         {
-            focus = true;
+            this.focus = true;
             this.path.Clear();
         }
+        if (this.focus && !nearPlayer.transform.FindChild("Character").gameObject.activeInHierarchy)
+            this.focus = false;
 
         // Focus
-        if (focus)
+        if (this.focus)
         {
             this.cdAttack += Time.deltaTime;
             // Attack
@@ -96,7 +97,9 @@ public class SyncMob : NetworkBehaviour
             else if (dist >= 1f && this.path.Count == 0)
             {
                 this.goal = this.chunk.GetComponent<SyncChunk>().MyGraph.GetNode(nearPlayer.transform.FindChild("Character").position);
-                if (this.goal != null && this.goal.IsValid)
+                if (this.goal == null)
+                    this.focus = false;
+                else if (!this.goal.IsValid)
                     this.path = this.chunk.GetComponent<SyncChunk>().MyGraph.AStarPath(this.node, this.goal, .71f);
                 else
                 {

@@ -226,7 +226,7 @@ public class SyncCharacter : NetworkBehaviour
             }
         }
         float armor = 100;
-        if (chunk != null && chunk.Cristal.Team == Team.Blue)
+        if (chunk != null && chunk.IsCristal && chunk.Cristal.Team == Team.Blue)
         {
             armor += chunk.Cristal.LevelAtk * 20;
         }

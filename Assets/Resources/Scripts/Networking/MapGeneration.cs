@@ -24,7 +24,7 @@ public class MapGeneration : NetworkBehaviour
             this.GenerateChunk(1, -1, Bridges.TwoL, Directions.West);
             this.GenerateChunk(-1, -1, Bridges.TwoL, Directions.North);
             this.GenerateChunk(0, -1, Bridges.All, Directions.East);
-            this.GenerateChunk(0, -2, Bridges.One, Directions.North);          
+            this.GenerateChunk(0, -2, Bridges.One, Directions.North);
         }
     }
 
