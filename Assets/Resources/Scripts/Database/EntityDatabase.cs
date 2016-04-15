@@ -63,17 +63,19 @@ public static class EntityDatabase
     public static readonly Entity RedPotion = new Entity(73, 60, Resources.Load<GameObject>("Prefabs/Loots/RedPotion"));
     public static readonly Entity YellowPotion = new Entity(74, 60, Resources.Load<GameObject>("Prefabs/Loots/YellowPotion"));
 
-    //public static readonly Entity MeatBalls = new Entity(75, 60, Resources.Load<GameObject>("Prefabs/Loots/MeatBalls"));
-   // public static readonly Entity WaterCact = new Entity(76, 60, Resources.Load<GameObject>("Prefabs/Loots/WaterCact"));
+    public static readonly Entity MeatBalls = new Entity(75, 60, Resources.Load<GameObject>("Prefabs/Loots/MeatBalls"));
+    public static readonly Entity WaterCact = new Entity(76, 60, Resources.Load<GameObject>("Prefabs/Loots/WaterCact"));
 
     public static readonly Entity WoodenPlank = new Entity(77, 60, Resources.Load<GameObject>("Prefabs/Loots/WoodenPlank"));
     public static readonly Entity Glass = new Entity(78, 60, Resources.Load<GameObject>("Prefabs/Loots/Glass"));
     public static readonly Entity Bowl = new Entity(79, 60, Resources.Load<GameObject>("Prefabs/Loots/Bowl"));
-   // public static readonly Entity CuttedStone = new Entity(80, 60, Resources.Load<GameObject>("Prefabs/Loots/CuttedStone"));
-   // public static readonly Entity Stick = new Entity(81, 60, Resources.Load<GameObject>("Prefabs/Loots/Stick"));
-    //public static readonly Entity Gigot = new Entity(82, 60, Resources.Load<GameObject>("Prefabs/Loots/Gigot"));
-   // public static readonly Entity Hide = new Entity(83, 60, Resources.Load<GameObject>("Prefabs/Loots/Hide"));
-   // public static readonly Entity Fang = new Entity(84, 60, Resources.Load<GameObject>("Prefabs/Loots/Fang"));
+    public static readonly Entity CuttedStone = new Entity(80, 60, Resources.Load<GameObject>("Prefabs/Loots/CuttedStone"));
+    public static readonly Entity Stick = new Entity(81, 60, Resources.Load<GameObject>("Prefabs/Loots/Stick"));
+    public static readonly Entity Gigot = new Entity(82, 60, Resources.Load<GameObject>("Prefabs/Loots/Gigot"));
+    public static readonly Entity Hide = new Entity(83, 60, Resources.Load<GameObject>("Prefabs/Loots/Hide"));
+    public static readonly Entity Fang = new Entity(84, 60, Resources.Load<GameObject>("Prefabs/Loots/Fang"));
+    public static readonly Entity MushroomLoot = new Entity(85, 60, Resources.Load<GameObject>("Prefabs/Loots/Hide"));
+    public static readonly Entity RedMushroomLoot = new Entity(86, 60, Resources.Load<GameObject>("Prefabs/Loots/Fang"));
 
     // SmallElements
     public static readonly Element Branch = new Element(90, 100, Resources.Load<GameObject>("Prefabs/Elements/SmallElements/Branch"), Element.TypeElement.Small, 0, new DropConfig(ItemDatabase.Find(82), 1, 2));
