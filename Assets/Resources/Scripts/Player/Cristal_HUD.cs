@@ -15,6 +15,7 @@ public class Cristal_HUD : NetworkBehaviour
     private int space;
     private GUISkin skin;
     private Inventory inventory;
+    private Transform character;
 
     // Use this for initialization
     void Start()
@@ -26,6 +27,7 @@ public class Cristal_HUD : NetworkBehaviour
         this.space = Screen.height / 20;
         this.skin = Resources.Load<GUISkin>("Sprites/GUIskin/Skin");
         this.inventory = GetComponentInParent<Inventory>();
+        this.character = this.transform.FindChild("Character");
     }
     // Update is called once per frame
     void Update()
@@ -158,6 +160,7 @@ public class Cristal_HUD : NetworkBehaviour
             if (a == 0)
             {
                 this.CmdSetLevelPort(2,this.cristal.gameObject);
+                //GetComponentInParent<Social>().NewRespawnPoint(Team.Blue, new Tuple<float, float>(this.character.position.x, this.character.position.z));
             }
             else if (a <= 3)
             {
@@ -182,7 +185,12 @@ public class Cristal_HUD : NetworkBehaviour
         }
         else
         {
-            this.CmdSetLevelPort(this.cristal.GetComponent<SyncCore>().LevelPortal + 1, this.cristal.gameObject);
+            SyncCore crystal = this.cristal.GetComponent<SyncCore>();
+            if (crystal.LevelPortal == 0)
+            {
+                //GetComponentInParent<Social>().NewRespawnPoint(Team.Blue, new Tuple<float, float>(this.transform.position.x, this.transform.position.z));
+            }
+            this.CmdSetLevelPort(crystal.LevelPortal + 1, this.cristal.gameObject);
         }
     }
 

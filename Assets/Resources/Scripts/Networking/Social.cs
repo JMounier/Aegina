@@ -15,6 +15,7 @@ public class Social : NetworkBehaviour
     [SyncVar]
     private bool chatShown = false;
     private bool isOp = false;
+    private List<Tuple<float,float>>[] posRespawn;
 
     private int posX, posY;
     private GUISkin skin;
@@ -40,13 +41,18 @@ public class Social : NetworkBehaviour
             this.skin.GetStyle("chat").fontStyle = FontStyle.Normal;
             this.skin.GetStyle("chat").normal.textColor = Color.grey;
             this.skin.textField.fontSize = (int)(Screen.height * 0.025f);
-
             // PlayerName
             this.nameTextMesh.gameObject.SetActive(false);
             this.namePlayer = PlayerPrefs.GetString("PlayerName", "");
             this.CmdSetName(this.namePlayer);
             this.CmdSendActivity(Activity.Connection, gameObject);
             GameObject.Find("NetworkManager").GetComponent<NetworkManagerHUD>().IsLoad();
+            posRespawn = new List<Tuple<float, float>>[5];
+            for (int i = 0; i < 5; i++)
+            {
+                posRespawn[i] = new List<Tuple<float, float>>();
+                posRespawn[i].Add(new Tuple<float, float>(0, 0));
+            }
         }
     }
 
@@ -149,6 +155,10 @@ public class Social : NetworkBehaviour
         }
     }
 
+    public void NewRespawnPoint(Team team,Tuple<float,float> coord)
+    {
+        this.posRespawn[(int)team].Add(coord);
+    }
     /// <summary>
     /// Demande au serveur de traiter un message
     /// </summary>
@@ -269,6 +279,11 @@ public class Social : NetworkBehaviour
     public string PlayerName
     {
         get { return this.namePlayer; }
+    }
+
+    public List<Tuple<float,float>>[] PosRespawn
+    {
+        get { return posRespawn; }
     }
 
     /// <summary>
