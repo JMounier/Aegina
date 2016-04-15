@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.Networking;
+using System.Collections.Generic;
 
 public class SyncCharacter : NetworkBehaviour
 {
@@ -129,9 +130,12 @@ public class SyncCharacter : NetworkBehaviour
                 this.CmdSpeed(0);
                 this.CmdJump(0);
                 this.character.GetComponent<Rigidbody>().velocity = Vector3.zero;
-                Vector3 newPos = new Vector3(Random.Range(-10f, 10f), 7, Random.Range(-10f, 10f));
+
+                List<Tuple<float, float>>[] listrespos = this.GetComponentInParent<Social>().PosRespawn;
+                Tuple<float, float> resPos = listrespos[(int)Team.Blue][Random.Range(0, listrespos[(int)Team.Blue].Count)];
+                Vector3 newPos = new Vector3(resPos.Item1 + Random.Range(-10f, 10f), 7, resPos.Item2 +Random.Range(-10f, 10f));
                 while (!Graph.isValidPosition(newPos))
-                    newPos = new Vector3(Random.Range(-10f, 10f), 7, Random.Range(-10f, 10f));
+                    newPos = new Vector3(resPos.Item1 + Random.Range(-10f, 10f), 7, resPos.Item2 + Random.Range(-10f, 10f));
                 this.character.transform.position = newPos;
                 GetComponent<Sound>().PlaySound(AudioClips.Button, 1f);
                 if (dead)

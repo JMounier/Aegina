@@ -82,10 +82,10 @@ public class Inventory : NetworkBehaviour
                 GameObject charact = gameObject.transform.FindChild("Character").gameObject;
                 this.UsedItem.Items = ItemDatabase.Find(this.UsedItem.Items.ID);
                 (this.UsedItem.Items as WorkTop).Previsu = GameObject.Instantiate((this.UsedItem.Items as WorkTop).Previsu);
-                // set pose rot and parent
+                // set pos rot and parent
                 (this.UsedItem.Items as WorkTop).Previsu.transform.position = (charact.transform.position - charact.transform.forward);
                 (this.UsedItem.Items as WorkTop).Previsu.transform.SetParent(Previsu.GetHierarchy((this.UsedItem.Items as WorkTop).Previsu.transform.position));
-                (this.UsedItem.Items as WorkTop).Previsu.transform.LookAt(new Vector3(charact.transform.position.x, (this.UsedItem.Items as WorkTop).Previsu.transform.position.y, charact.transform.position.z));                
+                (this.UsedItem.Items as WorkTop).Previsu.transform.LookAt(new Vector3(charact.transform.position.x, (this.UsedItem.Items as WorkTop).Previsu.transform.position.y, charact.transform.position.z));
             }
 
             this.lastUseddItem = this.UsedItem.Items;
@@ -241,13 +241,14 @@ public class Inventory : NetworkBehaviour
             }
         // Relachement de l'item hors de l'inventaire
         rect = new Rect(pos_x_inventory, pos_y_inventory, columns * this.size_inventory, (rows + .5f) * this.size_inventory);
-        if (!rect.Contains(Event.current.mousePosition) && this.draggingItemStack && Event.current.button == 0 && Event.current.type == EventType.MouseUp)
+        Rect secondrect = new Rect(this.pos_x_toolbar, this.pos_y_toolbar, this.columns * this.size_toolbar, this.size_toolbar);
+        if (!rect.Contains(Event.current.mousePosition) && !secondrect.Contains(Event.current.mousePosition) && this.draggingItemStack && Event.current.button == 0 && Event.current.type == EventType.MouseUp)
         {
             this.Drop(this.selectedItem);
             this.draggingItemStack = false;
         }
         // Relachement d'un item hors de l'inventaire
-        if (!rect.Contains(Event.current.mousePosition) && this.draggingItemStack && Event.current.button == 1 && Event.current.type == EventType.MouseUp)
+        if (!rect.Contains(Event.current.mousePosition) && !secondrect.Contains(Event.current.mousePosition) && this.draggingItemStack && Event.current.button == 1 && Event.current.type == EventType.MouseUp)
         {
             this.Drop(new ItemStack(selectedItem.Items, 1));
             this.selectedItem.Quantity--;
@@ -281,6 +282,10 @@ public class Inventory : NetworkBehaviour
                     rect.width -= this.size_inventory / 2.5f;
                     rect.height -= this.size_inventory / 2.5f;
                     GUI.DrawTexture(rect, this.slots[i, j].Items.Icon);
+                    rect.x -= this.size_inventory / 10;
+                    rect.y -= this.size_inventory / 10;
+                    rect.width += this.size_inventory / 5;
+                    rect.height += this.size_inventory / 5;
                     if (this.slots[i, j].Quantity > 1)
                         GUI.Box(rect, this.slots[i, j].Quantity.ToString(), this.skin.GetStyle("quantity"));
                 }
@@ -308,45 +313,151 @@ public class Inventory : NetworkBehaviour
         GUI.Box(rect, "", this.skin.GetStyle("frame"));
         rect = new Rect(this.pos_x_toolbar, this.pos_y_toolbar, this.columns * this.size_toolbar, this.size_toolbar);
         GUI.Box(rect, "", this.skin.GetStyle("toolbar"));
-        for (int i = 0; i < this.columns; i++)
+        for (int j = 0; j < this.columns; j++)
         {
-            rect = new Rect(this.pos_x_toolbar + i * this.size_toolbar, this.pos_y_toolbar, this.size_toolbar, this.size_toolbar);
-            if (this.cursor == i)
+            rect = new Rect(this.pos_x_toolbar + j * this.size_toolbar, this.pos_y_toolbar, this.size_toolbar, this.size_toolbar);
+            if (this.cursor == j)
                 GUI.Box(rect, "", this.skin.GetStyle("toolbar_selected"));
+            if (rect.Contains(Event.current.mousePosition))
+            {
 
-            if (this.slots[this.rows - 1, i].Items.ID != -1)
+
+                // Prise du stack
+                int i = this.rows - 1;
+
+                if (!this.draggingItemStack && Event.current.button == 0 && Event.current.type == EventType.MouseDown)
+                {
+
+                    if (this.slots[i, j].Items.ID != -1)
+                    {
+                        this.draggingItemStack = true;
+                        this.previndex[0] = i;
+                        this.previndex[1] = j;
+
+                        if (Event.current.shift)
+                        {
+                            this.selectedItem = new ItemStack(this.slots[i, j].Items, (this.slots[i, j].Quantity + 1) / 2);
+                            if (this.slots[i, j].Quantity == 1)
+                            {
+                                this.slots[i, j] = new ItemStack();
+                            }
+                            else
+                            {
+                                this.slots[i, j].Quantity -= (this.slots[i, j].Quantity + 1) / 2;
+                            }
+                        }
+                        else
+                        {
+                            this.selectedItem = this.slots[i, j];
+                            this.slots[i, j] = new ItemStack();
+                        }
+                    }
+
+                }
+                // Description du stack
+                else if (!this.draggingItemStack && this.slots[i, j].Items.ID != -1)
+                {
+                    this.previndex[0] = i;
+                    this.previndex[1] = j;
+                    this.selectedItem = this.slots[i, j];
+                    this.tooltipshown = true;
+                }
+                // Relachement du stack dans un slot
+                else if (this.draggingItemStack && Event.current.button == 0 && Event.current.type == EventType.MouseUp)
+                {
+                    this.draggingItemStack = false;
+                    if (this.slots[i, j].Items.ID == this.selectedItem.Items.ID)
+                    {
+                        if (this.slots[i, j].Quantity == this.selectedItem.Items.Size)
+                        {
+                            this.selectedItem.Quantity += this.slots[this.previndex[0], this.previndex[1]].Quantity;
+                            this.slots[this.previndex[0], this.previndex[1]] = this.slots[i, j];
+                            this.slots[i, j] = this.selectedItem;
+                        }
+                        else if (this.slots[i, j].Quantity + this.selectedItem.Quantity > this.selectedItem.Items.Size)
+                        {
+                            int diff = this.slots[i, j].Quantity + this.selectedItem.Quantity - this.selectedItem.Items.Size;
+                            this.slots[i, j].Quantity += this.selectedItem.Quantity;
+                            this.selectedItem.Quantity = diff;
+                            this.slots[this.previndex[0], this.previndex[1]] = this.selectedItem;
+                        }
+                        else
+                            this.slots[i, j].Quantity += this.selectedItem.Quantity;
+                    }
+                    else if (this.slots[i, j].Items.ID != -1)
+                    {
+                        if (this.slots[this.previndex[0], this.previndex[1]].Items.ID == -1)
+                        {
+                            this.slots[this.previndex[0], this.previndex[1]] = this.slots[i, j];
+                            this.slots[i, j] = this.selectedItem;
+                        }
+                        else if (this.slots[this.previndex[0], this.previndex[1]].Items.ID == this.selectedItem.Items.ID)
+                        {
+                            this.slots[this.previndex[0], this.previndex[1]].Quantity += this.selectedItem.Quantity;
+                        }
+                        else
+                        {
+                            this.Drop(this.selectedItem);
+                        }
+                    }
+                    else
+                    {
+                        this.slots[i, j] = this.selectedItem;
+                    }
+                }
+
+                // Relachement d'un item dans un slot
+                else if (this.draggingItemStack && Event.current.button == 1 && Event.current.type == EventType.MouseUp)
+                {
+                    if (this.slots[i, j].Items.ID == this.selectedItem.Items.ID && this.slots[i, j].Quantity < this.slots[i, j].Items.Size)
+                    {
+                        this.slots[i, j].Quantity++;
+                        this.selectedItem.Quantity--;
+                    }
+                    else if (this.slots[i, j].Items.ID == -1)
+                    {
+                        this.slots[i, j] = new ItemStack(selectedItem.Items, 1);
+                        this.selectedItem.Quantity--;
+                    }
+                    if (this.selectedItem.Quantity == 0)
+                        this.draggingItemStack = false;
+                }
+            }
+            //fin de la gestion de la toolbar
+            if (this.slots[this.rows - 1, j].Items.ID != -1)
             {
                 rect.x += this.size_inventory / 5;
                 rect.y += this.size_inventory / 5;
                 rect.width -= this.size_inventory / 2.5f;
                 rect.height -= this.size_inventory / 2.5f;
-                GUI.DrawTexture(rect, this.slots[this.rows - 1, i].Items.Icon);
-                if (this.slots[this.rows - 1, i].Quantity != 1)
-                    GUI.Box(rect, this.slots[this.rows - 1, i].Quantity.ToString(), this.skin.GetStyle("quantity"));
+                GUI.DrawTexture(rect, this.slots[this.rows - 1, j].Items.Icon);
+                if (this.slots[this.rows - 1, j].Quantity != 1)
+                    GUI.Box(rect, this.slots[this.rows - 1, j].Quantity.ToString(), this.skin.GetStyle("quantity"));
             }
         }
     }
 
+
     /// <summary>
     /// Permet d'ajotuer des objes dans l'inventaire.
     /// </summary>
-    /// <param name="iStack"></param>
-    private void AddItemStack(ItemStack iStack, bool playSound = true)
+    /// <param name="iStack">Ajoute un maximum d'element, puis laisse le restant dans cette variable.</param>
+    public void AddItemStack(ItemStack iStack, bool playSound = true)
     {
         int i = 0;
         int j = 0;
         while (iStack.Quantity > 0 && i < this.rows)
         {
+            int k = (i + this.rows - 1) % this.rows;
             if (j == this.columns)
             {
                 i++;
                 j = -1;
             }
-
-            else if (this.slots[i, j].Items.ID == iStack.Items.ID)
+            else if (this.slots[k, j].Items.ID == iStack.Items.ID)
             {
-                int mem = iStack.Items.Size - this.slots[i, j].Quantity;
-                this.slots[i, j].Quantity += iStack.Quantity;
+                int mem = iStack.Items.Size - this.slots[k, j].Quantity;
+                this.slots[k, j].Quantity += iStack.Quantity;
                 iStack.Quantity -= mem;
             }
             j++;
@@ -356,15 +467,16 @@ public class Inventory : NetworkBehaviour
         j = 0;
         while (iStack.Quantity > 0 && i < this.rows)
         {
+            int k = (i + this.rows - 1) % this.rows;
             if (j == this.columns)
             {
                 i++;
                 j = -1;
             }
 
-            else if (this.slots[i, j].Items.ID == -1)
+            else if (this.slots[k, j].Items.ID == -1)
             {
-                this.slots[i, j] = new ItemStack(iStack.Items, iStack.Quantity);
+                this.slots[k, j] = new ItemStack(iStack.Items, iStack.Quantity);
                 iStack.Quantity = 0;
             }
             j++;
