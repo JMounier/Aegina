@@ -97,7 +97,7 @@ public class SyncMob : NetworkBehaviour
             else if (dist >= 1f && this.path.Count == 0)
             {
                 this.goal = this.chunk.GetComponent<SyncChunk>().MyGraph.GetNode(nearPlayer.transform.FindChild("Character").position);
-                if (!(this.goal == null) && this.goal.IsValid)
+                if (this.goal != null && this.goal.IsValid)
                 {
                     this.path = this.chunk.GetComponent<SyncChunk>().MyGraph.AStarPath(this.node, this.goal, .71f);
                     if (path.Count == 0)
