@@ -45,20 +45,18 @@ public class TextDatabase
     public static readonly Text Glass = new Text("Verre", "Glass");
     public static readonly Text Bowl = new Text("Bol", "Bowl");
     public static readonly Text CuttedStone = new Text("Pierre taillé", "Cutted stone");
-    public static readonly Text Stick = new Text("C'est un bout de bois", "It's a piece of wood");
-    public static readonly Text Hide = new Text("Du cuir, j'avais justement besoin de nouveaux vêtements", "Some hide, I needed some new clothes");
-    public static readonly Text Gigot = new Text("Cuisiné ça pourrais être bon", "Cooked it could be good");
-    public static readonly Text Fang = new Text("C'est une dent", "It's a fang");
+    public static readonly Text Stick = new Text("Bout de bois", "Piece of wood");
+    public static readonly Text Hide = new Text("Cuir", "Hide");
+    public static readonly Text Gigot = new Text("Gigot", "Gigot");
+    public static readonly Text Fang = new Text("Dent", "Fang");
 
-
-    public static readonly Text Apple = new Text("Une pomme bien rouge et juteuse", "A bright red and juicy apple");
-    public static readonly Text Cact = new Text("Un petit cactus avec une fleur dessus. Il semble contenir une bonne quantite d'eau", "A little cactus with a flozer on it. It seem to contain a good amount of water");
-    public static readonly Text CactPetal = new Text("Un petale de fleur. C'est jolie mais peut utile. Vous n'allez pas le manger tout de meme ?", "A flower petal. It's beautiful but useless. You will not eat it, is it ? ");
-    public static readonly Text Mushroom = new Text("Un champignon à l'air comestible", "Mushroom which seems edible");
-    public static readonly Text RedMushroom = new Text("Un champignon pourrait être comestible", "Mushroom which could be edible");
-    public static readonly Text WaterCact = new Text("De l'eau dans un cactus pour etancher la soif", "Water in a cactus to quench his thirst");
-    public static readonly Text MeatBall = new Text("Viannnnnde", "Meaaaaat");
-
+    public static readonly Text Apple = new Text("Pomme", "Apple");
+    public static readonly Text Cactus = new Text("Cactus", "Castus");
+    public static readonly Text Petal = new Text("Petal", "Petal");
+    public static readonly Text RedMushroom = new Text("Champignon rouge", "Red Mushroom");
+    public static readonly Text Mushroom = new Text("Champignon", "Mushroom");
+    public static readonly Text CactusWater = new Text("Eau", "Cactus water");
+    public static readonly Text MeatBall = new Text("Boullette de viande", "MeatBall");
     // Description
     public static readonly Text LogDescription = new Text("Un morceau de bois pouvant servir pour créer d'autres objets", "A piece of wood usable to make other objects");
     public static readonly Text StoneDescription = new Text("Une pierre pouvant servir pour créer d'autres objets", "A piece of stone usable to make other objects");
@@ -72,7 +70,7 @@ public class TextDatabase
 
     public static readonly Text CopperIngotDescription = new Text("Un lingot de cuivre pouvant être utiliser pour construire d'autres objets", "A copper ingot usable to make other objects");
     public static readonly Text IronIngotDescription = new Text("Un lingot de fer pouvant être utiliser pour construire d'autres objets", "An iron ingot usable to make other objects");
-    public static readonly Text GoldIngotDescription = new Text( "Un lingot d'or pouvant être utiliser pour construire d'autres objets", "A gold ingot usable to make other objetcs");
+    public static readonly Text GoldIngotDescription = new Text("Un lingot d'or pouvant être utiliser pour construire d'autres objets", "A gold ingot usable to make other objetcs");
     public static readonly Text MithrilIngotDescription = new Text("Un lingot de mithril pouvant être utiliser pour construire d'autres objets", "A mithril ingot usable to make other objects");
     public static readonly Text FloatiumIngotDescription = new Text("Un lingot de floatium pouvant être utiliser pour construire d'autres objets", "A floatium ingot usable to make other objects");
     public static readonly Text SunkiumIngotDescription = new Text("Un lingot de sunkium pouvant être utiliser pour construire d'autres objets", "A sunkium ingot usable to make other objects");
@@ -93,6 +91,19 @@ public class TextDatabase
     public static readonly Text GlassDescription = new Text("Du verre, la lumiere passe au travers", "Glass, light pass throught");
     public static readonly Text BowlDescription = new Text("Un bol pratique pour contenir de la nourriture", "A bowl handy to contain food");
     public static readonly Text CuttedStoneDescription = new Text("Une pierre taillé utilisable pour des construction", "A cutted stone usable for construction");
+    public static readonly Text tickDescription = new Text("C'est un bout de bois", "It's a piece of wood");
+    public static readonly Text HideDescription = new Text("Du cuir, j'avais justement besoin de nouveaux vêtements", "Some hide, I needed some new clothes");
+    public static readonly Text GigotDescription = new Text("Cuisiné ça pourrais être bon", "Cooked it could be good");
+    public static readonly Text FangDescription = new Text("C'est une dent", "It's a fang");
+
+    public static readonly Text AppleDescription = new Text("Une pomme bien rouge et juteuse", "A bright red and juicy apple");
+    public static readonly Text CactusDescription = new Text("Un petit cactus avec une fleur dessus. Il semble contenir une bonne quantite d'eau", "A little cactus with a flozer on it. It seem to contain a good amount of water");
+    public static readonly Text PetalStoneDescription = new Text("Un petale de fleur. C'est jolie mais peut utile. Vous n'allez pas le manger tout de meme ?", "A flower petal. It's beautiful but useless. You will not eat it, is it ? ");
+    public static readonly Text RedMushroomDescription = new Text("Un champignon pourrait être comestible", "Mushroom which could be edible");
+    public static readonly Text MushroomDescription = new Text("Un champignon à l'air comestible", "Mushroom which seems edible");
+    public static readonly Text CactusWaterDescription = new Text("De l'eau dans un cactus pour etancher la soif", "Water in a cactus to quench his thirst");
+    public static readonly Text MeatBallescription = new Text("Viannnnnde", "Meaaaaat");
+
 
     // Tools
     // Name
