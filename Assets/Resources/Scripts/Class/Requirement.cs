@@ -2,43 +2,18 @@
 using System.Collections;
 using System.Collections.Generic;
 
-    public class Requirement
+public static class Requirement
+{
+    public enum Requirements { FirstBlood };
+    
+    public static bool Check(Requirements require)
     {
-
-    private int id;
-    private int statID;
-    private int value;
-    private char op;
-    private bool complit;
-
-    public Requirement(int id, int statID, char op, int value)
-    {
-		this.id = id;
-		this.statID = statID;
-        this.op = op;
-        this.value = value;
-        this.complit = false;
+        switch (require)
+        {
+            case Requirements.FirstBlood:
+                return Stats.Death() > 0;
+            default:
+                return false;
+        }
     }
-
-	#region Methods
-
-	public void Check()
-	{
-		//Fixe Me
-	}
-
-	#endregion
-
-    #region Getters/Setters
-
-    public int Id
-    {
-        get { return this.id; }
-    }
-
-    public bool Complit
-    {
-        get { return this.complit; }
-    }
-    #endregion
 }

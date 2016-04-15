@@ -2,62 +2,84 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class Succes {
-
+public class Succes
+{
     private int id;
     private Text description;
     private Texture2D icon;
     private bool achived;
-
-
-    private int nbCondition;
-    private Requirement[] requirements; 
+    private Requirement.Requirements[] requirements;
 
     private Succes[] sons;
+    private int nbParentsLeft;
+    public int posX, posY;
 
-    public Succes(int id, Text description, Texture2D icon, Requirement[] requirements, params Succes[] sons)
+    public static List<Succes> currentSucces = new List<Succes>();
+
+    public Succes(int id, Text description, Item item, Requirement.Requirements[] requirements, int nbParents, params Succes[] sons)
     {
+        this.achived = false;
         this.id = id;
         this.description = description;
-        this.icon = icon;
-        this.sons = sons;
-
-        // a voir comment on gere ça.
+        this.icon = item.Icon;
         this.requirements = requirements;
-        this.nbCondition = requirements.Length;
-
-        this.achived = false;
-        this.Checkreq();
+        this.nbParentsLeft = nbParents;
+        this.sons = sons;
     }
-
     #region Methods
 
-    public void Checkreq()
+    public static void Update(bool display = true)
     {
-        if (!this.achived)
+        int j = 0;
+        while (j < currentSucces.Count)
         {
+            Succes succ = currentSucces[j];
             bool b = true;
-            foreach (Requirement req in requirements)
+
+            for (int i = 0; i < succ.requirements.Length && b; i++)
+                b = Requirement.Check(succ.requirements[i]);
+
+            if (b)
             {
-                b = req.Complit;
-                if (!b)
-                    break;
+                currentSucces.RemoveAt(j);
+                succ.Unlock(display);
             }
-            this.achived = b;
+            else
+                j++;
         }
     }
 
+    private void Unlock(bool display)
+    {
+        this.achived = true;
+        foreach (Succes succ in this.sons)
+        {
+            succ.nbParentsLeft--;
+            if (succ.nbParentsLeft == 0)
+                currentSucces.Add(succ);
+        }
+        if(display)
+            foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
+            {
+                player.GetComponent<Story_Hud>().Display(this);
+            }
+    }
     #endregion
 
     #region Getters/Setters
+
     public int ID
     {
         get { return this.id; }
     }
-
-    public int NbCondition
+    public int PosX
     {
-        get { return this.nbCondition; }
+        get { return this.posX; }
+    }
+
+    public int PosY
+    {
+        get { return this.posY; }
     }
 
     public Text Description
@@ -77,8 +99,7 @@ public class Succes {
 
     public Succes[] Sons
     {
-		get { return this.sons; }
+        get { return this.sons; }
     }
-
     #endregion
 }
