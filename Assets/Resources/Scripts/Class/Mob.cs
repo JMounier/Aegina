@@ -56,12 +56,24 @@ public class Mob : Entity
     /// </summary>
     protected override void Kill()
     {
-        foreach (var dc in this.dropConfigs)
+        foreach (DropConfig dc in this.dropConfigs)
         {
-            Vector3 projection = new Vector3(Random.Range(-1f, 1f), Random.Range(0, 1f), Random.Range(-1f, 1f));
-            dc.I.Spawn(prefab.transform.position, projection, dc.Quantity);
+            Vector3 projection = new Vector3(Random.Range(-1f, 1f), Random.Range(1f, 2f), Random.Range(-1f, 1f));
+            new Item(dc.I).Spawn(prefab.transform.position, projection, dc.Quantity);
         }
         base.Kill();
+    }
+    
+    public override void Spawn(Vector3 pos, Transform parent)
+    {
+        base.Spawn(pos, parent);
+        base.prefab.GetComponent<SyncMob>().MyMob = new Mob(this);
+    }
+
+    public override void Spawn(Vector3 pos, Quaternion rot, Transform parent)
+    {
+        base.Spawn(pos, rot, parent);
+        base.prefab.GetComponent<SyncMob>().MyMob = new Mob(this);
     }
 
     public override void Spawn(Vector3 pos)
@@ -86,9 +98,8 @@ public class Mob : Entity
                 mob = col.transform.parent.FindChild("Mob");
                 break;
             }
-        base.Spawn(pos, mob);
+        base.Spawn(pos, rot, mob);
         base.prefab.GetComponent<SyncMob>().MyMob = new Mob(this);
-        base.Spawn(pos, rot);
     }
 
     // Getters & Setters

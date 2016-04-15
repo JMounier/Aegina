@@ -97,6 +97,17 @@ public class Chunk : Entity
         {
             Prefab.GetComponent<SyncChunk>().FindCristal();
         }
+
+        //generate Mobs
+        foreach (Mob mob in EntityDatabase.Mobs)
+        {
+            for (int i = 0; i < mob.GroupSize; i++)
+            {
+                Vector3 pos = new Vector3(UnityEngine.Random.Range(-Size / 2 + x * Size, Size / 2 + y * Size), 7, UnityEngine.Random.Range(-Size / 2 + x * Size, Size / 2 + y * Size));               
+                if (Graph.isValidPosition(pos))
+                    new Mob(mob).Spawn(pos, Prefab.transform.FindChild("Mob"));
+            }
+        }
     }
 
     private void GenerateEntity(Entity e, GameObject ancre, int idSave)

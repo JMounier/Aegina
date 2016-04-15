@@ -41,8 +41,10 @@ public class SyncMob : NetworkBehaviour
             return;
 
         if (gameObject.transform.position.y < -10)
+        {
             this.myMob.Life = 0;
-
+            return;
+        }
         /*
                 --------------------------
                |    Deplacement du mob    |

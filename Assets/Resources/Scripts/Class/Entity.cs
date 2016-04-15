@@ -38,16 +38,7 @@ public class Entity
     }
 
     // Methods
-
-    /// <summary>
-    /// Instancie l'entite dans le monde. (Must be server!)
-    /// </summary>
-    public virtual void Spawn()
-    {
-        this.prefab = GameObject.Instantiate(this.prefab, this.prefab.transform.position, this.prefab.transform.rotation) as GameObject;
-        NetworkServer.Spawn(this.prefab);
-    }
-
+       
     /// <summary>
     /// Instancie l'entite dans le monde avec une position. (Must be server!)
     /// </summary>
