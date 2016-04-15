@@ -99,11 +99,12 @@ public class Chunk : Entity
         }
 
         //generate Mobs
+        
         foreach (Mob mob in EntityDatabase.Mobs)
         {
             for (int i = 0; i < mob.GroupSize; i++)
             {
-                Vector3 pos = new Vector3(UnityEngine.Random.Range(-Size / 2 + x * Size, Size / 2 + y * Size), 7, UnityEngine.Random.Range(-Size / 2 + x * Size, Size / 2 + y * Size));               
+                Vector3 pos = new Vector3(UnityEngine.Random.Range(-Size / 2 + x * Size, Size / 2 + x * Size), 7, UnityEngine.Random.Range(-Size / 2 + y * Size, Size / 2 + y * Size));               
                 if (Graph.isValidPosition(pos))
                     new Mob(mob).Spawn(pos, Prefab.transform.FindChild("Mob"));
             }
