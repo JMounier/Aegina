@@ -39,7 +39,17 @@ public class WorkTop : Item
         Node n = this.previsu.transform.parent.parent.GetComponent<SyncChunk>().MyGraph.GetNode(this.previsu.transform.position);
         return n != null && n.IsValid;
     }
-
+    public static Transform GetHierarchy(Vector3 pos)
+    {
+        Transform parent = null;
+        foreach (Collider col in Physics.OverlapBox(pos, new Vector3(5, 100, 5)))        
+            if (col.name.Contains("Island") && col.tag == "Ground")
+            {
+                parent = col.transform.parent.FindChild("Elements");
+                break;
+            }        
+        return parent;
+    }
 
     #region Getters/Setters
 

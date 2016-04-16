@@ -61,7 +61,7 @@ public class Inventory : NetworkBehaviour
         this.pos_y_toolbar = Screen.height - this.size_toolbar;
 
         // Mise de l'outil dans la main du joueur
-        if (this.lastUseddItem.ID != this.UsedItem.Items.ID)
+        if (this.lastUseddItem != this.UsedItem.Items)
         {
             if (this.lastUseddItem is Tool || this.lastUseddItem is Consumable)
                 this.CmdRemoveTool();
@@ -84,7 +84,7 @@ public class Inventory : NetworkBehaviour
                 (this.UsedItem.Items as WorkTop).Previsu = GameObject.Instantiate((this.UsedItem.Items as WorkTop).Previsu);
                 // set pos rot and parent
                 (this.UsedItem.Items as WorkTop).Previsu.transform.position = (charact.transform.position - charact.transform.forward);
-                (this.UsedItem.Items as WorkTop).Previsu.transform.SetParent(Previsu.GetHierarchy((this.UsedItem.Items as WorkTop).Previsu.transform.position));
+                (this.UsedItem.Items as WorkTop).Previsu.transform.parent = WorkTop.GetHierarchy(charact.transform.position);
                 (this.UsedItem.Items as WorkTop).Previsu.transform.LookAt(new Vector3(charact.transform.position.x, (this.UsedItem.Items as WorkTop).Previsu.transform.position.y, charact.transform.position.z));
             }
 

@@ -105,17 +105,17 @@ public class Save : NetworkBehaviour
     }
 
     /// <summary>
-    /// Retourne la liste des id des elements modifie sur le chunk.
+    /// Retourne le ChunkSave du chunk correspondant.
     /// </summary>
     /// <param name="x">La position x du chunk.</param>
     /// <param name="y">La position y du chunk.</param>
     /// <returns></returns>
-    public List<int> LoadChunk(int x, int y)
+    public ChunkSave LoadChunk(int x, int y)
     {
         foreach (ChunkSave cs in this.chunks)
             if (cs.X == x && cs.Y == y)
-                return cs.ListIdSave;
-        return new List<int>();
+                return cs;
+        throw new System.ArgumentException("Chunk wasn't tracked");
     }
 
     /// <summary>
@@ -130,7 +130,7 @@ public class Save : NetworkBehaviour
             if (cs.X == x && cs.Y == y)
                 cs.SaveDestroyedElement(idSave);
     }
-    
+
     /// <summary>
     /// Sauvegarde la destruction d'un wortop du chunk
     /// </summary>
@@ -138,7 +138,15 @@ public class Save : NetworkBehaviour
     {
         foreach (ChunkSave cs in this.chunks)
             if (cs.X == x && cs.Y == y)
-                cs.WorkTops.Remove(worktop);
+                for (int i = 0; i < cs.WorkTops.Count; i++)
+                {
+                    if (worktop.Prefab.transform.position == cs.WorkTops[i].Item2)
+                    {
+                        cs.WorkTops.RemoveAt(i);
+                        break;
+                    }
+                }
+
     }
 
     /// <summary>
@@ -148,7 +156,7 @@ public class Save : NetworkBehaviour
     {
         foreach (ChunkSave cs in this.chunks)
             if (cs.X == x && cs.Y == y)
-                cs.WorkTops.Add(worktop);
+                cs.WorkTops.Add(new Triple<Element, Vector3, Vector3>(worktop, worktop.Prefab.transform.position, worktop.Prefab.transform.rotation.eulerAngles));
     }
 
     /// <summary>
@@ -223,12 +231,12 @@ public class Save : NetworkBehaviour
 /// <summary>
 /// Represente la sauvegarde d'un chunk.
 /// </summary>
-class ChunkSave
+public class ChunkSave
 {
     private int x;
     private int y;
     private List<int> idSave;
-    private List<Element> workTops;
+    private List<Triple<Element, Vector3, Vector3>> workTops;
     private string path;
 
     /// <summary>
@@ -242,7 +250,7 @@ class ChunkSave
         this.x = x;
         this.y = y;
         this.idSave = new List<int>();
-        this.workTops = new List<Element>();
+        this.workTops = new List<Triple<Element, Vector3, Vector3>>();
         this.path = pathChunk + x.ToString() + "_" + y.ToString();
         if (File.Exists(this.path))
         {
@@ -254,24 +262,22 @@ class ChunkSave
                     this.idSave.Add(id);
             }
             if (lines.Length > 1)
-            foreach (string str in lines[1].Split('|'))
-            {
-                string[] components = str.Split(':');
-                int id;
-                if (int.TryParse(components[0], out id))
+                foreach (string str in lines[1].Split('|'))
                 {
-                    float posX = float.Parse(components[1]);
-                    float posY = float.Parse(components[2]);
-                    float posZ = float.Parse(components[3]);
-                    float rotX = float.Parse(components[4]);
-                    float rotY = float.Parse(components[5]);
-                    float rotZ = float.Parse(components[6]);
-                    Element wt = EntityDatabase.Find(id) as Element;
-                    wt.Prefab.transform.position = new Vector3(posX, posY, posZ);
-                    wt.Prefab.transform.eulerAngles = new Vector3(rotX, rotY, rotZ);
-                    this.workTops.Add(wt);
+                    string[] components = str.Split(':');
+                    int id;
+                    if (int.TryParse(components[0], out id))
+                    {
+                        float posX = float.Parse(components[1]);
+                        float posY = float.Parse(components[2]);
+                        float posZ = float.Parse(components[3]);
+                        float rotX = float.Parse(components[4]);
+                        float rotY = float.Parse(components[5]);
+                        float rotZ = float.Parse(components[6]);
+                        this.workTops.Add(new Triple<Element, Vector3, Vector3>(EntityDatabase.Find(id) as Element,
+                            new Vector3(posX, posY, posZ), new Vector3(rotX, rotY, rotZ)));
+                    }
                 }
-            }
         }
         else
             File.Create(this.path);
@@ -307,9 +313,11 @@ class ChunkSave
             foreach (int id in this.idSave)
                 file.Write(id.ToString() + '|');
             file.Write("\n");
-            foreach (Element wt in this.workTops)
-                file.Write(wt.ID.ToString() + ":" + wt.Prefab.transform.position.x.ToString() + ":" + wt.Prefab.transform.position.y.ToString() + ":" + wt.Prefab.transform.position.z.ToString() + ":"
-                    + wt.Prefab.transform.rotation.eulerAngles.x.ToString() + ":" + wt.Prefab.transform.rotation.eulerAngles.y.ToString() + ":" + wt.Prefab.transform.rotation.eulerAngles.x.ToString() + "|");
+            foreach (Triple<Element, Vector3, Vector3> wt in this.workTops)
+            {
+                file.Write(wt.Item1.ID.ToString() + ":" + wt.Item2.x.ToString() + ":" + wt.Item2.y.ToString() + ":" + wt.Item2.z.ToString() + ":"
+                      + wt.Item3.x.ToString() + ":" + wt.Item3.y.ToString() + ":" + wt.Item3.x.ToString() + "|");
+            }
         }
     }
 
@@ -340,7 +348,7 @@ class ChunkSave
         get { return this.idSave; }
     }
 
-    public List<Element> WorkTops
+    public List<Triple<Element, Vector3, Vector3>> WorkTops
     {
         get { return this.workTops; }
         set { this.workTops = value; }

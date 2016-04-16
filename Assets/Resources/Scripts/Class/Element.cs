@@ -56,32 +56,33 @@ public class Element : Entity
             GameObject.Find("Map").GetComponent<Save>().SaveDestroyedElement(x, y, idSave);
         base.Kill();
     }
-
+       
     /// <summary>
     /// Instancie l'entite dans le monde avec une position et un parent. (Must be server!)
     /// </summary>
-    public void Spawn(Vector3 pos, Transform parent, int idSave)
+    public void Spawn(Vector3 pos, Transform parent, int idSave, bool workTopLoad = false)
     {
         base.Spawn(pos, parent);
         base.prefab.GetComponent<SyncElement>().Elmt = new Element(this);
         base.prefab.GetComponent<SyncElement>().IdSave = idSave;
-        if (idSave == -1)
+        if (idSave == -1 && !workTopLoad)
         {
             int x = (int)(parent.parent.position.x / Chunk.Size);
             int y = (int)(parent.parent.position.y / Chunk.Size);
             GameObject.Find("Map").GetComponent<Save>().SaveBuildWorktop(x, y, this);
         }
     }
+    
 
     /// <summary>
     /// Instancie l'entite dans le monde avec une position et une rotation et un parent. (Must be server!)
     /// </summary>
-    public void Spawn(Vector3 pos, Quaternion rot, Transform parent, int idSave)
+    public void Spawn(Vector3 pos, Quaternion rot, Transform parent, int idSave, bool workTopLoad = false)
     {
         base.Spawn(pos, rot, parent);
         base.prefab.GetComponent<SyncElement>().Elmt = new Element(this);
         base.prefab.GetComponent<SyncElement>().IdSave = idSave;
-        if (idSave == -1)
+        if (idSave == -1 && !workTopLoad)
         {
             int x = (int)(parent.parent.position.x / Chunk.Size);
             int y = (int)(parent.parent.position.y / Chunk.Size);

@@ -40,7 +40,7 @@ public class InputManager : NetworkBehaviour
         this.cristalHUD = GetComponent<Cristal_HUD>();
         this.anim = gameObject.GetComponent<Animator>();
         this.syncCharacter = gameObject.GetComponent<SyncCharacter>();
-        this.validplace = false;
+        this.validplace = true;
 
         this.soundAudio = gameObject.GetComponent<Sound>();
         Cursor.visible = false;

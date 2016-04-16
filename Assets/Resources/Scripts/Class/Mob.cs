@@ -80,7 +80,7 @@ public class Mob : Entity
     {
         Transform mob = null;
         foreach (Collider col in Physics.OverlapBox(pos, new Vector3(5, 100, 5)))
-            if (col.gameObject.name.Contains("Island"))
+            if (col.gameObject.name.Contains("Island") && col.tag == "Ground")
             {
                 mob = col.transform.parent.FindChild("Mob");
                 break;
@@ -93,7 +93,7 @@ public class Mob : Entity
     {
         Transform mob = null;
         foreach (Collider col in Physics.OverlapBox(pos, new Vector3(5, 100, 5)))
-            if (col.gameObject.name.Contains("Island"))
+            if (col.gameObject.name.Contains("Island") && col.tag == "Ground")
             {
                 mob = col.transform.parent.FindChild("Mob");
                 break;
