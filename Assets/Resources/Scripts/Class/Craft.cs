@@ -54,6 +54,10 @@ public class Craft
         this.secret = false;
     }
     // Getters
+    public int ID
+    {
+        get { return this.id; }
+    }
     public ItemStack Product
     {
         get { return product; }
