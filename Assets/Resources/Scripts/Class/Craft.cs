@@ -62,6 +62,10 @@ public class Craft
     {
         get { return consume; }
     }
+    public int ID
+    {
+        get { return id; }
+    }
     public bool Fire
     {
         get { return fire; }

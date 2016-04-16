@@ -16,6 +16,7 @@ public class Craft_HUD : MonoBehaviour
     private Craft craftshow;
     private bool tooltip = false;
     private Item tooltipItem;
+    private bool[] craftMastered;
     // Use this for initialization
     void Start()
     {
@@ -33,18 +34,24 @@ public class Craft_HUD : MonoBehaviour
         this.Craftslist[2] = CraftConsumable;
         this.Craftslist[3] = CraftTools;
         this.Craftslist[4] = CraftArmor;
+        int i = 0;
         foreach (Craft craft in CraftDatabase.Crafts)
         {
             if (!craft.Secret)
             {
                 this.Craftslist[(int)(craft.What) - 1].Add(craft);
             }
-
+            i++;
         }
         craftindex = 0;
         showcraft = false;
         pos = -1;
         craftshow = new Craft(Craft.Type.None);
+        craftMastered = new bool[i+1];
+        for (int j = 0; j < craftMastered.Length; j++)
+        {
+            craftMastered[j] = false;
+        }
     }
 
     // Update is called once per frame
@@ -163,6 +170,11 @@ public class Craft_HUD : MonoBehaviour
     {
         Rect box = new Rect();
         int i = 0;
+        int cost = 1;
+        if (!craftMastered[craftshow.ID])
+        {
+            cost++;
+        }
         foreach (ItemStack item in craftshow.Consume)
         {
             box = new Rect((3 + i) * Screen.height / 18, 2 * Screen.height / 9 + pos * Screen.height / 18, Screen.height / 18, Screen.height / 18);
@@ -170,7 +182,7 @@ public class Craft_HUD : MonoBehaviour
             
             Rect littlebox = new Rect((3 + i) * Screen.height / 18 + 5, 2 * Screen.height / 9 + pos * Screen.height / 18+5, Screen.height / 18 - 10, Screen.height / 18-10);
             GUI.DrawTexture(littlebox, item.Items.Icon);
-            GUI.Box(box, inventory.InventoryContains(item) ? item.Quantity.ToString() : "<color=#ff0000>" + item.Quantity.ToString() + "</color>", skin.GetStyle("Quantity"));
+            GUI.Box(box, inventory.InventoryContains(item.Items,item.Quantity * cost) ? (item.Quantity * cost).ToString() : "<color=#ff0000>" + (item.Quantity* cost).ToString() + "</color>", skin.GetStyle("Quantity"));
             if (box.Contains(Event.current.mousePosition))
             {
                 tooltip = true;
@@ -179,15 +191,18 @@ public class Craft_HUD : MonoBehaviour
             i += 1;
         }
         box = new Rect((3 + i) * Screen.height / 18, 2 * Screen.height / 9 + pos * Screen.height / 18, Screen.height / 18, Screen.height / 18);
-        bool RecipeComplete = inventory.InventoryContains(craftshow);
-        bool ContainPlace = inventory.InventoryContains(new ItemStack());
+        bool RecipeComplete = inventory.InventoryContains(craftshow,cost == 1);
         bool WorkTopNear = true;//a modifier plus tard
-        if (WorkTopNear && inventory.InventoryContains(craftshow))
+        if (WorkTopNear && RecipeComplete)
         {
             if (GUI.Button(box, Resources.Load<Texture2D>("Sprites/CraftsIcon/Valid"), this.skin.GetStyle("Slot")))
             {
-                inventory.DeleteItems(craftshow.Consume);
+                inventory.DeleteItems(craftshow.Consume,cost == 1);
                 ItemStack its = new ItemStack(craftshow.Product.Items, craftshow.Product.Quantity);
+                if (Random.Range(0,100) < 5)
+                {
+                    craftMastered[craftshow.ID] = true;
+                }
                 inventory.AddItemStack(its);
                 if (its.Quantity != 0)
                     inventory.Drop(its);
