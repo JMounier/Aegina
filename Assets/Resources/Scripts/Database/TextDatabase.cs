@@ -91,7 +91,7 @@ public class TextDatabase
     public static readonly Text GlassDescription = new Text("Du verre, la lumiere passe au travers", "Glass, light pass throught");
     public static readonly Text BowlDescription = new Text("Un bol pratique pour contenir de la nourriture", "A bowl handy to contain food");
     public static readonly Text CuttedStoneDescription = new Text("Une pierre taillé utilisable pour des construction", "A cutted stone usable for construction");
-    public static readonly Text tickDescription = new Text("C'est un bout de bois", "It's a piece of wood");
+    public static readonly Text StickDescription = new Text("C'est un bout de bois", "It's a piece of wood");
     public static readonly Text HideDescription = new Text("Du cuir, j'avais justement besoin de nouveaux vêtements", "Some hide, I needed some new clothes");
     public static readonly Text GigotDescription = new Text("Cuisiné ça pourrais être bon", "Cooked it could be good");
     public static readonly Text FangDescription = new Text("C'est une dent", "It's a fang");
@@ -99,10 +99,11 @@ public class TextDatabase
     public static readonly Text AppleDescription = new Text("Une pomme bien rouge et juteuse", "A bright red and juicy apple");
     public static readonly Text CactusDescription = new Text("Un petit cactus avec une fleur dessus. Il semble contenir une bonne quantite d'eau", "A little cactus with a flozer on it. It seem to contain a good amount of water");
     public static readonly Text PetalStoneDescription = new Text("Un petale de fleur. C'est jolie mais peut utile. Vous n'allez pas le manger tout de meme ?", "A flower petal. It's beautiful but useless. You will not eat it, is it ? ");
-    public static readonly Text RedMushroomDescription = new Text("Un champignon pourrait être comestible", "Mushroom which could be edible");
-    public static readonly Text MushroomDescription = new Text("Un champignon à l'air comestible", "Mushroom which seems edible");
+    public static readonly Text RedMushroomDescription = new Text("Un champignon qui pourrait être comestible", "Mushroom which could be edible");
+    public static readonly Text MushroomDescription = new Text("Un champignon qui à l'air comestible", "Mushroom which seems edible");
     public static readonly Text CactusWaterDescription = new Text("De l'eau dans un cactus pour etancher la soif", "Water in a cactus to quench his thirst");
-    public static readonly Text MeatBallescription = new Text("Viannnnnde", "Meaaaaat");
+    public static readonly Text MeatBallesDcription = new Text("Viannnnnde", "Meaaaaat");
+
 
 
     // Tools

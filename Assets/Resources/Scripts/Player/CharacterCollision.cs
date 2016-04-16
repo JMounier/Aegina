@@ -22,7 +22,7 @@ public class CharacterCollision : MonoBehaviour
     void Update()
     {
         foreach (Collider col in Physics.OverlapSphere(gameObject.transform.position, 1))
-            if (col.CompareTag("Loot") && (col.GetType() == typeof(MeshCollider) || col.GetType() == typeof(BoxCollider)))
+            if (col.CompareTag("Loot") && (col.GetType() == typeof(MeshCollider) || col.GetType() == typeof(BoxCollider) || col.GetType() == typeof(CapsuleCollider)))
                 inventoryScript.DetectLoot(col.gameObject);            
     }
 }

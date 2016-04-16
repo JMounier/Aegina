@@ -27,7 +27,7 @@ public static class EntityDatabase
     public static readonly Entity FloatiumIngot = new Entity(13, 60, Resources.Load<GameObject>("Prefabs/Loots/FloatiumIngot"));
     public static readonly Entity SunkiumIngot = new Entity(14, 60, Resources.Load<GameObject>("Prefabs/Loots/SunkiumIngot"));
 
-    public static readonly Entity Cact = new Entity(15, 60, Resources.Load<GameObject>("Prefabs/Loots/Cact"));
+    public static readonly Entity Cact = new Entity(15, 60, Resources.Load<GameObject>("Prefabs/Loots/Cactus"));
     public static readonly Entity Petal = new Entity(16, 60, Resources.Load<GameObject>("Prefabs/Loots/Petal"));
 
     public static readonly Entity StoneAxe = new Entity(21, 60, Resources.Load<GameObject>("Prefabs/Loots/StoneAxe"));
@@ -81,13 +81,13 @@ public static class EntityDatabase
 
 
     // SmallElements
-    public static readonly Element Branch = new Element(90, 100, Resources.Load<GameObject>("Prefabs/Elements/SmallElements/Branch"), Element.TypeElement.Small, 0);
-    public static readonly Element ForestFlower = new Element(91, 100, Resources.Load<GameObject>("Prefabs/Elements/SmallElements/ForestFlower"), Element.TypeElement.Small, 0);
-    public static readonly Element IceFlower = new Element(92, 100, Resources.Load<GameObject>("Prefabs/Elements/SmallElements/IceFlower"), Element.TypeElement.Small, 0);
-    public static readonly Element SmallCactus = new Element(93, 100, Resources.Load<GameObject>("Prefabs/Elements/SmallElements/SmallCactus"), Element.TypeElement.Small, 0);
+    public static readonly Element Branch = new Element(90, 100, Resources.Load<GameObject>("Prefabs/Elements/SmallElements/Branch"), Element.TypeElement.Small, 0, new DropConfig(ItemDatabase.Find(82), 1));
+    public static readonly Element ForestFlower = new Element(91, 100, Resources.Load<GameObject>("Prefabs/Elements/SmallElements/ForestFlower"), Element.TypeElement.Small, 0, new DropConfig(ItemDatabase.Find(81), 1));
+    public static readonly Element IceFlower = new Element(92, 100, Resources.Load<GameObject>("Prefabs/Elements/SmallElements/IceFlower"), Element.TypeElement.Small, 0, new DropConfig(ItemDatabase.Find(81), 1));
+    public static readonly Element SmallCactus = new Element(93, 100, Resources.Load<GameObject>("Prefabs/Elements/SmallElements/SmallCactus"), Element.TypeElement.Small, 0, new DropConfig(ItemDatabase.Find(81), 1), new DropConfig(ItemDatabase.Find(80), 1));
     public static readonly Element LittleRock = new Element(93, 100, Resources.Load<GameObject>("Prefabs/Elements/SmallElements/LittleRock"), Element.TypeElement.Small, 0, new DropConfig(ItemDatabase.Find(1), 1));
-    public static readonly Element Mushroom = new Element(94, 100, Resources.Load<GameObject>("Prefabs/Elements/SmallElements/Mushroom"), Element.TypeElement.Small, 0);
-    public static readonly Element RedMushroom = new Element(95, 100, Resources.Load<GameObject>("Prefabs/Elements/SmallElements/RedMushroom"), Element.TypeElement.Small, 0);
+    public static readonly Element Mushroom = new Element(94, 100, Resources.Load<GameObject>("Prefabs/Elements/SmallElements/Mushroom"), Element.TypeElement.Small, 0, new DropConfig(ItemDatabase.Find(27), 1, 2));
+    public static readonly Element RedMushroom = new Element(95, 100, Resources.Load<GameObject>("Prefabs/Elements/SmallElements/RedMushroom"), Element.TypeElement.Small, 0, new DropConfig(ItemDatabase.Find(28), 1, 2));
 
     // Tree
     public static readonly Element Fir = new Element(100, 100, Resources.Load<GameObject>("Prefabs/Elements/Trees/Fir"), Element.TypeElement.Tree, 0, new DropConfig(ItemDatabase.Find(0), 1, 5));
@@ -192,6 +192,8 @@ public static class EntityDatabase
             yield return Gigot;
             yield return Hide;
             yield return Fang;
+            yield return MushroomLoot;
+            yield return RedMushroomLoot;
 
             //Ingot
             yield return IronIngot;
@@ -234,8 +236,7 @@ public static class EntityDatabase
             yield return YellowPotion;
 
             //Food 
-            //yield return MeatBalls;
-            //yield return Cact;
+            yield return MeatBalls;
 
             //Workbenches
             yield return Forge;
