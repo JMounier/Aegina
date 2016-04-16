@@ -9,6 +9,7 @@ public class Command
     private static readonly Command Help = new Command("help", "/help [page]", false);
     private static readonly Command Msg = new Command("msg", "/msg <player> <message>", false, "m");
     private static readonly Command Seed = new Command("seed", "/seed", false);
+    private static readonly Command Music = new Command("music", "/music <clip>", false);
 
     private static readonly Command Time = new Command("time", "/time <value>", true);
     private static readonly Command Give = new Command("give", "/give [player] <id> [quantity]", true);
@@ -31,6 +32,7 @@ public class Command
             yield return Help;
             yield return Msg;
             yield return Seed;
+            yield return Music;
 
             yield return Time;
             yield return Give;
@@ -131,6 +133,27 @@ public class Command
                 GameObject.Find("Map").GetComponent<DayNightCycle>().SetTime(time);
                 foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
                     player.GetComponent<Social>().RpcReceiveMsg(namePlayer + " set the time to " + parameters[0] + ".");
+            }
+            // MUSIC
+            else if (c == Music)
+            {
+                switch (parameters[0].ToLower())
+                {
+                    case "forest":
+                        sender.GetComponent<Sound>().RpcChooseSound(AudioClips.Forest, 2f);
+                        sender.GetComponent<Social>().RpcReceiveMsg("You will hear " + parameters[0].ToLower().ToString() + " music");
+                        break;
+                    case "desert":
+                        sender.GetComponent<Sound>().RpcChooseSound(AudioClips.Desert, 2f);
+                        sender.GetComponent<Social>().RpcReceiveMsg("You will hear " + parameters[0].ToLower().ToString() + " music");
+                        break;
+                    case "winter":
+                        sender.GetComponent<Sound>().RpcChooseSound(AudioClips.Winter, 2f);
+                        sender.GetComponent<Social>().RpcReceiveMsg("You will hear " + parameters[0].ToLower().ToString() + " music");
+                        break;
+                    default:
+                        throw new Exception();
+                }
             }
             // GIVE
             else if (c == Give)

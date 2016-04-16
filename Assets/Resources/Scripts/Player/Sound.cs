@@ -113,6 +113,21 @@ public class Sound : NetworkBehaviour
         this.source.PlayOneShot(AudioclipArray[(int)clip], vol);
     }
 
+    /// <summary>
+    /// Choisi la musique du joueur avec son volume.
+    /// </summary>
+    [ClientRpc]
+    public void RpcChooseSound(AudioClips clip, float vol)
+    {
+        if (clip == AudioClips.Forest || clip == AudioClips.Desert || clip == AudioClips.Winter)
+        {
+            this.source.Stop();
+            this.PlaySound(vol, Random.Range(420, 840), 42, clip);
+        }
+        else
+            PlaySound(clip, vol);
+    }
+
     /// <sumary>
     /// Joue un son avec un volume choisi et cree un cooldown.
     /// </sumary>
