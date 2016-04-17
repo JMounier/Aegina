@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.Networking;
+using System.Collections.Generic;
 
 public class SyncCore : SyncElement
 {
@@ -17,7 +18,7 @@ public class SyncCore : SyncElement
     [SyncVar]
     private int upgrade = 0;
     
-    private SyncListInt quantity;
+    private List<int> quantity;
 
     private Item[] needs;
 
@@ -36,7 +37,7 @@ public class SyncCore : SyncElement
         this.levelProd = 0;
         this.levelPortal = 0;
         this.needs = new Item[6] { ItemDatabase.Iron, ItemDatabase.Gold, ItemDatabase.Copper, ItemDatabase.Mithril, ItemDatabase.Floatium, ItemDatabase.Sunkium };
-        this.quantity = new SyncListInt();
+		this.quantity = new List<int>();
         for (int i = 0; i < 6; i++)
         {
             this.quantity.Add(0);
@@ -54,15 +55,6 @@ public class SyncCore : SyncElement
     void NeedUpdate()
     {
         this.levelTot = this.levelProd + this.levelAttack + this.levelPortal;
-        if (this.levelTot != 0)
-        {
-            quantity[0] = 10 * levelTot + 10 * levelAttack;
-            quantity[1] = 5 * levelTot + 5 * levelProd;
-            quantity[2] = 20 * levelTot - 10 * levelPortal;
-            quantity[3] = 3 * levelTot + 3 * levelProd + 6 * levelPortal;
-            quantity[4] = 3 * levelTot + 3 * levelAttack + 6 * levelPortal;
-            quantity[5] = levelTot + 2 * levelPortal;
-        }
     }
 
     #region Getters
@@ -111,6 +103,15 @@ public class SyncCore : SyncElement
     {
         get
         {
+			if (this.levelTot != 0)
+			{
+				quantity[0] = 10 * levelTot + 10 * levelAttack;
+				quantity[1] = 5 * levelTot + 5 * levelProd;
+				quantity[2] = 20 * levelTot - 10 * levelPortal;
+				quantity[3] = 3 * levelTot + 3 * levelProd + 6 * levelPortal;
+				quantity[4] = 3 * levelTot + 3 * levelAttack + 6 * levelPortal;
+				quantity[5] = levelTot + 2 * levelPortal;
+			}
             int lenght = this.levelTot == 0 ? 3 : 6;
             ItemStack[] liste = new ItemStack[lenght];
             for (int i = 0; i < lenght; i++)
