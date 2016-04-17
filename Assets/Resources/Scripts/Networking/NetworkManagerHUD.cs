@@ -25,6 +25,7 @@ namespace UnityEngine.Networking
         private string newWorldName = "World";
         private string seedstr = "";
         private string newipname = "Serveur";
+        private string typegame = "";
 
         private bool showGUI = true;
         private bool optionShown = false;
@@ -352,11 +353,23 @@ namespace UnityEngine.Networking
                 if (GUI.Button(rect1, TextDatabase.Delete.GetText(), skin.GetStyle("button")))
                 {
                     worldsList.Remove(world);
+                    foreach (string file in Directory.GetFiles(Application.dataPath+ "/saves/" + world + "/Chunks"))
+                    {
+                        File.Delete(file);
+                    }
+                    foreach (string file in Directory.GetFiles(Application.dataPath + "/saves/" + world + "/Players"))
+                    {
+                        File.Delete(file);
+                    }
                     foreach (string file in Directory.GetFiles(Application.dataPath + "/saves/" + world))
                     {
                         File.Delete(file);
                     }
+                    Directory.Delete(Application.dataPath + "/saves/" + world + "/Chunks");
+                    Directory.Delete(Application.dataPath + "/saves/" + world + "/Players");
                     Directory.Delete(Application.dataPath + "/Saves/" + world);
+                    if (worldsList.Count == 0)
+                        worldsShown = false;
                 }
             }
             else
@@ -466,26 +479,37 @@ namespace UnityEngine.Networking
             newWorldName = this.RemoveSpecialCharacter(GUI.TextField(new Rect(this.posX, this.posY, this.width, this.height), newWorldName, this.skin.textField), true);
             GUI.Box(new Rect(this.posX, this.posY - this.height - 10 + 2 * this.spacing, this.width, this.height), TextDatabase.Seed.GetText(), this.skin.GetStyle("inventory"));
             Rect rect = new Rect(this.posX, this.posY + 2 * this.spacing, this.width, this.height);
-            seedstr = GUI.TextField(rect, seedstr, 15, skin.textField);        
-            rect = new Rect(this.posX, this.posY + 3 * this.spacing, this.width, this.height);
-            if (GUI.Button(rect, TextDatabase.Create.GetText(), skin.GetStyle("button")))
+            seedstr = GUI.TextField(rect, seedstr, 15, skin.textField);
+            rect = new Rect(this.posX, this.posY - this.height - 10 + 4 * this.spacing, this.width / 2 - 10, this.height);
+            if (GUI.Button(rect,"Coop",this.skin.GetStyle("button")))
             {
-                if (newWorldName != "")
+                this.typegame = "Coop";
+            }
+            rect = new Rect(this.posX + this.width/2, this.posY - this.height - 10 + 4 * this.spacing, this.width / 2 - 10, this.height);
+            if (GUI.Button(rect,"Joueur Contre Joueur",this.skin.GetStyle("button")))
+            {
+                this.typegame = "Joueur Contre Joueur";
+            }
+            GUI.Box(new Rect(this.posX, this.posY + 4 * this.spacing, this.width, this.height), this.typegame, this.skin.GetStyle("inventory"));
+            rect = new Rect(this.posX, this.posY + 5 * this.spacing, this.width, this.height);
+            bool possible = true;
+            int i = 0;
+            worldsList = new List<string>(Directory.GetDirectories(Application.dataPath + "/Saves"));
+            for (i = 0; i < worldsList.Count; i++)
+            {
+                worldsList[i] = worldsList[i].Remove(0, Application.dataPath.Length + 7);
+            }
+            i = 0;
+            while (possible && i < worldsList.Count)
+            {
+                possible = newWorldName != worldsList[i];
+                i++;
+            }
+            if (possible)
+            {
+                if (GUI.Button(rect, TextDatabase.Create.GetText(), skin.GetStyle("button")))
                 {
-                    bool possible = true;
-                    int i = 0;
-                    worldsList = new List<string>(Directory.GetDirectories(Application.dataPath + "/Saves"));
-                    for (i = 0; i < worldsList.Count; i++)
-                    {
-                        worldsList[i] = worldsList[i].Remove(0, Application.dataPath.Length + 7);
-                    }
-                    i = 0;
-                    while (possible && i < worldsList.Count)
-                    {
-                        possible = newWorldName != worldsList[i];
-                        i++;
-                    }
-                    if (possible)
+                    if (newWorldName != "")
                     {
                         this.world = this.newWorldName;
                         this.newWorldName = "World";
@@ -494,19 +518,26 @@ namespace UnityEngine.Networking
                         int seed = 0;
                         if (!int.TryParse(this.seedstr, out seed))
                             seed = genSeed.Next(int.MaxValue);
-
+                        //to do ajout du type de monde lors de la creation
                         Save.CreateWorld(this.world, seed);
                         this.worldsList.Add(this.world);
+                        this.typegame = "";
+                        this.Launch(TypeLaunch.Host);
                     }
+                    this.firstScene.PlayButtonSound();
                 }
-                this.firstScene.PlayButtonSound();
             }
-            rect = new Rect(this.posX, this.posY + 4 * this.spacing, this.width, this.height);
+            else
+            {
+                GUI.Box(rect,TextDatabase.Create.GetText(),this.skin.GetStyle("slot"));
+            }
+            rect = new Rect(this.posX, this.posY + 6 * this.spacing, this.width, this.height);
             if (GUI.Button(rect, TextDatabase.Back.GetText(), skin.GetStyle("button")))
             {
                 this.worldcreateShown = false;
                 this.world = "";
                 this.newWorldName = "World";
+                this.typegame = "";
                 this.firstScene.PlayButtonSound();
             }
         }
