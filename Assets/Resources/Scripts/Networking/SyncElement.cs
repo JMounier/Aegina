@@ -21,7 +21,9 @@ public class SyncElement : NetworkBehaviour
 
     void OnDestroy()
     {
-        gameObject.transform.parent.parent.GetComponent<SyncChunk>().ToReset.Add(new Tuple<float, Vector3>(.5f, gameObject.transform.position));
+		if (isServer) {
+			gameObject.transform.parent.parent.GetComponent<SyncChunk>().ToReset.Add(new Tuple<float, Vector3>(.5f, gameObject.transform.position));
+		}
     }
 
 

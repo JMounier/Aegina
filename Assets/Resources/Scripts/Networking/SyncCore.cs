@@ -18,7 +18,7 @@ public class SyncCore : SyncElement
     [SyncVar]
     private int upgrade = 0;
     
-    private List<int> quantity;
+	private int[,,,] quantity;
 
     private Item[] needs;
 
@@ -37,14 +37,20 @@ public class SyncCore : SyncElement
         this.levelProd = 0;
         this.levelPortal = 0;
         this.needs = new Item[6] { ItemDatabase.Iron, ItemDatabase.Gold, ItemDatabase.Copper, ItemDatabase.Mithril, ItemDatabase.Floatium, ItemDatabase.Sunkium };
-		this.quantity = new List<int>();
-        for (int i = 0; i < 6; i++)
-        {
-            this.quantity.Add(0);
-        }
-        quantity[0] = 15;
-        quantity[1] = 1;
-        quantity[2] = 15;
+		this.quantity = new int[5,5,5,6];
+		for (int i = 0; i < 5; i++) {
+			for (int j = 0; j < 5; j++) {
+				for (int k = 0; k < 5; k++) {
+					this.quantity [i,j,k,0] = (2 * i + j + k) * 10;
+					this.quantity [i,j,k,1] = (i + 2*j + k) * 5;
+					this.quantity [i,j,k,2] = (i + j + 2*k) * 10;
+					this.quantity [i,j,k,3] = (i + 2*j + 3*k) * 3;
+					this.quantity [i,j,k,4] = (2*i + j + 3*k) * 3;
+					this.quantity [i,j,k,5] = (i + j + 3*k);
+				}
+			}
+		}
+
     }
     void Update()
     {
@@ -103,22 +109,20 @@ public class SyncCore : SyncElement
     {
         get
         {
-			if (this.levelTot != 0)
-			{
-				quantity[0] = 10 * levelTot + 10 * levelAttack;
-				quantity[1] = 5 * levelTot + 5 * levelProd;
-				quantity[2] = 20 * levelTot - 10 * levelPortal;
-				quantity[3] = 3 * levelTot + 3 * levelProd + 6 * levelPortal;
-				quantity[4] = 3 * levelTot + 3 * levelAttack + 6 * levelPortal;
-				quantity[5] = levelTot + 2 * levelPortal;
+			ItemStack[] liste;
+			if (this.levelTot == 0) {
+				liste = new ItemStack[3];
+				liste [0] = new ItemStack (needs [0], 15);
+				liste [1] = new ItemStack (needs [1], 1);
+				liste [2] = new ItemStack (needs [2], 15);
+			} 
+			else {
+				liste = new ItemStack[6];
+				for (int i = 0; i < 6; i++) {
+					liste [i] = new ItemStack (needs [i], quantity [this.levelAttack,this.levelProd,this.LevelPortal,i]);
+				}
 			}
-            int lenght = this.levelTot == 0 ? 3 : 6;
-            ItemStack[] liste = new ItemStack[lenght];
-            for (int i = 0; i < lenght; i++)
-            {
-                liste[i] = new ItemStack(needs[i], quantity[i]);
-            }
-            return liste;
+			return liste;
         }
     }
 
