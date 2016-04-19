@@ -14,6 +14,8 @@ public class Social : NetworkBehaviour
     private string namePlayer;
     [SyncVar]
     private bool chatShown = false;
+	[SyncVar]
+	private Team team = Team.Blue;
     private bool isOp = false;
     private List<Tuple<float,float>>[] posRespawn;
 
@@ -221,7 +223,14 @@ public class Social : NetworkBehaviour
                 throw new System.ArgumentException("Activity is not valid");
         }
     }
-
+	/// <summary>
+    /// Cmds the set team.
+    /// </summary>
+    /// <param name="team">Team.</param>
+	[Command]
+	public void CmdSetTeam(Team team){
+		this.team = team;
+	}
     /// <summary>
     /// Envoi un message du serveur vers les clients
     /// </summary>
@@ -294,4 +303,12 @@ public class Social : NetworkBehaviour
         get { return this.isOp; }
         set { this.isOp = value; }
     }
+	/// <summary>
+	/// Gets the team.
+	/// </summary>
+	/// <value>The team.</value>
+	public Team Team{
+		get{ return this.team;}
+	}
+
 }

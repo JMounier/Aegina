@@ -50,7 +50,6 @@ public class InputManager : NetworkBehaviour
 	// Update is called once per frame
 	void Update ()
 	{
-
 		if (!isLocalPlayer)
 			return;
 		// Visibilite et blocage du cursor
@@ -110,7 +109,7 @@ public class InputManager : NetworkBehaviour
 						break;
 					}
 				}
-				if (Actual_chunk != null && Actual_chunk.IsCristal && Actual_chunk.Cristal.Team == Team.Blue) {//a modifier quand les teams seront implementer
+				if (Actual_chunk != null && Actual_chunk.IsCristal && Actual_chunk.Cristal.Team == this.social.Team) {//a modifier quand les teams seront implementer
 					damage += Actual_chunk.Cristal.LevelAtk;
 				}
 				Item item = this.inventaire.UsedItem.Items;
@@ -120,7 +119,6 @@ public class InputManager : NetworkBehaviour
 					damage += 5f;
 				}
 				CmdAttack (damage);
-				cdAttack = 0.8f;
 			}
 			if (this.controller.Pause || this.controller.IsJumping || Input.GetButtonDown("Fire2")) {
 				nearAttackSound = -1;
@@ -232,8 +230,10 @@ public class InputManager : NetworkBehaviour
 				}
 			} else if (this.nearElement != null && this.nearElement.GetComponent<SyncCore> () != null) {
 				this.cristalHUD.Cristal = this.nearElement.GetComponent<SyncCore> ();
-				this.cristalHUD.Cristal_shown = true;
-				this.controller.Pause = true;
+				if (this.cristalHUD.Cristal.Team == this.social.Team || this.cristalHUD.Cristal.Team == Team.Neutre) {
+					this.cristalHUD.Cristal_shown = true;
+					this.controller.Pause = true;
+				}
 			} else if (this.nearElement != null && this.nearElement.GetComponent<SyncElement> () != null) {
 				this.CmdInteractElement (this.nearElement.gameObject, this.inventaire.UsedItem.Items.ID);
 			}
@@ -246,9 +246,10 @@ public class InputManager : NetworkBehaviour
 		//gestion de l'attaque
 		if (cdAttack > 0)
 			cdAttack -= Time.deltaTime;
-		if (Input.GetButton ("Fire1") && cdAttack <= 0 && !this.controller.Pause) {
+		if (Input.GetButtonDown ("Fire1") && cdAttack <= 0 && !this.controller.Pause) {
 			this.anim.SetInteger ("Action", 6);
-			this.nearAttackSound = 0.2f; 
+			this.nearAttackSound = 0.2f;
+			this.cdAttack = 0.8f;
 		}
 
 
@@ -328,15 +329,22 @@ public class InputManager : NetworkBehaviour
 	[Command]
 	private void CmdAttack (float damage)
 	{
+		float mult_range = 1;
+		if (this.inventaire.UsedItem.Items is Sword) {
+			mult_range = 1.5f;
+		}
 		RaycastHit cible = new RaycastHit ();
-		if (Physics.Raycast (new Vector3 (this.character.transform.position.x, 7, this.character.transform.position.z), -this.character.transform.forward, out cible, 1)) {
-			if (cible.collider.gameObject.name == "Character") {
-				//to do : verification de la team
+		if (Physics.Raycast (new Vector3 (this.character.transform.position.x, 7, this.character.transform.position.z), -mult_range*this.character.transform.forward, out cible, 1)) {
+			if (cible.collider.gameObject.name == "Character" && cible.collider.gameObject.GetComponentInParent<Social> ().Team != this.social.Team) {
+				
 				cible.collider.gameObject.GetComponentInParent<SyncCharacter> ().ReceiveDamage (damage);
 			} else if (cible.collider.gameObject.tag == "Mob") {
 				cible.collider.gameObject.GetComponentInParent<SyncMob> ().ReceiveDamage (damage);
 			}
-		}
+		} else if (Physics.Raycast (new Vector3 (this.character.transform.position.x, 8, this.character.transform.position.z), -this.character.transform.forward, out cible, 1)) {
+			if (cible.collider.gameObject.name == "IslandCore")
+				cible.collider.gameObject.GetComponent<SyncCore> ().AttackCristal ((int)damage, this.social.Team);
+		}	
 	}
 
 	#region  Interact Element
