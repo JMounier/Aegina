@@ -216,7 +216,7 @@ public class SyncCore : SyncElement
 
     #endregion
 
-    #region Rp	c
+    #region Rpc
     [ClientRpc]
     private void RpcSetColor(Team team)
     {
