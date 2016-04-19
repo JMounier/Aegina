@@ -81,6 +81,8 @@ namespace UnityEngine.Networking
             this.width = Screen.width / 4;
             this.height = Screen.height / 30;
             this.spacing = this.height * 2;
+			if (!this.manager.isNetworkActive)
+				loading = false;
         }
         void Start()
         {
@@ -99,7 +101,7 @@ namespace UnityEngine.Networking
 
         void OnGUI()
         {
-            if (loading)
+			if (loading && this.manager.IsClientConnected())
             {
                 GUI.Box(new Rect(0, 0, Screen.width, Screen.height), TextDatabase.Loading.GetText(), skin.GetStyle("loading"));
                 Color skinColor = this.skin.GetStyle("loading").normal.textColor;
