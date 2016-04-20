@@ -17,10 +17,13 @@ public class SyncCore : SyncElement
     private int levelPortal;
     [SyncVar]
     private int upgrade = 0;
+	[SyncVar] 
+	private int life = 1000;
     
 	private int[,,,] quantity;
 
     private Item[] needs;
+
 
     void Start()
     {
@@ -36,14 +39,14 @@ public class SyncCore : SyncElement
         this.levelAttack = 0;
         this.levelProd = 0;
         this.levelPortal = 0;
-        this.needs = new Item[6] { ItemDatabase.Iron, ItemDatabase.Gold, ItemDatabase.Copper, ItemDatabase.Mithril, ItemDatabase.Floatium, ItemDatabase.Sunkium };
+        this.needs = new Item[6] { ItemDatabase.Copper, ItemDatabase.Iron, ItemDatabase.Gold, ItemDatabase.Mithril, ItemDatabase.Floatium, ItemDatabase.Sunkium };
 		this.quantity = new int[5,5,5,6];
 		for (int i = 0; i < 5; i++) {
 			for (int j = 0; j < 5; j++) {
 				for (int k = 0; k < 5; k++) {
-					this.quantity [i,j,k,0] = (2 * i + j + k) * 10;
-					this.quantity [i,j,k,1] = (i + 2*j + k) * 5;
-					this.quantity [i,j,k,2] = (i + j + 2*k) * 10;
+					this.quantity [i,j,k,0] = (i + j + 2*k) * 10;
+					this.quantity [i,j,k,1] = (2 * i + j + k) * 10;
+					this.quantity [i,j,k,2] = (i + 2*j + k) * 5;
 					this.quantity [i,j,k,3] = (i + 2*j + 3*k) * 3;
 					this.quantity [i,j,k,4] = (2*i + j + 3*k) * 3;
 					this.quantity [i,j,k,5] = (i + j + 3*k);
@@ -125,11 +128,18 @@ public class SyncCore : SyncElement
 			return liste;
         }
     }
-
+	public ItemStack RepairCost
+	{
+		get{return new ItemStack (needs [levelTot], 10);}
+	}
     public Team Team
     {
         get { return team; }
     }
+	public int Life{
+		get{ return life;}
+		set{ this.life = Mathf.Clamp (this.life + value, 0, 1000);}
+	}
     #endregion
 
     #region Cmd
@@ -163,6 +173,46 @@ public class SyncCore : SyncElement
         this.levelPortal = level;
         this.CmdSetLevelTot(level + this.levelAttack + this.levelProd);
     }
+	public void AttackCristal(int damage, Team team){
+		this.life -= damage;
+		if (this.life <= 0) {
+			this.life = 500;
+			bool leveldown = this.LevelTot != 0;
+			while (leveldown) 
+			{
+				int i = Random.Range (0, 2);
+				switch (i) 
+				{
+				case 0:
+					if (levelAttack > 0) {
+						levelAttack -= 1;
+						NeedUpdate ();
+						upgrade -= 1;
+						leveldown = false;
+					}
+					break;
+				case 1:
+					if (levelProd > 0) {
+						levelProd -= 1;
+						NeedUpdate ();
+						upgrade -= 1;
+						leveldown = false;
+					}
+					break;
+				default:
+					if (levelPortal > 0) {
+						levelPortal -= 1;
+						upgrade -= 1;
+						NeedUpdate ();
+						leveldown = false;
+					}
+					break;
+				}
+			}
+			this.team = team;
+			RpcSetColor (team);
+		}
+	}
 
     #endregion
 

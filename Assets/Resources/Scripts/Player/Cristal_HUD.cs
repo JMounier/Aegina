@@ -13,6 +13,7 @@ public class Cristal_HUD : NetworkBehaviour
     private int width;
     private int height;
     private int space;
+	private int spaceH;
     private GUISkin skin;
     private Inventory inventory;
     private Transform character;
@@ -25,6 +26,7 @@ public class Cristal_HUD : NetworkBehaviour
         this.width = Screen.width / 3+50;
         this.height = Screen.height / 2;
         this.space = Screen.height / 20;
+		this.spaceH = Screen.width / 50;
         this.skin = Resources.Load<GUISkin>("Sprites/GUIskin/Skin");
         this.inventory = GetComponentInParent<Inventory>();
         this.character = this.transform.FindChild("Character");
@@ -37,6 +39,7 @@ public class Cristal_HUD : NetworkBehaviour
         this.width = Screen.width / 3+50;
         this.height = Screen.height / 2;
         this.space = Screen.height / 25;
+		this.spaceH = Screen.width / 40;
     }
     void OnGUI()
     {
@@ -60,7 +63,7 @@ public class Cristal_HUD : NetworkBehaviour
         {
             if (this.cristal.Needs[i].Quantity != 0 && cristal.Upgrade < 3)
             {
-                rect = new Rect(this.pos_x + j % 3 * space + space, this.pos_y + height - 4 * space - 10 + j / 3 * space, space, space);
+                rect = new Rect(this.pos_x + j % 3 * spaceH + spaceH, this.pos_y + height - 4 * space - 10 + j / 3 * space, space, space);
                 GUI.Box(rect, "", this.skin.GetStyle("slot"));
 
                 // Dessin de l'item + quantite
@@ -76,7 +79,7 @@ public class Cristal_HUD : NetworkBehaviour
         }
         if (this.cristal.T == Team.Neutre)
         {
-            rect = new Rect(this.pos_x + space, this.pos_y + height - 3 * space, 3 * space, space);
+            rect = new Rect(this.pos_x + spaceH, this.pos_y + height - 3 * space, 3 * space, space);
             if (GUI.Button(rect, TextDatabase.Activate.GetText(), this.skin.GetStyle("button")))
             {
                 if (this.inventory.InventoryContains(this.cristal.Needs))
@@ -88,7 +91,7 @@ public class Cristal_HUD : NetworkBehaviour
         }
         else if (this.cristal.Upgrade < 3)
         {
-            rect = new Rect(this.pos_x + 5 * space, this.pos_y + height - 3 * space + 15, 3 * space-5, space);
+            rect = new Rect(this.pos_x + 5 * spaceH, this.pos_y + height - 3 * space + 5, 3*spaceH-5, space+5);
             if (GUI.Button(rect, TextDatabase.Upgrade.GetText(), this.skin.GetStyle("button")))
             {
                 if (this.inventory.InventoryContains(this.cristal.Needs))
@@ -98,7 +101,7 @@ public class Cristal_HUD : NetworkBehaviour
                     this.cristal.Upgrade += 1;
                 }
             }
-            rect = new Rect(this.pos_x + 8 * space, this.pos_y + height - 3 * space + 15, 3 * space - 5, space);
+			rect = new Rect(this.pos_x + 8 * spaceH, this.pos_y + height - 3 * space + 5, 3*spaceH-5, space+5);
             
             if (GUI.Button(rect, TextDatabase.Upgrade.GetText(), this.skin.GetStyle("button")))
             {
@@ -110,7 +113,7 @@ public class Cristal_HUD : NetworkBehaviour
                 }
             }
 
-            rect = new Rect(this.pos_x + 11 * space, this.pos_y + height - 3 * space + 15, 3 * space-5, space);
+			rect = new Rect(this.pos_x + 11 * spaceH, this.pos_y + height - 3 * space + 5, 3*spaceH-5, space+5);
             if (GUI.Button(rect, TextDatabase.Upgrade.GetText(), this.skin.GetStyle("button")))
             {
                 if (this.inventory.InventoryContains(this.cristal.Needs))
@@ -121,30 +124,48 @@ public class Cristal_HUD : NetworkBehaviour
                 }
             }
 
-            
         }
 
         for (int i = 0; i < 5; i++)
         {
-            rect = new Rect(this.pos_x + 5 * space, this.pos_y + height - (4 + 2 * i) * space + i * space / 2, 3 * space - 5, space);
+			rect = new Rect(this.pos_x + 5 * spaceH, this.pos_y + height - (4 + 2 * i) * space + i * space / 2, 3*spaceH-5, space);
             GUI.Box(rect, "", this.cristal.LevelAtk >= i + 1 ? skin.GetStyle("Slot") : skin.GetStyle("Inventory"));
         }
 
         for (int i = 0; i < 5; i++)
         {
-            rect = new Rect(this.pos_x + 8 * space, this.pos_y + height - (4 + 2 * i) * space + i * space / 2, 3 * space - 5, space);
+			rect = new Rect(this.pos_x + 8 * spaceH, this.pos_y + height - (4 + 2 * i) * space + i * space / 2, 3*spaceH-5, space);
             GUI.Box(rect, "", this.cristal.LevelProd >= i + 1 ? skin.GetStyle("Slot") : skin.GetStyle("Inventory"));
         }
         for (int i = 0; i < 5; i++)
         {
-            rect = new Rect(this.pos_x + 11 * space, this.pos_y + height - (4 + 2 * i) * space + i * space / 2, 3 * space - 5, space);
+			rect = new Rect(this.pos_x + 11 * spaceH, this.pos_y + height - (4 + 2 * i) * space + i * space / 2,3*spaceH-5, space);
             GUI.Box(rect, "", this.cristal.LevelPortal >= i + 1 ? skin.GetStyle("Slot") : skin.GetStyle("Inventory"));
         }
         for (int i = 0; i < 3; i++)
         {
-            rect = new Rect(this.pos_x + (5 + 3 * i) * space, this.pos_y + height - 11 * space -15, 3 * space - 5, space);
-            GUI.Box(rect, i == 0 ? TextDatabase.AttackPower.GetText(): i == 1 ? TextDatabase.GrowingPower.GetText() : TextDatabase.PortalPower.GetText(), skin.GetStyle("Tooltip"));
+			rect = new Rect(this.pos_x + (5 + 3 * i) * spaceH, this.pos_y + height - 11 * space -15, 3*spaceH-5, space);
+			GUI.Box(rect,"<color=#FFFFFF>"+ (i == 0 ? TextDatabase.AttackPower.GetText(): i == 1 ? TextDatabase.GrowingPower.GetText() : TextDatabase.PortalPower.GetText())+"</color>", skin.GetStyle("Description"));
         }
+		rect = new Rect (this.pos_x + width - 1.7f * this.spaceH, this.pos_y +space, 1.1f * this.spaceH, this.height - 5 * this.space);
+		GUI.DrawTexture (rect, Resources.Load<Texture2D> ("Sprites/Bars/Thirst/ThirstBar"+((int)this.cristal.Life/10).ToString()));
+		if (this.cristal.Life < 1000) {
+			rect.y += this.height - 3 * this.space;
+			rect.height = this.space;
+			if (GUI.Button (rect, "Heal", skin.GetStyle ("button")) && this.inventory.InventoryContains (this.cristal.RepairCost)) {
+				this.inventory.DeleteItems (this.cristal.RepairCost);
+				this.cristal.Life += 100;
+			}
+			Rect costrect = new Rect (rect.x, rect.y - 1.2f * this.space, this.space, this.space);
+			costrect.x += (rect.width - costrect.width) / 2;
+			GUI.Box (costrect, "", skin.GetStyle ("Slot"));
+			costrect.x += 6;
+			costrect.y += 6;
+			costrect.width -= 12;
+			costrect.height -= 12;
+			GUI.DrawTexture (costrect, this.cristal.RepairCost.Items.Icon);
+			GUI.Box (costrect, "10", this.skin.GetStyle ("quantity"));
+		}
     }
 
     /// <summary>

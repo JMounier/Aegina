@@ -188,13 +188,13 @@ public class TextDatabase
     public static readonly Text Upgrade = new Text("Amélioration", "Upgrade");
     public static readonly Text Seed = new Text("Seed (facultatif)", "Seed (optional)");
     public static readonly Text Delete = new Text("Supprimer", "Delete");
-    public static readonly Text AttackPower = new Text("Pouvoir d'attaque", "Attaque power");
-    public static readonly Text GrowingPower = new Text("Pouvoir de croissance", "Growing power");
-    public static readonly Text PortalPower = new Text("Pouvoir de portail", "Portal Power");
+    public static readonly Text AttackPower = new Text("Guerre", "War");
+    public static readonly Text GrowingPower = new Text("Récolte", "Harvest");
+    public static readonly Text PortalPower = new Text("Divin", "Divine");
     public static readonly Text Respawn = new Text("Reaparaitre", "Respawn");
     public static readonly Text Start = new Text("Debuter", "Start");
-    public static readonly Text PVP = new Text("Joueur contre Joueur", "Player versus Player");
-    public static readonly Text WorktopAbsent = new Text("l'etablie necessaire ne se trouve pas à porté", "Necessary woktop is not present \n");
+    public static readonly Text PVP = new Text("JCJ", "PVP");
+    public static readonly Text WorktopAbsent = new Text("l'établie necessaire ne se trouve pas à porté", "Necessary woktop is not present \n");
     public static readonly Text DontHaveItem = new Text("Tu ne possède pas les objets necessaire pour cette recette", "You don't have the necessary item for this recipe \n");
     public static readonly Text InventoryFull = new Text("Ton inventaire est plein", "Your inventory is full");
 
