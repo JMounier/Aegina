@@ -30,7 +30,10 @@ public class SyncMob : NetworkBehaviour
             this.path = new List<Node>();
             this.anim = gameObject.GetComponent<Animator>();
             this.anim.SetInteger("Action", 0);
-            this.chunk = gameObject.transform.parent.parent.GetComponent<SyncChunk>();
+            if (gameObject.transform.parent == null)
+                this.myMob.Life = 0;
+            else
+                this.chunk = gameObject.transform.parent.parent.GetComponent<SyncChunk>();
         }
     }
 
@@ -39,11 +42,10 @@ public class SyncMob : NetworkBehaviour
     {
         if (!isServer)
             return;
+
         if (gameObject.transform.position.y < -10)
-        {
             this.myMob.Life = 0;
-            return;
-        }
+
         /*
                 --------------------------
                |    Deplacement du mob    |
@@ -69,16 +71,14 @@ public class SyncMob : NetworkBehaviour
             }
         }
         // Check le focus
-        if (!this.focus && dist < this.myMob.Vision && nearPlayer.GetComponent<SyncCharacter>().Life > 0)
+        if (dist < this.myMob.Vision && !focus)
         {
-            this.focus = true;
+            focus = true;
             this.path.Clear();
         }
-        if (this.focus && nearPlayer.GetComponent<SyncCharacter>().Life <= 0)
-            this.focus = false;
 
         // Focus
-        if (this.focus)
+        if (focus)
         {
             this.cdAttack += Time.deltaTime;
             // Attack
@@ -98,14 +98,7 @@ public class SyncMob : NetworkBehaviour
             {
                 this.goal = this.chunk.GetComponent<SyncChunk>().MyGraph.GetNode(nearPlayer.transform.FindChild("Character").position);
                 if (this.goal != null && this.goal.IsValid)
-                {
                     this.path = this.chunk.GetComponent<SyncChunk>().MyGraph.AStarPath(this.node, this.goal, .71f);
-                    if (path.Count == 0)
-                    {
-                        this.focus = false;
-                        Move(gameObject.transform.position - nearPlayer.transform.FindChild("Character").position);
-                    }
-                }
                 else
                 {
                     this.anim.SetInteger("Action", 0);
@@ -156,7 +149,6 @@ public class SyncMob : NetworkBehaviour
     private void Move(Vector3 pos)
     {
         this.View(pos);
-        float dist = Vector3.Distance(gameObject.transform.position, pos);
         if (!this.focus)
         {
             this.anim.SetInteger("Action", 1);
