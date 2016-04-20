@@ -17,10 +17,8 @@ public class SyncCore : SyncElement
     private int levelPortal;
     [SyncVar]
     private int upgrade = 0;
-	[SyncVar] 
-	private int life = 1000;
-    
-	private int[,,,] quantity;
+    [SyncVar]
+    private int life = 1000;
 
     private Item[] needs;
 
@@ -38,28 +36,16 @@ public class SyncCore : SyncElement
         this.levelTot = 0;
         this.levelAttack = 0;
         this.levelProd = 0;
-        this.levelPortal = 0;
-        this.needs = new Item[6] { ItemDatabase.Copper, ItemDatabase.Iron, ItemDatabase.Gold, ItemDatabase.Mithril, ItemDatabase.Floatium, ItemDatabase.Sunkium };
-		this.quantity = new int[5,5,5,6];
-		for (int i = 0; i < 5; i++) {
-			for (int j = 0; j < 5; j++) {
-				for (int k = 0; k < 5; k++) {
-					this.quantity [i,j,k,0] = (i + j + 2*k) * 10;
-					this.quantity [i,j,k,1] = (2 * i + j + k) * 10;
-					this.quantity [i,j,k,2] = (i + 2*j + k) * 5;
-					this.quantity [i,j,k,3] = (i + 2*j + 3*k) * 3;
-					this.quantity [i,j,k,4] = (2*i + j + 3*k) * 3;
-					this.quantity [i,j,k,5] = (i + j + 3*k);
-				}
-			}
-		}
-
+        this.levelPortal = 0;     
+        this.needs = new Item[6] { new Item(ItemDatabase.Copper), new Item(ItemDatabase.Iron), new Item(ItemDatabase.Gold),
+            new Item(ItemDatabase.Mithril), new Item(ItemDatabase.Floatium), new Item(ItemDatabase.Sunkium) };
     }
+
     void Update()
     {
         gameObject.transform.Rotate(Vector3.up, 0.25f);
         gameObject.transform.Translate(Vector3.up * 0.005f * (Mathf.Sin(Time.time)));
-        
+
     }
     void NeedUpdate()
     {
@@ -112,34 +98,39 @@ public class SyncCore : SyncElement
     {
         get
         {
-			ItemStack[] liste;
-			if (this.levelTot == 0) {
-				liste = new ItemStack[3];
-				liste [0] = new ItemStack (needs [0], 15);
-				liste [1] = new ItemStack (needs [1], 1);
-				liste [2] = new ItemStack (needs [2], 15);
-			} 
-			else {
-				liste = new ItemStack[6];
-				for (int i = 0; i < 6; i++) {
-					liste [i] = new ItemStack (needs [i], quantity [this.levelAttack,this.levelProd,this.LevelPortal,i]);
-				}
-			}
-			return liste;
+            ItemStack[] liste = new ItemStack[6];
+            if (this.levelTot == 0)
+            {
+                liste = new ItemStack[3];
+                liste[0] = new ItemStack(needs[0], 15);
+                liste[1] = new ItemStack(needs[1], 1);
+                liste[2] = new ItemStack(needs[2], 15);
+            }
+            else
+            {
+                liste[0] = new ItemStack(needs[0], (this.levelAttack + this.levelProd + 2 * this.LevelPortal) * 10);
+                liste[1] = new ItemStack(needs[1], (2 * this.levelAttack + this.levelProd + this.LevelPortal) * 10);
+                liste[2] = new ItemStack(needs[2], (this.levelAttack + 2 * this.levelProd + this.LevelPortal) * 10);
+                liste[3] = new ItemStack(needs[3], (this.levelAttack + 2 * this.levelProd + 3 * this.LevelPortal) * 10);
+                liste[4] = new ItemStack(needs[4], (2 * this.levelAttack + this.levelProd + 3 * this.LevelPortal) * 10);
+                liste[5] = new ItemStack(needs[5], (this.levelAttack + this.levelProd + 3 * this.LevelPortal) * 10);
+            }
+            return liste;
         }
     }
-	public ItemStack RepairCost
-	{
-		get{return new ItemStack (needs [levelTot], 10);}
-	}
+    public ItemStack RepairCost
+    {
+        get { return new ItemStack(new Item(needs[levelTot]), 10); }
+    }
     public Team Team
     {
         get { return team; }
     }
-	public int Life{
-		get{ return life;}
-		set{ this.life = Mathf.Clamp (this.life + value, 0, 1000);}
-	}
+    public int Life
+    {
+        get { return life; }
+        set { this.life = Mathf.Clamp(this.life + value, 0, 1000); }
+    }
     #endregion
 
     #region Cmd
@@ -173,46 +164,51 @@ public class SyncCore : SyncElement
         this.levelPortal = level;
         this.CmdSetLevelTot(level + this.levelAttack + this.levelProd);
     }
-	public void AttackCristal(int damage, Team team){
-		this.life -= damage;
-		if (this.life <= 0) {
-			this.life = 500;
-			bool leveldown = this.LevelTot != 0;
-			while (leveldown) 
-			{
-				int i = Random.Range (0, 2);
-				switch (i) 
-				{
-				case 0:
-					if (levelAttack > 0) {
-						levelAttack -= 1;
-						NeedUpdate ();
-						upgrade -= 1;
-						leveldown = false;
-					}
-					break;
-				case 1:
-					if (levelProd > 0) {
-						levelProd -= 1;
-						NeedUpdate ();
-						upgrade -= 1;
-						leveldown = false;
-					}
-					break;
-				default:
-					if (levelPortal > 0) {
-						levelPortal -= 1;
-						upgrade -= 1;
-						NeedUpdate ();
-						leveldown = false;
-					}
-					break;
-				}
-			}
-			this.team = team;
-			RpcSetColor (team);
-		}
-	}
+    public void AttackCristal(int damage, Team team)
+    {
+        this.life -= damage;
+        if (this.life <= 0)
+        {
+            this.life = 500;
+            bool leveldown = this.LevelTot != 0;
+            while (leveldown)
+            {
+                int i = Random.Range(0, 2);
+                switch (i)
+                {
+                    case 0:
+                        if (levelAttack > 0)
+                        {
+                            levelAttack -= 1;
+                            NeedUpdate();
+                            upgrade -= 1;
+                            leveldown = false;
+                        }
+                        break;
+                    case 1:
+                        if (levelProd > 0)
+                        {
+                            levelProd -= 1;
+                            NeedUpdate();
+                            upgrade -= 1;
+                            leveldown = false;
+                        }
+                        break;
+                    default:
+                        if (levelPortal > 0)
+                        {
+                            levelPortal -= 1;
+                            upgrade -= 1;
+                            NeedUpdate();
+                            leveldown = false;
+                        }
+                        break;
+                }
+            }
+            this.team = team;
+            RpcSetColor(team);
+        }
+    }
 
     #endregion
 

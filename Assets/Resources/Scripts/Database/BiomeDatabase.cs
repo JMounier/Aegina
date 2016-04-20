@@ -21,8 +21,9 @@ public static class BiomeDatabase
         new SpawnConfig(EntityDatabase.SunkiumRock, 0.05f),
     #endregion
     #region Small Element
-         new SpawnConfig(EntityDatabase.ForestFlower, 4), new SpawnConfig(EntityDatabase.Branch, 4), new SpawnConfig(EntityDatabase.LittleRock, 2));
-    #endregion    
+        new SpawnConfig(EntityDatabase.ForestFlower, 4), new SpawnConfig(EntityDatabase.Branch, 4), new SpawnConfig(EntityDatabase.LittleRock, 2));
+    #endregion
+
     // Biome Desert
     public static readonly Biome Desert = new Biome(1, Resources.Load<Material>("Models/Islands/Materials/Desert"), Resources.Load<Material>("Models/Islands/Materials/Desert_Rock"),
         new SpawnConfig(new Entity(), 3),

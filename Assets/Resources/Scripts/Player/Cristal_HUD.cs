@@ -21,6 +21,8 @@ public class Cristal_HUD : NetworkBehaviour
     // Use this for initialization
     void Start()
     {
+        if (!isLocalPlayer)
+            return;
         this.pos_x = Screen.width / 3;
         this.pos_y = Screen.height / 4;
         this.width = Screen.width / 3+50;
@@ -31,9 +33,12 @@ public class Cristal_HUD : NetworkBehaviour
         this.inventory = GetComponentInParent<Inventory>();
         this.character = this.transform.FindChild("Character");
     }
+
     // Update is called once per frame
     void Update()
     {
+        if (!isLocalPlayer)
+            return;
         this.pos_x = Screen.width / 3;
         this.pos_y = Screen.height / 4;
         this.width = Screen.width / 3+50;
@@ -41,14 +46,13 @@ public class Cristal_HUD : NetworkBehaviour
         this.space = Screen.height / 25;
 		this.spaceH = Screen.width / 40;
     }
+
     void OnGUI()
     {
         if (!isLocalPlayer)
             return;
-        if (this.cristal_shown)
-        {
-            Draw_cristal();
-        }
+        if (this.cristal_shown)        
+            Draw_cristal();        
     }
 
     /// <summary>
@@ -59,8 +63,7 @@ public class Cristal_HUD : NetworkBehaviour
         Rect rect = new Rect(pos_x, pos_y, width, height);
         GUI.Box(rect, "", this.skin.GetStyle("inventory"));
         int j = 0;
-        for (int i = 0; i < this.cristal.Needs.Length; i++)
-        {
+        for (int i = 0; i < this.cristal.Needs.Length; i++)        
             if (this.cristal.Needs[i].Quantity != 0 && cristal.Upgrade < 3)
             {
                 rect = new Rect(this.pos_x + j % 3 * spaceH + spaceH, this.pos_y + height - 4 * space - 10 + j / 3 * space, space, space);
@@ -76,7 +79,7 @@ public class Cristal_HUD : NetworkBehaviour
                     GUI.Box(rect, this.cristal.Needs[i].Quantity.ToString(), this.skin.GetStyle("quantity"));
                 j += 1;
             }
-        }
+        
         if (this.cristal.T == Team.Neutre)
         {
             rect = new Rect(this.pos_x + spaceH, this.pos_y + height - 3 * space, 3 * space, space);
@@ -194,6 +197,7 @@ public class Cristal_HUD : NetworkBehaviour
 
         }
     }
+
     private void Upgrade(int stats)
     {
         if (stats == 0)
@@ -241,16 +245,19 @@ public class Cristal_HUD : NetworkBehaviour
     {
         cristal.GetComponent<SyncCore>().CmdSetTeam(team);
     }
+
     [Command]
     public void CmdSetLevelProd(int level, GameObject cristal)
     {
         cristal.GetComponent<SyncCore>().CmdSetLevelProd(level);
     }
+
     [Command]
     public void CmdSetLevelAtk(int level, GameObject cristal)
     {
         cristal.GetComponent<SyncCore>().CmdSetLevelAtk(level);
     }
+
     [Command]
     public void CmdSetLevelPort(int level, GameObject cristal)
     {
