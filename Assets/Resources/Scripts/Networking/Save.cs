@@ -20,6 +20,7 @@ public class Save : NetworkBehaviour
     //Variables
     private string nameWorld;
     private int seed;
+    private bool isCoop;
     private List<ChunkSave> chunks;
     private List<PlayerSave> players;
 
@@ -39,9 +40,13 @@ public class Save : NetworkBehaviour
             this.playersPath = worldPath + "/Players/";
 
             // Set world properties
-            string[] properties = File.ReadAllText(this.worldPath + "properties").Split('|');
+            string[] world = File.ReadAllLines(this.worldPath + "properties");
+            string[] properties = world[0].Split('|');
             this.seed = int.Parse(properties[0]);
-            this.dnc.SetTime(float.Parse(properties[1]));
+            this.isCoop = bool.Parse(properties[1]);
+            this.dnc.SetTime(float.Parse(properties[2]));
+            Stats.Load(world[1]);
+            Success.Update(false);
         }
     }
 
@@ -54,6 +59,7 @@ public class Save : NetworkBehaviour
         this.coolDownSave -= Time.deltaTime;
         if (this.coolDownSave <= 0)
             this.SaveWorld();
+        Success.Update();
     }
 
     /// <summary>
@@ -61,8 +67,12 @@ public class Save : NetworkBehaviour
     /// </summary>
     public void SaveWorld()
     {
+        Stats.IncrementTimePlayer(60 - (ulong)this.coolDownSave);
         this.coolDownSave = 60;
-        File.WriteAllText(this.worldPath + "properties", this.seed.ToString() + "|" + ((int)this.dnc.ActualTime).ToString());
+
+        File.WriteAllText(this.worldPath + "properties", this.seed.ToString() + "|" +
+            this.isCoop.ToString() + "|" + ((int)this.dnc.ActualTime).ToString() + "\n" + Stats.Save());
+
         foreach (ChunkSave cs in this.chunks)
             cs.Save();
         int i = 0;
@@ -213,12 +223,14 @@ public class Save : NetworkBehaviour
     /// </summary>
     /// <param name="name"></param>
     /// <param name="seed"></param>
-    public static void CreateWorld(string name, int seed)
+    public static void CreateWorld(string name, int seed, bool coop)
     {
         Directory.CreateDirectory(Application.dataPath + "/Saves/" + name);
         Directory.CreateDirectory(Application.dataPath + "/Saves/" + name + "/Chunks");
         Directory.CreateDirectory(Application.dataPath + "/Saves/" + name + "/Players");
-        File.WriteAllText(Application.dataPath + "/Saves/" + name + "/properties", seed.ToString() + "|0");
+        File.WriteAllText(Application.dataPath + "/Saves/" + name + "/properties", seed.ToString() + "|" + coop.ToString() + "|0\n" +
+            // Stats
+            "0|0|0|0|0||||");
     }
 
     // Getter & Setters

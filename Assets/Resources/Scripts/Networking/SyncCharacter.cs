@@ -106,7 +106,7 @@ public class SyncCharacter : NetworkBehaviour
         GUI.DrawTexture((new Rect(Screen.width / 1.03f - Screen.width * 0.025f, Screen.height * 0.0125f, Screen.width / 85, Screen.height / 2f)), this.ThirstBar[Mathf.CeilToInt(this.thirst * 100 / this.thirstMax)]);
 
         if (!this.character.activeInHierarchy)
-        {            
+        {
             bool press = false;
             bool dead = false;
             if (GUI.Button(new Rect(5 * Screen.width / 12, Screen.height / 2 - 100, Screen.width / 4, 100), TextDatabase.Respawn.GetText(), skin.GetStyle("button")))
@@ -133,7 +133,7 @@ public class SyncCharacter : NetworkBehaviour
 
                 List<Tuple<float, float>>[] listrespos = this.GetComponentInParent<Social>().PosRespawn;
                 Tuple<float, float> resPos = listrespos[(int)Team.Blue][Random.Range(0, listrespos[(int)Team.Blue].Count)];
-                Vector3 newPos = new Vector3(resPos.Item1 + Random.Range(-10f, 10f), 7, resPos.Item2 +Random.Range(-10f, 10f));
+                Vector3 newPos = new Vector3(resPos.Item1 + Random.Range(-10f, 10f), 7, resPos.Item2 + Random.Range(-10f, 10f));
                 while (!Graph.isValidPosition(newPos))
                     newPos = new Vector3(resPos.Item1 + Random.Range(-10f, 10f), 7, resPos.Item2 + Random.Range(-10f, 10f));
                 this.character.transform.position = newPos;
@@ -155,14 +155,14 @@ public class SyncCharacter : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!isLocalPlayer)
-        {
+        if (!isLocalPlayer)        
             return;
-        }
 
         if (this.life <= 0)
+        {
             this.Kill();
-
+            Stats.IncrementKill();
+        }
         // Bonus
         if (this.cdJump <= 0)
             this.Jump = 0;
@@ -234,7 +234,7 @@ public class SyncCharacter : NetworkBehaviour
         {
             armor += chunk.Cristal.LevelAtk * 20;
         }
-        this.Life -= 100*damage/armor;
+        this.Life -= 100 * damage / armor;
     }
 
     [Command]

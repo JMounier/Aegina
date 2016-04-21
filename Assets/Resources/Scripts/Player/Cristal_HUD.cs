@@ -243,6 +243,7 @@ public class Cristal_HUD : NetworkBehaviour
     [Command]
     public void CmdSetTeam(Team team,GameObject cristal)
     {
+        Stats.IncrementCapturedCristal();
         cristal.GetComponent<SyncCore>().CmdSetTeam(team);
     }
 

@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Networking;
 
-public class Craft_HUD : MonoBehaviour
+public class Craft_HUD : NetworkBehaviour
 {
     private Inventory inventory;
     private List<Craft> CraftElementary, CraftWorkTop, CraftConsumable, CraftTools, CraftArmor;
@@ -17,9 +18,13 @@ public class Craft_HUD : MonoBehaviour
     private bool tooltip = false;
     private Item tooltipItem;
     private bool[] craftMastered;
+
     // Use this for initialization
     void Start()
     {
+        if (!isLocalPlayer)
+            return;
+
         this.inventory = gameObject.GetComponent<Inventory>();
         this.type = Craft.Type.None;
         this.skin = Resources.Load<GUISkin>("Sprites/GUISkin/skin");
@@ -47,7 +52,7 @@ public class Craft_HUD : MonoBehaviour
         showcraft = false;
         pos = -1;
         craftshow = new Craft(Craft.Type.None);
-        craftMastered = new bool[i+1];
+        craftMastered = new bool[i + 1];
         for (int j = 0; j < craftMastered.Length; j++)
         {
             craftMastered[j] = false;
@@ -57,6 +62,9 @@ public class Craft_HUD : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (!isLocalPlayer)
+            return;
+
         nearwork = what_is_near();
         if (type != Craft.Type.None)
         {
@@ -69,6 +77,9 @@ public class Craft_HUD : MonoBehaviour
     }
     private void OnGUI()
     {
+        if (!isLocalPlayer)
+            return;
+
         tooltip = false;
         if (inventory.InventoryShown)
         {
@@ -178,11 +189,11 @@ public class Craft_HUD : MonoBehaviour
         foreach (ItemStack item in craftshow.Consume)
         {
             box = new Rect((3 + i) * Screen.height / 18, 2 * Screen.height / 9 + pos * Screen.height / 18, Screen.height / 18, Screen.height / 18);
-            GUI.Box(box,"", skin.GetStyle("Slot"));
-            
-            Rect littlebox = new Rect((3 + i) * Screen.height / 18 + 5, 2 * Screen.height / 9 + pos * Screen.height / 18+5, Screen.height / 18 - 10, Screen.height / 18-10);
+            GUI.Box(box, "", skin.GetStyle("Slot"));
+
+            Rect littlebox = new Rect((3 + i) * Screen.height / 18 + 5, 2 * Screen.height / 9 + pos * Screen.height / 18 + 5, Screen.height / 18 - 10, Screen.height / 18 - 10);
             GUI.DrawTexture(littlebox, item.Items.Icon);
-            GUI.Box(box, inventory.InventoryContains(item.Items,item.Quantity * cost) ? (item.Quantity * cost).ToString() : "<color=#ff0000>" + (item.Quantity* cost).ToString() + "</color>", skin.GetStyle("Quantity"));
+            GUI.Box(box, inventory.InventoryContains(item.Items, item.Quantity * cost) ? (item.Quantity * cost).ToString() : "<color=#ff0000>" + (item.Quantity * cost).ToString() + "</color>", skin.GetStyle("Quantity"));
             if (box.Contains(Event.current.mousePosition))
             {
                 tooltip = true;
@@ -191,15 +202,16 @@ public class Craft_HUD : MonoBehaviour
             i += 1;
         }
         box = new Rect((3 + i) * Screen.height / 18, 2 * Screen.height / 9 + pos * Screen.height / 18, Screen.height / 18, Screen.height / 18);
-        bool RecipeComplete = inventory.InventoryContains(craftshow,cost == 1);
+        bool RecipeComplete = inventory.InventoryContains(craftshow, cost == 1);
         bool WorkTopNear = true;//a modifier plus tard
         if (WorkTopNear && RecipeComplete)
         {
             if (GUI.Button(box, Resources.Load<Texture2D>("Sprites/CraftsIcon/Valid"), this.skin.GetStyle("Slot")))
             {
-                inventory.DeleteItems(craftshow.Consume,cost == 1);
+                CmdMakeCraft(craftshow.ID);
+                inventory.DeleteItems(craftshow.Consume, cost == 1);
                 ItemStack its = new ItemStack(craftshow.Product.Items, craftshow.Product.Quantity);
-                if (Random.Range(0,100) < 5)
+                if (Random.Range(0, 100) < 5)
                 {
                     craftMastered[craftshow.ID] = true;
                 }
@@ -222,5 +234,11 @@ public class Craft_HUD : MonoBehaviour
     private bool[] what_is_near()
     {
         return new bool[0];
+    }
+
+    [Command]
+    private void CmdMakeCraft(int id)
+    {
+        Stats.AddCrafted(id);
     }
 }

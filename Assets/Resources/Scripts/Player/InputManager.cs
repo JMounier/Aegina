@@ -181,6 +181,7 @@ public class InputManager : NetworkBehaviour
                 if (wt.IsValid() && this.soundAudio.IsReady(615))
                 {
                     CmdSpawnElm(wt.ElementID, wt.Previsu);
+                    Stats.AddPut(wt);
                     this.inventaire.UsedItem.Quantity -= 1;
                     if (this.inventaire.UsedItem.Quantity <= 0)
                         this.inventaire.UsedItem = new ItemStack();
@@ -196,6 +197,7 @@ public class InputManager : NetworkBehaviour
                 {
                     this.cdConsume = 0.5f;
                     Consumable consum = this.inventaire.UsedItem.Items as Consumable;
+                    Stats.AddUsed(consum);
                     switch (consum.E.ET)
                     {
                         case Effect.EffectType.Speed:

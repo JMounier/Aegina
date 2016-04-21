@@ -94,6 +94,8 @@ public class Element : Entity
     public void GetDamage(float damage)
     {
         this.Life -= Mathf.Max(damage - this.armor, 0);
+        if (this.Life <= 0)
+            Stats.AddDestroyed(this);
     }
 
     // Getters & Setters
