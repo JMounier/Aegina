@@ -5,7 +5,6 @@ using UnityEngine.Networking;
 
 public class InputManager : NetworkBehaviour
 {
-
     private Controller controller;
     private Inventory inventaire;
     private Menu menu;

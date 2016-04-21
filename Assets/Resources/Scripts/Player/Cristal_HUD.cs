@@ -52,7 +52,7 @@ public class Cristal_HUD : NetworkBehaviour
         if (!isLocalPlayer)
             return;
         if (this.cristal_shown)        
-            Draw_cristal();        
+            Draw_cristal();  
     }
 
     /// <summary>
@@ -63,7 +63,7 @@ public class Cristal_HUD : NetworkBehaviour
         Rect rect = new Rect(pos_x, pos_y, width, height);
         GUI.Box(rect, "", this.skin.GetStyle("inventory"));
         int j = 0;
-        for (int i = 0; i < this.cristal.Needs.Length; i++)        
+        for (int i = 0; i < this.cristal.Needs.Length; i++)  
             if (this.cristal.Needs[i].Quantity != 0 && cristal.Upgrade < 3)
             {
                 rect = new Rect(this.pos_x + j % 3 * spaceH + spaceH, this.pos_y + height - 4 * space - 10 + j / 3 * space, space, space);
@@ -79,7 +79,7 @@ public class Cristal_HUD : NetworkBehaviour
                     GUI.Box(rect, this.cristal.Needs[i].Quantity.ToString(), this.skin.GetStyle("quantity"));
                 j += 1;
             }
-        
+		
         if (this.cristal.T == Team.Neutre)
         {
             rect = new Rect(this.pos_x + spaceH, this.pos_y + height - 3 * space, 3 * space, space);

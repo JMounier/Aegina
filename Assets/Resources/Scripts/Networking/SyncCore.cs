@@ -20,6 +20,7 @@ public class SyncCore : SyncElement
     [SyncVar]
     private int life = 1000;
 
+
     private Item[] needs;
 
 
@@ -164,6 +165,7 @@ public class SyncCore : SyncElement
         this.levelPortal = level;
         this.CmdSetLevelTot(level + this.levelAttack + this.levelProd);
     }
+
     public void AttackCristal(int damage, Team team)
     {
         this.life -= damage;
