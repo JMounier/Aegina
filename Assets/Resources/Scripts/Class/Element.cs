@@ -45,7 +45,8 @@ public class Element : Entity
         foreach (DropConfig dc in this.dropConfigs)
         {
             Vector3 projection = new Vector3(Random.Range(-1f, 1f), Random.Range(1f, 2f), Random.Range(-1f, 1f));
-            new Item(dc.I).Spawn(prefab.transform.position, projection, dc.Quantity);
+			dc.Loot(prefab.transform.position, projection);
+			//new Item(dc.I).Spawn(prefab.transform.position, projection, dc.Quantity);
         }
         int idSave = base.prefab.GetComponent<SyncElement>().IdSave;
         int x = (int)(base.prefab.transform.parent.parent.position.x / Chunk.Size);
@@ -123,31 +124,39 @@ public class Element : Entity
 /// </summary>
 public class DropConfig
 {
-    private Item i;
+    private int itemID;
     private int min;
     private int max;
 
     // Cnostructor
     public DropConfig()
     {
-        this.i = new Item();
+		this.itemID = 0;
         this.min = 0;
         this.max = 0;
     }
 
-    public DropConfig(Item i, int quantity)
+	public DropConfig(int itemID, int quantity)
     {
-        this.i = i;
-        this.max = Mathf.Clamp(quantity, 0, i.Size);
+		this.itemID = itemID;
+		this.max = quantity; //Mathf.Clamp(quantity, 0, i.Size);
         this.min = this.max;
     }
 
-    public DropConfig(Item i, int min, int max)
+	public DropConfig(int itemID, int min, int max)
     {
-        this.i = i;
-        this.max = Mathf.Clamp(max, 0, i.Size);
+		this.itemID = itemID;
+		this.max = max; //Mathf.Clamp(max, 0, i.Size);
         this.min = Mathf.Clamp(min, 0, max);
     }
+
+	//Methods
+
+	public void Loot(Vector3 position, Vector3 force)
+	{
+		ItemDatabase.Find(this.itemID).Spawn(position,force, Random.Range(this.min,this.max + 1));
+	}
+
 
     // Getter & Setter
 
@@ -156,8 +165,8 @@ public class DropConfig
     /// </summary>
     public Item I
     {
-        get { return this.i; }
-        set { this.i = value; }
+		get { return ItemDatabase.Find(itemID); }
+		set { this.itemID = value.ID; }
     }
 
     /// <summary>
