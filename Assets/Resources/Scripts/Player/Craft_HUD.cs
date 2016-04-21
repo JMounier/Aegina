@@ -6,6 +6,8 @@ using UnityEngine.Networking;
 public class Craft_HUD : NetworkBehaviour
 {
     private Inventory inventory;
+	private GameObject character;
+	private Sound sound;
     private List<Craft> CraftElementary, CraftWorkTop, CraftConsumable, CraftTools, CraftArmor;
     private List<Craft>[] Craftslist;
     private Craft.Type type;
@@ -26,6 +28,7 @@ public class Craft_HUD : NetworkBehaviour
             return;
 
         this.inventory = gameObject.GetComponent<Inventory>();
+		this.sound = GetComponent<Sound> ();
         this.type = Craft.Type.None;
         this.skin = Resources.Load<GUISkin>("Sprites/GUISkin/skin");
         this.Craftslist = new List<Craft>[5];
@@ -34,6 +37,7 @@ public class Craft_HUD : NetworkBehaviour
         this.CraftConsumable = new List<Craft>();
         this.CraftTools = new List<Craft>();
         this.CraftArmor = new List<Craft>();
+		this.character = GetComponentInChildren<CharacterCollision>().gameObject;
         this.Craftslist[0] = CraftElementary;
         this.Craftslist[1] = CraftWorkTop;
         this.Craftslist[2] = CraftConsumable;
@@ -48,15 +52,18 @@ public class Craft_HUD : NetworkBehaviour
             }
             i++;
         }
-        craftindex = 0;
-        showcraft = false;
-        pos = -1;
-        craftshow = new Craft(Craft.Type.None);
-        craftMastered = new bool[i + 1];
-        for (int j = 0; j < craftMastered.Length; j++)
-        {
-            craftMastered[j] = false;
-        }
+
+		this.craftindex = 0;
+		this.showcraft = false;
+        this.pos = -1;
+        this.craftshow = new Craft(Craft.Type.None);
+        this.craftMastered = new bool[i+1];
+		this.nearwork = new bool[4];
+		for (int j = 0; j < 4; j++) 
+			nearwork [j] = false;
+		
+		for (int j = 0; j < this.craftMastered.Length; j++)
+			this.craftMastered[j] = false;        
     }
 
     // Update is called once per frame
@@ -65,16 +72,16 @@ public class Craft_HUD : NetworkBehaviour
         if (!isLocalPlayer)
             return;
 
-        nearwork = what_is_near();
+        what_is_near();
+
         if (type != Craft.Type.None)
         {
             this.craftindex = (this.craftindex - (int)Input.mouseScrollDelta.y) % (Craftslist[(int)this.type - 1].Count);
-            while (craftindex < 0)
-            {
-                craftindex += (Craftslist[(int)this.type - 1].Count);
-            }
+            while (craftindex < 0)            
+                craftindex += (Craftslist[(int)this.type - 1].Count);            
         }
     }
+
     private void OnGUI()
     {
         if (!isLocalPlayer)
@@ -116,6 +123,7 @@ public class Craft_HUD : NetworkBehaviour
                 this.showcraft = false;
                 this.pos = -1;
                 this.craftindex = 0;
+				sound.PlaySound (AudioClips.Button,1f);
             }
             box = new Rect(10, (i + 2) * Screen.height / 9 + 10, Screen.height / 9 - 20, Screen.height / 9 - 20);
             GUI.DrawTexture(box, Resources.Load<Texture2D>("Sprites/CraftsIcon/Craft" + (i + 1)));
@@ -149,6 +157,7 @@ public class Craft_HUD : NetworkBehaviour
                     this.pos = i;
                 }
                 this.craftshow = Craftslist[(int)this.type - 1][(craftindex + i) % (Craftslist[(int)this.type - 1].Count)];
+				sound.PlaySound (AudioClips.Button,1f);
             }
             if (Craftslist[(int)this.type - 1][(craftindex + i) % (Craftslist[(int)this.type - 1].Count)].Product.Quantity > 1)
             {
@@ -165,11 +174,13 @@ public class Craft_HUD : NetworkBehaviour
         if (GUI.Button(box, "", skin.GetStyle("up_arrow")))
         {
             craftindex = (craftindex - 1) % (Craftslist[(int)this.type - 1].Count);
+			sound.PlaySound (AudioClips.Button,1f);
         }
         box = new Rect(Screen.height / 9, 7 * Screen.height / 9, Screen.height / 18, Screen.height / 18);
         if (GUI.Button(box, "", skin.GetStyle("down_arrow")))
         {
             craftindex = (craftindex + 1) % (Craftslist[(int)this.type - 1].Count);
+			sound.PlaySound (AudioClips.Button,1f);
         }
 
     }
@@ -202,11 +213,13 @@ public class Craft_HUD : NetworkBehaviour
             i += 1;
         }
         box = new Rect((3 + i) * Screen.height / 18, 2 * Screen.height / 9 + pos * Screen.height / 18, Screen.height / 18, Screen.height / 18);
-        bool RecipeComplete = inventory.InventoryContains(craftshow, cost == 1);
-        bool WorkTopNear = true;//a modifier plus tard
+
+        bool RecipeComplete = inventory.InventoryContains(craftshow,cost == 1);
+		bool WorkTopNear = (!craftshow.Fire || nearwork[0])&&(!craftshow.Workbench || nearwork[1])&&(!craftshow.Forge || nearwork[2])&&(!craftshow.Brewer || nearwork[3]);
+
         if (WorkTopNear && RecipeComplete)
         {
-            if (GUI.Button(box, Resources.Load<Texture2D>("Sprites/CraftsIcon/Valid"), this.skin.GetStyle("Slot")))
+            if (GUI.Button(box, "", this.skin.GetStyle("Slot")))
             {
                 CmdMakeCraft(craftshow.ID);
                 inventory.DeleteItems(craftshow.Consume, cost == 1);
@@ -218,22 +231,49 @@ public class Craft_HUD : NetworkBehaviour
                 inventory.AddItemStack(its);
                 if (its.Quantity != 0)
                     inventory.Drop(its);
+				if (craftshow.Workbench)
+					sound.PlaySound (AudioClips.workbensh, 1f);
+				else if (craftshow.Forge)
+					sound.PlaySound (AudioClips.forge, 1f);
+				else if (craftshow.Brewer)
+					sound.PlaySound (AudioClips.cooking,1f);
+				else
+					sound.PlaySound (AudioClips.Button,1f);
             }
-
+			box.x += 2;
+			box.y += 2;
+			box.width -= 4;
+			box.height -= 4;
+			GUI.DrawTexture(box,Resources.Load<Texture2D>("Sprites/CraftsIcon/Valid"));
         }
         else
         {
-            GUI.Box(box, Resources.Load<Texture2D>("Sprites/CraftsIcon/Invalid"), this.skin.GetStyle("Slot"));
+            GUI.Box(box, "", this.skin.GetStyle("Slot"));
+			box.x += 2;
+			box.y += 2;
+			box.width -= 4;
+			box.height -= 4;
+			GUI.DrawTexture(box,Resources.Load<Texture2D>("Sprites/CraftsIcon/Invalid"));
         }
 
     }
     /// <summary>
-    /// recherche les atelier proche
+    /// Recherche les atelier proche
     /// </summary>
     /// <returns></returns>
-    private bool[] what_is_near()
+    private void what_is_near()
     {
-        return new bool[0];
+		Collider[] NearObjects = Physics.OverlapSphere(this.character.transform.position,3.5f);
+		foreach (Collider item in NearObjects) {
+			if (item.name == "Firepit")
+				this.nearwork [0] = true;
+			else if (item.name == "Workbench")
+                this.nearwork [1] = true;
+			else if (item.name == "Hoven")
+                this.nearwork [2] = true;
+			else if (item.name == "Cauldron")
+                this.nearwork [3] = true;
+		}
     }
 
     [Command]
