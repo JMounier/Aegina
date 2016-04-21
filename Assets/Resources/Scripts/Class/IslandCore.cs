@@ -17,8 +17,6 @@ public class IslandCore : Element
     private int level_attack;
     private int level_prod;
     private int level_portal;
-    private static ItemStack[] needs = new ItemStack[3] { new ItemStack(ItemDatabase.Iron, 15), new ItemStack(ItemDatabase.Gold, 1), new ItemStack(ItemDatabase.Copper, 15) };
-
 
     public IslandCore() : base()
     {
@@ -106,10 +104,5 @@ public class IslandCore : Element
     {
         get { return this.level_portal; }
         set { this.level_portal = value; }
-    }
-
-    public static ItemStack[] Needs()
-    {
-        return needs; 
-    }
+    }    
 }

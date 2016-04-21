@@ -1,40 +1,41 @@
-﻿ using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
 public static class CraftDatabase
 {
     public static readonly Craft FireCamp = new Craft(Craft.Type.WorkTop);
-    public static readonly Craft Workbench = new Craft(2,new ItemStack(ItemDatabase.Workbench,1),false,false,false,false,false,Craft.Type.WorkTop,new ItemStack(ItemDatabase.WoodenPlank,2),new ItemStack(ItemDatabase.Stick,4));
-    public static readonly Craft Forge = new Craft(3,new ItemStack(ItemDatabase.Forge,1),false,true,false,false,false,Craft.Type.WorkTop,new ItemStack(ItemDatabase.CuttedStone,5),new ItemStack(ItemDatabase.Firepit,1));
-    public static readonly Craft Brewer = new Craft(4,new ItemStack(ItemDatabase.Cauldron,1),false,false,true,false,false,Craft.Type.WorkTop,new ItemStack(ItemDatabase.IronIngot,3),new ItemStack(ItemDatabase.CopperIngot,1));
+    public static readonly Craft Workbench = new Craft(2, new ItemStack(ItemDatabase.Workbench, 1), false, false, false, false, false, Craft.Type.WorkTop, new ItemStack(ItemDatabase.WoodenPlank, 2), new ItemStack(ItemDatabase.Stick, 4));
+    public static readonly Craft Forge = new Craft(3, new ItemStack(ItemDatabase.Forge, 1), false, true, false, false, false, Craft.Type.WorkTop, new ItemStack(ItemDatabase.CuttedStone, 5), new ItemStack(ItemDatabase.Firepit, 1));
+    public static readonly Craft Brewer = new Craft(4, new ItemStack(ItemDatabase.Cauldron, 1), false, false, true, false, false, Craft.Type.WorkTop, new ItemStack(ItemDatabase.IronIngot, 3), new ItemStack(ItemDatabase.CopperIngot, 1));
 
-    public static readonly Craft Stick = new Craft(5,new ItemStack(ItemDatabase.Stick,2),false,false,false,false,false,Craft.Type.Elementary,new ItemStack(ItemDatabase.Log,2));
+    public static readonly Craft Stick = new Craft(5, new ItemStack(ItemDatabase.Stick, 2), false, false, false, false, false, Craft.Type.Elementary, new ItemStack(ItemDatabase.Log, 2));
     public static readonly Craft Plank = new Craft(6, new ItemStack(ItemDatabase.WoodenPlank, 1), false, false, false, false, false, Craft.Type.Elementary, new ItemStack(ItemDatabase.Log, 3));
     public static readonly Craft Cup = new Craft(7, new ItemStack(ItemDatabase.Bowl, 2), false, true, false, false, false, Craft.Type.Elementary, new ItemStack(ItemDatabase.Log, 3));
     public static readonly Craft CutStone = new Craft(8, new ItemStack(ItemDatabase.CuttedStone, 1), false, true, false, false, false, Craft.Type.Elementary, new ItemStack(ItemDatabase.Stone, 3));
+
     public static readonly Craft CopperIngot = new Craft(9, new ItemStack(ItemDatabase.CopperIngot, 1), false, false, true, false, false, Craft.Type.Elementary, new ItemStack(ItemDatabase.Copper, 3));
-    public static readonly Craft IronIngot = new Craft(10, new ItemStack(ItemDatabase.IronIngot, 1), false, false, true, false, false,Craft.Type.Elementary, new ItemStack(ItemDatabase.Iron, 3));
+    public static readonly Craft IronIngot = new Craft(10, new ItemStack(ItemDatabase.IronIngot, 1), false, false, true, false, false, Craft.Type.Elementary, new ItemStack(ItemDatabase.Iron, 3));
     public static readonly Craft GoldIngot = new Craft(11, new ItemStack(ItemDatabase.GoldIngot, 1), false, false, true, false, false, Craft.Type.Elementary, new ItemStack(ItemDatabase.Gold, 3));
     public static readonly Craft MithrilIngot = new Craft(12, new ItemStack(ItemDatabase.MithrilIngot, 1), false, false, true, false, false, Craft.Type.Elementary, new ItemStack(ItemDatabase.Mithril, 3));
     public static readonly Craft FLoatiumIngot = new Craft(12, new ItemStack(ItemDatabase.FloatiumIngot, 1), false, false, true, false, false, Craft.Type.Elementary, new ItemStack(ItemDatabase.Floatium, 3));
-    public static readonly Craft SunkiumIngot= new Craft(13, new ItemStack(ItemDatabase.SunkiumIngot, 1), false, false, true, false, false, Craft.Type.Elementary, new ItemStack(ItemDatabase.Sunkium, 3));
+    public static readonly Craft SunkiumIngot = new Craft(13, new ItemStack(ItemDatabase.SunkiumIngot, 1), false, false, true, false, false, Craft.Type.Elementary, new ItemStack(ItemDatabase.Sunkium, 3));
     public static readonly Craft Glass = new Craft(14, new ItemStack(ItemDatabase.Glass, 1), false, false, true, false, false, Craft.Type.Elementary, new ItemStack(ItemDatabase.Sand, 3));
 
     public static readonly Craft CactusAndFlowerSalad = new Craft(Craft.Type.Consumable);
-    public static readonly Craft MeatBrochette = new Craft(16,new ItemStack(ItemDatabase.MeatBalls,1),true,false,false,false,false,Craft.Type.Consumable,new ItemStack(ItemDatabase.Gigot,1),new ItemStack(ItemDatabase.Stick,1));
+    public static readonly Craft MeatBrochette = new Craft(16, new ItemStack(ItemDatabase.MeatBalls, 1), true, false, false, false, false, Craft.Type.Consumable, new ItemStack(ItemDatabase.Gigot, 1), new ItemStack(ItemDatabase.Stick, 1));
     public static readonly Craft Stew = new Craft(Craft.Type.Consumable);
     public static readonly Craft MarrowBone = new Craft(Craft.Type.Consumable);
     public static readonly Craft BeefBourguignon = new Craft(Craft.Type.Consumable);
-    public static readonly Craft Potion1 = new Craft(20,new ItemStack(ItemDatabase.AquaPotion,1),false,false,false,true,false,Craft.Type.Consumable,new ItemStack(ItemDatabase.Glass,1), new ItemStack(ItemDatabase.WaterCact, 3));
-    public static readonly Craft Potion2 = new Craft(21,new ItemStack(ItemDatabase.BluePotion,1),false,false,false,true,false,Craft.Type.Consumable, new ItemStack(ItemDatabase.AquaPotion, 1), new ItemStack(ItemDatabase.WaterCact, 3));
-    public static readonly Craft Potion3 = new Craft(22,new ItemStack(ItemDatabase.GreenPotion,1),false,false,false,true,false,Craft.Type.Consumable, new ItemStack(ItemDatabase.Glass, 1), new ItemStack(ItemDatabase.RedMushroom, 2), new ItemStack(ItemDatabase.WaterCact, 1));
-    public static readonly Craft Potion4 = new Craft(23,new ItemStack(ItemDatabase.PurplePotion,1),false,false,false,true,false,Craft.Type.Consumable, new ItemStack(ItemDatabase.Glass, 1), new ItemStack(ItemDatabase.Mushroom, 2), new ItemStack(ItemDatabase.WaterCact, 1));
-    public static readonly Craft Potion5 = new Craft(24,new ItemStack(ItemDatabase.RedPotion,1),false,false,false,true,false,Craft.Type.Consumable, new ItemStack(ItemDatabase.Glass, 1), new ItemStack(ItemDatabase.Petal, 2), new ItemStack(ItemDatabase.WaterCact, 1));
-    public static readonly Craft Potion6 = new Craft(25,new ItemStack(ItemDatabase.YellowPotion,1),false,false,false,true,false,Craft.Type.Consumable, new ItemStack(ItemDatabase.Glass, 1), new ItemStack(ItemDatabase.Cact, 2), new ItemStack(ItemDatabase.WaterCact, 1));
-    public static readonly Craft water = new Craft(26,new ItemStack(ItemDatabase.WaterCact,2),false,false,false,true,false,Craft.Type.Consumable,new ItemStack(ItemDatabase.Cact,3));
+    public static readonly Craft Potion1 = new Craft(20, new ItemStack(ItemDatabase.AquaPotion, 1), false, false, false, true, false, Craft.Type.Consumable, new ItemStack(ItemDatabase.Glass, 1), new ItemStack(ItemDatabase.WaterCact, 3));
+    public static readonly Craft Potion2 = new Craft(21, new ItemStack(ItemDatabase.BluePotion, 1), false, false, false, true, false, Craft.Type.Consumable, new ItemStack(ItemDatabase.AquaPotion, 1), new ItemStack(ItemDatabase.WaterCact, 3));
+    public static readonly Craft Potion3 = new Craft(22, new ItemStack(ItemDatabase.GreenPotion, 1), false, false, false, true, false, Craft.Type.Consumable, new ItemStack(ItemDatabase.Glass, 1), new ItemStack(ItemDatabase.RedMushroom, 2), new ItemStack(ItemDatabase.WaterCact, 1));
+    public static readonly Craft Potion4 = new Craft(23, new ItemStack(ItemDatabase.PurplePotion, 1), false, false, false, true, false, Craft.Type.Consumable, new ItemStack(ItemDatabase.Glass, 1), new ItemStack(ItemDatabase.Mushroom, 2), new ItemStack(ItemDatabase.WaterCact, 1));
+    public static readonly Craft Potion5 = new Craft(24, new ItemStack(ItemDatabase.RedPotion, 1), false, false, false, true, false, Craft.Type.Consumable, new ItemStack(ItemDatabase.Glass, 1), new ItemStack(ItemDatabase.Petal, 2), new ItemStack(ItemDatabase.WaterCact, 1));
+    public static readonly Craft Potion6 = new Craft(25, new ItemStack(ItemDatabase.YellowPotion, 1), false, false, false, true, false, Craft.Type.Consumable, new ItemStack(ItemDatabase.Glass, 1), new ItemStack(ItemDatabase.Cact, 2), new ItemStack(ItemDatabase.WaterCact, 1));
+    public static readonly Craft water = new Craft(26, new ItemStack(ItemDatabase.WaterCact, 2), false, false, false, true, false, Craft.Type.Consumable, new ItemStack(ItemDatabase.Cact, 3));
 
-    public static readonly Craft StonePickaxe = new Craft(27,new ItemStack(ItemDatabase.StonePickaxe,1),false,true,false,false,false,Craft.Type.Tools,new ItemStack(ItemDatabase.CuttedStone,3),new ItemStack(ItemDatabase.Stick,2));
+    public static readonly Craft StonePickaxe = new Craft(27, new ItemStack(ItemDatabase.StonePickaxe, 1), false, true, false, false, false, Craft.Type.Tools, new ItemStack(ItemDatabase.CuttedStone, 3), new ItemStack(ItemDatabase.Stick, 2));
     public static readonly Craft CopperPickaxe = new Craft(28, new ItemStack(ItemDatabase.CopperPickaxe, 1), false, true, true, false, false, Craft.Type.Tools, new ItemStack(ItemDatabase.CopperIngot, 3), new ItemStack(ItemDatabase.Stick, 2));
     public static readonly Craft IronPickaxe = new Craft(29, new ItemStack(ItemDatabase.IronPickaxe, 1), false, true, true, false, false, Craft.Type.Tools, new ItemStack(ItemDatabase.IronIngot, 3), new ItemStack(ItemDatabase.Stick, 2));
     public static readonly Craft GoldPickaxe = new Craft(30, new ItemStack(ItemDatabase.GoldPickaxe, 1), false, true, true, false, false, Craft.Type.Tools, new ItemStack(ItemDatabase.GoldIngot, 3), new ItemStack(ItemDatabase.Stick, 2));
@@ -88,7 +89,7 @@ public static class CraftDatabase
             yield return Stick;
             yield return Plank;
             yield return Cup;
-            //yield return CutStone;
+            yield return CutStone;
             yield return CopperIngot;
             yield return IronIngot;
             yield return GoldIngot;

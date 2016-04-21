@@ -59,7 +59,7 @@ public class Mob : Entity
         foreach (DropConfig dc in this.dropConfigs)
         {
             Vector3 projection = new Vector3(Random.Range(-1f, 1f), Random.Range(1f, 2f), Random.Range(-1f, 1f));
-            new Item(dc.I).Spawn(prefab.transform.position, projection, dc.Quantity);
+			dc.Loot(prefab.transform.position, projection);
         }
         base.Kill();
     }

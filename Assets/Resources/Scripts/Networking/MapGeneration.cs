@@ -12,8 +12,8 @@ public class MapGeneration : NetworkBehaviour
         if (isServer)
         {
             this.save = gameObject.GetComponent<Save>();
-            this.GenerateChunk(0, 0, Bridges.Three, Directions.East,true);
-            this.GenerateChunk(1, 0, Bridges.All, Directions.North,true);
+            this.GenerateChunk(0, 0, Bridges.Three, Directions.East, true);
+            this.GenerateChunk(1, 0, Bridges.All, Directions.North);
             this.GenerateChunk(2, 0, Bridges.One, Directions.West);
             this.GenerateChunk(-1, 0, Bridges.Three, Directions.East);
             this.GenerateChunk(-2, 0, Bridges.One, Directions.East);
@@ -59,7 +59,7 @@ public class MapGeneration : NetworkBehaviour
         for (int i = seed.Length - 1; i > -1; i--)
         {
             if (seed[i] >= '0' && seed[i] <= '9')
-                s += (int) ((seed[i] - '0') * Mathf.Pow(36, power));
+                s += (int)((seed[i] - '0') * Mathf.Pow(36, power));
             if (seed[i] >= 'a' && seed[i] <= 'z')
                 s += (int)((seed[i] - 'a' + 10) * Mathf.Pow(36, power));
             power++;
