@@ -109,18 +109,17 @@ public class SyncCharacter : NetworkBehaviour
         {            
             bool press = false;
             bool dead = false;
-            if (GUI.Button(new Rect(5 * Screen.width / 12, Screen.height / 2 - 100, Screen.width / 4, 100), TextDatabase.Respawn.GetText(), skin.GetStyle("button")))
+            if (GUI.Button(new Rect(5 * Screen.width / 14, Screen.height / 2 - 100, 2*Screen.width / 7, 100), TextDatabase.Respawn.GetText(), skin.GetStyle("button")))
             {
                 press = true;
             }
-            if (GUI.Button(new Rect(5 * Screen.width / 12, Screen.height / 2 + 100, Screen.width / 4, 100), TextDatabase.Quit.GetText(), skin.GetStyle("button")))
+            if (GUI.Button(new Rect(5 * Screen.width / 14, Screen.height / 2 + 100, 2*Screen.width / 7, 100), TextDatabase.Quit.GetText(), skin.GetStyle("button")))
             {
                 press = true;
                 dead = true;
             }
             if (press)
             {
-                this.character.SetActive(true);
                 GetComponent<Controller>().Pause = false;
                 this.CmdLife(this.lifeMax);
                 this.CmdHunger(this.hungerMax);
@@ -129,6 +128,7 @@ public class SyncCharacter : NetworkBehaviour
                 this.CmdRegen(0);
                 this.CmdSpeed(0);
                 this.CmdJump(0);
+				this.character.SetActive(true);
                 this.character.GetComponent<Rigidbody>().velocity = Vector3.zero;
 
                 List<Tuple<float, float>>[] listrespos = this.GetComponentInParent<Social>().PosRespawn;
