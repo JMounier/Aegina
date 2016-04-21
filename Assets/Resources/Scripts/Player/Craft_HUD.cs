@@ -207,7 +207,7 @@ public class Craft_HUD : MonoBehaviour
 		bool WorkTopNear = (!craftshow.Fire || nearwork[0])&&(!craftshow.Workbench || nearwork[1])&&(!craftshow.Forge || nearwork[2])&&(!craftshow.Brewer || nearwork[3]);
         if (WorkTopNear && RecipeComplete)
         {
-            if (GUI.Button(box, Resources.Load<Texture2D>("Sprites/CraftsIcon/Valid"), this.skin.GetStyle("Slot")))
+            if (GUI.Button(box, "", this.skin.GetStyle("Slot")))
             {
                 inventory.DeleteItems(craftshow.Consume,cost == 1);
                 ItemStack its = new ItemStack(craftshow.Product.Items, craftshow.Product.Quantity);
@@ -227,11 +227,20 @@ public class Craft_HUD : MonoBehaviour
 				else
 					sound.PlaySound (AudioClips.Button,1f);
             }
-
+			box.x += 2;
+			box.y += 2;
+			box.width -= 4;
+			box.height -= 4;
+			GUI.DrawTexture(box,Resources.Load<Texture2D>("Sprites/CraftsIcon/Valid"));
         }
         else
         {
-            GUI.Box(box, Resources.Load<Texture2D>("Sprites/CraftsIcon/Invalid"), this.skin.GetStyle("Slot"));
+            GUI.Box(box, "", this.skin.GetStyle("Slot"));
+			box.x += 2;
+			box.y += 2;
+			box.width -= 4;
+			box.height -= 4;
+			GUI.DrawTexture(box,Resources.Load<Texture2D>("Sprites/CraftsIcon/Invalid"));
         }
 
     }
