@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public static class Requirement
 {
-    public enum Requirements { FirstBlood };
+    public enum Requirements { Tuto, FirstBlood };
     
     public static bool Check(Requirements require)
     {
@@ -12,7 +12,9 @@ public static class Requirement
         {
             case Requirements.FirstBlood:
                 return Stats.Death() > 0;
-            default:
+            case Requirements.Tuto:
+                return true;
+            default :                
                 return false;
         }
     }

@@ -43,9 +43,9 @@ public class SyncMob : NetworkBehaviour
         if (!isServer)
             return;
 
-        if (gameObject.transform.position.y < -10)
+        if (gameObject.transform.position.y < -10)        
             this.myMob.Life = 0;
-
+        
         /*
                 --------------------------
                |    Deplacement du mob    |
@@ -184,6 +184,8 @@ public class SyncMob : NetworkBehaviour
     public void ReceiveDamage(float damage)
     {
         this.myMob.Life -= damage;
+        if (this.myMob.Life <= 0)
+            Stats.IncrementHunt();
     }
 
     /// <summary>

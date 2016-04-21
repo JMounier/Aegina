@@ -25,7 +25,7 @@ namespace UnityEngine.Networking
         private string newWorldName = "World";
         private string seedstr = "";
         private string newipname = "Serveur";
-        private string typegame = "";
+        private bool typeCoop = true;
 
         private bool showGUI = true;
         private bool optionShown = false;
@@ -41,6 +41,7 @@ namespace UnityEngine.Networking
         private float incg;
         private float incb;
 
+        #region Monobehaviour methods
         void Awake()
         {
             this.incr = Random.Range(-0.02f, 0.02f);
@@ -81,8 +82,8 @@ namespace UnityEngine.Networking
             this.width = Screen.width / 4;
             this.height = Screen.height / 30;
             this.spacing = this.height * 2;
-			if (!this.manager.isNetworkActive)
-				loading = false;
+            if (!this.manager.isNetworkActive)
+                loading = false;
         }
         void Start()
         {
@@ -101,7 +102,7 @@ namespace UnityEngine.Networking
 
         void OnGUI()
         {
-			if (loading && this.manager.IsClientConnected())
+            if (loading && this.manager.IsClientConnected())
             {
                 GUI.Box(new Rect(0, 0, Screen.width, Screen.height), TextDatabase.Loading.GetText(), skin.GetStyle("loading"));
                 Color skinColor = this.skin.GetStyle("loading").normal.textColor;
@@ -220,6 +221,7 @@ namespace UnityEngine.Networking
                     this.DrawServeurCreate();
             }
         }
+        #endregion
 
         private string RemoveSpecialCharacter(string str, string authorized, bool casseSensitive = true)
         {
@@ -256,6 +258,7 @@ namespace UnityEngine.Networking
             this.loading = true;
         }
 
+        #region Options
         /// <summary>
         ///  Dessine l'interface des options.
         /// </summary>
@@ -362,6 +365,9 @@ namespace UnityEngine.Networking
                 this.firstScene.PlayButtonSound();
             }
         }
+        #endregion
+
+        #region Worlds / Servers
         /// <summary>
         /// Dessine l'interface de la liste des mondes
         /// </summary>
@@ -517,6 +523,7 @@ namespace UnityEngine.Networking
 
 
         }
+
         /// <summary>
         /// dessine l'interface de la creation de monde
         /// </summary>
@@ -528,32 +535,31 @@ namespace UnityEngine.Networking
             Rect rect = new Rect(this.posX, this.posY + 2 * this.spacing, this.width, this.height);
             seedstr = GUI.TextField(rect, this.RemoveSpecialCharacter(seedstr, "abcdefghijklmnopqrstuvwxyz123456789", false), 15, skin.textField);
             rect = new Rect(this.posX, this.posY - this.height - 10 + 4 * this.spacing, this.width / 2 - 10, this.height);
-            if (GUI.Button(rect, "Coop", this.skin.GetStyle("button")))
-            {
-                this.typegame = "Coop";
-            }
+
+            if (GUI.Button(rect, "Coop", this.skin.GetStyle("button")))            
+                this.typeCoop = true;
+            
             rect = new Rect(this.posX + this.width / 2, this.posY - this.height - 10 + 4 * this.spacing, this.width / 2 - 10, this.height);
-            if (GUI.Button(rect, TextDatabase.PVP.GetText(), this.skin.GetStyle("button")))
-            {
-                this.typegame = "Joueur Contre Joueur";
-            }
-            GUI.Box(new Rect(this.posX, this.posY + 4 * this.spacing, this.width, this.height), this.typegame, this.skin.GetStyle("inventory"));
+            if (GUI.Button(rect, TextDatabase.PVP.GetText(), this.skin.GetStyle("button")))            
+                this.typeCoop = false;
+            
+            GUI.Box(new Rect(this.posX, this.posY + 4 * this.spacing, this.width, this.height), this.typeCoop ? "Coop" : "Joueur contre Joueur", this.skin.GetStyle("inventory"));
             rect = new Rect(this.posX, this.posY + 5 * this.spacing, this.width, this.height);
             bool possible = true;
             int i = 0;
             worldsList = new List<string>(Directory.GetDirectories(Application.dataPath + "/Saves"));
-            for (i = 0; i < worldsList.Count; i++)
-            {
+
+            for (i = 0; i < worldsList.Count; i++)            
                 worldsList[i] = worldsList[i].Remove(0, Application.dataPath.Length + 7);
-            }
+            
             i = 0;
             while (possible && i < worldsList.Count)
             {
                 possible = newWorldName != worldsList[i];
                 i++;
             }
-            if (possible)
-            {
+
+            if (possible)            
                 if (GUI.Button(rect, TextDatabase.Create.GetText(), skin.GetStyle("button")))
                 {
                     if (newWorldName != "")
@@ -567,29 +573,29 @@ namespace UnityEngine.Networking
                             seed = genSeed.Next(int.MaxValue);
                         else
                             seed = MapGeneration.SeedToInt(seedstr);
+                        
                         //to do ajout du type de monde lors de la creation
-                        Save.CreateWorld(this.world, seed);
+                        Save.CreateWorld(this.world, seed, this.typeCoop);
                         this.worldsList.Add(this.world);
-                        this.typegame = "";
                         this.Launch(TypeLaunch.Host);
                     }
                     this.firstScene.PlayButtonSound();
                 }
-            }
-            else
-            {
+            
+            else          
                 GUI.Box(rect, TextDatabase.Create.GetText(), this.skin.GetStyle("slot"));
-            }
+           
             rect = new Rect(this.posX, this.posY + 6 * this.spacing, this.width, this.height);
             if (GUI.Button(rect, TextDatabase.Back.GetText(), skin.GetStyle("button")))
             {
                 this.worldcreateShown = false;
                 this.world = "";
                 this.newWorldName = "World";
-                this.typegame = "";
+                this.typeCoop = true;
                 this.firstScene.PlayButtonSound();
             }
         }
+
         /// <summary>
         /// dessine l'interface de sauvegarde d'ip serveur
         /// </summary>
@@ -620,16 +626,18 @@ namespace UnityEngine.Networking
                 this.firstScene.PlayButtonSound();
             }
         }
+
         public void IsLoad()
         {
             loading = false;
             this.skin.GetStyle("loading").normal.textColor = Color.black;
         }
+
         //Getters
         public string World
         {
             get { return world; }
         }
+        #endregion
     }
 }
-
