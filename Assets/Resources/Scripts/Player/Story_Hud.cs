@@ -21,9 +21,9 @@ public class Story_Hud : NetworkBehaviour {
     /// Display the achivement on the client.
     /// </summary>
     /// <param name="succes"></param>
-    public void Display(Succes succes)
+    public void Display(Success success)
     {
-        RpcDisplay(succes.ID);
+        RpcDisplay(success.ID);
     }
 
     [ClientRpc]
