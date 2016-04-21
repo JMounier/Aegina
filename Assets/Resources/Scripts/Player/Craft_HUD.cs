@@ -113,7 +113,7 @@ public class Craft_HUD : MonoBehaviour
                 this.showcraft = false;
                 this.pos = -1;
                 this.craftindex = 0;
-				sound.PlaySound (AudioClips.Button);
+				sound.PlaySound (AudioClips.Button,1f);
             }
             box = new Rect(10, (i + 2) * Screen.height / 9 + 10, Screen.height / 9 - 20, Screen.height / 9 - 20);
             GUI.DrawTexture(box, Resources.Load<Texture2D>("Sprites/CraftsIcon/Craft" + (i + 1)));
@@ -147,7 +147,7 @@ public class Craft_HUD : MonoBehaviour
                     this.pos = i;
                 }
                 this.craftshow = Craftslist[(int)this.type - 1][(craftindex + i) % (Craftslist[(int)this.type - 1].Count)];
-				sound.PlaySound (AudioClips.Button);
+				sound.PlaySound (AudioClips.Button,1f);
             }
             if (Craftslist[(int)this.type - 1][(craftindex + i) % (Craftslist[(int)this.type - 1].Count)].Product.Quantity > 1)
             {
@@ -164,13 +164,13 @@ public class Craft_HUD : MonoBehaviour
         if (GUI.Button(box, "", skin.GetStyle("up_arrow")))
         {
             craftindex = (craftindex - 1) % (Craftslist[(int)this.type - 1].Count);
-			sound.PlaySound (AudioClips.Button);
+			sound.PlaySound (AudioClips.Button,1f);
         }
         box = new Rect(Screen.height / 9, 7 * Screen.height / 9, Screen.height / 18, Screen.height / 18);
         if (GUI.Button(box, "", skin.GetStyle("down_arrow")))
         {
             craftindex = (craftindex + 1) % (Craftslist[(int)this.type - 1].Count);
-			sound.PlaySound (AudioClips.Button);
+			sound.PlaySound (AudioClips.Button,1f);
         }
 
     }
@@ -223,10 +223,9 @@ public class Craft_HUD : MonoBehaviour
 				else if (craftshow.Forge)
 					sound.PlaySound (AudioClips.forge, 1f);
 				else if (craftshow.Brewer)
-					sound.PlaySound (AudioClips.cooking);
+					sound.PlaySound (AudioClips.cooking,1f);
 				else
-					sound.PlaySound (AudioClips.Button);
-
+					sound.PlaySound (AudioClips.Button,1f);
             }
 
         }
@@ -247,11 +246,11 @@ public class Craft_HUD : MonoBehaviour
 			if (item.name == "Firepit")
 				nearwork [0] = true;
 			else if (item.name == "Workbench")
-				nearwork [1] == true;
+				nearwork [1] = true;
 			else if (item.name == "Hoven")
-				nearwork [2] == true;
+				nearwork [2] = true;
 			else if (item.name == "Cauldron")
-				nearwork [3] == true;
+				nearwork [3] = true;
 		}
     }
 }
