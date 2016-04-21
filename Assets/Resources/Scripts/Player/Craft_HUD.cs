@@ -5,6 +5,8 @@ using System.Collections.Generic;
 public class Craft_HUD : MonoBehaviour
 {
     private Inventory inventory;
+	private GameObject character;
+	private Sound sound;
     private List<Craft> CraftElementary, CraftWorkTop, CraftConsumable, CraftTools, CraftArmor;
     private List<Craft>[] Craftslist;
     private Craft.Type type;
@@ -21,6 +23,7 @@ public class Craft_HUD : MonoBehaviour
     void Start()
     {
         this.inventory = gameObject.GetComponent<Inventory>();
+		this.sound = GetComponent<Sound> ();
         this.type = Craft.Type.None;
         this.skin = Resources.Load<GUISkin>("Sprites/GUISkin/skin");
         this.Craftslist = new List<Craft>[5];
@@ -29,6 +32,7 @@ public class Craft_HUD : MonoBehaviour
         this.CraftConsumable = new List<Craft>();
         this.CraftTools = new List<Craft>();
         this.CraftArmor = new List<Craft>();
+		this.character = GetComponentInChildren<CharacterCollision>().gameObject;
         this.Craftslist[0] = CraftElementary;
         this.Craftslist[1] = CraftWorkTop;
         this.Craftslist[2] = CraftConsumable;
@@ -43,21 +47,25 @@ public class Craft_HUD : MonoBehaviour
             }
             i++;
         }
-        craftindex = 0;
-        showcraft = false;
-        pos = -1;
-        craftshow = new Craft(Craft.Type.None);
-        craftMastered = new bool[i+1];
-        for (int j = 0; j < craftMastered.Length; j++)
+		this.craftindex = 0;
+		this.showcraft = false;
+        this.pos = -1;
+        this.craftshow = new Craft(Craft.Type.None);
+        this.craftMastered = new bool[i+1];
+		this.nearwork = new bool[4];
+		for (int j = 0; j < 4; j++) {
+			nearwork [j] = false;
+		}
+		for (int j = 0; j < this.craftMastered.Length; j++)
         {
-            craftMastered[j] = false;
+			this.craftMastered[j] = false;
         }
     }
 
     // Update is called once per frame
     void Update()
     {
-        nearwork = what_is_near();
+        what_is_near();
         if (type != Craft.Type.None)
         {
             this.craftindex = (this.craftindex - (int)Input.mouseScrollDelta.y) % (Craftslist[(int)this.type - 1].Count);
@@ -105,6 +113,7 @@ public class Craft_HUD : MonoBehaviour
                 this.showcraft = false;
                 this.pos = -1;
                 this.craftindex = 0;
+				sound.PlaySound (AudioClips.Button);
             }
             box = new Rect(10, (i + 2) * Screen.height / 9 + 10, Screen.height / 9 - 20, Screen.height / 9 - 20);
             GUI.DrawTexture(box, Resources.Load<Texture2D>("Sprites/CraftsIcon/Craft" + (i + 1)));
@@ -138,6 +147,7 @@ public class Craft_HUD : MonoBehaviour
                     this.pos = i;
                 }
                 this.craftshow = Craftslist[(int)this.type - 1][(craftindex + i) % (Craftslist[(int)this.type - 1].Count)];
+				sound.PlaySound (AudioClips.Button);
             }
             if (Craftslist[(int)this.type - 1][(craftindex + i) % (Craftslist[(int)this.type - 1].Count)].Product.Quantity > 1)
             {
@@ -154,11 +164,13 @@ public class Craft_HUD : MonoBehaviour
         if (GUI.Button(box, "", skin.GetStyle("up_arrow")))
         {
             craftindex = (craftindex - 1) % (Craftslist[(int)this.type - 1].Count);
+			sound.PlaySound (AudioClips.Button);
         }
         box = new Rect(Screen.height / 9, 7 * Screen.height / 9, Screen.height / 18, Screen.height / 18);
         if (GUI.Button(box, "", skin.GetStyle("down_arrow")))
         {
             craftindex = (craftindex + 1) % (Craftslist[(int)this.type - 1].Count);
+			sound.PlaySound (AudioClips.Button);
         }
 
     }
@@ -192,7 +204,7 @@ public class Craft_HUD : MonoBehaviour
         }
         box = new Rect((3 + i) * Screen.height / 18, 2 * Screen.height / 9 + pos * Screen.height / 18, Screen.height / 18, Screen.height / 18);
         bool RecipeComplete = inventory.InventoryContains(craftshow,cost == 1);
-        bool WorkTopNear = true;//a modifier plus tard
+		bool WorkTopNear = (!craftshow.Fire || nearwork[0])&&(!craftshow.Workbench || nearwork[1])&&(!craftshow.Forge || nearwork[2])&&(!craftshow.Brewer || nearwork[3]);
         if (WorkTopNear && RecipeComplete)
         {
             if (GUI.Button(box, Resources.Load<Texture2D>("Sprites/CraftsIcon/Valid"), this.skin.GetStyle("Slot")))
@@ -206,6 +218,15 @@ public class Craft_HUD : MonoBehaviour
                 inventory.AddItemStack(its);
                 if (its.Quantity != 0)
                     inventory.Drop(its);
+				if (craftshow.Workbench)
+					sound.PlaySound (AudioClips.workbensh, 1f);
+				else if (craftshow.Forge)
+					sound.PlaySound (AudioClips.forge, 1f);
+				else if (craftshow.Brewer)
+					sound.PlaySound (AudioClips.cooking);
+				else
+					sound.PlaySound (AudioClips.Button);
+
             }
 
         }
@@ -219,8 +240,18 @@ public class Craft_HUD : MonoBehaviour
     /// recherche les atelier proche
     /// </summary>
     /// <returns></returns>
-    private bool[] what_is_near()
+    private void what_is_near()
     {
-        return new bool[0];
+		Collider[] NearObjects = Physics.OverlapSphere(this.character.transform.position,3.5f);
+		foreach (Collider item in NearObjects) {
+			if (item.name == "Firepit")
+				nearwork [0] = true;
+			else if (item.name == "Workbench")
+				nearwork [1] == true;
+			else if (item.name == "Hoven")
+				nearwork [2] == true;
+			else if (item.name == "Cauldron")
+				nearwork [3] == true;
+		}
     }
 }
