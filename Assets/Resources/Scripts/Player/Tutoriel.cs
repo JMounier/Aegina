@@ -9,17 +9,27 @@ public class Tutoriel : MonoBehaviour {
 	private int progress = -1;
 	private Text textObjectif;
 	private Text textNarator;
-	public bool finished_tutorial = false;
+	private bool istutorial = false;
+	private bool finished_tutorial = false;
+	private GUISkin skin;
 	private float Cooldown = 0;//le cooldown correspond au temps necessaire au narrateur pour parler. Ils seront modifier après des test.
 	// Use this for initialization
 	void Start () {
 		this.controler = this.transform.GetComponent<Controller> ();
 		this.inventaire = this.transform.GetComponent<Inventory> ();
 		this.cristal = this.transform.GetComponent<Cristal_HUD> ();
+		this.skin = Resources.Load<GUISkin> ("Sprites/GUIskin/skin");
+		//load de progress et finished_tutorial
+		if (!finished_tutorial && progress == -1) {
+			istutorial = true;
+			controler.Pause = true;
+		}
+			
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		//choix des textes et progression du tutoriel
 		if (progress > -1) {
 			switch (progress) {
 			case 0:
@@ -123,6 +133,7 @@ public class Tutoriel : MonoBehaviour {
 					Cooldown = 10;
 					//déclenchement du texte et du son
 				}
+				break;
 			case 11:
 				textNarator = TextDatabase.FirstCristal;
 				textObjectif = TextDatabase.FirstCrisatlObjectif;
@@ -131,6 +142,7 @@ public class Tutoriel : MonoBehaviour {
 					finished_tutorial = true;
 					//declenchement de la seconde cynématique
 				}
+				break;
 			default:
 				textNarator = new Text ();
 				textObjectif = new Text ();
@@ -139,6 +151,9 @@ public class Tutoriel : MonoBehaviour {
 		}
 	}
 	void OnGUI(){
+		if (istutorial) 
+			TutorialHUD ();
+		
 		if (Cooldown > 0) {
 			Cooldown -= Time.deltaTime;
 			NarratorHUD ();
@@ -150,6 +165,26 @@ public class Tutoriel : MonoBehaviour {
 		
 	}
 	private void ObjectifHUD(){
-		
+		Rect rect = new Rect (5, 5, 2 * Screen.width / 9, 2 * Screen.height / 9 - 10);
+		GUI.Box(rect,textObjectif.GetText(),skin.GetStyle("Narrateur&Objectifs"));
+	}
+	private void TutorialHUD(){
+		Rect rect = new Rect (Screen.width / 3, Screen.height / 2 - Screen.height / 20, Screen.width / 3, Screen.height / 10-5);
+		GUI.Box (rect, TextDatabase.tutorial.GetText (), skin.GetStyle ("inventory"));
+		rect.y += Screen.height / 10;
+		rect.width -= 4*Screen.width / 15;
+		rect.x += Screen.width / 15;
+		if (GUI.Button (rect, TextDatabase.Yes.GetText(), skin.GetStyle ("button"))) {
+			this.progress = 0;
+			this.istutorial = false;
+			this.controler.Pause = false;
+		}
+		rect.x += 2 * Screen.width / 15;
+		if (GUI.Button (rect, TextDatabase.No.GetText(), skin.GetStyle ("button"))) {
+			this.finished_tutorial = true;
+			this.istutorial = false;
+			this.controler.Pause = false;
+		}
+
 	}
 }

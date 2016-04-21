@@ -166,7 +166,8 @@ public class TextDatabase
     public static readonly Text SunkiumSwordDescription = new Text("Une epee de qualite", "A quality sword");
 
     // Miscellanous
-
+	public static readonly Text Yes = new Text("Oui","Yes");
+	public static readonly Text No = new Text ("Non", "No");
     public static readonly Text Quit = new Text("Quitter", "Quit");
     public static readonly Text Continue = new Text("Continuer", "Continue");
     public static readonly Text Sound = new Text("Son", "Sound");
@@ -197,7 +198,7 @@ public class TextDatabase
     public static readonly Text WorktopAbsent = new Text("l'établie necessaire ne se trouve pas à porté", "Necessary woktop is not present \n");
     public static readonly Text DontHaveItem = new Text("Tu ne possède pas les objets necessaire pour cette recette", "You don't have the necessary item for this recipe \n");
     public static readonly Text InventoryFull = new Text("Ton inventaire est plein", "Your inventory is full");
-
+	public static readonly Text tutorial = new Text ("Suivre le didacticiel ?", "Follow the tutorial ?");
 	// Tutoriel
 
 	public static readonly Text Move = new Text("Ille commence à se déplacer un petit peu pour se réhabituer à ses jambes","Ille begin to move to get used to his legs");
@@ -205,7 +206,7 @@ public class TextDatabase
 	public static readonly Text Run = new Text("S'étant habitué à ses jambes, iI décide de se mettre à courir","Getting used to her legs, Ille decided to start running");
 	public static readonly Text RunObjectif = new Text ("Cours (bouge avec la touche shift enfoncé)", "Run (hold the shift key and move)");
 	public static readonly Text Jump = new Text ("Ille est tellement en forme qu'il pense même pouvoir se permettre de sauter sans problème", "Ille is so fit that he thinks he can even afford to jump");
-	public static readonly Team JumpObjectif = new Text ("Saute (appuie sur la barre espace)", "Jump (press the spacebar)");
+	public static readonly Text JumpObjectif = new Text ("Saute (appuie sur la barre espace)", "Jump (press the spacebar)");
 	public static readonly Text PickItem1 = new Text ("Juste après avoir sauté, Ille entend un sinistre grognement.", "Just after he jumped, Ille heard a sinister growl.");
 	public static readonly Text PickItem2 = new Text ("Ille a faim. Cependant dans cette contrée sauvage, il devine qu'il doit chasser sa nourriture. Mais pour chasser il a besoin d'une arme. Justement il remarque un bâton sur le chemin, l'arme parfaite pour lui", "Ille is hungry. However, in this wilderness, he guesses he must hunt for food.Therefore he needs a weapon to hunt. At this moment he noticed a stick on the way, the perfect weapon for him");
 	public static readonly Text PickItemObjectif = new Text ("Prendre le bâton (clic droit enfoncé près de l'objet)", "Take the Stick (hold the rightclick down near the stick)");
