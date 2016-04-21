@@ -203,7 +203,7 @@ public class TextDatabase
 
 	public static readonly Text Move = new Text("Ille commence à se déplacer un petit peu pour se réhabituer à ses jambes","Ille begin to move to get used to his legs");
 	public static readonly Text MoveObjectif = new Text("Se deplacer","Move");
-	public static readonly Text Run = new Text("S'étant habitué à ses jambes, iI décide de se mettre à courir","Getting used to her legs, Ille decided to start running");
+	public static readonly Text Run = new Text("S'étant habitué à ses jambes, iI décide de se mettre à courir","Getting used to his legs, Ille decided to start running");
 	public static readonly Text RunObjectif = new Text ("Cours (bouge avec la touche shift enfoncé)", "Run (hold the shift key and move)");
 	public static readonly Text Jump = new Text ("Ille est tellement en forme qu'il pense même pouvoir se permettre de sauter sans problème", "Ille is so fit that he thinks he can even afford to jump");
 	public static readonly Text JumpObjectif = new Text ("Saute (appuie sur la barre espace)", "Jump (press the spacebar)");

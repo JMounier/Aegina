@@ -6,18 +6,21 @@ public class Tutoriel : MonoBehaviour {
 	private Controller controler;
 	private Inventory inventaire;
 	private Cristal_HUD cristal;
+	private InputManager IM;
 	private int progress = -1;
 	private Text textObjectif;
 	private Text textNarator;
 	private bool istutorial = false;
 	private bool finished_tutorial = false;
 	private GUISkin skin;
-	private float Cooldown = 0;//le cooldown correspond au temps necessaire au narrateur pour parler. Ils seront modifier après des test.
+	private bool endtuto = false;
+	private float Cooldown = 10;//le cooldown correspond au temps necessaire au narrateur pour parler. Ils seront modifier après des test.
 	// Use this for initialization
 	void Start () {
 		this.controler = this.transform.GetComponent<Controller> ();
 		this.inventaire = this.transform.GetComponent<Inventory> ();
 		this.cristal = this.transform.GetComponent<Cristal_HUD> ();
+		this.IM = this.transform.GetComponent<InputManager> ();
 		this.skin = Resources.Load<GUISkin> ("Sprites/GUIskin/skin");
 		//load de progress et finished_tutorial
 		if (!finished_tutorial && progress == -1) {
@@ -26,7 +29,20 @@ public class Tutoriel : MonoBehaviour {
 		}
 			
 	}
-	
+
+	void OnGUI(){
+		if (istutorial) 
+			TutorialHUD ();
+
+		if (Cooldown > 0 && progress >-1) {
+			Cooldown -= Time.deltaTime;
+			NarratorHUD ();
+		}
+		if (progress > -1)
+			ObjectifHUD ();
+		if (endtuto)
+			endtutoHUD ();
+	}
 	// Update is called once per frame
 	void Update () {
 		//choix des textes et progression du tutoriel
@@ -44,7 +60,7 @@ public class Tutoriel : MonoBehaviour {
 			case 1:
 				textObjectif = TextDatabase.RunObjectif;
 				textNarator = TextDatabase.Run;
-				if (Cooldown <= 0 && controler.IsSprinting) {
+				if (Cooldown <= 0 && Input.GetButton("Sprint") && controler.Ismoving) {
 					progress = 2;
 					Cooldown = 10;
 					//déclenchement du texte et du son
@@ -52,8 +68,8 @@ public class Tutoriel : MonoBehaviour {
 				}
 				break;
 			case 2:
-				textObjectif = TextDatabase.RunObjectif;
-				textNarator = TextDatabase.Run;
+				textObjectif = TextDatabase.JumpObjectif;
+				textNarator = TextDatabase.Jump;
 				if (Cooldown <= 0 && controler.IsJumping) {
 					progress = 3;
 					Cooldown = 10;
@@ -80,7 +96,7 @@ public class Tutoriel : MonoBehaviour {
 			case 5:
 				textNarator = TextDatabase.Equip;
 				textObjectif = TextDatabase.EquipObjectif;
-				if (Cooldown <= 0 && inventaire.UsedItem.Items == ItemDatabase.Stick) {
+				if (Cooldown <= 0 && inventaire.UsedItem.Items.Name == ItemDatabase.Stick.Name) {
 					progress = 6;
 					Cooldown = 10;
 					//déclenchement du texte et du son
@@ -107,13 +123,14 @@ public class Tutoriel : MonoBehaviour {
 			case 8:
 				textNarator = TextDatabase.EatSomething;
 				textObjectif = TextDatabase.EatSomethingObjectif;
-				if (Cooldown <= 0) /* récupérer la consomation d'un objet : attendre la fin de stats */ {
+				if (Cooldown <= 0 && this.inventaire) /* récupérer la consomation d'un objet : attendre la fin de stats */ {
 					progress = 9;
 					Cooldown = 30;
 					//déclenchement Cinématique
 				}
 				break;
 			case 9:
+				textObjectif = new Text();
 				textNarator = TextDatabase.CinematiqueWherIAm1;
 				if (Cooldown <= 15){
 					textNarator = TextDatabase.CinematiqueWherIAm2;
@@ -150,23 +167,19 @@ public class Tutoriel : MonoBehaviour {
 			}
 		}
 	}
-	void OnGUI(){
-		if (istutorial) 
-			TutorialHUD ();
-		
-		if (Cooldown > 0) {
-			Cooldown -= Time.deltaTime;
-			NarratorHUD ();
-		}
-		if (progress > -1)
-			ObjectifHUD ();
-	}
 	private void NarratorHUD (){
-		
+		Rect rect = new Rect (Screen.width / 4, Screen.height - this.inventaire.ToolbarSize * 1.6f - Screen.height / 8, Screen.width / 2, Screen.height / 8);
+		GUI.Box (rect, textNarator.GetText (), skin.GetStyle ("Narrateur"));
 	}
 	private void ObjectifHUD(){
 		Rect rect = new Rect (5, 5, 2 * Screen.width / 9, 2 * Screen.height / 9 - 10);
-		GUI.Box(rect,textObjectif.GetText(),skin.GetStyle("Narrateur&Objectifs"));
+		GUI.Box(rect,textObjectif.GetText(),skin.GetStyle("Objectifs"));
+		rect = new Rect (2 * Screen.width / 9, 2 * Screen.height / 9 - 10, 10, 10);
+		if (this.textObjectif.GetText() != "" && GUI.Button(rect,Resources.Load<Texture2D>("Sprites/CraftsIcon/Invalid"),skin.GetStyle("quantity"))) {
+			this.controler.Pause = true;
+			this.IM.IAmDead ();
+			endtuto = true;
+		}
 	}
 	private void TutorialHUD(){
 		Rect rect = new Rect (Screen.width / 3, Screen.height / 2 - Screen.height / 20, Screen.width / 3, Screen.height / 10-5);
@@ -178,6 +191,7 @@ public class Tutoriel : MonoBehaviour {
 			this.progress = 0;
 			this.istutorial = false;
 			this.controler.Pause = false;
+			this.Cooldown = 10;
 		}
 		rect.x += 2 * Screen.width / 15;
 		if (GUI.Button (rect, TextDatabase.No.GetText(), skin.GetStyle ("button"))) {
@@ -186,5 +200,27 @@ public class Tutoriel : MonoBehaviour {
 			this.controler.Pause = false;
 		}
 
+	}
+	private void endtutoHUD(){
+		Rect rect = new Rect (Screen.width / 3, Screen.height / 2 - Screen.height / 20, Screen.width / 3, Screen.height / 10-5);
+		GUI.Box (rect, TextDatabase.Quit.GetText ()+ "tuto ?", skin.GetStyle ("inventory"));
+		rect.y += Screen.height / 10;
+		rect.width -= 4*Screen.width / 15;
+		rect.x += Screen.width / 15;
+		if (GUI.Button (rect, TextDatabase.Yes.GetText(), skin.GetStyle ("button"))) {
+			this.progress = -1;
+			this.endtuto = false;
+			this.controler.Pause = false;
+		}
+		rect.x += 2 * Screen.width / 15;
+		if (GUI.Button (rect, TextDatabase.No.GetText(), skin.GetStyle ("button"))) {
+			this.endtuto = false;
+			this.controler.Pause = false;
+		}
+	}
+
+	public bool EndTutoShown{
+		get { return endtuto;}
+		set { this.endtuto = value;}
 	}
 }
