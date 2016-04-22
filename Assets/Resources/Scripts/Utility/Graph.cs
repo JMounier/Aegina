@@ -48,7 +48,7 @@ public class Graph
             }
         }
     }
-        
+
     public Node GetNode(Vector3 pos)
     {
         try
@@ -162,14 +162,15 @@ public class Graph
     /// Recalcul la validite d'une partie du graph, a appeler lors de la destruction d'un element par exemple.
     /// </summary>
     /// <param name="pos"></param>
-    public void Reset(Node node, bool validity = true)
+    public void Reset(Node node, bool validity)
     {
-        if (node.IsValid != validity && isValidPosition(node.Position) == validity)
+        bool test = isValidPosition(node.Position);
+        if (node.IsValid != validity && test == validity)
         {
             node.IsValid = validity;
             foreach (Node neighbour in node.Neighbours)
                 Reset(neighbour, validity);
-        }                
+        }
     }
     #endregion
 
@@ -194,8 +195,8 @@ public class Graph
             if (!col.isTrigger)
                 if (col.name.Contains("Island"))
                     isOverGround = true;
-                else
-                    return false;
+                else if (!col.gameObject.name.Contains("Character"))                
+                    return false;                
         }
         return isOverGround;
     }

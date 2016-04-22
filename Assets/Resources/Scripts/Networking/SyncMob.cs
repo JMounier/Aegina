@@ -43,9 +43,9 @@ public class SyncMob : NetworkBehaviour
         if (!isServer)
             return;
 
-        if (gameObject.transform.position.y < -10)        
+        if (gameObject.transform.position.y < -10)
             this.myMob.Life = 0;
-        
+
         /*
                 --------------------------
                |    Deplacement du mob    |
@@ -98,30 +98,24 @@ public class SyncMob : NetworkBehaviour
             {
                 this.goal = this.chunk.GetComponent<SyncChunk>().MyGraph.GetNode(nearPlayer.transform.FindChild("Character").position);
                 if (this.goal != null && this.goal.IsValid)
+                {
                     this.path = this.chunk.GetComponent<SyncChunk>().MyGraph.AStarPath(this.node, this.goal, .71f);
+                    if (this.path.Count != 0)
+                        this.path = new List<Node>() { this.path[0] };
+                    else
+                        while (this.path.Count == 0)
+                            ChooseRandomGoal();
+                }
                 else
                 {
                     this.anim.SetInteger("Action", 0);
                     this.focus = false;
-                    this.View(nearPlayer.transform.position);
+                    this.View(nearPlayer.transform.FindChild("Character").position);
                 }
             }
         }
-
         else if (this.path.Count == 0)
-        {
-            this.anim.SetInteger("Action", 0);
-            // Trouve un nouveau but
-            this.goal = null;
-
-            float randAngle = UnityEngine.Random.Range(0f, Mathf.PI * 2);
-            this.goal = this.chunk.GetComponent<SyncChunk>().MyGraph.GetNode(new Vector3(Mathf.Cos(randAngle),
-                0, Mathf.Sin(randAngle)) * UnityEngine.Random.Range(10f, 30f) + this.transform.position);
-
-            // Calcule le chemin => A*           
-            if (this.goal != null && this.goal.IsValid)
-                this.path = this.chunk.GetComponent<SyncChunk>().MyGraph.AStarPath(this.node, this.goal, .71f);
-        }
+            ChooseRandomGoal();
 
         // Move the mob       
         if (this.path.Count > 0)
@@ -140,6 +134,21 @@ public class SyncMob : NetworkBehaviour
                 this.cdMove = 0;
             }
         }
+    }
+
+    private void ChooseRandomGoal()
+    {
+        this.anim.SetInteger("Action", 0);
+        // Trouve un nouveau but
+        this.goal = null;
+
+        float randAngle = UnityEngine.Random.Range(0f, Mathf.PI * 2);
+        this.goal = this.chunk.GetComponent<SyncChunk>().MyGraph.GetNode(new Vector3(Mathf.Cos(randAngle),
+            0, Mathf.Sin(randAngle)) * UnityEngine.Random.Range(10f, 30f) + this.transform.position);
+
+        // Calcule le chemin => A*           
+        if (this.goal != null && this.goal.IsValid)
+            this.path = this.chunk.GetComponent<SyncChunk>().MyGraph.AStarPath(this.node, this.goal, .71f);
     }
 
     /// <summary>

@@ -410,7 +410,7 @@ public class InputManager : NetworkBehaviour
     {
         Element elm = (EntityDatabase.Find(id) as Element);
         elm.Spawn(pos.transform.position, pos.transform.rotation, pos.transform.parent, -1);
-        elm.Prefab.GetComponent<SyncElement>().updateGraph();
+        elm.Prefab.GetComponent<SyncElement>().UpdateGraph();
     }
 
 

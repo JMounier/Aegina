@@ -94,9 +94,9 @@ public class Chunk : Entity
                 }
 
         // Load IslandCore
-        if (isPrisme)        
-            Prefab.GetComponent<SyncChunk>().FindCristal();          
-        
+        if (isPrisme)
+            Prefab.GetComponent<SyncChunk>().FindCristal();
+
         //Generate Worktop
         foreach (Triple<Element, Vector3, Vector3> worktop in cs.WorkTops)
             new Element(worktop.Item1).Spawn(worktop.Item2, Quaternion.Euler(worktop.Item3), Prefab.transform.FindChild("Elements"), -1, true);
@@ -108,12 +108,20 @@ public class Chunk : Entity
 
         foreach (Mob mob in EntityDatabase.Mobs)
         {
-            for (int i = 0; i < mob.GroupSize; i++)
-            {
-                Vector3 pos = new Vector3(UnityEngine.Random.Range(-Size / 2 + x * Size, Size / 2 + x * Size), 7, UnityEngine.Random.Range(-Size / 2 + y * Size, Size / 2 + y * Size));
-                if (Graph.isValidPosition(pos))
-                    new Mob(mob).Spawn(pos, Prefab.transform.FindChild("Mob"));
-            }
+            bool biomeValid = false;
+            foreach (int biomeId in mob.BiomesIDSpawnable)
+                if (biomeId == this.b.ID)
+                {
+                    biomeValid = true;
+                    break;
+                }
+            if (biomeValid)
+                for (int i = 0; i < mob.GroupSize; i++)
+                {
+                    Vector3 pos = new Vector3(UnityEngine.Random.Range(-Size / 2 + x * Size, Size / 2 + x * Size), 7, UnityEngine.Random.Range(-Size / 2 + y * Size, Size / 2 + y * Size));
+                    if (Graph.isValidPosition(pos))
+                        new Mob(mob).Spawn(pos, Prefab.transform.FindChild("Mob"));
+                }
         }
     }
 
