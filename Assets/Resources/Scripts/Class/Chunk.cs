@@ -93,16 +93,16 @@ public class Chunk : Entity
                     }
                 }
 
+        // Load IslandCore
+        if (isPrisme)        
+            Prefab.GetComponent<SyncChunk>().FindCristal();          
+        
         //Generate Worktop
         foreach (Triple<Element, Vector3, Vector3> worktop in cs.WorkTops)
             new Element(worktop.Item1).Spawn(worktop.Item2, Quaternion.Euler(worktop.Item3), Prefab.transform.FindChild("Elements"), -1, true);
 
         // Generate Graph
         Prefab.GetComponent<SyncChunk>().MyGraph = new Graph(posIslands.ToArray());
-        if (isPrisme)
-        {
-            Prefab.GetComponent<SyncChunk>().FindCristal();
-        }
 
         //generate Mobs
 

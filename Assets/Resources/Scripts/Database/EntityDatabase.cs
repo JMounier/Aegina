@@ -120,7 +120,7 @@ public static class EntityDatabase
 	public static readonly Element Torche = new Element (134, 100, Resources.Load<GameObject>("Prefabs/Elements/PuttedObjects/Torche"), Element.TypeElement.WorkTop, 0, new DropConfig(44,1));
 
     // IslandCore
-    public static readonly IslandCore IslandCore = new IslandCore(142, Resources.Load<GameObject>("Prefabs/Elements/Cristals/IslandCore"), Team.Neutre, 0, 0, 0);
+    public static readonly IslandCore IslandCore = new IslandCore(142, Resources.Load<GameObject>("Prefabs/Elements/Cristals/IslandCore"));
 
     // Mobs
     public static readonly Mob Boar = new Mob(500, 20, Resources.Load<GameObject>("Prefabs/Mobs/Boar"), 15, 7, 6, .8f, 2.2f, 1.5f, new DropConfig(83, 0, 1), new DropConfig(84, 0, 1), new DropConfig(84, 0, 1));

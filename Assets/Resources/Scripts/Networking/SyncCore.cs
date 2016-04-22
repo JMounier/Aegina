@@ -16,9 +16,9 @@ public class SyncCore : SyncElement
     [SyncVar]
     private int levelPortal;
     [SyncVar]
-    private int upgrade = 0;
+    private int upgrade;
     [SyncVar]
-    private int life = 1000;
+    private int life;
 
 
     private Item[] needs;
@@ -27,17 +27,20 @@ public class SyncCore : SyncElement
     void Start()
     {
         if (isServer)
-            this.CmdSetTeam(Team.Neutre);
-        else
         {
-            Shader sh = this.GetComponentInChildren<MeshRenderer>().material.shader;
-            this.GetComponentInChildren<MeshRenderer>().material = Resources.Load<Material>("Models/Components/Islands/Materials/Team" + (int)this.team);
-            this.GetComponentInChildren<MeshRenderer>().material.shader = sh;
+            ChunkSave cs = GameObject.Find("Map").GetComponent<Save>().LoadChunk((int)gameObject.transform.position.x / Chunk.Size, (int)gameObject.transform.position.z / Chunk.Size);
+            this.CmdSetTeam((Team)cs.CristalCaracteristics[0]);
+
+            this.levelAttack = cs.CristalCaracteristics[1];
+            this.levelProd = cs.CristalCaracteristics[2];
+            this.levelPortal = cs.CristalCaracteristics[3];
+            this.levelTot = levelAttack + levelProd + levelPortal;
+            this.upgrade = cs.CristalCaracteristics[4];
+            this.life = cs.CristalCaracteristics[5];
         }
-        this.levelTot = 0;
-        this.levelAttack = 0;
-        this.levelProd = 0;
-        this.levelPortal = 0;     
+        else
+            this.GetComponentInChildren<MeshRenderer>().material = Resources.Load<Material>("Models/Components/Islands/Materials/Team" + (int)this.team);
+
         this.needs = new Item[6] { new Item(ItemDatabase.Copper), new Item(ItemDatabase.Iron), new Item(ItemDatabase.Gold),
             new Item(ItemDatabase.Mithril), new Item(ItemDatabase.Floatium), new Item(ItemDatabase.Sunkium) };
     }
