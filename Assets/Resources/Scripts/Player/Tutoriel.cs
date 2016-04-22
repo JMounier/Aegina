@@ -27,7 +27,9 @@ public class Tutoriel : MonoBehaviour {
 			istutorial = true;
 			controler.Pause = true;
 		}
-			
+		skin.GetStyle ("Objectifs").normal.background = skin.textArea.normal.background;
+		skin.GetStyle ("Objectifs").active.background = skin.textArea.normal.background;
+		skin.GetStyle ("Objectifs").onHover.background = skin.textArea.normal.background;
 	}
 
 	void OnGUI(){
@@ -177,7 +179,7 @@ public class Tutoriel : MonoBehaviour {
 	}
 	private void ObjectifHUD(){
 		int num = textObjectif.GetText ().Length / 28;
-		Rect rect = new Rect (5, 5, 2 * Screen.width / 9, (1+num) * Screen.height/35 );
+		Rect rect = new Rect (5, 5, 2 * Screen.width / 9, (1+num) * Screen.height/35+8 );
 		GUI.Box(rect,textObjectif.GetText(),skin.GetStyle("Objectifs"));
 		rect.x = rect.width-Screen.width/100;
 		rect.y = rect.height-Screen.width/100;
