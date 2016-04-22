@@ -197,7 +197,7 @@ public class Cristal_HUD : NetworkBehaviour
                 this.CmdSetLevelAtk(2, this.cristal.gameObject);
             }
         }
-        CmdSaveCristal();
+        CmdSaveCristal(this.cristal.gameObject);
     }
 
     private void Upgrade(int stats)
@@ -219,7 +219,7 @@ public class Cristal_HUD : NetworkBehaviour
             }
             this.CmdSetLevelPort(crystal.LevelPortal + 1, this.cristal.gameObject);
         }
-        CmdSaveCristal();
+        CmdSaveCristal(this.cristal.gameObject);
     }
 
     // Getters Setters
@@ -269,7 +269,7 @@ public class Cristal_HUD : NetworkBehaviour
     }
 
     [Command]
-    private void CmdSaveCristal()
+    private void CmdSaveCristal(GameObject cristal)
     {
         ChunkSave cs = GameObject.Find("Map").GetComponent<Save>().LoadChunk((int)gameObject.transform.position.x / Chunk.Size, (int)gameObject.transform.position.z / Chunk.Size);
         cs.CristalCaracteristics = new int[6] {
