@@ -45,6 +45,8 @@ public class Tutoriel : MonoBehaviour {
 	}
 	// Update is called once per frame
 	void Update () {
+		skin.GetStyle ("Objectifs").fontSize = (int)(Screen.height * 0.025f);
+		skin.GetStyle ("Narrateur").fontSize = (int)(Screen.height * 0.030f);
 		//choix des textes et progression du tutoriel
 		if (progress > -1) {
 			switch (progress) {
@@ -81,7 +83,7 @@ public class Tutoriel : MonoBehaviour {
 				textNarator = TextDatabase.PickItem1;
 				if (Cooldown <= 0) {
 					progress = 4;
-					Cooldown = 10;
+					Cooldown = 20;
 					//déclenchement du texte et du son
 				}
 				break;
@@ -107,7 +109,7 @@ public class Tutoriel : MonoBehaviour {
 				textObjectif = TextDatabase.KillThePigObjectif;
 				if (Cooldown <= 0 && inventaire.InventoryContains(ItemDatabase.Gigot)) {
 					progress = 7;
-					Cooldown = 10;
+					Cooldown = 15;
 					//déclenchement du texte et du son
 				}
 				break;
@@ -123,17 +125,19 @@ public class Tutoriel : MonoBehaviour {
 			case 8:
 				textNarator = TextDatabase.EatSomething;
 				textObjectif = TextDatabase.EatSomethingObjectif;
-				if (Cooldown <= 0 && this.inventaire) /* récupérer la consomation d'un objet : attendre la fin de stats */ {
+				if (Cooldown <= 0 && !this.inventaire.InventoryContains(ItemDatabase.MeatBalls)&& Input.GetButton("Fire2")) /* récupérer la consomation d'un objet : attendre la fin de stats */ {
 					progress = 9;
-					Cooldown = 30;
+					Cooldown = 60;
 					//déclenchement Cinématique
 				}
 				break;
 			case 9:
-				textObjectif = new Text();
-				textNarator = TextDatabase.CinematiqueWherIAm1;
-				if (Cooldown <= 15){
-					textNarator = TextDatabase.CinematiqueWherIAm2;
+				textObjectif = new Text ();
+				textNarator = TextDatabase.CinematiqueWhereIAm1;
+				if (Cooldown <= 45)
+					textNarator = TextDatabase.CinematiqueWhereIAm2;
+				if (Cooldown <= 35){
+					textNarator = TextDatabase.CinematiqueWhereIAm3;
 
 					if (Cooldown <= 0) {
 						progress = 10;
@@ -147,7 +151,7 @@ public class Tutoriel : MonoBehaviour {
 				textObjectif = TextDatabase.CristalViewObjectif;
 				if (Cooldown <= 0 && this.cristal.Cristal_shown) {
 					progress = 11;
-					Cooldown = 10;
+					Cooldown = 20;
 					//déclenchement du texte et du son
 				}
 				break;
@@ -168,13 +172,17 @@ public class Tutoriel : MonoBehaviour {
 		}
 	}
 	private void NarratorHUD (){
-		Rect rect = new Rect (Screen.width / 4, Screen.height - this.inventaire.ToolbarSize * 1.6f - Screen.height / 8, Screen.width / 2, Screen.height / 8);
+		Rect rect = new Rect (Screen.width / 4, Screen.height - this.inventaire.ToolbarSize * 1.6f - Screen.height / 3, Screen.width / 2, Screen.height / 3);
 		GUI.Box (rect, textNarator.GetText (), skin.GetStyle ("Narrateur"));
 	}
 	private void ObjectifHUD(){
-		Rect rect = new Rect (5, 5, 2 * Screen.width / 9, 2 * Screen.height / 9 - 10);
+		int num = textObjectif.GetText ().Length / 28;
+		Rect rect = new Rect (5, 5, 2 * Screen.width / 9, (1+num) * Screen.height/35 );
 		GUI.Box(rect,textObjectif.GetText(),skin.GetStyle("Objectifs"));
-		rect = new Rect (2 * Screen.width / 9, 2 * Screen.height / 9 - 10, 10, 10);
+		rect.x = rect.width-Screen.width/100;
+		rect.y = rect.height-Screen.width/100;
+		rect.width = Screen.width / 50;
+		rect.height = rect.width;
 		if (this.textObjectif.GetText() != "" && GUI.Button(rect,Resources.Load<Texture2D>("Sprites/CraftsIcon/Invalid"),skin.GetStyle("quantity"))) {
 			this.controler.Pause = true;
 			this.IM.IAmDead ();
@@ -203,7 +211,7 @@ public class Tutoriel : MonoBehaviour {
 	}
 	private void endtutoHUD(){
 		Rect rect = new Rect (Screen.width / 3, Screen.height / 2 - Screen.height / 20, Screen.width / 3, Screen.height / 10-5);
-		GUI.Box (rect, TextDatabase.Quit.GetText ()+ "tuto ?", skin.GetStyle ("inventory"));
+		GUI.Box (rect, TextDatabase.Quit.GetText ()+ " tuto ?", skin.GetStyle ("inventory"));
 		rect.y += Screen.height / 10;
 		rect.width -= 4*Screen.width / 15;
 		rect.x += Screen.width / 15;
