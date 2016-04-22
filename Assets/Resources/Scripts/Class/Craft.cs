@@ -80,7 +80,7 @@ public class Craft
     }
     public bool Brewer
     {
-        get { return Brewer; }
+        get { return brewer; }
     }
     public bool Secret
     {
