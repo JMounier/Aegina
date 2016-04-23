@@ -59,7 +59,7 @@ public static class EntityDatabase
     public static readonly Entity CauldronLoot = new Entity(66, 60, Resources.Load<GameObject>("Prefabs/Loots/Cauldron"));
     public static readonly Entity WorkbenchLoot = new Entity(67, 60, Resources.Load<GameObject>("Prefabs/Loots/Workbench"));
     public static readonly Entity FirepitLoot = new Entity(68, 60, Resources.Load<GameObject>("Prefabs/Loots/Firepit"));
-	public static readonly Entity TorcheLoot = new Entity(50, 60, Resources.Load<GameObject>("Prefabs/Loots/Torche"));
+	public static readonly Entity TorchLoot = new Entity(50, 60, Resources.Load<GameObject>("Prefabs/Loots/Torche"));
 
     public static readonly Entity AquaPotion = new Entity(69, 60, Resources.Load<GameObject>("Prefabs/Loots/AquaPotion"));
     public static readonly Entity BluePotion = new Entity(70, 60, Resources.Load<GameObject>("Prefabs/Loots/BluePotion"));
@@ -117,7 +117,7 @@ public static class EntityDatabase
 	public static readonly Element Firepit = new Element(131, 100, Resources.Load<GameObject>("Prefabs/Elements/PuttedObjects/FirePit"), Element.TypeElement.WorkTop, 0, new DropConfig(43, 1));
 	public static readonly Element Workbench = new Element(132, 100, Resources.Load<GameObject>("Prefabs/Elements/PuttedObjects/Workbench"), Element.TypeElement.WorkTop, 0, new DropConfig(42, 1));
 	public static readonly Element Forge = new Element(133, 100, Resources.Load<GameObject>("Prefabs/Elements/PuttedObjects/Hoven"), Element.TypeElement.WorkTop, 0, new DropConfig(40, 1));
-	public static readonly Element Torche = new Element (134, 100, Resources.Load<GameObject>("Prefabs/Elements/PuttedObjects/Torche"), Element.TypeElement.WorkTop, 0, new DropConfig(44,1));
+	public static readonly Element Torch = new Element (134, 100, Resources.Load<GameObject>("Prefabs/Elements/PuttedObjects/Torch"), Element.TypeElement.WorkTop, 0, new DropConfig(44,1));
 
     // IslandCore
     public static readonly IslandCore IslandCore = new IslandCore(142, Resources.Load<GameObject>("Prefabs/Elements/Cristals/IslandCore"));
@@ -256,7 +256,7 @@ public static class EntityDatabase
             yield return CauldronLoot;
             yield return WorkbenchLoot;
             yield return FirepitLoot;
-			yield return TorcheLoot;
+			yield return TorchLoot;
 
             // Chunk
             foreach (Chunk chunk in Chunks)
@@ -313,7 +313,7 @@ public static class EntityDatabase
 			yield return Firepit;
 			yield return Forge;
 			yield return Workbench;
-			yield return Torche;
+			yield return Torch;
             
             // IslandCore
             yield return IslandCore;
