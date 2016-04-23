@@ -33,13 +33,14 @@ public class TextDatabase
     public static readonly Text Cauldron = new Text("Chaudron", "Cauldron");
     public static readonly Text Workbench = new Text("Table de travail", "Workbench");
     public static readonly Text Firepit = new Text("Feu", "Firepit");
+    public static readonly Text Torch = new Text("Torche", "Torch");
 
-    public static readonly Text AquaPotion = new Text("Potion aqua", "Aqua potion");
-    public static readonly Text BluePotion = new Text("Potion bleu", "Blue potion");
-    public static readonly Text GreenPotion = new Text("Potion verte", "Green potion");
-    public static readonly Text PurplePotion = new Text("Potion violette", "Purple potion");
-    public static readonly Text RedPotion = new Text("Potion rouge", "Red potion");
-    public static readonly Text YellowPotion = new Text("Potion jaune", "Yellow potion");
+    public static readonly Text WaterPotion = new Text("Fiole d'eau", "Water phial");
+    public static readonly Text SpeedPotion = new Text("Potion de vitesse", "Potion of speed");
+    public static readonly Text PoisonPotion = new Text("Potion de poison", "Potion of poison");
+    public static readonly Text RegenerationPotion = new Text("Potion de regeneration", "Potion of regeneration");
+    public static readonly Text HealingPotion = new Text("Potion de santé", "Potion of healing");
+    public static readonly Text JumpPotion = new Text("Potion de saut", "Potion of jump");
 
     public static readonly Text WoodenPlank = new Text("Planche de bois", "Wooden plank");
     public static readonly Text Glass = new Text("Verre", "Glass");
@@ -49,14 +50,18 @@ public class TextDatabase
     public static readonly Text Hide = new Text("Cuir", "Hide");
     public static readonly Text Gigot = new Text("Gigot", "Gigot");
     public static readonly Text Fang = new Text("Dent", "Fang");
+    public static readonly Text Bone = new Text("Os", "Bone");
+    public static readonly Text Pumpkin = new Text("Citrouille", "Pumpkin");
+
 
     public static readonly Text Apple = new Text("Pomme", "Apple");
     public static readonly Text Cactus = new Text("Cactus", "Castus");
     public static readonly Text Petal = new Text("Petal", "Petal");
     public static readonly Text RedMushroom = new Text("Champignon rouge", "Red Mushroom");
     public static readonly Text Mushroom = new Text("Champignon", "Mushroom");
-    public static readonly Text CactusWater = new Text("Eau", "Cactus water");
-    public static readonly Text MeatBall = new Text("Boullette de viande", "MeatBall");
+    public static readonly Text WaterCact = new Text("Eau", "Water cactus");
+    public static readonly Text MeatBalls = new Text("Boullettes de viande", "MeatBalls");
+
     // Description
     public static readonly Text LogDescription = new Text("Un morceau de bois pouvant servir pour créer d'autres objets", "A piece of wood usable to make other objects");
     public static readonly Text StoneDescription = new Text("Une pierre pouvant servir pour créer d'autres objets", "A piece of stone usable to make other objects");
@@ -79,13 +84,14 @@ public class TextDatabase
     public static readonly Text CauldronDescription = new Text("Un chaudron de sorciere, ideal pour faire des potions", "A witch cauldron ideal to make potion");
     public static readonly Text WorkbenchDescription = new Text("Une table de travail pouvant servir pour... travailler", "A workbench usable to... work");
     public static readonly Text FirepitDescription = new Text("Feu !!! Viande !!! Repas !!!", "Fire !!! Meat !!! Meal !!!");
+    public static readonly Text TorchDescription = new Text("Et la lumière fut !", "And there was light !");
 
-    public static readonly Text AquaPotionDescription = new Text("Une potion couleur aqua, etrange", "An aqua color potion, strange");
-    public static readonly Text BluePotionDescription = new Text("Une potion couleur bleu, etrange", "A blue color potion, strange");
-    public static readonly Text GreenPotionDescription = new Text("Une potion couleur verte, etrange", "A green color potion, strange");
-    public static readonly Text PurplePotionDescription = new Text("Une potion couleur purple, etrange", "A purple color potion, strange");
-    public static readonly Text RedPotionDescription = new Text("Une potion couleur rouge, etrange", "A red color potion, strange");
-    public static readonly Text YellowPotionDescription = new Text("Une potion couleur jaune, etrange", "A yellow color potion, strange");
+    public static readonly Text WaterPotionDescription = new Text("Une fiole pleine d'eau !", "A full water phial!");
+    public static readonly Text SpeedPotionDescription = new Text("Une potion pour courir plus vite !", "A potion to run faster !");
+    public static readonly Text PoisonPotionDescription = new Text("Je ne boirai pas ça si j'étais toi", "I will not drink it if I were you");
+    public static readonly Text RegenerationPotionDescription = new Text("Cicatrise les plaies", "Heals wounds");
+    public static readonly Text HealingPotionDescription = new Text("Fait disparaître les blessures et les carences", "Removes injuries and deficiencies");
+    public static readonly Text JumpPotionDescription = new Text("Fait pousser des ailes", "Grows wings");
 
     public static readonly Text WoodenPlankDescription = new Text("Une planche de bois pouvant servir a creer des meubles", "A Wooden plank usable to make furnitures");
     public static readonly Text GlassDescription = new Text("Du verre, la lumiere passe au travers", "Glass, light pass throught");
@@ -98,11 +104,13 @@ public class TextDatabase
 
     public static readonly Text AppleDescription = new Text("Une pomme bien rouge et juteuse", "A bright red and juicy apple");
     public static readonly Text CactusDescription = new Text("Un petit cactus avec une fleur dessus. Il semble contenir une bonne quantite d'eau", "A little cactus with a flozer on it. It seem to contain a good amount of water");
-    public static readonly Text PetalStoneDescription = new Text("Un petale de fleur. C'est jolie mais peut utile. Vous n'allez pas le manger tout de meme ?", "A flower petal. It's beautiful but useless. You will not eat it, is it ? ");
+    public static readonly Text PetalDescription = new Text("Un petale de fleur. C'est jolie mais peut utile. Vous n'allez pas le manger tout de meme ?", "A flower petal. It's beautiful but useless. You will not eat it, is it ? ");
     public static readonly Text RedMushroomDescription = new Text("Un champignon qui pourrait être comestible", "Mushroom which could be edible");
     public static readonly Text MushroomDescription = new Text("Un champignon qui à l'air comestible", "Mushroom which seems edible");
-    public static readonly Text CactusWaterDescription = new Text("De l'eau dans un cactus pour etancher la soif", "Water in a cactus to quench his thirst");
-    public static readonly Text MeatBallesDcription = new Text("Viannnnnde", "Meaaaaat");
+    public static readonly Text WaterCactDescription = new Text("De l'eau dans un cactus pour étancher la soif", "Water in a cactus to quench his thirst");
+    public static readonly Text MeatBallsDcription = new Text("Viannnnnde", "Meaaaaat");
+    public static readonly Text BoneDescription = new Text("Berk ! Vous avez vraiment ramasse ca ?", "Yuck! You really pick that?");
+    public static readonly Text PumpkinDescription = new Text("Mmm... Il doit y avoir moyen de cuisiner quelque chose avec !", "Mmm ... There must be a way to cook something with!");
 
 
 
@@ -126,14 +134,14 @@ public class TextDatabase
     public static readonly Text FloatiumAxe = new Text("Hache en floatium", "Floatium axe");
     public static readonly Text SunkiumAxe = new Text("Hache en sunkium", "Sunkium axe");
 
-    public static readonly Text WoodenSword = new Text("epee en bois", "Wooden Sword");
-    public static readonly Text StoneSword = new Text("epee en pierre", "Stone Sword");
-    public static readonly Text CopperSword = new Text("epee en cuivre", "Copper Sword");
-    public static readonly Text IronSword = new Text("epee en fer", "Iron Sword");
-    public static readonly Text GoldSword = new Text("epee en or", "Gold Sword");
-    public static readonly Text MithrilSword = new Text("epee en mithril", "Mithril Sword");
-    public static readonly Text FloatiumSword = new Text("epee en floatium", "Floatium Sword");
-    public static readonly Text SunkiumSword = new Text("epee en sunkium", "Sunkium Sword");
+    public static readonly Text WoodenSword = new Text("Epee en bois", "Wooden Sword");
+    public static readonly Text StoneSword = new Text("Epee en pierre", "Stone Sword");
+    public static readonly Text CopperSword = new Text("Epee en cuivre", "Copper Sword");
+    public static readonly Text IronSword = new Text("Epee en fer", "Iron Sword");
+    public static readonly Text GoldSword = new Text("Epee en or", "Gold Sword");
+    public static readonly Text MithrilSword = new Text("Epee en mithril", "Mithril Sword");
+    public static readonly Text FloatiumSword = new Text("Epee en floatium", "Floatium Sword");
+    public static readonly Text SunkiumSword = new Text("Epee en sunkium", "Sunkium Sword");
 
     // Description
 
@@ -194,7 +202,7 @@ public class TextDatabase
     public static readonly Text Respawn = new Text("Reaparaitre", "Respawn");
     public static readonly Text Start = new Text("Debuter", "Start");
     public static readonly Text PVP = new Text("JCJ", "PVP");
-    public static readonly Text WorktopAbsent = new Text("l'établie necessaire ne se trouve pas à porté", "Necessary woktop is not present \n");
+    public static readonly Text WorktopAbsent = new Text("L'établie necessaire ne se trouve pas à porté", "Necessary woktop is not present \n");
     public static readonly Text DontHaveItem = new Text("Tu ne possède pas les objets necessaire pour cette recette", "You don't have the necessary item for this recipe \n");
     public static readonly Text InventoryFull = new Text("Ton inventaire est plein", "Your inventory is full");
 

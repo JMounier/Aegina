@@ -530,10 +530,10 @@ namespace UnityEngine.Networking
         private void DrawWorldCreate()
         {
             GUI.Box(new Rect(this.posX, this.posY - this.height - 10, this.width, this.height), TextDatabase.EnterName.GetText(), skin.GetStyle("inventory"));
-            newWorldName = this.RemoveSpecialCharacter(GUI.TextField(new Rect(this.posX, this.posY, this.width, this.height), newWorldName, this.skin.textField), "abcdefghijklmnopqrstuvwxyz123456789-_ ", false);
+            newWorldName = this.RemoveSpecialCharacter(GUI.TextField(new Rect(this.posX, this.posY, this.width, this.height), newWorldName, 15, this.skin.textField), "abcdefghijklmnopqrstuvwxyz123456789-_ ", false);
             GUI.Box(new Rect(this.posX, this.posY - this.height - 10 + 2 * this.spacing, this.width, this.height), TextDatabase.Seed.GetText(), this.skin.GetStyle("inventory"));
             Rect rect = new Rect(this.posX, this.posY + 2 * this.spacing, this.width, this.height);
-            seedstr = GUI.TextField(rect, this.RemoveSpecialCharacter(seedstr, "abcdefghijklmnopqrstuvwxyz123456789", false), 15, skin.textField);
+            seedstr = GUI.TextField(rect, this.RemoveSpecialCharacter(seedstr, "abcdefghijklmnopqrstuvwxyz123456789", false), 6, skin.textField);
             rect = new Rect(this.posX, this.posY - this.height - 10 + 4 * this.spacing, this.width / 2 - 10, this.height);
 
             if (GUI.Button(rect, "Coop", this.skin.GetStyle("button")))            
@@ -573,8 +573,7 @@ namespace UnityEngine.Networking
                             seed = genSeed.Next(int.MaxValue);
                         else
                             seed = MapGeneration.SeedToInt(seedstr);
-                        
-                        //to do ajout du type de monde lors de la creation
+
                         Save.CreateWorld(this.world, seed, this.typeCoop);
                         this.worldsList.Add(this.world);
                         this.Launch(TypeLaunch.Host);
@@ -602,9 +601,9 @@ namespace UnityEngine.Networking
         private void DrawServeurCreate()
         {
             GUI.Box(new Rect(this.posX, this.posY - this.height - 10, this.width, this.height), TextDatabase.EnterName.GetText(), skin.GetStyle("inventory"));
-            newipname = this.RemoveSpecialCharacter(GUI.TextField(new Rect(this.posX, this.posY, this.width, this.height), newipname, this.skin.textField), "0123456789.:abcdefghijklmnopqrstuvwxyz");
+            newipname = GUI.TextField(new Rect(this.posX, this.posY, this.width, this.height), RemoveSpecialCharacter(newipname, "abcdefghijklmnopqrstuvwxyz123456789-_ ", false), this.skin.textField);
             GUI.Box(new Rect(this.posX, this.posY - this.height - 10 + 2 * this.spacing, this.width, this.height), "IP", this.skin.GetStyle("inventory"));
-            this.manager.networkAddress = GUI.TextField(new Rect(this.posX, this.posY + 2 * this.spacing, this.width, this.height), this.manager.networkAddress, this.skin.textField);
+            this.manager.networkAddress = GUI.TextField(new Rect(this.posX, this.posY + 2 * this.spacing, this.width, this.height), RemoveSpecialCharacter(this.manager.networkAddress, "0123456789.:abcdefghijklmnopqrstuvwxyz"), this.skin.textField);
             Rect rect = new Rect(this.posX, this.posY + 3 * this.spacing, this.width, this.height);
             if (GUI.Button(rect, TextDatabase.Create.GetText(), skin.GetStyle("button")))
             {
