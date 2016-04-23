@@ -75,8 +75,13 @@ public class Cristal_HUD : NetworkBehaviour
                 rect.width -= 12;
                 rect.height -= 12;
                 GUI.DrawTexture(rect, this.cristal.Needs[i].Items.Icon);
-                if (this.cristal.Needs[i].Quantity > 1)
-                    GUI.Box(rect, this.cristal.Needs[i].Quantity.ToString(), this.skin.GetStyle("quantity"));
+				if (this.cristal.Needs [i].Quantity > 1) {
+					rect.x -= 3;
+					rect.y -= 3;
+					rect.width += 6;
+					rect.height += 6;
+					GUI.Box (rect, this.cristal.Needs [i].Quantity.ToString (), this.skin.GetStyle ("quantity"));
+				}
                 j += 1;
             }
 

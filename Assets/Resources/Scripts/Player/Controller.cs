@@ -38,6 +38,7 @@ public class Controller : NetworkBehaviour
     private float rotationX = 0F;
     private bool pause = false;
 	private bool ismoving = false;
+	private bool isSprinting = false;
 
     // Use for Sound
     private Sound soundAudio;
@@ -324,6 +325,10 @@ public class Controller : NetworkBehaviour
 	/// <value><c>true</c> if this instance ismoving; otherwise, <c>false</c>.</value>
 	public bool Ismoving{
 		get{ return this.ismoving; }
+	}
+
+	public bool IsSprinting{
+		get{ return this.isSprinting;}
 	}
 
     /// <sumary>
