@@ -13,6 +13,7 @@ public class Mob : Entity
     private float runSpeed;
     private float attackSpeed;
 
+    private int[] biomes;
     private DropConfig[] dropConfigs;
 
     // Constructors
@@ -25,6 +26,7 @@ public class Mob : Entity
         this.walkSpeed = 0;
         this.walkSpeed = 0;
         this.attackSpeed = 0;
+        this.biomes = new int[0];
         this.dropConfigs = new DropConfig[0];
     }
 
@@ -37,9 +39,10 @@ public class Mob : Entity
         this.runSpeed = mob.runSpeed;
         this.attackSpeed = mob.attackSpeed;
         this.dropConfigs = mob.dropConfigs;
+        this.biomes = mob.biomes;
     }
 
-    public Mob(int id, int life, GameObject prefab, int groupSize, int damage, float vision, float walkSpeed, float runSpeed, float attackSpeed, params DropConfig[] dropConfigs) : base(id, life, prefab)
+    public Mob(int id, int life, GameObject prefab, int groupSize, int damage, float vision, float walkSpeed, float runSpeed, float attackSpeed, int[] biomes, params DropConfig[] dropConfigs) : base(id, life, prefab)
     {
         this.groupSize = groupSize;
         this.damage = damage;
@@ -47,6 +50,7 @@ public class Mob : Entity
         this.walkSpeed = walkSpeed;
         this.runSpeed = runSpeed;
         this.attackSpeed = attackSpeed;
+        this.biomes = biomes;
         this.dropConfigs = dropConfigs;
     }
 
@@ -156,6 +160,14 @@ public class Mob : Entity
     {
         get { return this.attackSpeed; }
         set { this.attackSpeed = value; }
+    }
+
+    /// <summary>
+    /// La liste des biomes ou le mob peut spawn
+    /// </summary>
+    public int[] BiomesIDSpawnable
+    {
+        get { return this.biomes; }
     }
 
     /// <summary>

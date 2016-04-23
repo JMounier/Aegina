@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 7ddf6a9a22cb5b6439c80fda1c0aae94
-timeCreated: 1459485210
+guid: ff937e1ed64439948b8b711bf6b0dc28
+timeCreated: 1461341749
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
@@ -65,9 +65,10 @@ ModelImporter:
     400056: //RootNode
     4300000: Cube
     7400000: Walk
-    7400002: Idle
-    7400004: Run
-    7400006: Attack
+    7400002: Walk
+    7400004: Idle
+    7400006: Run
+    7400008: Attack
     9500000: //RootNode
     13700000: Cube
   materials:
@@ -93,9 +94,9 @@ ModelImporter:
     clipAnimations:
     - serializedVersion: 16
       name: Walk
-      takeName: Default Take
-      firstFrame: 0
-      lastFrame: 30
+      takeName: Armature_002Action
+      firstFrame: 1
+      lastFrame: 40
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -262,12 +263,12 @@ ModelImporter:
         weight: 1
       maskType: 0
       maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
+      additiveReferencePoseFrame: 179
     - serializedVersion: 16
       name: Run
       takeName: Armature_002Action
       firstFrame: 110
-      lastFrame: 130
+      lastFrame: 150
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -348,12 +349,12 @@ ModelImporter:
         weight: 1
       maskType: 0
       maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
+      additiveReferencePoseFrame: 179
     - serializedVersion: 16
       name: Attack
       takeName: Armature_002Action
-      firstFrame: 150
-      lastFrame: 169
+      firstFrame: 180
+      lastFrame: 199
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -434,7 +435,7 @@ ModelImporter:
         weight: 1
       maskType: 0
       maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
+      additiveReferencePoseFrame: 179
     isReadable: 1
   meshes:
     lODScreenPercentages: []

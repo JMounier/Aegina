@@ -60,34 +60,34 @@ public class Craft
     }
     public ItemStack Product
     {
-        get { return product; }
+        get { return this.product; }
     }
     public ItemStack[] Consume
     {
-        get { return consume; }
+        get { return this.consume; }
     }
     public bool Fire
     {
-        get { return fire; }
+        get { return this.fire; }
     }
     public bool Workbench
     {
-        get { return workbench; }
+        get { return this.workbench; }
     }
     public bool Forge
     {
-        get { return forge; }
+        get { return this.forge; }
     }
     public bool Brewer
     {
-        get { return Brewer; }
+        get { return this.brewer; }
     }
     public bool Secret
     {
-        get { return secret; }
+        get { return this.secret; }
     }
     public Type What
     {
-        get { return what; }
+        get { return this.what; }
     }
 }

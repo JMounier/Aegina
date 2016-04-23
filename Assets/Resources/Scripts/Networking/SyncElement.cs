@@ -18,16 +18,8 @@ public class SyncElement : NetworkBehaviour
         else
             gameObject.transform.eulerAngles = rotation;
     }
-
-    void OnDestroy()
-    {
-		if (isServer) {
-			gameObject.transform.parent.parent.GetComponent<SyncChunk>().ToReset.Add(new Tuple<float, Vector3>(.5f, gameObject.transform.position));
-		}
-    }
-
-
-    public void updateGraph()
+    
+    public void UpdateGraph()
     {
         Graph graph = gameObject.transform.parent.parent.GetComponent<SyncChunk>().MyGraph;
         graph.Reset(graph.GetNode(gameObject.transform.position), false);

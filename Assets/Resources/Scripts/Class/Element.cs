@@ -51,6 +51,7 @@ public class Element : Entity
         int idSave = base.prefab.GetComponent<SyncElement>().IdSave;
         int x = (int)(base.prefab.transform.parent.parent.position.x / Chunk.Size);
         int y = (int)(base.prefab.transform.parent.parent.position.z / Chunk.Size);
+        base.prefab.transform.parent.parent.GetComponent<SyncChunk>().ToReset.Add(new Tuple<float, Vector3>(.5f, base.prefab.transform.position));
         if (idSave == -1)
             GameObject.Find("Map").GetComponent<Save>().SaveDestroyedWorktop(x, y, this);
         else
