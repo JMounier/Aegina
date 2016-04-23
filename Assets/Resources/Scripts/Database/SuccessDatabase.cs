@@ -5,7 +5,6 @@ using System.Collections.Generic;
 public class SuccessDatabase
 {
     public static readonly Success Root = new Success(0, TextDatabase.Apple, ItemDatabase.Workbench, new Requirement.Requirements[1] { Requirement.Requirements.Tuto }, 0);
-
 	public static IEnumerable<Success> Success
 	{
 		get{ 
@@ -21,5 +20,6 @@ public class SuccessDatabase
 				return succ;
 		}
 		throw new System.Exception("No success found with this ID");
+
 	}
 }
