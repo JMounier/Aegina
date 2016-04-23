@@ -64,7 +64,8 @@ public class Craft_HUD : NetworkBehaviour
 			nearwork [j] = false;
 		
 		for (int j = 0; j < this.craftMastered.Length; j++)
-			this.craftMastered[j] = false;        
+			this.craftMastered[j] = false;    
+		craftMastered [15] = true;
     }
 
     // Update is called once per frame
