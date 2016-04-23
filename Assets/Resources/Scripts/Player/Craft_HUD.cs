@@ -20,6 +20,7 @@ public class Craft_HUD : NetworkBehaviour
     private bool tooltip = false;
     private Item tooltipItem;
     private bool[] craftMastered;
+	private int Decal;
 
     // Use this for initialization
     void Start()
@@ -71,7 +72,7 @@ public class Craft_HUD : NetworkBehaviour
     {
         if (!isLocalPlayer)
             return;
-
+		Decal = Screen.height / 100;
         what_is_near();
 
         if (type != Craft.Type.None)
@@ -202,7 +203,7 @@ public class Craft_HUD : NetworkBehaviour
             box = new Rect((3 + i) * Screen.height / 18, 2 * Screen.height / 9 + pos * Screen.height / 18, Screen.height / 18, Screen.height / 18);
             GUI.Box(box, "", skin.GetStyle("Slot"));
 
-            Rect littlebox = new Rect((3 + i) * Screen.height / 18 + 5, 2 * Screen.height / 9 + pos * Screen.height / 18 + 5, Screen.height / 18 - 10, Screen.height / 18 - 10);
+			Rect littlebox = new Rect((3 + i) * Screen.height / 18 + Decal, 2 * Screen.height / 9 + pos * Screen.height / 18 + Decal, Screen.height / 18 - 2*Decal, Screen.height / 18 - 2*Decal);
             GUI.DrawTexture(littlebox, item.Items.Icon);
             GUI.Box(box, inventory.InventoryContains(item.Items, item.Quantity * cost) ? (item.Quantity * cost).ToString() : "<color=#ff0000>" + (item.Quantity * cost).ToString() + "</color>", skin.GetStyle("Quantity"));
             if (box.Contains(Event.current.mousePosition))
@@ -240,19 +241,19 @@ public class Craft_HUD : NetworkBehaviour
 				else
 					sound.PlaySound (AudioClips.Button,1f);
             }
-			box.x += 2;
-			box.y += 2;
-			box.width -= 4;
-			box.height -= 4;
+			box.x += Decal;
+			box.y += Decal;
+			box.width -= 2*Decal;
+			box.height -= 2*Decal;
 			GUI.DrawTexture(box,Resources.Load<Texture2D>("Sprites/CraftsIcon/Valid"));
         }
         else
         {
             GUI.Box(box, "", this.skin.GetStyle("Slot"));
-			box.x += 2;
-			box.y += 2;
-			box.width -= 4;
-			box.height -= 4;
+			box.x += Decal;
+			box.y += Decal;
+			box.width -= 2*Decal;
+			box.height -= 2*Decal;
 			GUI.DrawTexture(box,Resources.Load<Texture2D>("Sprites/CraftsIcon/Invalid"));
         }
 
