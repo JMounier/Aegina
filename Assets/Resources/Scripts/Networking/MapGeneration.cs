@@ -74,6 +74,7 @@ public class MapGeneration : NetworkBehaviour
     /// <returns></returns>
     public static string SeedToString(int seed)
     {
+        seed = Mathf.Abs(seed);
         string s = "";
         string tab = "0123456789abcdefghijklmnopqrstuvwxyz";
         while (seed > 0)
