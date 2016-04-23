@@ -86,13 +86,15 @@ public class InputManager : NetworkBehaviour
             gameObject.GetComponent<Sound>().PlaySound(AudioClips.Void, 0, 0.2f, 616);
             // Supprimer l'ancien outline
             if (lastNearElement != null)
-                foreach (Material mat in lastNearElement.GetComponentInChildren<MeshRenderer>().materials)
-                    mat.shader = Shader.Find("Standard");
+				foreach (MeshRenderer mr in lastNearElement.GetComponentsInChildren<MeshRenderer>())
+					foreach (Material mat  in mr.materials) 
+						mat.shader = Shader.Find("Standard");
 
             // Mettre le nouveau outline
             if (this.nearElement != null)
-                foreach (Material mat in this.nearElement.GetComponentInChildren<MeshRenderer>().materials)
-                    mat.shader = Shader.Find("Outlined");
+				foreach (MeshRenderer mr in this.nearElement.GetComponentsInChildren<MeshRenderer>())
+                    foreach (Material mat  in mr.materials) 
+						mat.shader = Shader.Find("Outlined");
         }
         //gestion de l'attaque
         if (nearAttackSound > -1)
