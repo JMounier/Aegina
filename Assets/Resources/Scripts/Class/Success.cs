@@ -13,6 +13,7 @@ public class Success
     private Requirement.Requirements[] requirements;
 
     private Success[] sons;
+	private int nbParentMax;
     private int nbParentsLeft;
     public int posX, posY;
 
@@ -24,6 +25,7 @@ public class Success
         this.icon = item.Icon;
         this.requirements = requirements;
         this.nbParentsLeft = nbParents;
+		this.nbParentMax = nbParents;
         this.sons = sons;
     }
     #region Methods
@@ -62,6 +64,14 @@ public class Success
             foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))            
                 player.GetComponent<Story_Hud>().Display(this);            
     }
+
+	/// <summary>
+	/// Determines whether this succes isseen.
+	/// </summary>
+	/// <returns><c>true</c> if this instance isseen ; otherwise, <c>false</c>.</returns>
+	public bool Isseen(){
+		return this.nbParentMax != this.nbParentsLeft;
+	}
     #endregion
 
     #region Getters/Setters
