@@ -15,7 +15,6 @@ public class Story_Hud : NetworkBehaviour {
 		incrémentation = 0;
 		posYpercent = 0;
 		skin = Resources.Load<GUISkin> ("Sprites/GUIskin/skin");
-		successToDisplay.Enqueue (SuccessDatabase.Root);//test à enlever plus tard
 
 	}
 	
