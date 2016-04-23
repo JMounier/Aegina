@@ -178,7 +178,7 @@ public class Cristal_HUD : NetworkBehaviour
     /// </summary>
     private void Activate()
     {
-        this.CmdSetTeam(Team.Blue, this.cristal.gameObject);
+        this.CmdSetTeam(gameObject.GetComponent<Social_HUD>().Team, this.cristal.gameObject);
         if (this.cristal.LevelTot == 0)
         {
             System.Random ran = new System.Random();

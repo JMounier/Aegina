@@ -8,7 +8,7 @@ public class InputManager : NetworkBehaviour
     private Controller controller;
     private Inventory inventaire;
     private Menu menu;
-    private Social social;
+    private Social_HUD social;
     private Cristal_HUD cristalHUD;
 
     private Sound soundAudio;
@@ -36,7 +36,7 @@ public class InputManager : NetworkBehaviour
         this.inventaire = GetComponent<Inventory>();
         this.menu = GetComponent<Menu>();
         this.controller = GetComponent<Controller>();
-        this.social = GetComponent<Social>();
+        this.social = GetComponent<Social_HUD>();
         this.cristalHUD = GetComponent<Cristal_HUD>();
         this.anim = gameObject.GetComponent<Animator>();
         this.syncCharacter = gameObject.GetComponent<SyncCharacter>();
@@ -381,7 +381,7 @@ public class InputManager : NetworkBehaviour
         RaycastHit cible = new RaycastHit();
         if (Physics.Raycast(new Vector3(this.character.transform.position.x, 7, this.character.transform.position.z), -mult_range * this.character.transform.forward, out cible, 1))
         {
-            if (cible.collider.gameObject.name == "Character" && cible.collider.gameObject.GetComponentInParent<Social>().Team != this.social.Team)
+            if (cible.collider.gameObject.name == "Character" && cible.collider.gameObject.GetComponentInParent<Social_HUD>().Team != this.social.Team)
             {
 
                 cible.collider.gameObject.GetComponentInParent<SyncCharacter>().ReceiveDamage(damage);

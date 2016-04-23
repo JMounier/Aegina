@@ -10,6 +10,7 @@ public class Command
     private static readonly Command Msg = new Command("msg", "/msg <player> <message>", false, "m");
     private static readonly Command Seed = new Command("seed", "/seed", false);
     private static readonly Command Music = new Command("music", "/music <clip>", false);
+    private static readonly Command Team = new Command("team", "/team <message>", false, "t");
 
     private static readonly Command Time = new Command("time", "/time <value>", true);
     private static readonly Command Give = new Command("give", "/give [player] <id> [quantity]", true);
@@ -20,7 +21,7 @@ public class Command
     private static readonly Command Effect = new Command("effect", "/effect <player> <id> [power]", true);
     private static readonly Command Op = new Command("op", "/op <player>", true);
     private static readonly Command DeOp = new Command("deop", "/deop <player>", true);
-
+    private static readonly Command ChoseTeam = new Command("choseteam", "/choseteam <team> [player]", true);
 
     /// <summary>
     /// Liste tous les biomes du jeu. (Utilisez avec foreach)
@@ -33,6 +34,7 @@ public class Command
             yield return Msg;
             yield return Seed;
             yield return Music;
+            yield return Team;
 
             yield return Time;
             yield return Give;
@@ -43,6 +45,7 @@ public class Command
             yield return Effect;
             yield return Op;
             yield return DeOp;
+            yield return ChoseTeam;
         }
     }
 
@@ -81,7 +84,7 @@ public class Command
         {
             if (c.names.Contains(cmd[0].ToLower()))
             {
-                if (!c.opOnly || sender.GetComponent<Social>().IsOp)
+                if (!c.opOnly || sender.GetComponent<Social_HUD>().IsOp)
                 {
                     string[] parameters = new string[cmd.Length - 1];
                     for (int i = 0; i < parameters.Length; i++)
@@ -89,17 +92,17 @@ public class Command
                     ExecuteCommand(c, parameters, sender);
                 }
                 else
-                    sender.GetComponent<Social>().RpcReceiveMsg("<color=red>You must be an operator to execute this command.</color>");
+                    sender.GetComponent<Social_HUD>().RpcReceiveMsg("<color=red>You must be an operator to execute this command.</color>");
                 return;
             }
         }
-        sender.GetComponent<Social>().RpcReceiveMsg("<color=red>Unknow command. Try /help for a list of commands.</color>");
+        sender.GetComponent<Social_HUD>().RpcReceiveMsg("<color=red>Unknow command. Try /help for a list of commands.</color>");
     }
 
     private static void ExecuteCommand(Command c, string[] parameters, GameObject sender)
     {
-        string namePlayer = sender.GetComponent<Social>().PlayerName;
-        bool isOp = sender.GetComponent<Social>().IsOp;
+        string namePlayer = sender.GetComponent<Social_HUD>().PlayerName;
+        bool isOp = sender.GetComponent<Social_HUD>().IsOp;
 
         try
         {
@@ -124,7 +127,7 @@ public class Command
                     }
                 }
                 help += "<color=green>--- Page " + page + "/" + nbpages + " ---</color>";
-                sender.GetComponent<Social>().RpcReceiveMsg(help);
+                sender.GetComponent<Social_HUD>().RpcReceiveMsg(help);
             }
             // TIME
             else if (c == Time)
@@ -132,7 +135,7 @@ public class Command
                 int time = parameters[0].ToLower() == "day" ? 300 : parameters[0].ToLower() == "night" ? 900 : int.Parse(parameters[0]);
                 GameObject.Find("Map").GetComponent<DayNightCycle>().SetTime(time);
                 foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
-                    player.GetComponent<Social>().RpcReceiveMsg(namePlayer + " set the time to " + parameters[0] + ".");
+                    player.GetComponent<Social_HUD>().RpcReceiveMsg(namePlayer + " set the time to " + parameters[0] + ".");
             }
             // MUSIC
             else if (c == Music)
@@ -141,15 +144,15 @@ public class Command
                 {
                     case "forest":
                         sender.GetComponent<Sound>().RpcChooseSound(AudioClips.Forest, 2f);
-                        sender.GetComponent<Social>().RpcReceiveMsg("You will hear " + parameters[0].ToLower().ToString() + " music");
+                        sender.GetComponent<Social_HUD>().RpcReceiveMsg("You will hear " + parameters[0].ToLower().ToString() + " music");
                         break;
                     case "desert":
                         sender.GetComponent<Sound>().RpcChooseSound(AudioClips.Desert, 2f);
-                        sender.GetComponent<Social>().RpcReceiveMsg("You will hear " + parameters[0].ToLower().ToString() + " music");
+                        sender.GetComponent<Social_HUD>().RpcReceiveMsg("You will hear " + parameters[0].ToLower().ToString() + " music");
                         break;
                     case "winter":
                         sender.GetComponent<Sound>().RpcChooseSound(AudioClips.Winter, 2f);
-                        sender.GetComponent<Social>().RpcReceiveMsg("You will hear " + parameters[0].ToLower().ToString() + " music");
+                        sender.GetComponent<Social_HUD>().RpcReceiveMsg("You will hear " + parameters[0].ToLower().ToString() + " music");
                         break;
                     default:
                         throw new Exception();
@@ -164,7 +167,7 @@ public class Command
                 int id = 0;
                 int quantity = 1;
                 foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
-                    if (player.GetComponent<Social>().PlayerName.ToLower() == parameters[0].ToLower())
+                    if (player.GetComponent<Social_HUD>().PlayerName.ToLower() == parameters[0].ToLower())
                     {
                         recipient = player;
                         posId = 1;
@@ -181,9 +184,9 @@ public class Command
 
                 recipient.GetComponent<Inventory>().RpcAddItemStack(give.ID, quantity, null);
 
-                sender.GetComponent<Social>().RpcReceiveMsg("Give " + quantity + " of " + give.NameText.GetText(SystemLanguage.English) + ".");
+                sender.GetComponent<Social_HUD>().RpcReceiveMsg("Give " + quantity + " of " + give.NameText.GetText(SystemLanguage.English) + ".");
                 if (!sender.Equals(recipient))
-                    recipient.GetComponent<Social>().RpcReceiveMsg("Give " + quantity + " of " + give.NameText.GetText(SystemLanguage.English) + ".");
+                    recipient.GetComponent<Social_HUD>().RpcReceiveMsg("Give " + quantity + " of " + give.NameText.GetText(SystemLanguage.English) + ".");
             }
             // MSG
             else if (c == Msg)
@@ -193,91 +196,91 @@ public class Command
                     throw new Exception();
                 if (parameters[0].ToLower() == namePlayer.ToLower())
                 {
-                    sender.GetComponent<Social>().RpcReceiveMsg("<color=red>Do you feel alone ?</color>");
+                    sender.GetComponent<Social_HUD>().RpcReceiveMsg("<color=red>Do you feel alone ?</color>");
                     return;
                 }
                 string text = "";
                 for (int i = 1; i < parameters.Length; i++)
                     text += parameters[i] + " ";
                 foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
-                    if (player.GetComponent<Social>().PlayerName.ToLower() == parameters[0].ToLower())
+                    if (player.GetComponent<Social_HUD>().PlayerName.ToLower() == parameters[0].ToLower())
                     {
-                        player.GetComponent<Social>().RpcReceiveMsg("<color=grey><b>[" + namePlayer + " -> You]</b></color> " + text);
-                        sender.GetComponent<Social>().RpcReceiveMsg("<color=grey><b>[You -> " + player.GetComponent<Social>().PlayerName + "]</b></color> " + text);
+                        player.GetComponent<Social_HUD>().RpcReceiveMsg("<color=grey><b>[" + namePlayer + " -> You]</b></color> " + text);
+                        sender.GetComponent<Social_HUD>().RpcReceiveMsg("<color=grey><b>[You -> " + player.GetComponent<Social_HUD>().PlayerName + "]</b></color> " + text);
                         return;
                     }
-                sender.GetComponent<Social>().RpcReceiveMsg("<color=red>Player " + parameters[0] + " doesn't find.</color>");
+                sender.GetComponent<Social_HUD>().RpcReceiveMsg("<color=red>Player " + parameters[0] + " doesn't find.</color>");
             }
             // TP
             else if (c == Tp)
             {
                 if (parameters[0].ToLower() == namePlayer)
                 {
-                    sender.GetComponent<Social>().RpcReceiveMsg("<color=red>You are already where you are...</color>");
+                    sender.GetComponent<Social_HUD>().RpcReceiveMsg("<color=red>You are already where you are...</color>");
                     return;
                 }
                 foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
-                    if (player.GetComponent<Social>().PlayerName.ToLower() == parameters[0].ToLower())
+                    if (player.GetComponent<Social_HUD>().PlayerName.ToLower() == parameters[0].ToLower())
                     {
-                        player.GetComponent<Social>().RpcReceiveMsg(namePlayer + " teleported on you.");
-                        sender.GetComponent<Social>().RpcReceiveMsg("You were teleported on " + player.GetComponent<Social>().PlayerName + ".");
-                        sender.GetComponent<Social>().RpcTeleport(player.GetComponentInChildren<CharacterCollision>().transform.position);
+                        player.GetComponent<Social_HUD>().RpcReceiveMsg(namePlayer + " teleported on you.");
+                        sender.GetComponent<Social_HUD>().RpcReceiveMsg("You were teleported on " + player.GetComponent<Social_HUD>().PlayerName + ".");
+                        sender.GetComponent<Social_HUD>().RpcTeleport(player.GetComponentInChildren<CharacterCollision>().transform.position);
                         return;
                     }
-                sender.GetComponent<Social>().RpcReceiveMsg("<color=red>Player " + parameters[0] + " doesn't find.</color>");
+                sender.GetComponent<Social_HUD>().RpcReceiveMsg("<color=red>Player " + parameters[0] + " doesn't find.</color>");
             }
             // KICK
             else if (c == Kick)
             {
                 foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
-                    if (player.GetComponent<Social>().PlayerName.ToLower() == parameters[0].ToLower())
+                    if (player.GetComponent<Social_HUD>().PlayerName.ToLower() == parameters[0].ToLower())
                     {
-                        if (!player.GetComponent<Social>().IsOp)
+                        if (!player.GetComponent<Social_HUD>().IsOp)
                         {
-                            player.GetComponent<Social>().RpcKickPlayer();
+                            player.GetComponent<Social_HUD>().RpcKickPlayer();
                             foreach (GameObject p in GameObject.FindGameObjectsWithTag("Player"))
-                                p.GetComponent<Social>().RpcReceiveMsg(namePlayer + " kick " + player.GetComponent<Social>().PlayerName + ".");
+                                p.GetComponent<Social_HUD>().RpcReceiveMsg(namePlayer + " kick " + player.GetComponent<Social_HUD>().PlayerName + ".");
                             return;
                         }
                         else
                         {
-                            sender.GetComponent<Social>().RpcReceiveMsg("<color=red>" + parameters[0] + " is op, so you can't kick him.</color>");
+                            sender.GetComponent<Social_HUD>().RpcReceiveMsg("<color=red>" + parameters[0] + " is op, so you can't kick him.</color>");
                             return;
                         }
                     }
-                sender.GetComponent<Social>().RpcReceiveMsg("<color=red>Player " + parameters[0] + " doesn't find.</color>");
+                sender.GetComponent<Social_HUD>().RpcReceiveMsg("<color=red>Player " + parameters[0] + " doesn't find.</color>");
             }
             // SAVE
             else if (c == Save)
             {
                 GameObject.Find("Map").GetComponent<Save>().SaveWorld();
                 foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
-                    player.GetComponent<Social>().RpcReceiveMsg("The world has been forcefully saved by " + namePlayer + ".");
+                    player.GetComponent<Social_HUD>().RpcReceiveMsg("The world has been forcefully saved by " + namePlayer + ".");
             }
             // SEED
             else if (c == Seed)
-                sender.GetComponent<Social>().RpcReceiveMsg("Seed : " + MapGeneration.SeedToString(GameObject.Find("Map").GetComponent<Save>().Seed));
+                sender.GetComponent<Social_HUD>().RpcReceiveMsg("Seed : " + MapGeneration.SeedToString(GameObject.Find("Map").GetComponent<Save>().Seed));
             // KILL
             else if (c == Kill)
             {
                 foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
-                    if (player.GetComponent<Social>().PlayerName.ToLower() == parameters[0].ToLower())
+                    if (player.GetComponent<Social_HUD>().PlayerName.ToLower() == parameters[0].ToLower())
                     {
                         player.GetComponent<SyncCharacter>().Life = 0;
                         foreach (GameObject p in GameObject.FindGameObjectsWithTag("Player"))
                             if (namePlayer.ToLower() == parameters[0].ToLower())
-                                p.GetComponent<Social>().RpcReceiveMsg(namePlayer + " commited suicide.");
+                                p.GetComponent<Social_HUD>().RpcReceiveMsg(namePlayer + " commited suicide.");
                             else
-                                p.GetComponent<Social>().RpcReceiveMsg(namePlayer + " killed " + player.GetComponent<Social>().PlayerName + ".");
+                                p.GetComponent<Social_HUD>().RpcReceiveMsg(namePlayer + " killed " + player.GetComponent<Social_HUD>().PlayerName + ".");
                         return;
                     }
-                sender.GetComponent<Social>().RpcReceiveMsg("<color=red>Player " + parameters[0] + " doesn't find.</color>");
+                sender.GetComponent<Social_HUD>().RpcReceiveMsg("<color=red>Player " + parameters[0] + " doesn't find.</color>");
             }
             // Effect
             else if (c == Effect)
             {
                 foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
-                    if (player.GetComponent<Social>().PlayerName.ToLower() == parameters[0].ToLower())
+                    if (player.GetComponent<Social_HUD>().PlayerName.ToLower() == parameters[0].ToLower())
                     {
                         SyncCharacter syncCharacter = player.GetComponent<SyncCharacter>();
                         Effect.EffectType effect = ((Effect.EffectType)int.Parse(parameters[1]));
@@ -290,7 +293,7 @@ public class Command
                             case global::Effect.EffectType.Speed:
                                 syncCharacter.Speed = power * 2;
                                 syncCharacter.CdSpeed = power * 30;
-                                sender.GetComponent<Social>().RpcReceiveMsg("Effect speed level " + power + " applied.");
+                                sender.GetComponent<Social_HUD>().RpcReceiveMsg("Effect speed level " + power + " applied.");
                                 break;
                             case global::Effect.EffectType.Slowness:
                                 break;
@@ -302,19 +305,19 @@ public class Command
                                 break;
                             case global::Effect.EffectType.InstantHealth:
                                 syncCharacter.Life += 10 * power;
-                                sender.GetComponent<Social>().RpcReceiveMsg("Effect instant health level " + power + " applied.");
+                                sender.GetComponent<Social_HUD>().RpcReceiveMsg("Effect instant health level " + power + " applied.");
                                 break;
                             case global::Effect.EffectType.InstantDamage:
                                 break;
                             case global::Effect.EffectType.JumpBoost:
                                 syncCharacter.Jump = power * 5000;
                                 syncCharacter.CdJump = power * 30;
-                                sender.GetComponent<Social>().RpcReceiveMsg("Effect jump boost level " + power + " applied.");
+                                sender.GetComponent<Social_HUD>().RpcReceiveMsg("Effect jump boost level " + power + " applied.");
                                 break;
                             case global::Effect.EffectType.Regeneration:
                                 syncCharacter.Regen = power;
                                 syncCharacter.CdRegen = power * 15;
-                                sender.GetComponent<Social>().RpcReceiveMsg("Effect regeneration level " + power + " applied.");
+                                sender.GetComponent<Social_HUD>().RpcReceiveMsg("Effect regeneration level " + power + " applied.");
                                 break;
                             case global::Effect.EffectType.Resistance:
                                 break;
@@ -325,77 +328,121 @@ public class Command
                             case global::Effect.EffectType.Poison:
                                 syncCharacter.Poison = power;
                                 syncCharacter.CdPoison = power * 15;
-                                sender.GetComponent<Social>().RpcReceiveMsg("Effect poison level " + power + " applied.");
+                                sender.GetComponent<Social_HUD>().RpcReceiveMsg("Effect poison level " + power + " applied.");
                                 break;
                             case global::Effect.EffectType.Saturation:
                                 syncCharacter.Hunger += 10 * power;
-                                sender.GetComponent<Social>().RpcReceiveMsg("Effect saturation level " + power + " applied.");
+                                sender.GetComponent<Social_HUD>().RpcReceiveMsg("Effect saturation level " + power + " applied.");
                                 break;
                             case global::Effect.EffectType.Thirst:
                                 break;
                             case global::Effect.EffectType.Refreshment:
                                 syncCharacter.Thirst += 10 * power;
-                                sender.GetComponent<Social>().RpcReceiveMsg("Effect refreshment level " + power + " applied.");
+                                sender.GetComponent<Social_HUD>().RpcReceiveMsg("Effect refreshment level " + power + " applied.");
                                 break;
                             default:
                                 break;
                         }
                         return;
                     }
-                sender.GetComponent<Social>().RpcReceiveMsg("<color=red>Player " + parameters[0] + " doesn't find.</color>");
+                sender.GetComponent<Social_HUD>().RpcReceiveMsg("<color=red>Player " + parameters[0] + " doesn't find.</color>");
             }
             // Op
             else if (c == Op)
             {
                 if (parameters[0].ToLower() == namePlayer.ToLower())
                 {
-                    sender.GetComponent<Social>().RpcReceiveMsg("<color=red>You are already op.</color>");
+                    sender.GetComponent<Social_HUD>().RpcReceiveMsg("<color=red>You are already op.</color>");
                     return;
                 }
                 foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
-                    if (player.GetComponent<Social>().PlayerName.ToLower() == parameters[0].ToLower())
+                    if (player.GetComponent<Social_HUD>().PlayerName.ToLower() == parameters[0].ToLower())
                     {
-                        if (!player.GetComponent<Social>().IsOp)
+                        if (!player.GetComponent<Social_HUD>().IsOp)
                         {
-                            player.GetComponent<Social>().IsOp = true;
+                            player.GetComponent<Social_HUD>().IsOp = true;
                             foreach (GameObject p in GameObject.FindGameObjectsWithTag("Player"))
-                                if (player.GetComponent<Social>().PlayerName.ToLower() == parameters[0].ToLower())
-                                    p.GetComponent<Social>().RpcReceiveMsg(player.GetComponent<Social>().PlayerName + " has been op by " + namePlayer + ".");
+                                if (player.GetComponent<Social_HUD>().PlayerName.ToLower() == parameters[0].ToLower())
+                                    p.GetComponent<Social_HUD>().RpcReceiveMsg(player.GetComponent<Social_HUD>().PlayerName + " has been op by " + namePlayer + ".");
                         }
                         else
-                            sender.GetComponent<Social>().RpcReceiveMsg("<color=red>" + player.GetComponent<Social>().PlayerName + " is already op.</color>");
+                            sender.GetComponent<Social_HUD>().RpcReceiveMsg("<color=red>" + player.GetComponent<Social_HUD>().PlayerName + " is already op.</color>");
                         return;
                     }
-                sender.GetComponent<Social>().RpcReceiveMsg("<color=red>Player " + parameters[0] + " doesn't find.</color>");
+                sender.GetComponent<Social_HUD>().RpcReceiveMsg("<color=red>Player " + parameters[0] + " doesn't find.</color>");
             }
             // DeOp
             else if (c == DeOp)
             {
                 if (parameters[0].ToLower() == namePlayer.ToLower())
                 {
-                    sender.GetComponent<Social>().RpcReceiveMsg("<color=red>You can't deop yourself.</color>");
+                    sender.GetComponent<Social_HUD>().RpcReceiveMsg("<color=red>You can't deop yourself.</color>");
                     return;
                 }
                 foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
-                    if (player.GetComponent<Social>().PlayerName.ToLower() == parameters[0].ToLower())
+                    if (player.GetComponent<Social_HUD>().PlayerName.ToLower() == parameters[0].ToLower())
                     {
-                        if (player.GetComponent<Social>().IsOp)
+                        if (player.GetComponent<Social_HUD>().IsOp)
                         {
-                            player.GetComponent<Social>().IsOp = false;
+                            player.GetComponent<Social_HUD>().IsOp = false;
                             foreach (GameObject p in GameObject.FindGameObjectsWithTag("Player"))
-                                if (player.GetComponent<Social>().PlayerName.ToLower() == parameters[0].ToLower())
-                                    p.GetComponent<Social>().RpcReceiveMsg(player.GetComponent<Social>().PlayerName + " has been deop by " + namePlayer + ".");
+                                p.GetComponent<Social_HUD>().RpcReceiveMsg(player.GetComponent<Social_HUD>().PlayerName + " has been deop by " + namePlayer + ".");
                         }
                         else
-                            sender.GetComponent<Social>().RpcReceiveMsg("<color=red>" + player.GetComponent<Social>().PlayerName + " isn't op.</color>");
+                            sender.GetComponent<Social_HUD>().RpcReceiveMsg("<color=red>" + player.GetComponent<Social_HUD>().PlayerName + " isn't op.</color>");
                         return;
                     }
-                sender.GetComponent<Social>().RpcReceiveMsg("<color=red>Player " + parameters[0] + " doesn't find.</color>");
+                sender.GetComponent<Social_HUD>().RpcReceiveMsg("<color=red>Player " + parameters[0] + " doesn't find.</color>");
+            }
+            // Team
+            else if (c == Team)
+            {
+                string color = sender.GetComponent<Social_HUD>().Team == global::Team.Blue ? "blue" : "red";
+                string text = "<color=" + color + "><b>[" + namePlayer + " -> Team] </b></color> ";
+                for (int i = 0; i < parameters.Length; i++)
+                    text += parameters[i] + " ";
+                foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
+                    if (player.GetComponent<Social_HUD>().Team == sender.GetComponent<Social_HUD>().Team)
+                        player.GetComponent<Social_HUD>().RpcReceiveMsg(text);
+            }
+            // ChoseTeam
+            else if (c == ChoseTeam)
+            {
+                GameObject player = sender;
+                if (parameters.Length > 1)
+                    foreach (GameObject p in GameObject.FindGameObjectsWithTag("Player"))
+                        if (p.GetComponent<Social_HUD>().PlayerName.ToLower() == parameters[1].ToLower())
+                            player = p;
+                Team t = global::Team.Neutre;
+                switch (parameters[0].ToLower())
+                {
+                    case "3":
+                    case "blue":
+                        t = global::Team.Blue;
+                        break;
+                    case "2":
+                    case "red":
+                        t = global::Team.Red;
+                        break;/*
+                    case "4":
+                    case "green":
+                        t = global::Team.Green;
+                        break;
+                    case "1":
+                    case "orange":
+                        t = global::Team.Orange;
+                        break;*/
+                    default:
+                        throw new Exception();
+                }
+                player.GetComponent<Social_HUD>().CmdSetTeam(t);
+                foreach (GameObject p in GameObject.FindGameObjectsWithTag("Player"))
+                    p.GetComponent<Social_HUD>().RpcReceiveMsg(player.GetComponent<Social_HUD>().PlayerName + " is now part of the " + t.ToString().ToLower() + " team.");
             }
         }
         catch
         {
-            sender.GetComponent<Social>().RpcReceiveMsg("<color=red>" + c.utilization + "</color>");
+            sender.GetComponent<Social_HUD>().RpcReceiveMsg("<color=red>" + c.utilization + "</color>");
         }
     }
 }

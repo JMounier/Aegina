@@ -542,14 +542,14 @@ public class Inventory : NetworkBehaviour
     /// </summary>
     /// <param name="itlist"></param>
     /// <returns></returns>
-    public bool InventoryContains(ItemStack[] itlist,bool mastered = true)
+    public bool InventoryContains(ItemStack[] itlist, bool mastered = true)
     {
         bool contain_all = true;
         int i = 0;
         int len = itlist.Length;
         while (contain_all && i < len)
         {
-            contain_all = contain_all && InventoryContains(itlist[i].Items ,itlist[i].Quantity * (mastered ? 1 : 2));
+            contain_all = contain_all && InventoryContains(itlist[i].Items, itlist[i].Quantity * (mastered ? 1 : 2));
             i += 1;
         }
         return contain_all;
@@ -559,9 +559,9 @@ public class Inventory : NetworkBehaviour
     /// </summary>
     /// <param name="craft"></param>
     /// <returns></returns>
-    public bool InventoryContains(Craft craft,bool mastered = true)
+    public bool InventoryContains(Craft craft, bool mastered = true)
     {
-        return InventoryContains(craft.Consume,mastered);
+        return InventoryContains(craft.Consume, mastered);
     }
 
     /// <summary>
@@ -609,11 +609,11 @@ public class Inventory : NetworkBehaviour
     /// suprime une liste d'objet de de l'inventaire
     /// </summary>
     /// <param name="itSlist"></param>
-    public void DeleteItems(ItemStack[] itSlist,bool mastered = true)
+    public void DeleteItems(ItemStack[] itSlist, bool mastered = true)
     {
         foreach (ItemStack item in itSlist)
         {
-            DeleteItems(item.Items,item.Quantity *(mastered ? 1 : 2));
+            DeleteItems(item.Items, item.Quantity * (mastered ? 1 : 2));
         }
     }
 
