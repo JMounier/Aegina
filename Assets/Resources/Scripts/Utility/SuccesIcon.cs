@@ -4,7 +4,6 @@ using UnityEngine.UI;
 
 public class SuccesIcon : MonoBehaviour {
 
-	static private Texture2D vide = Resources.Load<Texture2D> ("Sprites/Interfaces/Void");
 
 
 	[SerializeField]
@@ -26,7 +25,7 @@ public class SuccesIcon : MonoBehaviour {
 			//Do something use the icon but in black and transparant ? use a shader of some sort
 		} else {
 			// a changer si lag car trop de changement de valeur
-			gameObject.GetComponent<RawImage> ().texture = vide;
+			gameObject.GetComponent<RawImage> ().texture = SuccessDatabase.Texturevide;
 		}
 	}
 }
