@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public static class CraftDatabase
 {
-    public static readonly Craft FireCamp = new Craft(Craft.Type.WorkTop);
+	public static readonly Craft FireCamp = new Craft(1,new ItemStack(ItemDatabase.Firepit,1),false,false,false,false,false,Craft.Type.WorkTop,new ItemStack(ItemDatabase.Torch,1),new ItemStack(ItemDatabase.WoodenPlank,1));
     public static readonly Craft Workbench = new Craft(2, new ItemStack(ItemDatabase.Workbench, 1), false, false, false, false, false, Craft.Type.WorkTop, new ItemStack(ItemDatabase.WoodenPlank, 2), new ItemStack(ItemDatabase.Stick, 4));
     public static readonly Craft Forge = new Craft(3, new ItemStack(ItemDatabase.Forge, 1), false, true, false, false, false, Craft.Type.WorkTop, new ItemStack(ItemDatabase.CuttedStone, 5), new ItemStack(ItemDatabase.Firepit, 1));
     public static readonly Craft Brewer = new Craft(4, new ItemStack(ItemDatabase.Cauldron, 1), false, false, true, false, false, Craft.Type.WorkTop, new ItemStack(ItemDatabase.IronIngot, 3), new ItemStack(ItemDatabase.CopperIngot, 1));
@@ -23,10 +23,8 @@ public static class CraftDatabase
     public static readonly Craft Glass = new Craft(14, new ItemStack(ItemDatabase.Glass, 1), false, false, true, false, false, Craft.Type.Elementary, new ItemStack(ItemDatabase.Sand, 3));
 
     public static readonly Craft CactusAndFlowerSalad = new Craft(Craft.Type.Consumable);
-    public static readonly Craft MeatBrochette = new Craft(16, new ItemStack(ItemDatabase.MeatBalls, 1), true, false, false, false, false, Craft.Type.Consumable, new ItemStack(ItemDatabase.Gigot, 1), new ItemStack(ItemDatabase.Stick, 1));
-    public static readonly Craft Stew = new Craft(Craft.Type.Consumable);
-    public static readonly Craft MarrowBone = new Craft(Craft.Type.Consumable);
-    public static readonly Craft BeefBourguignon = new Craft(Craft.Type.Consumable);
+    public static readonly Craft MeatBrochette = new Craft(16, new ItemStack(ItemDatabase.MeatBalls, 1), false, false, false, false, false, Craft.Type.Consumable, new ItemStack(ItemDatabase.Gigot, 1), new ItemStack(ItemDatabase.Stick, 1));
+	public static readonly Craft Stew = new Craft(17,new ItemStack(ItemDatabase.Steaw,1),false,false,false,true,false,Craft.Type.Consumable,new ItemStack(ItemDatabase.Bowl,1),new ItemStack(ItemDatabase.Gigot,2),new ItemStack(ItemDatabase.WaterCact,1));
     public static readonly Craft Potion1 = new Craft(20, new ItemStack(ItemDatabase.WaterPotion, 1), false, false, false, true, false, Craft.Type.Consumable, new ItemStack(ItemDatabase.Glass, 1), new ItemStack(ItemDatabase.WaterCact, 3));
     public static readonly Craft Potion2 = new Craft(21, new ItemStack(ItemDatabase.SpeedPotion, 1), false, false, false, true, false, Craft.Type.Consumable, new ItemStack(ItemDatabase.WaterPotion, 1), new ItemStack(ItemDatabase.WaterCact, 3));
     public static readonly Craft Potion3 = new Craft(22, new ItemStack(ItemDatabase.PoisonPotion, 1), false, false, false, true, false, Craft.Type.Consumable, new ItemStack(ItemDatabase.Glass, 1), new ItemStack(ItemDatabase.RedMushroom, 2), new ItemStack(ItemDatabase.WaterCact, 1));
@@ -43,7 +41,7 @@ public static class CraftDatabase
     public static readonly Craft FloatiumPickaxe = new Craft(32, new ItemStack(ItemDatabase.FloatiumPickaxe, 1), false, true, true, false, false, Craft.Type.Tools, new ItemStack(ItemDatabase.FloatiumIngot, 3), new ItemStack(ItemDatabase.Stick, 2));
     public static readonly Craft SunkiumPickaxe = new Craft(33, new ItemStack(ItemDatabase.SunkiumPickaxe, 1), false, true, true, false, false, Craft.Type.Tools, new ItemStack(ItemDatabase.SunkiumIngot, 3), new ItemStack(ItemDatabase.Stick, 2));
 
-    public static readonly Craft StoneAxe = new Craft(34, new ItemStack(ItemDatabase.StoneAxe, 1), false, true, false, false, false, Craft.Type.Tools, new ItemStack(ItemDatabase.CuttedStone, 2), new ItemStack(ItemDatabase.Stick, 2));
+	public static readonly Craft StoneAxe = new Craft(34, new ItemStack(ItemDatabase.StoneAxe, 1), false, false, false, false, false, Craft.Type.Tools, new ItemStack(ItemDatabase.CuttedStone, 2), new ItemStack(ItemDatabase.Stick, 2));
     public static readonly Craft CopperAxe = new Craft(35, new ItemStack(ItemDatabase.CopperAxe, 1), false, true, true, false, false, Craft.Type.Tools, new ItemStack(ItemDatabase.CopperIngot, 2), new ItemStack(ItemDatabase.Stick, 2));
     public static readonly Craft IronAxe = new Craft(36, new ItemStack(ItemDatabase.IronAxe, 1), false, true, true, false, false, Craft.Type.Tools, new ItemStack(ItemDatabase.IronIngot, 2), new ItemStack(ItemDatabase.Stick, 2));
     public static readonly Craft GoldAxe = new Craft(37, new ItemStack(ItemDatabase.GoldAxe, 1), false, true, true, false, false, Craft.Type.Tools, new ItemStack(ItemDatabase.GoldIngot, 2), new ItemStack(ItemDatabase.Stick, 2));
