@@ -10,7 +10,7 @@ public class InputManager : NetworkBehaviour
     private Menu menu;
     private Social_HUD social;
     private Cristal_HUD cristalHUD;
-	private SuccesHUD sucHUD;
+    private SuccesHUD sucHUD;
 
     private Sound soundAudio;
     private Animator anim;
@@ -22,7 +22,6 @@ public class InputManager : NetworkBehaviour
 
     private float cdConsume = 1f;
     private float cdAttack = 0;
-    private float nearAttackSound = -1f;
 
     private bool validplace;
     // Use this for initialization
@@ -30,6 +29,7 @@ public class InputManager : NetworkBehaviour
     {
         this.nearElement = null;
         this.character = GetComponentInChildren<CharacterCollision>().gameObject;
+        this.social = GetComponent<Social_HUD>();
 
         if (!isLocalPlayer)
             return;
@@ -37,9 +37,8 @@ public class InputManager : NetworkBehaviour
         this.inventaire = GetComponent<Inventory>();
         this.menu = GetComponent<Menu>();
         this.controller = GetComponent<Controller>();
-        this.social = GetComponent<Social_HUD>();
 
-		this.sucHUD = GetComponent<SuccesHUD> ();
+        this.sucHUD = GetComponent<SuccesHUD>();
         this.cristalHUD = GetComponent<Cristal_HUD>();
         this.anim = gameObject.GetComponent<Animator>();
         this.syncCharacter = gameObject.GetComponent<SyncCharacter>();
@@ -94,52 +93,9 @@ public class InputManager : NetworkBehaviour
                 foreach (Material mat in this.nearElement.GetComponentInChildren<MeshRenderer>().materials)
                     mat.shader = Shader.Find("Outlined");
         }
-        //gestion de l'attaque
-        if (nearAttackSound > -1)
-        {
-            nearAttackSound -= Time.deltaTime;
-            if (nearAttackSound < 0)
-            {
-                nearAttackSound = -1;
-                this.soundAudio.PlaySound(AudioClips.Void, 0, 0.3f * 4f, 620);
-                this.soundAudio.PlaySound(AudioClips.Void, 1, 1.25f, 620);
-                if (this.inventaire.UsedItem.Items is Sword)
-                {
-                    this.soundAudio.PlaySound(AudioClips.playerAttack, 1);
-                    this.soundAudio.CmdPlaySound(AudioClips.playerAttack, 1);
-                }
-                float damage = 0f;
-                SyncChunk Actual_chunk = null;
-                foreach (Collider col in Physics.OverlapBox(this.character.transform.position, new Vector3(5, 100, 5)))
-                {
-                    if (col.gameObject.name.Contains("Island"))
-                    {
-                        Actual_chunk = col.transform.parent.GetComponent<SyncChunk>();
-                        break;
-                    }
-                }
-
-                // BUG EN MULTI : NULL REFERENCE !
-                // A modifier quand les teams seront implementer
-                if (Actual_chunk != null && Actual_chunk.IsCristal && Actual_chunk.Cristal.Team == this.social.Team)
-                    damage += Actual_chunk.Cristal.LevelAtk;
-
-                Item item = this.inventaire.UsedItem.Items;
-                if (item is Tool)
-                    damage += damage + 5f * ((item as Tool).Damage) / 100f;
-                else
-                    damage += 5f;
-
-                CmdAttack(damage);
-            }
-
-            if (this.controller.Pause || this.controller.IsJumping || Input.GetButtonDown("Fire2"))
-                nearAttackSound = -1;
-        }
         #endregion
 
-
-        //deplace la previsu en main
+        #region Previsu
         if (this.inventaire.UsedItem.Items is WorkTop)
         {
             WorkTop wt = this.inventaire.UsedItem.Items as WorkTop;
@@ -160,29 +116,32 @@ public class InputManager : NetworkBehaviour
             }
             this.validplace = isValid;
         }
-        // Gestion Input
-		if (Input.GetButtonDown("Inventory") && !this.menu.MenuShown && !this.menu.OptionShown && !this.social.ChatShown && !this.cristalHUD.Cristal_shown && !this.sucHUD.Enable)
+        #endregion
+
+        #region Gestion Input
+        if (Input.GetButtonDown("Inventory") && !this.menu.MenuShown && !this.menu.OptionShown && !this.social.ChatShown && !this.cristalHUD.Cristal_shown && !this.sucHUD.Enable)
         {
             this.inventaire.InventoryShown = !this.inventaire.InventoryShown;
             this.controller.Pause = !this.controller.Pause;
             this.soundAudio.PlaySound(AudioClips.Bag, 1f);
         }
 
-		if (Input.GetKeyDown(KeyCode.Return) && !this.menu.MenuShown && !this.menu.OptionShown && !this.inventaire.InventoryShown && !this.cristalHUD.Cristal_shown && !this.sucHUD.Enable)
+        if (Input.GetKeyDown(KeyCode.Return) && !this.menu.MenuShown && !this.menu.OptionShown && !this.inventaire.InventoryShown && !this.cristalHUD.Cristal_shown && !this.sucHUD.Enable)
         {
             this.social.ChatShown = true;
             this.controller.Pause = true;
         }
-		#region Success Window
-		if (Input.GetKeyDown(KeyCode.K) && !this.menu.MenuShown && !this.menu.OptionShown && !this.inventaire.InventoryShown && !this.cristalHUD.Cristal_shown && !this.social.ChatShown)
-		{
-			this.sucHUD.Enable = !this.sucHUD.Enable;
-			this.controller.Pause = this.sucHUD.Enable;
-		}
-		#endregion
+
+        if (Input.GetKeyDown(KeyCode.K) && !this.menu.MenuShown && !this.menu.OptionShown && !this.inventaire.InventoryShown && !this.cristalHUD.Cristal_shown && !this.social.ChatShown)
+        {
+            this.sucHUD.Enable = !this.sucHUD.Enable;
+            this.controller.Pause = this.sucHUD.Enable;
+        }
+        #endregion
+
         #region Fire2 
         bool useConsumable = false;
-		if (Input.GetButton("Fire2") && !this.inventaire.InventoryShown && !this.menu.MenuShown && !this.menu.OptionShown && !this.social.ChatShown && !this.sucHUD.Enable)
+        if (Input.GetButton("Fire2") && !this.inventaire.InventoryShown && !this.menu.MenuShown && !this.menu.OptionShown && !this.social.ChatShown && !this.sucHUD.Enable)
         {
             if (this.inventaire.UsedItem.Items is WorkTop)
             {
@@ -279,16 +238,37 @@ public class InputManager : NetworkBehaviour
         #endregion
 
         #region Fire1
-        //gestion de l'attaque
+        // Gestion de l'attaque
         if (cdAttack > 0)
             cdAttack -= Time.deltaTime;
         if (Input.GetButtonDown("Fire1") && cdAttack <= 0 && !this.controller.Pause)
         {
             this.anim.SetInteger("Action", 6);
-            this.nearAttackSound = 0.2f;
-            this.cdAttack = 0.8f;
+            this.cdAttack = 2f;
         }
 
+        if (this.cdAttack < 1.8f && this.cdAttack > 1f)
+        {
+            this.cdAttack = .6f;
+            if (this.inventaire.UsedItem.Items is Sword)
+            {
+                this.soundAudio.PlaySound(AudioClips.playerAttack, 1);
+                this.soundAudio.CmdPlaySound(AudioClips.playerAttack, 1);
+            }
+
+            // Calcul le damage
+            float damage = 0f;
+            Item item = this.inventaire.UsedItem.Items;
+            if (item is Tool)
+                damage += damage + 5f * ((item as Tool).Damage) / 100f;
+            else
+                damage += 5f;
+
+            CmdAttack(damage);
+        }
+
+        if (this.controller.Pause || this.controller.IsJumping || Input.GetButtonDown("Fire2"))
+            this.cdAttack = .6f;
 
         #endregion
 
@@ -327,8 +307,8 @@ public class InputManager : NetworkBehaviour
                 this.menu.LangueShown = false;
                 this.menu.OptionShown = true;
             }
-			else if(this.sucHUD.Enable)
-				this.sucHUD.Enable = false;
+            else if (this.sucHUD.Enable)
+                this.sucHUD.Enable = false;
             else {
                 this.menu.MenuShown = !this.menu.MenuShown;
                 this.controller.Pause = !this.controller.Pause;
@@ -336,10 +316,9 @@ public class InputManager : NetworkBehaviour
         }
         #endregion
 
-
         #region ToolBar
         // Gere la barre d'outil.
-        if (!Input.GetKey("left ctrl"))
+        if (!Input.GetKey("left ctrl") && !this.controller.Pause)
         {
             if (Input.GetAxis("Mouse ScrollWheel") > 0)
                 this.inventaire.Cursors++;
@@ -377,36 +356,34 @@ public class InputManager : NetworkBehaviour
             }
         }
         #endregion
-
     }
-
 
     [Command]
     private void CmdAttack(float damage)
     {
-        float mult_range = 1;
-        if (this.inventaire.UsedItem.Items is Sword)
+        SyncChunk actual_chunk = null;
+        foreach (Collider col in Physics.OverlapBox(this.character.transform.position, new Vector3(5, 100, 5)))
         {
-            mult_range = 1.5f;
+            if (col.gameObject.name.Contains("Island"))
+            {
+                actual_chunk = col.transform.parent.GetComponent<SyncChunk>();
+                break;
+            }
         }
+        if (actual_chunk != null && actual_chunk.IsCristal && actual_chunk.Cristal.Team == this.social.Team)
+            damage += actual_chunk.Cristal.LevelAtk;
+
         RaycastHit cible = new RaycastHit();
-        if (Physics.Raycast(new Vector3(this.character.transform.position.x, 7, this.character.transform.position.z), -mult_range * this.character.transform.forward, out cible, 1))
+        if (Physics.Raycast(new Vector3(this.character.transform.position.x, 7, this.character.transform.position.z), -this.character.transform.forward, out cible, 1))
         {
             if (cible.collider.gameObject.name == "Character" && cible.collider.gameObject.GetComponentInParent<Social_HUD>().Team != this.social.Team)
-            {
-
                 cible.collider.gameObject.GetComponentInParent<SyncCharacter>().ReceiveDamage(damage);
-            }
+
             else if (cible.collider.gameObject.tag == "Mob")
-            {
                 cible.collider.gameObject.GetComponentInParent<SyncMob>().ReceiveDamage(damage);
-            }
         }
-        else if (Physics.Raycast(new Vector3(this.character.transform.position.x, 8, this.character.transform.position.z), -this.character.transform.forward, out cible, 1))
-        {
-            if (cible.collider.gameObject.name == "IslandCore")
-                cible.collider.gameObject.GetComponent<SyncCore>().AttackCristal((int)damage, this.social.Team);
-        }
+        else if (Physics.Raycast(new Vector3(this.character.transform.position.x, 8, this.character.transform.position.z), -this.character.transform.forward, out cible, 1) && cible.collider.gameObject.name == "IslandCore")
+            cible.collider.gameObject.GetComponent<SyncCore>().AttackCristal((int)damage, this.social.Team);
     }
 
     #region  Interact Element
