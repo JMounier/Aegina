@@ -99,8 +99,6 @@ public static class CraftDatabase
             yield return CactusAndFlowerSalad;
             yield return MeatBrochette;
             yield return Stew;
-            yield return MarrowBone;
-            yield return BeefBourguignon;
             yield return Potion1;
             yield return Potion2;
             yield return Potion3;
