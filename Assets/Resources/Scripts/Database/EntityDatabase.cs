@@ -59,7 +59,7 @@ public static class EntityDatabase
     public static readonly Entity CauldronLoot = new Entity(66, 60, Resources.Load<GameObject>("Prefabs/Loots/Cauldron"));
     public static readonly Entity WorkbenchLoot = new Entity(67, 60, Resources.Load<GameObject>("Prefabs/Loots/Workbench"));
     public static readonly Entity FirepitLoot = new Entity(68, 60, Resources.Load<GameObject>("Prefabs/Loots/Firepit"));
-	public static readonly Entity TorchLoot = new Entity(50, 60, Resources.Load<GameObject>("Prefabs/Loots/Torche"));
+    public static readonly Entity TorchLoot = new Entity(50, 60, Resources.Load<GameObject>("Prefabs/Loots/Torche"));
 
 
     public static readonly Entity AquaPotion = new Entity(69, 60, Resources.Load<GameObject>("Prefabs/Loots/AquaPotion"));
@@ -90,10 +90,11 @@ public static class EntityDatabase
     public static readonly Element ForestFlower = new Element(91, 100, Resources.Load<GameObject>("Prefabs/Elements/SmallElements/ForestFlower"), Element.TypeElement.Small, 0, new DropConfig(81, 1));
     public static readonly Element IceFlower = new Element(92, 100, Resources.Load<GameObject>("Prefabs/Elements/SmallElements/IceFlower"), Element.TypeElement.Small, 0, new DropConfig(81, 1));
     public static readonly Element SmallCactus = new Element(93, 100, Resources.Load<GameObject>("Prefabs/Elements/SmallElements/SmallCactus"), Element.TypeElement.Small, 0, new DropConfig(81, 1), new DropConfig(80, 1));
-    public static readonly Element LittleRock = new Element(93, 100, Resources.Load<GameObject>("Prefabs/Elements/SmallElements/LittleRock"), Element.TypeElement.Small, 0, new DropConfig(1, 1));
     public static readonly Element Mushroom = new Element(94, 100, Resources.Load<GameObject>("Prefabs/Elements/SmallElements/Mushroom"), Element.TypeElement.Small, 0, new DropConfig(27, 1, 2));
     public static readonly Element RedMushroom = new Element(95, 100, Resources.Load<GameObject>("Prefabs/Elements/SmallElements/RedMushroom"), Element.TypeElement.Small, 0, new DropConfig(28, 1, 2));
     public static readonly Element Pumpink = new Element(96, 100, Resources.Load<GameObject>("Prefabs/Elements/SmallElements/Pumpkin"), Element.TypeElement.Small, 0, new DropConfig(87, 1, 3));
+    public static readonly Element LittleRock = new Element(97, 100, Resources.Load<GameObject>("Prefabs/Elements/SmallElements/LittleRock"), Element.TypeElement.Small, 0, new DropConfig(1, 1));
+
     // Tree
     public static readonly Element Fir = new Element(100, 50, Resources.Load<GameObject>("Prefabs/Elements/Trees/Fir"), Element.TypeElement.Tree, 0, new DropConfig(0, 4, 8));
     public static readonly Element SnowFir = new Element(101, 50, Resources.Load<GameObject>("Prefabs/Elements/Trees/SnowFir"), Element.TypeElement.Tree, 0, new DropConfig(0, 4, 8));
@@ -115,10 +116,10 @@ public static class EntityDatabase
 
     // WorkTop
     public static readonly Element Cauldron = new Element(130, 100, Resources.Load<GameObject>("Prefabs/Elements/PuttedObjects/Cauldron"), Element.TypeElement.WorkTop, 0, new DropConfig(41, 1));
-	public static readonly Element Firepit = new Element(131, 100, Resources.Load<GameObject>("Prefabs/Elements/PuttedObjects/FirePit"), Element.TypeElement.WorkTop, 0, new DropConfig(43, 1));
-	public static readonly Element Workbench = new Element(132, 100, Resources.Load<GameObject>("Prefabs/Elements/PuttedObjects/Workbench"), Element.TypeElement.WorkTop, 0, new DropConfig(42, 1));
-	public static readonly Element Forge = new Element(133, 100, Resources.Load<GameObject>("Prefabs/Elements/PuttedObjects/Hoven"), Element.TypeElement.WorkTop, 0, new DropConfig(40, 1));
-	public static readonly Element Torch = new Element (134, 100, Resources.Load<GameObject>("Prefabs/Elements/PuttedObjects/Torch"), Element.TypeElement.WorkTop, 0, new DropConfig(44,1));
+    public static readonly Element Firepit = new Element(131, 100, Resources.Load<GameObject>("Prefabs/Elements/PuttedObjects/FirePit"), Element.TypeElement.WorkTop, 0, new DropConfig(43, 1));
+    public static readonly Element Workbench = new Element(132, 100, Resources.Load<GameObject>("Prefabs/Elements/PuttedObjects/Workbench"), Element.TypeElement.WorkTop, 0, new DropConfig(42, 1));
+    public static readonly Element Forge = new Element(133, 100, Resources.Load<GameObject>("Prefabs/Elements/PuttedObjects/Hoven"), Element.TypeElement.WorkTop, 0, new DropConfig(40, 1));
+    public static readonly Element Torch = new Element(134, 100, Resources.Load<GameObject>("Prefabs/Elements/PuttedObjects/Torch"), Element.TypeElement.WorkTop, 0, new DropConfig(44, 1));
 
 
     // IslandCore
@@ -260,7 +261,7 @@ public static class EntityDatabase
             yield return CauldronLoot;
             yield return WorkbenchLoot;
             yield return FirepitLoot;
-			yield return TorchLoot;
+            yield return TorchLoot;
 
 
             // Chunk
@@ -315,11 +316,11 @@ public static class EntityDatabase
 
             // WorkTop
             yield return Cauldron;
-			yield return Firepit;
-			yield return Forge;
-			yield return Workbench;
-			yield return Torch;
-            
+            yield return Firepit;
+            yield return Forge;
+            yield return Workbench;
+            yield return Torch;
+
             // IslandCore
             yield return IslandCore;
 

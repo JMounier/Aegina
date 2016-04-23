@@ -131,7 +131,7 @@ public class SyncCharacter : NetworkBehaviour
 				this.character.SetActive(true);
                 this.character.GetComponent<Rigidbody>().velocity = Vector3.zero;
 
-                List<Tuple<float, float>>[] listrespos = this.GetComponentInParent<Social>().PosRespawn;
+                List<Tuple<float, float>>[] listrespos = this.GetComponentInParent<Social_HUD>().PosRespawn;
                 Tuple<float, float> resPos = listrespos[(int)Team.Blue][Random.Range(0, listrespos[(int)Team.Blue].Count)];
                 Vector3 newPos = new Vector3(resPos.Item1 + Random.Range(-10f, 10f), 7, resPos.Item2 + Random.Range(-10f, 10f));
                 while (!Graph.isValidPosition(newPos))
@@ -210,7 +210,7 @@ public class SyncCharacter : NetworkBehaviour
         if (isLocalPlayer && this.character.activeInHierarchy)
         {
             this.character.SetActive(false);
-            gameObject.GetComponent<Social>().CmdSendActivity(Activity.Death, gameObject);
+            gameObject.GetComponent<Social_HUD>().CmdSendActivity(Activity.Death);
             GetComponent<InputManager>().IAmDead();
         }
     }
@@ -260,7 +260,7 @@ public class SyncCharacter : NetworkBehaviour
         this.CdPoison = save.CdPoison;
 
         Vector3 newPos = new Vector3(save.X, 7, save.Y);
-        gameObject.GetComponent<Social>().RpcTeleport(newPos);
+        gameObject.GetComponent<Social_HUD>().RpcTeleport(newPos);
     }
 
     #region Getter & Setter

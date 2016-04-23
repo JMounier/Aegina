@@ -238,6 +238,11 @@ public class Save : NetworkBehaviour
     {
         get { return this.seed; }
     }
+
+    public bool IsCoop
+    {
+        get { return this.isCoop; }
+    }
 }
 
 /// <summary>
@@ -396,7 +401,7 @@ public class PlayerSave
 
     public PlayerSave(GameObject go, string pathPlayer, bool isServer)
     {
-        this.namePlayer = go.GetComponent<Social>().PlayerName;
+        this.namePlayer = go.GetComponent<Social_HUD>().PlayerName;
         this.path = pathPlayer + namePlayer;
         this.player = go;
 
@@ -460,7 +465,7 @@ public class PlayerSave
         this.cdRegen = this.Player.GetComponent<SyncCharacter>().CdRegen;
         this.poison = this.Player.GetComponent<SyncCharacter>().Poison;
         this.cdPoison = this.Player.GetComponent<SyncCharacter>().CdPoison;
-        this.isOp = this.Player.GetComponent<Social>().IsOp;
+        this.isOp = this.Player.GetComponent<Social_HUD>().IsOp;
 
         using (StreamWriter file = new StreamWriter(this.path))
         {

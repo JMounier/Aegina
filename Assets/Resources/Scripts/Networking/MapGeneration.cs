@@ -10,21 +10,38 @@ public class MapGeneration : NetworkBehaviour
     void Start()
     {
         if (isServer)
-        {
+        {            
             this.save = gameObject.GetComponent<Save>();
-            this.GenerateChunk(0, 0, Bridges.Three, Directions.East, true);
-            this.GenerateChunk(1, 0, Bridges.All, Directions.North);
-            this.GenerateChunk(2, 0, Bridges.One, Directions.West);
-            this.GenerateChunk(-1, 0, Bridges.Three, Directions.East);
-            this.GenerateChunk(-2, 0, Bridges.One, Directions.East);
-            this.GenerateChunk(0, 1, Bridges.Three, Directions.West);
-            this.GenerateChunk(0, 2, Bridges.One, Directions.South);
-            this.GenerateChunk(-1, 1, Bridges.One, Directions.East);
-            this.GenerateChunk(1, 1, Bridges.TwoL, Directions.South);
-            this.GenerateChunk(1, -1, Bridges.TwoL, Directions.West);
-            this.GenerateChunk(-1, -1, Bridges.TwoL, Directions.North);
-            this.GenerateChunk(0, -1, Bridges.All, Directions.East);
-            this.GenerateChunk(0, -2, Bridges.One, Directions.North);
+            if (this.save.IsCoop)
+            {
+                this.GenerateChunk(0, 0, Bridges.Three, Directions.East, true);
+                this.GenerateChunk(1, 0, Bridges.All, Directions.North);
+                this.GenerateChunk(2, 0, Bridges.One, Directions.West);
+                this.GenerateChunk(-1, 0, Bridges.Three, Directions.East);
+                this.GenerateChunk(-2, 0, Bridges.One, Directions.East);
+                this.GenerateChunk(0, 1, Bridges.Three, Directions.West);
+                this.GenerateChunk(0, 2, Bridges.One, Directions.South);
+                this.GenerateChunk(-1, 1, Bridges.One, Directions.East);
+                this.GenerateChunk(1, 1, Bridges.TwoL, Directions.South);
+                this.GenerateChunk(1, -1, Bridges.TwoL, Directions.West);
+                this.GenerateChunk(-1, -1, Bridges.TwoL, Directions.North);
+                this.GenerateChunk(0, -1, Bridges.All, Directions.East);
+                this.GenerateChunk(0, -2, Bridges.One, Directions.North);
+            }
+            else
+            {
+                this.GenerateChunk(0, 0, Bridges.TwoI, Directions.North, true);
+                this.GenerateChunk(1, 0, Bridges.Three, Directions.North);
+                this.GenerateChunk(2, 0, Bridges.One, Directions.West, true);
+                this.GenerateChunk(-1, 0, Bridges.Three, Directions.South);
+                this.GenerateChunk(-2, 0, Bridges.One, Directions.East, true);
+                this.GenerateChunk(0, 1, Bridges.Three, Directions.East);
+                this.GenerateChunk(0, -1, Bridges.Three, Directions.West);
+                this.GenerateChunk(1, 1, Bridges.TwoL, Directions.South);
+                this.GenerateChunk(1, -1, Bridges.TwoL, Directions.West);
+                this.GenerateChunk(-1, -1, Bridges.TwoL, Directions.North);
+                this.GenerateChunk(-1, 1, Bridges.TwoL, Directions.East);
+            }
         }
     }
 

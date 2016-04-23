@@ -4,20 +4,19 @@ using System.Collections.Generic;
 using UnityEngine.Networking;
 using System;
 
-public enum Activity { Connection, Death };
+public enum Activity { Connection, Disconnection, Death };
 
-public class Social : NetworkBehaviour
+public class Social_HUD : NetworkBehaviour
 {
-
     private TextMesh nameTextMesh;
     [SyncVar]
     private string namePlayer;
     [SyncVar]
     private bool chatShown = false;
-	[SyncVar]
-	private Team team = Team.Blue;
+    [SyncVar]
+    private Team team = Team.Neutre;
     private bool isOp = false;
-    private List<Tuple<float,float>>[] posRespawn;
+    private List<Tuple<float, float>>[] posRespawn;
 
     private int posX, posY;
     private GUISkin skin;
@@ -26,7 +25,6 @@ public class Social : NetworkBehaviour
     private int logIndex = 0;
 
     private string[] chat = new string[5] { "\n", "\n", "\n", "\n", "\n" };
-    private string[] playerList = new string[0];
 
     // Use this for initialization
     void Start()
@@ -47,7 +45,7 @@ public class Social : NetworkBehaviour
             this.nameTextMesh.gameObject.SetActive(false);
             this.namePlayer = PlayerPrefs.GetString("PlayerName", "");
             this.CmdSetName(this.namePlayer);
-            this.CmdSendActivity(Activity.Connection, gameObject);
+            this.CmdSendActivity(Activity.Connection);
             GameObject.Find("NetworkManager").GetComponent<NetworkManagerHUD>().IsLoad();
             posRespawn = new List<Tuple<float, float>>[5];
             for (int i = 0; i < 5; i++)
@@ -61,37 +59,22 @@ public class Social : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
+        // Set rotation of name well
         if (isLocalPlayer)
-        {
-            // Set rotation of name well
             foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
-            {
                 if (player != null && !gameObject.Equals(player))
                 {
-                    Social other = player.GetComponent<Social>();
-                    if (other.namePlayer != other.nameTextMesh.text)
-                        other.nameTextMesh.text = other.namePlayer;
-                    if (Vector3.Distance(player.GetComponentInChildren<CharacterCollision>().transform.position, gameObject.GetComponentInChildren<CharacterCollision>().transform.position) < 10)
+                    Social_HUD other = player.GetComponent<Social_HUD>();
+                    other.nameTextMesh.text = other.namePlayer;
+                    other.nameTextMesh.color = other.team == Team.Blue ? new Color(.12f, 0f, 1f) : new Color(.78f, .15f, .15f);
+                    if (Vector3.Distance(player.transform.FindChild("Character").position, gameObject.transform.FindChild("Character").position) < 10)
                     {
-                        other.GetComponent<Social>().nameTextMesh.gameObject.SetActive(true);
-                        other.GetComponent<Social>().nameTextMesh.transform.rotation = Quaternion.Euler(gameObject.GetComponentInChildren<Camera>().transform.eulerAngles);
+                        other.GetComponent<Social_HUD>().nameTextMesh.gameObject.SetActive(true);
+                        other.GetComponent<Social_HUD>().nameTextMesh.transform.rotation = Quaternion.Euler(gameObject.GetComponentInChildren<Camera>().transform.eulerAngles);
                     }
                     else
-                        other.GetComponent<Social>().nameTextMesh.gameObject.SetActive(false);
+                        other.GetComponent<Social_HUD>().nameTextMesh.gameObject.SetActive(false);
                 }
-            }
-
-            // Update the list of players
-            List<string> playerList = new List<string>();
-            foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
-                playerList.Add(player.GetComponent<Social>().namePlayer);
-            if (playerList.Count < this.playerList.Length)
-                foreach (string name in this.playerList)
-                    if (!playerList.Contains(name))
-                        foreach (GameObject p in GameObject.FindGameObjectsWithTag("Player"))
-                            p.GetComponent<Social>().RpcReceiveMsg("<color=grey>* <i>" + name + "</i> leave the game.</color>");
-            this.playerList = playerList.ToArray();
-        }
     }
 
     void OnGUI()
@@ -133,9 +116,10 @@ public class Social : NetworkBehaviour
         if (Input.GetButton("ListPlayer"))
         {
             float y = 0;
-            foreach (string name in this.playerList)
+            foreach (GameObject p in GameObject.FindGameObjectsWithTag("Player"))
             {
-                GUI.Box(new Rect(Screen.width / 2 - Screen.width * 0.075f, y, Screen.width * 0.15f, Screen.height * 0.04f), name, this.skin.GetStyle("button"));
+                string n = p.GetComponent<Social_HUD>().PlayerName;
+                GUI.Box(new Rect(Screen.width / 2 - Screen.width * 0.075f, y, Screen.width * 0.15f, Screen.height * 0.04f), n, n == this.namePlayer ? this.skin.GetStyle("second_button_actif") : this.skin.GetStyle("second_button"));
                 y += Screen.height * 0.04f;
             }
         }
@@ -157,7 +141,7 @@ public class Social : NetworkBehaviour
         }
     }
 
-    public void NewRespawnPoint(Team team,Tuple<float,float> coord)
+    public void NewRespawnPoint(Team team, Tuple<float, float> coord)
     {
         this.posRespawn[(int)team].Add(coord);
     }
@@ -173,7 +157,10 @@ public class Social : NetworkBehaviour
             Command.LaunchCommand(msg, gameObject);
         else
             foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
-                player.GetComponent<Social>().RpcReceiveMsg("<b>[" + this.namePlayer + "]</b> " + msg);
+            {
+                string color = this.team == Team.Blue ? "blue" : "red";
+                player.GetComponent<Social_HUD>().RpcReceiveMsg("<b><color=" + color + ">[" + this.namePlayer + "]</color></b> " + msg);
+            }
     }
 
     /// <summary>
@@ -184,8 +171,28 @@ public class Social : NetworkBehaviour
     public void CmdSetName(string name)
     {
         this.namePlayer = name;
-        GameObject.Find("Map").GetComponent<Save>().AddPlayer(gameObject, isLocalPlayer);
-        this.isOp = GameObject.Find("Map").GetComponent<Save>().LoadPlayer(gameObject).IsOp;
+        Save save = GameObject.Find("Map").GetComponent<Save>();
+        save.AddPlayer(gameObject, isLocalPlayer);
+        this.isOp = save.LoadPlayer(gameObject).IsOp;
+        if (save.IsCoop)
+            this.team = Team.Blue;
+        else
+        {
+            int blue = 0;
+            int red = 0;
+            foreach (GameObject p in GameObject.FindGameObjectsWithTag("Player"))
+            {
+                if (p.GetComponent<Social_HUD>().team == Team.Blue)
+                    blue++;
+                else if (p.GetComponent<Social_HUD>().team == Team.Red)
+                    red++;
+            }
+            if (blue > red)
+                this.team = Team.Red;
+            else
+                this.team = Team.Blue;
+        }
+        // Spawn au bon endroit...
     }
 
     /// <summary>
@@ -206,31 +213,37 @@ public class Social : NetworkBehaviour
     /// <param name="msg"></param>
     /// <param name="name"></param>
     [Command]
-    public void CmdSendActivity(Activity act, GameObject player)
+    public void CmdSendActivity(Activity act)
     {
         switch (act)
         {
             case Activity.Connection:
                 foreach (GameObject p in GameObject.FindGameObjectsWithTag("Player"))
-                    if (p.GetComponent<Social>().namePlayer != this.namePlayer)
-                        p.GetComponent<Social>().RpcReceiveMsg("<color=grey>* <i>" + this.namePlayer + "</i> joined the game.</color>");
+                    if (p.GetComponent<Social_HUD>().namePlayer != this.namePlayer)
+                        p.GetComponent<Social_HUD>().RpcReceiveMsg("<color=grey>* <i>" + this.namePlayer + "</i> joined the game.</color>");
                 break;
             case Activity.Death:
                 foreach (GameObject p in GameObject.FindGameObjectsWithTag("Player"))
-                    p.GetComponent<Social>().RpcReceiveMsg("<color=grey>* <i>" + this.namePlayer + "</i> died.</color>");
+                    p.GetComponent<Social_HUD>().RpcReceiveMsg("<color=grey>* <i>" + this.namePlayer + "</i> died.</color>");
+                break;
+            case Activity.Disconnection:
+                if (this.namePlayer != null)
+                    foreach (GameObject p in GameObject.FindGameObjectsWithTag("Player"))
+                        p.GetComponent<Social_HUD>().RpcReceiveMsg("<color=grey>* <i>" + this.namePlayer + "</i> leave the game.</color>");
                 break;
             default:
                 throw new System.ArgumentException("Activity is not valid");
         }
     }
-	/// <summary>
+    /// <summary>
     /// Cmds the set team.
     /// </summary>
     /// <param name="team">Team.</param>
-	[Command]
-	public void CmdSetTeam(Team team){
-		this.team = team;
-	}
+    [Command]
+    public void CmdSetTeam(Team team)
+    {
+        this.team = team;
+    }
     /// <summary>
     /// Envoi un message du serveur vers les clients
     /// </summary>
@@ -290,7 +303,7 @@ public class Social : NetworkBehaviour
         get { return this.namePlayer; }
     }
 
-    public List<Tuple<float,float>>[] PosRespawn
+    public List<Tuple<float, float>>[] PosRespawn
     {
         get { return posRespawn; }
     }
@@ -303,12 +316,13 @@ public class Social : NetworkBehaviour
         get { return this.isOp; }
         set { this.isOp = value; }
     }
-	/// <summary>
-	/// Gets the team.
-	/// </summary>
-	/// <value>The team.</value>
-	public Team Team{
-		get{ return this.team;}
-	}
+    /// <summary>
+    /// Gets the team.
+    /// </summary>
+    /// <value>The team.</value>
+    public Team Team
+    {
+        get { return this.team; }
+    }
 
 }

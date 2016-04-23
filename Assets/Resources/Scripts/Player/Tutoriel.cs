@@ -3,7 +3,6 @@ using System.Collections;
 
 public class Tutoriel : MonoBehaviour
 {
-
     private Controller controler;
     private Inventory inventaire;
     private Cristal_HUD cristal;
