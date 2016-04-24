@@ -80,7 +80,7 @@ namespace UnityEngine.Networking
             this.posX = (int)(Screen.width / 2.6f);
             this.posY = (int)(Screen.height / 2.5f);
             this.width = Screen.width / 4;
-            this.height = Screen.height / 30;
+            this.height = Screen.height / 25;
             this.spacing = this.height * 2;
             if (!this.manager.isNetworkActive)
                 loading = false;
@@ -529,22 +529,18 @@ namespace UnityEngine.Networking
         /// </summary>
         private void DrawWorldCreate()
         {
-            GUI.Box(new Rect(this.posX, this.posY - this.height - 10, this.width, this.height), TextDatabase.EnterName.GetText(), skin.GetStyle("inventory"));
-            newWorldName = this.RemoveSpecialCharacter(GUI.TextField(new Rect(this.posX, this.posY, this.width, this.height), newWorldName, 15, this.skin.textField), "abcdefghijklmnopqrstuvwxyz123456789-_ ", false);
-            GUI.Box(new Rect(this.posX, this.posY - this.height - 10 + 2 * this.spacing, this.width, this.height), TextDatabase.Seed.GetText(), this.skin.GetStyle("inventory"));
-            Rect rect = new Rect(this.posX, this.posY + 2 * this.spacing, this.width, this.height);
+			GUI.Box(new Rect(this.posX, this.posY - this.height - 10, this.width, this.height+this.spacing), TextDatabase.EnterName.GetText(), skin.GetStyle("inventory"));
+			newWorldName = this.RemoveSpecialCharacter(GUI.TextField(new Rect(this.posX, this.posY+this.spacing, this.width, this.height), newWorldName, 15, this.skin.textField), "abcdefghijklmnopqrstuvwxyz123456789-_ ", false);
+			GUI.Box(new Rect(this.posX, this.posY - 10 + 2 * this.spacing, this.width, this.height+this.spacing), TextDatabase.Seed.GetText(), this.skin.GetStyle("inventory"));
+			Rect rect = new Rect(this.posX, this.posY + 3 * this.spacing+this.height, this.width, this.height);
             seedstr = GUI.TextField(rect, this.RemoveSpecialCharacter(seedstr, "abcdefghijklmnopqrstuvwxyz123456789", false), 6, skin.textField);
-            rect = new Rect(this.posX, this.posY - this.height - 10 + 4 * this.spacing, this.width / 2 - 10, this.height);
+            rect = new Rect(this.posX, this.posY - 10 + 5 * this.spacing-this.height, this.width, this.height);
 
-            if (GUI.Button(rect, "Coop", this.skin.GetStyle("button")))            
-                this.typeCoop = true;
+			if (GUI.Button(rect, "Coop/"+TextDatabase.PVP.GetText(), this.skin.GetStyle("button")))            
+                this.typeCoop = !typeCoop;
             
-            rect = new Rect(this.posX + this.width / 2, this.posY - this.height - 10 + 4 * this.spacing, this.width / 2 - 10, this.height);
-            if (GUI.Button(rect, TextDatabase.PVP.GetText(), this.skin.GetStyle("button")))            
-                this.typeCoop = false;
-            
-            GUI.Box(new Rect(this.posX, this.posY + 4 * this.spacing, this.width, this.height), this.typeCoop ? "Coop" : "Joueur contre Joueur", this.skin.GetStyle("inventory"));
-            rect = new Rect(this.posX, this.posY + 5 * this.spacing, this.width, this.height);
+			GUI.Box(new Rect(this.posX, this.posY + 4 * this.spacing+1.5f*this.height, this.width, this.height + this.spacing), this.typeCoop ? "Coop" : TextDatabase.PVP.GetText(), this.skin.GetStyle("inventory"));
+			rect = new Rect(this.posX, this.posY + 6 * this.spacing+this.height, this.width, this.height);
             bool possible = true;
             int i = 0;
             worldsList = new List<string>(Directory.GetDirectories(Application.dataPath + "/Saves"));
@@ -584,7 +580,7 @@ namespace UnityEngine.Networking
             else          
                 GUI.Box(rect, TextDatabase.Create.GetText(), this.skin.GetStyle("slot"));
            
-            rect = new Rect(this.posX, this.posY + 6 * this.spacing, this.width, this.height);
+			rect = new Rect(this.posX, this.posY + 6 * this.spacing+this.height, this.width, this.height);
             if (GUI.Button(rect, TextDatabase.Back.GetText(), skin.GetStyle("button")))
             {
                 this.worldcreateShown = false;
