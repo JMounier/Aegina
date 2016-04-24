@@ -185,7 +185,9 @@ public class SyncCharacter : NetworkBehaviour
         this.Hunger -= Time.deltaTime * starvation;
         this.Thirst -= Time.deltaTime * thirstiness;
         if (this.character.transform.position.y <= -10)
+        {
             this.Life -= 30 * Time.deltaTime;
+        }
         if (this.character.transform.position.y < 0 && !this.controller.IsJumping)
             this.controller.IsJumping = true;
         if (this.hunger == 0 || this.thirst == 0)
@@ -203,6 +205,7 @@ public class SyncCharacter : NetworkBehaviour
             gameObject.transform.FindChild("Character").FindChild("NPC_Man_Normal001").gameObject.SetActive(false);
             gameObject.transform.FindChild("Character").GetComponent<CapsuleCollider>().enabled = false;
             gameObject.transform.FindChild("Character").GetComponent<Rigidbody>().useGravity = false;
+            gameObject.GetComponent<Inventory>().DropAll();
             gameObject.GetComponent<Social_HUD>().CmdSendActivity(Activity.Death);
             GetComponent<InputManager>().IAmDead();
         }
@@ -215,23 +218,26 @@ public class SyncCharacter : NetworkBehaviour
         gameObject.transform.FindChild("Character").GetComponent<CapsuleCollider>().enabled = true;
         gameObject.transform.FindChild("Character").GetComponent<Rigidbody>().useGravity = true;
         GetComponent<Controller>().Pause = false;
-        this.CmdLife(this.lifeMax);
-        this.CmdHunger(this.hungerMax);
-        this.CmdThirst(this.thirstMax);
-        this.CmdPoison(0);
-        this.CmdRegen(0);
-        this.CmdSpeed(0);
-        this.CmdJump(0);
+        this.Life = this.lifeMax;
+        this.Hunger = this.hungerMax;
+        this.Thirst = this.thirstMax;
+        this.Poison = 0;
+        this.Regen = 0;
+        this.Speed = 0;
+        this.Jump = 0;
         this.character.GetComponent<Rigidbody>().velocity = Vector3.zero;
-
+        CmdRespawnPos();
+    }
+    [Command]
+    private void CmdRespawnPos()
+    {
         List<Vector2> listrespos = GameObject.Find("Map").GetComponent<Save>().Respawn[(int)gameObject.GetComponent<Social_HUD>().Team];
         Vector2 resPos = listrespos[Random.Range(0, listrespos.Count)];
         Vector3 newPos = new Vector3(resPos.x + Random.Range(-10f, 10f), 7, resPos.y + Random.Range(-10f, 10f));
         while (!Graph.isValidPosition(newPos))
             newPos = new Vector3(resPos.x + Random.Range(-10f, 10f), 7, resPos.y + Random.Range(-10f, 10f));
-        this.character.transform.position = newPos;
+        gameObject.GetComponent<Social_HUD>().RpcTeleport(newPos);
     }
-
     /// <summary>
     /// Informe le joueur qu'il doit prendre des degats. MUST BE SERVER
     /// </summary>
@@ -290,9 +296,8 @@ public class SyncCharacter : NetworkBehaviour
         get { return this.life; }
         set
         {
-            if (isServer)
-                this.life = Mathf.Clamp(value, 0f, this.lifeMax);
-            else
+            this.life = Mathf.Clamp(value, 0f, this.lifeMax);
+            if (!isServer)
                 this.CmdLife(Mathf.Clamp(value, 0f, this.lifeMax));
         }
     }
