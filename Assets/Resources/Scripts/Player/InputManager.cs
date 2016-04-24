@@ -269,7 +269,6 @@ public class InputManager : NetworkBehaviour
 
         if (this.controller.Pause || this.controller.IsJumping || Input.GetButtonDown("Fire2"))
             this.cdAttack = .6f;
-
         #endregion
 
         #region Cancel
@@ -362,19 +361,18 @@ public class InputManager : NetworkBehaviour
     private void CmdAttack(float damage)
     {
         SyncChunk actual_chunk = null;
-        foreach (Collider col in Physics.OverlapBox(this.character.transform.position, new Vector3(5, 100, 5)))
-        {
+        foreach (Collider col in Physics.OverlapBox(this.character.transform.position, new Vector3(5, 100, 5)))        
             if (col.gameObject.name.Contains("Island"))
             {
                 actual_chunk = col.transform.parent.GetComponent<SyncChunk>();
                 break;
             }
-        }
+        
         if (actual_chunk != null && actual_chunk.IsCristal && actual_chunk.Cristal.Team == this.social.Team)
             damage += actual_chunk.Cristal.LevelAtk;
 
         RaycastHit cible = new RaycastHit();
-        if (Physics.Raycast(new Vector3(this.character.transform.position.x, 7, this.character.transform.position.z), -this.character.transform.forward, out cible, 1))
+        if (Physics.Raycast(this.character.transform.position, -this.character.transform.forward, out cible, 1))
         {
             if (cible.collider.gameObject.name == "Character" && cible.collider.gameObject.GetComponentInParent<Social_HUD>().Team != this.social.Team)
                 cible.collider.gameObject.GetComponentInParent<SyncCharacter>().ReceiveDamage(damage);
