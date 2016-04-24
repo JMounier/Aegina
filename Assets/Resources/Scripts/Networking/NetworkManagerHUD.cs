@@ -540,7 +540,7 @@ namespace UnityEngine.Networking
                 this.typeCoop = !typeCoop;
             
 			GUI.Box(new Rect(this.posX, this.posY + 4 * this.spacing+1.5f*this.height, this.width, this.height + this.spacing), this.typeCoop ? "Coop" : TextDatabase.PVP.GetText(), this.skin.GetStyle("inventory"));
-			rect = new Rect(this.posX, this.posY + 6 * this.spacing+this.height, this.width, this.height);
+			rect = new Rect(this.posX, this.posY + 6 * this.spacing+this.height, (this.width-10)/2, this.height);
             bool possible = true;
             int i = 0;
             worldsList = new List<string>(Directory.GetDirectories(Application.dataPath + "/Saves"));
@@ -555,32 +555,30 @@ namespace UnityEngine.Networking
                 i++;
             }
 
-            if (possible)            
-                if (GUI.Button(rect, TextDatabase.Create.GetText(), skin.GetStyle("button")))
-                {
-                    if (newWorldName != "")
-                    {
-                        this.world = this.newWorldName;
-                        this.newWorldName = "World";
-                        this.worldcreateShown = false;
-                        System.Random genSeed = new System.Random();
-                        int seed = 0;
-                        if (seedstr == "")
-                            seed = genSeed.Next(int.MaxValue);
-                        else
-                            seed = MapGeneration.SeedToInt(seedstr);
+			if (possible) {
+				if (GUI.Button (rect, TextDatabase.Create.GetText (), skin.GetStyle ("button"))) {
+					if (newWorldName != "") {
+						this.world = this.newWorldName;
+						this.newWorldName = "World";
+						this.worldcreateShown = false;
+						System.Random genSeed = new System.Random ();
+						int seed = 0;
+						if (seedstr == "")
+							seed = genSeed.Next (int.MaxValue);
+						else
+							seed = MapGeneration.SeedToInt (seedstr);
 
-                        Save.CreateWorld(this.world, seed, this.typeCoop);
-                        this.worldsList.Add(this.world);
-                        this.Launch(TypeLaunch.Host);
-                    }
-                    this.firstScene.PlayButtonSound();
-                }
-            
+						Save.CreateWorld (this.world, seed, this.typeCoop);
+						this.worldsList.Add (this.world);
+						this.Launch (TypeLaunch.Host);
+					}
+					this.firstScene.PlayButtonSound ();
+				}
+			}
             else          
-                GUI.Box(rect, TextDatabase.Create.GetText(), this.skin.GetStyle("slot"));
+                GUI.Box(rect, TextDatabase.Create.GetText(), this.skin.GetStyle("button"));
            
-			rect = new Rect(this.posX, this.posY + 6 * this.spacing+this.height, this.width, this.height);
+			rect = new Rect(this.posX+this.width/2, this.posY + 6 * this.spacing+this.height, (this.width-10/2), this.height);
             if (GUI.Button(rect, TextDatabase.Back.GetText(), skin.GetStyle("button")))
             {
                 this.worldcreateShown = false;
