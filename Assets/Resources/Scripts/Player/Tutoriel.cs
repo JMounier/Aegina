@@ -265,7 +265,17 @@ public class Tutoriel : MonoBehaviour
             this.controler.Pause = false;
         }
     }
-
+	//Getters Setters
+	public bool Finished_tuto
+	{
+		get{ return finished_tutorial;}
+		set{ finished_tutorial = value;}
+	}
+	public bool Tutoshown
+	{
+		get{ return istutorial;}
+		set{ istutorial = value; }
+	}
     public bool EndTutoShown
     {
         get { return endtuto; }

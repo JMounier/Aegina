@@ -11,6 +11,7 @@ public class InputManager : NetworkBehaviour
     private Social_HUD social;
     private Cristal_HUD cristalHUD;
     private SuccesHUD sucHUD;
+	private Tutoriel tutoriel;
 
     private Sound soundAudio;
     private Animator anim;
@@ -40,6 +41,7 @@ public class InputManager : NetworkBehaviour
 
         this.sucHUD = GetComponent<SuccesHUD>();
         this.cristalHUD = GetComponent<Cristal_HUD>();
+		this.tutoriel = GetComponent<Tutoriel> ();
         this.anim = gameObject.GetComponent<Animator>();
         this.syncCharacter = gameObject.GetComponent<SyncCharacter>();
         this.validplace = true;
@@ -121,20 +123,20 @@ public class InputManager : NetworkBehaviour
         #endregion
 
         #region Gestion Input
-        if (Input.GetButtonDown("Inventory") && !this.menu.MenuShown && !this.menu.OptionShown && !this.social.ChatShown && !this.cristalHUD.Cristal_shown && !this.sucHUD.Enable)
+		if (Input.GetButtonDown("Inventory") && !this.menu.MenuShown && !this.menu.OptionShown && !this.social.ChatShown && !this.cristalHUD.Cristal_shown && !this.sucHUD.Enable && !this.tutoriel.EndTutoShown && !this.tutoriel.Tutoshown && !this.menu.ControlShown)
         {
             this.inventaire.InventoryShown = !this.inventaire.InventoryShown;
             this.controller.Pause = !this.controller.Pause;
             this.soundAudio.PlaySound(AudioClips.Bag, 1f);
         }
 
-        if (Input.GetKeyDown(KeyCode.Return) && !this.menu.MenuShown && !this.menu.OptionShown && !this.inventaire.InventoryShown && !this.cristalHUD.Cristal_shown && !this.sucHUD.Enable)
+		if (Input.GetKeyDown(KeyCode.Return) && !this.menu.MenuShown && !this.menu.OptionShown && !this.inventaire.InventoryShown && !this.cristalHUD.Cristal_shown && !this.sucHUD.Enable && !this.tutoriel.EndTutoShown && !this.tutoriel.Tutoshown && !this.menu.ControlShown)
         {
             this.social.ChatShown = true;
             this.controller.Pause = true;
         }
 
-        if (Input.GetKeyDown(KeyCode.K) && !this.menu.MenuShown && !this.menu.OptionShown && !this.inventaire.InventoryShown && !this.cristalHUD.Cristal_shown && !this.social.ChatShown)
+		if (Input.GetKeyDown(KeyCode.K) && !this.menu.MenuShown && !this.menu.OptionShown && !this.inventaire.InventoryShown && !this.cristalHUD.Cristal_shown && !this.social.ChatShown && !this.tutoriel.EndTutoShown && !this.tutoriel.Tutoshown && !this.menu.ControlShown)
         {
             this.sucHUD.Enable = !this.sucHUD.Enable;
             this.controller.Pause = this.sucHUD.Enable;
@@ -143,7 +145,7 @@ public class InputManager : NetworkBehaviour
 
         #region Fire2 
         bool useConsumable = false;
-        if (Input.GetButton("Fire2") && !this.inventaire.InventoryShown && !this.menu.MenuShown && !this.menu.OptionShown && !this.social.ChatShown && !this.sucHUD.Enable)
+		if (Input.GetButton("Fire2") && !this.inventaire.InventoryShown && !this.menu.MenuShown && !this.menu.OptionShown && !this.social.ChatShown && !this.cristalHUD.Cristal_shown && !this.sucHUD.Enable && !this.tutoriel.EndTutoShown && !this.tutoriel.Tutoshown && !this.menu.ControlShown)
         {
             if (this.inventaire.UsedItem.Items is WorkTop)
             {
@@ -311,6 +313,22 @@ public class InputManager : NetworkBehaviour
             else if (this.sucHUD.Enable)
 			{
 				this.sucHUD.Enable = false;
+				this.controller.Pause = false;
+			}
+			else if (this.menu.ControlShown)
+			{
+				this.menu.ControlShown = false;
+				this.menu.OptionShown = true;
+			}
+			else if(this.tutoriel.EndTutoShown)
+			{
+				this.tutoriel.EndTutoShown = false;
+				this.controller.Pause = false;
+			}
+			else if(this.tutoriel.Tutoshown)
+			{
+				this.tutoriel.Finished_tuto = true;
+				this.tutoriel.Tutoshown = false;
 				this.controller.Pause = false;
 			}
             else {
