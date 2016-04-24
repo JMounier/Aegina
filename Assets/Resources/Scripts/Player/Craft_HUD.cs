@@ -92,7 +92,7 @@ public class Craft_HUD : NetworkBehaviour
         tooltip = false;
         if (inventory.InventoryShown)
         {
-            GUI.Box(new Rect(0, 2 * Screen.height / 9 - Screen.height / 20, 1 * Screen.height / 7, 5 * Screen.height / 9 + Screen.height / 10), "", this.type != Craft.Type.None ? skin.GetStyle("craftframe_open") : skin.GetStyle("craftframe_close"));
+            GUI.Box(new Rect(0, 2 * Screen.height / 9 - Screen.height / 20, 1 * Screen.height / 7, 5 * Screen.height / 9 + Screen.height / 10), "",skin.GetStyle("craftframe_open"));
             Categoryze();
             if (showcraft)
                 Craft_used_HUD();
