@@ -16,7 +16,7 @@ public class FirstScene : MonoBehaviour
 	[SerializeField]
 	private Camera cam;
 	[SerializeField]
-	private float camSpeed = 0.1f;
+	private float camSpeed = 0.05f;
 
 	[SerializeField]
 	private GameObject fistStep;
@@ -50,7 +50,7 @@ public class FirstScene : MonoBehaviour
 		// Camera and Path
 		this.cam.transform.position = this.fistStep.transform.position;
 		this.step = this.fistStep.GetComponent<FSPath> ().NextStep;
-		this.camSpeed = this.step.GetComponent<FSPath> ().Speed;
+		//this.camSpeed = this.step.GetComponent<FSPath> ().Speed;
 		this.cam.transform.LookAt (this.step.transform);
 
 		// Audio Source
@@ -86,13 +86,13 @@ public class FirstScene : MonoBehaviour
 		Quaternion lastrot = this.cam.transform.rotation;
 		this.cam.transform.LookAt (this.step.transform);
 		Quaternion newrot = this.cam.transform.rotation;
-		this.cam.transform.rotation = Quaternion.Lerp (lastrot, newrot, 0.1f);
+		this.cam.transform.rotation = Quaternion.Lerp (lastrot, newrot, 0.01f);
 
 		if (Vector3.Distance (this.cam.transform.position, this.step.transform.position) <= this.acceptance) {
 			this.step = this.step.GetComponent<FSPath> ().NextStep;
 			if (this.step.GetComponent<FSPath> () == null)
 				this.step = this.fistStep;
-			this.camSpeed = this.step.GetComponent<FSPath> ().Speed;
+			//this.camSpeed = this.step.GetComponent<FSPath> ().Speed;
 		}
 
     }
