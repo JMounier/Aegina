@@ -629,7 +629,7 @@ public class Inventory : NetworkBehaviour
 
     #endregion
 
-    #region Looting
+    #region Tool and Looting
     /// <summary>
     /// Met l'outil dans la main du joueur.
     /// </summary>
@@ -752,6 +752,14 @@ public class Inventory : NetworkBehaviour
                 loot.GetComponent<SphereCollider>().enabled = true;
         }
 
+    }
+
+    [Client]
+    public void DropAll()
+    {
+        for (int i = 0; i < rows; i++)
+            for (int j = 0; j < columns; j++)
+                Drop(slots[i, j]);        
     }
 
     /// <summary>

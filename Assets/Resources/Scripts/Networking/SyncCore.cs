@@ -31,12 +31,12 @@ public class SyncCore : SyncElement
             ChunkSave cs = GameObject.Find("Map").GetComponent<Save>().LoadChunk((int)gameObject.transform.position.x / Chunk.Size, (int)gameObject.transform.position.z / Chunk.Size);
             this.CmdSetTeam((Team)cs.CristalCaracteristics[0]);
 
-            this.levelAttack = cs.CristalCaracteristics[1];
-            this.levelProd = cs.CristalCaracteristics[2];
-            this.levelPortal = cs.CristalCaracteristics[3];
-            this.levelTot = levelAttack + levelProd + levelPortal;
-            this.upgrade = cs.CristalCaracteristics[4];
-            this.life = cs.CristalCaracteristics[5];
+            this.levelAttack = (int)cs.CristalCaracteristics[1];
+            this.levelProd = (int)cs.CristalCaracteristics[2];
+            this.levelPortal = (int)cs.CristalCaracteristics[3];
+            this.levelTot = (int)levelAttack + levelProd + levelPortal;
+            this.upgrade = (int)cs.CristalCaracteristics[4];
+            this.life = (int)cs.CristalCaracteristics[5];
         }
         else
             this.GetComponentInChildren<MeshRenderer>().material = Resources.Load<Material>("Models/Components/Islands/Materials/Team" + (int)this.team);

@@ -75,13 +75,14 @@ public class Cristal_HUD : NetworkBehaviour
                 rect.width -= 12;
                 rect.height -= 12;
                 GUI.DrawTexture(rect, this.cristal.Needs[i].Items.Icon);
-				if (this.cristal.Needs [i].Quantity > 1) {
-					rect.x -= 3;
-					rect.y -= 3;
-					rect.width += 6;
-					rect.height += 6;
-					GUI.Box (rect, this.cristal.Needs [i].Quantity.ToString (), this.skin.GetStyle ("quantity"));
-				}
+                if (this.cristal.Needs[i].Quantity > 1)
+                {
+                    rect.x -= 3;
+                    rect.y -= 3;
+                    rect.width += 6;
+                    rect.height += 6;
+                    GUI.Box(rect, this.cristal.Needs[i].Quantity.ToString(), this.skin.GetStyle("quantity"));
+                }
                 j += 1;
             }
 
@@ -277,13 +278,16 @@ public class Cristal_HUD : NetworkBehaviour
     private void CmdSaveCristal(GameObject cristal)
     {
         ChunkSave cs = GameObject.Find("Map").GetComponent<Save>().LoadChunk((int)gameObject.transform.position.x / Chunk.Size, (int)gameObject.transform.position.z / Chunk.Size);
-        cs.CristalCaracteristics = new int[6] {
+        cs.CristalCaracteristics = new float[8] {
             (int)cristal.GetComponent<SyncCore>().Team,
             cristal.GetComponent<SyncCore>().LevelAtk,
             cristal.GetComponent<SyncCore>().LevelProd,
             cristal.GetComponent<SyncCore>().LevelPortal,
             cristal.GetComponent<SyncCore>().Upgrade,
-            cristal.GetComponent<SyncCore>().Life};
+            cristal.GetComponent<SyncCore>().Life,
+            cristal.transform.position.x,
+            cristal.transform.position.z,
+            };
     }
     #endregion
 }

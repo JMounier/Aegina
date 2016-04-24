@@ -45,7 +45,7 @@ public class Tutoriel : NetworkBehaviour
         {
             if (!this.controler.Pause)
                 this.controler.Pause = true;
-            TutorialHUD();           
+            TutorialHUD();
         }
 
         else if (progress < 0)
@@ -284,7 +284,10 @@ public class Tutoriel : NetworkBehaviour
     [Command]
     private void CmdLoadProgress()
     {
-        this.progress = GameObject.Find("Map").GetComponent<Save>().LoadPlayer(gameObject).TutoProgress;
+        if (GameObject.Find("Map").GetComponent<Save>().IsCoop)
+            this.progress = GameObject.Find("Map").GetComponent<Save>().LoadPlayer(gameObject).TutoProgress;
+        else
+            this.progress = 42;
     }
 
     [Command]
