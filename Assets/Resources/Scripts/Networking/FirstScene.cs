@@ -3,9 +3,13 @@ using System.Collections;
 
 public class FirstScene : MonoBehaviour
 {
+	[SerializeField]
     private Light sun;
+	[SerializeField]
     private Camera cam;
+	[SerializeField]
     private AudioSource source;
+
     private AudioClip clipMenu;
     private AudioClip clipButton;
     private float cdMusic;
@@ -18,7 +22,7 @@ public class FirstScene : MonoBehaviour
     void Start()
     {
         // D/N
-        this.sun = gameObject.GetComponentInChildren<Light>();
+        //this.sun = gameObject.GetComponentInChildren<Light>();
         this.sun.gameObject.transform.TransformPoint(sun.transform.position);
 
         this.actual_time = 0f;
@@ -26,9 +30,9 @@ public class FirstScene : MonoBehaviour
         this.volume = PlayerPrefs.GetFloat("Sound_intensity", 0.1f);
 
         // Camera
-        this.cam = gameObject.GetComponentInChildren<Camera>();
+        //this.cam = gameObject.GetComponentInChildren<Camera>();
 
-        this.source = gameObject.GetComponentInChildren<AudioSource>();
+        //this.source = gameObject.GetComponentInChildren<AudioSource>();
         this.source.volume = this.volume;
         this.clipMenu = Resources.Load<AudioClip>("Sounds/Music/Menu");
         this.clipButton = Resources.Load<AudioClip>("Sounds/Button/Button");
