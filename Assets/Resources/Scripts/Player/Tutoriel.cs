@@ -40,8 +40,13 @@ public class Tutoriel : NetworkBehaviour
     {
         if (!isLocalPlayer)
             return;
+
         if (progress == 0)
-            TutorialHUD();
+        {
+            if (!this.controler.Pause)
+                this.controler.Pause = true;
+            TutorialHUD();           
+        }
 
         else if (progress < 0)
             EndtutoHUD();
@@ -234,6 +239,7 @@ public class Tutoriel : NetworkBehaviour
         rect.x += Screen.width / 15;
         if (GUI.Button(rect, TextDatabase.Yes.GetText(), skin.GetStyle("button")))
         {
+            this.progress = 1;
             CmdSaveProgress(1);
             this.controler.Pause = false;
             this.cooldown = 10;
@@ -241,6 +247,7 @@ public class Tutoriel : NetworkBehaviour
         rect.x += 2 * Screen.width / 15;
         if (GUI.Button(rect, TextDatabase.No.GetText(), skin.GetStyle("button")))
         {
+            this.progress = 13;
             CmdSaveProgress(13);
             this.controler.Pause = false;
             CmdTutoEnding();
