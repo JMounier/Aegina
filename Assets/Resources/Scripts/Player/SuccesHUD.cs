@@ -30,20 +30,20 @@ public class SuccesHUD : NetworkBehaviour{
 					this.listsuccess.Add (obj.GetComponent<SuccesIcon> ());
 			}
 		}
+		this.successinterface.SetActive (false);
 	}
 
 	/// <summary>
 	/// Updates the success interface.
 	/// </summary>
 	private void Update(){
-
 		if (!this.activate) {
 			this.successinterface.SetActive (false);
 			return;
 		}
 		this.successinterface.SetActive (true);
 		foreach (SuccesIcon si in listsuccess) {
-			si.update ();
+			si.upGraphics ();
 		}
 	}
 

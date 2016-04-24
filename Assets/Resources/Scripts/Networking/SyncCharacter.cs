@@ -161,7 +161,7 @@ public class SyncCharacter : NetworkBehaviour
         if (this.life <= 0)
         {
             this.Kill();
-            Stats.IncrementKill();
+            Stats.IncrementDeath();
         }
         // Bonus
         if (this.cdJump <= 0)
