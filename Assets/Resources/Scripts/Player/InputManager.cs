@@ -309,7 +309,10 @@ public class InputManager : NetworkBehaviour
                 this.menu.OptionShown = true;
             }
             else if (this.sucHUD.Enable)
-                this.sucHUD.Enable = false;
+			{
+				this.sucHUD.Enable = false;
+				this.controller.Pause = false;
+			}
             else {
                 this.menu.MenuShown = !this.menu.MenuShown;
                 this.controller.Pause = !this.controller.Pause;
