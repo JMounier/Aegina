@@ -51,6 +51,7 @@ public class FirstScene : MonoBehaviour
 		this.cam.transform.position = this.fistStep.transform.position;
 		this.step = this.fistStep.GetComponent<FSPath> ().NextStep;
 		this.camSpeed = this.step.GetComponent<FSPath> ().Speed;
+		this.cam.transform.LookAt (this.step.transform);
 
 		// Audio Source
 		this.source.volume = this.volume;
@@ -78,25 +79,14 @@ public class FirstScene : MonoBehaviour
         }  
 
 		// Camera
-		//choose the rot;
-		Vector3 rot;
-		switch (step.GetComponent<FSPath>().Dir) {
-		case FaceSide.backward:
-			rot = new Vector3(0,180,0);
-			break;
-		case FaceSide.left:
-			rot = new Vector3(0,-90,0);
-			break;
-		case FaceSide.right:
-			rot = new Vector3(0,90,0);
-			break;
-		default:
-			rot = Vector3.zero;
-			break;
-		}
-		cam.transform.LookAt(step.transform);
+
 		cam.transform.Translate(Vector3.forward * this.camSpeed);
-		cam.transform.Rotate(rot);
+
+		//choose the rot;
+		Quaternion lastrot = this.cam.transform.rotation;
+		this.cam.transform.LookAt (this.step.transform);
+		Quaternion newrot = this.cam.transform.rotation;
+		this.cam.transform.rotation = Quaternion.Lerp (lastrot, newrot, 0.1f);
 
 		if (Vector3.Distance (this.cam.transform.position, this.step.transform.position) <= this.acceptance) {
 			this.step = this.step.GetComponent<FSPath> ().NextStep;

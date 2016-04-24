@@ -6,8 +6,7 @@ public enum FaceSide {None, forward, left , right, backward};
 public class FSPath : MonoBehaviour {
 	
 
-	[SerializeField]
-	private FaceSide dir = FaceSide.None;
+	private FaceSide dir = FaceSide.forward;
 	[SerializeField]
 	private float speed = 0.1f;
 	[SerializeField]
