@@ -10,11 +10,13 @@ public class Menu : NetworkBehaviour
     private bool optionShown = false;
     private bool sonShown = false;
     private bool langueShown = false;
+	private bool controlShown = false;
     private Inventory inventory;
     private GUISkin skin;
     private Controller controller;
     private NetworkManager NM;
     private Sound soundAudio;
+	private Camera camera;
 
     // Use this for initialization
     void Start()
@@ -32,6 +34,7 @@ public class Menu : NetworkBehaviour
         this.height = Screen.height / 30;
         this.spacing = this.height * 2;
         this.soundAudio = GetComponent<Sound>();
+		this.camera = this.GetComponentInChildren<Camera> ();
     }
 
     void Update()
@@ -46,14 +49,16 @@ public class Menu : NetworkBehaviour
     {
         if (!isLocalPlayer)
             return;
-        if (menuShown)
-            this.DrawMenu();
-        else if (this.optionShown)
-            this.DrawOption();
-        else if (this.langueShown)
-            this.DrawLangue();
-        else if (this.sonShown)
-            this.DrawSon();
+		if (menuShown)
+			this.DrawMenu ();
+		else if (this.optionShown)
+			this.DrawOption ();
+		else if (this.langueShown)
+			this.DrawLangue ();
+		else if (this.sonShown)
+			this.DrawSon ();
+		else if (this.controlShown)
+			this.DrawControl ();
     }
 
     /// <summary>
@@ -127,12 +132,18 @@ public class Menu : NetworkBehaviour
             this.soundAudio.PlaySound(AudioClips.Button, 1f);
         }
 
-        if (GUI.Button(new Rect(this.posX, this.posY + this.spacing * 2, this.width, this.height), TextDatabase.Back.GetText(), this.skin.GetStyle("button")))
+        if (GUI.Button(new Rect(this.posX, this.posY + this.spacing * 3, this.width, this.height), TextDatabase.Back.GetText(), this.skin.GetStyle("button")))
         {
             this.menuShown = true;
             this.optionShown = false;
             this.soundAudio.PlaySound(AudioClips.Button, 1f);
         }
+		if (GUI.Button (new Rect (this.posX, this.posY + this.spacing * 2, this.width, this.height), "Camera", skin.GetStyle ("button"))) 
+		{
+			this.optionShown = false;
+			this.controlShown = true;
+			this.soundAudio.PlaySound (AudioClips.Button, 1f);
+		}
     }
 
     /// <summary>
@@ -190,6 +201,33 @@ public class Menu : NetworkBehaviour
         }
     }
 
+	private void DrawControl()
+	{
+		GUI.Box(new Rect(Screen.width / 4, Screen.height / 6, Screen.width / 2, Screen.width / 12.8f), "", this.skin.GetStyle("Aegina"));
+		GUI.Box (new Rect (this.posX - this.spacing, this.posY - this.spacing, this.width + 2 * this.spacing, this.height + 8 * this.spacing), "", skin.GetStyle ("Inventory"));
+		GUI.Box (new Rect (this.posX, this.posY, this.width, this.height),"Sensitivity",skin.GetStyle("Description"));
+		this.controller.Sensitivity = GUI.HorizontalSlider(new Rect(this.posX, this.posY+this.spacing, this.width, this.height), this.controller.Sensitivity, 0.1f, 10f, this.skin.GetStyle("horizontalslider"), this.skin.GetStyle("horizontalsliderthumb"));
+
+		if (GUI.Button(new Rect(this.posX, this.posY + 4*this.spacing, this.width, this.height), TextDatabase.Validate.GetText(), this.skin.GetStyle("button")))
+		{
+			this.optionShown = true;
+			this.controlShown = false;
+			PlayerPrefs.SetFloat("Sensitivity", this.soundAudio.Volume);
+			PlayerPrefs.SetFloat("FieldOfView", this.soundAudio.Volume);
+			this.soundAudio.PlaySound(AudioClips.Button, 1f);
+		}
+		GUI.Box (new Rect (this.posX, this.posY + 2*this.spacing, this.width, this.height),"Far view",skin.GetStyle("Description"));
+		this.camera.farClipPlane = GUI.HorizontalSlider(new Rect(this.posX, this.posY+3*this.spacing, this.width, this.height), this.camera.farClipPlane, 10f, 200f, this.skin.GetStyle("horizontalslider"), this.skin.GetStyle("horizontalsliderthumb"));
+		if (GUI.Button(new Rect(this.posX, this.posY + this.spacing * 5, this.width, this.height), TextDatabase.Back.GetText(), this.skin.GetStyle("button")))
+		{
+			this.optionShown = true;
+			this.controlShown = false;
+			this.soundAudio.Volume = PlayerPrefs.GetFloat("Sensitivity", 4f);
+			this.camera.farClipPlane = PlayerPrefs.GetFloat("FieldOfView", 60f);
+			this.soundAudio.PlaySound(AudioClips.Button, 1f);
+		}
+	}
+
     // Getters & Setters
 
     /// <summary>
@@ -227,5 +265,9 @@ public class Menu : NetworkBehaviour
         get { return this.langueShown; }
         set { this.langueShown = value; }
     }
-
+	public bool ControlShown
+	{
+		get{ return this.controlShown;}
+		set { this.controlShown = value;}
+	}
 }

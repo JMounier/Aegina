@@ -301,7 +301,11 @@ public class Controller : NetworkBehaviour
     }
 
     // Setters | Getters
-
+	public float Sensitivity
+	{
+		get{ return this.sensitivity;}
+		set{ this.sensitivity = value;}
+	}
     /// <sumary>
     /// Si le personnage est en saut.
     /// </sumary>

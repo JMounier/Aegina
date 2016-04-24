@@ -296,7 +296,31 @@ public class Tutoriel : NetworkBehaviour
         this.progress = p;
     }
 
-    public int Progress
+
+	//Getters Setters
+	public bool Finished_tuto
+	{
+		get{ return progress > 12;}
+	}
+	public bool Tutoshown
+	{
+		get{ return progress == 0;}
+		set{
+			if (!value) {
+				this.progress = 13;
+				CmdSaveProgress (13);
+			}
+		}
+	}
+	public bool EndTutoShown
+	{
+		get{ return progress < 0;}
+		set{ 
+			if(value != progress < 0)
+				CmdSaveProgress(progress * -1);
+		}
+	}
+	public int Progress
     {
         get { return this.progress; }
     }
