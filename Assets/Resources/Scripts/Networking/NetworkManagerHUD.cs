@@ -577,7 +577,7 @@ namespace UnityEngine.Networking
 			}
             else          
                 GUI.Box(rect, TextDatabase.Create.GetText(), this.skin.GetStyle("button"));
-			rect = new Rect(this.posX+this.width/2, this.posY + 6 * this.spacing+this.height, (this.width-10/2), this.height);
+			rect = new Rect(this.posX+this.width/2, this.posY + 6 * this.spacing+this.height, (this.width-10)/2, this.height);
             if (GUI.Button(rect, TextDatabase.Back.GetText(), skin.GetStyle("button")))
             {
                 this.worldcreateShown = false;
