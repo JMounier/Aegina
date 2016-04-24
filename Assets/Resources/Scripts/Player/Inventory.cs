@@ -759,7 +759,10 @@ public class Inventory : NetworkBehaviour
     {
         for (int i = 0; i < rows; i++)
             for (int j = 0; j < columns; j++)
-                Drop(slots[i, j]);        
+            {
+                Drop(slots[i, j]);
+                this.slots[i, j] = new ItemStack();
+            }
     }
 
     /// <summary>
