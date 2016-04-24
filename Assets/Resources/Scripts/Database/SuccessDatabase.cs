@@ -20,10 +20,9 @@ public class SuccessDatabase
 
 	public static Success Find(int id)
 	{
-		foreach (Success succ in Success) {
+		foreach (Success succ in Success) 
 			if (succ.ID == id)
-				return succ;
-		}
+				return succ;		
 		throw new System.Exception("No success found with this ID");
 
 	}

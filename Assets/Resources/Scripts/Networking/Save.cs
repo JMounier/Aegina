@@ -230,7 +230,7 @@ public class Save : NetworkBehaviour
         Directory.CreateDirectory(Application.dataPath + "/Saves/" + name + "/Players");
         File.WriteAllText(Application.dataPath + "/Saves/" + name + "/properties", seed.ToString() + "|" + coop.ToString() + "|0\n" +
             // Stats
-            "0|0|0|0|0||||");
+            Stats.Empty());
     }
 
     // Getter & Setters
@@ -394,6 +394,7 @@ public class ChunkSave
 public class PlayerSave
 {
     private float x, y, life, hunger, thirst, speed, cdSpeed, jump, cdJump, regen, cdRegen, poison, cdPoison;
+    private int tutoProgress;
     private string inventory, namePlayer, path;
     private bool isOp;
 
@@ -423,6 +424,7 @@ public class PlayerSave
             this.cdRegen = float.Parse(properties[10]);
             this.poison = float.Parse(properties[11]);
             this.cdPoison = float.Parse(properties[12]);
+            this.tutoProgress = int.Parse(properties[13]);
 
             this.inventory = save[1];
             this.isOp = bool.Parse(save[2]) || isServer;
@@ -445,6 +447,7 @@ public class PlayerSave
             this.cdRegen = 0;
             this.poison = 0;
             this.cdPoison = 0;
+            this.tutoProgress = 0;
             this.inventory = "";
             this.isOp = isServer;
         }
@@ -465,13 +468,14 @@ public class PlayerSave
         this.cdRegen = this.Player.GetComponent<SyncCharacter>().CdRegen;
         this.poison = this.Player.GetComponent<SyncCharacter>().Poison;
         this.cdPoison = this.Player.GetComponent<SyncCharacter>().CdPoison;
+        this.tutoProgress = this.Player.GetComponent<Tutoriel>().Progress;
         this.isOp = this.Player.GetComponent<Social_HUD>().IsOp;
 
         using (StreamWriter file = new StreamWriter(this.path))
         {
             file.WriteLine(this.x.ToString() + '|' + this.y.ToString() + '|' + this.life.ToString() + '|' + this.hunger.ToString() + '|' + this.thirst.ToString() +
                 '|' + this.speed.ToString() + '|' + this.cdSpeed.ToString() + '|' + this.jump.ToString() + '|' + this.cdJump.ToString()
-                + '|' + this.regen.ToString() + '|' + this.cdRegen.ToString() + '|' + this.poison.ToString() + '|' + this.cdPoison.ToString());
+                + '|' + this.regen.ToString() + '|' + this.cdRegen.ToString() + '|' + this.poison.ToString() + '|' + this.cdPoison.ToString() + '|' + this.tutoProgress.ToString());
             file.WriteLine(this.inventory);
             file.WriteLine(this.isOp.ToString());
         }
@@ -553,6 +557,11 @@ public class PlayerSave
     {
         get { return this.cdPoison; }
         set { this.cdPoison = value; }
+    }
+
+    public int TutoProgress
+    {
+        get { return this.tutoProgress; }
     }
 
     public string Inventory

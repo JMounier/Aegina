@@ -1,24 +1,26 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 
-public class Tutoriel : MonoBehaviour
+public class Tutoriel : NetworkBehaviour
 {
     private Controller controler;
     private Inventory inventaire;
     private Cristal_HUD cristal;
     private InputManager IM;
-    private int progress = -1;
+    [SyncVar]
+    private int progress = 42;
     private Text textObjectif;
     private Text textNarator;
-    private bool istutorial = false;
-    private bool finished_tutorial = false;
     private GUISkin skin;
-    private bool endtuto = false;
     private float cooldown = 10;
-    
+
     // Use this for initialization
     void Start()
     {
+        if (!isLocalPlayer)
+            return;
+
         this.controler = this.transform.GetComponent<Controller>();
         this.inventaire = this.transform.GetComponent<Inventory>();
         this.cristal = this.transform.GetComponent<Cristal_HUD>();
@@ -27,12 +29,8 @@ public class Tutoriel : MonoBehaviour
         this.textNarator = new Text();
         this.textObjectif = new Text();
 
-        //load de progress et finished_tutorial
-        if (!finished_tutorial && progress == -1)
-        {
-            istutorial = true;
-            controler.Pause = true;
-        }
+        this.CmdLoadProgress();
+
         skin.GetStyle("Objectifs").normal.background = skin.textArea.normal.background;
         skin.GetStyle("Objectifs").active.background = skin.textArea.normal.background;
         skin.GetStyle("Objectifs").onHover.background = skin.textArea.normal.background;
@@ -40,162 +38,168 @@ public class Tutoriel : MonoBehaviour
 
     void OnGUI()
     {
-        if (istutorial)
+        if (!isLocalPlayer)
+            return;
+        if (progress == 0)
             TutorialHUD();
 
-        if (this.cooldown > 0 && progress > -1)
+        else if (progress < 0)
+            EndtutoHUD();
+
+        else if (progress < 13)
         {
-            this.cooldown -= Time.deltaTime;
-            NarratorHUD();
+            if (this.cooldown > 0 && !this.controler.Pause)
+            {
+                this.cooldown -= Time.deltaTime;
+                NarratorHUD();
+            }
+            if (progress > -1)
+                ObjectifHUD();
         }
-        if (progress > -1)
-            ObjectifHUD();
-        if (endtuto)
-            endtutoHUD();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (!isLocalPlayer || progress > 12)
+            return;
+
         skin.GetStyle("Objectifs").fontSize = (int)(Screen.height * 0.025f);
         skin.GetStyle("Narrateur").fontSize = (int)(Screen.height * 0.030f);
-        //choix des textes et progression du tutoriel
-        if (progress > -1)
+        // Choix des textes et progression du tutoriel
+        switch (progress)
         {
-            switch (progress)
-            {
-                case 0:
-                    textObjectif = TextDatabase.MoveObjectif;
-                    textNarator = TextDatabase.Move;
-                    if (this.cooldown <= 0 && controler.Ismoving && !controler.IsJumping)
-                    {
-                        progress = 1;
-                        this.cooldown = 10;
-                        //déclenchement du texte et du son
-                    }
-                    break;
-                case 1:
-                    textObjectif = TextDatabase.RunObjectif;
-                    textNarator = TextDatabase.Run;
-                    if (this.cooldown <= 0 && Input.GetButton("Sprint") && controler.Ismoving)
-                    {
-                        progress = 2;
-                        this.cooldown = 10;
-                        //déclenchement du texte et du son
+            case 1:
+                textObjectif = TextDatabase.MoveObjectif;
+                textNarator = TextDatabase.Move;
+                if (this.cooldown <= 0 && controler.Ismoving && !controler.IsJumping)
+                {
+                    CmdSaveProgress(progress + 1);
+                    this.cooldown = 10;
+                    //déclenchement du texte et du son
+                }
+                break;
+            case 2:
+                textObjectif = TextDatabase.RunObjectif;
+                textNarator = TextDatabase.Run;
+                if (this.cooldown <= 0 && Input.GetButton("Sprint") && controler.Ismoving)
+                {
+                    CmdSaveProgress(progress + 1);
+                    this.cooldown = 10;
+                    //déclenchement du texte et du son
+                }
+                break;
+            case 3:
+                textObjectif = TextDatabase.JumpObjectif;
+                textNarator = TextDatabase.Jump;
+                if (this.cooldown <= 0 && controler.IsJumping)
+                {
+                    CmdSaveProgress(progress + 1);
+                    this.cooldown = 10;
+                    //déclenchement du texte et du son
+                }
+                break;
+            case 4:
+                textObjectif = TextDatabase.PickItemObjectif;
+                textNarator = TextDatabase.PickItem1;
+                if (this.cooldown <= 0)
+                {
+                    CmdSaveProgress(progress + 1);
+                    this.cooldown = 20;
+                    //déclenchement du texte et du son
+                }
+                break;
+            case 5:
+                textNarator = TextDatabase.PickItem2;
+                if (this.cooldown <= 0 && inventaire.InventoryContains(ItemDatabase.Stick))
+                {
+                    CmdSaveProgress(progress + 1);
+                    this.cooldown = 10;
+                    //déclenchement du texte et du son
+                }
+                break;
+            case 6:
+                textNarator = TextDatabase.Equip;
+                textObjectif = TextDatabase.EquipObjectif;
+                if (this.cooldown <= 0 && inventaire.UsedItem.Items.Name == ItemDatabase.Stick.Name)
+                {
+                    CmdSaveProgress(progress + 1);
+                    this.cooldown = 10;
+                    //déclenchement du texte et du son
+                }
+                break;
+            case 7:
+                textNarator = TextDatabase.KillThePig;
+                textObjectif = TextDatabase.KillThePigObjectif;
+                if (this.cooldown <= 0 && inventaire.InventoryContains(ItemDatabase.Gigot))
+                {
+                    CmdSaveProgress(progress + 1);
+                    this.cooldown = 15;
+                    //déclenchement du texte et du son
+                }
+                break;
+            case 8:
+                textNarator = TextDatabase.CraftABrochette;
+                textObjectif = TextDatabase.CraftABrochetteObejctif;
+                if (this.cooldown <= 0 && inventaire.InventoryContains(ItemDatabase.MeatBalls))
+                {
+                    CmdSaveProgress(progress + 1);
+                    this.cooldown = 10;
+                    //déclenchement du texte et du son
+                }
+                break;
+            case 9:
+                textNarator = TextDatabase.EatSomething;
+                textObjectif = TextDatabase.EatSomethingObjectif;
+                if (this.cooldown <= 0 && !this.inventaire.InventoryContains(ItemDatabase.MeatBalls) && Input.GetButton("Fire2")) /* récupérer la consomation d'un objet : attendre la fin de stats */
+                {
+                    CmdSaveProgress(progress + 1);
+                    this.cooldown = 60;
+                    //déclenchement Cinématique
+                }
+                break;
+            case 10:
+                textObjectif = new Text();
+                textNarator = TextDatabase.CinematiqueWhereIAm1;
+                if (this.cooldown <= 45)
+                    textNarator = TextDatabase.CinematiqueWhereIAm2;
+                if (this.cooldown <= 35)
+                {
+                    textNarator = TextDatabase.CinematiqueWhereIAm3;
 
-                    }
-                    break;
-                case 2:
-                    textObjectif = TextDatabase.JumpObjectif;
-                    textNarator = TextDatabase.Jump;
-                    if (this.cooldown <= 0 && controler.IsJumping)
-                    {
-                        progress = 3;
-                        this.cooldown = 10;
-                        //déclenchement du texte et du son
-                    }
-                    break;
-                case 3:
-                    textObjectif = TextDatabase.PickItemObjectif;
-                    textNarator = TextDatabase.PickItem1;
                     if (this.cooldown <= 0)
                     {
-                        progress = 4;
-                        this.cooldown = 20;
-                        //déclenchement du texte et du son
-                    }
-                    break;
-                case 4:
-                    textNarator = TextDatabase.PickItem2;
-                    if (this.cooldown <= 0 && inventaire.InventoryContains(ItemDatabase.Stick))
-                    {
-                        progress = 5;
+                        CmdSaveProgress(progress + 1);
                         this.cooldown = 10;
                         //déclenchement du texte et du son
                     }
-                    break;
-                case 5:
-                    textNarator = TextDatabase.Equip;
-                    textObjectif = TextDatabase.EquipObjectif;
-                    if (this.cooldown <= 0 && inventaire.UsedItem.Items.Name == ItemDatabase.Stick.Name)
-                    {
-                        progress = 6;
-                        this.cooldown = 10;
-                        //déclenchement du texte et du son
-                    }
-                    break;
-                case 6:
-                    textNarator = TextDatabase.KillThePig;
-                    textObjectif = TextDatabase.KillThePigObjectif;
-                    if (this.cooldown <= 0 && inventaire.InventoryContains(ItemDatabase.Gigot))
-                    {
-                        progress = 7;
-                        this.cooldown = 15;
-                        //déclenchement du texte et du son
-                    }
-                    break;
-                case 7:
-                    textNarator = TextDatabase.CraftABrochette;
-                    textObjectif = TextDatabase.CraftABrochetteObejctif;
-                    if (this.cooldown <= 0 && inventaire.InventoryContains(ItemDatabase.MeatBalls))
-                    {
-                        progress = 8;
-                        this.cooldown = 10;
-                        //déclenchement du texte et du son
-                    }
-                    break;
-                case 8:
-                    textNarator = TextDatabase.EatSomething;
-                    textObjectif = TextDatabase.EatSomethingObjectif;
-                    if (this.cooldown <= 0 && !this.inventaire.InventoryContains(ItemDatabase.MeatBalls) && Input.GetButton("Fire2")) /* récupérer la consomation d'un objet : attendre la fin de stats */
-                    {
-                        progress = 9;
-                        this.cooldown = 60;
-                        //déclenchement Cinématique
-                    }
-                    break;
-                case 9:
-                    textObjectif = new Text();
-                    textNarator = TextDatabase.CinematiqueWhereIAm1;
-                    if (this.cooldown <= 45)
-                        textNarator = TextDatabase.CinematiqueWhereIAm2;
-                    if (this.cooldown <= 35)
-                    {
-                        textNarator = TextDatabase.CinematiqueWhereIAm3;
+                }
+                break;
+            case 11:
+                textNarator = TextDatabase.CristalView;
+                textObjectif = TextDatabase.CristalViewObjectif;
+                if (this.cooldown <= 0 && this.cristal.Cristal_shown)
+                {
+                    CmdSaveProgress(progress + 1);
+                    this.cooldown = 20;
+                    //déclenchement du texte et du son
+                }
+                break;
+            case 12:
+                textNarator = TextDatabase.FirstCristal;
+                textObjectif = TextDatabase.FirstCrisatlObjectif;
+                if (this.cooldown <= 0 && this.cristal.Cristal_shown && this.cristal.Cristal.LevelTot > 0)
+                {
+                    CmdSaveProgress(progress + 1);
+                    CmdTutoEnding();
+                    //declenchement de la seconde cynématique
+                }
+                break;
+            default:
+                textNarator = new Text();
+                textObjectif = new Text();
+                break;
 
-                        if (this.cooldown <= 0)
-                        {
-                            progress = 10;
-                            this.cooldown = 10;
-                            //déclenchement du texte et du son
-                        }
-                    }
-                    break;
-                case 10:
-                    textNarator = TextDatabase.CristalView;
-                    textObjectif = TextDatabase.CristalViewObjectif;
-                    if (this.cooldown <= 0 && this.cristal.Cristal_shown)
-                    {
-                        progress = 11;
-                        this.cooldown = 20;
-                        //déclenchement du texte et du son
-                    }
-                    break;
-                case 11:
-                    textNarator = TextDatabase.FirstCristal;
-                    textObjectif = TextDatabase.FirstCrisatlObjectif;
-                    if (this.cooldown <= 0 && this.cristal.Cristal_shown && this.cristal.Cristal.LevelTot > 0)
-                    {
-                        progress = -1;
-                        finished_tutorial = true;
-                        //declenchement de la seconde cynématique
-                    }
-                    break;
-                default:
-                    textNarator = new Text();
-                    textObjectif = new Text();
-                    break;
-            }
         }
     }
 
@@ -216,9 +220,8 @@ public class Tutoriel : MonoBehaviour
         rect.height = rect.width;
         if (this.textObjectif.GetText() != "" && GUI.Button(rect, Resources.Load<Texture2D>("Sprites/CraftsIcon/Invalid"), skin.GetStyle("quantity")))
         {
-            this.controler.Pause = true;
             this.IM.IAmDead();
-            endtuto = true;
+            CmdSaveProgress(progress * -1);
         }
     }
 
@@ -231,21 +234,20 @@ public class Tutoriel : MonoBehaviour
         rect.x += Screen.width / 15;
         if (GUI.Button(rect, TextDatabase.Yes.GetText(), skin.GetStyle("button")))
         {
-            this.progress = 0;
-            this.istutorial = false;
+            CmdSaveProgress(1);
             this.controler.Pause = false;
             this.cooldown = 10;
         }
         rect.x += 2 * Screen.width / 15;
         if (GUI.Button(rect, TextDatabase.No.GetText(), skin.GetStyle("button")))
         {
-            this.finished_tutorial = true;
-            this.istutorial = false;
+            CmdSaveProgress(13);
             this.controler.Pause = false;
+            CmdTutoEnding();
         }
 
     }
-    private void endtutoHUD()
+    private void EndtutoHUD()
     {
         Rect rect = new Rect(Screen.width / 3, Screen.height / 2 - Screen.height / 20, Screen.width / 3, Screen.height / 10 - 5);
         GUI.Box(rect, TextDatabase.Quit.GetText() + " tuto ?", skin.GetStyle("inventory"));
@@ -254,21 +256,38 @@ public class Tutoriel : MonoBehaviour
         rect.x += Screen.width / 15;
         if (GUI.Button(rect, TextDatabase.Yes.GetText(), skin.GetStyle("button")))
         {
-            this.progress = -1;
-            this.endtuto = false;
+            CmdSaveProgress(13);
             this.controler.Pause = false;
+            CmdTutoEnding();
         }
         rect.x += 2 * Screen.width / 15;
         if (GUI.Button(rect, TextDatabase.No.GetText(), skin.GetStyle("button")))
         {
-            this.endtuto = false;
+            CmdSaveProgress(progress * -1);
             this.controler.Pause = false;
         }
     }
 
-    public bool EndTutoShown
+    [Command]
+    private void CmdTutoEnding()
     {
-        get { return endtuto; }
-        set { this.endtuto = value; }
+        Stats.SetTutoComplete();
+    }
+
+    [Command]
+    private void CmdLoadProgress()
+    {
+        this.progress = GameObject.Find("Map").GetComponent<Save>().LoadPlayer(gameObject).TutoProgress;
+    }
+
+    [Command]
+    private void CmdSaveProgress(int p)
+    {
+        this.progress = p;
+    }
+
+    public int Progress
+    {
+        get { return this.progress; }
     }
 }

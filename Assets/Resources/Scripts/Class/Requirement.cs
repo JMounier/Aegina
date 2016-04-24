@@ -13,7 +13,7 @@ public static class Requirement
             case Requirements.FirstBlood:
                 return Stats.Death() > 0;
             case Requirements.Tuto:
-                return true;
+                return Stats.TutoComplete();
             default :                
                 return false;
         }
