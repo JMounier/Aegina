@@ -8,6 +8,7 @@ public class Save : NetworkBehaviour
 
     // Usefull
     private float coolDownSave = 60;
+    private List<Vector2>[] respawn;
 
     // Composants
     private DayNightCycle dnc;
@@ -31,6 +32,7 @@ public class Save : NetworkBehaviour
         {
             this.dnc = gameObject.GetComponent<DayNightCycle>();
             this.nameWorld = GameObject.Find("NetworkManager").GetComponent<NetworkManagerHUD>().World;
+            this.respawn = new List<Vector2>[4] { new List<Vector2>(), new List<Vector2>() , new List<Vector2>() , new List<Vector2>() };
 
             this.chunks = new List<ChunkSave>();
             this.players = new List<PlayerSave>();
@@ -47,6 +49,21 @@ public class Save : NetworkBehaviour
             this.dnc.SetTime(float.Parse(properties[2]));
             Stats.Load(world[1]);
             Success.Update(false);
+
+            // Find cristals
+            string[] chunksName = Directory.GetFiles(this.chunksPath);
+            foreach (string chunk in chunksName)
+            {
+                if (!chunk.EndsWith(".meta"))
+                {
+                    Tuple<Vector2, Team> info = GetCristalInfo(chunk);
+                    if (info != null && info.Item2 != Team.Neutre)
+                        this.respawn[(int)info.Item2].Add(info.Item1);
+                }
+            }
+            for (int i = 0; i < 4; i++)
+                if (this.respawn[i].Count == 0)                
+                    this.respawn[i].Add(new Vector2(0, 0));                
         }
     }
 
@@ -156,7 +173,6 @@ public class Save : NetworkBehaviour
                         break;
                     }
                 }
-
     }
 
     /// <summary>
@@ -243,6 +259,24 @@ public class Save : NetworkBehaviour
     {
         get { return this.isCoop; }
     }
+
+    public List<Vector2>[] Respawn
+    {
+        get { return this.respawn; }
+    }
+
+    private Tuple<Vector2, Team> GetCristalInfo(string chunk)
+    {
+        string[] lines = File.ReadAllLines(chunk);
+        if (lines.Length > 2)
+        {
+            string[] cristalCaract = lines[2].Split('|');
+            Team t = (Team)int.Parse(cristalCaract[0]);
+            Vector2 v = new Vector2(float.Parse(cristalCaract[6]), float.Parse(cristalCaract[7]));
+            return new Tuple<Vector2, Team>(v, t);
+        }
+        return null;
+    }
 }
 
 /// <summary>
@@ -255,7 +289,7 @@ public class ChunkSave
     private List<int> idSave;
     private List<Triple<Element, Vector3, Vector3>> workTops;
     private string path;
-    private int[] cristal;
+    private float[] cristal;
 
     /// <summary>
     /// Creer un nouveau ChunkSave et charge sa sauvegarde si existante sinon la cree.
@@ -270,7 +304,7 @@ public class ChunkSave
         this.idSave = new List<int>();
         this.workTops = new List<Triple<Element, Vector3, Vector3>>();
         this.path = pathChunk + x.ToString() + "_" + y.ToString();
-        this.cristal = new int[6];
+        this.cristal = new float[8];
 
         if (File.Exists(this.path))
         {
@@ -302,6 +336,8 @@ public class ChunkSave
                 string[] cristalCaract = lines[2].Split('|');
                 for (int i = 0; i < 6; i++)
                     this.cristal[i] = int.Parse(cristalCaract[i]);
+                for (int i = 6; i < 8; i++)
+                    this.cristal[i] = float.Parse(cristalCaract[i]);
             }
         }
         else
@@ -345,7 +381,7 @@ public class ChunkSave
             }
             file.Write("\n");
             file.Write(cristal[0].ToString() + "|" + cristal[1].ToString() + "|" + cristal[2].ToString() + "|" + cristal[3].ToString() + "|" +
-             cristal[4].ToString() + "|" + cristal[5].ToString());
+             cristal[4].ToString() + "|" + cristal[5].ToString() + "|" + cristal[6].ToString() + "|" + cristal[7].ToString());
         }
     }
 
@@ -381,9 +417,15 @@ public class ChunkSave
         get { return this.workTops; }
         set { this.workTops = value; }
     }
-    public int[] CristalCaracteristics
+    public float[] CristalCaracteristics
     {
-        set { this.cristal = value; }
+        set
+        {
+            this.cristal = value;
+            GameObject.Find("Map").GetComponent<Save>().Respawn[(int)this.cristal[0]].Add(new Vector2(this.cristal[6], this.cristal[7]));
+            if (GameObject.Find("Map").GetComponent<Save>().Respawn[(int)this.cristal[0]][0] == Vector2.zero)
+                GameObject.Find("Map").GetComponent<Save>().Respawn[(int)this.cristal[0]].RemoveAt(0);
+        }
         get { return this.cristal; }
     }
 }

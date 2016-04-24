@@ -105,49 +105,24 @@ public class SyncCharacter : NetworkBehaviour
         GUI.DrawTexture((new Rect(Screen.width / 1.03f, Screen.height * 0.0125f, Screen.width / 85, Screen.height / 2f)), this.hungerBar[Mathf.CeilToInt(this.hunger * 100 / this.hungerMax)]);
         GUI.DrawTexture((new Rect(Screen.width / 1.03f - Screen.width * 0.025f, Screen.height * 0.0125f, Screen.width / 85, Screen.height / 2f)), this.ThirstBar[Mathf.CeilToInt(this.thirst * 100 / this.thirstMax)]);
 
-        if (!this.character.activeInHierarchy)
+        if (this.life <= 0)
         {
-            bool press = false;
-            bool dead = false;
-            if (GUI.Button(new Rect(5 * Screen.width / 14, Screen.height / 2 - 100, 2*Screen.width / 7, 100), TextDatabase.Respawn.GetText(), skin.GetStyle("button")))
+            if (GUI.Button(new Rect(5 * Screen.width / 14, Screen.height / 2 - 100, 2 * Screen.width / 7, 100), TextDatabase.Respawn.GetText(), skin.GetStyle("button")))
             {
-                press = true;
-            }
-            if (GUI.Button(new Rect(5 * Screen.width / 14, Screen.height / 2 + 100, 2*Screen.width / 7, 100), TextDatabase.Quit.GetText(), skin.GetStyle("button")))
-            {
-                press = true;
-                dead = true;
-            }
-            if (press)
-            {
-                GetComponent<Controller>().Pause = false;
-                this.CmdLife(this.lifeMax);
-                this.CmdHunger(this.hungerMax);
-                this.CmdThirst(this.thirstMax);
-                this.CmdPoison(0);
-                this.CmdRegen(0);
-                this.CmdSpeed(0);
-                this.CmdJump(0);
-				this.character.SetActive(true);
-                this.character.GetComponent<Rigidbody>().velocity = Vector3.zero;
-
-                List<Tuple<float, float>>[] listrespos = this.GetComponentInParent<Social_HUD>().PosRespawn;
-                Tuple<float, float> resPos = listrespos[(int)Team.Blue][Random.Range(0, listrespos[(int)Team.Blue].Count)];
-                Vector3 newPos = new Vector3(resPos.Item1 + Random.Range(-10f, 10f), 7, resPos.Item2 + Random.Range(-10f, 10f));
-                while (!Graph.isValidPosition(newPos))
-                    newPos = new Vector3(resPos.Item1 + Random.Range(-10f, 10f), 7, resPos.Item2 + Random.Range(-10f, 10f));
-                this.character.transform.position = newPos;
+                Respawn();
                 GetComponent<Sound>().PlaySound(AudioClips.Button, 1f);
-                if (dead)
+            }
+            if (GUI.Button(new Rect(5 * Screen.width / 14, Screen.height / 2 + 100, 2 * Screen.width / 7, 100), TextDatabase.Quit.GetText(), skin.GetStyle("button")))
+            {
+                Respawn();
+                GetComponent<Sound>().PlaySound(AudioClips.Button, 1f);
+                if (isServer)
                 {
-                    if (isServer)
-                    {
-                        GameObject.Find("Map").GetComponent<Save>().SaveWorld();
-                        GameObject.Find("NetworkManager").GetComponent<NetworkManager>().StopHost();
-                    }
-                    else
-                        GetComponent<Menu>().CmdDisconnect();
+                    GameObject.Find("Map").GetComponent<Save>().SaveWorld();
+                    GameObject.Find("NetworkManager").GetComponent<NetworkManager>().StopHost();
                 }
+                else
+                    GetComponent<Menu>().CmdDisconnect();
             }
         }
     }
@@ -155,14 +130,29 @@ public class SyncCharacter : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!isLocalPlayer)        
+        if (!isLocalPlayer)
+        {
+            if (this.life <= 0 && gameObject.transform.FindChild("Character").GetComponent<CapsuleCollider>().enabled)
+            {
+                gameObject.transform.FindChild("Character").FindChild("Armature").gameObject.SetActive(false);
+                gameObject.transform.FindChild("Character").FindChild("NPC_Man_Normal001").gameObject.SetActive(false);
+                gameObject.transform.FindChild("Character").GetComponent<CapsuleCollider>().enabled = false;
+            }
+            else if (this.life > 0 && !gameObject.transform.FindChild("Character").GetComponent<CapsuleCollider>().enabled)
+            {
+                gameObject.transform.FindChild("Character").FindChild("Armature").gameObject.SetActive(true);
+                gameObject.transform.FindChild("Character").FindChild("NPC_Man_Normal001").gameObject.SetActive(true);
+                gameObject.transform.FindChild("Character").GetComponent<CapsuleCollider>().enabled = true;
+            }
             return;
+        }
 
-        if (this.life <= 0)
+        if (this.life <= 0 && gameObject.transform.FindChild("Character").FindChild("Armature").gameObject.activeInHierarchy)
         {
             this.Kill();
             Stats.IncrementDeath();
         }
+
         // Bonus
         if (this.cdJump <= 0)
             this.Jump = 0;
@@ -207,15 +197,43 @@ public class SyncCharacter : NetworkBehaviour
     /// </summary>
     private void Kill()
     {
-        if (isLocalPlayer && this.character.activeInHierarchy)
+        if (isLocalPlayer)
         {
-            this.character.SetActive(false);
+            gameObject.transform.FindChild("Character").FindChild("Armature").gameObject.SetActive(false);
+            gameObject.transform.FindChild("Character").FindChild("NPC_Man_Normal001").gameObject.SetActive(false);
+            gameObject.transform.FindChild("Character").GetComponent<CapsuleCollider>().enabled = false;
+            gameObject.transform.FindChild("Character").GetComponent<Rigidbody>().useGravity = false;
             gameObject.GetComponent<Social_HUD>().CmdSendActivity(Activity.Death);
             GetComponent<InputManager>().IAmDead();
         }
     }
+
+    private void Respawn()
+    {
+        gameObject.transform.FindChild("Character").FindChild("Armature").gameObject.SetActive(true);
+        gameObject.transform.FindChild("Character").FindChild("NPC_Man_Normal001").gameObject.SetActive(true);
+        gameObject.transform.FindChild("Character").GetComponent<CapsuleCollider>().enabled = true;
+        gameObject.transform.FindChild("Character").GetComponent<Rigidbody>().useGravity = true;
+        GetComponent<Controller>().Pause = false;
+        this.CmdLife(this.lifeMax);
+        this.CmdHunger(this.hungerMax);
+        this.CmdThirst(this.thirstMax);
+        this.CmdPoison(0);
+        this.CmdRegen(0);
+        this.CmdSpeed(0);
+        this.CmdJump(0);
+        this.character.GetComponent<Rigidbody>().velocity = Vector3.zero;
+
+        List<Vector2> listrespos = GameObject.Find("Map").GetComponent<Save>().Respawn[(int)gameObject.GetComponent<Social_HUD>().Team];
+        Vector2 resPos = listrespos[Random.Range(0, listrespos.Count)];
+        Vector3 newPos = new Vector3(resPos.x + Random.Range(-10f, 10f), 7, resPos.y + Random.Range(-10f, 10f));
+        while (!Graph.isValidPosition(newPos))
+            newPos = new Vector3(resPos.x + Random.Range(-10f, 10f), 7, resPos.y + Random.Range(-10f, 10f));
+        this.character.transform.position = newPos;
+    }
+
     /// <summary>
-    /// informe le joueur au'il doit prendre des degats. MUST BE SERVER
+    /// Informe le joueur qu'il doit prendre des degats. MUST BE SERVER
     /// </summary>
     /// <param name="damage"></param>
     public void ReceiveDamage(float damage)

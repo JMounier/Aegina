@@ -64,7 +64,7 @@ public class SyncMob : NetworkBehaviour
         foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
         {
             float d = Vector3.Distance(player.transform.FindChild("Character").position, gameObject.transform.position);
-            if (d < dist)
+            if (d < dist && player.GetComponent<SyncCharacter>().Life > 0)
             {
                 nearPlayer = player;
                 dist = d;
@@ -74,6 +74,11 @@ public class SyncMob : NetworkBehaviour
         if (dist < this.myMob.Vision && !focus)
         {
             focus = true;
+            this.path.Clear();
+        }
+        if (focus && (nearPlayer == null || nearPlayer.GetComponent<SyncCharacter>().Life <= 0))
+        {
+            focus = false;
             this.path.Clear();
         }
 
