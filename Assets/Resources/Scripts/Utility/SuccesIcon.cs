@@ -11,6 +11,8 @@ public class SuccesIcon : MonoBehaviour {
 
 	[SerializeField]
 	private bool done = false;
+	[SerializeField]
+	private bool see = false;
 
 	// update is called once per frame by the SuccesHUD if it is enable.
 	public void upGraphics () {
@@ -20,13 +22,12 @@ public class SuccesIcon : MonoBehaviour {
 		Success suc = SuccessDatabase.Find (this.succesID);
 		this.done = suc.Achived;
 		if (this.done) {
-			gameObject.GetComponent<RawImage> ().texture = suc.Icon;
-		} else if (suc.Isseen ()) {
-			//Do something use the icon but in black and transparant ? use a shader of some sort
-			gameObject.GetComponent<RawImage> ().texture = SuccessDatabase.TextureSeen;
-		} else {
-			// a changer si lag car trop de changement de valeur
-			gameObject.GetComponent<RawImage> ().texture = SuccessDatabase.Texturevide;
+			gameObject.transform.GetChild(0).GetComponent<RawImage>().texture = suc.Icon;
+			gameObject.transform.GetChild(0).GetComponent<RawImage>().material = null;
+		} else if (!this.see && suc.Isseen ()) {
+			this.see = true;
+			gameObject.transform.GetChild(0).GetComponent<RawImage>().texture = suc.Icon;
+			gameObject.transform.GetChild(0).GetComponent<RawImage>().material = SuccessDatabase.Shadow;
 		}
 	}
 }

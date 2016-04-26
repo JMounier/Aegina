@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 38b5c4ed121930f47ad0f6b0abdce9ac
-timeCreated: 1452445249
+guid: 6b7ca1d8fdda94008bdb825a29852987
+timeCreated: 1461684159
 licenseType: Free
 TextureImporter:
   fileIDToRecycleName: {}
@@ -17,13 +17,13 @@ TextureImporter:
   bumpmap:
     convertToNormalMap: 0
     externalNormalMap: 0
-    heightScale: 0.25
+    heightScale: 0.02
     normalMapFilter: 0
   isReadable: 0
   grayScaleToAlpha: 0
   generateCubemap: 0
   cubemapConvolution: 0
-  cubemapConvolutionSteps: 8
+  cubemapConvolutionSteps: 7
   cubemapConvolutionExponent: 1.5
   seamlessCubemap: 0
   textureFormat: -1
@@ -38,7 +38,7 @@ TextureImporter:
   rGBM: 0
   compressionQuality: 50
   allowsAlphaSplitting: 0
-  spriteMode: 3
+  spriteMode: 1
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0

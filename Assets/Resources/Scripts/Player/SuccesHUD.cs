@@ -11,11 +11,14 @@ public class SuccesHUD : NetworkBehaviour{
 	private GameObject successinterface;
 	[SerializeField]
 	private GameObject successLocation;
+	[SerializeField]
+	private GameObject Light;
+
 	private List<SuccesIcon> listsuccess;
 			
 	void Start(){
 		this.activate = false;
-
+		this.Light.SetActive (false);
 		if (!isLocalPlayer)
 			return;
 
@@ -39,8 +42,10 @@ public class SuccesHUD : NetworkBehaviour{
 	private void Update(){
 		if (!this.activate) {
 			this.successinterface.SetActive (false);
+			this.Light.SetActive (false);
 			return;
 		}
+		this.Light.SetActive (true);
 		this.successinterface.SetActive (true);
 		foreach (SuccesIcon si in listsuccess) {
 			si.upGraphics ();

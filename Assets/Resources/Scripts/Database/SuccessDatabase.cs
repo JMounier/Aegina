@@ -6,7 +6,7 @@ public class SuccessDatabase
 {
 	//pose pas de question j'en ai besoin
 	public static readonly Texture2D Texturevide = Resources.Load<Texture2D> ("Sprites/Interfaces/Void");
-	public static readonly Texture2D TextureSeen = Resources.Load<Texture2D>("Sprites/Interfaces/Bouton");
+	public static readonly Material Shadow = Resources.Load<Material>("Sprites/Succes/Grayscale");
 
 
 
