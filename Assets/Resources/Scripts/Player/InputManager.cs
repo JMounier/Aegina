@@ -247,12 +247,13 @@ public class InputManager : NetworkBehaviour
             cdAttack -= Time.deltaTime;
         if (Input.GetButtonDown("Fire1") && cdAttack <= 0 && !this.controller.Pause)
         {
-            this.anim.SetInteger("Action", 6);
             this.cdAttack = 2f;
         }
-
-        if (this.cdAttack < 1.8f && this.cdAttack > 1f)
+		if(this.cdAttack > 1.8f)
+			this.anim.SetInteger("Action", 6);
+		if (this.cdAttack < 1.8f && this.cdAttack > 1f)
         {
+			
             this.cdAttack = .6f;
             if (this.inventaire.UsedItem.Items is Sword)
             {
