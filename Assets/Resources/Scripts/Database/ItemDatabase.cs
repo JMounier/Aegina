@@ -55,8 +55,8 @@ public static class ItemDatabase
 	public static readonly WorkTop Firepit = new WorkTop(43, TextDatabase.Firepit, TextDatabase.FirepitDescription, 1, Resources.Load<Texture2D>("Sprites/Items/WorkStation/Firepit"), new Entity(EntityDatabase.FirepitLoot), Resources.Load<GameObject>("PrefabsNoNetID/Previsualisations/Firepit"),131 );
 	public static readonly WorkTop Torch = new WorkTop (44, TextDatabase.Torch, TextDatabase.TorchDescription, 1, Resources.Load<Texture2D> ("Sprites/Items/Tools/Torch"), new Entity(EntityDatabase.TorchLoot), Resources.Load<GameObject>("PrefabsNoNetID/Previsualisations/Torch"), 134);
 
-    // Tools
-    public static readonly Pickaxe StonePickaxe = new Pickaxe(50, TextDatabase.StonePickaxe, TextDatabase.StonePickaxeDescription, 100, 100, Resources.Load<Texture2D>("Sprites/Items/Tools/IronPickaxe"), new Entity(), null);
+    // Tools |change the stonepickaxe if willing|
+	public static readonly Pickaxe StonePickaxe = new Pickaxe(50, TextDatabase.StonePickaxe, TextDatabase.StonePickaxeDescription, 100, 100, Resources.Load<Texture2D>("Sprites/Items/Tools/IronPickaxe"), new Entity(EntityDatabase.IronPickaxe), Resources.Load<GameObject>("Prefabs/Tools/Pickaxes/IronPickaxe"));
     public static readonly Pickaxe CopperPickaxe = new Pickaxe(51, TextDatabase.CopperPickaxe, TextDatabase.CopperPickaxeDescription, 150, 150, Resources.Load<Texture2D>("Sprites/Items/Tools/CopperPickaxe"), new Entity(EntityDatabase.CopperPickaxe), Resources.Load<GameObject>("Prefabs/Tools/Pickaxes/CopperPickaxe"));
     public static readonly Pickaxe IronPickaxe = new Pickaxe(52, TextDatabase.IronPickaxe, TextDatabase.IronPickaxeDescription, 250, 250, Resources.Load<Texture2D>("Sprites/Items/Tools/IronPickaxe"), new Entity(EntityDatabase.IronPickaxe), Resources.Load<GameObject>("Prefabs/Tools/Pickaxes/IronPickaxe"));
     public static readonly Pickaxe GoldPickaxe = new Pickaxe(53, TextDatabase.GoldPickaxe, TextDatabase.GoldPickaxeDescription, 50, 150, Resources.Load<Texture2D>("Sprites/Items/Tools/GoldPickaxe"), new Entity(EntityDatabase.GoldPickaxe), Resources.Load<GameObject>("Prefabs/Tools/Pickaxes/GoldPickaxe"));
