@@ -513,7 +513,7 @@ namespace UnityEngine.Networking
                         ipindex += ipList.Count;
                     this.firstScene.PlayButtonSound();
                 }
-                rectarrow = new Rect(this.posX + this.width + 10, this.posY + (Mathf.Min(4, worldsList.Count + 1)) * spacing, this.spacing / 2, this.spacing / 2);
+                rectarrow = new Rect(this.posX + this.width + 10, this.posY + (Mathf.Min(4, ipList.Count + 1)) * spacing, this.spacing / 2, this.spacing / 2);
                 if (GUI.Button(rectarrow, "\\/", skin.GetStyle("button")))
                 {
                     ipindex = (ipindex + 1) % ipList.Count;
