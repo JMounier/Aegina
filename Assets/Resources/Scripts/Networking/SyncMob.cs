@@ -85,10 +85,10 @@ public class SyncMob : NetworkBehaviour
         // Focus
         if (focus)
         {
-            this.cdAttack += Time.deltaTime;
             // Attack
             if (dist < 1f && this.cdAttack < 1 / this.myMob.AttackSpeed)
             {
+                this.cdAttack += Time.deltaTime;
                 this.View(nearPlayer.transform.FindChild("Character").position);
                 this.path.Clear();
                 this.anim.SetInteger("Action", 3);

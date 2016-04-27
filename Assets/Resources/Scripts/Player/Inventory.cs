@@ -689,7 +689,7 @@ public class Inventory : NetworkBehaviour
     /// <param name="loot"></param>
     public void DetectLoot(GameObject loot)
     {
-        if (isLocalPlayer)
+        if (isLocalPlayer && gameObject.GetComponent<SyncCharacter>().Life > 0)
             CmdGetItemStack(loot);
     }
 
@@ -763,6 +763,7 @@ public class Inventory : NetworkBehaviour
                 Drop(slots[i, j]);
                 this.slots[i, j] = new ItemStack();
             }
+        this.SaveInventory();
     }
 
     /// <summary>

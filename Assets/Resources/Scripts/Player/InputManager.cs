@@ -454,7 +454,18 @@ public class InputManager : NetworkBehaviour
     {
         if (!isLocalPlayer || !this.soundAudio.IsReady(616))
             return;
-        if (Vector3.Distance(this.character.transform.position, this.nearElement.transform.position) < 1.25f)
+        float necessaryDistance;
+        switch (type)
+        {    
+            case Element.TypeElement.Small:
+                necessaryDistance = .5f;
+                break;      
+            default:
+                necessaryDistance = 1.25f;
+                break;
+        }
+       
+        if (Vector3.Distance(this.character.transform.position, this.nearElement.transform.position) < necessaryDistance)
         {
             Vector3 or = 2 * this.character.transform.position - this.nearElement.transform.position;
             this.character.transform.LookAt(new Vector3(or.x, this.character.transform.position.y, or.z));
