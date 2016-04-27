@@ -31,7 +31,7 @@ public static class CraftDatabase
     public static readonly Craft Potion4 = new Craft(23, new ItemStack(ItemDatabase.RegenerationPotion, 1), false, false, false, true, false, Craft.Type.Consumable, new ItemStack(ItemDatabase.Glass, 1), new ItemStack(ItemDatabase.Mushroom, 2), new ItemStack(ItemDatabase.WaterCact, 1));
     public static readonly Craft Potion5 = new Craft(24, new ItemStack(ItemDatabase.HealingPotion, 1), false, false, false, true, false, Craft.Type.Consumable, new ItemStack(ItemDatabase.Glass, 1), new ItemStack(ItemDatabase.Petal, 2), new ItemStack(ItemDatabase.WaterCact, 1));
     public static readonly Craft Potion6 = new Craft(25, new ItemStack(ItemDatabase.JumpPotion, 1), false, false, false, true, false, Craft.Type.Consumable, new ItemStack(ItemDatabase.Glass, 1), new ItemStack(ItemDatabase.Cact, 2), new ItemStack(ItemDatabase.WaterCact, 1));
-    public static readonly Craft water = new Craft(26, new ItemStack(ItemDatabase.WaterCact, 2), false, false, false, true, false, Craft.Type.Consumable, new ItemStack(ItemDatabase.Cact, 3));
+    public static readonly Craft water = new Craft(26, new ItemStack(ItemDatabase.WaterCact, 2), false, false, false, false, false, Craft.Type.Consumable, new ItemStack(ItemDatabase.Cact, 3));
 
     public static readonly Craft StonePickaxe = new Craft(27, new ItemStack(ItemDatabase.StonePickaxe, 1), false, true, false, false, false, Craft.Type.Tools, new ItemStack(ItemDatabase.Stone, 6), new ItemStack(ItemDatabase.Stick, 2));
     public static readonly Craft CopperPickaxe = new Craft(28, new ItemStack(ItemDatabase.CopperPickaxe, 1), false, true, true, false, false, Craft.Type.Tools, new ItemStack(ItemDatabase.CopperIngot, 3), new ItemStack(ItemDatabase.Stick, 2));
