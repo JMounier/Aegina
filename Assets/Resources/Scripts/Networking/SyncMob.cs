@@ -16,6 +16,7 @@ public class SyncMob : NetworkBehaviour
 
     // Status
     private bool focus = false;
+    private bool flee = false;
 
     // Cool downs
     private float cdMove = 0;
@@ -70,20 +71,47 @@ public class SyncMob : NetworkBehaviour
                 dist = d;
             }
         }
+
         // Check le focus
-        if (dist < this.myMob.Vision && !focus)
+        if (dist < this.myMob.VisionFocus && !focus)
         {
-            focus = true;
+            this.focus = true;
+            this.flee = false;
             this.path.Clear();
         }
         if (focus && (nearPlayer == null || nearPlayer.GetComponent<SyncCharacter>().Life <= 0))
         {
-            focus = false;
+            this.focus = false;
             this.path.Clear();
         }
+        if (!focus && !flee && dist < this.myMob.VisionFleeing)
+        {
+            this.flee = true;
+            this.path.Clear();
+        }
+        // Flee
+        if (this.flee)
+        {
+            if (dist > 20)
+                this.flee = false;
+            else if (this.path.Count == 0)
+            {
+                this.anim.SetInteger("Action", 0);
+                // Trouve un nouveau but
+                this.goal = null;
 
+                float norme = UnityEngine.Random.Range(1f, 7f);
+                this.goal = this.chunk.GetComponent<SyncChunk>().MyGraph.GetNode((this.transform.position - nearPlayer.transform.FindChild("Character").position) / dist * norme + this.transform.position);
+
+                // Calcule le chemin => A*           
+                if (this.goal != null && this.goal.IsValid)
+                    this.path = this.chunk.GetComponent<SyncChunk>().MyGraph.AStarPath(this.node, this.goal, .71f);
+                for (int i = this.path.Count - 1; i > 1; i--)
+                    this.path.RemoveAt(i);
+            }
+        }
         // Focus
-        if (focus)
+        if (this.focus)
         {
             // Attack
             if (dist < 1f && this.cdAttack < 1 / this.myMob.AttackSpeed)
@@ -101,6 +129,7 @@ public class SyncMob : NetworkBehaviour
             // Run to the player
             else if (dist >= 1f && this.path.Count == 0)
             {
+                this.cdAttack = 0;
                 this.goal = this.chunk.GetComponent<SyncChunk>().MyGraph.GetNode(nearPlayer.transform.FindChild("Character").position);
                 if (this.goal != null && this.goal.IsValid)
                 {
@@ -163,7 +192,7 @@ public class SyncMob : NetworkBehaviour
     private void Move(Vector3 pos)
     {
         this.View(pos);
-        if (!this.focus)
+        if (!this.focus && !this.flee)
         {
             this.anim.SetInteger("Action", 1);
             gameObject.GetComponent<Rigidbody>().AddForce(gameObject.transform.forward * this.myMob.WalkSpeed * 2000f);

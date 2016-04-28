@@ -126,8 +126,10 @@ public static class EntityDatabase
     public static readonly IslandCore IslandCore = new IslandCore(142, Resources.Load<GameObject>("Prefabs/Elements/Cristals/IslandCore"));
 
     // Mobs
-    public static readonly Mob Boar = new Mob(500, 20, Resources.Load<GameObject>("Prefabs/Mobs/Boar"), 15, 7, 6, 1.3f, 2.8f, 1.5f,
+    public static readonly Mob Boar = new Mob(500, 20, Resources.Load<GameObject>("Prefabs/Mobs/Boar"), 15, 7, 6f, 7f, 1.3f, 2.8f, 1.5f,
         new int[3] { 0, 2, 3 }, new DropConfig(83, 1), new DropConfig(83, 0, 1), new DropConfig(84, 1), new DropConfig(84, 0, 1));
+    public static readonly Mob Pampa = new Mob(501, 15, Resources.Load<GameObject>("Prefabs/Mobs/Pampa"), 15, 8, 2f, 8f, 1f, 3.2f, 1.8f,
+        new int[1] { 1 }, new DropConfig(83, 1), new DropConfig(83, 0, 1), new DropConfig(80, 1), new DropConfig(80, 0, 1));
 
     // Chunk
     public static readonly Chunk Chunk1_One = new Chunk(1000, Resources.Load<GameObject>("Prefabs/Chunks/Chunk1_One"), Bridges.One);
@@ -392,6 +394,7 @@ public static class EntityDatabase
         get
         {
             yield return Boar;
+            yield return Pampa;
         }
     }
 
