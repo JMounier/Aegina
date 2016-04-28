@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Networking;
 
-public enum AudioClips { Void, Walk1, Walk2, Walk3, Run1, Run2, Run3, chopping, mining, playerAttack, cooking, playerDeath, drinking, eating, forge, picking, workbensh, Button, Bag, Plop, Forest, Desert, Winter };
+public enum AudioClips { Void, Walk1, Walk2, Walk3, Run1, Run2, Run3, chopping, mining, playerAttack, cooking, playerDeath, drinking, eating, forge, picking, workbensh, Button, Bag, Plop, Forest, Desert, Winter, Autumn };
 
 public class Sound : NetworkBehaviour
 {
@@ -43,7 +43,8 @@ public class Sound : NetworkBehaviour
 
             Resources.Load<AudioClip>("Sounds/Music/Forest"),
             Resources.Load<AudioClip>("Sounds/Music/Desert"),
-            Resources.Load<AudioClip>("Sounds/Music/Winter")
+            Resources.Load<AudioClip>("Sounds/Music/Winter"),
+            Resources.Load<AudioClip>("Sounds/Music/Autumn")
             };
 
         this.source = gameObject.GetComponentInChildren<AudioSource>();
@@ -169,9 +170,11 @@ public class Sound : NetworkBehaviour
                     case 0:
                         return AudioClips.Forest;
                     case 1:
-                        return AudioClips.Desert;                
-                    default:
+                        return AudioClips.Desert;
+                    case 2:
                         return AudioClips.Winter;
+                    default:
+                        return AudioClips.Autumn;
                 }
             }
         return AudioClips.Void;
