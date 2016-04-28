@@ -150,6 +150,10 @@ public class Command
                         sender.GetComponent<Sound>().RpcChooseSound(AudioClips.Desert, 2f);
                         sender.GetComponent<Social_HUD>().RpcReceiveMsg("You will hear " + parameters[0].ToLower().ToString() + " music");
                         break;
+                    case "autumn":
+                        sender.GetComponent<Sound>().RpcChooseSound(AudioClips.Autumn, 2f);
+                        sender.GetComponent<Social_HUD>().RpcReceiveMsg("You will hear " + parameters[0].ToLower().ToString() + " music");
+                        break;
                     case "winter":
                         sender.GetComponent<Sound>().RpcChooseSound(AudioClips.Winter, 2f);
                         sender.GetComponent<Social_HUD>().RpcReceiveMsg("You will hear " + parameters[0].ToLower().ToString() + " music");
