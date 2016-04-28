@@ -6,9 +6,10 @@ using System.Collections;
 /// </summary>
 public class Mob : Entity
 {
-    private int groupSize;
+    private int spawnProbability;
     private int damage;
-    private float vision;
+    private float visionFocus;
+    private float visionFleeing;
     private float walkSpeed;
     private float runSpeed;
     private float attackSpeed;
@@ -20,9 +21,10 @@ public class Mob : Entity
 
     public Mob() : base()
     {
-        this.groupSize = 0;
+        this.spawnProbability = 0;
         this.damage = 0;
-        this.vision = 0;
+        this.visionFocus = 0;
+        this.visionFleeing = 0;
         this.walkSpeed = 0;
         this.walkSpeed = 0;
         this.attackSpeed = 0;
@@ -32,9 +34,10 @@ public class Mob : Entity
 
     public Mob(Mob mob) : base(mob)
     {
-        this.groupSize = mob.groupSize;
+        this.spawnProbability = mob.spawnProbability;
         this.damage = mob.damage;
-        this.vision = mob.vision;
+        this.visionFocus = mob.visionFocus;
+        this.visionFleeing = mob.visionFleeing;
         this.walkSpeed = mob.walkSpeed;
         this.runSpeed = mob.runSpeed;
         this.attackSpeed = mob.attackSpeed;
@@ -42,11 +45,12 @@ public class Mob : Entity
         this.biomes = mob.biomes;
     }
 
-    public Mob(int id, int life, GameObject prefab, int groupSize, int damage, float vision, float walkSpeed, float runSpeed, float attackSpeed, int[] biomes, params DropConfig[] dropConfigs) : base(id, life, prefab)
+    public Mob(int id, int life, GameObject prefab, int spawnProbability, int damage, float visionFocus, float visionFleeing, float walkSpeed, float runSpeed, float attackSpeed, int[] biomes, params DropConfig[] dropConfigs) : base(id, life, prefab)
     {
-        this.groupSize = groupSize;
+        this.spawnProbability = spawnProbability;
         this.damage = damage;
-        this.vision = vision;
+        this.visionFocus = visionFocus;
+        this.visionFleeing = visionFleeing;
         this.walkSpeed = walkSpeed;
         this.runSpeed = runSpeed;
         this.attackSpeed = attackSpeed;
@@ -63,11 +67,11 @@ public class Mob : Entity
         foreach (DropConfig dc in this.dropConfigs)
         {
             Vector3 projection = new Vector3(Random.Range(-1f, 1f), Random.Range(1f, 2f), Random.Range(-1f, 1f));
-			dc.Loot(prefab.transform.position, projection);
+            dc.Loot(prefab.transform.position, projection);
         }
         base.Kill();
     }
-    
+
     public override void Spawn(Vector3 pos, Transform parent)
     {
         base.Spawn(pos, parent);
@@ -111,10 +115,10 @@ public class Mob : Entity
     /// <summary>
     /// La taille maximum d'un groupe de ce mob.
     /// </summary>
-    public int GroupSize
+    public int SpawnProbability
     {
-        get { return this.groupSize; }
-        set { this.groupSize = value; }
+        get { return this.spawnProbability; }
+        set { this.spawnProbability = value; }
     }
 
     /// <summary>
@@ -127,12 +131,21 @@ public class Mob : Entity
     }
 
     /// <summary>
-    /// La vision du mob.
+    /// La vision de focus du mob.
     /// </summary>
-    public float Vision
+    public float VisionFocus
     {
-        get { return this.vision; }
-        set { this.vision = value; }
+        get { return this.visionFocus; }
+        set { this.visionFocus = value; }
+    }
+
+    /// <summary>
+    /// La vision de fuite du mob.
+    /// </summary>
+    public float VisionFleeing
+    {
+        get { return this.visionFleeing; }
+        set { this.visionFleeing = value; }
     }
 
     /// <summary>

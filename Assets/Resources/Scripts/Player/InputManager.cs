@@ -167,7 +167,8 @@ public class InputManager : NetworkBehaviour
                 useConsumable = true;
                 if (this.cdConsume < 0)
                 {
-                    this.cdConsume = 0.5f;
+                    this.cdConsume = 1f;
+                    this.anim.SetInteger("Action", 0);
                     Consumable consum = this.inventaire.UsedItem.Items as Consumable;
                     Stats.AddUsed(consum);
                     switch (consum.E.ET)
