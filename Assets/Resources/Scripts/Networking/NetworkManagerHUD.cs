@@ -11,6 +11,9 @@ namespace UnityEngine.Networking
     [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
     public class NetworkManagerHUD : MonoBehaviour
     {
+        private MovieTexture loadingVideo;
+        private Texture loadingImage;
+
         public enum TypeLaunch { Host, Client, Server, Stop };
         private NetworkManager manager;
         private GUISkin skin;
@@ -36,7 +39,6 @@ namespace UnityEngine.Networking
         private bool listServShown = false;
         private bool worldcreateShown = false;
         private bool ipserveurshown = false;
-        private bool loading = false;
         private float incr;
         private float incg;
         private float incb;
@@ -44,6 +46,9 @@ namespace UnityEngine.Networking
         #region Monobehaviour methods
         void Awake()
         {
+            this.loadingVideo = Resources.Load<MovieTexture>("Sprites/SplashImages/LoadingVideo");
+            this.loadingImage = Resources.Load<Texture>("Sprites/SplashImages/LoadingImage");
+
             this.incr = Random.Range(-0.02f, 0.02f);
             this.incg = Random.Range(-0.02f, 0.02f);
             this.incb = Random.Range(-0.02f, 0.02f);
@@ -83,15 +88,16 @@ namespace UnityEngine.Networking
             this.height = Screen.height / 25;
             this.spacing = this.height * 2;
             if (!this.manager.isNetworkActive)
-                loading = false;
+                loadingVideo.Stop();            
         }
+
         void Start()
         {
+            this.loadingVideo.loop = true;
             worldsList = new List<string>(Directory.GetDirectories(Application.dataPath + "/Saves"));
-            for (int i = 0; i < worldsList.Count; i++)
-            {
+            for (int i = 0; i < worldsList.Count; i++)            
                 worldsList[i] = worldsList[i].Remove(0, Application.dataPath.Length + 7);
-            }
+            
             int j = 0;
             while (PlayerPrefs.GetString("ip" + j.ToString(), "") != "")
             {
@@ -102,39 +108,6 @@ namespace UnityEngine.Networking
 
         void OnGUI()
         {
-            if (loading && this.manager.IsClientConnected())
-            {
-                GUI.Box(new Rect(0, 0, Screen.width, Screen.height), TextDatabase.Loading.GetText(), skin.GetStyle("loading"));
-                Color skinColor = this.skin.GetStyle("loading").normal.textColor;
-                float r = skinColor.r + incr;
-                if (r > 1)
-                {
-                    incr = Random.Range(-0.02f, 0);
-                }
-                if (r < 0)
-                {
-                    incr = Random.Range(0, 0.02f);
-                }
-                float g = skinColor.g + incg;
-                if (g > 1)
-                {
-                    incg = Random.Range(-0.02f, 0);
-                }
-                if (g < 0)
-                {
-                    incg = Random.Range(0, 0.02f);
-                }
-                float b = skinColor.b + incb;
-                if (b > 1)
-                {
-                    incb = Random.Range(-0.02f, 0);
-                }
-                if (b < 0)
-                {
-                    incb = Random.Range(0, 0.02f);
-                }
-                this.skin.GetStyle("loading").normal.textColor = new Color(r, g, b);
-            }
             if (!showGUI)
             {
                 GUI.Box(new Rect(Screen.width / 4, Screen.height / 6, Screen.width / 2, Screen.width / 12.8f), "", this.skin.GetStyle("aegina"));
@@ -194,19 +167,22 @@ namespace UnityEngine.Networking
 
                 else if (!this.manager.IsClientConnected())
                 {
+                    GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), this.loadingVideo);
                     GUI.Box(new Rect(Screen.width / 4, Screen.height / 6, Screen.width / 2, Screen.width / 12.8f), "", this.skin.GetStyle("aegina"));
-                    if (GUI.Button(new Rect(this.posX, this.posY, this.width, this.height), TextDatabase.Cancel.GetText(), this.skin.GetStyle("button")))
+                    if (GUI.Button(new Rect(this.posX, Screen.height / 1.1f, this.width, this.height), TextDatabase.Cancel.GetText(), this.skin.GetStyle("button")))
                     {
                         this.firstScene.PlayButtonSound();
                         this.Launch(TypeLaunch.Stop);
                         this.manager.networkAddress = "localhost";
                     }
-                    GUI.Box(new Rect(this.posX, this.posY + this.spacing / 2, this.width, this.height * 2.5f), "<color=white>" + TextDatabase.Loading.GetText() + "</color>", this.skin.GetStyle("chat"));
-                }
+                }  
+                else if (!this.manager.clientLoadedScene)
+                    GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), this.loadingImage);
             }
             else
             {
                 GUI.Box(new Rect(Screen.width / 4, Screen.height / 6, Screen.width / 2, Screen.width / 12.8f), "", this.skin.GetStyle("aegina"));
+
                 if (this.optionShown)
                     this.DrawOption();
                 else if (this.langueShown)
@@ -244,9 +220,11 @@ namespace UnityEngine.Networking
             {
                 case TypeLaunch.Host:
                     this.manager.StartHost();
+                    GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), this.loadingImage);
                     break;
                 case TypeLaunch.Client:
                     this.manager.StartClient();
+                    loadingVideo.Play();
                     break;
                 case TypeLaunch.Server:
                     this.manager.OnStartServer();
@@ -254,8 +232,7 @@ namespace UnityEngine.Networking
                 default:
                     this.manager.StopHost();
                     break;
-            }
-            this.loading = true;
+            }            
         }
 
         #region Options
@@ -529,25 +506,25 @@ namespace UnityEngine.Networking
         /// </summary>
         private void DrawWorldCreate()
         {
-			GUI.Box(new Rect(this.posX, this.posY - this.height - 10, this.width, this.height+this.spacing), TextDatabase.EnterName.GetText(), skin.GetStyle("inventory"));
-			newWorldName = this.RemoveSpecialCharacter(GUI.TextField(new Rect(this.posX, this.posY+this.spacing, this.width, this.height), newWorldName, 15, this.skin.textField), "abcdefghijklmnopqrstuvwxyz123456789-_ ", false);
-			GUI.Box(new Rect(this.posX, this.posY - 10 + 2 * this.spacing, this.width, this.height+this.spacing), TextDatabase.Seed.GetText(), this.skin.GetStyle("inventory"));
-			Rect rect = new Rect(this.posX, this.posY + 3 * this.spacing+this.height, this.width, this.height);
+            GUI.Box(new Rect(this.posX, this.posY - this.height - 10, this.width, this.height + this.spacing), TextDatabase.EnterName.GetText(), skin.GetStyle("inventory"));
+            newWorldName = this.RemoveSpecialCharacter(GUI.TextField(new Rect(this.posX, this.posY + this.spacing, this.width, this.height), newWorldName, 15, this.skin.textField), "abcdefghijklmnopqrstuvwxyz123456789-_ ", false);
+            GUI.Box(new Rect(this.posX, this.posY - 10 + 2 * this.spacing, this.width, this.height + this.spacing), TextDatabase.Seed.GetText(), this.skin.GetStyle("inventory"));
+            Rect rect = new Rect(this.posX, this.posY + 3 * this.spacing + this.height, this.width, this.height);
             seedstr = GUI.TextField(rect, this.RemoveSpecialCharacter(seedstr, "abcdefghijklmnopqrstuvwxyz123456789", false), 6, skin.textField);
-            rect = new Rect(this.posX, this.posY - 10 + 5 * this.spacing-this.height, this.width, this.height);
+            rect = new Rect(this.posX, this.posY - 10 + 5 * this.spacing - this.height, this.width, this.height);
 
-			if (GUI.Button(rect, "Coop/"+TextDatabase.PVP.GetText(), this.skin.GetStyle("button")))            
+            if (GUI.Button(rect, "Coop/" + TextDatabase.PVP.GetText(), this.skin.GetStyle("button")))
                 this.typeCoop = !typeCoop;
-            
-			GUI.Box(new Rect(this.posX, this.posY + 4 * this.spacing+1.5f*this.height, this.width, this.height + this.spacing), this.typeCoop ? "Coop" : TextDatabase.PVP.GetText(), this.skin.GetStyle("inventory"));
-			rect = new Rect(this.posX, this.posY + 6 * this.spacing+this.height, (this.width-10)/2, this.height);
+
+            GUI.Box(new Rect(this.posX, this.posY + 4 * this.spacing + 1.5f * this.height, this.width, this.height + this.spacing), this.typeCoop ? "Coop" : TextDatabase.PVP.GetText(), this.skin.GetStyle("inventory"));
+            rect = new Rect(this.posX, this.posY + 6 * this.spacing + this.height, (this.width - 10) / 2, this.height);
             bool possible = true;
             int i = 0;
             worldsList = new List<string>(Directory.GetDirectories(Application.dataPath + "/Saves"));
 
-            for (i = 0; i < worldsList.Count; i++)            
+            for (i = 0; i < worldsList.Count; i++)
                 worldsList[i] = worldsList[i].Remove(0, Application.dataPath.Length + 7);
-            
+
             i = 0;
             while (possible && i < worldsList.Count)
             {
@@ -555,29 +532,32 @@ namespace UnityEngine.Networking
                 i++;
             }
 
-			if (possible) {
-				if (GUI.Button (rect, TextDatabase.Create.GetText (), skin.GetStyle ("button"))) {
-					if (newWorldName != "") {
-						this.world = this.newWorldName;
-						this.newWorldName = "World";
-						this.worldcreateShown = false;
-						System.Random genSeed = new System.Random ();
-						int seed = 0;
-						if (seedstr == "")
-							seed = genSeed.Next (int.MaxValue);
-						else
-							seed = MapGeneration.SeedToInt (seedstr);
+            if (possible)
+            {
+                if (GUI.Button(rect, TextDatabase.Create.GetText(), skin.GetStyle("button")))
+                {
+                    if (newWorldName != "")
+                    {
+                        this.world = this.newWorldName;
+                        this.newWorldName = "World";
+                        this.worldcreateShown = false;
+                        System.Random genSeed = new System.Random();
+                        int seed = 0;
+                        if (seedstr == "")
+                            seed = genSeed.Next(int.MaxValue);
+                        else
+                            seed = MapGeneration.SeedToInt(seedstr);
 
-						Save.CreateWorld (this.world, seed, this.typeCoop);
-						this.worldsList.Add (this.world);
-						this.Launch (TypeLaunch.Host);
-					}
-					this.firstScene.PlayButtonSound ();
-				}
-			}
-            else          
+                        Save.CreateWorld(this.world, seed, this.typeCoop);
+                        this.worldsList.Add(this.world);
+                        this.Launch(TypeLaunch.Host);
+                    }
+                    this.firstScene.PlayButtonSound();
+                }
+            }
+            else
                 GUI.Box(rect, TextDatabase.Create.GetText(), this.skin.GetStyle("button"));
-			rect = new Rect(this.posX+this.width/2, this.posY + 6 * this.spacing+this.height, (this.width-10)/2, this.height);
+            rect = new Rect(this.posX + this.width / 2, this.posY + 6 * this.spacing + this.height, (this.width - 10) / 2, this.height);
             if (GUI.Button(rect, TextDatabase.Back.GetText(), skin.GetStyle("button")))
             {
                 this.worldcreateShown = false;
@@ -617,12 +597,6 @@ namespace UnityEngine.Networking
                 this.newipname = "Serveur";
                 this.firstScene.PlayButtonSound();
             }
-        }
-
-        public void IsLoad()
-        {
-            loading = false;
-            this.skin.GetStyle("loading").normal.textColor = Color.black;
         }
 
         //Getters
