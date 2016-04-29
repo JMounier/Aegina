@@ -45,7 +45,6 @@ public class Social_HUD : NetworkBehaviour
             this.namePlayer = PlayerPrefs.GetString("PlayerName", "");
             this.CmdSetName(this.namePlayer);
             this.CmdSendActivity(Activity.Connection);
-            GameObject.Find("NetworkManager").GetComponent<NetworkManagerHUD>().IsLoad();          
         }
     }
 
