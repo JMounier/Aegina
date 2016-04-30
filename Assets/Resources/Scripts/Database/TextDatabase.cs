@@ -207,7 +207,11 @@ public class TextDatabase
     public static readonly Text WorktopAbsent = new Text("L'établie necessaire ne se trouve pas à porté", "Necessary woktop is not present \n");
     public static readonly Text DontHaveItem = new Text("Tu ne possède pas les objets necessaire pour cette recette", "You don't have the necessary item for this recipe \n");
     public static readonly Text InventoryFull = new Text("Ton inventaire est plein", "Your inventory is full");
-	public static readonly Text tutorial = new Text ("Suivre le didacticiel ?", "Follow the tutorial ?");
+	public static readonly Text Tutorial = new Text ("Suivre le didacticiel ?", "Follow the tutorial ?");
+    public static readonly Text QuitTuto = new Text("Quitter le tutoriel ?", "Quit the tuto ?");
+    public static readonly Text FieldOfView = new Text("Champ de vision", "Field of view");
+    public static readonly Text Sensibility = new Text("Sensibilite", "Sensibility");
+    public static readonly Text Heal = new Text("Soin", "Heal");
 	// Tutoriel
 
 	public static readonly Text Move = new Text("Ille commence à se déplacer un petit peu pour se réhabituer à ses jambes","Ille begin to move to get used to his legs");

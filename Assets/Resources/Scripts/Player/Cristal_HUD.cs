@@ -162,7 +162,7 @@ public class Cristal_HUD : NetworkBehaviour
         {
             rect.y += this.height - 3 * this.space;
             rect.height = this.space;
-            if (GUI.Button(rect, "Heal", skin.GetStyle("button")) && this.inventory.InventoryContains(this.cristal.RepairCost))
+            if (GUI.Button(rect, TextDatabase.Heal.GetText(), skin.GetStyle("button")) && this.inventory.InventoryContains(this.cristal.RepairCost))
             {
                 this.inventory.DeleteItems(this.cristal.RepairCost);
                 this.cristal.Life += 100;
@@ -192,7 +192,6 @@ public class Cristal_HUD : NetworkBehaviour
             if (a == 0)
             {
                 this.CmdSetLevelPort(2, this.cristal.gameObject);
-                //GetComponentInParent<Social>().NewRespawnPoint(Team.Blue, new Tuple<float, float>(this.character.position.x, this.character.position.z));
             }
             else if (a <= 3)
             {
@@ -219,10 +218,6 @@ public class Cristal_HUD : NetworkBehaviour
         else
         {
             SyncCore crystal = this.cristal.GetComponent<SyncCore>();
-            if (crystal.LevelPortal == 0)
-            {
-                //GetComponentInParent<Social>().NewRespawnPoint(Team.Blue, new Tuple<float, float>(this.transform.position.x, this.transform.position.z));
-            }
             this.CmdSetLevelPort(crystal.LevelPortal + 1, this.cristal.gameObject);
         }
         CmdSaveCristal(this.cristal.gameObject);
