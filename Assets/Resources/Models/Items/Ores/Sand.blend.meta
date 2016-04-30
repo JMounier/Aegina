@@ -3,7 +3,7 @@ guid: 8f133b7203d0941e9b692114398c6b99
 timeCreated: 1451834449
 licenseType: Free
 ModelImporter:
-  serializedVersion: 18
+  serializedVersion: 19
   fileIDToRecycleName:
     100000: Cone
     100002: Cube
@@ -16,6 +16,12 @@ ModelImporter:
     100016: Cube_007
     100018: Cube_008
     100020: //RootNode
+    100022: Cylinder
+    100024: Cylinder_001
+    100026: Cylinder_002
+    100028: Sphere
+    100030: Sphere_001
+    100032: Torus
     400000: Cone
     400002: Cube
     400004: Cube_001
@@ -27,6 +33,12 @@ ModelImporter:
     400016: Cube_007
     400018: Cube_008
     400020: //RootNode
+    400022: Cylinder
+    400024: Cylinder_001
+    400026: Cylinder_002
+    400028: Sphere
+    400030: Sphere_001
+    400032: Torus
     2300000: Cone
     2300002: Cube
     2300004: Cube_001
@@ -37,6 +49,12 @@ ModelImporter:
     2300014: Cube_006
     2300016: Cube_007
     2300018: Cube_008
+    2300020: Cylinder
+    2300022: Cylinder_001
+    2300024: Cylinder_002
+    2300026: Sphere
+    2300028: Sphere_001
+    2300030: Torus
     3300000: Cone
     3300002: Cube
     3300004: Cube_001
@@ -47,6 +65,12 @@ ModelImporter:
     3300014: Cube_006
     3300016: Cube_007
     3300018: Cube_008
+    3300020: Cylinder
+    3300022: Cylinder_001
+    3300024: Cylinder_002
+    3300026: Sphere
+    3300028: Sphere_001
+    3300030: Torus
     4300000: Cube_008
     4300002: Cube_007
     4300004: Cube_006
@@ -57,6 +81,12 @@ ModelImporter:
     4300014: Cube_001
     4300016: Cone
     4300018: Cube
+    4300020: Cylinder_002
+    4300022: Cylinder_001
+    4300024: Cylinder
+    4300026: Sphere_001
+    4300028: Torus
+    4300030: Sphere
     7400000: Default Take
     9500000: //RootNode
   materials:
@@ -66,6 +96,7 @@ ModelImporter:
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
+    resampleRotations: 1
     optimizeGameObjects: 0
     motionNodeName: 
     animationImportErrors: 
@@ -73,16 +104,16 @@ ModelImporter:
     animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     animationCompression: 1
-    animationRotationError: .5
-    animationPositionError: .5
-    animationScaleError: .5
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
     animationWrapMode: 0
     extraExposedTransformPaths: []
     clipAnimations: []
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: .300000012
+    globalScale: 0.3
     meshCompression: 0
     addColliders: 0
     importBlendShapes: 1
@@ -99,20 +130,19 @@ ModelImporter:
     useFileScale: 1
   tangentSpace:
     normalSmoothAngle: 60
-    splitTangentsAcrossUV: 1
     normalImportMode: 0
-    tangentImportMode: 1
+    tangentImportMode: 4
   importAnimation: 1
   copyAvatar: 0
   humanDescription:
     human: []
     skeleton: []
-    armTwist: .5
-    foreArmTwist: .5
-    upperLegTwist: .5
-    legTwist: .5
-    armStretch: .0500000007
-    legStretch: .0500000007
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
     feetSpacing: 0
     rootMotionBoneName: 
     hasTranslationDoF: 0
