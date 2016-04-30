@@ -97,7 +97,6 @@ public static class CraftDatabase
             yield return SunkiumIngot;
             yield return Glass;
 
-            yield return CactusAndFlowerSalad;
             yield return MeatBrochette;
             yield return Stew;
             yield return Potion1;
