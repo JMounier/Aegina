@@ -233,7 +233,7 @@ public class Tutoriel : NetworkBehaviour
     private void TutorialHUD()
     {
         Rect rect = new Rect(Screen.width / 3, Screen.height / 2 - Screen.height / 20, Screen.width / 3, Screen.height / 10 - 5);
-        GUI.Box(rect, TextDatabase.tutorial.GetText(), skin.GetStyle("inventory"));
+        GUI.Box(rect, TextDatabase.Tutorial.GetText(), skin.GetStyle("inventory"));
         rect.y += Screen.height / 10;
         rect.width -= 4 * Screen.width / 15;
         rect.x += Screen.width / 15;
@@ -257,7 +257,7 @@ public class Tutoriel : NetworkBehaviour
     private void EndtutoHUD()
     {
         Rect rect = new Rect(Screen.width / 3, Screen.height / 2 - Screen.height / 20, Screen.width / 3, Screen.height / 10 - 5);
-        GUI.Box(rect, TextDatabase.Quit.GetText() + " tuto ?", skin.GetStyle("inventory"));
+        GUI.Box(rect, TextDatabase.QuitTuto.GetText(), skin.GetStyle("inventory"));
         rect.y += Screen.height / 10;
         rect.width -= 4 * Screen.width / 15;
         rect.x += Screen.width / 15;

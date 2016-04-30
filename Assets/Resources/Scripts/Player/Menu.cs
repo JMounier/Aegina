@@ -205,7 +205,7 @@ public class Menu : NetworkBehaviour
 	{
 		GUI.Box(new Rect(Screen.width / 4, Screen.height / 6, Screen.width / 2, Screen.width / 12.8f), "", this.skin.GetStyle("Aegina"));
 		GUI.Box (new Rect (this.posX - this.spacing, this.posY - this.spacing, this.width + 2 * this.spacing, this.height + 8 * this.spacing), "", skin.GetStyle ("Inventory"));
-		GUI.Box (new Rect (this.posX, this.posY, this.width, this.height),"Sensitivity",skin.GetStyle("Description"));
+		GUI.Box (new Rect (this.posX, this.posY, this.width, this.height),TextDatabase.Sensibility.GetText(),skin.GetStyle("Description"));
 		this.controller.Sensitivity = GUI.HorizontalSlider(new Rect(this.posX, this.posY+this.spacing, this.width, this.height), this.controller.Sensitivity, 0.1f, 10f, this.skin.GetStyle("horizontalslider"), this.skin.GetStyle("horizontalsliderthumb"));
 
 		if (GUI.Button(new Rect(this.posX, this.posY + 4*this.spacing, this.width, this.height), TextDatabase.Validate.GetText(), this.skin.GetStyle("button")))
@@ -216,7 +216,7 @@ public class Menu : NetworkBehaviour
 			PlayerPrefs.SetFloat("FieldOfView", this.soundAudio.Volume);
 			this.soundAudio.PlaySound(AudioClips.Button, 1f);
 		}
-		GUI.Box (new Rect (this.posX, this.posY + 2*this.spacing, this.width, this.height),"Far view",skin.GetStyle("Description"));
+		GUI.Box (new Rect (this.posX, this.posY + 2*this.spacing, this.width, this.height),TextDatabase.FieldOfView.GetText(),skin.GetStyle("Description"));
 		this.camera.farClipPlane = GUI.HorizontalSlider(new Rect(this.posX, this.posY+3*this.spacing, this.width, this.height), this.camera.farClipPlane, 10f, 200f, this.skin.GetStyle("horizontalslider"), this.skin.GetStyle("horizontalsliderthumb"));
 		if (GUI.Button(new Rect(this.posX, this.posY + this.spacing * 5, this.width, this.height), TextDatabase.Back.GetText(), this.skin.GetStyle("button")))
 		{
