@@ -107,8 +107,8 @@ public class SyncCore : SyncElement
             {
                 liste = new ItemStack[3];
                 liste[0] = new ItemStack(needs[0], 15);
-                liste[1] = new ItemStack(needs[1], 1);
-                liste[2] = new ItemStack(needs[2], 15);
+                liste[1] = new ItemStack(needs[1], 15);
+                liste[2] = new ItemStack(needs[2], 1);
             }
             else
             {
