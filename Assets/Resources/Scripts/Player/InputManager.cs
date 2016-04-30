@@ -11,7 +11,7 @@ public class InputManager : NetworkBehaviour
     private Social_HUD social;
     private Cristal_HUD cristalHUD;
     private SuccesHUD sucHUD;
-	private Tutoriel tutoriel;
+    private Tutoriel tutoriel;
 
     private Sound soundAudio;
     private Animator anim;
@@ -25,6 +25,7 @@ public class InputManager : NetworkBehaviour
     private float cdAttack = 0;
 
     private bool validplace;
+    private bool lastvalidplace;
     // Use this for initialization
     void Start()
     {
@@ -41,10 +42,11 @@ public class InputManager : NetworkBehaviour
 
         this.sucHUD = GetComponent<SuccesHUD>();
         this.cristalHUD = GetComponent<Cristal_HUD>();
-		this.tutoriel = GetComponent<Tutoriel> ();
+        this.tutoriel = GetComponent<Tutoriel>();
         this.anim = gameObject.GetComponent<Animator>();
         this.syncCharacter = gameObject.GetComponent<SyncCharacter>();
-        this.validplace = true;
+        this.validplace = false;
+        this.lastvalidplace = false;
 
         this.soundAudio = gameObject.GetComponent<Sound>();
         Cursor.visible = false;
@@ -87,15 +89,15 @@ public class InputManager : NetworkBehaviour
             gameObject.GetComponent<Sound>().PlaySound(AudioClips.Void, 0, 0.2f, 616);
             // Supprimer l'ancien outline
             if (lastNearElement != null)
-				foreach (MeshRenderer mr in lastNearElement.GetComponentsInChildren<MeshRenderer>())
-					foreach (Material mat  in mr.materials) 
-						mat.shader = Shader.Find("Standard");
+                foreach (MeshRenderer mr in lastNearElement.GetComponentsInChildren<MeshRenderer>())
+                    foreach (Material mat in mr.materials)
+                        mat.shader = Shader.Find("Standard");
 
             // Mettre le nouveau outline
             if (this.nearElement != null)
-				foreach (MeshRenderer mr in this.nearElement.GetComponentsInChildren<MeshRenderer>())
-                    foreach (Material mat  in mr.materials) 
-						mat.shader = Shader.Find("Outlined");
+                foreach (MeshRenderer mr in this.nearElement.GetComponentsInChildren<MeshRenderer>())
+                    foreach (Material mat in mr.materials)
+                        mat.shader = Shader.Find("Outlined");
         }
         #endregion
 
@@ -106,10 +108,11 @@ public class InputManager : NetworkBehaviour
             wt.Previsu.transform.position = (this.character.transform.position - this.character.transform.forward);
             wt.Previsu.transform.LookAt(new Vector3(this.character.transform.position.x, wt.Previsu.transform.position.y, this.character.transform.position.z));
 
-            bool isValid = wt.IsValid();
-            if (isValid != this.validplace)
+            CmdupdateValid(wt.Previsu.transform.position);
+
+            if (validplace != this.lastvalidplace)
             {
-                Material mat = Resources.Load<Material>("Models/WorkStations/Materials/Previsu" + (isValid ? 1 : 2));
+                Material mat = Resources.Load<Material>("Models/WorkStations/Materials/Previsu" + (validplace ? 1 : 2));
                 foreach (MeshRenderer mesh in wt.Previsu.GetComponentsInChildren<MeshRenderer>())
                 {
                     Material[] mats = new Material[mesh.materials.Length];
@@ -117,26 +120,27 @@ public class InputManager : NetworkBehaviour
                         mats[i] = mat;
                     mesh.materials = mats;
                 }
+                this.lastvalidplace = validplace;
             }
-            this.validplace = isValid;
+
         }
         #endregion
 
         #region Gestion Input
-		if (Input.GetButtonDown("Inventory") && !this.menu.MenuShown && !this.menu.OptionShown && !this.social.ChatShown && !this.cristalHUD.Cristal_shown && !this.sucHUD.Enable && !this.tutoriel.EndTutoShown && !this.tutoriel.Tutoshown && !this.menu.ControlShown)
+        if (Input.GetButtonDown("Inventory") && !this.menu.MenuShown && !this.menu.OptionShown && !this.social.ChatShown && !this.cristalHUD.Cristal_shown && !this.sucHUD.Enable && !this.tutoriel.EndTutoShown && !this.tutoriel.Tutoshown && !this.menu.ControlShown)
         {
             this.inventaire.InventoryShown = !this.inventaire.InventoryShown;
             this.controller.Pause = !this.controller.Pause;
             this.soundAudio.PlaySound(AudioClips.Bag, 1f);
         }
 
-		if (Input.GetKeyDown(KeyCode.Return) && !this.menu.MenuShown && !this.menu.OptionShown && !this.inventaire.InventoryShown && !this.cristalHUD.Cristal_shown && !this.sucHUD.Enable && !this.tutoriel.EndTutoShown && !this.tutoriel.Tutoshown && !this.menu.ControlShown)
+        if (Input.GetKeyDown(KeyCode.Return) && !this.menu.MenuShown && !this.menu.OptionShown && !this.inventaire.InventoryShown && !this.cristalHUD.Cristal_shown && !this.sucHUD.Enable && !this.tutoriel.EndTutoShown && !this.tutoriel.Tutoshown && !this.menu.ControlShown)
         {
             this.social.ChatShown = true;
             this.controller.Pause = true;
         }
 
-		if (Input.GetKeyDown(KeyCode.K) && !this.menu.MenuShown && !this.menu.OptionShown && !this.inventaire.InventoryShown && !this.cristalHUD.Cristal_shown && !this.social.ChatShown && !this.tutoriel.EndTutoShown && !this.tutoriel.Tutoshown && !this.menu.ControlShown)
+        if (Input.GetKeyDown(KeyCode.K) && !this.menu.MenuShown && !this.menu.OptionShown && !this.inventaire.InventoryShown && !this.cristalHUD.Cristal_shown && !this.social.ChatShown && !this.tutoriel.EndTutoShown && !this.tutoriel.Tutoshown && !this.menu.ControlShown)
         {
             this.sucHUD.Enable = !this.sucHUD.Enable;
             this.controller.Pause = this.sucHUD.Enable;
@@ -145,15 +149,15 @@ public class InputManager : NetworkBehaviour
 
         #region Fire2 
         bool useConsumable = false;
-		if (Input.GetButton("Fire2") && !this.inventaire.InventoryShown && !this.menu.MenuShown && !this.menu.OptionShown && !this.social.ChatShown && !this.cristalHUD.Cristal_shown && !this.sucHUD.Enable && !this.tutoriel.EndTutoShown && !this.tutoriel.Tutoshown && !this.menu.ControlShown)
+        if (Input.GetButton("Fire2") && !this.inventaire.InventoryShown && !this.menu.MenuShown && !this.menu.OptionShown && !this.social.ChatShown && !this.cristalHUD.Cristal_shown && !this.sucHUD.Enable && !this.tutoriel.EndTutoShown && !this.tutoriel.Tutoshown && !this.menu.ControlShown)
         {
             if (this.inventaire.UsedItem.Items is WorkTop)
             {
                 WorkTop wt = this.inventaire.UsedItem.Items as WorkTop;
-                if (wt.IsValid() && this.soundAudio.IsReady(615))
+                if (validplace && this.soundAudio.IsReady(615))
                 {
-                    CmdSpawnElm(wt.ElementID, wt.Previsu);
-                    Stats.AddPut(wt);
+                    CmdSpawnElm(wt.ElementID, wt.Previsu.transform.position, wt.Previsu.transform.rotation);
+                    this.CmdPut(wt.ID);
                     this.inventaire.UsedItem.Quantity -= 1;
                     if (this.inventaire.UsedItem.Quantity <= 0)
                         this.inventaire.UsedItem = new ItemStack();
@@ -170,7 +174,7 @@ public class InputManager : NetworkBehaviour
                     this.cdConsume = 1f;
                     this.anim.SetInteger("Action", 0);
                     Consumable consum = this.inventaire.UsedItem.Items as Consumable;
-                    Stats.AddUsed(consum);
+                    this.CmdConsumme(consum.ID);
                     switch (consum.E.ET)
                     {
                         case Effect.EffectType.Speed:
@@ -250,11 +254,11 @@ public class InputManager : NetworkBehaviour
         {
             this.cdAttack = 2f;
         }
-		if(this.cdAttack > 1.8f)
-			this.anim.SetInteger("Action", 6);
-		if (this.cdAttack < 1.8f && this.cdAttack > 1f)
+        if (this.cdAttack > 1.8f)
+            this.anim.SetInteger("Action", 6);
+        if (this.cdAttack < 1.8f && this.cdAttack > 1f)
         {
-			
+
             this.cdAttack = .6f;
             if (this.inventaire.UsedItem.Items is Sword)
             {
@@ -313,25 +317,25 @@ public class InputManager : NetworkBehaviour
                 this.menu.OptionShown = true;
             }
             else if (this.sucHUD.Enable)
-			{
-				this.sucHUD.Enable = false;
-				this.controller.Pause = false;
-			}
-			else if (this.menu.ControlShown)
-			{
-				this.menu.ControlShown = false;
-				this.menu.OptionShown = true;
-			}
-			else if(this.tutoriel.EndTutoShown)
-			{
-				this.tutoriel.EndTutoShown = false;
-				this.controller.Pause = false;
-			}
-			else if(this.tutoriel.Tutoshown)
-			{
-				this.tutoriel.Tutoshown = false;
-				this.controller.Pause = false;
-			}
+            {
+                this.sucHUD.Enable = false;
+                this.controller.Pause = false;
+            }
+            else if (this.menu.ControlShown)
+            {
+                this.menu.ControlShown = false;
+                this.menu.OptionShown = true;
+            }
+            else if (this.tutoriel.EndTutoShown)
+            {
+                this.tutoriel.EndTutoShown = false;
+                this.controller.Pause = false;
+            }
+            else if (this.tutoriel.Tutoshown)
+            {
+                this.tutoriel.Tutoshown = false;
+                this.controller.Pause = false;
+            }
             else {
                 this.menu.MenuShown = !this.menu.MenuShown;
                 this.controller.Pause = !this.controller.Pause;
@@ -381,17 +385,18 @@ public class InputManager : NetworkBehaviour
         #endregion
     }
 
+
     [Command]
     private void CmdAttack(float damage)
     {
         SyncChunk actual_chunk = null;
-        foreach (Collider col in Physics.OverlapBox(this.character.transform.position, new Vector3(5, 100, 5)))        
+        foreach (Collider col in Physics.OverlapBox(this.character.transform.position, new Vector3(5, 100, 5)))
             if (col.gameObject.name.Contains("Island"))
             {
                 actual_chunk = col.transform.parent.GetComponent<SyncChunk>();
                 break;
             }
-        
+
         if (actual_chunk != null && actual_chunk.IsCristal && actual_chunk.Cristal.Team == this.social.Team)
             damage += actual_chunk.Cristal.LevelAtk;
 
@@ -414,15 +419,54 @@ public class InputManager : NetworkBehaviour
     /// spawn an Element on server.
     /// </summary>
     /// <param name="id"></param>
-    /// <param name="pos"></param>
+    /// <param name="obj"></param>
     [Command]
-    private void CmdSpawnElm(int id, GameObject pos)
+    private void CmdSpawnElm(int id, Vector3 pos, Quaternion rot)
     {
-        Element elm = (EntityDatabase.Find(id) as Element);
-        elm.Spawn(pos.transform.position, pos.transform.rotation, pos.transform.parent, -1);
-        elm.Prefab.GetComponent<SyncElement>().UpdateGraph();
+        GameObject chunk = null;
+        foreach (Collider col in Physics.OverlapBox(pos, new Vector3(.25f, 1f, .25f)))
+        {
+            if (col.name.Contains("Island") && col.name != "IslandCore")
+            {
+                chunk = col.transform.parent.gameObject;
+                break;
+            }
+        }
+        if (chunk != null)
+        {
+            Element elm = (EntityDatabase.Find(id) as Element);
+            elm.Spawn(pos, rot, chunk.transform.FindChild("Elements"), -1);
+            elm.Prefab.GetComponent<SyncElement>().UpdateGraph();
+        }
     }
 
+    [Command]
+    private void CmdupdateValid(Vector3 pos)
+    {
+        GameObject chunk = null;
+        foreach (Collider col in Physics.OverlapBox(pos, new Vector3(.25f, 1f, .25f)))
+        {
+            if (col.name.Contains("Island") && col.name != "IslandCore")
+            {
+                chunk = col.transform.parent.gameObject;
+                break;
+            }
+        }
+        if (chunk != null)
+        {
+            Node n = chunk.GetComponent<SyncChunk>().MyGraph.GetNode(pos);
+            RpcUpValid(n != null && n.IsValid);
+        }
+        else
+            RpcUpValid(false);
+    }
+
+    [ClientRpc]
+    private void RpcUpValid(bool validity)
+    {
+        if (isLocalPlayer)
+            this.validplace = validity;
+    }
 
     [Command]
     private void CmdInteractElement(GameObject element, int toolId)
@@ -457,15 +501,15 @@ public class InputManager : NetworkBehaviour
             return;
         float necessaryDistance;
         switch (type)
-        {    
+        {
             case Element.TypeElement.Small:
                 necessaryDistance = .5f;
-                break;      
+                break;
             default:
                 necessaryDistance = 1.25f;
                 break;
         }
-       
+
         if (Vector3.Distance(this.character.transform.position, this.nearElement.transform.position) < necessaryDistance)
         {
             Vector3 or = 2 * this.character.transform.position - this.nearElement.transform.position;
@@ -540,7 +584,17 @@ public class InputManager : NetworkBehaviour
     }
 
     #region Getters/Setters
+    [Command]
+    private void CmdConsumme(int id)
+    {
+        Stats.AddUsed(id);
+    }
 
+    [Command]
+    private void CmdPut(int id)
+    {
+        Stats.AddPut(id);
+    }
     public GameObject NearElement
     {
         get { return this.nearElement; }
