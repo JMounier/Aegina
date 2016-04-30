@@ -147,12 +147,9 @@ public class SyncCharacter : NetworkBehaviour
             return;
         }
 
-        if (this.life <= 0 && gameObject.transform.FindChild("Character").FindChild("Armature").gameObject.activeInHierarchy)
-        {
+        if (this.life <= 0 && gameObject.transform.FindChild("Character").FindChild("Armature").gameObject.activeInHierarchy)     
             this.Kill();
-            Stats.IncrementDeath();
-        }
-
+        
         // Bonus
         if (this.cdJump <= 0)
             this.Jump = 0;

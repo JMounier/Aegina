@@ -213,6 +213,7 @@ public class Social_HUD : NetworkBehaviour
             case Activity.Death:
                 foreach (GameObject p in GameObject.FindGameObjectsWithTag("Player"))
                     p.GetComponent<Social_HUD>().RpcReceiveMsg("<color=grey>* <i>" + this.namePlayer + "</i> died.</color>");
+                Stats.IncrementDeath();
                 break;
             case Activity.Disconnection:
                 if (this.namePlayer != null)
