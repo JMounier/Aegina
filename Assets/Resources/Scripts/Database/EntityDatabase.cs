@@ -83,6 +83,8 @@ public static class EntityDatabase
     public static readonly Entity Gigot = new Entity(82, 60, Resources.Load<GameObject>("Prefabs/Loots/Gigot"));
     public static readonly Entity Hide = new Entity(83, 60, Resources.Load<GameObject>("Prefabs/Loots/Hide"));
     public static readonly Entity Fang = new Entity(84, 60, Resources.Load<GameObject>("Prefabs/Loots/Fang"));
+    public static readonly Entity AnimalFat = new Entity(85, 60, Resources.Load<GameObject>("Prefabs/Loots/AnimalFat"));
+    public static readonly Entity Apple = new Entity(86, 60, Resources.Load<GameObject>("Prefabs/Loots/Apple"));
 
 
     // SmallElements
@@ -96,7 +98,7 @@ public static class EntityDatabase
     public static readonly Element LittleRock = new Element(97, 100, Resources.Load<GameObject>("Prefabs/Elements/SmallElements/LittleRock"), Element.TypeElement.Small, 0, new DropConfig(1, 1));
 
     // Tree
-    public static readonly Element Fir = new Element(100, 50, Resources.Load<GameObject>("Prefabs/Elements/Trees/Fir"), Element.TypeElement.Tree, 0, new DropConfig(0, 4, 8));
+    public static readonly Element Fir = new Element(100, 50, Resources.Load<GameObject>("Prefabs/Elements/Trees/Fir"), Element.TypeElement.Tree, 0, new DropConfig(0, 4, 8), new DropConfig(89, 0, 1));
     public static readonly Element SnowFir = new Element(101, 50, Resources.Load<GameObject>("Prefabs/Elements/Trees/SnowFir"), Element.TypeElement.Tree, 0, new DropConfig(0, 4, 8));
     public static readonly Element Cactus = new Element(102, 15, Resources.Load<GameObject>("Prefabs/Elements/Trees/Cactus"), Element.TypeElement.Tree, 0, new DropConfig(80, 3, 6), new DropConfig(81, 1, 3));
     public static readonly Element Oak = new Element(103, 50, Resources.Load<GameObject>("Prefabs/Elements/Trees/Oak"), Element.TypeElement.Tree, 0, new DropConfig(0, 4, 8));
@@ -127,9 +129,9 @@ public static class EntityDatabase
 
     // Mobs
     public static readonly Mob Boar = new Mob(500, 20, Resources.Load<GameObject>("Prefabs/Mobs/Boar"), 15, 7, 6f, 7f, 1.3f, 2.8f, 1.5f,
-        new int[3] { 0, 2, 3 }, new DropConfig(83, 1), new DropConfig(83, 0, 1), new DropConfig(84, 1), new DropConfig(84, 0, 1));
+        new int[3] { 0, 2, 3 }, new DropConfig(83, 1), new DropConfig(83, 0, 1), new DropConfig(84, 1), new DropConfig(84, 0, 1), new DropConfig(86, 0, 1), new DropConfig(88, 1, 2));
     public static readonly Mob Pampa = new Mob(501, 15, Resources.Load<GameObject>("Prefabs/Mobs/Pampa"), 15, 8, 2f, 8f, 1f, 3.2f, 1.8f,
-        new int[1] { 1 }, new DropConfig(83, 1), new DropConfig(83, 0, 1), new DropConfig(80, 1), new DropConfig(80, 0, 1));
+        new int[1] { 1 }, new DropConfig(83, 1), new DropConfig(83, 0, 1), new DropConfig(80, 1), new DropConfig(80, 0, 1), new DropConfig(86, 0, 1));
 
     // Chunk
     public static readonly Chunk Chunk1_One = new Chunk(1000, Resources.Load<GameObject>("Prefabs/Chunks/Chunk1_One"), Bridges.One);
@@ -210,6 +212,7 @@ public static class EntityDatabase
             yield return Fang;
             yield return PumpkinLoot;
             yield return Bone;
+            yield return Apple;
 
             //Ingot
             yield return IronIngot;

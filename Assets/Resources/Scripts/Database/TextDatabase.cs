@@ -61,6 +61,7 @@ public class TextDatabase
     public static readonly Text Mushroom = new Text("Champignon", "Mushroom");
     public static readonly Text WaterCact = new Text("Eau", "Water cactus");
     public static readonly Text MeatBalls = new Text("Boullettes de viande", "MeatBalls");
+    public static readonly Text AnimalFat = new Text("Graisse animal", "Animal fat");
 
     // Description
     public static readonly Text LogDescription = new Text("Un morceau de bois pouvant servir pour créer d'autres objets", "A piece of wood usable to make other objects");
@@ -111,7 +112,7 @@ public class TextDatabase
     public static readonly Text MeatBallsDcription = new Text("Viannnnnde", "Meaaaaat");
     public static readonly Text BoneDescription = new Text("Berk ! Vous avez vraiment ramasse ca ?", "Yuck! You really pick that?");
     public static readonly Text PumpkinDescription = new Text("Mmm... Il doit y avoir moyen de cuisiner quelque chose avec !", "Mmm ... There must be a way to cook something with!");
-
+    public static readonly Text AnimalFatDescription = new Text("De la graisse animal... degoutant", " Animal fat... gross");
 
 
     // Tools

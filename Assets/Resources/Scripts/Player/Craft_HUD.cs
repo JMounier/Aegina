@@ -78,9 +78,15 @@ public class Craft_HUD : NetworkBehaviour
 
         if (type != Craft.Type.None)
         {
-            this.craftindex = (this.craftindex - (int)Input.mouseScrollDelta.y) % (Craftslist[(int)this.type - 1].Count);
+            int mouseScrollDelta = (int)Input.mouseScrollDelta.y;
+            this.craftindex = (this.craftindex - mouseScrollDelta) % (Craftslist[(int)this.type - 1].Count);
             while (craftindex < 0)            
-                craftindex += (Craftslist[(int)this.type - 1].Count);            
+                craftindex += (Craftslist[(int)this.type - 1].Count);
+            if (mouseScrollDelta != 0)
+            {
+                showcraft = false;
+                this.pos = -1;
+            }        
         }
     }
 
@@ -92,7 +98,7 @@ public class Craft_HUD : NetworkBehaviour
         tooltip = false;
         if (inventory.InventoryShown)
         {
-            GUI.Box(new Rect(0, 2 * Screen.height / 9 - Screen.height / 20, 1 * Screen.height / 7, 5 * Screen.height / 9 + Screen.height / 10), "",skin.GetStyle("craftframe_open"));
+            GUI.Box(new Rect(0, 2 * Screen.height / 9 - Screen.height / 20, 1 * Screen.height / 7, 5 * Screen.height / 9 + Screen.height / 10), "",skin.GetStyle("craftframe_close"));
             Categoryze();
             if (showcraft)
                 Craft_used_HUD();
@@ -146,7 +152,7 @@ public class Craft_HUD : NetworkBehaviour
         for (int i = 0; i < 10; i++)
         {
             box = new Rect(Screen.height / 9, 2 * Screen.height / 9 + i * Screen.height / 18, Screen.height / 18, Screen.height / 18);
-            if (GUI.Button(box, Craftslist[(int)this.type - 1][(craftindex + i) % (Craftslist[(int)this.type - 1].Count)].Product.Items.Icon, skin.GetStyle("Inventory")))
+            if (GUI.Button(box, "", skin.GetStyle("Inventory")))
             {
                 if (this.pos == i)
                 {
@@ -161,6 +167,11 @@ public class Craft_HUD : NetworkBehaviour
                 this.craftshow = Craftslist[(int)this.type - 1][(craftindex + i) % (Craftslist[(int)this.type - 1].Count)];
 				sound.PlaySound (AudioClips.Button,1f);
             }
+            box.x += Screen.height / 100;
+            box.y += Screen.height / 100;
+            box.height -= Screen.height / 50;
+            box.width -= Screen.height / 50;
+            GUI.DrawTexture(box, Craftslist[(int)this.type - 1][(craftindex + i) % (Craftslist[(int)this.type - 1].Count)].Product.Items.Icon);
             if (Craftslist[(int)this.type - 1][(craftindex + i) % (Craftslist[(int)this.type - 1].Count)].Product.Quantity > 1)
             {
                 GUI.Box(box, Craftslist[(int)this.type - 1][(craftindex + i) % (Craftslist[(int)this.type - 1].Count)].Product.Quantity.ToString(), skin.GetStyle("Quantity"));
@@ -177,12 +188,16 @@ public class Craft_HUD : NetworkBehaviour
         {
             craftindex = (craftindex - 1) % (Craftslist[(int)this.type - 1].Count);
 			sound.PlaySound (AudioClips.Button,1f);
+            showcraft = false;
+            this.pos = -1;
         }
         box = new Rect(Screen.height / 9, 7 * Screen.height / 9, Screen.height / 18, Screen.height / 18);
         if (GUI.Button(box, "", skin.GetStyle("down_arrow")))
         {
             craftindex = (craftindex + 1) % (Craftslist[(int)this.type - 1].Count);
 			sound.PlaySound (AudioClips.Button,1f);
+            showcraft = false;
+            this.pos = -1;
         }
 
     }
@@ -202,8 +217,35 @@ public class Craft_HUD : NetworkBehaviour
         foreach (ItemStack item in craftshow.Consume)
         {
             box = new Rect((3 + i) * Screen.height / 18, 2 * Screen.height / 9 + pos * Screen.height / 18, Screen.height / 18, Screen.height / 18);
-            GUI.Box(box, "", skin.GetStyle("Slot"));
 
+            if (GUI.Button(box, "", skin.GetStyle("Slot")))
+            {
+                Craft Craft = null;
+                foreach (Craft craft in CraftDatabase.Crafts)
+                {
+                    if (craft.Product.Items.ID == item.Items.ID)
+                    {
+                        Craft = craft;
+                        break;
+                    }
+                }
+                if (Craft != null)
+                {
+                    int index = 0;
+                    pos = 0;
+                    this.type = Craft.What;
+                    foreach (Craft recette in this.Craftslist[((int)type)-1])
+                    {
+                        if (recette.ID == Craft.ID)
+                        {
+                            this.showcraft = true;
+                            craftindex = index;
+                            craftshow = recette;
+                        }
+                        index += 1;
+                    }
+                }
+            }
 			Rect littlebox = new Rect((3 + i) * Screen.height / 18 + Decal, 2 * Screen.height / 9 + pos * Screen.height / 18 + Decal, Screen.height / 18 - 2*Decal, Screen.height / 18 - 2*Decal);
             GUI.DrawTexture(littlebox, item.Items.Icon);
             GUI.Box(box, inventory.InventoryContains(item.Items, item.Quantity * cost) ? (item.Quantity * cost).ToString() : "<color=#ff0000>" + (item.Quantity * cost).ToString() + "</color>", skin.GetStyle("Quantity"));
