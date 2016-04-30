@@ -69,7 +69,7 @@ public class SuccesHUD : NetworkBehaviour{
 		while (succs.Count != 0) {
 			Success suc = succs.Dequeue ();
 			if (suc.Achived) {
-				RpcUpdateSucces (suc.ID, true);
+				RpcUpdateSucces (suc.ID);
 				foreach (Success succ in suc.Sons)
 					succs.Enqueue (succ);
 			}
