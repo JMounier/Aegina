@@ -213,6 +213,7 @@ public static class EntityDatabase
             yield return PumpkinLoot;
             yield return Bone;
             yield return Apple;
+            yield return AnimalFat;
 
             //Ingot
             yield return IronIngot;
