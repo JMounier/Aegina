@@ -78,7 +78,14 @@ public class SuccesHUD : NetworkBehaviour{
 
 	[ClientRpc]
 	private void RpcUpdateSucces(int id, bool state){
-		if (isLocalPlayer)
-			SuccessDatabase.Find (id).Achived = state;
+		if (isLocalPlayer) {
+			Success suc = SuccessDatabase.Find (id);
+			suc.Achived = state;
+			if (suc.Achived)
+				foreach (Success sucson in suc.Sons) {
+					sucson.Isseen = true;
+				}
+		}
+		
 	}
 }
