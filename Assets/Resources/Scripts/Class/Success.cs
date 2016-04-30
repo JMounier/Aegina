@@ -70,7 +70,7 @@ public class Success
 	/// </summary>
 	/// <returns><c>true</c> if this instance isseen ; otherwise, <c>false</c>.</returns>
 	public bool Isseen(){
-		return this.seen || this.nbParentMax != this.nbParentsLeft;
+		return this.nbParentMax != this.nbParentsLeft;
 	}
     #endregion
 
