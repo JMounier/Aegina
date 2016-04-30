@@ -100,12 +100,12 @@ public static class Stats
         return 0;
     }
 
-    public static void AddPut(WorkTop worktop)
+    public static void AddPut(int id)
     {
-        if (put.ContainsKey(worktop.ID))
-            put[worktop.ID]++;
+        if (put.ContainsKey(id))
+            put[id]++;
         else
-            put.Add(worktop.ID, 1);
+            put.Add(id, 1);
     }
 
     public static uint Put(WorkTop worktop)
@@ -115,12 +115,12 @@ public static class Stats
         return 0;
     }
 
-    public static void AddUsed(Consumable consumable)
+    public static void AddUsed(int id)
     {
-        if (used.ContainsKey(consumable.ID))
-            used[consumable.ID]++;
+        if (used.ContainsKey(id))
+            used[id]++;
         else
-            used.Add(consumable.ID, 1);
+            used.Add(id, 1);
     }
 
     public static uint Used(Consumable consumable)

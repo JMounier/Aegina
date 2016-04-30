@@ -153,7 +153,7 @@ public class InputManager : NetworkBehaviour
                 if (wt.IsValid() && this.soundAudio.IsReady(615))
                 {
                     CmdSpawnElm(wt.ElementID, wt.Previsu);
-                    Stats.AddPut(wt);
+                    this.CmdPut(wt.ID);
                     this.inventaire.UsedItem.Quantity -= 1;
                     if (this.inventaire.UsedItem.Quantity <= 0)
                         this.inventaire.UsedItem = new ItemStack();
@@ -170,7 +170,7 @@ public class InputManager : NetworkBehaviour
                     this.cdConsume = 1f;
                     this.anim.SetInteger("Action", 0);
                     Consumable consum = this.inventaire.UsedItem.Items as Consumable;
-                    Stats.AddUsed(consum);
+                    this.CmdConsumme(consum.ID);
                     switch (consum.E.ET)
                     {
                         case Effect.EffectType.Speed:
@@ -540,7 +540,17 @@ public class InputManager : NetworkBehaviour
     }
 
     #region Getters/Setters
+    [Command]
+    private void CmdConsumme(int id)
+    {
+        Stats.AddUsed(id);
+    }
 
+    [Command]
+    private void CmdPut(int id)
+    {
+        Stats.AddPut(id);
+    }
     public GameObject NearElement
     {
         get { return this.nearElement; }
