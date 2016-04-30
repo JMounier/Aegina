@@ -46,8 +46,8 @@ namespace UnityEngine.Networking
         #region Monobehaviour methods
         void Awake()
         {
-            // this.loadingVideo = Resources.Load<MovieTexture>("Sprites/SplashImages/LoadingVideo");
-            //this.loadingImage = Resources.Load<Texture>("Sprites/SplashImages/LoadingImage");
+            this.loadingVideo = Resources.Load<MovieTexture>("Sprites/SplashImages/LoadingVideo");
+            this.loadingImage = Resources.Load<Texture>("Sprites/SplashImages/LoadingImage");
 
             this.incr = Random.Range(-0.02f, 0.02f);
             this.incg = Random.Range(-0.02f, 0.02f);
