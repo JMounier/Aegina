@@ -46,7 +46,7 @@ public class InputManager : NetworkBehaviour
         this.anim = gameObject.GetComponent<Animator>();
         this.syncCharacter = gameObject.GetComponent<SyncCharacter>();
         this.validplace = false;
-        this.lastvalidplace = true;
+        this.lastvalidplace = false;
 
         this.soundAudio = gameObject.GetComponent<Sound>();
         Cursor.visible = false;
@@ -107,23 +107,22 @@ public class InputManager : NetworkBehaviour
             WorkTop wt = this.inventaire.UsedItem.Items as WorkTop;
             wt.Previsu.transform.position = (this.character.transform.position - this.character.transform.forward);
             wt.Previsu.transform.LookAt(new Vector3(this.character.transform.position.x, wt.Previsu.transform.position.y, this.character.transform.position.z));
-            if (wt.Previsu.transform.parent != null)
-            {
-                CmdupdateValid(wt.Previsu, wt.Previsu.transform.parent.parent.gameObject);
 
-                if (validplace != this.lastvalidplace)
+            CmdupdateValid(wt.Previsu.transform.position);
+
+            if (validplace != this.lastvalidplace)
+            {
+                Material mat = Resources.Load<Material>("Models/WorkStations/Materials/Previsu" + (validplace ? 1 : 2));
+                foreach (MeshRenderer mesh in wt.Previsu.GetComponentsInChildren<MeshRenderer>())
                 {
-                    Material mat = Resources.Load<Material>("Models/WorkStations/Materials/Previsu" + (validplace ? 1 : 2));
-                    foreach (MeshRenderer mesh in wt.Previsu.GetComponentsInChildren<MeshRenderer>())
-                    {
-                        Material[] mats = new Material[mesh.materials.Length];
-                        for (int i = 0; i < mats.Length; i++)
-                            mats[i] = mat;
-                        mesh.materials = mats;
-                    }
-                    this.lastvalidplace = validplace;
+                    Material[] mats = new Material[mesh.materials.Length];
+                    for (int i = 0; i < mats.Length; i++)
+                        mats[i] = mat;
+                    mesh.materials = mats;
                 }
+                this.lastvalidplace = validplace;
             }
+
         }
         #endregion
 
@@ -430,18 +429,31 @@ public class InputManager : NetworkBehaviour
     }
 
     [Command]
-    private void CmdupdateValid(GameObject obj, GameObject parent)
+    private void CmdupdateValid(Vector3 pos)
     {
-        Node n = parent.GetComponent<SyncChunk>().MyGraph.GetNode(obj.transform.position);
-        RpcUpValid(n != null && n.IsValid);
+        GameObject chunk = null;
+        foreach (Collider col in Physics.OverlapBox(pos, new Vector3(.25f, 1f, .25f)))
+        {
+            if (col.name.Contains("Island") && col.name != "IslandCore")
+            {
+                chunk = col.transform.parent.gameObject;
+                break;
+            }
+        }
+        if (chunk != null)
+        {
+            Node n = chunk.GetComponent<SyncChunk>().MyGraph.GetNode(pos);
+            RpcUpValid(n != null && n.IsValid);
+        }
+        else
+            RpcUpValid(false);
     }
 
     [ClientRpc]
     private void RpcUpValid(bool validity)
     {
-        if (!isLocalPlayer)
-            return;
-        this.validplace = validity;
+        if (isLocalPlayer)
+            this.validplace = validity;
     }
 
     [Command]
