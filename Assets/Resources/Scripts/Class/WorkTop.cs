@@ -32,13 +32,7 @@ public class WorkTop : Item
         this.elementID = elementID;
     }
 
-    public bool IsValid()
-    {
-        if (this.previsu.transform.parent == null)
-            return true;
-        Node n = this.previsu.transform.parent.parent.GetComponent<SyncChunk>().MyGraph.GetNode(this.previsu.transform.position);
-        return n != null && n.IsValid;
-    }
+    
     public static Transform GetHierarchy(Vector3 pos)
     {
         Transform parent = null;
