@@ -7,34 +7,29 @@ public class SyncCharacter : NetworkBehaviour
 {
     // Carateristiques
     private int lifeMax;
-    [SyncVar]
     private float life;
+
     private int hungerMax;
-    [SyncVar]
     private float hunger;
+
     private int thirstMax;
-    [SyncVar]
     private float thirst;
 
     // Bonus / Malus
     [SyncVar]
     private float speed;
-    [SyncVar]
     private float cdSpeed;
 
     [SyncVar]
     private float jump;
-    [SyncVar]
     private float cdJump;
 
     [SyncVar]
     private float regen;
-    [SyncVar]
     private float cdRegen;
 
     [SyncVar]
     private float poison;
-    [SyncVar]
     private float cdPoison;
 
     // Constants
@@ -147,9 +142,9 @@ public class SyncCharacter : NetworkBehaviour
             return;
         }
 
-        if (this.life <= 0 && gameObject.transform.FindChild("Character").FindChild("Armature").gameObject.activeInHierarchy)     
+        if (this.life <= 0 && gameObject.transform.FindChild("Character").FindChild("Armature").gameObject.activeInHierarchy)
             this.Kill();
-        
+
         // Bonus
         if (this.cdJump <= 0)
             this.Jump = 0;
@@ -225,6 +220,7 @@ public class SyncCharacter : NetworkBehaviour
         this.character.GetComponent<Rigidbody>().velocity = Vector3.zero;
         CmdRespawnPos();
     }
+
     [Command]
     private void CmdRespawnPos()
     {
@@ -251,10 +247,9 @@ public class SyncCharacter : NetworkBehaviour
             }
         }
         float armor = 100;
-        if (chunk != null && chunk.IsCristal && chunk.Cristal.Team == Team.Blue)
-        {
+        if (chunk != null && chunk.IsCristal && chunk.Cristal.Team == gameObject.GetComponent<Social_HUD>().Team)        
             armor += chunk.Cristal.LevelAtk * 20;
-        }
+        
         this.Life -= 100 * damage / armor;
     }
 
@@ -294,15 +289,22 @@ public class SyncCharacter : NetworkBehaviour
         set
         {
             this.life = Mathf.Clamp(value, 0f, this.lifeMax);
-            if (!isServer)
-                this.CmdLife(Mathf.Clamp(value, 0f, this.lifeMax));
+            this.CmdLife(this.life, !isLocalPlayer);
         }
     }
 
     [Command]
-    private void CmdLife(float life)
+    private void CmdLife(float life, bool fromServer)
     {
         this.life = life;
+        RpcLife(life, fromServer);
+    }
+
+    [ClientRpc]
+    private void RpcLife(float life, bool fromServer)
+    {
+        if (fromServer || !isLocalPlayer)
+            this.life = life;
     }
 
     /// <summary>
@@ -339,10 +341,8 @@ public class SyncCharacter : NetworkBehaviour
         get { return this.hunger; }
         set
         {
-            if (isServer)
-                this.hunger = Mathf.Clamp(value, 0f, this.hungerMax);
-            else
-                this.CmdHunger(Mathf.Clamp(value, 0f, this.hungerMax));
+            this.hunger = Mathf.Clamp(value, 0f, this.hungerMax);
+            this.CmdHunger(Mathf.Clamp(value, 0f, this.hungerMax));
         }
     }
 
@@ -350,6 +350,14 @@ public class SyncCharacter : NetworkBehaviour
     private void CmdHunger(float hunger)
     {
         this.hunger = hunger;
+        RpcHunger(hunger);
+    }
+
+    [ClientRpc]
+    private void RpcHunger(float hunger)
+    {
+        if (!isLocalPlayer)
+            this.hunger = hunger;
     }
 
     /// <summary>
@@ -373,10 +381,8 @@ public class SyncCharacter : NetworkBehaviour
         get { return this.thirst; }
         set
         {
-            if (isServer)
-                this.thirst = Mathf.Clamp(value, 0f, this.thirstMax);
-            else
-                this.CmdThirst(Mathf.Clamp(value, 0f, this.thirstMax));
+            this.thirst = Mathf.Clamp(value, 0f, this.thirstMax);
+            this.CmdThirst(Mathf.Clamp(value, 0f, this.thirstMax));
         }
     }
 
@@ -384,6 +390,14 @@ public class SyncCharacter : NetworkBehaviour
     private void CmdThirst(float thirst)
     {
         this.thirst = thirst;
+        RpcThirst(thirst);
+    }
+
+    [ClientRpc]
+    private void RpcThirst(float thirst)
+    {
+        if (!isLocalPlayer)
+            this.thirst = thirst;
     }
 
     /// <summary>
@@ -394,10 +408,8 @@ public class SyncCharacter : NetworkBehaviour
         get { return this.speed; }
         set
         {
-            if (isServer)
-                this.speed = value;
-            else
-                this.CmdSpeed(value);
+            this.speed = value;
+            this.CmdSpeed(value);
         }
     }
 
@@ -415,10 +427,8 @@ public class SyncCharacter : NetworkBehaviour
         get { return this.cdSpeed; }
         set
         {
-            if (isServer)
-                this.cdSpeed = value;
-            else
-                this.CmdCdSpeed(value);
+            this.cdSpeed = value;
+            this.CmdCdSpeed(value);
         }
     }
 
@@ -426,6 +436,14 @@ public class SyncCharacter : NetworkBehaviour
     private void CmdCdSpeed(float cdSpeed)
     {
         this.cdSpeed = cdSpeed;
+        RpcCdSpeed(cdSpeed);
+    }
+
+    [ClientRpc]
+    private void RpcCdSpeed(float cdSpeed)
+    {
+        if (!isLocalPlayer)
+            this.cdSpeed = cdSpeed;
     }
 
     /// <summary>
@@ -436,10 +454,8 @@ public class SyncCharacter : NetworkBehaviour
         get { return this.jump; }
         set
         {
-            if (isServer)
-                this.jump = value;
-            else
-                this.CmdJump(value);
+            this.jump = value;
+            this.CmdJump(value);
         }
     }
 
@@ -457,10 +473,8 @@ public class SyncCharacter : NetworkBehaviour
         get { return this.cdJump; }
         set
         {
-            if (isServer)
-                this.cdJump = value;
-            else
-                this.CmdCdJump(value);
+            this.cdJump = value;
+            this.CmdCdJump(value);
         }
     }
 
@@ -468,6 +482,14 @@ public class SyncCharacter : NetworkBehaviour
     private void CmdCdJump(float cdJump)
     {
         this.cdJump = cdJump;
+        RpcCdJump(cdJump);
+    }
+
+    [ClientRpc]
+    private void RpcCdJump(float cdJump)
+    {
+        if (!isLocalPlayer)
+            this.cdSpeed = cdJump;
     }
 
     /// <summary>
@@ -478,10 +500,8 @@ public class SyncCharacter : NetworkBehaviour
         get { return this.regen; }
         set
         {
-            if (isServer)
-                this.regen = value;
-            else
-                this.CmdRegen(value);
+            this.regen = value;
+            this.CmdRegen(value);
         }
     }
 
@@ -499,10 +519,8 @@ public class SyncCharacter : NetworkBehaviour
         get { return this.cdRegen; }
         set
         {
-            if (isServer)
-                this.cdRegen = value;
-            else
-                this.CmdCdRegen(value);
+            this.cdRegen = value;
+            this.CmdCdRegen(value);
         }
     }
 
@@ -510,6 +528,14 @@ public class SyncCharacter : NetworkBehaviour
     private void CmdCdRegen(float cdRegen)
     {
         this.cdRegen = cdRegen;
+        RpcCdRegen(cdRegen);
+    }
+
+    [ClientRpc]
+    private void RpcCdRegen(float cdRegen)
+    {
+        if (!isLocalPlayer)
+            this.cdRegen = cdRegen;
     }
 
     /// <summary>
@@ -520,9 +546,7 @@ public class SyncCharacter : NetworkBehaviour
         get { return this.poison; }
         set
         {
-            if (isServer)
                 this.poison = value;
-            else
                 this.CmdPoison(value);
         }
     }
@@ -541,9 +565,7 @@ public class SyncCharacter : NetworkBehaviour
         get { return this.cdPoison; }
         set
         {
-            if (isServer)
                 this.cdPoison = value;
-            else
                 this.CmdCdPoison(value);
         }
     }
@@ -552,6 +574,14 @@ public class SyncCharacter : NetworkBehaviour
     private void CmdCdPoison(float cdPoison)
     {
         this.cdPoison = cdPoison;
+        RpcCdPoison(cdPoison);
+    }
+
+    [ClientRpc]
+    private void RpcCdPoison(float cdPoison)
+    {
+        if (!isLocalPlayer)
+            this.cdPoison = cdPoison;
     }
     #endregion
 }
