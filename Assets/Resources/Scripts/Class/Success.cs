@@ -10,6 +10,7 @@ public class Success
     private Text description;
     private Texture2D icon;
     private bool achived;
+	private bool
     private Requirement.Requirements[] requirements;
 
     private Success[] sons;
@@ -51,7 +52,7 @@ public class Success
         }
     }
 
-    private void Unlock(bool display)
+    public void Unlock(bool display)
     {
         this.achived = true;
         foreach (Success succ in this.sons)
@@ -70,7 +71,7 @@ public class Success
 	/// </summary>
 	/// <returns><c>true</c> if this instance isseen ; otherwise, <c>false</c>.</returns>
 	public bool Isseen(){
-		return this.nbParentMax != this.nbParentsLeft;
+		return this.seen || this.nbParentMax != this.nbParentsLeft;
 	}
     #endregion
 
