@@ -88,16 +88,16 @@ namespace UnityEngine.Networking
             this.height = Screen.height / 25;
             this.spacing = this.height * 2;
             if (!this.manager.isNetworkActive)
-                loadingVideo.Stop();            
+                loadingVideo.Stop();
         }
 
         void Start()
         {
             this.loadingVideo.loop = true;
             worldsList = new List<string>(Directory.GetDirectories(Application.dataPath + "/Saves"));
-            for (int i = 0; i < worldsList.Count; i++)            
+            for (int i = 0; i < worldsList.Count; i++)
                 worldsList[i] = worldsList[i].Remove(0, Application.dataPath.Length + 7);
-            
+
             int j = 0;
             while (PlayerPrefs.GetString("ip" + j.ToString(), "") != "")
             {
@@ -175,7 +175,7 @@ namespace UnityEngine.Networking
                         this.Launch(TypeLaunch.Stop);
                         this.manager.networkAddress = "localhost";
                     }
-                }  
+                }
                 else if (!this.manager.clientLoadedScene)
                     GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), this.loadingImage);
             }
@@ -232,7 +232,7 @@ namespace UnityEngine.Networking
                 default:
                     this.manager.StopHost();
                     break;
-            }            
+            }
         }
 
         #region Options
@@ -516,8 +516,8 @@ namespace UnityEngine.Networking
             if (GUI.Button(rect, "Coop/" + TextDatabase.PVP.GetText(), this.skin.GetStyle("button")))
                 this.typeCoop = !typeCoop;
 
-            GUI.Box(new Rect(this.posX, this.posY + 4 * this.spacing + 1.5f * this.height, this.width, this.height + this.spacing), this.typeCoop ? "Coop" : TextDatabase.PVP.GetText(), this.skin.GetStyle("inventory"));
-            rect = new Rect(this.posX, this.posY + 6 * this.spacing + this.height, (this.width - 10) / 2, this.height);
+            GUI.Box(new Rect(this.posX, this.posY + 4 * this.spacing + 2f * this.height, this.width, this.height + this.spacing), this.typeCoop ? "Coop" : TextDatabase.PVP.GetText(), this.skin.GetStyle("inventory"));
+            rect = new Rect(this.posX, this.posY + 6 * this.spacing + 1.5f * this.height, (this.width - 10) / 2, this.height);
             bool possible = true;
             int i = 0;
             worldsList = new List<string>(Directory.GetDirectories(Application.dataPath + "/Saves"));
@@ -557,7 +557,7 @@ namespace UnityEngine.Networking
             }
             else
                 GUI.Box(rect, TextDatabase.Create.GetText(), this.skin.GetStyle("button"));
-            rect = new Rect(this.posX + this.width / 2, this.posY + 6 * this.spacing + this.height, (this.width - 10) / 2, this.height);
+            rect = new Rect(this.posX + this.width / 2, this.posY + 6 * this.spacing + 1.5f * this.height, (this.width - 10) / 2, this.height);
             if (GUI.Button(rect, TextDatabase.Back.GetText(), skin.GetStyle("button")))
             {
                 this.worldcreateShown = false;

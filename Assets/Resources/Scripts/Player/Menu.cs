@@ -84,6 +84,7 @@ public class Menu : NetworkBehaviour
 
         if (GUI.Button(new Rect(this.posX, this.posY + this.spacing * 2, this.width, this.height), TextDatabase.Quit.GetText(), skin.GetStyle("button")))
         {
+            this.menuShown = false;
             this.soundAudio.PlaySound(AudioClips.Button, 1f);
             if (isServer)
             {

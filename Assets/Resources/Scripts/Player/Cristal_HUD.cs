@@ -25,7 +25,7 @@ public class Cristal_HUD : NetworkBehaviour
             return;
         this.pos_x = Screen.width / 3;
         this.pos_y = Screen.height / 4;
-        this.width = Screen.width / 3 + 50;
+        this.width = 17 * Screen.width / 40;
         this.height = Screen.height / 2;
         this.space = Screen.height / 20;
         this.spaceH = Screen.width / 50;
@@ -41,10 +41,12 @@ public class Cristal_HUD : NetworkBehaviour
             return;
         this.pos_x = Screen.width / 3;
         this.pos_y = Screen.height / 4;
-        this.width = Screen.width / 3 + 50;
+        this.width = 17 * Screen.width / 40;
         this.height = Screen.height / 2;
         this.space = Screen.height / 25;
         this.spaceH = Screen.width / 40;
+        this.skin.GetStyle("Description").fontSize = (int)(0.01 * Screen.width);
+        this.skin.GetStyle("button").fontSize = (int)(0.01 * Screen.width);
     }
 
     void OnGUI()
@@ -156,7 +158,7 @@ public class Cristal_HUD : NetworkBehaviour
             rect = new Rect(this.pos_x + (5 + 3 * i) * spaceH, this.pos_y + height - 11 * space - 15, 3 * spaceH - 5, space);
             GUI.Box(rect, "<color=#FFFFFF>" + (i == 0 ? TextDatabase.AttackPower.GetText() : i == 1 ? TextDatabase.GrowingPower.GetText() : TextDatabase.PortalPower.GetText()) + "</color>", skin.GetStyle("Description"));
         }
-        rect = new Rect(this.pos_x + width - 1.7f * this.spaceH, this.pos_y + space, 1.1f * this.spaceH, this.height - 5 * this.space);
+        rect = new Rect(this.pos_x + width - 2 * this.spaceH, this.pos_y + space, 1.1f * this.spaceH, this.height - 5 * this.space);
         GUI.DrawTexture(rect, Resources.Load<Texture2D>("Sprites/Bars/Thirst/ThirstBar" + ((int)this.cristal.Life / 10).ToString()));
         if (this.cristal.Life < 1000)
         {
