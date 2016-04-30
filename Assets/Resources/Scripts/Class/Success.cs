@@ -51,7 +51,7 @@ public class Success
         }
     }
 
-    private void Unlock(bool display)
+    public void Unlock(bool display)
     {
         this.achived = true;
         foreach (Success succ in this.sons)
@@ -103,6 +103,7 @@ public class Success
     public bool Achived
     {
         get { return this.achived; }
+		set { this.achived = value;}
     }
 
     public Success[] Sons
