@@ -216,9 +216,10 @@ public class Tutoriel : NetworkBehaviour
 
     private void ObjectifHUD()
     {
-        int num = textObjectif.GetText().Length / 28;
+        int num = textObjectif.GetText().Length / 23;
         Rect rect = new Rect(5, 5, 2 * Screen.width / 9, (1 + num) * Screen.height / 35 + 8);
-        GUI.Box(rect, textObjectif.GetText(), skin.GetStyle("Objectifs"));
+        if (this.textObjectif.GetText() != "")
+            GUI.Box(rect, textObjectif.GetText(), skin.GetStyle("Objectifs"));
         rect.x = rect.width - Screen.width / 100;
         rect.y = rect.height - Screen.width / 100;
         rect.width = Screen.width / 50;
@@ -297,30 +298,33 @@ public class Tutoriel : NetworkBehaviour
     }
 
 
-	//Getters Setters
-	public bool Finished_tuto
-	{
-		get{ return progress > 12;}
-	}
-	public bool Tutoshown
-	{
-		get{ return progress == 0;}
-		set{
-			if (!value) {
-				this.progress = 13;
-				CmdSaveProgress (13);
-			}
-		}
-	}
-	public bool EndTutoShown
-	{
-		get{ return progress < 0;}
-		set{ 
-			if(value != progress < 0)
-				CmdSaveProgress(progress * -1);
-		}
-	}
-	public int Progress
+    //Getters Setters
+    public bool Finished_tuto
+    {
+        get { return progress > 12; }
+    }
+    public bool Tutoshown
+    {
+        get { return progress == 0; }
+        set
+        {
+            if (!value)
+            {
+                this.progress = 13;
+                CmdSaveProgress(13);
+            }
+        }
+    }
+    public bool EndTutoShown
+    {
+        get { return progress < 0; }
+        set
+        {
+            if (value != progress < 0)
+                CmdSaveProgress(progress * -1);
+        }
+    }
+    public int Progress
     {
         get { return this.progress; }
     }
