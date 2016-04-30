@@ -17,11 +17,11 @@ public class SuccesHUD : NetworkBehaviour{
 	private List<SuccesIcon> listsuccess;
 			
 	void Start(){
-		this.activate = false;
-		this.Light.SetActive (false);
 		if (!isLocalPlayer)
 			return;
 
+		this.activate = false;
+		this.Light.SetActive (false);
 		this.listsuccess = new List<SuccesIcon> ();
 
 		// ajoute tous les succes de l'interface a la liste
@@ -34,6 +34,7 @@ public class SuccesHUD : NetworkBehaviour{
 			}
 		}
 		this.successinterface.SetActive (false);
+		CmdUpdateSucces ();
 	}
 
 	/// <summary>
@@ -59,5 +60,25 @@ public class SuccesHUD : NetworkBehaviour{
 	public bool Enable{
 		get { return this.activate;}
 		set{ this.activate = value;}
+	}
+
+	[Command]
+	private void CmdUpdateSucces(){
+		Queue<Success> succs = new Queue<Success> ();
+		succs.Enqueue (SuccessDatabase.Root);
+		while (succs.Count != 0) {
+			Success suc = succs.Dequeue ();
+			if (suc.Achived) {
+				RpcUpdateSucces (suc.ID, true);
+				foreach (Success succ in suc.Sons)
+					succs.Enqueue (succ);
+			}
+		}
+	}
+
+	[ClientRpc]
+	private void RpcUpdateSucces(int id, bool state){
+		if (isLocalPlayer)
+			SuccessDatabase.Find (id).Achived = state;
 	}
 }

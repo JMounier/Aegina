@@ -103,6 +103,7 @@ public class Success
     public bool Achived
     {
         get { return this.achived; }
+		set { this.achived = value;}
     }
 
     public Success[] Sons
