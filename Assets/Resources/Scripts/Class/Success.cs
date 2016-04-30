@@ -10,7 +10,6 @@ public class Success
     private Text description;
     private Texture2D icon;
     private bool achived;
-	private bool
     private Requirement.Requirements[] requirements;
 
     private Success[] sons;
