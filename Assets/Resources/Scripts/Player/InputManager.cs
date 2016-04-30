@@ -341,7 +341,7 @@ public class InputManager : NetworkBehaviour
 
         #region ToolBar
         // Gere la barre d'outil.
-        if (!Input.GetKey("left ctrl") && !this.controller.Pause)
+        if (!Input.GetKey("left ctrl") && !this.controller.Pause && !this.inventaire.InventoryShown)
         {
             if (Input.GetAxis("Mouse ScrollWheel") > 0)
                 this.inventaire.Cursors++;
