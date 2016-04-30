@@ -156,7 +156,7 @@ public class InputManager : NetworkBehaviour
                 WorkTop wt = this.inventaire.UsedItem.Items as WorkTop;
                 if (validplace && this.soundAudio.IsReady(615))
                 {
-                    CmdSpawnElm(wt.ElementID, wt.Previsu);
+                    CmdSpawnElm(wt.ElementID, wt.Previsu.transform.position, wt.Previsu.transform.rotation);
                     this.CmdPut(wt.ID);
                     this.inventaire.UsedItem.Quantity -= 1;
                     if (this.inventaire.UsedItem.Quantity <= 0)
@@ -419,13 +419,25 @@ public class InputManager : NetworkBehaviour
     /// spawn an Element on server.
     /// </summary>
     /// <param name="id"></param>
-    /// <param name="pos"></param>
+    /// <param name="obj"></param>
     [Command]
-    private void CmdSpawnElm(int id, GameObject pos)
+    private void CmdSpawnElm(int id, Vector3 pos, Quaternion rot)
     {
-        Element elm = (EntityDatabase.Find(id) as Element);
-        elm.Spawn(pos.transform.position, pos.transform.rotation, pos.transform.parent, -1);
-        elm.Prefab.GetComponent<SyncElement>().UpdateGraph();
+        GameObject chunk = null;
+        foreach (Collider col in Physics.OverlapBox(pos, new Vector3(.25f, 1f, .25f)))
+        {
+            if (col.name.Contains("Island") && col.name != "IslandCore")
+            {
+                chunk = col.transform.parent.gameObject;
+                break;
+            }
+        }
+        if (chunk != null)
+        {
+            Element elm = (EntityDatabase.Find(id) as Element);
+            elm.Spawn(pos, rot, chunk.transform.FindChild("Elements"), -1);
+            elm.Prefab.GetComponent<SyncElement>().UpdateGraph();
+        }
     }
 
     [Command]
