@@ -107,14 +107,14 @@ public static class EntityDatabase
     public static readonly Element FallOak2 = new Element(106, 50, Resources.Load<GameObject>("Prefabs/Elements/Trees/FallOak2"), Element.TypeElement.Tree, 0, new DropConfig(0, 4, 8));
 
     // Rock
-    public static readonly Element StoneRock = new Element(110, 50, Resources.Load<GameObject>("Prefabs/Elements/Rocks/Stone"), Element.TypeElement.Rock, 0, new DropConfig(1, 4, 8));
-    public static readonly Element CopperRock = new Element(111, 50, Resources.Load<GameObject>("Prefabs/Elements/Rocks/CopperStone"), Element.TypeElement.Rock, 0, new DropConfig(3, 1, 4), new DropConfig(1, 2, 4));
-    public static readonly Element IronRock = new Element(112, 50, Resources.Load<GameObject>("Prefabs/Elements/Rocks/IronStone"), Element.TypeElement.Rock, 0, new DropConfig(4, 1, 4), new DropConfig(1, 2, 4));
-    public static readonly Element GoldRock = new Element(113, 50, Resources.Load<GameObject>("Prefabs/Elements/Rocks/GoldStone"), Element.TypeElement.Rock, 0, new DropConfig(5, 1, 4), new DropConfig(1, 2, 4));
-    public static readonly Element MithrilRock = new Element(114, 50, Resources.Load<GameObject>("Prefabs/Elements/Rocks/MithrilStone"), Element.TypeElement.Rock, 0, new DropConfig(6, 1, 4), new DropConfig(1, 2, 4));
-    public static readonly Element FloatiumRock = new Element(115, 50, Resources.Load<GameObject>("Prefabs/Elements/Rocks/FloatiumStone"), Element.TypeElement.Rock, 0, new DropConfig(7, 1, 3), new DropConfig(1, 2, 4));
-    public static readonly Element SunkiumRock = new Element(116, 50, Resources.Load<GameObject>("Prefabs/Elements/Rocks/SunkiumStone"), Element.TypeElement.Rock, 0, new DropConfig(8, 1, 3), new DropConfig(1, 2, 4));
-    public static readonly Element Squeleton = new Element(117, 50, Resources.Load<GameObject>("Prefabs/Elements/Rocks/Bones"), Element.TypeElement.Rock, 0, new DropConfig(86, 1, 3));
+    public static readonly Element StoneRock = new Element(110, 50, Resources.Load<GameObject>("Prefabs/Elements/Rocks/Stone"), Element.TypeElement.Rock, 0, new DropConfig(1, 4, 8),new DropConfig(2,0,1));
+    public static readonly Element CopperRock = new Element(111, 50, Resources.Load<GameObject>("Prefabs/Elements/Rocks/CopperStone"), Element.TypeElement.Rock, 0, new DropConfig(3, 1, 4), new DropConfig(1, 2, 4),new DropConfig(2, 0, 1));
+    public static readonly Element IronRock = new Element(112, 50, Resources.Load<GameObject>("Prefabs/Elements/Rocks/IronStone"), Element.TypeElement.Rock, 0, new DropConfig(4, 1, 4), new DropConfig(1, 2, 4), new DropConfig(2, 0, 1));
+    public static readonly Element GoldRock = new Element(113, 50, Resources.Load<GameObject>("Prefabs/Elements/Rocks/GoldStone"), Element.TypeElement.Rock, 0, new DropConfig(5, 1, 4), new DropConfig(1, 2, 4), new DropConfig(2, 0, 1));
+    public static readonly Element MithrilRock = new Element(114, 50, Resources.Load<GameObject>("Prefabs/Elements/Rocks/MithrilStone"), Element.TypeElement.Rock, 0, new DropConfig(6, 1, 4), new DropConfig(1, 2, 4), new DropConfig(2, 0, 1));
+    public static readonly Element FloatiumRock = new Element(115, 50, Resources.Load<GameObject>("Prefabs/Elements/Rocks/FloatiumStone"), Element.TypeElement.Rock, 0, new DropConfig(7, 1, 3), new DropConfig(1, 2, 4), new DropConfig(2, 0, 1));
+    public static readonly Element SunkiumRock = new Element(116, 50, Resources.Load<GameObject>("Prefabs/Elements/Rocks/SunkiumStone"), Element.TypeElement.Rock, 0, new DropConfig(8, 1, 3), new DropConfig(1, 2, 4), new DropConfig(2, 0, 1));
+    public static readonly Element Squeleton = new Element(117, 50, Resources.Load<GameObject>("Prefabs/Elements/Rocks/Bones"), Element.TypeElement.Rock, 0, new DropConfig(86, 1, 3), new DropConfig(2, 0, 1));
 
     // WorkTop
     public static readonly Element Cauldron = new Element(130, 100, Resources.Load<GameObject>("Prefabs/Elements/PuttedObjects/Cauldron"), Element.TypeElement.WorkTop, 0, new DropConfig(41, 1));
