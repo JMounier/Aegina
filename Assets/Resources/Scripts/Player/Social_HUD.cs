@@ -161,26 +161,9 @@ public class Social_HUD : NetworkBehaviour
         this.namePlayer = name;
         Save save = GameObject.Find("Map").GetComponent<Save>();
         save.AddPlayer(gameObject, isLocalPlayer);
-        this.isOp = save.LoadPlayer(gameObject).IsOp;
-        if (save.IsCoop)
-            this.team = Team.Blue;
-        else
-        {
-            int blue = 0;
-            int red = 0;
-            foreach (GameObject p in GameObject.FindGameObjectsWithTag("Player"))
-            {
-                if (p.GetComponent<Social_HUD>().team == Team.Blue)
-                    blue++;
-                else if (p.GetComponent<Social_HUD>().team == Team.Red)
-                    red++;
-            }
-            if (blue > red)
-                this.team = Team.Red;
-            else
-                this.team = Team.Blue;
-        }
-        // Spawn au bon endroit...
+        PlayerSave ps = save.LoadPlayer(gameObject);
+        this.isOp = ps.IsOp;
+        this.team = ps.PlayerTeam;        
     }
 
     /// <summary>

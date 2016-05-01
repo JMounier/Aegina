@@ -32,7 +32,7 @@ public class Save : NetworkBehaviour
         {
             this.dnc = gameObject.GetComponent<DayNightCycle>();
             this.nameWorld = GameObject.Find("NetworkManager").GetComponent<NetworkManagerHUD>().World;
-            this.respawn = new List<Vector2>[4] { new List<Vector2>(), new List<Vector2>() , new List<Vector2>() , new List<Vector2>() };
+            this.respawn = new List<Vector2>[4] { new List<Vector2>(), new List<Vector2>(), new List<Vector2>(), new List<Vector2>() };
 
             this.chunks = new List<ChunkSave>();
             this.players = new List<PlayerSave>();
@@ -62,8 +62,8 @@ public class Save : NetworkBehaviour
                 }
             }
             for (int i = 0; i < 4; i++)
-                if (this.respawn[i].Count == 0)                
-                    this.respawn[i].Add(new Vector2(0, 0));                
+                if (this.respawn[i].Count == 0)
+                    this.respawn[i].Add(new Vector2(0, 0));
         }
     }
 
@@ -306,38 +306,44 @@ public class ChunkSave
         this.path = pathChunk + x.ToString() + "_" + y.ToString();
         this.cristal = new float[8];
 
-		if (File.Exists (this.path)) {
-			string[] lines = File.ReadAllLines (this.path);
-			foreach (string str in lines[0].Split('|')) {
-				int id;
-				if (int.TryParse (str, out id))
-					this.idSave.Add (id);
-			}
-			foreach (string str in lines[1].Split('|')) {
-				string[] components = str.Split (':');
-				int id;
-				if (int.TryParse (components [0], out id)) {
-					float posX = float.Parse (components [1]);
-					float posY = float.Parse (components [2]);
-					float posZ = float.Parse (components [3]);
-					float rotX = float.Parse (components [4]);
-					float rotY = float.Parse (components [5]);
-					float rotZ = float.Parse (components [6]);
-					this.workTops.Add (new Triple<Element, Vector3, Vector3> (EntityDatabase.Find (id) as Element,
-						new Vector3 (posX, posY, posZ), new Vector3 (rotX, rotY, rotZ)));
-				}
-			}
-			if (lines.Length > 2) {
-				string[] cristalCaract = lines [2].Split ('|');
-				for (int i = 0; i < 6; i++)
-					this.cristal [i] = int.Parse (cristalCaract [i]);
-				for (int i = 6; i < 8; i++)
-					this.cristal [i] = float.Parse (cristalCaract [i]);
-			}
-		} else {
-			File.Create (this.path);
-			this.cristal [5] = 1000;
-		}
+        if (File.Exists(this.path))
+        {
+            string[] lines = File.ReadAllLines(this.path);
+            foreach (string str in lines[0].Split('|'))
+            {
+                int id;
+                if (int.TryParse(str, out id))
+                    this.idSave.Add(id);
+            }
+            foreach (string str in lines[1].Split('|'))
+            {
+                string[] components = str.Split(':');
+                int id;
+                if (int.TryParse(components[0], out id))
+                {
+                    float posX = float.Parse(components[1]);
+                    float posY = float.Parse(components[2]);
+                    float posZ = float.Parse(components[3]);
+                    float rotX = float.Parse(components[4]);
+                    float rotY = float.Parse(components[5]);
+                    float rotZ = float.Parse(components[6]);
+                    this.workTops.Add(new Triple<Element, Vector3, Vector3>(EntityDatabase.Find(id) as Element,
+                        new Vector3(posX, posY, posZ), new Vector3(rotX, rotY, rotZ)));
+                }
+            }
+            if (lines.Length > 2)
+            {
+                string[] cristalCaract = lines[2].Split('|');
+                for (int i = 0; i < 6; i++)
+                    this.cristal[i] = int.Parse(cristalCaract[i]);
+                for (int i = 6; i < 8; i++)
+                    this.cristal[i] = float.Parse(cristalCaract[i]);
+            }
+        }
+        else {
+            File.Create(this.path);
+            this.cristal[5] = 1000;
+        }
     }
 
     /// <summary>
@@ -435,6 +441,7 @@ public class PlayerSave
     private int tutoProgress;
     private string inventory, namePlayer, path;
     private bool isOp;
+    private Team team;
 
     GameObject player;
 
@@ -465,7 +472,9 @@ public class PlayerSave
             this.tutoProgress = int.Parse(properties[13]);
 
             this.inventory = save[1];
-            this.isOp = bool.Parse(save[2]) || isServer;
+            string[] social = save[2].Split('|');
+            this.isOp = bool.Parse(social[0]) || isServer;
+            this.team = (Team)uint.Parse(social[1]);
         }
         else
         {
@@ -488,6 +497,26 @@ public class PlayerSave
             this.tutoProgress = 0;
             this.inventory = "";
             this.isOp = isServer;
+
+            // Choisir une equipe
+            if (GameObject.Find("Map").GetComponent<Save>().IsCoop)
+                this.team = Team.Blue;
+            else
+            {
+                int blue = 0;
+                int red = 0;
+                foreach (GameObject p in GameObject.FindGameObjectsWithTag("Player"))
+                {
+                    if (p.GetComponent<Social_HUD>().Team == Team.Blue)
+                        blue++;
+                    else if (p.GetComponent<Social_HUD>().Team == Team.Red)
+                        red++;
+                }
+                if (blue > red)
+                    this.team = Team.Red;
+                else
+                    this.team = Team.Blue;
+            }
         }
     }
 
@@ -508,6 +537,7 @@ public class PlayerSave
         this.cdPoison = this.Player.GetComponent<SyncCharacter>().CdPoison;
         this.tutoProgress = this.Player.GetComponent<Tutoriel>().Progress;
         this.isOp = this.Player.GetComponent<Social_HUD>().IsOp;
+        this.team = this.Player.GetComponent<Social_HUD>().Team;
 
         using (StreamWriter file = new StreamWriter(this.path))
         {
@@ -515,7 +545,7 @@ public class PlayerSave
                 '|' + this.speed.ToString() + '|' + this.cdSpeed.ToString() + '|' + this.jump.ToString() + '|' + this.cdJump.ToString()
                 + '|' + this.regen.ToString() + '|' + this.cdRegen.ToString() + '|' + this.poison.ToString() + '|' + this.cdPoison.ToString() + '|' + this.tutoProgress.ToString());
             file.WriteLine(this.inventory);
-            file.WriteLine(this.isOp.ToString());
+            file.WriteLine(this.isOp.ToString() + '|' + ((uint)this.team).ToString());
         }
     }
 
@@ -612,6 +642,11 @@ public class PlayerSave
     {
         get { return this.isOp; }
         set { this.isOp = value; }
+    }
+
+    public Team PlayerTeam
+    {
+        get { return this.team; }
     }
 
     public GameObject Player
