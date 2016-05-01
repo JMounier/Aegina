@@ -482,9 +482,9 @@ public class InputManager : NetworkBehaviour
         {
             this.RpcDoInteract(Element.TypeElement.Rock);
         }
-        else if (elmt.Type == Element.TypeElement.Tree && ItemDatabase.Find(toolId) is Axe)
+        else if ((elmt.Type == Element.TypeElement.Tree || elmt.Type == Element.TypeElement.BigTree) && ItemDatabase.Find(toolId) is Axe)
         {
-            this.RpcDoInteract(Element.TypeElement.Tree);
+            this.RpcDoInteract(elmt.Type);
         }
     }
 
@@ -505,6 +505,9 @@ public class InputManager : NetworkBehaviour
             case Element.TypeElement.Small:
                 necessaryDistance = .5f;
                 break;
+            case Element.TypeElement.Tree:
+                necessaryDistance = .5f;
+                break;          
             default:
                 necessaryDistance = 1.25f;
                 break;
@@ -516,6 +519,7 @@ public class InputManager : NetworkBehaviour
             this.character.transform.LookAt(new Vector3(or.x, this.character.transform.position.y, or.z));
             switch (type)
             {
+                case Element.TypeElement.BigTree:
                 case Element.TypeElement.Tree:
                     if (this.anim.GetInteger("Action") != 5)
                     {

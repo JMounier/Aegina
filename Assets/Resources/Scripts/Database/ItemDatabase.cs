@@ -47,6 +47,7 @@ public static class ItemDatabase
     public static readonly Consumable Mushroom = new Consumable(27, TextDatabase.Mushroom, TextDatabase.MushroomDescription, 64, Resources.Load<Texture2D>("Sprites/Items/Plants/Mushroom"), new Entity(EntityDatabase.MushroomLoot), new Effect(Effect.EffectType.Saturation, 2), Resources.Load<GameObject>("Prefabs/Consumables/Foods/Mushroom"));
     public static readonly Consumable RedMushroom = new Consumable(28, TextDatabase.RedMushroom, TextDatabase.RedMushroom, 64, Resources.Load<Texture2D>("Sprites/Items/Plants/RedMushroom"), new Entity(EntityDatabase.RedMushroomLoot), new Effect(Effect.EffectType.Poison, 2), Resources.Load<GameObject>("Prefabs/Consumables/Foods/RedMushroom"));
     public static readonly Consumable Steaw = new Consumable(29, TextDatabase.Sand, TextDatabase.Sand, 20, Resources.Load<Texture2D>("Sprites/Items/Foods/Steaw"), new Entity(EntityDatabase.Steaw), new Effect(Effect.EffectType.Saturation, 1), Resources.Load<GameObject>("Prefabs/Consumables/Foods/Steaw"));
+    public static readonly Consumable Apple = new Consumable(30, TextDatabase.Apple, TextDatabase.AppleDescription, 64, Resources.Load<Texture2D>("Sprites/Items/Plants/Apple"), new Entity(EntityDatabase.Apple), new Effect(Effect.EffectType.Saturation, 1), Resources.Load<GameObject>("Prefabs/Consumables/Foods/Apple"));
 
     // WorckTops
     public static readonly WorkTop Forge = new WorkTop(40, TextDatabase.Forge, TextDatabase.ForgeDescription, 1, Resources.Load<Texture2D>("Sprites/Items/WorkStation/Forge"), new Entity(EntityDatabase.ForgeLoot), Resources.Load<GameObject>("PrefabsNoNetID/Previsualisations/Hoven"), 133);
@@ -89,7 +90,7 @@ public static class ItemDatabase
     public static readonly Item Bone = new Item(86, TextDatabase.Bone, TextDatabase.BoneDescription, 64, Resources.Load<Texture2D>("Sprites/Items/Foods/Bone"), new Entity(EntityDatabase.Bone));
     public static readonly Item Pumpkin = new Item(87, TextDatabase.Pumpkin, TextDatabase.PumpkinDescription, 64, Resources.Load<Texture2D>("Sprites/Items/Plants/Pumpkin"), new Entity(EntityDatabase.PumpkinLoot));
     public static readonly Item AnimalFat = new Item(88, TextDatabase.AnimalFat, TextDatabase.AnimalFatDescription, 64, Resources.Load<Texture2D>("Sprites/Items/Animals/AnimalFat"), new Entity(EntityDatabase.AnimalFat));
-    public static readonly Consumable Apple = new Consumable(89, TextDatabase.Apple, TextDatabase.AppleDescription, 64, Resources.Load<Texture2D>("Sprites/Items/Plants/Apple"), new Entity(EntityDatabase.Apple), new Effect(Effect.EffectType.Saturation, 1), Resources.Load<GameObject>("Prefabs/Consumables/Foods/Apple"));
+
     /// <summary>
     /// Liste tous les items du jeu. (Utilisez avec foreach)
     /// </summary>

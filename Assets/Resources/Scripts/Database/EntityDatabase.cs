@@ -98,13 +98,13 @@ public static class EntityDatabase
     public static readonly Element LittleRock = new Element(97, 100, Resources.Load<GameObject>("Prefabs/Elements/SmallElements/LittleRock"), Element.TypeElement.Small, 0, new DropConfig(1, 1));
 
     // Tree
-    public static readonly Element Fir = new Element(100, 50, Resources.Load<GameObject>("Prefabs/Elements/Trees/Fir"), Element.TypeElement.Tree, 0, new DropConfig(0, 4, 8), new DropConfig(89, 0, 1));
-    public static readonly Element SnowFir = new Element(101, 50, Resources.Load<GameObject>("Prefabs/Elements/Trees/SnowFir"), Element.TypeElement.Tree, 0, new DropConfig(0, 4, 8));
+    public static readonly Element Fir = new Element(100, 50, Resources.Load<GameObject>("Prefabs/Elements/Trees/Fir"), Element.TypeElement.BigTree, 0, new DropConfig(0, 4, 8));
+    public static readonly Element SnowFir = new Element(101, 50, Resources.Load<GameObject>("Prefabs/Elements/Trees/SnowFir"), Element.TypeElement.BigTree, 0, new DropConfig(0, 4, 8));
     public static readonly Element Cactus = new Element(102, 15, Resources.Load<GameObject>("Prefabs/Elements/Trees/Cactus"), Element.TypeElement.Tree, 0, new DropConfig(80, 3, 6), new DropConfig(81, 1, 3));
-    public static readonly Element Oak = new Element(103, 50, Resources.Load<GameObject>("Prefabs/Elements/Trees/Oak"), Element.TypeElement.Tree, 0, new DropConfig(0, 4, 8));
+    public static readonly Element Oak = new Element(103, 50, Resources.Load<GameObject>("Prefabs/Elements/Trees/Oak"), Element.TypeElement.Tree, 0, new DropConfig(0, 4, 8), new DropConfig(30, 0, 1));
     public static readonly Element SnowOak = new Element(104, 50, Resources.Load<GameObject>("Prefabs/Elements/Trees/SnowOak"), Element.TypeElement.Tree, 0, new DropConfig(0, 4, 8));
-    public static readonly Element FallOak1 = new Element(105, 50, Resources.Load<GameObject>("Prefabs/Elements/Trees/FallOak1"), Element.TypeElement.Tree, 0, new DropConfig(0, 4, 8));
-    public static readonly Element FallOak2 = new Element(106, 50, Resources.Load<GameObject>("Prefabs/Elements/Trees/FallOak2"), Element.TypeElement.Tree, 0, new DropConfig(0, 4, 8));
+    public static readonly Element FallOak1 = new Element(105, 50, Resources.Load<GameObject>("Prefabs/Elements/Trees/FallOak1"), Element.TypeElement.Tree, 0, new DropConfig(0, 4, 8), new DropConfig(30, 0, 1));
+    public static readonly Element FallOak2 = new Element(106, 50, Resources.Load<GameObject>("Prefabs/Elements/Trees/FallOak2"), Element.TypeElement.Tree, 0, new DropConfig(0, 4, 8), new DropConfig(30, 0, 1));
 
     // Rock
     public static readonly Element StoneRock = new Element(110, 50, Resources.Load<GameObject>("Prefabs/Elements/Rocks/Stone"), Element.TypeElement.Rock, 0, new DropConfig(1, 4, 8),new DropConfig(2,0,1));
@@ -114,7 +114,7 @@ public static class EntityDatabase
     public static readonly Element MithrilRock = new Element(114, 50, Resources.Load<GameObject>("Prefabs/Elements/Rocks/MithrilStone"), Element.TypeElement.Rock, 0, new DropConfig(6, 1, 4), new DropConfig(1, 2, 4), new DropConfig(2, 0, 1));
     public static readonly Element FloatiumRock = new Element(115, 50, Resources.Load<GameObject>("Prefabs/Elements/Rocks/FloatiumStone"), Element.TypeElement.Rock, 0, new DropConfig(7, 1, 3), new DropConfig(1, 2, 4), new DropConfig(2, 0, 1));
     public static readonly Element SunkiumRock = new Element(116, 50, Resources.Load<GameObject>("Prefabs/Elements/Rocks/SunkiumStone"), Element.TypeElement.Rock, 0, new DropConfig(8, 1, 3), new DropConfig(1, 2, 4), new DropConfig(2, 0, 1));
-    public static readonly Element Squeleton = new Element(117, 50, Resources.Load<GameObject>("Prefabs/Elements/Rocks/Bones"), Element.TypeElement.Rock, 0, new DropConfig(86, 1, 3), new DropConfig(2, 0, 1));
+    public static readonly Element Squeleton = new Element(117, 50, Resources.Load<GameObject>("Prefabs/Elements/Rocks/Bones"), Element.TypeElement.Rock, 0, new DropConfig(86, 1, 3));
 
     // WorkTop
     public static readonly Element Cauldron = new Element(130, 100, Resources.Load<GameObject>("Prefabs/Elements/PuttedObjects/Cauldron"), Element.TypeElement.WorkTop, 0, new DropConfig(41, 1));

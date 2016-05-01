@@ -274,7 +274,7 @@ public class Cristal_HUD : NetworkBehaviour
     [Command]
     private void CmdSaveCristal(GameObject cristal)
     {
-        ChunkSave cs = GameObject.Find("Map").GetComponent<Save>().LoadChunk((int)gameObject.transform.position.x / Chunk.Size, (int)gameObject.transform.position.z / Chunk.Size);
+        ChunkSave cs = GameObject.Find("Map").GetComponent<Save>().LoadChunk((int)Mathf.Round(gameObject.transform.position.x / Chunk.Size), (int)Mathf.Round(gameObject.transform.position.z / Chunk.Size));
         cs.CristalCaracteristics = new float[8] {
             (int)cristal.GetComponent<SyncCore>().Team,
             cristal.GetComponent<SyncCore>().LevelAtk,

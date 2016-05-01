@@ -28,9 +28,8 @@ public class SyncCore : SyncElement
     {
         if (isServer)
         {
-            ChunkSave cs = GameObject.Find("Map").GetComponent<Save>().LoadChunk((int)gameObject.transform.position.x / Chunk.Size, (int)gameObject.transform.position.z / Chunk.Size);
+            ChunkSave cs = GameObject.Find("Map").GetComponent<Save>().LoadChunk((int)Mathf.Round(gameObject.transform.position.x / Chunk.Size), (int)Mathf.Round(gameObject.transform.position.z / Chunk.Size));
             this.CmdSetTeam((Team)cs.CristalCaracteristics[0]);
-
             this.levelAttack = (int)cs.CristalCaracteristics[1];
             this.levelProd = (int)cs.CristalCaracteristics[2];
             this.levelPortal = (int)cs.CristalCaracteristics[3];
@@ -48,8 +47,7 @@ public class SyncCore : SyncElement
     void Update()
     {
         gameObject.transform.Rotate(Vector3.up, 0.25f);
-        gameObject.transform.Translate(Vector3.up * 0.005f * (Mathf.Sin(Time.time)));
-
+        gameObject.transform.position = new Vector3(gameObject.transform.position.x,  7 + Mathf.Sin(Time.time) * .5f, gameObject.transform.position.z);
     }
     void NeedUpdate()
     {
