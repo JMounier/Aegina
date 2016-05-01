@@ -48,7 +48,8 @@ public class Save : NetworkBehaviour
             this.isCoop = bool.Parse(properties[1]);
             this.dnc.SetTime(float.Parse(properties[2]));
             Stats.Load(world[1]);
-            Success.Update(false);
+
+            Success.Reset();        
 
             // Find cristals
             string[] chunksName = Directory.GetFiles(this.chunksPath);

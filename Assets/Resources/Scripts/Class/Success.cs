@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class Success
 {
-    private static List<Success> currentSuccess = new List<Success>() { SuccessDatabase.Root };
+    private static List<Success> currentSuccess;
 
     private int id;
     private Text description;
@@ -13,9 +13,20 @@ public class Success
     private Requirement.Requirements[] requirements;
 
     private Success[] sons;
-	private int nbParentMax;
+    private int nbParentMax;
     private int nbParentsLeft;
     public int posX, posY;
+
+    public static void Reset()
+    {
+        currentSuccess = new List<Success>() { SuccessDatabase.Root };
+        foreach (Success suc in SuccessDatabase.Success)
+        {
+            suc.achived = false;
+            suc.nbParentsLeft = suc.nbParentMax;
+        }
+        Update(false);
+    }
 
     public Success(int id, Text description, Item item, Requirement.Requirements[] requirements, int nbParents, params Success[] sons)
     {
@@ -25,7 +36,7 @@ public class Success
         this.icon = item.Icon;
         this.requirements = requirements;
         this.nbParentsLeft = nbParents;
-		this.nbParentMax = nbParents;
+        this.nbParentMax = nbParents;
         this.sons = sons;
     }
     #region Methods
@@ -61,17 +72,18 @@ public class Success
                 currentSuccess.Add(succ);
         }
         if (display)
-            foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))            
-                player.GetComponent<Story_Hud>().Display(this);            
+            foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
+                player.GetComponent<Story_Hud>().Display(this);
     }
 
-	/// <summary>
-	/// Determines whether this succes isseen.
-	/// </summary>
-	/// <returns><c>true</c> if this instance isseen ; otherwise, <c>false</c>.</returns>
-	public bool Isseen(){
-		return this.nbParentMax != this.nbParentsLeft;
-	}
+    /// <summary>
+    /// Determines whether this succes isseen.
+    /// </summary>
+    /// <returns><c>true</c> if this instance isseen ; otherwise, <c>false</c>.</returns>
+    public bool IsSeen
+    {
+        get { return this.nbParentMax != this.nbParentsLeft || this.id == 0; }
+    }
     #endregion
 
     #region Getters/Setters
@@ -103,7 +115,7 @@ public class Success
     public bool Achived
     {
         get { return this.achived; }
-		set { this.achived = value;}
+        set { this.achived = value; }
     }
 
     public Success[] Sons

@@ -80,8 +80,7 @@ public class Story_Hud : NetworkBehaviour
         if (!isLocalPlayer)
             return;
 		Success suc = SuccessDatabase.Find (id);
-		suc.Achived = true;
-		successToDisplay.Enqueue(suc);
-
+        SuccessDatabase.Find(id).Unlock(false);
+        successToDisplay.Enqueue(suc);
     }
 }
