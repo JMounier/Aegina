@@ -74,7 +74,6 @@ public class Craft_HUD : NetworkBehaviour
         if (!isLocalPlayer)
             return;
         this.skin.GetStyle("Quantity").fontSize = (int)(0.01f * Screen.width);
-        Debug.Log(this.skin.GetStyle("Quantity").fontSize);
 		Decal = Screen.height / 100;
         what_is_near();
 

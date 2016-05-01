@@ -130,7 +130,7 @@ public static class EntityDatabase
     // Mobs
     public static readonly Mob Boar = new Mob(500, 20, Resources.Load<GameObject>("Prefabs/Mobs/Boar"), 15, 7, 6f, 7f, 1.3f, 2.8f, 1.5f,
         new int[3] { 0, 2, 3 }, new DropConfig(83, 1), new DropConfig(83, 0, 1), new DropConfig(84, 1), new DropConfig(84, 0, 1), new DropConfig(86, 0, 1), new DropConfig(88, 1, 2));
-    public static readonly Mob Pampa = new Mob(501, 15, Resources.Load<GameObject>("Prefabs/Mobs/Pampa"), 15, 8, 2f, 8f, 1f, 3.2f, 1.8f,
+    public static readonly Mob Pampa = new Mob(501, 15, Resources.Load<GameObject>("Prefabs/Mobs/Pampa"), 15, 8, 1.5f, 8f, 1f, 3.8f, 1.8f,
         new int[1] { 1 }, new DropConfig(83, 1), new DropConfig(83, 0, 1), new DropConfig(80, 1), new DropConfig(80, 0, 1), new DropConfig(86, 0, 1));
 
     // Chunk

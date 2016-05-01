@@ -30,13 +30,13 @@ public static class BiomeDatabase
         new SpawnConfig(EntityDatabase.Cactus, 2),
     #endregion
     #region Rock
-        new SpawnConfig(EntityDatabase.StoneRock, 3.5f), new SpawnConfig(EntityDatabase.CopperRock, 0.6f), new SpawnConfig(EntityDatabase.IronRock, 0.4f),
+        new SpawnConfig(EntityDatabase.StoneRock, 3f), new SpawnConfig(EntityDatabase.CopperRock, 0.5f), new SpawnConfig(EntityDatabase.IronRock, 0.4f),
         new SpawnConfig(EntityDatabase.GoldRock, 0.2f), new SpawnConfig(EntityDatabase.MithrilRock, 0.2f), new SpawnConfig(EntityDatabase.FloatiumRock, 0.1f),
 		new SpawnConfig(EntityDatabase.SunkiumRock, 0.05f), new SpawnConfig(EntityDatabase.Squeleton, 0.5f),
 
     #endregion
     #region Small Element
-        new SpawnConfig(EntityDatabase.SmallCactus, 2), new SpawnConfig(EntityDatabase.Branch, 2), new SpawnConfig(EntityDatabase.LittleRock, 2));
+        new SpawnConfig(EntityDatabase.SmallCactus, 2), new SpawnConfig(EntityDatabase.Branch, 2), new SpawnConfig(EntityDatabase.LittleRock, 1));
     #endregion
 
     // Biome Ice
