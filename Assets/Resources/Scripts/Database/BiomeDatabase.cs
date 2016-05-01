@@ -10,7 +10,6 @@ public static class BiomeDatabase
 
     // Biome forest
     public static readonly Biome Forest = new Biome(0, Resources.Load<Material>("Models/Islands/Materials/Forest"), Resources.Load<Material>("Models/Islands/Materials/Forest_Rock"),
-
         new SpawnConfig(new Entity(), 3f),
     #region Tree
         new SpawnConfig(EntityDatabase.Fir, 5), new SpawnConfig(EntityDatabase.Oak, 6),
@@ -39,6 +38,7 @@ public static class BiomeDatabase
     #region Small Element
         new SpawnConfig(EntityDatabase.SmallCactus, 2), new SpawnConfig(EntityDatabase.Branch, 2), new SpawnConfig(EntityDatabase.LittleRock, 2));
     #endregion
+
     // Biome Ice
     public static readonly Biome Ice = new Biome(2, Resources.Load<Material>("Models/Islands/Materials/Ice"), Resources.Load<Material>("Models/Islands/Materials/Ice_Rock"),
         new SpawnConfig(new Entity(), 3),
@@ -51,8 +51,9 @@ public static class BiomeDatabase
         new SpawnConfig(EntityDatabase.MithrilRock, 0.2f), new SpawnConfig(EntityDatabase.FloatiumRock, 0.1f), new SpawnConfig(EntityDatabase.SunkiumRock, 0.05f),
     #endregion
     #region Small Element
-        new SpawnConfig(EntityDatabase.IceFlower, 5), new SpawnConfig(EntityDatabase.LittleRock, 3));
+        new SpawnConfig(EntityDatabase.IceFlower, 5), new SpawnConfig(EntityDatabase.LittleRock, 3), new SpawnConfig(EntityDatabase.Branch, 2));
     #endregion
+
     // Biome Fall
     public static readonly Biome Fall = new Biome(3, Resources.Load<Material>("Models/Islands/Materials/Fall"), Resources.Load<Material>("Models/Islands/Materials/Fall_Rock"),
         new SpawnConfig(new Entity(), 3f),

@@ -73,6 +73,8 @@ public class Craft_HUD : NetworkBehaviour
     {
         if (!isLocalPlayer)
             return;
+        this.skin.GetStyle("Quantity").fontSize = (int)(0.01f * Screen.width);
+        Debug.Log(this.skin.GetStyle("Quantity").fontSize);
 		Decal = Screen.height / 100;
         what_is_near();
 
@@ -172,6 +174,10 @@ public class Craft_HUD : NetworkBehaviour
             box.height -= Screen.height / 50;
             box.width -= Screen.height / 50;
             GUI.DrawTexture(box, Craftslist[(int)this.type - 1][(craftindex + i) % (Craftslist[(int)this.type - 1].Count)].Product.Items.Icon);
+            box.x -= Screen.height / 200;
+            box.y -= Screen.height / 200;
+            box.height += Screen.height / 100;
+            box.width += Screen.height / 100;
             if (Craftslist[(int)this.type - 1][(craftindex + i) % (Craftslist[(int)this.type - 1].Count)].Product.Quantity > 1)
             {
                 GUI.Box(box, Craftslist[(int)this.type - 1][(craftindex + i) % (Craftslist[(int)this.type - 1].Count)].Product.Quantity.ToString(), skin.GetStyle("Quantity"));
@@ -248,7 +254,8 @@ public class Craft_HUD : NetworkBehaviour
             }
 			Rect littlebox = new Rect((3 + i) * Screen.height / 18 + Decal, 2 * Screen.height / 9 + pos * Screen.height / 18 + Decal, Screen.height / 18 - 2*Decal, Screen.height / 18 - 2*Decal);
             GUI.DrawTexture(littlebox, item.Items.Icon);
-            GUI.Box(box, inventory.InventoryContains(item.Items, item.Quantity * cost) ? (item.Quantity * cost).ToString() : "<color=#ff0000>" + (item.Quantity * cost).ToString() + "</color>", skin.GetStyle("Quantity"));
+            littlebox = new Rect((3 + i) * Screen.height / 18 + Decal/2, 2 * Screen.height / 9 + pos * Screen.height / 18 + Decal/2, Screen.height / 18 -  Decal, Screen.height / 18 - Decal);
+            GUI.Box(littlebox, inventory.InventoryContains(item.Items, item.Quantity * cost) ? (item.Quantity * cost).ToString() : "<color=#ff0000>" + (item.Quantity * cost).ToString() + "</color>", skin.GetStyle("Quantity"));
             if (box.Contains(Event.current.mousePosition))
             {
                 tooltip = true;
