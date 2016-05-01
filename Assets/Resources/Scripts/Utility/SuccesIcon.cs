@@ -24,7 +24,7 @@ public class SuccesIcon : MonoBehaviour {
 		if (this.done) {
 			gameObject.transform.GetChild(0).GetComponent<RawImage>().texture = suc.Icon;
 			gameObject.transform.GetChild(0).GetComponent<RawImage>().material = null;
-		} else if (!this.see && suc.Isseen ()) {
+		} else if (!this.see && suc.IsSeen) {
 			this.see = true;
 			gameObject.transform.GetChild(0).GetComponent<RawImage>().texture = suc.Icon;
 			gameObject.transform.GetChild(0).GetComponent<RawImage>().material = SuccessDatabase.Shadow;
