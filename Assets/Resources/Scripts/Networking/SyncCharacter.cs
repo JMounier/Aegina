@@ -50,6 +50,9 @@ public class SyncCharacter : NetworkBehaviour
     void Start()
     {
         this.character = gameObject.transform.FindChild("Character").gameObject;
+        if (isServer)
+            foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
+                player.GetComponent<SyncCharacter>().Life += 0;
 
         if (!isLocalPlayer)
             return;
