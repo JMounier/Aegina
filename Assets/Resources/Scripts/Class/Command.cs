@@ -218,20 +218,38 @@ public class Command
             // TP
             else if (c == Tp)
             {
-                if (parameters[0].ToLower() == namePlayer)
+                GameObject p1 = sender;
+                int posP2 = 0;
+                if (parameters.Length > 1)
                 {
-                    sender.GetComponent<Social_HUD>().RpcReceiveMsg("<color=red>You are already where you are...</color>");
-                    return;
-                }
-                foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
-                    if (player.GetComponent<Social_HUD>().PlayerName.ToLower() == parameters[0].ToLower())
+                    bool find = false;
+                    posP2 = 1;
+                    foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
+                        if (player.GetComponent<Social_HUD>().PlayerName.ToLower() == parameters[0].ToLower())
+                        {
+                            p1 = player;
+                            find = true;
+                        }
+                    if (!find)
                     {
-                        player.GetComponent<Social_HUD>().RpcReceiveMsg(namePlayer + " teleported on you.");
-                        sender.GetComponent<Social_HUD>().RpcReceiveMsg("You were teleported on " + player.GetComponent<Social_HUD>().PlayerName + ".");
-                        sender.GetComponent<Social_HUD>().RpcTeleport(player.GetComponentInChildren<CharacterCollision>().transform.position);
+                        sender.GetComponent<Social_HUD>().RpcReceiveMsg("<color=red>Player " + parameters[0] + " doesn't find.</color>");
                         return;
                     }
-                sender.GetComponent<Social_HUD>().RpcReceiveMsg("<color=red>Player " + parameters[0] + " doesn't find.</color>");
+                }
+                foreach (GameObject p2 in GameObject.FindGameObjectsWithTag("Player"))
+                    if (p2.GetComponent<Social_HUD>().PlayerName.ToLower() == parameters[posP2].ToLower())
+                    {
+                        if (p1 == p2)
+                            sender.GetComponent<Social_HUD>().RpcReceiveMsg("<color=red>This player is already where he is...</color>");
+                        else
+                        {
+                            p2.GetComponent<Social_HUD>().RpcReceiveMsg(p1.GetComponent<Social_HUD>().PlayerName + " has been teleported on you.");
+                            p1.GetComponent<Social_HUD>().RpcReceiveMsg("You were teleported on " + p2.GetComponent<Social_HUD>().PlayerName + ".");
+                            p1.GetComponent<Social_HUD>().RpcTeleport(p2.GetComponentInChildren<CharacterCollision>().transform.position);
+                        }
+                        return;
+                    }
+                sender.GetComponent<Social_HUD>().RpcReceiveMsg("<color=red>Player " + parameters[posP2] + " doesn't find.</color>");
             }
             // KICK
             else if (c == Kick)
@@ -283,73 +301,28 @@ public class Command
             // Effect
             else if (c == Effect)
             {
-                foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
-                    if (player.GetComponent<Social_HUD>().PlayerName.ToLower() == parameters[0].ToLower())
+                GameObject player = sender;
+                int posid = 0;
+                foreach (GameObject p in GameObject.FindGameObjectsWithTag("Player"))
+                    if (p.GetComponent<Social_HUD>().PlayerName.ToLower() == parameters[0].ToLower())
                     {
-                        SyncCharacter syncCharacter = player.GetComponent<SyncCharacter>();
-                        Effect.EffectType effect = ((Effect.EffectType)int.Parse(parameters[1]));
-                        int power = 1;
-                        if (parameters.Length > 2)
-                            power = int.Parse(parameters[2]);
-
-                        switch (effect)
-                        {
-                            case global::Effect.EffectType.Speed:
-                                syncCharacter.Speed = power * 2;
-                                syncCharacter.CdSpeed = power * 30;
-                                sender.GetComponent<Social_HUD>().RpcReceiveMsg("Effect speed level " + power + " applied.");
-                                break;
-                            case global::Effect.EffectType.Slowness:
-                                break;
-                            case global::Effect.EffectType.Haste:
-                                break;
-                            case global::Effect.EffectType.MiningFatigue:
-                                break;
-                            case global::Effect.EffectType.Strength:
-                                break;
-                            case global::Effect.EffectType.InstantHealth:
-                                syncCharacter.Life += 10 * power;
-                                sender.GetComponent<Social_HUD>().RpcReceiveMsg("Effect instant health level " + power + " applied.");
-                                break;
-                            case global::Effect.EffectType.InstantDamage:
-                                break;
-                            case global::Effect.EffectType.JumpBoost:
-                                syncCharacter.Jump = power * 5000;
-                                syncCharacter.CdJump = power * 30;
-                                sender.GetComponent<Social_HUD>().RpcReceiveMsg("Effect jump boost level " + power + " applied.");
-                                break;
-                            case global::Effect.EffectType.Regeneration:
-                                syncCharacter.Regen = power;
-                                syncCharacter.CdRegen = power * 15;
-                                sender.GetComponent<Social_HUD>().RpcReceiveMsg("Effect regeneration level " + power + " applied.");
-                                break;
-                            case global::Effect.EffectType.Resistance:
-                                break;
-                            case global::Effect.EffectType.Hunger:
-                                break;
-                            case global::Effect.EffectType.Weakness:
-                                break;
-                            case global::Effect.EffectType.Poison:
-                                syncCharacter.Poison = power;
-                                syncCharacter.CdPoison = power * 15;
-                                sender.GetComponent<Social_HUD>().RpcReceiveMsg("Effect poison level " + power + " applied.");
-                                break;
-                            case global::Effect.EffectType.Saturation:
-                                syncCharacter.Hunger += 10 * power;
-                                sender.GetComponent<Social_HUD>().RpcReceiveMsg("Effect saturation level " + power + " applied.");
-                                break;
-                            case global::Effect.EffectType.Thirst:
-                                break;
-                            case global::Effect.EffectType.Refreshment:
-                                syncCharacter.Thirst += 10 * power;
-                                sender.GetComponent<Social_HUD>().RpcReceiveMsg("Effect refreshment level " + power + " applied.");
-                                break;
-                            default:
-                                break;
-                        }
-                        return;
+                        player = p;
+                        posid = 1;
                     }
-                sender.GetComponent<Social_HUD>().RpcReceiveMsg("<color=red>Player " + parameters[0] + " doesn't find.</color>");
+
+                SyncCharacter syncCharacter = player.GetComponent<SyncCharacter>();
+                Effect.EffectType effect = ((Effect.EffectType)int.Parse(parameters[posid]));
+                int power = 1;
+                if (parameters.Length > posid + 1)
+                    power = int.Parse(parameters[posid + 1]);
+                player.GetComponent<SyncCharacter>().RpcAffect(effect, power);
+                if (player == sender)
+                    sender.GetComponent<Social_HUD>().RpcReceiveMsg("Effect " + effect.ToString() + " power " + power + " applied.");
+                else
+                {
+                    sender.GetComponent<Social_HUD>().RpcReceiveMsg("Effect " + effect.ToString() + " power " + power + " applied to " + player.GetComponent<Social_HUD>().PlayerName + ".");
+                    player.GetComponent<Social_HUD>().RpcReceiveMsg("Effect " + effect.ToString() + " power " + power + " applied by " + namePlayer + ".");
+                }
             }
             // Op
             else if (c == Op)
