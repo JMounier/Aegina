@@ -174,55 +174,8 @@ public class InputManager : NetworkBehaviour
                     this.cdConsume = 1f;
                     this.anim.SetInteger("Action", 0);
                     Consumable consum = this.inventaire.UsedItem.Items as Consumable;
-                    this.CmdConsumme(consum.ID);
-                    switch (consum.E.ET)
-                    {
-                        case Effect.EffectType.Speed:
-                            this.syncCharacter.Speed = consum.E.Power * 2;
-                            this.syncCharacter.CdSpeed = consum.E.Power * 30;
-                            break;
-                        case Effect.EffectType.Slowness:
-                            break;
-                        case Effect.EffectType.Haste:
-                            break;
-                        case Effect.EffectType.MiningFatigue:
-                            break;
-                        case Effect.EffectType.Strength:
-                            break;
-                        case Effect.EffectType.InstantHealth:
-                            this.syncCharacter.Life += 10 * consum.E.Power;
-                            break;
-                        case Effect.EffectType.InstantDamage:
-                            break;
-                        case Effect.EffectType.JumpBoost:
-                            this.syncCharacter.Jump = consum.E.Power * 5000;
-                            this.syncCharacter.CdJump = consum.E.Power * 30;
-                            break;
-                        case Effect.EffectType.Regeneration:
-                            this.syncCharacter.Regen = consum.E.Power;
-                            this.syncCharacter.CdRegen = consum.E.Power * 15;
-                            break;
-                        case Effect.EffectType.Resistance:
-                            break;
-                        case Effect.EffectType.Hunger:
-                            break;
-                        case Effect.EffectType.Weakness:
-                            break;
-                        case Effect.EffectType.Poison:
-                            this.syncCharacter.Poison = consum.E.Power;
-                            this.syncCharacter.CdPoison = consum.E.Power * 15;
-                            break;
-                        case Effect.EffectType.Saturation:
-                            this.syncCharacter.Hunger += 10 * consum.E.Power;
-                            break;
-                        case Effect.EffectType.Thirst:
-                            break;
-                        case Effect.EffectType.Refreshment:
-                            this.syncCharacter.Thirst += 10 * consum.E.Power;
-                            break;
-                        default:
-                            break;
-                    }
+                    gameObject.GetComponent<SyncCharacter>().Affect(consum.E);
+                    this.CmdConsumme(consum.ID);                   
                     this.inventaire.UsedItem.Quantity--;
                     if (this.inventaire.UsedItem.Quantity == 0)
                         this.inventaire.UsedItem = new ItemStack();

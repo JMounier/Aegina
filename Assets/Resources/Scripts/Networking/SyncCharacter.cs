@@ -50,6 +50,9 @@ public class SyncCharacter : NetworkBehaviour
     void Start()
     {
         this.character = gameObject.transform.FindChild("Character").gameObject;
+        if (isServer)
+            foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
+                player.GetComponent<SyncCharacter>().Life += 0;
 
         if (!isLocalPlayer)
             return;
@@ -219,6 +222,77 @@ public class SyncCharacter : NetworkBehaviour
         this.Jump = 0;
         this.character.GetComponent<Rigidbody>().velocity = Vector3.zero;
         CmdRespawnPos();
+    }
+
+    /// <summary>
+    /// Affecte le joueur d'un effet. (Must be Serveur)
+    /// </summary>
+    /// <param name="effect">Le type d'effet.</param>
+    /// <param name="power">La puissance de l'effet.</param>
+    [ClientRpc]
+    public void RpcAffect(Effect.EffectType effect, int power)
+    {
+        Affect(new Effect(effect, power));
+    }
+
+    /// <summary>
+    /// Affecte le joueur d'un effet. (Must be client)
+    /// </summary>
+    /// <param name="e">L'effet.</param>
+    [Client]
+    public void Affect(Effect e)
+    {
+        Effect.EffectType effect = e.ET;
+        int power = e.Power;
+
+        switch (effect)
+        {
+            case Effect.EffectType.Speed:
+                Speed = power * 2;
+                CdSpeed = power * 30;
+                break;
+            case Effect.EffectType.Slowness:
+                break;
+            case global::Effect.EffectType.Haste:
+                break;
+            case global::Effect.EffectType.MiningFatigue:
+                break;
+            case global::Effect.EffectType.Strength:
+                break;
+            case global::Effect.EffectType.InstantHealth:
+                Life += 10 * power;
+                break;
+            case global::Effect.EffectType.InstantDamage:
+                break;
+            case global::Effect.EffectType.JumpBoost:
+                Jump = power * 5000;
+                CdJump = power * 30;
+                break;
+            case global::Effect.EffectType.Regeneration:
+                Regen = power;
+                CdRegen = power * 15;
+                break;
+            case global::Effect.EffectType.Resistance:
+                break;
+            case global::Effect.EffectType.Hunger:
+                break;
+            case global::Effect.EffectType.Weakness:
+                break;
+            case global::Effect.EffectType.Poison:
+                Poison = power;
+                CdPoison = power * 15;
+                break;
+            case global::Effect.EffectType.Saturation:
+                Hunger += 10 * power;
+                break;
+            case global::Effect.EffectType.Thirst:
+                break;
+            case global::Effect.EffectType.Refreshment:
+                Thirst += 10 * power;
+                break;
+            default:
+                throw new System.Exception("Effect missing");
+        }
     }
 
     [Command]
