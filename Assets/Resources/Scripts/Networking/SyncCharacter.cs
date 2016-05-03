@@ -46,6 +46,10 @@ public class SyncCharacter : NetworkBehaviour
     private Inventory inventory;
     private Controller controller;
 
+    private Texture2D[] headTexture;
+    private Texture2D[] beardTexture;
+    private Texture2D[] bodyTexture;
+
     // Use this for initialization
     void Start()
     {
@@ -91,6 +95,23 @@ public class SyncCharacter : NetworkBehaviour
             this.ThirstBar[i] = Resources.Load<Texture2D>("Sprites/Bars/Thirst/ThirstBar" + i.ToString());
 
         this.CmdLoad();
+
+        // Initialisation de textture
+        this.headTexture = new Texture2D[2];
+        for (int i = 0; i < 2; i++)
+            this.headTexture[i] = Resources.Load<Texture2D>("Models/Character/Textures/NPC_Hair_" + i.ToString());
+
+        this.beardTexture = new Texture2D[2];
+        for (int i = 0; i < 2; i++)
+            this.beardTexture[i] = Resources.Load<Texture2D>("Models/Character/Textures/NPC_Beard_" + i.ToString());
+
+        this.bodyTexture = new Texture2D[2];
+        for (int i = 0; i < 2; i++)
+            this.bodyTexture[i] = Resources.Load<Texture2D>("Models/Character/Textures/NPC_Man_" + i.ToString());
+
+        ChangeHair(1);
+        ChangeBeard(1);
+        ChangeBody(1);
     }
 
     void OnGUI()
@@ -352,7 +373,18 @@ public class SyncCharacter : NetworkBehaviour
         Vector3 newPos = new Vector3(save.X, 7, save.Y);
         gameObject.GetComponent<Social_HUD>().RpcTeleport(newPos);
     }
-
+    private void ChangeHair(int number)
+    {
+        gameObject.transform.FindChild("Character").FindChild("Armature").FindChild("Head_slot").FindChild("NPC_Hair_009").GetComponentInChildren<Renderer>().material.mainTexture = this.headTexture[number];
+    }
+    private void ChangeBeard(int number)
+    {
+        gameObject.transform.FindChild("Character").FindChild("Armature").FindChild("Head_slot").FindChild("NPC_Beard_008").GetComponentInChildren<Renderer>().material.mainTexture = this.beardTexture[number];
+    }
+    private void ChangeBody(int number)
+    {
+        gameObject.transform.FindChild("Character").FindChild("Armature").FindChild("NPC_Man_Normal001").GetComponentInChildren<Renderer>().material.mainTexture = this.bodyTexture[number];
+    }
     #region Getter & Setter
     /// <summary>
     /// La vie de l'entite.
