@@ -10,7 +10,7 @@ public class InputManager : NetworkBehaviour
     private Menu menu;
     private Social_HUD social;
     private Cristal_HUD cristalHUD;
-    private SuccesHUD sucHUD;
+    private Success_HUD sucHUD;
     private Tutoriel tutoriel;
 
     private Sound soundAudio;
@@ -40,7 +40,7 @@ public class InputManager : NetworkBehaviour
         this.menu = GetComponent<Menu>();
         this.controller = GetComponent<Controller>();
 
-        this.sucHUD = GetComponent<SuccesHUD>();
+        this.sucHUD = GetComponent<Success_HUD>();
         this.cristalHUD = GetComponent<Cristal_HUD>();
         this.tutoriel = GetComponent<Tutoriel>();
         this.anim = gameObject.GetComponent<Animator>();
@@ -127,29 +127,29 @@ public class InputManager : NetworkBehaviour
         #endregion
 
         #region Gestion Input
-        if (Input.GetButtonDown("Inventory") && !this.menu.MenuShown && !this.menu.OptionShown && !this.social.ChatShown && !this.cristalHUD.Cristal_shown && !this.sucHUD.Enable && !this.tutoriel.EndTutoShown && !this.tutoriel.Tutoshown && !this.menu.ControlShown)
+        if (Input.GetButtonDown("Inventory") && !this.menu.MenuShown && !this.menu.OptionShown && !this.social.ChatShown && !this.cristalHUD.Cristal_shown && !this.sucHUD.Activate && !this.tutoriel.EndTutoShown && !this.tutoriel.Tutoshown && !this.menu.ControlShown)
         {
             this.inventaire.InventoryShown = !this.inventaire.InventoryShown;
             this.controller.Pause = !this.controller.Pause;
             this.soundAudio.PlaySound(AudioClips.Bag, 1f);
         }
 
-        if (Input.GetKeyDown(KeyCode.Return) && !this.menu.MenuShown && !this.menu.OptionShown && !this.inventaire.InventoryShown && !this.cristalHUD.Cristal_shown && !this.sucHUD.Enable && !this.tutoriel.EndTutoShown && !this.tutoriel.Tutoshown && !this.menu.ControlShown)
+        if (Input.GetKeyDown(KeyCode.Return) && !this.menu.MenuShown && !this.menu.OptionShown && !this.inventaire.InventoryShown && !this.cristalHUD.Cristal_shown && !this.sucHUD.Activate && !this.tutoriel.EndTutoShown && !this.tutoriel.Tutoshown && !this.menu.ControlShown)
         {
             this.social.ChatShown = true;
             this.controller.Pause = true;
         }
 
-        if (Input.GetKeyDown(KeyCode.K) && !this.menu.MenuShown && !this.menu.OptionShown && !this.inventaire.InventoryShown && !this.cristalHUD.Cristal_shown && !this.social.ChatShown && !this.tutoriel.EndTutoShown && !this.tutoriel.Tutoshown && !this.menu.ControlShown)
+        if (Input.GetButtonDown("Success") && !this.menu.MenuShown && !this.menu.OptionShown && !this.inventaire.InventoryShown && !this.cristalHUD.Cristal_shown && !this.social.ChatShown && !this.tutoriel.EndTutoShown && !this.tutoriel.Tutoshown && !this.menu.ControlShown)
         {
-            this.sucHUD.Enable = !this.sucHUD.Enable;
-            this.controller.Pause = this.sucHUD.Enable;
+            this.sucHUD.Activate = !this.sucHUD.Activate;
+            this.controller.Pause = this.sucHUD.Activate;
         }
         #endregion
 
         #region Fire2 
         bool useConsumable = false;
-        if (Input.GetButton("Fire2") && !this.inventaire.InventoryShown && !this.menu.MenuShown && !this.menu.OptionShown && !this.social.ChatShown && !this.cristalHUD.Cristal_shown && !this.sucHUD.Enable && !this.tutoriel.EndTutoShown && !this.tutoriel.Tutoshown && !this.menu.ControlShown)
+        if (Input.GetButton("Fire2") && !this.inventaire.InventoryShown && !this.menu.MenuShown && !this.menu.OptionShown && !this.social.ChatShown && !this.cristalHUD.Cristal_shown && !this.sucHUD.Activate && !this.tutoriel.EndTutoShown && !this.tutoriel.Tutoshown && !this.menu.ControlShown)
         {
             if (this.inventaire.UsedItem.Items is WorkTop)
             {
@@ -269,9 +269,9 @@ public class InputManager : NetworkBehaviour
                 this.menu.LangueShown = false;
                 this.menu.OptionShown = true;
             }
-            else if (this.sucHUD.Enable)
+            else if (this.sucHUD.Activate)
             {
-                this.sucHUD.Enable = false;
+                this.sucHUD.Activate = false;
                 this.controller.Pause = false;
             }
             else if (this.menu.ControlShown)
