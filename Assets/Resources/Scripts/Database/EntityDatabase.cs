@@ -88,40 +88,40 @@ public static class EntityDatabase
 
 
     // SmallElements
-    public static readonly Element Branch = new Element(90, 100, Resources.Load<GameObject>("Prefabs/Elements/SmallElements/Branch"), Element.TypeElement.Small, 0, new DropConfig(82, 1));
-    public static readonly Element ForestFlower = new Element(91, 100, Resources.Load<GameObject>("Prefabs/Elements/SmallElements/ForestFlower"), Element.TypeElement.Small, 0, new DropConfig(81, 1));
-    public static readonly Element IceFlower = new Element(92, 100, Resources.Load<GameObject>("Prefabs/Elements/SmallElements/IceFlower"), Element.TypeElement.Small, 0, new DropConfig(81, 1));
-    public static readonly Element SmallCactus = new Element(93, 100, Resources.Load<GameObject>("Prefabs/Elements/SmallElements/SmallCactus"), Element.TypeElement.Small, 0, new DropConfig(81, 1), new DropConfig(80, 1));
-    public static readonly Element Mushroom = new Element(94, 100, Resources.Load<GameObject>("Prefabs/Elements/SmallElements/Mushroom"), Element.TypeElement.Small, 0, new DropConfig(27, 1, 2));
-    public static readonly Element RedMushroom = new Element(95, 100, Resources.Load<GameObject>("Prefabs/Elements/SmallElements/RedMushroom"), Element.TypeElement.Small, 0, new DropConfig(28, 1, 2));
-    public static readonly Element Pumpink = new Element(96, 100, Resources.Load<GameObject>("Prefabs/Elements/SmallElements/Pumpkin"), Element.TypeElement.Small, 0, new DropConfig(87, 1, 3));
-    public static readonly Element LittleRock = new Element(97, 100, Resources.Load<GameObject>("Prefabs/Elements/SmallElements/LittleRock"), Element.TypeElement.Small, 0, new DropConfig(1, 1));
+    public static readonly Element Branch = new Element(90, 100, Resources.Load<GameObject>("Prefabs/Elements/SmallElements/Branch"), Element.DestructionTool.None, .5f, new DropConfig(82, 1));
+    public static readonly Element ForestFlower = new Element(91, 100, Resources.Load<GameObject>("Prefabs/Elements/SmallElements/ForestFlower"), Element.DestructionTool.None, .5f, new DropConfig(81, 1));
+    public static readonly Element IceFlower = new Element(92, 100, Resources.Load<GameObject>("Prefabs/Elements/SmallElements/IceFlower"), Element.DestructionTool.None, .5f, new DropConfig(81, 1));
+    public static readonly Element SmallCactus = new Element(93, 100, Resources.Load<GameObject>("Prefabs/Elements/SmallElements/SmallCactus"), Element.DestructionTool.None, .5f, new DropConfig(81, 1), new DropConfig(80, 1));
+    public static readonly Element Mushroom = new Element(94, 100, Resources.Load<GameObject>("Prefabs/Elements/SmallElements/Mushroom"), Element.DestructionTool.None, .5f, new DropConfig(27, 1, 2));
+    public static readonly Element RedMushroom = new Element(95, 100, Resources.Load<GameObject>("Prefabs/Elements/SmallElements/RedMushroom"), Element.DestructionTool.None, .5f, new DropConfig(28, 1, 2));
+    public static readonly Element Pumpink = new Element(96, 100, Resources.Load<GameObject>("Prefabs/Elements/SmallElements/Pumpkin"), Element.DestructionTool.None, .5f, new DropConfig(87, 1, 3));
+    public static readonly Element LittleRock = new Element(97, 100, Resources.Load<GameObject>("Prefabs/Elements/SmallElements/LittleRock"), Element.DestructionTool.None, .5f, new DropConfig(1, 1));
 
     // Tree
-    public static readonly Element Fir = new Element(100, 50, Resources.Load<GameObject>("Prefabs/Elements/Trees/Fir"), Element.TypeElement.BigTree, 0, new DropConfig(0, 4, 8));
-    public static readonly Element SnowFir = new Element(101, 50, Resources.Load<GameObject>("Prefabs/Elements/Trees/SnowFir"), Element.TypeElement.BigTree, 0, new DropConfig(0, 4, 8));
-    public static readonly Element Cactus = new Element(102, 15, Resources.Load<GameObject>("Prefabs/Elements/Trees/Cactus"), Element.TypeElement.Tree, 0, new DropConfig(80, 3, 6), new DropConfig(81, 1, 3));
-    public static readonly Element Oak = new Element(103, 50, Resources.Load<GameObject>("Prefabs/Elements/Trees/Oak"), Element.TypeElement.Tree, 0, new DropConfig(0, 4, 8), new DropConfig(30, 0, 1));
-    public static readonly Element SnowOak = new Element(104, 50, Resources.Load<GameObject>("Prefabs/Elements/Trees/SnowOak"), Element.TypeElement.Tree, 0, new DropConfig(0, 4, 8));
-    public static readonly Element FallOak1 = new Element(105, 50, Resources.Load<GameObject>("Prefabs/Elements/Trees/FallOak1"), Element.TypeElement.Tree, 0, new DropConfig(0, 4, 8), new DropConfig(30, 0, 1));
-    public static readonly Element FallOak2 = new Element(106, 50, Resources.Load<GameObject>("Prefabs/Elements/Trees/FallOak2"), Element.TypeElement.Tree, 0, new DropConfig(0, 4, 8), new DropConfig(30, 0, 1));
+    public static readonly Element Fir = new Element(100, 50, Resources.Load<GameObject>("Prefabs/Elements/Trees/Fir"), Element.DestructionTool.Axe, 1.25f, new DropConfig(0, 4, 8));
+    public static readonly Element SnowFir = new Element(101, 50, Resources.Load<GameObject>("Prefabs/Elements/Trees/SnowFir"), Element.DestructionTool.Axe, 1.25f, new DropConfig(0, 4, 8));
+    public static readonly Element Cactus = new Element(102, 15, Resources.Load<GameObject>("Prefabs/Elements/Trees/Cactus"), Element.DestructionTool.Axe, .5f, new DropConfig(80, 3, 6), new DropConfig(81, 1, 3));
+    public static readonly Element Oak = new Element(103, 50, Resources.Load<GameObject>("Prefabs/Elements/Trees/Oak"), Element.DestructionTool.Axe, .6f, new DropConfig(0, 4, 8), new DropConfig(30, 0, 1));
+    public static readonly Element SnowOak = new Element(104, 50, Resources.Load<GameObject>("Prefabs/Elements/Trees/SnowOak"), Element.DestructionTool.Axe, .6f, new DropConfig(0, 4, 8));
+    public static readonly Element FallOak1 = new Element(105, 50, Resources.Load<GameObject>("Prefabs/Elements/Trees/FallOak1"), Element.DestructionTool.Axe, .6f, new DropConfig(0, 4, 8), new DropConfig(30, 0, 1));
+    public static readonly Element FallOak2 = new Element(106, 50, Resources.Load<GameObject>("Prefabs/Elements/Trees/FallOak2"), Element.DestructionTool.Axe, .6f, new DropConfig(0, 4, 8), new DropConfig(30, 0, 1));
 
     // Rock
-    public static readonly Element StoneRock = new Element(110, 50, Resources.Load<GameObject>("Prefabs/Elements/Rocks/Stone"), Element.TypeElement.Rock, 0, new DropConfig(1, 4, 8),new DropConfig(2,0,1));
-    public static readonly Element CopperRock = new Element(111, 50, Resources.Load<GameObject>("Prefabs/Elements/Rocks/CopperStone"), Element.TypeElement.Rock, 0, new DropConfig(3, 1, 4), new DropConfig(1, 2, 4),new DropConfig(2, 0, 1));
-    public static readonly Element IronRock = new Element(112, 50, Resources.Load<GameObject>("Prefabs/Elements/Rocks/IronStone"), Element.TypeElement.Rock, 0, new DropConfig(4, 1, 4), new DropConfig(1, 2, 4), new DropConfig(2, 0, 1));
-    public static readonly Element GoldRock = new Element(113, 50, Resources.Load<GameObject>("Prefabs/Elements/Rocks/GoldStone"), Element.TypeElement.Rock, 0, new DropConfig(5, 1, 4), new DropConfig(1, 2, 4), new DropConfig(2, 0, 1));
-    public static readonly Element MithrilRock = new Element(114, 50, Resources.Load<GameObject>("Prefabs/Elements/Rocks/MithrilStone"), Element.TypeElement.Rock, 0, new DropConfig(6, 1, 4), new DropConfig(1, 2, 4), new DropConfig(2, 0, 1));
-    public static readonly Element FloatiumRock = new Element(115, 50, Resources.Load<GameObject>("Prefabs/Elements/Rocks/FloatiumStone"), Element.TypeElement.Rock, 0, new DropConfig(7, 1, 3), new DropConfig(1, 2, 4), new DropConfig(2, 0, 1));
-    public static readonly Element SunkiumRock = new Element(116, 50, Resources.Load<GameObject>("Prefabs/Elements/Rocks/SunkiumStone"), Element.TypeElement.Rock, 0, new DropConfig(8, 1, 3), new DropConfig(1, 2, 4), new DropConfig(2, 0, 1));
-    public static readonly Element Squeleton = new Element(117, 50, Resources.Load<GameObject>("Prefabs/Elements/Rocks/Bones"), Element.TypeElement.Rock, 0, new DropConfig(86, 1, 3));
+    public static readonly Element StoneRock = new Element(110, 50, Resources.Load<GameObject>("Prefabs/Elements/Rocks/Stone"), Element.DestructionTool.Pickaxe, 1.3f, new DropConfig(1, 4, 8),new DropConfig(2,0,1));
+    public static readonly Element CopperRock = new Element(111, 50, Resources.Load<GameObject>("Prefabs/Elements/Rocks/CopperStone"), Element.DestructionTool.Pickaxe, 1.3f, new DropConfig(3, 1, 4), new DropConfig(1, 2, 4),new DropConfig(2, 0, 1));
+    public static readonly Element IronRock = new Element(112, 50, Resources.Load<GameObject>("Prefabs/Elements/Rocks/IronStone"), Element.DestructionTool.Pickaxe, 1.3f, new DropConfig(4, 1, 4), new DropConfig(1, 2, 4), new DropConfig(2, 0, 1));
+    public static readonly Element GoldRock = new Element(113, 50, Resources.Load<GameObject>("Prefabs/Elements/Rocks/GoldStone"), Element.DestructionTool.Pickaxe, 1.3f, new DropConfig(5, 1, 4), new DropConfig(1, 2, 4), new DropConfig(2, 0, 1));
+    public static readonly Element MithrilRock = new Element(114, 50, Resources.Load<GameObject>("Prefabs/Elements/Rocks/MithrilStone"), Element.DestructionTool.Pickaxe, 1.3f, new DropConfig(6, 1, 4), new DropConfig(1, 2, 4), new DropConfig(2, 0, 1));
+    public static readonly Element FloatiumRock = new Element(115, 50, Resources.Load<GameObject>("Prefabs/Elements/Rocks/FloatiumStone"), Element.DestructionTool.Pickaxe, 1.3f, new DropConfig(7, 1, 3), new DropConfig(1, 2, 4), new DropConfig(2, 0, 1));
+    public static readonly Element SunkiumRock = new Element(116, 50, Resources.Load<GameObject>("Prefabs/Elements/Rocks/SunkiumStone"), Element.DestructionTool.Pickaxe, 1.3f, new DropConfig(8, 1, 3), new DropConfig(1, 2, 4), new DropConfig(2, 0, 1));
+    public static readonly Element Squeleton = new Element(117, 50, Resources.Load<GameObject>("Prefabs/Elements/Rocks/Bones"), Element.DestructionTool.Pickaxe, 1f, new DropConfig(86, 1, 3));
 
     // WorkTop
-    public static readonly Element Cauldron = new Element(130, 100, Resources.Load<GameObject>("Prefabs/Elements/PuttedObjects/Cauldron"), Element.TypeElement.WorkTop, 0, new DropConfig(41, 1));
-    public static readonly Element Firepit = new Element(131, 100, Resources.Load<GameObject>("Prefabs/Elements/PuttedObjects/FirePit"), Element.TypeElement.WorkTop, 0, new DropConfig(43, 1));
-    public static readonly Element Workbench = new Element(132, 100, Resources.Load<GameObject>("Prefabs/Elements/PuttedObjects/Workbench"), Element.TypeElement.WorkTop, 0, new DropConfig(42, 1));
-    public static readonly Element Forge = new Element(133, 100, Resources.Load<GameObject>("Prefabs/Elements/PuttedObjects/Hoven"), Element.TypeElement.WorkTop, 0, new DropConfig(40, 1));
-    public static readonly Element Torch = new Element(134, 100, Resources.Load<GameObject>("Prefabs/Elements/PuttedObjects/Torch"), Element.TypeElement.WorkTop, 0, new DropConfig(44, 1));
+    public static readonly Element Cauldron = new Element(130, 100, Resources.Load<GameObject>("Prefabs/Elements/PuttedObjects/Cauldron"), Element.DestructionTool.Pickaxe, .5f, new DropConfig(41, 1));
+    public static readonly Element Firepit = new Element(131, 100, Resources.Load<GameObject>("Prefabs/Elements/PuttedObjects/FirePit"), Element.DestructionTool.Indestructible, 0, new DropConfig(43, 1));
+    public static readonly Element Workbench = new Element(132, 100, Resources.Load<GameObject>("Prefabs/Elements/PuttedObjects/Workbench"), Element.DestructionTool.Axe, 1f, new DropConfig(42, 1));
+    public static readonly Element Forge = new Element(133, 100, Resources.Load<GameObject>("Prefabs/Elements/PuttedObjects/Hoven"), Element.DestructionTool.Pickaxe, 1.5f, new DropConfig(40, 1));
+    public static readonly Element Torch = new Element(134, 100, Resources.Load<GameObject>("Prefabs/Elements/PuttedObjects/Torch"), Element.DestructionTool.None, .5f, new DropConfig(44, 1));
 
 
     // IslandCore

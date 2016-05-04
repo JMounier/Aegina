@@ -193,10 +193,12 @@ public class Graph
         foreach (Collider col in Physics.OverlapBox(pos, new Vector3(.25f, 1f, .25f)))
         {
             if (!col.isTrigger)
+            {
                 if (col.name.Contains("Island"))
                     isOverGround = true;
-                else if (!col.gameObject.name.Contains("Character"))                
+                else if (!col.name.Contains("Character") && !col.gameObject.CompareTag("Loot"))
                     return false;                
+            }
         }
         return isOverGround;
     }

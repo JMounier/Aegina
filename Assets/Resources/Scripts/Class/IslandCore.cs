@@ -16,7 +16,7 @@ public class IslandCore : Element
 
     public IslandCore(IslandCore cristal) : base(cristal) { }
 
-    public IslandCore(int id, GameObject prefab) : base(id, 100, prefab, TypeElement.None, 10) { }
+    public IslandCore(int id, GameObject prefab) : base(id, 100, prefab, DestructionTool.Indestructible, 10) { }
 
     // Methods       
     /// <summary>
