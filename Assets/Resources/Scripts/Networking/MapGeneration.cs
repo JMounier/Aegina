@@ -1,54 +1,116 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.Networking;
+using System.Collections.Generic;
 
 public class MapGeneration : NetworkBehaviour
 {
-    Save save;
-
+    private Save save;
+    private Dictionary<string, bool> loaded;
+    private List<Tuple<int, int>> toSpawn;
     // Use this for initialization    
     void Start()
     {
         if (isServer)
-        {            
+        {
             this.save = gameObject.GetComponent<Save>();
+            this.loaded = new Dictionary<string, bool>();
+            this.toSpawn = new List<Tuple<int, int>>();
+
             if (this.save.IsCoop)
             {
-                this.GenerateChunk(0, 0, Bridges.Three, Directions.East, true);
-                this.GenerateChunk(1, 0, Bridges.All, Directions.North);
-                this.GenerateChunk(2, 0, Bridges.One, Directions.West);
-                this.GenerateChunk(-1, 0, Bridges.Three, Directions.East);
-                this.GenerateChunk(-2, 0, Bridges.One, Directions.East);
-                this.GenerateChunk(0, 1, Bridges.Three, Directions.West);
-                this.GenerateChunk(0, 2, Bridges.One, Directions.South);
-                this.GenerateChunk(-1, 1, Bridges.One, Directions.East);
-                this.GenerateChunk(1, 1, Bridges.TwoL, Directions.South);
-                this.GenerateChunk(1, -1, Bridges.TwoL, Directions.West);
-                this.GenerateChunk(-1, -1, Bridges.TwoL, Directions.North);
-                this.GenerateChunk(0, -1, Bridges.All, Directions.East);
-                this.GenerateChunk(0, -2, Bridges.One, Directions.North);
+                // TO DO
             }
             else
             {
-                this.GenerateChunk(0, 0, Bridges.TwoI, Directions.North, true);
-                this.GenerateChunk(1, 0, Bridges.Three, Directions.North);
-                this.GenerateChunk(2, 0, Bridges.One, Directions.West, true);
-                this.GenerateChunk(-1, 0, Bridges.Three, Directions.South);
-                this.GenerateChunk(-2, 0, Bridges.One, Directions.East, true);
-                this.GenerateChunk(0, 1, Bridges.Three, Directions.East);
-                this.GenerateChunk(0, -1, Bridges.Three, Directions.West);
-                this.GenerateChunk(1, 1, Bridges.TwoL, Directions.South);
-                this.GenerateChunk(1, -1, Bridges.TwoL, Directions.West);
-                this.GenerateChunk(-1, -1, Bridges.TwoL, Directions.North);
-                this.GenerateChunk(-1, 1, Bridges.TwoL, Directions.East);
+                // TO DO
             }
         }
     }
 
-    private void GenerateChunk(int x, int y, Bridges bridge, Directions dir, bool islandCore = false)
+    void Update()
     {
-        System.Random rand = new System.Random(chunkSeed(x, y, this.save.Seed));
-        EntityDatabase.RandChunk(bridge, rand).Generate(x, y, rand, dir, gameObject, islandCore);
+        if (isServer)
+        {
+            foreach (string key in this.loaded.Keys)
+                this.loaded[key] = false;
+
+            foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
+            {
+                int x = (int)Mathf.Round(player.transform.FindChild("Character").position.x / Chunk.Size);
+                int y = (int)Mathf.Round(player.transform.FindChild("Character").position.z / Chunk.Size);
+                for (int i = x - 2; i < x + 3; i++)
+                    for (int j = y - 2; j < y + 3; j++)
+                        if (i - x + j - y < 3)
+                        {
+                            string key = i.ToString() + ":" + j.ToString();
+                            this.loaded[key] = true;
+                            if (!this.loaded.ContainsKey(key))
+                                this.toSpawn.Add(new Tuple<int, int>(i, j));
+
+                        }
+            }
+            if (this.toSpawn.Count > 0)
+            {
+                GenerateChunk(this.toSpawn[0].Item1, this.toSpawn[0].Item2);
+                this.toSpawn.RemoveAt(0);
+            }
+        }
+    }
+
+    private void GenerateChunk(int x, int y)
+    {
+        this.save.AddChunk(x, y);
+        bool left = true, up = true, right = true, down = true, cristal = true;
+        System.Random rand = new System.Random(chunkSeed(x, y));
+        if (x != 0 || y != 0)
+        {
+            left = x == 1 && y == 0 || rand.NextDouble() < .5f;
+            up = x == 0 && y == -1 || rand.NextDouble() < .5f;
+            System.Random randRight = new System.Random(chunkSeed(x + 1, y));
+            right = x == -1 && y == 0 || randRight.NextDouble() < .5f;
+            System.Random randDown = new System.Random(chunkSeed(x, y - 1));
+            randDown.NextDouble();
+            down = x == 0 && y == 1 || randDown.NextDouble() < .5f;
+            cristal = x == 0 && y == 0 || rand.NextDouble() < .1f;
+        }
+
+        if (!up && !right && !down && !left)
+            EntityDatabase.RandChunk(Bridges.None, rand).Generate(x, y, rand, (Directions)rand.Next(4), gameObject, cristal);
+        // ONE
+        else if (up && !right && !down && !left)
+            EntityDatabase.RandChunk(Bridges.One, rand).Generate(x, y, rand, Directions.North, gameObject, cristal);
+        else if (!up && right && !down && !left)
+            EntityDatabase.RandChunk(Bridges.One, rand).Generate(x, y, rand, Directions.East, gameObject, cristal);
+        else if (!up && !right && down && !left)
+            EntityDatabase.RandChunk(Bridges.One, rand).Generate(x, y, rand, Directions.South, gameObject, cristal);
+        else if (!up && !right && !down && left)
+            EntityDatabase.RandChunk(Bridges.One, rand).Generate(x, y, rand, Directions.West, gameObject, cristal);
+        // TWO_I
+        else if (up && !right && down && !left)
+            EntityDatabase.RandChunk(Bridges.TwoI, rand).Generate(x, y, rand, (Directions)(rand.Next(2) * 2), gameObject, cristal);
+        else if (!up && right && !down && left)
+            EntityDatabase.RandChunk(Bridges.TwoI, rand).Generate(x, y, rand, (Directions)(rand.Next(2) * 2 + 1), gameObject, cristal);
+        // TWO_L
+        else if (up && right && !down && !left)
+            EntityDatabase.RandChunk(Bridges.TwoL, rand).Generate(x, y, rand, Directions.North, gameObject, cristal);
+        else if (!up && right && down && !left)
+            EntityDatabase.RandChunk(Bridges.TwoL, rand).Generate(x, y, rand, Directions.East, gameObject, cristal);
+        else if (!up && !right && down && left)
+            EntityDatabase.RandChunk(Bridges.TwoL, rand).Generate(x, y, rand, Directions.South, gameObject, cristal);
+        else if (up && !right && !down && left)
+            EntityDatabase.RandChunk(Bridges.TwoL, rand).Generate(x, y, rand, Directions.West, gameObject, cristal);
+        // THREE
+        else if (up && right && down && !left)
+            EntityDatabase.RandChunk(Bridges.Three, rand).Generate(x, y, rand, Directions.North, gameObject, cristal);
+        else if (!up && right && down && left)
+            EntityDatabase.RandChunk(Bridges.Three, rand).Generate(x, y, rand, Directions.East, gameObject, cristal);
+        else if (up && !right && down && left)
+            EntityDatabase.RandChunk(Bridges.Three, rand).Generate(x, y, rand, Directions.South, gameObject, cristal);
+        else if (up && right && !down && left)
+            EntityDatabase.RandChunk(Bridges.Three, rand).Generate(x, y, rand, Directions.West, gameObject, cristal);
+        else
+            EntityDatabase.RandChunk(Bridges.All, rand).Generate(x, y, rand, (Directions)rand.Next(4), gameObject, cristal);
     }
 
     /// <summary>
@@ -58,9 +120,9 @@ public class MapGeneration : NetworkBehaviour
     /// <param name="y">Position y du chunk.</param>
     /// <param name="seedWord">Seed du monde.</param>
     /// <returns></returns>
-    private int chunkSeed(int x, int y, int seedWord)
+    private int chunkSeed(int x, int y)
     {
-        return (467 * x - 131 * y + 1) * seedWord;
+        return (467 * x - 131 * y + 1) * this.save.Seed;
     }
 
     /// <summary>

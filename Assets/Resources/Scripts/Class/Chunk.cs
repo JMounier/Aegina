@@ -45,7 +45,6 @@ public class Chunk : Entity
     {
         // Load the chunk
         Save save = map.GetComponent<Save>();
-        save.AddChunk(x, y);
         ChunkSave cs = save.LoadChunk(x, y);
         List<int> chunkSave = cs.ListIdSave;
         int posSave = 0;
