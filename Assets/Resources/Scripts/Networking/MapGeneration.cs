@@ -7,7 +7,7 @@ public class MapGeneration : NetworkBehaviour
 {
     private Save save;
     private Dictionary<string, bool> loaded;
-    private List<Tuple<int, int>> toSpawn;
+    private Heap<Tuple<int, int>> toSpawn;
     // Use this for initialization    
     void Start()
     {
@@ -15,8 +15,7 @@ public class MapGeneration : NetworkBehaviour
         {
             this.save = gameObject.GetComponent<Save>();
             this.loaded = new Dictionary<string, bool>();
-            this.toSpawn = new List<Tuple<int, int>>();
-
+            this.toSpawn = new Heap<Tuple<int, int>>();
             if (this.save.IsCoop)
             {
                 // TO DO
@@ -41,19 +40,22 @@ public class MapGeneration : NetworkBehaviour
                 int y = (int)Mathf.Round(player.transform.FindChild("Character").position.z / Chunk.Size);
                 for (int i = x - 2; i < x + 3; i++)
                     for (int j = y - 2; j < y + 3; j++)
-                        if (i - x + j - y < 3)
+                        if (Mathf.Abs(i - x) + Mathf.Abs(j - y) < 2)
                         {
                             string key = i.ToString() + ":" + j.ToString();
-                            this.loaded[key] = true;
                             if (!this.loaded.ContainsKey(key))
-                                this.toSpawn.Add(new Tuple<int, int>(i, j));
-
+                            {
+                                this.toSpawn.Insert(Mathf.Abs(i - x) + Mathf.Abs(j - y), new Tuple<int, int>(i, j));
+                                this.loaded.Add(key, true);
+                            }
+                            this.loaded[key] = true;
                         }
             }
-            if (this.toSpawn.Count > 0)
+
+            if (!this.toSpawn.IsEmpty)
             {
-                GenerateChunk(this.toSpawn[0].Item1, this.toSpawn[0].Item2);
-                this.toSpawn.RemoveAt(0);
+                Tuple<int, int> chunk = this.toSpawn.ExtractMin().Item2;
+                GenerateChunk(chunk.Item1, chunk.Item2);
             }
         }
     }
