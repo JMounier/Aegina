@@ -427,18 +427,11 @@ public class InputManager : NetworkBehaviour
         if (element == null)
             return;
         Element elmt = element.GetComponent<SyncElement>().Elmt;
-        if (elmt.Type == Element.TypeElement.Small)
-        {
-            this.RpcDoInteract(Element.TypeElement.Small);
-        }
-        else if (elmt.Type == Element.TypeElement.Rock && ItemDatabase.Find(toolId) is Pickaxe)
-        {
-            this.RpcDoInteract(Element.TypeElement.Rock);
-        }
-        else if ((elmt.Type == Element.TypeElement.Tree || elmt.Type == Element.TypeElement.BigTree) && ItemDatabase.Find(toolId) is Axe)
-        {
-            this.RpcDoInteract(elmt.Type);
-        }
+       
+        if ((elmt.Tool == Element.DestructionTool.None)
+            || (elmt.Tool == Element.DestructionTool.Pickaxe && ItemDatabase.Find(toolId) is Pickaxe)
+            || (elmt.Tool == Element.DestructionTool.Axe && ItemDatabase.Find(toolId) is Axe))        
+            this.RpcDoInteract(elmt.Tool, elmt.DistanceInteract);        
     }
 
     [Command]
@@ -448,32 +441,18 @@ public class InputManager : NetworkBehaviour
     }
 
     [ClientRpc]
-    private void RpcDoInteract(Element.TypeElement type)
+    private void RpcDoInteract(Element.DestructionTool tool, float interactDistance)
     {
         if (!isLocalPlayer || !this.soundAudio.IsReady(616))
             return;
-        float necessaryDistance;
-        switch (type)
-        {
-            case Element.TypeElement.Small:
-                necessaryDistance = .5f;
-                break;
-            case Element.TypeElement.Tree:
-                necessaryDistance = .5f;
-                break;          
-            default:
-                necessaryDistance = 1.25f;
-                break;
-        }
-
-        if (Vector3.Distance(this.character.transform.position, this.nearElement.transform.position) < necessaryDistance)
+      
+        if (Vector3.Distance(this.character.transform.position, this.nearElement.transform.position) < interactDistance)
         {
             Vector3 or = 2 * this.character.transform.position - this.nearElement.transform.position;
             this.character.transform.LookAt(new Vector3(or.x, this.character.transform.position.y, or.z));
-            switch (type)
+            switch (tool)
             {
-                case Element.TypeElement.BigTree:
-                case Element.TypeElement.Tree:
+                case Element.DestructionTool.Axe:
                     if (this.anim.GetInteger("Action") != 5)
                     {
                         this.soundAudio.PlaySound(AudioClips.Void, 0, 0.3f * 4f, 613);
@@ -487,7 +466,7 @@ public class InputManager : NetworkBehaviour
                         this.CmdDamageElm(this.nearElement.gameObject, (this.inventaire.UsedItem.Items as Tool).ChoppingEfficiency / 100 * 7.5f);
                     }
                     break;
-                case Element.TypeElement.Rock:
+                case Element.DestructionTool.Pickaxe:
                     if (this.anim.GetInteger("Action") != 4)
                     {
                         this.soundAudio.PlaySound(AudioClips.Void, 0, 0.3f * 4f, 612);
@@ -519,9 +498,10 @@ public class InputManager : NetworkBehaviour
             if (this.nearElement == null)
                 this.anim.SetInteger("Action", 0);
         }
-        else {
+        else
+        {
             this.controller.Objectiv = this.nearElement;
-            this.controller.OType = type;
+            this.controller.InteractDistance = interactDistance;
         }
     }
 
