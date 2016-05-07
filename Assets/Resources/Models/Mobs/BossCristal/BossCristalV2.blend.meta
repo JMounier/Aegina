@@ -21,6 +21,31 @@ ModelImporter:
     100026: Sphere_004
     100028: Torus
     100030: Torus_001
+    100032: Armature
+    100034: Bone
+    100036: Bone_001
+    100038: Bone_002
+    100040: Bone_003
+    100042: Bone_004
+    100044: Bone_005
+    100046: Bone_006
+    100048: Bone_007
+    100050: Bone_008
+    100052: Bone_009
+    100054: Bone_010
+    100056: Bone_011
+    100058: Bone_012
+    100060: Bone_013
+    100062: Bone_014
+    100064: Bone_015
+    100066: Bone_016
+    100068: Bone_017
+    100070: Bone_018
+    100072: Bone_019
+    100074: Bone_020
+    100076: Bone_021
+    100078: Bone_022
+    100080: Bone_023
     400000: //RootNode
     400002: Cone
     400004: Cube
@@ -37,6 +62,31 @@ ModelImporter:
     400026: Sphere_004
     400028: Torus
     400030: Torus_001
+    400032: Armature
+    400034: Bone
+    400036: Bone_001
+    400038: Bone_002
+    400040: Bone_003
+    400042: Bone_004
+    400044: Bone_005
+    400046: Bone_006
+    400048: Bone_007
+    400050: Bone_008
+    400052: Bone_009
+    400054: Bone_010
+    400056: Bone_011
+    400058: Bone_012
+    400060: Bone_013
+    400062: Bone_014
+    400064: Bone_015
+    400066: Bone_016
+    400068: Bone_017
+    400070: Bone_018
+    400072: Bone_019
+    400074: Bone_020
+    400076: Bone_021
+    400078: Bone_022
+    400080: Bone_023
     2300000: Cone
     2300002: Cube
     2300004: Cube_001
@@ -84,6 +134,15 @@ ModelImporter:
     4300028: Cube
     7400000: Default Take
     9500000: //RootNode
+    13700000: Cube
+    13700002: Cube_001
+    13700004: Cube_002
+    13700006: Cube_003
+    13700008: Icosphere_002
+    13700010: Sphere_002
+    13700012: Sphere_003
+    13700014: Sphere_004
+    13700016: Torus_001
   materials:
     importMaterials: 1
     materialName: 0
