@@ -231,8 +231,7 @@ public class SyncCharacter : NetworkBehaviour
         {
             armor += chunk.Cristal.LevelAtk * 20;
         }
-        Debug.Log(armor);
-        this.Life -= 100*damage/armor; //il faudra gere l'armure
+        this.Life -= 100*damage/armor;
     }
 
     [Command]
