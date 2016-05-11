@@ -87,7 +87,7 @@ public class SyncMob : NetworkBehaviour
             }
             else if (dist < 1f)
             {
-                nearPlayer.GetComponent<SyncCharacter>().Life -= this.myMob.Damage;
+                nearPlayer.GetComponent<SyncCharacter>().ReceiveDamage(this.myMob.Damage);
                 this.cdAttack = 0;
             }
             // Run to the player

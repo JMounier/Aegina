@@ -107,6 +107,7 @@ public class SyncCharacter : NetworkBehaviour
         if (!this.character.activeInHierarchy)
         {            
             bool press = false;
+            bool dead = false;
             GUI.Box(new Rect(Screen.width / 3, Screen.height / 3, Screen.width / 3, Screen.height / 3), "", skin.GetStyle("menu"));
             if (GUI.Button(new Rect(5 * Screen.width / 12, Screen.height / 2 - 100, Screen.width / 4, 100), TextDatabase.Respawn.GetText(), skin.GetStyle("button")))
             {
@@ -115,13 +116,7 @@ public class SyncCharacter : NetworkBehaviour
             if (GUI.Button(new Rect(5 * Screen.width / 12, Screen.height / 2 + 100, Screen.width / 4, 100), TextDatabase.Quit.GetText(), skin.GetStyle("button")))
             {
                 press = true;
-                if (isServer)
-                {
-                    GameObject.Find("Map").GetComponent<Save>().SaveWorld();
-                    GameObject.Find("NetworkManager").GetComponent<NetworkManager>().StopHost();
-                }
-                else
-                    GetComponent<Menu>().CmdDisconnect();
+                dead = true;
             }
             if (press)
             {
@@ -140,6 +135,16 @@ public class SyncCharacter : NetworkBehaviour
                     newPos = new Vector3(Random.Range(-10f, 10f), 7, Random.Range(-10f, 10f));
                 this.character.transform.position = newPos;
                 GetComponent<Sound>().PlaySound(AudioClips.Button, 1f);
+                if (dead)
+                {
+                    if (isServer)
+                    {
+                        GameObject.Find("Map").GetComponent<Save>().SaveWorld();
+                        GameObject.Find("NetworkManager").GetComponent<NetworkManager>().StopHost();
+                    }
+                    else
+                        GetComponent<Menu>().CmdDisconnect();
+                }
             }
         }
     }
@@ -203,7 +208,7 @@ public class SyncCharacter : NetworkBehaviour
         {
             this.character.SetActive(false);
             gameObject.GetComponent<Social>().CmdSendActivity(Activity.Death, gameObject);
-            GetComponent<Controller>().Pause = true;
+            GetComponent<InputManager>().IAmDead();
         }
     }
     /// <summary>
@@ -212,7 +217,22 @@ public class SyncCharacter : NetworkBehaviour
     /// <param name="damage"></param>
     public void ReceiveDamage(float damage)
     {
-        this.Life -= damage; //il faudra gere l'armure
+        SyncChunk chunk = null;
+        foreach (Collider col in Physics.OverlapBox(this.character.transform.position, new Vector3(5, 100, 5)))
+        {
+            if (col.gameObject.name.Contains("Island"))
+            {
+                chunk = col.transform.parent.GetComponent<SyncChunk>();
+                break;
+            }
+        }
+        float armor = 100;
+        if (chunk != null && chunk.Cristal.Team == Team.Blue)
+        {
+            armor += chunk.Cristal.LevelAtk * 20;
+        }
+        Debug.Log(armor);
+        this.Life -= 100*damage/armor; //il faudra gere l'armure
     }
 
     [Command]

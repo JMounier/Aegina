@@ -66,7 +66,7 @@ public class Chunk : Entity
             }
 
         Prefab.GetComponent<SyncChunk>().BiomeId = b.ID;
-
+        Prefab.GetComponent<SyncChunk>().IsCristal = isPrisme;
         // Generate elements
         int idSave = 0;
         foreach (Transform content in Prefab.transform)
@@ -85,13 +85,18 @@ public class Chunk : Entity
                     else if (ancre.CompareTag("MainAncre"))
                     {
                         if (this.isPrisme)
+                        {
                             this.GenerateEntity(EntityDatabase.IslandCore, ancre.gameObject, idSave);
+                        }
                         idSave++;
                     }
                 }
-
         // Generate Graph
         Prefab.GetComponent<SyncChunk>().MyGraph = new Graph(posIslands.ToArray());
+        if (isPrisme)
+        {
+            Prefab.GetComponent<SyncChunk>().FindCristal();
+        }
     }
 
     private void GenerateEntity(Entity e, GameObject ancre, int idSave)
@@ -105,7 +110,7 @@ public class Chunk : Entity
             else if (e is Element)
                 new Element(e as Element).Spawn(ancre.transform.position, Quaternion.Euler(rot), ancre.transform.parent, idSave);
             else
-                throw new Exception("You want to spwan something else than an element in the chunk...");
+                throw new Exception("You want to spawn something else than an element in the chunk...");
 
         }
         GameObject.Destroy(ancre);
