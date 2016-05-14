@@ -46,7 +46,7 @@ namespace UnityEngine.Networking
         #region Monobehaviour methods
         void Awake()
         {
-            this.loadingVideo = Resources.Load<MovieTexture>("Sprites/SplashImages/LoadingVideo");
+            //this.loadingVideo = Resources.Load<MovieTexture>("Sprites/SplashImages/LoadingVideo");
             this.loadingImage = Resources.Load<Texture>("Sprites/SplashImages/LoadingImage");
 
             this.incr = Random.Range(-0.02f, 0.02f);
@@ -87,13 +87,13 @@ namespace UnityEngine.Networking
             this.width = Screen.width / 4;
             this.height = Screen.height / 25;
             this.spacing = this.height * 2;
-            if (!this.manager.isNetworkActive)
-                loadingVideo.Stop();
+            //if (!this.manager.isNetworkActive)
+                //loadingVideo.Stop();
         }
 
         void Start()
         {
-            this.loadingVideo.loop = true;
+            //this.loadingVideo.loop = true;
             worldsList = new List<string>(Directory.GetDirectories(Application.dataPath + "/Saves"));
             for (int i = 0; i < worldsList.Count; i++)
                 worldsList[i] = worldsList[i].Remove(0, Application.dataPath.Length + 7);

@@ -21,6 +21,7 @@ public class SyncMob : NetworkBehaviour
     // Cool downs
     private float cdMove = 0;
     private float cdAttack = 0;
+    private float cdDisable = 0;
 
     // Use this for initialization
     void Start()
@@ -123,7 +124,7 @@ public class SyncMob : NetworkBehaviour
             }
             else if (dist < 1f)
             {
-                nearPlayer.GetComponent<SyncCharacter>().ReceiveDamage(this.myMob.Damage);
+                nearPlayer.GetComponent<SyncCharacter>().ReceiveDamage(this.myMob.Damage,new Vector3());
                 this.cdAttack = 0;
             }
             // Run to the player
@@ -191,16 +192,24 @@ public class SyncMob : NetworkBehaviour
     /// <param name="pos">La position que le mob doit atteindre.</param>
     private void Move(Vector3 pos)
     {
-        this.View(pos);
-        if (!this.focus && !this.flee)
+        if (cdDisable > 0)
         {
-            this.anim.SetInteger("Action", 1);
-            gameObject.GetComponent<Rigidbody>().AddForce(gameObject.transform.forward * this.myMob.WalkSpeed * 2000f);
+            cdDisable -= Time.deltaTime;
         }
         else
         {
-            this.anim.SetInteger("Action", 2);
-            gameObject.GetComponent<Rigidbody>().AddForce(gameObject.transform.forward * this.myMob.RunSpeed * 2000f);
+            this.View(pos);
+
+            if (!this.focus && !this.flee)
+            {
+                this.anim.SetInteger("Action", 1);
+                gameObject.GetComponent<Rigidbody>().AddForce(gameObject.transform.forward * this.myMob.WalkSpeed * 2000f, ForceMode.Force);
+            }
+            else
+            {
+                this.anim.SetInteger("Action", 2);
+                gameObject.GetComponent<Rigidbody>().AddForce(gameObject.transform.forward * this.myMob.RunSpeed * 2000f, ForceMode.Force);
+            }
         }
     }
 
@@ -224,11 +233,13 @@ public class SyncMob : NetworkBehaviour
     /// Fait subir des degat au mob. (Must be server !)
     /// </summary>
     /// <param name="damage"></param>
-    public void ReceiveDamage(float damage)
+    public void ReceiveDamage(float damage,Vector3 knockback)
     {
         this.myMob.Life -= damage;
         if (this.myMob.Life <= 0)
             Stats.IncrementHunt();
+        this.GetComponent<Rigidbody>().AddForce(new Vector3(knockback.x * 10000f, 10000f, knockback.z * 10000f));
+        this.cdDisable = 0.5f;
     }
 
     /// <summary>
