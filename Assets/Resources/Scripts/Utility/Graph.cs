@@ -7,6 +7,7 @@ public class Graph
 {
     private Dictionary<string, Node> nodes;
     private List<Node> origins;
+    private Queue<Node> file;
 
     #region Methods
     public Graph(params Vector3[] origins)
@@ -14,41 +15,46 @@ public class Graph
         this.nodes = new Dictionary<string, Node>();
         this.origins = new List<Node>();
 
+        this.file = new Queue<Node>();
+
         foreach (Vector3 o in origins)
         {
             Vector3 origin = new Vector3(Convert.ToSingle(Math.Round(o.x * 2, 0) / 2), 7f, Convert.ToSingle(Math.Round(o.z * 2, 0) / 2));
-            Queue<Node> file = new Queue<Node>();
             Node node = new Node(isValidPosition(origin), origin);
             this.origins.Add(node);
-            file.Enqueue(node);
+            this.file.Enqueue(node);
             this.nodes.Add(VectorToString(origin), node);
-            while (file.Count > 0)
-            {
-                node = file.Dequeue();
-                foreach (Vector3 posNeighbour in Neighbours(node))
-                {
-                    string posNeighbourString = VectorToString(posNeighbour);
-                    if (isOverGround(posNeighbour))
-                    {
-                        if (!this.nodes.ContainsKey(posNeighbourString))
-                        {
-                            Node neighbour = new Node(isValidPosition(posNeighbour), posNeighbour);
-                            node.Neighbours.Add(neighbour);
-                            neighbour.Neighbours.Add(node);
-                            this.nodes.Add(posNeighbourString, neighbour);
-                            file.Enqueue(neighbour);
-                        }
-                        else if (!node.Neighbours.Contains(this.nodes[posNeighbourString]))
-                        {
-                            node.Neighbours.Add(this.nodes[posNeighbourString]);
-                            this.nodes[posNeighbourString].Neighbours.Add(node);
-                        }
-                    }
-                }
-            }
         }
     }
 
+    public void GenerateGraph(int nbTurn)
+    {
+        while (this.file.Count > 0 && nbTurn > 0 )
+        {
+            Node node = this.file.Dequeue();
+            foreach (Vector3 posNeighbour in Neighbours(node))
+            {
+                string posNeighbourString = VectorToString(posNeighbour);
+                if (isOverGround(posNeighbour))
+                {
+                    if (!this.nodes.ContainsKey(posNeighbourString))
+                    {
+                        Node neighbour = new Node(isValidPosition(posNeighbour), posNeighbour);
+                        node.Neighbours.Add(neighbour);
+                        neighbour.Neighbours.Add(node);
+                        this.nodes.Add(posNeighbourString, neighbour);
+                        this.file.Enqueue(neighbour);
+                    }
+                    else if (!node.Neighbours.Contains(this.nodes[posNeighbourString]))
+                    {
+                        node.Neighbours.Add(this.nodes[posNeighbourString]);
+                        this.nodes[posNeighbourString].Neighbours.Add(node);
+                    }
+                }
+            }
+            nbTurn--;
+        }
+    }
     public Node GetNode(Vector3 pos)
     {
         try
@@ -195,8 +201,8 @@ public class Graph
             if (!col.isTrigger)
                 if (col.name.Contains("Island"))
                     isOverGround = true;
-                else if (!col.gameObject.name.Contains("Character"))                
-                    return false;                
+                else if (!col.gameObject.name.Contains("Character"))
+                    return false;
         }
         return isOverGround;
     }
@@ -228,6 +234,13 @@ public class Graph
     {
         string[] cut = pos.Split(':');
         return new Vector3(float.Parse(cut[0]) / 2, 7f, float.Parse(cut[1]) / 2);
+    }
+    #endregion
+
+    #region Getters/Setters
+    public bool IsFileEmpty
+    {
+        get { return this.file.Count == 0; }
     }
     #endregion
 }

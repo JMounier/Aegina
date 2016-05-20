@@ -8,6 +8,8 @@ public class MapGeneration : NetworkBehaviour
     private Save save;
     private Dictionary<string, bool> loaded;
     private Heap<Tuple<int, int>> toSpawn;
+    private Chunk generating;
+
     // Use this for initialization    
     void Start()
     {
@@ -16,9 +18,13 @@ public class MapGeneration : NetworkBehaviour
             this.save = gameObject.GetComponent<Save>();
             this.loaded = new Dictionary<string, bool>();
             this.toSpawn = new Heap<Tuple<int, int>>();
+            
+
             if (this.save.IsCoop)
             {
-                // TO DO
+                // TO DO 
+                this.generating = GenerateChunk(0, 0);
+                this.loaded["0:0"] = true;              
             }
             else
             {
@@ -31,7 +37,10 @@ public class MapGeneration : NetworkBehaviour
     {
         if (isServer)
         {
+            List<string> l = new List<string>();
             foreach (string key in this.loaded.Keys)
+                l.Add(key);
+            foreach (string key in l)
                 this.loaded[key] = false;
 
             foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
@@ -44,23 +53,24 @@ public class MapGeneration : NetworkBehaviour
                         {
                             string key = i.ToString() + ":" + j.ToString();
                             if (!this.loaded.ContainsKey(key))
-                            {
                                 this.toSpawn.Insert(Mathf.Abs(i - x) + Mathf.Abs(j - y), new Tuple<int, int>(i, j));
-                                this.loaded.Add(key, true);
-                            }
                             this.loaded[key] = true;
                         }
             }
-
-            if (!this.toSpawn.IsEmpty)
+            if (this.generating != null)
+            {
+                if (this.generating.Generate())
+                    this.generating = null;
+            }
+            else if (!this.toSpawn.IsEmpty)
             {
                 Tuple<int, int> chunk = this.toSpawn.ExtractMin().Item2;
-                GenerateChunk(chunk.Item1, chunk.Item2);
+                this.generating = GenerateChunk(chunk.Item1, chunk.Item2);
             }
         }
     }
 
-    private void GenerateChunk(int x, int y)
+    private Chunk GenerateChunk(int x, int y)
     {
         this.save.AddChunk(x, y);
         bool left = true, up = true, right = true, down = true, cristal = true;
@@ -78,41 +88,40 @@ public class MapGeneration : NetworkBehaviour
         }
 
         if (!up && !right && !down && !left)
-            EntityDatabase.RandChunk(Bridges.None, rand).Generate(x, y, rand, (Directions)rand.Next(4), gameObject, cristal);
+            return EntityDatabase.RandChunk(Bridges.None, rand).StartGenerate(x, y, rand, (Directions)rand.Next(4), gameObject, cristal);
         // ONE
-        else if (up && !right && !down && !left)
-            EntityDatabase.RandChunk(Bridges.One, rand).Generate(x, y, rand, Directions.North, gameObject, cristal);
-        else if (!up && right && !down && !left)
-            EntityDatabase.RandChunk(Bridges.One, rand).Generate(x, y, rand, Directions.East, gameObject, cristal);
-        else if (!up && !right && down && !left)
-            EntityDatabase.RandChunk(Bridges.One, rand).Generate(x, y, rand, Directions.South, gameObject, cristal);
-        else if (!up && !right && !down && left)
-            EntityDatabase.RandChunk(Bridges.One, rand).Generate(x, y, rand, Directions.West, gameObject, cristal);
+        if (up && !right && !down && !left)
+            return EntityDatabase.RandChunk(Bridges.One, rand).StartGenerate(x, y, rand, Directions.North, gameObject, cristal);
+        if (!up && right && !down && !left)
+            return EntityDatabase.RandChunk(Bridges.One, rand).StartGenerate(x, y, rand, Directions.East, gameObject, cristal);
+        if (!up && !right && down && !left)
+            return EntityDatabase.RandChunk(Bridges.One, rand).StartGenerate(x, y, rand, Directions.South, gameObject, cristal);
+        if (!up && !right && !down && left)
+            return EntityDatabase.RandChunk(Bridges.One, rand).StartGenerate(x, y, rand, Directions.West, gameObject, cristal);
         // TWO_I
-        else if (up && !right && down && !left)
-            EntityDatabase.RandChunk(Bridges.TwoI, rand).Generate(x, y, rand, (Directions)(rand.Next(2) * 2), gameObject, cristal);
-        else if (!up && right && !down && left)
-            EntityDatabase.RandChunk(Bridges.TwoI, rand).Generate(x, y, rand, (Directions)(rand.Next(2) * 2 + 1), gameObject, cristal);
+        if (up && !right && down && !left)
+            return EntityDatabase.RandChunk(Bridges.TwoI, rand).StartGenerate(x, y, rand, (Directions)(rand.Next(2) * 2), gameObject, cristal);
+        if (!up && right && !down && left)
+            return EntityDatabase.RandChunk(Bridges.TwoI, rand).StartGenerate(x, y, rand, (Directions)(rand.Next(2) * 2 + 1), gameObject, cristal);
         // TWO_L
-        else if (up && right && !down && !left)
-            EntityDatabase.RandChunk(Bridges.TwoL, rand).Generate(x, y, rand, Directions.North, gameObject, cristal);
-        else if (!up && right && down && !left)
-            EntityDatabase.RandChunk(Bridges.TwoL, rand).Generate(x, y, rand, Directions.East, gameObject, cristal);
-        else if (!up && !right && down && left)
-            EntityDatabase.RandChunk(Bridges.TwoL, rand).Generate(x, y, rand, Directions.South, gameObject, cristal);
-        else if (up && !right && !down && left)
-            EntityDatabase.RandChunk(Bridges.TwoL, rand).Generate(x, y, rand, Directions.West, gameObject, cristal);
+        if (up && right && !down && !left)
+            return EntityDatabase.RandChunk(Bridges.TwoL, rand).StartGenerate(x, y, rand, Directions.North, gameObject, cristal);
+        if (!up && right && down && !left)
+            return EntityDatabase.RandChunk(Bridges.TwoL, rand).StartGenerate(x, y, rand, Directions.East, gameObject, cristal);
+        if (!up && !right && down && left)
+            return EntityDatabase.RandChunk(Bridges.TwoL, rand).StartGenerate(x, y, rand, Directions.South, gameObject, cristal);
+        if (up && !right && !down && left)
+            return EntityDatabase.RandChunk(Bridges.TwoL, rand).StartGenerate(x, y, rand, Directions.West, gameObject, cristal);
         // THREE
-        else if (up && right && down && !left)
-            EntityDatabase.RandChunk(Bridges.Three, rand).Generate(x, y, rand, Directions.North, gameObject, cristal);
-        else if (!up && right && down && left)
-            EntityDatabase.RandChunk(Bridges.Three, rand).Generate(x, y, rand, Directions.East, gameObject, cristal);
-        else if (up && !right && down && left)
-            EntityDatabase.RandChunk(Bridges.Three, rand).Generate(x, y, rand, Directions.South, gameObject, cristal);
-        else if (up && right && !down && left)
-            EntityDatabase.RandChunk(Bridges.Three, rand).Generate(x, y, rand, Directions.West, gameObject, cristal);
-        else
-            EntityDatabase.RandChunk(Bridges.All, rand).Generate(x, y, rand, (Directions)rand.Next(4), gameObject, cristal);
+        if (up && right && down && !left)
+            return EntityDatabase.RandChunk(Bridges.Three, rand).StartGenerate(x, y, rand, Directions.North, gameObject, cristal);
+        if (!up && right && down && left)
+            return EntityDatabase.RandChunk(Bridges.Three, rand).StartGenerate(x, y, rand, Directions.East, gameObject, cristal);
+        if (up && !right && down && left)
+            return EntityDatabase.RandChunk(Bridges.Three, rand).StartGenerate(x, y, rand, Directions.South, gameObject, cristal);
+        if (up && right && !down && left)
+            return EntityDatabase.RandChunk(Bridges.Three, rand).StartGenerate(x, y, rand, Directions.West, gameObject, cristal);
+        return EntityDatabase.RandChunk(Bridges.All, rand).StartGenerate(x, y, rand, (Directions)rand.Next(4), gameObject, cristal);
     }
 
     /// <summary>
