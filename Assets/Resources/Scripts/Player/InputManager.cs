@@ -192,9 +192,9 @@ public class InputManager : NetworkBehaviour
             {
                 if (cdAttack <= 0 && !this.controller.Pause)
                 {
-                    //this.anim.SetInteger("Action", 6); à remplacer par l'action de l'attaque verticale
+                    this.anim.SetInteger("Action", 6);// à remplacer par l'action de l'attaque verticale
                     this.attack = TypeAttack.Horizontal;
-                    this.cdAttack = 2f;
+                    this.cdAttack = 5f;
                 }
             }
             else if (this.nearElement != null && this.nearElement.GetComponent<SyncCore>() != null)
@@ -257,7 +257,7 @@ public class InputManager : NetworkBehaviour
             CmdAttack(damage, attack);
         }
 
-        if (this.cdAttack > 0 && (this.controller.Pause || (Input.GetButtonDown("Fire2") && this.attack != TypeAttack.Horizontal)))
+        if (this.cdAttack > 0 && this.controller.Pause)
         {
             if (this.cdAttack > .6f)
                 this.cdAttack = 3.5f;
