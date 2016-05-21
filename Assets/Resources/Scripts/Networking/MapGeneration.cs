@@ -6,8 +6,7 @@ using System.Collections.Generic;
 public class MapGeneration : NetworkBehaviour
 {
     private Save save;
-    private Dictionary<string, bool> loaded;
-    private Heap<Tuple<int, int>> toSpawn;
+    private Dictionary<string, Chunk> generated;
     private Chunk generating;
 
     // Use this for initialization    
@@ -16,15 +15,12 @@ public class MapGeneration : NetworkBehaviour
         if (isServer)
         {
             this.save = gameObject.GetComponent<Save>();
-            this.loaded = new Dictionary<string, bool>();
-            this.toSpawn = new Heap<Tuple<int, int>>();
-            
+            this.generated = new Dictionary<string, Chunk>();
 
             if (this.save.IsCoop)
             {
                 // TO DO 
                 this.generating = GenerateChunk(0, 0);
-                this.loaded["0:0"] = true;              
             }
             else
             {
@@ -37,35 +33,71 @@ public class MapGeneration : NetworkBehaviour
     {
         if (isServer)
         {
-            List<string> l = new List<string>();
-            foreach (string key in this.loaded.Keys)
-                l.Add(key);
-            foreach (string key in l)
-                this.loaded[key] = false;
-
+            // Position des joueurs
+            List<Tuple<int, int>> posPlayers = new List<Tuple<int, int>>();
             foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
             {
                 int x = (int)Mathf.Round(player.transform.FindChild("Character").position.x / Chunk.Size);
                 int y = (int)Mathf.Round(player.transform.FindChild("Character").position.z / Chunk.Size);
-                for (int i = x - 2; i < x + 3; i++)
-                    for (int j = y - 2; j < y + 3; j++)
-                        if (Mathf.Abs(i - x) + Mathf.Abs(j - y) < 2)
+                posPlayers.Add(new Tuple<int, int>(x, y));
+            }
+            // Recherche un chunk a generer
+            if (this.generating == null)
+            {
+                foreach (Tuple<int, int> pos in posPlayers)
+                {
+                    int x = pos.Item1;
+                    int y = pos.Item2;
+                    int min = int.MaxValue;
+                    Tuple<int, int> best = null;
+
+                    for (int i = x - 2; i < x + 3; i++)
+                        for (int j = y - 2; j < y + 3; j++)
                         {
+                            int dist = Mathf.Abs(i - x) + Mathf.Abs(j - y);
                             string key = i.ToString() + ":" + j.ToString();
-                            if (!this.loaded.ContainsKey(key))
-                                this.toSpawn.Insert(Mathf.Abs(i - x) + Mathf.Abs(j - y), new Tuple<int, int>(i, j));
-                            this.loaded[key] = true;
+                            if (dist < 3 && dist < min && !this.generated.ContainsKey(key))
+                            {
+                                min = dist;
+                                best = new Tuple<int, int>(i, j);
+                            }
                         }
+                    if (best != null)
+                        this.generating = GenerateChunk(best.Item1, best.Item2);
+                }
             }
-            if (this.generating != null)
+            else if (this.generating.Generate())
             {
-                if (this.generating.Generate())
-                    this.generating = null;
+                this.generated.Add(this.generating.X.ToString() + ":" + this.generating.Y.ToString(), this.generating);
+                this.generating = null;
             }
-            else if (!this.toSpawn.IsEmpty)
+
+            // Degeneration
+            List<Chunk> toDespawn = new List<Chunk>();
+
+            foreach (string key in this.generated.Keys)
             {
-                Tuple<int, int> chunk = this.toSpawn.ExtractMin().Item2;
-                this.generating = GenerateChunk(chunk.Item1, chunk.Item2);
+                int i = 0;
+                Chunk c = this.generated[key];
+                bool check = key == "0:0";
+
+                while (!check && i < posPlayers.Count)
+                {
+                    int xP = posPlayers[i].Item1;
+                    int yP = posPlayers[i].Item2;
+                    if (Mathf.Abs(xP - c.X) + Mathf.Abs(yP - c.Y) < 4)
+                        check = true;
+                    i++;
+                }
+                if (!check)
+                    toDespawn.Add(c);
+            }
+            foreach (Chunk c in toDespawn)
+            {
+                this.save.RemoveChunk(c.X, c.Y);
+                this.generated.Remove(c.X.ToString() + ":" + c.Y.ToString());
+                NetworkServer.UnSpawn(c.Prefab);
+                GameObject.Destroy(c.Prefab);
             }
         }
     }

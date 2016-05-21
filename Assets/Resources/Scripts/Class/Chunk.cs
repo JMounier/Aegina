@@ -188,4 +188,14 @@ public class Chunk : Entity
         get { return this.isPrisme; }
         set { this.isPrisme = value; }
     }
+
+    public int X
+    {
+        get { return this.x; }
+    }
+
+    public int Y
+    {
+        get { return this.y; }
+    }
 }
