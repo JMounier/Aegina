@@ -51,12 +51,12 @@ public class MapGeneration : NetworkBehaviour
                     int min = int.MaxValue;
                     Tuple<int, int> best = null;
 
-                    for (int i = x - 2; i < x + 3; i++)
-                        for (int j = y - 2; j < y + 3; j++)
+                    for (int i = x - 1; i < x + 2; i++)
+                        for (int j = y - 1; j < y + 2; j++)
                         {
                             int dist = Mathf.Abs(i - x) + Mathf.Abs(j - y);
                             string key = i.ToString() + ":" + j.ToString();
-                            if (dist < 3 && dist < min && !this.generated.ContainsKey(key))
+                            if (dist < min && !this.generated.ContainsKey(key))
                             {
                                 min = dist;
                                 best = new Tuple<int, int>(i, j);
@@ -85,7 +85,7 @@ public class MapGeneration : NetworkBehaviour
                 {
                     int xP = posPlayers[i].Item1;
                     int yP = posPlayers[i].Item2;
-                    if (Mathf.Abs(xP - c.X) + Mathf.Abs(yP - c.Y) < 4)
+                    if (Mathf.Abs(xP - c.X) < 2 && Mathf.Abs(yP - c.Y) < 2)
                         check = true;
                     i++;
                 }
