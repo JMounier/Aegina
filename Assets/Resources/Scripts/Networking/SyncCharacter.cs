@@ -200,6 +200,10 @@ public class SyncCharacter : NetworkBehaviour
             gameObject.transform.FindChild("Character").FindChild("NPC_Man_Normal001").gameObject.SetActive(false);
             gameObject.transform.FindChild("Character").GetComponent<CapsuleCollider>().enabled = false;
             gameObject.transform.FindChild("Character").GetComponent<Rigidbody>().useGravity = false;
+            this.Poison = 0;
+            this.Regen = 0;
+            this.Speed = 0;
+            this.Jump = 0;
             gameObject.GetComponent<Inventory>().DropAll();
             gameObject.GetComponent<Social_HUD>().CmdSendActivity(Activity.Death);
             GetComponent<InputManager>().IAmDead();
@@ -216,10 +220,6 @@ public class SyncCharacter : NetworkBehaviour
         this.Life = this.lifeMax;
         this.Hunger = this.hungerMax;
         this.Thirst = this.thirstMax;
-        this.Poison = 0;
-        this.Regen = 0;
-        this.Speed = 0;
-        this.Jump = 0;
         this.character.GetComponent<Rigidbody>().velocity = Vector3.zero;
         CmdRespawnPos();
     }

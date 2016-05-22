@@ -37,8 +37,8 @@ public class Controller : NetworkBehaviour
     private float rotationY = 0F;
     private float rotationX = 0F;
     private bool pause = false;
-	private bool ismoving = false;
-	private bool isSprinting = false;
+    private bool ismoving = false;
+    private bool isSprinting = false;
 
     // Use for Sound
     private Sound soundAudio;
@@ -74,7 +74,13 @@ public class Controller : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (isServer)
+        {
+            int x = (int)Mathf.Round(this.character.transform.position.x / Chunk.Size);
+            int y = (int)Mathf.Round(this.character.transform.position.z / Chunk.Size);
+            if (this.character.transform.position.y < 0 && !GameObject.Find("Map").GetComponent<MapGeneration>().isLoaded(x, y))
+                gameObject.GetComponent<Social_HUD>().RpcTeleport(new Vector3(this.character.transform.position.x, 10, this.character.transform.position.z));
+        }
         if (!isLocalPlayer)
             return;
         /*
@@ -147,7 +153,7 @@ public class Controller : NetworkBehaviour
         bool left = !this.pause && Input.GetButton("Left");
         bool jump = !this.pause && Input.GetButton("Jump");
         bool isSprinting = !this.pause && Input.GetButton("Sprint");
-		ismoving = forward || back || right || left || jump;
+        ismoving = forward || back || right || left || jump;
         Vector3 move = new Vector3(0, 0, 0);
 
         // Jump
@@ -301,11 +307,11 @@ public class Controller : NetworkBehaviour
     }
 
     // Setters | Getters
-	public float Sensitivity
-	{
-		get{ return this.sensitivity;}
-		set{ this.sensitivity = value;}
-	}
+    public float Sensitivity
+    {
+        get { return this.sensitivity; }
+        set { this.sensitivity = value; }
+    }
     /// <sumary>
     /// Si le personnage est en saut.
     /// </sumary>
@@ -323,17 +329,19 @@ public class Controller : NetworkBehaviour
         get { return this.pause; }
         set { this.pause = value; }
     }
-	/// <summary>
-	/// Gets a value indicating whether this instance ismoving.
-	/// </summary>
-	/// <value><c>true</c> if this instance ismoving; otherwise, <c>false</c>.</value>
-	public bool Ismoving{
-		get{ return this.ismoving; }
-	}
+    /// <summary>
+    /// Gets a value indicating whether this instance ismoving.
+    /// </summary>
+    /// <value><c>true</c> if this instance ismoving; otherwise, <c>false</c>.</value>
+    public bool Ismoving
+    {
+        get { return this.ismoving; }
+    }
 
-	public bool IsSprinting{
-		get{ return this.isSprinting;}
-	}
+    public bool IsSprinting
+    {
+        get { return this.isSprinting; }
+    }
 
     /// <sumary>
     /// La vitesse de marche du personnage.

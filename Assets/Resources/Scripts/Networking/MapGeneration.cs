@@ -169,6 +169,17 @@ public class MapGeneration : NetworkBehaviour
     }
 
     /// <summary>
+    /// Retourne si le chunk de coordonnee X, Y est charge.
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    /// <returns></returns>
+    public bool isLoaded(int x, int y)
+    {
+        return this.generated.ContainsKey(x.ToString() + ":" + y.ToString());
+    }
+
+    /// <summary>
     /// Transform a seed in string to int.
     /// </summary>
     /// <param name="seed"></param>
