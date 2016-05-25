@@ -196,6 +196,7 @@ public class SyncCharacter : NetworkBehaviour
     {
         if (isLocalPlayer)
         {
+            character.GetComponent<Rigidbody>().velocity = new Vector3();
             gameObject.transform.FindChild("Character").FindChild("Armature").gameObject.SetActive(false);
             gameObject.transform.FindChild("Character").FindChild("NPC_Man_Normal001").gameObject.SetActive(false);
             gameObject.transform.FindChild("Character").GetComponent<CapsuleCollider>().enabled = false;
@@ -309,7 +310,7 @@ public class SyncCharacter : NetworkBehaviour
     /// Informe le joueur qu'il doit prendre des degats. MUST BE SERVER
     /// </summary>
     /// <param name="damage"></param>
-    public void ReceiveDamage(float damage)
+    public void ReceiveDamage(float damage,Vector3 knockback)
     {
         SyncChunk chunk = null;
         foreach (Collider col in Physics.OverlapBox(this.character.transform.position, new Vector3(5, 100, 5)))
@@ -325,6 +326,8 @@ public class SyncCharacter : NetworkBehaviour
             armor += chunk.Cristal.LevelAtk * 20;
         
         this.Life -= 100 * damage / armor;
+        this.character.GetComponent<Rigidbody>().AddForce(new Vector3(knockback.x * 20000f, 5000f, knockback.z * 20000f));
+        this.controller.IsJumping = true;
     }
 
     [Command]

@@ -151,7 +151,7 @@ public class Controller : NetworkBehaviour
         bool right = !this.pause && Input.GetButton("Right");
         bool left = !this.pause && Input.GetButton("Left");
         bool jump = !this.pause && Input.GetButton("Jump");
-        bool isSprinting = !this.pause && Input.GetButton("Sprint");
+        isSprinting = !this.pause && Input.GetButton("Sprint");
         ismoving = forward || back || right || left || jump;
         Vector3 move = new Vector3(0, 0, 0);
 

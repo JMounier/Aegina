@@ -166,3 +166,25 @@ public class Sword : Tool
        base(id, meta, name, description, durability, damage, 1, 1, icon, ent, toolPrefab)
     { }
 }
+public class BattleAxe : Tool
+{
+    public BattleAxe() : base() { }
+    public BattleAxe(BattleAxe battleAxe) : base(battleAxe) { }
+    public BattleAxe(int id, Text name, Text description, int durability, int damage, Texture2D icon, Entity ent, GameObject toolPrefab) :
+       base(id, name, description, durability, damage, 1, 1, icon, ent, toolPrefab)
+    { }
+    public BattleAxe(int id, int meta, Text name, Text description, int durability, int damage, Texture2D icon, Entity ent, GameObject toolPrefab) :
+       base(id, meta, name, description, durability, damage, 1, 1, icon, ent, toolPrefab)
+    { }
+}
+public class Spear : Tool
+{
+    public Spear() : base() { }
+    public Spear(Spear spear) : base(spear) { }
+    public Spear(int id, Text name, Text description, int durability, int damage, Texture2D icon, Entity ent, GameObject toolPrefab) :
+       base(id, name, description, durability, damage, 1, 1, icon, ent, toolPrefab)
+    { }
+    public Spear(int id, int meta, Text name, Text description, int durability, int damage, Texture2D icon, Entity ent, GameObject toolPrefab) :
+       base(id, meta, name, description, durability, damage, 1, 1, icon, ent, toolPrefab)
+    { }
+}
