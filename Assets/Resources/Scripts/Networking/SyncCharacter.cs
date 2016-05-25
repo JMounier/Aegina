@@ -326,9 +326,22 @@ public class SyncCharacter : NetworkBehaviour
             armor += chunk.Cristal.LevelAtk * 20;
         
         this.Life -= 100 * damage / armor;
-        this.character.GetComponent<Rigidbody>().AddForce(new Vector3(knockback.x * 20000f, 5000f, knockback.z * 20000f));
+        this.RpcApplyForce(knockback.x * 20000f, 5000f, knockback.z * 20000f);
         this.controller.IsJumping = true;
     }
+
+	[ClientRpc]
+	public void RpcApplyForce(float x, float y, float z)
+	{
+		if (isLocalPlayer)
+			this.character.GetComponent<Rigidbody> ().AddForce (x, y, z);
+	}
+	[ClientRpc]
+	public void RpcApplyRelativeForce(float x, float y, float z)
+	{
+		if (isLocalPlayer)
+			this.character.GetComponent<Rigidbody> ().AddRelativeForce (x, y, z);
+	}
 
     [Command]
     private void CmdLoad()
@@ -356,6 +369,22 @@ public class SyncCharacter : NetworkBehaviour
         gameObject.GetComponent<Social_HUD>().RpcTeleport(newPos);
     }
 
+
+
+	[Command]
+	private void CmdLife(float life, bool fromServer)
+	{
+		this.life = life;
+		RpcLife(life, fromServer);
+	}
+
+	[ClientRpc]
+	private void RpcLife(float life, bool fromServer)
+	{
+		if (fromServer || !isLocalPlayer)
+			this.life = life;
+	}
+
     #region Getter & Setter
     /// <summary>
     /// La vie de l'entite.
@@ -368,20 +397,6 @@ public class SyncCharacter : NetworkBehaviour
             this.life = Mathf.Clamp(value, 0f, this.lifeMax);
             this.CmdLife(this.life, !isLocalPlayer);
         }
-    }
-
-    [Command]
-    private void CmdLife(float life, bool fromServer)
-    {
-        this.life = life;
-        RpcLife(life, fromServer);
-    }
-
-    [ClientRpc]
-    private void RpcLife(float life, bool fromServer)
-    {
-        if (fromServer || !isLocalPlayer)
-            this.life = life;
     }
 
     /// <summary>
