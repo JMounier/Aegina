@@ -27,14 +27,14 @@ public class InputManager : NetworkBehaviour
     private bool validplace;
     private bool lastvalidplace;
     public enum TypeAttack { None, Horizontal, Vertical, Aerial, Charge }
-    public TypeAttack attack = TypeAttack.None;
+    private TypeAttack attack;
     // Use this for initialization
     void Start()
     {
         this.nearElement = null;
         this.character = GetComponentInChildren<CharacterCollision>().gameObject;
         this.social = GetComponent<Social_HUD>();
-
+        this.attack = TypeAttack.None;
         if (!isLocalPlayer)
             return;
         this.cam = GetComponentInChildren<Camera>().gameObject;
@@ -127,7 +127,7 @@ public class InputManager : NetworkBehaviour
         }
         #endregion
 
-        #region Gestion Input
+        #region Gestion Menu
         if (Input.GetButtonDown("Inventory") && !this.menu.MenuShown && !this.menu.OptionShown && !this.social.ChatShown && !this.cristalHUD.Cristal_shown && !this.sucHUD.Activate && !this.tutoriel.EndTutoShown && !this.tutoriel.Tutoshown && !this.menu.ControlShown)
         {
             this.inventaire.InventoryShown = !this.inventaire.InventoryShown;
@@ -225,9 +225,7 @@ public class InputManager : NetworkBehaviour
             if (this.controller.IsSprinting)
                 this.attack = TypeAttack.Charge;
             else if (this.controller.IsJumping)
-            {
                 this.attack = TypeAttack.Aerial;
-            }
             else
                 this.attack = TypeAttack.Vertical;
         }
@@ -250,19 +248,11 @@ public class InputManager : NetworkBehaviour
             float damage = 0f;
             Item item = this.inventaire.UsedItem.Items;
             if (item is Tool)
-                damage += damage + 5f * ((item as Tool).Damage) / 100f;
+                damage =  5f * ((item as Tool).Damage) / 100f;
             else
-                damage += 5f;
-
+                damage = 5f;
+            Debug.Log(this.attack.ToString());
             CmdAttack(damage, attack);
-        }
-
-        if (this.cdAttack > 0 && this.controller.Pause)
-        {
-            if (this.cdAttack > .6f)
-                this.cdAttack = 3.5f;
-            else
-                this.cdAttack = .6f;
         }
         #endregion
 
@@ -386,21 +376,21 @@ public class InputManager : NetworkBehaviour
         if (actual_chunk != null && actual_chunk.IsCristal && actual_chunk.Cristal.Team == this.social.Team)
             damage += actual_chunk.Cristal.LevelAtk;
 
-        Collider[] cibles = new Collider[0];
-        if (attack == TypeAttack.Horizontal)
+        Collider[] cibles = null;
+        if (atk == TypeAttack.Horizontal)
             cibles = Physics.OverlapBox(this.character.transform.position - this.character.transform.forward / 2 + new Vector3(0, 0.5f), new Vector3(0.5f, 0.1f, 0.25f), this.character.transform.rotation);
-        else if (attack == TypeAttack.Vertical)
+        else if (atk == TypeAttack.Vertical)
             cibles = Physics.OverlapBox(this.character.transform.position - this.character.transform.forward / 2 + new Vector3(0, 0.5f), new Vector3(0.1f, 0.5f, 0.25f), this.character.transform.rotation);
-        else if (attack == TypeAttack.Aerial)
+        else if (atk == TypeAttack.Aerial)
         {
             cibles = Physics.OverlapBox(this.character.transform.position - this.character.transform.forward / 2 + new Vector3(0, -2f), new Vector3(0.1f, 2f, 0.25f), this.character.transform.rotation);
-            this.character.GetComponent<Rigidbody>().AddForce(0, -30000f - this.syncCharacter.Jump, 0);
+			this.syncCharacter.RpcApplyForce(0, -30000f - this.syncCharacter.Jump, 0);
         }
-        else if (attack == TypeAttack.Charge)
+        else if (atk == TypeAttack.Charge)
         {
             cibles = Physics.OverlapBox(this.character.transform.position - this.character.transform.forward / 2 + new Vector3(0, 0.5f, 1.5f), new Vector3(0.2f, 0.2f, 1.75f), this.character.transform.rotation);
             this.controller.IsJumping = true;
-            this.character.GetComponent<Rigidbody>().AddRelativeForce(0, 5000f, -20000f);
+			this.syncCharacter.RpcApplyRelativeForce(0, 5000f, -20000f);
         }
         foreach (Collider cible in cibles)
         {
@@ -413,10 +403,8 @@ public class InputManager : NetworkBehaviour
                 cible.gameObject.GetComponent<SyncCore>().AttackCristal((int)damage, this.social.Team);
             else
                 notacible = true;
-            if (!notacible && attack == TypeAttack.Horizontal)
-            {
+            if (!notacible && atk == TypeAttack.Horizontal)
                 break; 
-            }
         }
     }
 

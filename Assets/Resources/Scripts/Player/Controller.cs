@@ -19,7 +19,6 @@ public class Controller : NetworkBehaviour
     private float jumpForce = 13000f;
     private float coolDownJump = 0;
 
-    private bool isJumping;
     private Animator anim;
 
     // Use for Camera
@@ -39,6 +38,7 @@ public class Controller : NetworkBehaviour
     private bool pause = false;
     private bool ismoving = false;
     private bool isSprinting = false;
+    private bool isJumping = false;
 
     // Use for Sound
     private Sound soundAudio;
