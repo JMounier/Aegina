@@ -352,15 +352,18 @@ public class SyncCharacter : NetworkBehaviour
         Vector3 newPos = new Vector3(save.X, 7, save.Y);
         gameObject.GetComponent<Social_HUD>().RpcTeleport(newPos);
     }
-    private void ChangeHair(Texture2D skin)
+
+    public void ChangeHair(Texture2D skin)
     {
         gameObject.transform.FindChild("Character").FindChild("Armature").FindChild("Head_slot").FindChild("NPC_Hair_009").GetComponentInChildren<Renderer>().material.mainTexture = skin;
     }
-    private void ChangeBeard(Texture2D skin)
+
+    public void ChangeBeard(Texture2D skin)
     {
         gameObject.transform.FindChild("Character").FindChild("Armature").FindChild("Head_slot").FindChild("NPC_Beard_008").GetComponentInChildren<Renderer>().material.mainTexture = skin;
     }
-    private void ChangeBody(Texture2D skin)
+
+    public void ChangeBody(Texture2D skin)
     {
         gameObject.transform.FindChild("Character").FindChild("NPC_Man_Normal001").GetComponentInChildren<Renderer>().material.mainTexture = skin;
     }
