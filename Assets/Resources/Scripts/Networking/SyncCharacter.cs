@@ -310,7 +310,7 @@ public class SyncCharacter : NetworkBehaviour
     /// Informe le joueur qu'il doit prendre des degats. MUST BE SERVER
     /// </summary>
     /// <param name="damage"></param>
-    public void ReceiveDamage(float damage,Vector3 knockback)
+    public void ReceiveDamage(float damage, Vector3 knockback)
     {
         SyncChunk chunk = null;
         foreach (Collider col in Physics.OverlapBox(this.character.transform.position, new Vector3(5, 100, 5)))
@@ -322,31 +322,32 @@ public class SyncCharacter : NetworkBehaviour
             }
         }
         float armor = 100;
-        if (chunk != null && chunk.IsCristal && chunk.Cristal.Team == gameObject.GetComponent<Social_HUD>().Team)        
+        if (chunk != null && chunk.IsCristal && chunk.Cristal.Team == gameObject.GetComponent<Social_HUD>().Team)
             armor += chunk.Cristal.LevelAtk * 20;
-        
+
         this.Life -= 100 * damage / armor;
         this.RpcApplyForce(knockback.x * 20000f, 5000f, knockback.z * 20000f);
-        this.controller.IsJumping = true;
     }
 
-	[ClientRpc]
-	public void RpcApplyForce(float x, float y, float z)
-	{
-		if (isLocalPlayer)
-			this.character.GetComponent<Rigidbody> ().AddForce (x, y, z);
-	}
-	[ClientRpc]
-	public void RpcApplyRelativeForce(float x, float y, float z)
-	{
-		if (isLocalPlayer)
-			this.character.GetComponent<Rigidbody> ().AddRelativeForce (x, y, z);
-	}
+    [ClientRpc]
+    public void RpcApplyForce(float x, float y, float z)
+    {
+        if (isLocalPlayer)
+        {
+            this.character.GetComponent<Rigidbody>().AddForce(x, y, z);
+            this.controller.IsJumping = true;
+        }
+    }
+    [ClientRpc]
+    public void RpcApplyRelativeForce(float x, float y, float z)
+    {
+        if (isLocalPlayer)
+            this.character.GetComponent<Rigidbody>().AddRelativeForce(x, y, z);
+    }
 
     [Command]
     private void CmdLoad()
     {
-
         PlayerSave save = GameObject.Find("Map").GetComponent<Save>().LoadPlayer(gameObject);
 
         this.lifeMax = 100;
@@ -371,19 +372,19 @@ public class SyncCharacter : NetworkBehaviour
 
 
 
-	[Command]
-	private void CmdLife(float life, bool fromServer)
-	{
-		this.life = life;
-		RpcLife(life, fromServer);
-	}
+    [Command]
+    private void CmdLife(float life, bool fromServer)
+    {
+        this.life = life;
+        RpcLife(life, fromServer);
+    }
 
-	[ClientRpc]
-	private void RpcLife(float life, bool fromServer)
-	{
-		if (fromServer || !isLocalPlayer)
-			this.life = life;
-	}
+    [ClientRpc]
+    private void RpcLife(float life, bool fromServer)
+    {
+        if (fromServer || !isLocalPlayer)
+            this.life = life;
+    }
 
     #region Getter & Setter
     /// <summary>
@@ -638,8 +639,8 @@ public class SyncCharacter : NetworkBehaviour
         get { return this.poison; }
         set
         {
-                this.poison = value;
-                this.CmdPoison(value);
+            this.poison = value;
+            this.CmdPoison(value);
         }
     }
 
@@ -657,8 +658,8 @@ public class SyncCharacter : NetworkBehaviour
         get { return this.cdPoison; }
         set
         {
-                this.cdPoison = value;
-                this.CmdCdPoison(value);
+            this.cdPoison = value;
+            this.CmdCdPoison(value);
         }
     }
 

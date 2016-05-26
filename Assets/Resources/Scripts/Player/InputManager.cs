@@ -251,7 +251,7 @@ public class InputManager : NetworkBehaviour
                 damage =  5f * ((item as Tool).Damage) / 100f;
             else
                 damage = 5f;
-
+            Debug.Log(this.attack.ToString());
             CmdAttack(damage, attack);
         }
         #endregion
@@ -377,16 +377,16 @@ public class InputManager : NetworkBehaviour
             damage += actual_chunk.Cristal.LevelAtk;
 
         Collider[] cibles = null;
-        if (attack == TypeAttack.Horizontal)
+        if (atk == TypeAttack.Horizontal)
             cibles = Physics.OverlapBox(this.character.transform.position - this.character.transform.forward / 2 + new Vector3(0, 0.5f), new Vector3(0.5f, 0.1f, 0.25f), this.character.transform.rotation);
-        else if (attack == TypeAttack.Vertical)
+        else if (atk == TypeAttack.Vertical)
             cibles = Physics.OverlapBox(this.character.transform.position - this.character.transform.forward / 2 + new Vector3(0, 0.5f), new Vector3(0.1f, 0.5f, 0.25f), this.character.transform.rotation);
-        else if (attack == TypeAttack.Aerial)
+        else if (atk == TypeAttack.Aerial)
         {
             cibles = Physics.OverlapBox(this.character.transform.position - this.character.transform.forward / 2 + new Vector3(0, -2f), new Vector3(0.1f, 2f, 0.25f), this.character.transform.rotation);
 			this.syncCharacter.RpcApplyForce(0, -30000f - this.syncCharacter.Jump, 0);
         }
-        else if (attack == TypeAttack.Charge)
+        else if (atk == TypeAttack.Charge)
         {
             cibles = Physics.OverlapBox(this.character.transform.position - this.character.transform.forward / 2 + new Vector3(0, 0.5f, 1.5f), new Vector3(0.2f, 0.2f, 1.75f), this.character.transform.rotation);
             this.controller.IsJumping = true;
@@ -403,10 +403,8 @@ public class InputManager : NetworkBehaviour
                 cible.gameObject.GetComponent<SyncCore>().AttackCristal((int)damage, this.social.Team);
             else
                 notacible = true;
-            if (!notacible && attack == TypeAttack.Horizontal)
-            {
+            if (!notacible && atk == TypeAttack.Horizontal)
                 break; 
-            }
         }
     }
 
