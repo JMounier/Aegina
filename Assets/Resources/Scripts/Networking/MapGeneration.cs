@@ -109,16 +109,15 @@ public class MapGeneration : NetworkBehaviour
         System.Random rand = new System.Random(chunkSeed(x, y));
         if (x != 0 || y != 0)
         {
-            left = x == 1 && y == 0 || rand.NextDouble() < .5f;
-            up = x == 0 && y == -1 || rand.NextDouble() < .5f;
+            left = rand.NextDouble() < .5f || x == 1 && y == 0;
+            up = rand.NextDouble() < .5f || x == 0 && y == -1;
             System.Random randRight = new System.Random(chunkSeed(x + 1, y));
-            right = x == -1 && y == 0 || randRight.NextDouble() < .5f;
+            right = randRight.NextDouble() < .5f || x == -1 && y == 0;
             System.Random randDown = new System.Random(chunkSeed(x, y - 1));
             randDown.NextDouble();
-            down = x == 0 && y == 1 || randDown.NextDouble() < .5f;
-            cristal = x == 0 && y == 0 || rand.NextDouble() < .1f;
+            down = randDown.NextDouble() < .5f || x == 0 && y == 1;
+            cristal = rand.NextDouble() < .1f || x == 0 && y == 0;
         }
-
         if (!up && !right && !down && !left)
             return EntityDatabase.RandChunk(Bridges.None, rand).StartGenerate(x, y, rand, (Directions)rand.Next(4), gameObject, cristal);
         // ONE
