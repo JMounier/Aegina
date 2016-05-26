@@ -251,7 +251,6 @@ public class InputManager : NetworkBehaviour
                 damage =  5f * ((item as Tool).Damage) / 100f;
             else
                 damage = 5f;
-            Debug.Log(this.attack.ToString());
             CmdAttack(damage, attack);
         }
         #endregion

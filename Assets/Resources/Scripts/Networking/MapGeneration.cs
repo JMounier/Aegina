@@ -25,6 +25,7 @@ public class MapGeneration : NetworkBehaviour
             else
             {
                 // TO DO
+                this.generating = GenerateChunk(0, 0);
             }
         }
     }
@@ -79,7 +80,7 @@ public class MapGeneration : NetworkBehaviour
             {
                 int i = 0;
                 Chunk c = this.generated[key];
-                bool check = key == "0:0";
+                bool check = false;
 
                 while (!check && i < posPlayers.Count)
                 {

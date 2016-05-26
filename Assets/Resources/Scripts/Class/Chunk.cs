@@ -109,7 +109,7 @@ public class Chunk : Entity
         else if (step == this.ancres.Count)
         {
             // Load IslandCore
-            if (isPrisme)
+            if (this.isPrisme)
                 Prefab.GetComponent<SyncChunk>().FindCristal();
 
             //Generate Worktop
