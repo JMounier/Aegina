@@ -30,7 +30,6 @@ namespace UnityEngine.Networking
         private string newipname = "Serveur";
         private bool typeCoop = true;
 
-        private bool showGUI = true;
         private bool optionShown = false;
         private bool sonShown = false;
         private bool langueShown = false;
@@ -71,7 +70,7 @@ namespace UnityEngine.Networking
             Text.SetLanguage(langue);
             this.firstScene = GameObject.Find("Map").GetComponent<FirstScene>();
             if (playerName == "")
-                this.showGUI = false;
+                this.characterShown = true;
 
             if (!Directory.Exists(Application.dataPath + "/Saves"))
                 Directory.CreateDirectory(Application.dataPath + "/Saves");
@@ -107,19 +106,8 @@ namespace UnityEngine.Networking
         }
 
         void OnGUI()
-        {
-            if (!showGUI)
-            {
-                GUI.Box(new Rect(Screen.width / 4, Screen.height / 6, Screen.width / 2, Screen.width / 12.8f), "", this.skin.GetStyle("aegina"));
-                GUI.Box(new Rect(this.posX, this.posY - this.spacing, this.width, this.height * 2.5f), "<color=white>" + TextDatabase.EnterName.GetText() + "</color>", this.skin.GetStyle("chat"));
-                this.playerName = GUI.TextField(new Rect(this.posX, this.posY + this.spacing, this.width, this.height), this.RemoveSpecialCharacter(this.playerName, "abcdefghijklmnopqrstuvwxyz123456789-_", false), 15, this.skin.textField);
-                if (this.playerName != "" && GUI.Button(new Rect(this.posX, this.posY + this.spacing * 2, this.width, this.height), TextDatabase.Validate.GetText(), this.skin.GetStyle("button")))
-                {
-                    this.showGUI = true;
-                    PlayerPrefs.SetString("PlayerName", this.playerName);
-                }
-            }
-            else if (!optionShown && !sonShown && !langueShown && !characterShown && !worldcreateShown && !ipserveurshown)
+        {            
+            if (!optionShown && !sonShown && !langueShown && !characterShown && !worldcreateShown && !ipserveurshown)
             {
                 if (!this.manager.isNetworkActive)
                 {
@@ -298,16 +286,15 @@ namespace UnityEngine.Networking
         /// </summary>
         private void DrawCharacter()
         {
-            GUI.Box(new Rect(this.posX, this.posY - this.spacing, this.width, this.height * 2.5f), "<color=white>" + TextDatabase.EnterName.GetText() + "</color>", this.skin.GetStyle("chat"));
-            this.playerName = GUI.TextField(new Rect(this.posX, this.posY + this.spacing, this.width, this.height), this.RemoveSpecialCharacter(this.playerName, "abcdefghijklmnopqrstuvwxyz123456789-_", false), 15, this.skin.textField);
-            if (this.playerName != "" && GUI.Button(new Rect(this.posX, this.posY + this.spacing * 2, this.width, this.height), TextDatabase.Validate.GetText(), this.skin.GetStyle("button")))
+            this.playerName = GUI.TextField(new Rect(this.posX * .1f, this.posY + this.spacing, this.width, this.height), this.RemoveSpecialCharacter(this.playerName, "abcdefghijklmnopqrstuvwxyz123456789-_", false), 15, this.skin.textField);
+            if (this.playerName != "" && GUI.Button(new Rect(this.posX * .1f, this.posY + this.spacing * 2, this.width, this.height), TextDatabase.Validate.GetText(), this.skin.GetStyle("button")))
             {
                 this.characterShown = false;
                 this.optionShown = true;
                 PlayerPrefs.SetString("PlayerName", this.playerName);
                 this.firstScene.PlayButtonSound();
             }
-            if (GUI.Button(new Rect(this.posX, this.posY + this.spacing * 3, this.width, this.height), TextDatabase.Back.GetText(), this.skin.GetStyle("button")))
+            if (GUI.Button(new Rect(this.posX * .1f, this.posY + this.spacing * 3, this.width, this.height), TextDatabase.Back.GetText(), this.skin.GetStyle("button")))
             {
                 this.characterShown = false;
                 this.optionShown = true;
