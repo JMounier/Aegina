@@ -49,7 +49,7 @@ public class Save : NetworkBehaviour
             this.dnc.SetTime(float.Parse(properties[2]));
             Stats.Load(world[1]);
 
-            Success.Reset();        
+            Success.Reset();
 
             // Find cristals
             string[] chunksName = Directory.GetFiles(this.chunksPath);
@@ -62,6 +62,7 @@ public class Save : NetworkBehaviour
                         this.respawn[(int)info.Item2].Add(info.Item1);
                 }
             }
+
             for (int i = 0; i < 4; i++)
                 if (this.respawn[i].Count == 0)
                     this.respawn[i].Add(new Vector2(0, 0));
@@ -143,7 +144,7 @@ public class Save : NetworkBehaviour
         foreach (ChunkSave cs in this.chunks)
             if (cs.X == x && cs.Y == y)
                 return cs;
-        throw new System.ArgumentException("Chunk wasn't tracked");
+        throw new System.ArgumentException("Chunk (" + x.ToString() + " : " + y.ToString() + ") wasn't tracked");
     }
 
     /// <summary>

@@ -301,9 +301,7 @@ public class SyncCharacter : NetworkBehaviour
     {
         List<Vector2> listrespos = GameObject.Find("Map").GetComponent<Save>().Respawn[(int)gameObject.GetComponent<Social_HUD>().Team];
         Vector2 resPos = listrespos[Random.Range(0, listrespos.Count)];
-        Vector3 newPos = new Vector3(resPos.x + Random.Range(-10f, 10f), 7, resPos.y + Random.Range(-10f, 10f));
-        while (!Graph.isValidPosition(newPos))
-            newPos = new Vector3(resPos.x + Random.Range(-10f, 10f), 7, resPos.y + Random.Range(-10f, 10f));
+        Vector3 newPos = new Vector3(resPos.x + Random.Range(-2f, 2f), 7, resPos.y + Random.Range(-2f, 2f));    
         gameObject.GetComponent<Social_HUD>().RpcTeleport(newPos);
     }
     /// <summary>
