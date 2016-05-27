@@ -244,7 +244,9 @@ public class TextDatabase
     public static readonly Text brownPant = new Text("Pantalon marron", "Brown pant");
     public static readonly Text brownGloves = new Text("Gants marrons", "Brown gloves");
     public static readonly Text BrownEyes = new Text("Yeux marron", "Brown Eyes");
-    
+    public static readonly Text GreenHair = new Text("Cheveux vert", "Green gloves");
+    public static readonly Text PurpleBeard = new Text("Barbe violet", "Purple Eyes");
+
 }
 
 

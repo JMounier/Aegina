@@ -20,9 +20,7 @@ public class Clothing
 
     public Clothing(int id, Texture2D texture, Text description)
     {
-        this.id = id;
-        if (texture.width != 512 || texture.height != 512)
-            throw new System.Exception("Image mauvaise taille");
+        this.id = id;        
         this.texture = texture;
         this.description = description;
     }
@@ -36,9 +34,11 @@ public class Clothing
 
     public static Texture2D MergeSkin(params Clothing[] skin)
     {
-        Texture2D newCloth = new Texture2D(512, 512);
+        Texture2D newCloth = new Texture2D(skin[0].texture.width, skin[0].texture.height);
         foreach (Clothing cloth in skin)
         {
+            if (skin[0].texture.width != cloth.texture.width || skin[0].texture.height != cloth.texture.height)
+                throw new System.Exception("Merging texture error, not same size.");
             for (int i = 0; i < 512; i++)
                 for (int j = 0; j < 512; j++)
                 {
@@ -53,12 +53,7 @@ public class Clothing
     public static IEnumerable<Clothing> Clothings
     {
         get
-        {
-            yield return WhiteSkin;
-            yield return BrownPant;
-            yield return BrownGloves;
-            yield return BrownEye;
-
+        {          
             foreach (Hair hair in Hairs)
                 yield return hair;
 
@@ -79,7 +74,6 @@ public class Clothing
 
             foreach (Eyes eyes in Eyess)
                 yield return eyes;
-
         }
     }
 
@@ -87,21 +81,21 @@ public class Clothing
     {
         get
         {
-            yield return new Hair();
+            yield return GreenHair;
         }
     }
     public static IEnumerable<Beard> Beards
     {
         get
         {
-            yield return new Beard();
+            yield return PurpleBeard;
         }
     }
     public static IEnumerable<Body> Bodies
     {
         get
         {
-            yield return WhiteSkin;
+            yield return WhiteBody;
         }
     }
     public static IEnumerable<Pant> Pants
@@ -115,7 +109,7 @@ public class Clothing
     {
         get
         {
-            yield return new Tshirt();
+            yield return NoneTshirt;
         }
     }
     public static IEnumerable<Gloves> Glovess
@@ -162,11 +156,14 @@ public class Clothing
     }
 
     //Skin
-    public static readonly Body WhiteSkin = new Body(10, Resources.Load<Texture2D>("Models/Character/Textures/Body_White"), TextDatabase.WhiteSkin, new Color(145, 91, 55));
+    public static readonly Body WhiteBody = new Body(10, Resources.Load<Texture2D>("Models/Character/Textures/Body_White"), TextDatabase.WhiteSkin, new Color(145, 91, 55));
     public static readonly Pant BrownPant = new Pant(20, Resources.Load<Texture2D>("Models/Character/Textures/Skin_Base"), TextDatabase.brownPant, new Color(128, 64, 0));
     public static readonly Gloves BrownGloves = new Gloves(30, Resources.Load<Texture2D>("Models/Character/Textures/Gloves_Brown"), TextDatabase.brownGloves, new Color(128, 64, 0));
     public static readonly Eyes BrownEye = new Eyes(40, Resources.Load<Texture2D>("Models/Character/Textures/Skin_Base"), TextDatabase.BrownEyes, new Color(128, 64, 0));
-   
+    public static readonly Hair GreenHair = new Hair(50, Resources.Load<Texture2D>("Models/Character/Textures/Hair_Green"), TextDatabase.GreenHair, Color.green, Hair.TypeHair.Hair);
+    public static readonly Beard PurpleBeard = new Beard(60, Resources.Load<Texture2D>("Models/Character/Textures/Beard_Purple"), TextDatabase.PurpleBeard, new Color(84, 48, 94), Beard.TypeBeard.Beard);
+    public static readonly Tshirt NoneTshirt = new Tshirt(70, TextDatabase.PurpleBeard);
+
     //Getter/Setter
     public int ID
     {
@@ -325,6 +322,12 @@ public class Hair : Clothing
         this.type = TypeHair.None;
     }
 
+    public Hair(int id, Text description) : base(id, null, description)
+    {
+        this.color = new Color();
+        this.type = TypeHair.None;
+    }
+
     public Hair(int id, Texture2D texture, Text description, Color color, TypeHair type) : base(id, texture, description)
     {
         this.color = color;
@@ -356,10 +359,16 @@ public class Beard : Clothing
     private Color color;
     private TypeBeard type;
 
-    public enum TypeBeard { None, Hair };
+    public enum TypeBeard { None, Beard };
 
     // Constructeur
     public Beard() : base()
+    {
+        this.color = new Color();
+        this.type = TypeBeard.None;
+    }
+
+    public Beard(int id, Text description) : base(id, null, description)
     {
         this.color = new Color();
         this.type = TypeBeard.None;
@@ -457,6 +466,12 @@ public class Tshirt : Clothing
 
     // Constructeur
     public Tshirt() : base()
+    {
+        this.color = new Color();
+        this.type = TypeTshirt.None;
+    }
+
+    public Tshirt(int id, Text description) : base(id, null, description)
     {
         this.color = new Color();
         this.type = TypeTshirt.None;

@@ -11,6 +11,7 @@ namespace UnityEngine.Networking
     [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
     public class NetworkManagerHUD : MonoBehaviour
     {
+        private enum CategoryCloth { None, Body, Hair, Eyes, Beard, Pant, TShirt, Gloves };
         private MovieTexture loadingVideo;
         private Texture loadingImage;
 
@@ -42,6 +43,9 @@ namespace UnityEngine.Networking
         private float incg;
         private float incb;
 
+        private CategoryCloth categoryCloth;
+        private Skin skinCharacter;
+
         #region Monobehaviour methods
         void Awake()
         {
@@ -67,11 +71,14 @@ namespace UnityEngine.Networking
             this.spacing = this.height * 2;
             this.playerName = PlayerPrefs.GetString("PlayerName", "");
             SystemLanguage langue = PlayerPrefs.GetInt("langue", 1) == 1 ? SystemLanguage.English : SystemLanguage.French;
+            this.categoryCloth = CategoryCloth.None;
             Text.SetLanguage(langue);
             this.firstScene = GameObject.Find("Map").GetComponent<FirstScene>();
             if (playerName == "")
+            {
                 this.characterShown = true;
-
+                this.skinCharacter = new Skin(Clothing.PurpleBeard, Clothing.GreenHair, Clothing.WhiteBody, Clothing.BrownPant, Clothing.NoneTshirt, Clothing.BrownGloves, Clothing.BrownEye);
+            }
             if (!Directory.Exists(Application.dataPath + "/Saves"))
                 Directory.CreateDirectory(Application.dataPath + "/Saves");
             this.skin.GetStyle("loading").normal.textColor = Color.black;
@@ -106,7 +113,7 @@ namespace UnityEngine.Networking
         }
 
         void OnGUI()
-        {            
+        {
             if (!optionShown && !sonShown && !langueShown && !characterShown && !worldcreateShown && !ipserveurshown)
             {
                 if (!this.manager.isNetworkActive)
@@ -120,7 +127,7 @@ namespace UnityEngine.Networking
                         Cursor.lockState = CursorLockMode.None;
                     }
 
-                    GUI.Box(new Rect(Screen.width / 4, Screen.height / 6, Screen.width / 2, Screen.width / 12.8f), "", this.skin.GetStyle("aegina"));
+                    GUI.Box(new Rect(Screen.width / 4, Screen.height / 10, Screen.width / 2, Screen.width / 12.8f), "", this.skin.GetStyle("aegina"));
                     if (GUI.Button(new Rect(this.posX, this.posY, this.width, this.height), TextDatabase.Play.GetText(), this.skin.GetStyle("button")))
                     {
                         this.worldsShown = !this.worldsShown;
@@ -156,7 +163,7 @@ namespace UnityEngine.Networking
                 else if (!this.manager.IsClientConnected())
                 {
                     GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), this.loadingVideo);
-                    GUI.Box(new Rect(Screen.width / 4, Screen.height / 6, Screen.width / 2, Screen.width / 12.8f), "", this.skin.GetStyle("aegina"));
+                    GUI.Box(new Rect(Screen.width / 4, Screen.height / 10, Screen.width / 2, Screen.width / 12.8f), "", this.skin.GetStyle("aegina"));
                     if (GUI.Button(new Rect(this.posX, Screen.height / 1.1f, this.width, this.height), TextDatabase.Cancel.GetText(), this.skin.GetStyle("button")))
                     {
                         this.firstScene.PlayButtonSound();
@@ -169,7 +176,7 @@ namespace UnityEngine.Networking
             }
             else
             {
-                GUI.Box(new Rect(Screen.width / 4, Screen.height / 6, Screen.width / 2, Screen.width / 12.8f), "", this.skin.GetStyle("aegina"));
+                GUI.Box(new Rect(Screen.width / 4, Screen.height / 10, Screen.width / 2, Screen.width / 12.8f), "", this.skin.GetStyle("aegina"));
 
                 if (this.optionShown)
                     this.DrawOption();
@@ -286,21 +293,37 @@ namespace UnityEngine.Networking
         /// </summary>
         private void DrawCharacter()
         {
-            this.playerName = GUI.TextField(new Rect(this.posX * .1f, this.posY + this.spacing, this.width, this.height), this.RemoveSpecialCharacter(this.playerName, "abcdefghijklmnopqrstuvwxyz123456789-_", false), 15, this.skin.textField);
-            if (this.playerName != "" && GUI.Button(new Rect(this.posX * .1f, this.posY + this.spacing * 2, this.width, this.height), TextDatabase.Validate.GetText(), this.skin.GetStyle("button")))
+            this.skin.textField.alignment = TextAnchor.MiddleCenter;
+            this.playerName = GUI.TextField(new Rect(this.posX, this.posY + this.spacing * 6.2f, this.width, this.height), this.RemoveSpecialCharacter(this.playerName, "abcdefghijklmnopqrstuvwxyz123456789-_", false), 15, this.skin.textField);
+            if (this.playerName != "" && GUI.Button(new Rect(this.posX, this.posY + this.spacing * 7f, this.width / 2.1f, this.height), TextDatabase.Validate.GetText(), this.skin.GetStyle("button")))
             {
                 this.characterShown = false;
                 this.optionShown = true;
                 PlayerPrefs.SetString("PlayerName", this.playerName);
                 this.firstScene.PlayButtonSound();
             }
-            if (GUI.Button(new Rect(this.posX * .1f, this.posY + this.spacing * 3, this.width, this.height), TextDatabase.Back.GetText(), this.skin.GetStyle("button")))
+            if (GUI.Button(new Rect(this.posX + this.width / 1.9f, this.posY + this.spacing * 7, this.width / 2.1f, this.height), TextDatabase.Back.GetText(), this.skin.GetStyle("button")))
             {
                 this.characterShown = false;
                 this.optionShown = true;
                 this.playerName = PlayerPrefs.GetString("PlayerName", "");
                 this.firstScene.PlayButtonSound();
             }
+
+            if (GUI.Button(new Rect(this.posX, this.posY, this.width / 3, this.width / 3), Resources.Load<Texture2D>("Sprites/Interfaces/ToolBarSelected")))
+                this.categoryCloth = CategoryCloth.Beard;
+            if (GUI.Button(new Rect(this.posX, this.posY + this.spacing * 2, this.width / 3, this.width / 3), Resources.Load<Texture2D>("Sprites/Interfaces/ToolBarSelected")))
+                this.categoryCloth = CategoryCloth.Body;
+            if (GUI.Button(new Rect(this.posX, this.posY + this.spacing * 4f, this.width / 3, this.width / 3), Resources.Load<Texture2D>("Sprites/Interfaces/ToolBarSelected")))
+                this.categoryCloth = CategoryCloth.Eyes;
+            if (GUI.Button(new Rect(this.posX + this.spacing * 4, this.posY, this.width / 3, this.width / 3), Resources.Load<Texture2D>("Sprites/Interfaces/ToolBarSelected")))
+                this.categoryCloth = CategoryCloth.Gloves;
+            if (GUI.Button(new Rect(this.posX + this.spacing * 4, this.posY + this.spacing * 2, this.width / 3, this.width / 3), Resources.Load<Texture2D>("Sprites/Interfaces/ToolBarSelected")))
+                this.categoryCloth = CategoryCloth.Hair;
+            if (GUI.Button(new Rect(this.posX + this.spacing * 4, this.posY + this.spacing * 4f, this.width / 3, this.width / 3), Resources.Load<Texture2D>("Sprites/Interfaces/ToolBarSelected")))
+                this.categoryCloth = CategoryCloth.Pant;
+            if (GUI.Button(new Rect(this.posX + this.spacing * 2, this.posY + this.spacing * 4f, this.width / 3, this.width / 3), Resources.Load<Texture2D>("Sprites/Interfaces/ToolBarSelected")))
+                this.categoryCloth = CategoryCloth.TShirt;
         }
 
         /// <summary>

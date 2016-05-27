@@ -39,6 +39,8 @@ public class Social_HUD : NetworkBehaviour
             this.skin.GetStyle("chat").alignment = TextAnchor.LowerLeft;
             this.skin.GetStyle("chat").fontStyle = FontStyle.Normal;
             this.skin.GetStyle("chat").normal.textColor = Color.grey;
+            this.skin.textField.alignment = TextAnchor.MiddleCenter;
+
             this.skin.textField.fontSize = (int)(Screen.height * 0.025f);
             // PlayerName
             this.nameTextMesh.gameObject.SetActive(false);
