@@ -46,10 +46,9 @@ public class SyncChunk : NetworkBehaviour
 
     void Update()
     {
-        if (this.biomeId != 0 && !biomeUpdated )
+        if (this.biomeId != 0 && !biomeUpdated)
         {
             biomeUpdated = true;
-            gameObject.transform.eulerAngles = rotation;
             Biome b = BiomeDatabase.Find(this.biomeId);
             foreach (Transform child in gameObject.transform)
             {
@@ -62,6 +61,8 @@ public class SyncChunk : NetworkBehaviour
                 }
             }
         }
+        if (gameObject.transform.eulerAngles != this.rotation)
+            gameObject.transform.eulerAngles = this.rotation;
         if (!isServer)
             return;
         if (debugGraph)
