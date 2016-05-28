@@ -301,16 +301,17 @@ public class SyncCharacter : NetworkBehaviour
     {
         List<Vector2> listrespos = GameObject.Find("Map").GetComponent<Save>().Respawn[(int)gameObject.GetComponent<Social_HUD>().Team];
         Vector2 resPos = listrespos[Random.Range(0, listrespos.Count)];
-        Vector3 newPos = new Vector3(resPos.x + Random.Range(-2f, 2f), 7, resPos.y + Random.Range(-2f, 2f));    
+        Vector3 newPos = new Vector3(resPos.x + Random.Range(-2f, 2f), 7, resPos.y + Random.Range(-2f, 2f));
         gameObject.GetComponent<Social_HUD>().RpcTeleport(newPos);
     }
     /// <summary>
     /// Informe le joueur qu'il doit prendre des degats. MUST BE SERVER
     /// </summary>
     /// <param name="damage"></param>
-    public void ReceiveDamage(float damage, Vector3 knockback)
+    public void ReceiveDamage(float damage, Vector3 knockback, bool isPlayer)
     {
         SyncChunk chunk = null;
+        this.RpcApplyForce(knockback.x * 20000f, 5000f, knockback.z * 20000f);
         foreach (Collider col in Physics.OverlapBox(this.character.transform.position, new Vector3(5, 100, 5)))
         {
             if (col.gameObject.name.Contains("Island"))
@@ -324,7 +325,9 @@ public class SyncCharacter : NetworkBehaviour
             armor += chunk.Cristal.LevelAtk * 20;
 
         this.Life -= 100 * damage / armor;
-        this.RpcApplyForce(knockback.x * 20000f, 5000f, knockback.z * 20000f);
+        if (this.Life == 0 && isPlayer)
+            Stats.IncrementKill();
+        
     }
 
     [ClientRpc]

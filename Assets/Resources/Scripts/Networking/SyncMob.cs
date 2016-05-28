@@ -124,7 +124,7 @@ public class SyncMob : NetworkBehaviour
             }
             else if (dist < 1f)
             {
-                nearPlayer.GetComponent<SyncCharacter>().ReceiveDamage(this.myMob.Damage,new Vector3());
+                nearPlayer.GetComponent<SyncCharacter>().ReceiveDamage(this.myMob.Damage, new Vector3(), false);
                 this.cdAttack = 0;
             }
             // Run to the player
@@ -233,12 +233,12 @@ public class SyncMob : NetworkBehaviour
     /// Fait subir des degat au mob. (Must be server !)
     /// </summary>
     /// <param name="damage"></param>
-    public void ReceiveDamage(float damage,Vector3 knockback)
+    public void ReceiveDamage(float damage, Vector3 knockback)
     {
+        this.GetComponent<Rigidbody>().AddForce(new Vector3(knockback.x * 10000f, 10000f, knockback.z * 10000f));
         this.myMob.Life -= damage;
         if (this.myMob.Life <= 0)
-            Stats.IncrementHunt();
-        this.GetComponent<Rigidbody>().AddForce(new Vector3(knockback.x * 10000f, 10000f, knockback.z * 10000f));
+            Stats.AddHunt(this.myMob);
         this.cdDisable = 0.5f;
     }
 
