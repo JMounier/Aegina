@@ -104,7 +104,7 @@ public class InputManager : NetworkBehaviour
                     foreach (Material mat in mr.materials)
                         mat.shader = Shader.Find("Outlined");
                 if (this.nearElement.name.Contains("Chest"))
-                    this.inventaire.Chest = nearElement.GetComponent<SyncChest>();
+                    this.inventaire.Chest = nearElement;
             }
         }
         #endregion

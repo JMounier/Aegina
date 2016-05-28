@@ -26,7 +26,7 @@ public class Inventory : NetworkBehaviour
     private Sound sound;
     private Item lastUseddItem;
 
-    private SyncChest chest;
+    private GameObject chest;
     private ItemStack[,] slotsChest;
 
     #region Behaviour Methods
@@ -58,18 +58,19 @@ public class Inventory : NetworkBehaviour
 
     void Update()
     {
-        if (isServer && this.chest != null && this.chest.Content != null)
+        if (isServer && this.chest != null && this.chest.GetComponent<SyncChest>().Content != null)
         {
+            ItemStack[,] content = this.chest.GetComponent<SyncChest>().Content;
             RpcUpdateChest(
-                this.chest.Content[0, 0].Items.ID, this.chest.Content[0, 0].Quantity,
-                this.chest.Content[0, 1].Items.ID, this.chest.Content[0, 1].Quantity,
-                this.chest.Content[0, 2].Items.ID, this.chest.Content[0, 2].Quantity,
-                this.chest.Content[1, 0].Items.ID, this.chest.Content[1, 0].Quantity,
-                this.chest.Content[1, 1].Items.ID, this.chest.Content[1, 1].Quantity,
-                this.chest.Content[1, 2].Items.ID, this.chest.Content[1, 2].Quantity,
-                this.chest.Content[2, 0].Items.ID, this.chest.Content[2, 0].Quantity,
-                this.chest.Content[2, 1].Items.ID, this.chest.Content[2, 1].Quantity,
-                this.chest.Content[2, 2].Items.ID, this.chest.Content[2, 2].Quantity);
+                content[0, 0].Items.ID, content[0, 0].Quantity,
+                content[0, 1].Items.ID, content[0, 1].Quantity,
+                content[0, 2].Items.ID, content[0, 2].Quantity,
+                content[1, 0].Items.ID, content[1, 0].Quantity,
+                content[1, 1].Items.ID, content[1, 1].Quantity,
+                content[1, 2].Items.ID, content[1, 2].Quantity,
+                content[2, 0].Items.ID, content[2, 0].Quantity,
+                content[2, 1].Items.ID, content[2, 1].Quantity,
+                content[2, 2].Items.ID, content[2, 2].Quantity);
         }
 
         if (!isLocalPlayer)
@@ -1197,13 +1198,13 @@ public class Inventory : NetworkBehaviour
     [Command]
     private void CmdSetChest(GameObject chest)
     {
-        this.chest = chest.GetComponent<SyncChest>();
+        this.chest = chest;
     }
 
     [Command]
     private void CmdInteractChest(int x, int y, int id, int quantity)
     {
-        this.chest.Content[x, y] = new ItemStack(ItemDatabase.Find(id), quantity);
+        this.chest.GetComponent<SyncChest>().Content[x, y] = new ItemStack(ItemDatabase.Find(id), quantity);
     }
     #endregion
 
@@ -1289,14 +1290,14 @@ public class Inventory : NetworkBehaviour
         get { return this.columns; }
     }
 
-    public SyncChest Chest
+    public GameObject Chest
     {
         get { return this.chest; }
         set
         {
             this.chest = value;
             if (!isServer)
-                CmdSetChest(value.gameObject);
+                CmdSetChest(value);
         }
     }
     #endregion
