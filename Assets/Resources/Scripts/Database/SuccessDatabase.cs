@@ -48,10 +48,43 @@ public class SuccessDatabase
     {
         get
         {
+            yield return FirstEnd;
+            yield return SecondEnd;
+            yield return GunDam;
+            yield return SunkiumAge;
+            yield return DivineLVL5;
+            yield return OtherLVL5;
+            yield return SunkiumEquip;
+            yield return floatiumAge;
+            yield return SlimeChief;
+            yield return Slimicide;
+            yield return FloatiumArmor;
+            yield return MithrilWeapon;
+            yield return MithrilAge;
+            yield return DivineLVL4;
+            yield return OtherLVL3;
+            yield return GoldAge;
+            yield return Trap;
+            yield return EquipIron;
+            yield return Pampichief;
+            yield return IronAge;
+            yield return Pampicide;
+            yield return Forge;
+            yield return DivineLVL3;
+            yield return Cauldron;
             yield return FirstBlood;
             yield return FirstDeath;
             yield return FirstHunt;
             yield return Cristal;
+            yield return Tuto;
+            yield return StoneAge;
+            yield return FirstChest;
+            yield return StoneWeapon;
+            yield return LeatherArmor;
+            yield return Boaricide;
+            yield return BoarChief;
+            yield return CopperAge;
+            yield return FirstHeal;
 
 
             //always last
