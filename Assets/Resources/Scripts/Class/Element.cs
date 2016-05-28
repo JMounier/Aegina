@@ -46,7 +46,6 @@ public class Element : Entity
         {
             Vector3 projection = new Vector3(Random.Range(-1f, 1f), Random.Range(1f, 2f), Random.Range(-1f, 1f));
             dc.Loot(prefab.transform.position, projection);
-            //new Item(dc.I).Spawn(prefab.transform.position, projection, dc.Quantity);
         }
         int idSave = base.prefab.GetComponent<SyncElement>().IdSave;
         int x = (int)(base.prefab.transform.parent.parent.position.x / Chunk.Size);
@@ -62,7 +61,7 @@ public class Element : Entity
     /// <summary>
     /// Instancie l'entite dans le monde avec une position et un parent. (Must be server!)
     /// </summary>
-    public void Spawn(Vector3 pos, Transform parent, int idSave, bool workTopLoad = false)
+    public virtual void Spawn(Vector3 pos, Transform parent, int idSave, bool workTopLoad = false)
     {
         base.Spawn(pos, parent);
         base.prefab.GetComponent<SyncElement>().Elmt = new Element(this);
@@ -79,7 +78,7 @@ public class Element : Entity
     /// <summary>
     /// Instancie l'entite dans le monde avec une position et une rotation et un parent. (Must be server!)
     /// </summary>
-    public void Spawn(Vector3 pos, Quaternion rot, Transform parent, int idSave, bool workTopLoad = false)
+    public virtual void Spawn(Vector3 pos, Quaternion rot, Transform parent, int idSave, bool workTopLoad = false)
     {
         base.Spawn(pos, rot, parent);
         base.prefab.GetComponent<SyncElement>().Elmt = new Element(this);

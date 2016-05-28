@@ -115,6 +115,15 @@ public class Chunk : Entity
             //Generate Worktop
             foreach (Triple<Element, Vector3, Vector3> worktop in cs.WorkTops)
                 new Element(worktop.Item1).Spawn(worktop.Item2, Quaternion.Euler(worktop.Item3), Prefab.transform.FindChild("Elements"), -1, true);
+
+            List<Quadruple<Element, Vector3, Vector3, ItemStack[,]>> copy = new List<Quadruple<Element, Vector3, Vector3, ItemStack[,]>>(cs.Chests);
+            cs.Chests.Clear();
+            foreach (Quadruple<Element, Vector3, Vector3, ItemStack[,]> chest in copy)
+            {
+                Chest c = new Chest(chest.Item1 as Chest);
+                c.Content = chest.Item4;
+                c.Spawn(chest.Item2, Quaternion.Euler(chest.Item3), Prefab.transform.FindChild("Elements"), -1, false);
+            }
         }
         else if (step == this.ancres.Count + 1)
         {

@@ -453,7 +453,7 @@ public class InputManager : NetworkBehaviour
                 break;
             }
         }
-        if (chunk != null)
+        if (chunk != null && chunk.GetComponent<SyncChunk>().MyGraph != null)
         {
             Node n = chunk.GetComponent<SyncChunk>().MyGraph.GetNode(pos);
             RpcUpValid(n != null && n.IsValid);

@@ -58,18 +58,18 @@ public class Inventory : NetworkBehaviour
 
     void Update()
     {
-        if (this.chest != null && isServer)
+        if (isServer && this.chest != null && this.chest.Content != null)
         {
             RpcUpdateChest(
-                chest.Content[0, 0].Items.ID, chest.Content[0, 0].Quantity,
-                chest.Content[0, 1].Items.ID, chest.Content[0, 1].Quantity,
-                chest.Content[0, 2].Items.ID, chest.Content[0, 2].Quantity,
-                chest.Content[1, 0].Items.ID, chest.Content[1, 0].Quantity,
-                chest.Content[1, 1].Items.ID, chest.Content[1, 1].Quantity,
-                chest.Content[1, 2].Items.ID, chest.Content[1, 2].Quantity,
-                chest.Content[2, 0].Items.ID, chest.Content[2, 0].Quantity,
-                chest.Content[2, 1].Items.ID, chest.Content[2, 1].Quantity,
-                chest.Content[2, 2].Items.ID, chest.Content[2, 2].Quantity);
+                this.chest.Content[0, 0].Items.ID, this.chest.Content[0, 0].Quantity,
+                this.chest.Content[0, 1].Items.ID, this.chest.Content[0, 1].Quantity,
+                this.chest.Content[0, 2].Items.ID, this.chest.Content[0, 2].Quantity,
+                this.chest.Content[1, 0].Items.ID, this.chest.Content[1, 0].Quantity,
+                this.chest.Content[1, 1].Items.ID, this.chest.Content[1, 1].Quantity,
+                this.chest.Content[1, 2].Items.ID, this.chest.Content[1, 2].Quantity,
+                this.chest.Content[2, 0].Items.ID, this.chest.Content[2, 0].Quantity,
+                this.chest.Content[2, 1].Items.ID, this.chest.Content[2, 1].Quantity,
+                this.chest.Content[2, 2].Items.ID, this.chest.Content[2, 2].Quantity);
         }
 
         if (!isLocalPlayer)
