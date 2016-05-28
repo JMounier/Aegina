@@ -25,6 +25,8 @@ public class Inventory : NetworkBehaviour
     private Sound sound;
     private Item lastUseddItem;
 
+    private SyncChest chest;
+
     #region Behaviour Methods
     // Use this for initialization
     void Start()
@@ -102,6 +104,8 @@ public class Inventory : NetworkBehaviour
         {
             this.InteractInventory();
             this.DrawInventory();
+            if (true || this.chest != null)
+                this.DrawChest();
         }
         else if (this.draggingItemStack)
         {
@@ -302,6 +306,51 @@ public class Inventory : NetworkBehaviour
             GUI.Box(new Rect(this.pos_x_inventory + (this.previndex[1] + 1) * this.size_inventory, this.pos_y_inventory + this.previndex[0] * this.size_inventory, 200, 35 + 20 * (this.selectedItem.Items.Description.Length / 35 + 1)),
                 "<color=#ffffff>" + this.selectedItem.Items.Name + "</color>\n\n" + this.selectedItem.Items.Description, this.skin.GetStyle("tooltip"));
         }
+    }
+
+    /// <summary>
+    /// S'occupe de dessiner l'interface du coffre.
+    /// </summary>
+    void DrawChest()
+    {
+        int posX = this.columns * this.size_inventory + this.pos_x_inventory + 72;
+        Rect rect = new Rect(posX - 24, this.pos_y_inventory - 32, 3 * this.size_inventory + 48, 3 * this.size_inventory + 64);
+        GUI.Box(rect, "", this.skin.GetStyle("inventory"));
+        for (int i = 0; i < 3; i++)
+            for (int j = 0; j < 3; j++)
+            {
+                // Dessin du slot               
+                rect = new Rect(posX + j * this.size_inventory, this.pos_y_inventory + i * this.size_inventory, this.size_inventory, this.size_inventory);
+                GUI.Box(rect, "", this.skin.GetStyle("slot"));
+                /*
+                if (this.slots[i, j].Items.ID != -1)
+                {
+                    // Dessin de l'item + quantite
+                    rect.x += this.size_inventory / 5;
+                    rect.y += this.size_inventory / 5;
+                    rect.width -= this.size_inventory / 2.5f;
+                    rect.height -= this.size_inventory / 2.5f;
+                    GUI.DrawTexture(rect, this.slots[i, j].Items.Icon);
+                    rect.x -= this.size_inventory / 10;
+                    rect.y -= this.size_inventory / 10;
+                    rect.width += this.size_inventory / 5;
+                    rect.height += this.size_inventory / 5;
+                    if (this.slots[i, j].Quantity > 1)
+                        GUI.Box(rect, this.slots[i, j].Quantity.ToString(), this.skin.GetStyle("quantity"));
+                }*/
+            }
+        /*
+        if (this.draggingItemStack)
+        {
+            GUI.DrawTexture(new Rect(Event.current.mousePosition.x, Event.current.mousePosition.y, this.size_inventory * 1.125f, this.size_inventory * 1.125f), this.selectedItem.Items.Icon);
+            if (this.selectedItem.Quantity > 1)
+                GUI.Box(new Rect(Event.current.mousePosition.x, Event.current.mousePosition.y, this.size_inventory * 1.125f, this.size_inventory * 1.125f), this.selectedItem.Quantity.ToString(), this.skin.GetStyle("quantity2"));
+        }
+        if (this.tooltipshown)
+        {
+            GUI.Box(new Rect(this.pos_x_inventory + (this.previndex[1] + 1) * this.size_inventory, this.pos_y_inventory + this.previndex[0] * this.size_inventory, 200, 35 + 20 * (this.selectedItem.Items.Description.Length / 35 + 1)),
+                "<color=#ffffff>" + this.selectedItem.Items.Name + "</color>\n\n" + this.selectedItem.Items.Description, this.skin.GetStyle("tooltip"));
+        }*/
     }
 
     /// <summary>
@@ -938,6 +987,12 @@ public class Inventory : NetworkBehaviour
     public int Columns
     {
         get { return this.columns; }
+    }
+
+    public SyncChest Chest
+    {
+        get { return this.chest; }
+        set { this.chest = value; }
     }
     #endregion
 }

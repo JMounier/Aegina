@@ -11,13 +11,13 @@ public class SyncElement : NetworkBehaviour
     private int idSave;
 
     // Use this for initialization    
-    void Start()
+    protected virtual void Start()
     {
         if (isServer)
             this.rotation = gameObject.transform.eulerAngles;
     }
 
-    void Update()
+    protected virtual void Update()
     {
         if (gameObject.transform.eulerAngles != this.rotation)
             gameObject.transform.eulerAngles = rotation;
