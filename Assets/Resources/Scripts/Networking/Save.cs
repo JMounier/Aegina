@@ -49,7 +49,7 @@ public class Save : NetworkBehaviour
             this.dnc.SetTime(float.Parse(properties[2]));
             Stats.Load(world[1]);
 
-            Success.Reset();        
+            Success.Reset();
 
             // Find cristals
             string[] chunksName = Directory.GetFiles(this.chunksPath);
@@ -62,6 +62,7 @@ public class Save : NetworkBehaviour
                         this.respawn[(int)info.Item2].Add(info.Item1);
                 }
             }
+
             for (int i = 0; i < 4; i++)
                 if (this.respawn[i].Count == 0)
                     this.respawn[i].Add(new Vector2(0, 0));
@@ -143,7 +144,7 @@ public class Save : NetworkBehaviour
         foreach (ChunkSave cs in this.chunks)
             if (cs.X == x && cs.Y == y)
                 return cs;
-        throw new System.ArgumentException("Chunk wasn't tracked");
+        throw new System.ArgumentException("Chunk (" + x.ToString() + " : " + y.ToString() + ") wasn't tracked");
     }
 
     /// <summary>
@@ -310,38 +311,47 @@ public class ChunkSave
         if (File.Exists(this.path))
         {
             string[] lines = File.ReadAllLines(this.path);
-            foreach (string str in lines[0].Split('|'))
+            if (lines.Length > 1)
             {
-                int id;
-                if (int.TryParse(str, out id))
-                    this.idSave.Add(id);
-            }
-            foreach (string str in lines[1].Split('|'))
-            {
-                string[] components = str.Split(':');
-                int id;
-                if (int.TryParse(components[0], out id))
+                foreach (string str in lines[0].Split('|'))
                 {
-                    float posX = float.Parse(components[1]);
-                    float posY = float.Parse(components[2]);
-                    float posZ = float.Parse(components[3]);
-                    float rotX = float.Parse(components[4]);
-                    float rotY = float.Parse(components[5]);
-                    float rotZ = float.Parse(components[6]);
-                    this.workTops.Add(new Triple<Element, Vector3, Vector3>(EntityDatabase.Find(id) as Element,
-                        new Vector3(posX, posY, posZ), new Vector3(rotX, rotY, rotZ)));
+                    int id;
+                    if (int.TryParse(str, out id))
+                        this.idSave.Add(id);
+                }
+                foreach (string str in lines[1].Split('|'))
+                {
+                    string[] components = str.Split(':');
+                    int id;
+                    if (int.TryParse(components[0], out id))
+                    {
+                        float posX = float.Parse(components[1]);
+                        float posY = float.Parse(components[2]);
+                        float posZ = float.Parse(components[3]);
+                        float rotX = float.Parse(components[4]);
+                        float rotY = float.Parse(components[5]);
+                        float rotZ = float.Parse(components[6]);
+                        this.workTops.Add(new Triple<Element, Vector3, Vector3>(EntityDatabase.Find(id) as Element,
+                            new Vector3(posX, posY, posZ), new Vector3(rotX, rotY, rotZ)));
+                    }
+                }
+                if (lines.Length > 2)
+                {
+                    string[] cristalCaract = lines[2].Split('|');
+                    for (int i = 0; i < 6; i++)
+                        this.cristal[i] = int.Parse(cristalCaract[i]);
+                    for (int i = 6; i < 8; i++)
+                        this.cristal[i] = float.Parse(cristalCaract[i]);
                 }
             }
-            if (lines.Length > 2)
+            else
             {
-                string[] cristalCaract = lines[2].Split('|');
-                for (int i = 0; i < 6; i++)
-                    this.cristal[i] = int.Parse(cristalCaract[i]);
-                for (int i = 6; i < 8; i++)
-                    this.cristal[i] = float.Parse(cristalCaract[i]);
+                File.Create(this.path);
+                this.cristal[5] = 1000;
             }
         }
-        else {
+        else
+        {
             File.Create(this.path);
             this.cristal[5] = 1000;
         }
