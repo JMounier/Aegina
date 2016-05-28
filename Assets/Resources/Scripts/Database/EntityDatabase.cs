@@ -60,6 +60,7 @@ public static class EntityDatabase
     public static readonly Entity WorkbenchLoot = new Entity(67, 60, Resources.Load<GameObject>("Prefabs/Loots/Workbench"));
     public static readonly Entity FirepitLoot = new Entity(68, 60, Resources.Load<GameObject>("Prefabs/Loots/Firepit"));
     public static readonly Entity TorchLoot = new Entity(50, 60, Resources.Load<GameObject>("Prefabs/Loots/Torche"));
+    public static readonly Entity ChestLoot = new Entity(51, 60, Resources.Load<GameObject>("Prefabs/Loots/Chest"));
 
 
     public static readonly Entity AquaPotion = new Entity(69, 60, Resources.Load<GameObject>("Prefabs/Loots/AquaPotion"));
@@ -122,8 +123,8 @@ public static class EntityDatabase
     public static readonly Element Workbench = new Element(132, 100, Resources.Load<GameObject>("Prefabs/Elements/PuttedObjects/Workbench"), Element.DestructionTool.Axe, 1f, new DropConfig(42, 1));
     public static readonly Element Forge = new Element(133, 100, Resources.Load<GameObject>("Prefabs/Elements/PuttedObjects/Hoven"), Element.DestructionTool.Pickaxe, 1.5f, new DropConfig(40, 1));
     public static readonly Element Torch = new Element(134, 100, Resources.Load<GameObject>("Prefabs/Elements/PuttedObjects/Torch"), Element.DestructionTool.None, .5f, new DropConfig(44, 1));
-
-
+    public static readonly Element Chest = new Element(135, 100, Resources.Load<GameObject>("Prefabs/Elements/PuttedObjects/Chest"), Element.DestructionTool.Axe, 1f, new DropConfig(45, 1));
+    
     // IslandCore
     public static readonly IslandCore IslandCore = new IslandCore(142, Resources.Load<GameObject>("Prefabs/Elements/Cristals/IslandCore"));
 
@@ -270,7 +271,7 @@ public static class EntityDatabase
             yield return WorkbenchLoot;
             yield return FirepitLoot;
             yield return TorchLoot;
-
+            yield return ChestLoot;
 
             // Chunk
             foreach (Chunk chunk in Chunks)
@@ -328,11 +329,10 @@ public static class EntityDatabase
             yield return Forge;
             yield return Workbench;
             yield return Torch;
+            yield return Chest;
 
             // IslandCore
             yield return IslandCore;
-
-
         }
     }
 

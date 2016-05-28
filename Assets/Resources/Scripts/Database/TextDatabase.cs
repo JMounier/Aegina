@@ -34,6 +34,7 @@ public class TextDatabase
     public static readonly Text Workbench = new Text("Table de travail", "Workbench");
     public static readonly Text Firepit = new Text("Feu", "Firepit");
     public static readonly Text Torch = new Text("Torche", "Torch");
+    public static readonly Text Chest = new Text("Coffre", "Chest");
 
     public static readonly Text WaterPotion = new Text("Fiole d'eau", "Water phial");
     public static readonly Text SpeedPotion = new Text("Potion de vitesse", "Potion of speed");
@@ -86,6 +87,7 @@ public class TextDatabase
     public static readonly Text WorkbenchDescription = new Text("Une table de travail pouvant servir pour... travailler", "A workbench usable to... work");
     public static readonly Text FirepitDescription = new Text("Feu !!! Viande !!! Repas !!!", "Fire !!! Meat !!! Meal !!!");
     public static readonly Text TorchDescription = new Text("Et la lumière fut !", "And there was light !");
+    public static readonly Text ChestDescription = new Text("Permet de stocker plein de chose inutiles !", "Able to stock a lot of useless stuff !");
 
     public static readonly Text WaterPotionDescription = new Text("Une fiole pleine d'eau !", "A full water phial!");
     public static readonly Text SpeedPotionDescription = new Text("Une potion pour courir plus vite !", "A potion to run faster !");

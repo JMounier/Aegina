@@ -24,7 +24,7 @@ public class SyncCore : SyncElement
     private Item[] needs;
 
 
-    void Start()
+    protected override void Start()
     {
         if (isServer)
         {

@@ -55,6 +55,7 @@ public static class ItemDatabase
     public static readonly WorkTop Workbench = new WorkTop(42, TextDatabase.Workbench, TextDatabase.WorkbenchDescription, 1, Resources.Load<Texture2D>("Sprites/Items/WorkStation/Workbench"), new Entity(EntityDatabase.WorkbenchLoot), Resources.Load<GameObject>("PrefabsNoNetID/Previsualisations/Workbench"), 132);
     public static readonly WorkTop Firepit = new WorkTop(43, TextDatabase.Firepit, TextDatabase.FirepitDescription, 1, Resources.Load<Texture2D>("Sprites/Items/WorkStation/Firepit"), new Entity(EntityDatabase.FirepitLoot), Resources.Load<GameObject>("PrefabsNoNetID/Previsualisations/Firepit"), 131);
     public static readonly WorkTop Torch = new WorkTop(44, TextDatabase.Torch, TextDatabase.TorchDescription, 12, Resources.Load<Texture2D>("Sprites/Items/Tools/Torch"), new Entity(EntityDatabase.TorchLoot), Resources.Load<GameObject>("PrefabsNoNetID/Previsualisations/Torch"), 134);
+    public static readonly WorkTop Chest = new WorkTop(45, TextDatabase.Chest, TextDatabase.ChestDescription, 1, Resources.Load<Texture2D>("Sprites/Items/Tools/Torch"), new Entity(EntityDatabase.ChestLoot), Resources.Load<GameObject>("PrefabsNoNetID/Previsualisations/Chest"), 135);
 
     // Tools |change the stonepickaxe if willing|
     public static readonly Pickaxe StonePickaxe = new Pickaxe(50, TextDatabase.StonePickaxe, TextDatabase.StonePickaxeDescription, 100, 100, Resources.Load<Texture2D>("Sprites/Items/Tools/IronPickaxe"), new Entity(EntityDatabase.IronPickaxe), Resources.Load<GameObject>("Prefabs/Tools/Pickaxes/IronPickaxe"));
@@ -234,6 +235,7 @@ public static class ItemDatabase
             yield return Firepit;
             yield return Torch;
             yield return Workbench;
+            yield return Chest;
         }
     }
 

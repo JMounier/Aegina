@@ -90,15 +90,22 @@ public class InputManager : NetworkBehaviour
             gameObject.GetComponent<Sound>().PlaySound(AudioClips.Void, 0, 0.2f, 616);
             // Supprimer l'ancien outline
             if (lastNearElement != null)
+            {
                 foreach (MeshRenderer mr in lastNearElement.GetComponentsInChildren<MeshRenderer>())
                     foreach (Material mat in mr.materials)
                         mat.shader = Shader.Find("Standard");
+                this.inventaire.Chest = null;
+            }
 
             // Mettre le nouveau outline
             if (this.nearElement != null)
+            {
                 foreach (MeshRenderer mr in this.nearElement.GetComponentsInChildren<MeshRenderer>())
                     foreach (Material mat in mr.materials)
                         mat.shader = Shader.Find("Outlined");
+                if (this.nearElement.name.Contains("Chest"))
+                    this.inventaire.Chest = nearElement.GetComponent<SyncChest>();
+            }
         }
         #endregion
 
@@ -248,7 +255,7 @@ public class InputManager : NetworkBehaviour
             float damage = 0f;
             Item item = this.inventaire.UsedItem.Items;
             if (item is Tool)
-                damage =  5f * ((item as Tool).Damage) / 100f;
+                damage = 5f * ((item as Tool).Damage) / 100f;
             else
                 damage = 5f;
             CmdAttack(damage, attack);
@@ -383,19 +390,19 @@ public class InputManager : NetworkBehaviour
         else if (atk == TypeAttack.Aerial)
         {
             cibles = Physics.OverlapBox(this.character.transform.position - this.character.transform.forward / 2 + new Vector3(0, -2f), new Vector3(0.1f, 2f, 0.25f), this.character.transform.rotation);
-			this.syncCharacter.RpcApplyForce(0, -30000f - this.syncCharacter.Jump, 0);
+            this.syncCharacter.RpcApplyForce(0, -30000f - this.syncCharacter.Jump, 0);
         }
         else if (atk == TypeAttack.Charge)
         {
             cibles = Physics.OverlapBox(this.character.transform.position - this.character.transform.forward / 2 + new Vector3(0, 0.5f, 1.5f), new Vector3(0.2f, 0.2f, 1.75f), this.character.transform.rotation);
             this.controller.IsJumping = true;
-			this.syncCharacter.RpcApplyRelativeForce(0, 5000f, -20000f);
+            this.syncCharacter.RpcApplyRelativeForce(0, 5000f, -20000f);
         }
         foreach (Collider cible in cibles)
         {
             bool notacible = false;
             if (cible.gameObject.name == "Character" && cible.gameObject.GetComponentInParent<Social_HUD>().Team != this.social.Team)
-                cible.gameObject.GetComponentInParent<SyncCharacter>().ReceiveDamage(damage, -(damage / 10f) * this.character.transform.forward );
+                cible.gameObject.GetComponentInParent<SyncCharacter>().ReceiveDamage(damage, -(damage / 10f) * this.character.transform.forward);
             else if (cible.gameObject.tag == "Mob")
                 cible.gameObject.GetComponentInParent<SyncMob>().ReceiveDamage(damage, -(damage / 10f) * this.character.transform.forward);
             else if (cible.gameObject.name.Contains("Islandcore"))
@@ -403,7 +410,7 @@ public class InputManager : NetworkBehaviour
             else
                 notacible = true;
             if (!notacible && atk == TypeAttack.Horizontal)
-                break; 
+                break;
         }
     }
 
