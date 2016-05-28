@@ -8,10 +8,8 @@ public class SyncChest : SyncElement
     // Use this for initialization
     protected override void Start()
     {
-        this.content = new ItemStack[3, 3] { 
-            { new ItemStack(), new ItemStack(), new ItemStack() },
-            { new ItemStack(), new ItemStack(), new ItemStack() },
-            { new ItemStack(), new ItemStack(), new ItemStack() } };
+        if (isServer)
+            this.content = (base.Elmt as Chest).Content;
         base.Start();
     }
 
@@ -19,5 +17,11 @@ public class SyncChest : SyncElement
     protected override void Update()
     {
         base.Update();
+    }
+
+    public ItemStack[,] Content
+    {
+        get { return this.content; }
+        set { this.content = value; }
     }
 }

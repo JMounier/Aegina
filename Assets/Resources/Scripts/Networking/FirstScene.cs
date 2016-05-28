@@ -70,6 +70,8 @@ public class FirstScene : MonoBehaviour
         this.step = this.step.GetComponent<FSPath>().NextStep;
         this.cam.transform.LookAt(this.step.transform);
 
+        this.backpos = this.cam.transform.position;
+        this.backrot = this.cam.transform.rotation;
         // Audio Source
         this.source.volume = this.volume;
         this.clipMenu = Resources.Load<AudioClip>("Sounds/Music/Menu");

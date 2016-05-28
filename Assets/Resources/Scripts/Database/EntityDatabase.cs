@@ -60,6 +60,7 @@ public static class EntityDatabase
     public static readonly Entity WorkbenchLoot = new Entity(67, 60, Resources.Load<GameObject>("Prefabs/Loots/Workbench"));
     public static readonly Entity FirepitLoot = new Entity(68, 60, Resources.Load<GameObject>("Prefabs/Loots/Firepit"));
     public static readonly Entity TorchLoot = new Entity(50, 60, Resources.Load<GameObject>("Prefabs/Loots/Torche"));
+    public static readonly Entity ChestLoot = new Entity(51, 60, Resources.Load<GameObject>("Prefabs/Loots/Chest"));
 
 
     public static readonly Entity AquaPotion = new Entity(69, 60, Resources.Load<GameObject>("Prefabs/Loots/AquaPotion"));
@@ -107,8 +108,8 @@ public static class EntityDatabase
     public static readonly Element FallOak2 = new Element(106, 50, Resources.Load<GameObject>("Prefabs/Elements/Trees/FallOak2"), Element.DestructionTool.Axe, .6f, new DropConfig(0, 4, 8), new DropConfig(30, 0, 1));
 
     // Rock
-    public static readonly Element StoneRock = new Element(110, 50, Resources.Load<GameObject>("Prefabs/Elements/Rocks/Stone"), Element.DestructionTool.Pickaxe, 1.3f, new DropConfig(1, 4, 8),new DropConfig(2,0,1));
-    public static readonly Element CopperRock = new Element(111, 50, Resources.Load<GameObject>("Prefabs/Elements/Rocks/CopperStone"), Element.DestructionTool.Pickaxe, 1.3f, new DropConfig(3, 1, 4), new DropConfig(1, 2, 4),new DropConfig(2, 0, 1));
+    public static readonly Element StoneRock = new Element(110, 50, Resources.Load<GameObject>("Prefabs/Elements/Rocks/Stone"), Element.DestructionTool.Pickaxe, 1.3f, new DropConfig(1, 4, 8), new DropConfig(2, 0, 1));
+    public static readonly Element CopperRock = new Element(111, 50, Resources.Load<GameObject>("Prefabs/Elements/Rocks/CopperStone"), Element.DestructionTool.Pickaxe, 1.3f, new DropConfig(3, 1, 4), new DropConfig(1, 2, 4), new DropConfig(2, 0, 1));
     public static readonly Element IronRock = new Element(112, 50, Resources.Load<GameObject>("Prefabs/Elements/Rocks/IronStone"), Element.DestructionTool.Pickaxe, 1.3f, new DropConfig(4, 1, 4), new DropConfig(1, 2, 4), new DropConfig(2, 0, 1));
     public static readonly Element GoldRock = new Element(113, 50, Resources.Load<GameObject>("Prefabs/Elements/Rocks/GoldStone"), Element.DestructionTool.Pickaxe, 1.3f, new DropConfig(5, 1, 4), new DropConfig(1, 2, 4), new DropConfig(2, 0, 1));
     public static readonly Element MithrilRock = new Element(114, 50, Resources.Load<GameObject>("Prefabs/Elements/Rocks/MithrilStone"), Element.DestructionTool.Pickaxe, 1.3f, new DropConfig(6, 1, 4), new DropConfig(1, 2, 4), new DropConfig(2, 0, 1));
@@ -122,7 +123,7 @@ public static class EntityDatabase
     public static readonly Element Workbench = new Element(132, 100, Resources.Load<GameObject>("Prefabs/Elements/PuttedObjects/Workbench"), Element.DestructionTool.Axe, 1f, new DropConfig(42, 1));
     public static readonly Element Forge = new Element(133, 100, Resources.Load<GameObject>("Prefabs/Elements/PuttedObjects/Hoven"), Element.DestructionTool.Pickaxe, 1.5f, new DropConfig(40, 1));
     public static readonly Element Torch = new Element(134, 100, Resources.Load<GameObject>("Prefabs/Elements/PuttedObjects/Torch"), Element.DestructionTool.None, .5f, new DropConfig(44, 1));
-
+    public static readonly Chest Chest = new Chest(135, Resources.Load<GameObject>("Prefabs/Elements/PuttedObjects/Chest"));
 
     // IslandCore
     public static readonly IslandCore IslandCore = new IslandCore(142, Resources.Load<GameObject>("Prefabs/Elements/Cristals/IslandCore"));
@@ -270,7 +271,7 @@ public static class EntityDatabase
             yield return WorkbenchLoot;
             yield return FirepitLoot;
             yield return TorchLoot;
-
+            yield return ChestLoot;
 
             // Chunk
             foreach (Chunk chunk in Chunks)
@@ -328,11 +329,10 @@ public static class EntityDatabase
             yield return Forge;
             yield return Workbench;
             yield return Torch;
+            yield return Chest;
 
             // IslandCore
             yield return IslandCore;
-
-
         }
     }
 
@@ -431,6 +431,8 @@ public static class EntityDatabase
                     return new Chunk((Chunk)i);
                 else if (i is IslandCore)
                     return new IslandCore((IslandCore)i);
+                else if (i is Chest)
+                    return new Chest((Chest)i);
                 else if (i is Element)
                     return new Element((Element)i);
                 else

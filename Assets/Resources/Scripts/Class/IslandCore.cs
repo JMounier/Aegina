@@ -23,7 +23,7 @@ public class IslandCore : Element
     /// Reset le cristal lorsqu'il n'a plus de pv
     /// </summary>
     protected override void Kill()
-    {   
+    {
         base.life = base.lifeMax;
     }
 }

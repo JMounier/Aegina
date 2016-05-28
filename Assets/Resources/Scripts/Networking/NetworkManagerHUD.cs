@@ -112,6 +112,7 @@ namespace UnityEngine.Networking
         void Start()
         {
             this.loadingVideo.loop = true;
+            this.firstScene.OnChar = this.characterShown;
             worldsList = new List<string>(Directory.GetDirectories(Application.dataPath + "/Saves"));
             for (int i = 0; i < worldsList.Count; i++)
                 worldsList[i] = worldsList[i].Remove(0, Application.dataPath.Length + 7);
