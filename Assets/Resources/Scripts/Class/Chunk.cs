@@ -153,9 +153,8 @@ public class Chunk : Entity
                         if (Graph.isValidPosition(pos))
                             new Mob(mob).Spawn(pos, Prefab.transform.FindChild("Mob"));
                     }
-
-                return true;
             }
+            return true;
         }
         this.step++;
         return false;
