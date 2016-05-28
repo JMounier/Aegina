@@ -254,6 +254,7 @@ namespace UnityEngine.Networking
             {
                 this.characterShown = true;
                 this.optionShown = false;
+                this.firstScene.OnChar = true;
                 this.firstScene.PlayButtonSound();
             }
 
@@ -298,6 +299,7 @@ namespace UnityEngine.Networking
             if (this.playerName != "" && GUI.Button(new Rect(this.posX, this.posY + this.spacing * 7f, this.width / 2.1f, this.height), TextDatabase.Validate.GetText(), this.skin.GetStyle("button")))
             {
                 this.characterShown = false;
+                this.firstScene.OnChar = false;
                 this.optionShown = true;
                 PlayerPrefs.SetString("PlayerName", this.playerName);
                 this.firstScene.PlayButtonSound();
@@ -305,6 +307,7 @@ namespace UnityEngine.Networking
             if (GUI.Button(new Rect(this.posX + this.width / 1.9f, this.posY + this.spacing * 7, this.width / 2.1f, this.height), TextDatabase.Back.GetText(), this.skin.GetStyle("button")))
             {
                 this.characterShown = false;
+                this.firstScene.OnChar = false;
                 this.optionShown = true;
                 this.playerName = PlayerPrefs.GetString("PlayerName", "");
                 this.firstScene.PlayButtonSound();
