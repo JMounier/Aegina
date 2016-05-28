@@ -385,21 +385,6 @@ public class SyncCharacter : NetworkBehaviour
             this.life = life;
     }
 
-    public void ChangeHair(Texture2D skin)
-    {
-        gameObject.transform.FindChild("Character").FindChild("Armature").FindChild("Head_slot").FindChild("NPC_Hair_009").GetComponentInChildren<Renderer>().material.mainTexture = skin;
-    }
-
-    public void ChangeBeard(Texture2D skin)
-    {
-        gameObject.transform.FindChild("Character").FindChild("Armature").FindChild("Head_slot").FindChild("NPC_Beard_008").GetComponentInChildren<Renderer>().material.mainTexture = skin;
-    }
-
-    public void ChangeBody(Texture2D skin)
-    {
-        gameObject.transform.FindChild("Character").FindChild("NPC_Man_Normal001").GetComponentInChildren<Renderer>().material.mainTexture = skin;
-    }
-
     #region Getter & Setter
     /// <summary>
     /// La vie de l'entite.

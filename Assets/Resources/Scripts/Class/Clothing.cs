@@ -18,7 +18,7 @@ public class Clothing
 
     public Clothing(int id, Texture2D texture, Text description)
     {
-        this.id = id;        
+        this.id = id;
         this.texture = texture;
         this.description = description;
     }
@@ -35,24 +35,24 @@ public class Clothing
         Texture2D newCloth = new Texture2D(skin[0].texture.width, skin[0].texture.height);
         foreach (Clothing cloth in skin)
         {
-            if (skin[0].texture.width != cloth.texture.width || skin[0].texture.height != cloth.texture.height)
-                throw new System.Exception("Merging texture error, not same size.");
-            for (int i = 0; i < 512; i++)
-                for (int j = 0; j < 512; j++)
+            if (newCloth.width != cloth.texture.width || newCloth.height != cloth.texture.height)
+                throw new System.Exception("Merging texture error, not same size : [" + skin[0].texture.name + " | " + cloth.texture.name + "]");
+            for (int i = 0; i < newCloth.width; i++)
+                for (int j = 0; j < newCloth.height; j++)
                 {
-                    Color pixel = cloth.texture.GetPixel(j, i);
+                    Color pixel = cloth.texture.GetPixel(i, j);
                     if (pixel.a != 0)
-                        newCloth.SetPixel(j, i, pixel);
+                        newCloth.SetPixel(i, j, pixel);
                 }
-            newCloth.Apply();
         }
+        newCloth.Apply();
         return newCloth;
     }
     // Method
     public static IEnumerable<Clothing> Clothings
     {
         get
-        {          
+        {
             foreach (Hair hair in Hairs)
                 yield return hair;
 
@@ -122,7 +122,8 @@ public class Clothing
     {
         get
         {
-            yield return BrownEye;
+            yield return BlackEye;
+            yield return GreenEye;
         }
     }
 
@@ -155,10 +156,11 @@ public class Clothing
     }
 
     //Skin
-    public static readonly Body WhiteBody = new Body(10, Resources.Load<Texture2D>("Models/Character/Textures/Body_White"), TextDatabase.WhiteSkin, new Color(145f, 91f, 55f));
-    public static readonly Pant BrownPant = new Pant(20, Resources.Load<Texture2D>("Models/Character/Textures/Skin_Base"), TextDatabase.brownPant, new Color(128f, 64f, 0f));
-    public static readonly Gloves BrownGloves = new Gloves(30, Resources.Load<Texture2D>("Models/Character/Textures/Gloves_Brown"), TextDatabase.brownGloves, new Color(128f, 64f, 0f));
-    public static readonly Eyes BrownEye = new Eyes(40, Resources.Load<Texture2D>("Models/Character/Textures/Skin_Base"), TextDatabase.BrownEyes, new Color(.501f , .255f, 0f));
+    public static readonly Body WhiteBody = new Body(10, Resources.Load<Texture2D>("Models/Character/Textures/Body_White"), TextDatabase.WhiteBody, new Color(145f, 91f, 55f));
+    public static readonly Pant BrownPant = new Pant(20, Resources.Load<Texture2D>("Models/Character/Textures/Pants_Brown"), TextDatabase.BrownPant, new Color(128f, 64f, 0f));
+    public static readonly Gloves BrownGloves = new Gloves(30, Resources.Load<Texture2D>("Models/Character/Textures/Gloves_Brown"), TextDatabase.BrownGloves, new Color(128f, 64f, 0f));
+    public static readonly Eyes BlackEye = new Eyes(40, Resources.Load<Texture2D>("Models/Character/Textures/Eyes_Black"), TextDatabase.BlackEyes, new Color(0f, 0f, 0f));
+    public static readonly Eyes GreenEye = new Eyes(41, Resources.Load<Texture2D>("Models/Character/Textures/Eyes_Green"), TextDatabase.GreenEyes, new Color(.305f, .917f, .117f));
     public static readonly Hair GreenHair = new Hair(50, Resources.Load<Texture2D>("Models/Character/Textures/Hair_Green"), TextDatabase.GreenHair, Color.green, Hair.TypeHair.Hair);
     public static readonly Beard PurpleBeard = new Beard(60, Resources.Load<Texture2D>("Models/Character/Textures/Beard_Purple"), TextDatabase.PurpleBeard, new Color(84f, 48f, 94f), Beard.TypeBeard.Beard);
     public static readonly Tshirt NoneTshirt = new Tshirt(70, TextDatabase.PurpleBeard);
@@ -220,10 +222,19 @@ public class Skin
     // Method
     public void Apply(GameObject character)
     {
-        character.GetComponent<SyncCharacter>().ChangeBeard(this.beard.Texture);
-        character.GetComponent<SyncCharacter>().ChangeBeard(this.hair.Texture);
-        Texture2D bodyTexture = Clothing.MergeSkin(this.body, this.pant, this.tshirt, this.gloves, this.eyes);
-        character.GetComponent<SyncCharacter>().ChangeBeard(bodyTexture);
+        ChangeBeard(this.beard, character);
+        ChangeHair(this.hair, character);
+
+        List<Clothing> merge = new List<Clothing>();
+        merge.Add(body);
+        merge.Add(pant);
+        if (tshirt.GetTypeTshirt == Tshirt.TypeTshirt.Hair)
+            merge.Add(tshirt);
+        merge.Add(gloves);
+        merge.Add(eyes);
+
+        Texture2D bodyTexture = Clothing.MergeSkin(merge.ToArray());
+        ChangeBody(bodyTexture, character);
     }
 
     /// <summary>
@@ -261,6 +272,33 @@ public class Skin
         Eyes eyes = Clothing.Find(int.Parse(skin[6])) as Eyes;
 
         return new Skin(beard, hair, body, pant, tshirt, gloves, eyes);
+    }
+
+    public static void ChangeHair(Hair hair, GameObject character)
+    {
+        if (hair.GetTypeHair == Hair.TypeHair.None)
+            character.transform.FindChild("Character").FindChild("Armature").FindChild("Head_slot").FindChild("NPC_Hair_009").gameObject.SetActive(false);
+        else
+        {
+            character.transform.FindChild("Character").FindChild("Armature").FindChild("Head_slot").FindChild("NPC_Hair_009").gameObject.SetActive(true);
+            character.transform.FindChild("Character").FindChild("Armature").FindChild("Head_slot").FindChild("NPC_Hair_009").GetComponentInChildren<Renderer>().material.mainTexture = hair.Texture;
+        }
+    }
+
+    public void ChangeBeard(Beard beard, GameObject character)
+    {
+        if (beard.GetTypeBeard == Beard.TypeBeard.None)
+            character.transform.FindChild("Character").FindChild("Armature").FindChild("Head_slot").FindChild("NPC_Beard_008").gameObject.SetActive(false);
+        else
+        {
+            character.transform.FindChild("Character").FindChild("Armature").FindChild("Head_slot").FindChild("NPC_Beard_008").gameObject.SetActive(true);
+            character.transform.FindChild("Character").FindChild("Armature").FindChild("Head_slot").FindChild("NPC_Beard_008").GetComponentInChildren<Renderer>().material.mainTexture = beard.Texture;
+        }
+    }
+
+    public void ChangeBody(Texture2D skin, GameObject character)
+    {
+        character.transform.FindChild("Character").FindChild("NPC_Man_Normal001").GetComponentInChildren<Renderer>().material.mainTexture = skin;
     }
 
     // Getter/Seter

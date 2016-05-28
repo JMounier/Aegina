@@ -54,9 +54,12 @@ namespace UnityEngine.Networking
         private List<Gloves> glovesList;
         private List<Eyes> eyesList;
 
+        private GameObject character;
+
         #region Monobehaviour methods
         void Awake()
         {
+            this.character = GameObject.Find("CharacterModel");
             this.loadingVideo = Resources.Load<MovieTexture>("Sprites/SplashImages/LoadingVideo");
             this.loadingImage = Resources.Load<Texture>("Sprites/SplashImages/LoadingImage");
 
@@ -86,7 +89,7 @@ namespace UnityEngine.Networking
             if (skintStr == "" || playerName == "")
             {
                 this.characterShown = true;
-                this.skinCharacter = new Skin(Clothing.PurpleBeard, Clothing.GreenHair, Clothing.WhiteBody, Clothing.BrownPant, Clothing.NoneTshirt, Clothing.BrownGloves, Clothing.BrownEye);
+                this.skinCharacter = new Skin(Clothing.PurpleBeard, Clothing.GreenHair, Clothing.WhiteBody, Clothing.BrownPant, Clothing.NoneTshirt, Clothing.BrownGloves, Clothing.BlackEye);
             }
             else
                 this.skinCharacter = Skin.Load(skintStr);
@@ -111,6 +114,7 @@ namespace UnityEngine.Networking
 
         void Start()
         {
+            this.skinCharacter.Apply(this.character);
             this.loadingVideo.loop = true;
             worldsList = new List<string>(Directory.GetDirectories(Application.dataPath + "/Saves"));
             for (int i = 0; i < worldsList.Count; i++)
@@ -375,7 +379,6 @@ namespace UnityEngine.Networking
                 case (CategoryCloth.Beard):
                     break;
                 case (CategoryCloth.Body):
-
                     break;
                 case (CategoryCloth.Hair):
                     break;
@@ -392,7 +395,10 @@ namespace UnityEngine.Networking
                                 fill.SetPixel(i, j, e.Color);
                         fill.Apply();
                         if (GUI.Button(new Rect(0, this.spacing * y, this.width / 3, this.width / 3), fill))
+                        {
                             this.skinCharacter.Eyes = e;
+                            this.skinCharacter.Apply(this.character);
+                        }                        
                         y++;
                     }
                     break;
