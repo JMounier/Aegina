@@ -124,6 +124,7 @@ public class Menu : NetworkBehaviour
             this.optionShown = false;
             this.sonShown = true;
             this.soundAudio.PlaySound(AudioClips.Button, 1f);
+            this.soundAudio.Volume = PlayerPrefs.GetFloat("Sound_intensity", 0.1f);
         }
 
         if (GUI.Button(new Rect(this.posX, this.posY + this.spacing, this.width, this.height), TextDatabase.Language.GetText(), this.skin.GetStyle("button")))
@@ -144,7 +145,9 @@ public class Menu : NetworkBehaviour
 			this.optionShown = false;
 			this.controlShown = true;
 			this.soundAudio.PlaySound (AudioClips.Button, 1f);
-		}
+            this.soundAudio.Volume = PlayerPrefs.GetFloat("Sensitivity", 4f);
+            this.camera.farClipPlane = PlayerPrefs.GetFloat("FieldOfView", 60f);
+        }
     }
 
     /// <summary>

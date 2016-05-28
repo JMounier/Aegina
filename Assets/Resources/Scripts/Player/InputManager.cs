@@ -395,7 +395,7 @@ public class InputManager : NetworkBehaviour
         {
             bool notacible = false;
             if (cible.gameObject.name == "Character" && cible.gameObject.GetComponentInParent<Social_HUD>().Team != this.social.Team)
-                cible.gameObject.GetComponentInParent<SyncCharacter>().ReceiveDamage(damage, -(damage / 10f) * this.character.transform.forward );
+                cible.gameObject.GetComponentInParent<SyncCharacter>().ReceiveDamage(damage, -(damage / 10f) * this.character.transform.forward ,true);
             else if (cible.gameObject.tag == "Mob")
                 cible.gameObject.GetComponentInParent<SyncMob>().ReceiveDamage(damage, -(damage / 10f) * this.character.transform.forward);
             else if (cible.gameObject.name.Contains("Islandcore"))

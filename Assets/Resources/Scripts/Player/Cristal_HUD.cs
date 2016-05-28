@@ -257,18 +257,21 @@ public class Cristal_HUD : NetworkBehaviour
     public void CmdSetLevelProd(int level, GameObject cristal)
     {
         cristal.GetComponent<SyncCore>().CmdSetLevelProd(level);
+        Stats.ChangeCristalLevel(0, (uint)level);
     }
 
     [Command]
     public void CmdSetLevelAtk(int level, GameObject cristal)
     {
         cristal.GetComponent<SyncCore>().CmdSetLevelAtk(level);
+        Stats.ChangeCristalLevel(1, (uint)level);
     }
 
     [Command]
     public void CmdSetLevelPort(int level, GameObject cristal)
     {
         cristal.GetComponent<SyncCore>().CmdSetLevelPort(level);
+        Stats.ChangeCristalLevel(2, (uint)level);
     }
 
     [Command]
