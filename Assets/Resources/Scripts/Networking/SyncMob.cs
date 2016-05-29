@@ -177,9 +177,7 @@ public class SyncMob : NetworkBehaviour
         // Trouve un nouveau but
         this.goal = null;
 
-        float randAngle = UnityEngine.Random.Range(0f, Mathf.PI * 2);
-        this.goal = this.chunk.GetComponent<SyncChunk>().MyGraph.GetNode(new Vector3(Mathf.Cos(randAngle),
-            0, Mathf.Sin(randAngle)) * UnityEngine.Random.Range(10f, 30f) + this.transform.position);
+        this.goal = this.chunk.GetComponent<SyncChunk>().MyGraph.ChoseRandomNode();
 
         // Calcule le chemin => A*           
         if (this.goal != null && this.goal.IsValid)

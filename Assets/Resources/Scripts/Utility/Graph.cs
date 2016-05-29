@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System;
 using UnityEngine.Networking;
+using System.Linq;
 
 public class Graph
 {
     private Dictionary<string, Node> nodes;
     private List<Node> origins;
     private Queue<Node> file;
+    private List<string> keys;
 
     #region Methods
     public Graph(params Vector3[] origins)
@@ -54,6 +56,8 @@ public class Graph
             }
             nbTurn--;
         }
+        if (file.Count == 0)
+            this.keys = Enumerable.ToList(this.nodes.Keys);
     }
     public Node GetNode(Vector3 pos)
     {
@@ -177,6 +181,13 @@ public class Graph
             foreach (Node neighbour in node.Neighbours)
                 Reset(neighbour, validity);
         }
+    }
+
+    public Node ChoseRandomNode()
+    {
+        if (this.keys.Count == 0)
+            return null;
+        return this.nodes[this.keys[UnityEngine.Random.Range(0, this.keys.Count)]];
     }
     #endregion
 
