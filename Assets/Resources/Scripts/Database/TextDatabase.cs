@@ -243,10 +243,13 @@ public class TextDatabase
     public static readonly Text WhiteBody = new Text("Corps blanc", "White skin");
     public static readonly Text BrownPant = new Text("Pantalon marron", "Brown pant");
     public static readonly Text BrownGloves = new Text("Gants marrons", "Brown gloves");
-    public static readonly Text BlackEyes = new Text("Yeux marron", "Brown Eyes");
-    public static readonly Text GreenEyes = new Text("Yeux vert", "Vert Eyes");
-    public static readonly Text GreenHair = new Text("Cheveux vert", "Green gloves");
-    public static readonly Text PurpleBeard = new Text("Barbe violet", "Purple Eyes");
+    public static readonly Text BlackEyes = new Text("Yeux noir", "Black Eyes");
+    public static readonly Text GreenEyes = new Text("Yeux vert", "Green Eyes");
+    public static readonly Text RedEyes = new Text("Yeux rouge", "Red Eyes");
+    public static readonly Text BlueEyes = new Text("Yeux bleu", "Blue Eyes");
+    public static readonly Text PurpleEyes = new Text("Yeux violet", "Purple Eyes");
+    public static readonly Text GreenHair = new Text("Cheveux vert", "Green hair");
+    public static readonly Text PurpleBeard = new Text("Barbe violet", "Purple beard");
 
 }
 
