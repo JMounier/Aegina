@@ -133,6 +133,10 @@ public static class EntityDatabase
         new int[3] { 0, 2, 3 }, new DropConfig(83, 1), new DropConfig(83, 0, 1), new DropConfig(84, 1), new DropConfig(84, 0, 1), new DropConfig(86, 0, 1), new DropConfig(88, 1, 2));
     public static readonly Mob Pampa = new Mob(501, 15, Resources.Load<GameObject>("Prefabs/Mobs/Pampa"), 15, 8, 1.5f, 8f, 1f, 3.8f, 1.8f,
         new int[1] { 1 }, new DropConfig(83, 1), new DropConfig(83, 0, 1), new DropConfig(80, 1), new DropConfig(80, 0, 1), new DropConfig(86, 0, 1));
+    public static readonly Mob SnowBunny = new Mob(502, 10, Resources.Load<GameObject>("Prefabs/Mobs/SnowBunny"), 15, 0, 0f, 6f, 1.5f, 3f, 1f,
+       new int[1] { 2 }, new DropConfig(83, 1), new DropConfig(86, 0, 1), new DropConfig(88, 1));
+    public static readonly Mob Bunny = new Mob(503, 10, Resources.Load<GameObject>("Prefabs/Mobs/Bunny"), 15, 0, 0f, 6f, 1.5f, 3f, 1f,
+     new int[2] { 0, 3 }, new DropConfig(83, 1), new DropConfig(86, 0, 1), new DropConfig(88, 1));
 
     // Chunk
     public static readonly Chunk Chunk0_Empty = new Chunk(1000, Resources.Load<GameObject>("Prefabs/Chunks/Chunk0_Empty"), Bridges.None);
@@ -402,6 +406,8 @@ public static class EntityDatabase
         {
             yield return Boar;
             yield return Pampa;
+            yield return SnowBunny;
+            yield return Bunny;
         }
     }
 
