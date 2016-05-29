@@ -325,21 +325,21 @@ namespace UnityEngine.Networking
                 this.firstScene.PlayButtonSound();
             }
 
-            if (GUI.Button(new Rect(this.posX, this.posY - this.spacing * 2, this.width / 3, this.width / 3), Resources.Load<Texture2D>("Sprites/Cosmetics/HatIcon")))
+            if (GUI.Button(new Rect(this.posX, this.posY - this.spacing * 2, this.width / 5, this.width / 5), Resources.Load<Texture2D>("Sprites/Cosmetics/HatIcon")))
                 this.categoryCloth = CategoryCloth.Hat;
-            if (GUI.Button(new Rect(this.posX, this.posY, this.width / 3, this.width / 3), Resources.Load<Texture2D>("Sprites/Cosmetics/BeardIcon")))
+            if (GUI.Button(new Rect(this.posX, this.posY, this.width / 5, this.width / 5), Resources.Load<Texture2D>("Sprites/Cosmetics/BeardIcon")))
                 this.categoryCloth = CategoryCloth.Beard;
-            if (GUI.Button(new Rect(this.posX, this.posY + this.spacing * 2, this.width / 3, this.width / 3), Resources.Load<Texture2D>("Sprites/Cosmetics/BodyIcon")))
+            if (GUI.Button(new Rect(this.posX, this.posY + this.spacing * 2, this.width / 5, this.width / 5), Resources.Load<Texture2D>("Sprites/Cosmetics/BodyIcon")))
                 this.categoryCloth = CategoryCloth.Body;
-            if (GUI.Button(new Rect(this.posX, this.posY + this.spacing * 4f, this.width / 3, this.width / 3), Resources.Load<Texture2D>("Sprites/Cosmetics/EyeIcon")))
+            if (GUI.Button(new Rect(this.posX, this.posY + this.spacing * 4f, this.width / 5, this.width / 5), Resources.Load<Texture2D>("Sprites/Cosmetics/EyeIcon")))
                 this.categoryCloth = CategoryCloth.Eyes;
-            if (GUI.Button(new Rect(this.posX + this.spacing * 4, this.posY, this.width / 3, this.width / 3), Resources.Load<Texture2D>("Sprites/Cosmetics/GlovesIcon")))
+            if (GUI.Button(new Rect(this.posX + this.spacing * 4, this.posY, this.width / 5, this.width / 5), Resources.Load<Texture2D>("Sprites/Cosmetics/GlovesIcon")))
                 this.categoryCloth = CategoryCloth.Gloves;
-            if (GUI.Button(new Rect(this.posX + this.spacing * 4, this.posY + this.spacing * 2, this.width / 3, this.width / 3), Resources.Load<Texture2D>("Sprites/Cosmetics/HairIcon")))
+            if (GUI.Button(new Rect(this.posX + this.spacing * 4, this.posY + this.spacing * 2, this.width / 5, this.width / 5), Resources.Load<Texture2D>("Sprites/Cosmetics/HairIcon")))
                 this.categoryCloth = CategoryCloth.Hair;
-            if (GUI.Button(new Rect(this.posX + this.spacing * 4, this.posY + this.spacing * 4f, this.width / 3, this.width / 3), Resources.Load<Texture2D>("Sprites/Cosmetics/PantIcon")))
+            if (GUI.Button(new Rect(this.posX + this.spacing * 4, this.posY + this.spacing * 4f, this.width / 5, this.width / 5), Resources.Load<Texture2D>("Sprites/Cosmetics/PantIcon")))
                 this.categoryCloth = CategoryCloth.Pant;
-            if (GUI.Button(new Rect(this.posX + this.spacing * 2, this.posY + this.spacing * 4f, this.width / 3, this.width / 3), Resources.Load<Texture2D>("Sprites/Cosmetics/TshirtIcon")))
+            if (GUI.Button(new Rect(this.posX + this.spacing * 2, this.posY + this.spacing * 4f, this.width / 5, this.width / 5), Resources.Load<Texture2D>("Sprites/Cosmetics/TshirtIcon")))
                 this.categoryCloth = CategoryCloth.TShirt;
 
             Text tooltip = null;
@@ -364,6 +364,7 @@ namespace UnityEngine.Networking
                     {
                         if (this.typeCloth == (int)h.GetTypeHat)
                         {
+                            x = this.typeCloth;
                             Texture2D fill = new Texture2D(this.width / 3, this.width / 3);
                             for (int i = 0; i < this.width / 3; i++)
                                 for (int j = 0; j < this.width / 3; j++)
@@ -377,9 +378,9 @@ namespace UnityEngine.Networking
                                 this.skinCharacter.Hat = h;
                                 this.skinCharacter.Apply(this.character);
                             }
-                            x = (x + 1) % 3;
-                            if (x == 0)
-                                y++;
+                            y = (y + 1) % 5;
+                            if (y == 0)
+                                x++;
                         }
                     }
                     break;
