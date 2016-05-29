@@ -214,9 +214,12 @@ public class TextDatabase
     public static readonly Text FieldOfView = new Text("Champ de vision", "Field of view");
     public static readonly Text Sensibility = new Text("Sensibilite", "Sensibility");
     public static readonly Text Heal = new Text("Soin", "Heal");
-	// Tutoriel
+    public static readonly Text Help = new Text("Aide", "Help");
+    public static readonly Text CombatHelp = new Text("Combat", "Fight");
+    public static readonly Text InventaireHelp = new Text("Inventaire", "Inventory");
+    // Tutoriel
 
-	public static readonly Text Move = new Text("Ille commence à se déplacer un petit peu pour se réhabituer à ses jambes","Ille begin to move to get used to his legs");
+    public static readonly Text Move = new Text("Ille commence à se déplacer un petit peu pour se réhabituer à ses jambes","Ille begin to move to get used to his legs");
 	public static readonly Text MoveObjectif = new Text("Se deplacer","Move");
 	public static readonly Text Run = new Text("S'étant habitué à ses jambes, iI décide de se mettre à courir","Getting used to his legs, Ille decided to start running");
 	public static readonly Text RunObjectif = new Text ("Cours (bouge avec la touche shift enfoncé)", "Run (hold the shift key and move)");

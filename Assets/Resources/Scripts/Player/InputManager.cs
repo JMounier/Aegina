@@ -138,7 +138,7 @@ public class InputManager : NetworkBehaviour
         if (Input.GetButtonDown("Inventory") && !this.menu.MenuShown && !this.menu.OptionShown && !this.social.ChatShown && !this.cristalHUD.Cristal_shown && !this.sucHUD.Activate && !this.tutoriel.EndTutoShown && !this.tutoriel.Tutoshown && !this.menu.ControlShown)
         {
             this.inventaire.InventoryShown = !this.inventaire.InventoryShown;
-            this.controller.Pause = !this.controller.Pause;
+            this.controller.Pause = this.inventaire.InventoryShown;
             this.soundAudio.PlaySound(AudioClips.Bag, 1f);
         }
 
@@ -317,10 +317,20 @@ public class InputManager : NetworkBehaviour
                 this.tutoriel.Tutoshown = false;
                 this.controller.Pause = false;
             }
+            else if (this.menu.Helpshown)
+            {
+                if (this.menu.Page != -1)
+                    this.menu.Page = -1;
+                else
+                {
+                    this.menu.Helpshown = false;
+                    this.menu.MenuShown = true;
+                }
+            }
             else
             {
                 this.menu.MenuShown = !this.menu.MenuShown;
-                this.controller.Pause = !this.controller.Pause;
+                this.controller.Pause = this.menu.MenuShown;
             }
         }
         #endregion
