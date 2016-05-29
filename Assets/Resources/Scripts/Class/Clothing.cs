@@ -73,6 +73,9 @@ public class Clothing
 
             foreach (Eyes eyes in Eyes)
                 yield return eyes;
+
+            foreach (Hat hat in Hats)
+                yield return hat;
         }
     }
 
@@ -122,11 +125,21 @@ public class Clothing
     {
         get
         {
-            yield return BlackEye;            
-            yield return RedEye;            
+            yield return BlackEye;
+            yield return RedEye;
             yield return BlueEye;
             yield return GreenEye;
             yield return PurpleEye;
+        }
+    }
+
+    public static IEnumerable<Hat> Hats
+    {
+        get
+        {
+            yield return NoneHat;
+            yield return AmericanTopHat;
+            yield return BlackTopHat;
         }
     }
 
@@ -152,6 +165,8 @@ public class Clothing
                     return new Gloves((Gloves)cloth);
                 else if (cloth is Eyes)
                     return new Eyes((Eyes)cloth);
+                else if (cloth is Hat)
+                    return new Hat((Hat)cloth);
                 else
                     return new Clothing(cloth);
         }
@@ -160,16 +175,26 @@ public class Clothing
 
     //Skin
     public static readonly Body WhiteBody = new Body(10, Resources.Load<Texture2D>("Models/Character/Textures/Body_White"), TextDatabase.WhiteBody, new Color(145f, 91f, 55f));
+
     public static readonly Pant BrownPant = new Pant(20, Resources.Load<Texture2D>("Models/Character/Textures/Pants_Brown"), TextDatabase.BrownPant, new Color(128f, 64f, 0f));
+
     public static readonly Gloves BrownGloves = new Gloves(30, Resources.Load<Texture2D>("Models/Character/Textures/Gloves_Brown"), TextDatabase.BrownGloves, new Color(128f, 64f, 0f));
+
     public static readonly Eyes BlackEye = new Eyes(40, Resources.Load<Texture2D>("Models/Character/Textures/Eyes_Black"), TextDatabase.BlackEyes, new Color(0f, 0f, 0f));
     public static readonly Eyes GreenEye = new Eyes(41, Resources.Load<Texture2D>("Models/Character/Textures/Eyes_Green"), TextDatabase.GreenEyes, new Color(.309f, .211f, .0113f));
     public static readonly Eyes RedEye = new Eyes(42, Resources.Load<Texture2D>("Models/Character/Textures/Eyes_Red"), TextDatabase.RedEyes, new Color(.392f, .149f, .0f));
     public static readonly Eyes BlueEye = new Eyes(43, Resources.Load<Texture2D>("Models/Character/Textures/Eyes_Blue"), TextDatabase.BlueEyes, new Color(.145f, .454f, .584f));
     public static readonly Eyes PurpleEye = new Eyes(44, Resources.Load<Texture2D>("Models/Character/Textures/Eyes_Purple"), TextDatabase.PurpleEyes, new Color(.564f, .380f, .545f));
+
     public static readonly Hair GreenHair = new Hair(50, Resources.Load<Texture2D>("Models/Character/Textures/Hair_Green"), TextDatabase.GreenHair, Color.green, Hair.TypeHair.Hair);
+
     public static readonly Beard PurpleBeard = new Beard(60, Resources.Load<Texture2D>("Models/Character/Textures/Beard_Purple"), TextDatabase.PurpleBeard, new Color(84f, 48f, 94f), Beard.TypeBeard.Beard);
+
     public static readonly Tshirt NoneTshirt = new Tshirt(70, TextDatabase.PurpleBeard);
+
+    public static readonly Hat NoneHat = new Hat(80, TextDatabase.NoneHat);
+    public static readonly Hat AmericanTopHat = new Hat(81, Resources.Load<Texture2D>("Models/Character/Cosmetics/Textures/HautTextAMERICA"), TextDatabase.AmericanTopHat, Color.blue, Hat.TypeHat.TopHat);
+    public static readonly Hat BlackTopHat = new Hat(82, Resources.Load<Texture2D>("Models/Character/Cosmetics/Textures/HautTextBlack"), TextDatabase.BlackTopHat, Color.black, Hat.TypeHat.TopHat);
 
     //Getter/Setter
     public int ID
@@ -192,20 +217,21 @@ public class Clothing
 public class Skin
 {
     private Beard beard;
-
     private Hair hair;
-
+    private Hat hat;
     private Body body;
     private Pant pant;
     private Tshirt tshirt;
     private Gloves gloves;
     private Eyes eyes;
+    private bool beardApplied, hairApplied, hatApplied, bodyApplied;
 
     // Constructeur
     public Skin()
     {
         this.beard = new Beard();
         this.hair = new Hair();
+        this.hat = new Hat();
         this.body = new Body();
         this.pant = new Pant();
         this.tshirt = new Tshirt();
@@ -213,10 +239,11 @@ public class Skin
         this.eyes = new Eyes();
     }
 
-    public Skin(Beard beard, Hair hair, Body body, Pant pant, Tshirt tshirt, Gloves gloves, Eyes eyes)
+    public Skin(Beard beard, Hair hair, Hat hat, Body body, Pant pant, Tshirt tshirt, Gloves gloves, Eyes eyes)
     {
         this.beard = beard;
         this.hair = hair;
+        this.hat = hat;
         this.body = body;
         this.pant = pant;
         this.tshirt = tshirt;
@@ -227,19 +254,28 @@ public class Skin
     // Method
     public void Apply(GameObject character)
     {
-        ChangeBeard(this.beard, character);
-        ChangeHair(this.hair, character);
+        if (!this.beardApplied)
+            ChangeBeard(this.beard, character);
+        if (!this.hairApplied)
+            ChangeHair(this.hair, character);
+        if (!this.hatApplied)
+            ChangeHat(this.hat, character);
 
         List<Clothing> merge = new List<Clothing>();
-        merge.Add(body);
-        merge.Add(pant);
-        if (tshirt.GetTypeTshirt == Tshirt.TypeTshirt.Hair)
-            merge.Add(tshirt);
+        merge.Add(this.body);
+        merge.Add(this.pant);
+        if (tshirt.GetTypeTshirt == Tshirt.TypeTshirt.Tshhirt)
+            merge.Add(this.tshirt);
         merge.Add(gloves);
         merge.Add(eyes);
 
         Texture2D bodyTexture = Clothing.MergeSkin(merge.ToArray());
-        ChangeBody(bodyTexture, character);
+        if (!this.bodyApplied)
+            ChangeBody(bodyTexture, character);
+        this.beardApplied = true;
+        this.hairApplied = true;
+        this.hatApplied = true;
+        this.bodyApplied = true;
     }
 
     /// <summary>
@@ -256,7 +292,8 @@ public class Skin
             skin.Pant.ID.ToString() + ":" +
             skin.Tshirt.ID.ToString() + ":" +
             skin.Gloves.ID.ToString() + ":" +
-            skin.Eyes.ID.ToString();
+            skin.Eyes.ID.ToString() + ":" +
+            skin.hat.ID.ToString();
         return save;
     }
 
@@ -275,10 +312,36 @@ public class Skin
         Tshirt tshirt = Clothing.Find(int.Parse(skin[4])) as Tshirt;
         Gloves gloves = Clothing.Find(int.Parse(skin[5])) as Gloves;
         Eyes eyes = Clothing.Find(int.Parse(skin[6])) as Eyes;
+        Hat hat = Clothing.Find(int.Parse(skin[7])) as Hat;
 
-        return new Skin(beard, hair, body, pant, tshirt, gloves, eyes);
+        return new Skin(beard, hair, hat, body, pant, tshirt, gloves, eyes);
     }
-
+    public static void ChangeHat(Hat hat, GameObject character)
+    {
+        switch (hat.GetTypeHat)
+        {
+            case Hat.TypeHat.None:
+                character.transform.FindChild("Character").FindChild("Armature").FindChild("Head_slot").FindChild("HautForm").gameObject.SetActive(false);
+                character.transform.FindChild("Character").FindChild("Armature").FindChild("Head_slot").FindChild("StrawHat").gameObject.SetActive(false);
+                break;
+            case Hat.TypeHat.TopHat:
+                character.transform.FindChild("Character").FindChild("Armature").FindChild("Head_slot").FindChild("HautForm").gameObject.SetActive(true);
+                character.transform.FindChild("Character").FindChild("Armature").FindChild("Head_slot").FindChild("StrawHat").gameObject.SetActive(false);
+                character.transform.FindChild("Character").FindChild("Armature").FindChild("Head_slot").FindChild("HautForm").GetComponentInChildren<Renderer>().material.mainTexture = hat.Texture;
+                break;
+            case Hat.TypeHat.StrawHat:
+                character.transform.FindChild("Character").FindChild("Armature").FindChild("Head_slot").FindChild("HautForm").gameObject.SetActive(false);
+                character.transform.FindChild("Character").FindChild("Armature").FindChild("Head_slot").FindChild("StrawHat").gameObject.SetActive(true);
+                character.transform.FindChild("Character").FindChild("Armature").FindChild("Head_slot").FindChild("StrawHat").GetComponentInChildren<Renderer>().material.mainTexture = hat.Texture;
+                break;
+            case Hat.TypeHat.Cowboy:
+                character.transform.FindChild("Character").FindChild("Armature").FindChild("Head_slot").FindChild("HautForm").gameObject.SetActive(false);
+                character.transform.FindChild("Character").FindChild("Armature").FindChild("Head_slot").FindChild("StrawHat").gameObject.SetActive(false);
+                break;
+            default:
+                break;
+        }
+    }
     public static void ChangeHair(Hair hair, GameObject character)
     {
         if (hair.GetTypeHair == Hair.TypeHair.None)
@@ -310,43 +373,81 @@ public class Skin
     public Beard Beard
     {
         get { return this.beard; }
-        set { this.beard = value; }
+        set
+        {
+            this.beardApplied = false;
+            this.beard = value;
+        }
     }
 
     public Hair Hair
     {
         get { return this.hair; }
-        set { this.hair = value; }
+        set
+        {
+            this.hairApplied = false;
+            this.hair = value;
+        }
     }
 
     public Body Body
     {
         get { return this.body; }
-        set { this.body = value; }
+        set
+        {
+            this.bodyApplied = false;
+            this.body = value;
+        }
     }
 
     public Pant Pant
     {
         get { return this.pant; }
-        set { this.pant = value; }
+        set
+        {
+            this.bodyApplied = false;
+            this.pant = value;
+        }
     }
 
     public Tshirt Tshirt
     {
         get { return this.tshirt; }
-        set { this.tshirt = value; }
+        set
+        {
+            this.bodyApplied = false;
+            this.tshirt = value;
+        }
     }
 
     public Gloves Gloves
     {
         get { return this.gloves; }
-        set { this.gloves = value; }
+        set
+        {
+            this.bodyApplied = false;
+            this.gloves = value;
+        }
     }
 
     public Eyes Eyes
     {
         get { return this.eyes; }
-        set { this.eyes = value; }
+        set
+        {
+            this.bodyApplied = false;
+            this.eyes = value;
+        }
+    }
+
+    public Hat Hat
+    {
+        get { return this.hat; }
+        set
+        {
+            this.hatApplied = false;
+            this.hat = value;
+        }
     }
 }
 
@@ -504,7 +605,7 @@ public class Tshirt : Clothing
     private Color32 color;
     private TypeTshirt type;
 
-    public enum TypeTshirt { None, Hair };
+    public enum TypeTshirt { None, Tshhirt };
 
     // Constructeur
     public Tshirt() : base()
@@ -598,5 +699,50 @@ public class Eyes : Clothing
     {
         get { return this.color; }
         set { this.color = value; }
+    }
+}
+public class Hat : Clothing
+{
+    private Color32 color;
+    private TypeHat type;
+
+    public enum TypeHat { None, TopHat, StrawHat, Cowboy };
+
+    // Constructeur
+    public Hat() : base()
+    {
+        this.color = new Color();
+        this.type = TypeHat.None;
+    }
+
+    public Hat(int id, Text description) : base(id, null, description)
+    {
+        this.color = new Color();
+        this.type = TypeHat.None;
+    }
+
+    public Hat(int id, Texture2D texture, Text description, Color color, TypeHat type) : base(id, texture, description)
+    {
+        this.color = color;
+        this.type = type;
+    }
+
+    public Hat(Hat hat) : base(hat)
+    {
+        this.color = hat.color;
+        this.type = hat.type;
+    }
+
+    // Getter/Setter 
+    public Color Color
+    {
+        get { return this.color; }
+        set { this.color = value; }
+    }
+
+    public TypeHat GetTypeHat
+    {
+        get { return this.type; }
+        set { this.type = value; }
     }
 }

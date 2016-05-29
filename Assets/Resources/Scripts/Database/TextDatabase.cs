@@ -252,7 +252,9 @@ public class TextDatabase
     public static readonly Text PurpleEyes = new Text("Yeux violet", "Purple Eyes");
     public static readonly Text GreenHair = new Text("Cheveux vert", "Green hair");
     public static readonly Text PurpleBeard = new Text("Barbe violet", "Purple beard");
-
+    public static readonly Text NoneHat = new Text("Pas de chapeau", "Any hat");
+    public static readonly Text AmericanTopHat = new Text("Le chapeau de l'oncle sam", "Oncle sam's hat");
+    public static readonly Text BlackTopHat = new Text("Vous avez la classe", "Swag over 9000");
 }
 
 
