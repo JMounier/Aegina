@@ -242,12 +242,16 @@ public class TextDatabase
 	public static readonly Text FirstCrisatlObjectif = new Text ("fabrique une hache,équippe la pour récolter du bois ,fabrique un établi, pose le avec le clic droit, fabrique une pioche et part récupérer les minerai pour enfin activer le cristal", "Craft an ace, equip it to gather wood,Craft a worktop, pose it with a rightclick, craft a pickaxe and go find ore to finally activate the crystal");
 
     // Skin 
-    public static readonly Text WhiteSkin = new Text("Corps blanc", "White skin");
-    public static readonly Text brownPant = new Text("Pantalon marron", "Brown pant");
-    public static readonly Text brownGloves = new Text("Gants marrons", "Brown gloves");
-    public static readonly Text BrownEyes = new Text("Yeux marron", "Brown Eyes");
-    public static readonly Text GreenHair = new Text("Cheveux vert", "Green gloves");
-    public static readonly Text PurpleBeard = new Text("Barbe violet", "Purple Eyes");
+    public static readonly Text WhiteBody = new Text("Corps blanc", "White skin");
+    public static readonly Text BrownPant = new Text("Pantalon marron", "Brown pant");
+    public static readonly Text BrownGloves = new Text("Gants marrons", "Brown gloves");
+    public static readonly Text BlackEyes = new Text("Yeux noir", "Black Eyes");
+    public static readonly Text GreenEyes = new Text("Yeux vert", "Green Eyes");
+    public static readonly Text RedEyes = new Text("Yeux rouge", "Red Eyes");
+    public static readonly Text BlueEyes = new Text("Yeux bleu", "Blue Eyes");
+    public static readonly Text PurpleEyes = new Text("Yeux violet", "Purple Eyes");
+    public static readonly Text GreenHair = new Text("Cheveux vert", "Green hair");
+    public static readonly Text PurpleBeard = new Text("Barbe violet", "Purple beard");
 
 }
 

@@ -45,18 +45,13 @@ namespace UnityEngine.Networking
 
         private CategoryCloth categoryCloth;
         private Skin skinCharacter;
-
-        private List<Beard> beardList;
-        private List<Hair> hairList;
-        private List<Body> bodyListList;
-        private List<Pant> pantList;
-        private List<Tshirt> tshirtList;
-        private List<Gloves> glovesList;
-        private List<Eyes> eyesList;
+        
+        private GameObject character;
 
         #region Monobehaviour methods
         void Awake()
         {
+            this.character = GameObject.Find("CharacterModel");
             this.loadingVideo = Resources.Load<MovieTexture>("Sprites/SplashImages/LoadingVideo");
             this.loadingImage = Resources.Load<Texture>("Sprites/SplashImages/LoadingImage");
 
@@ -86,7 +81,7 @@ namespace UnityEngine.Networking
             if (skintStr == "" || playerName == "")
             {
                 this.characterShown = true;
-                this.skinCharacter = new Skin(Clothing.PurpleBeard, Clothing.GreenHair, Clothing.WhiteBody, Clothing.BrownPant, Clothing.NoneTshirt, Clothing.BrownGloves, Clothing.BrownEye);
+                this.skinCharacter = new Skin(Clothing.PurpleBeard, Clothing.GreenHair, Clothing.WhiteBody, Clothing.BrownPant, Clothing.NoneTshirt, Clothing.BrownGloves, Clothing.BlackEye);
             }
             else
                 this.skinCharacter = Skin.Load(skintStr);
@@ -113,6 +108,7 @@ namespace UnityEngine.Networking
         {
             this.loadingVideo.loop = true;
             this.firstScene.OnChar = this.characterShown;
+            this.skinCharacter.Apply(this.character);
             worldsList = new List<string>(Directory.GetDirectories(Application.dataPath + "/Saves"));
             for (int i = 0; i < worldsList.Count; i++)
                 worldsList[i] = worldsList[i].Remove(0, Application.dataPath.Length + 7);
@@ -122,35 +118,7 @@ namespace UnityEngine.Networking
             {
                 ipList.Add(PlayerPrefs.GetString("ip" + j.ToString()));
                 j++;
-            }
-
-            this.beardList = new List<Beard>();
-            foreach (Beard beard in Clothing.Beards)
-                this.beardList.Add(beard);
-
-            this.hairList = new List<Hair>();
-            foreach (Hair hair in Clothing.Hairs)
-                this.hairList.Add(hair);
-
-            this.bodyListList = new List<Body>();
-            foreach (Body body in Clothing.Bodies)
-                this.bodyListList.Add(body);
-
-            this.pantList = new List<Pant>();
-            foreach (Pant pant in Clothing.Pants)
-                this.pantList.Add(pant);
-
-            this.tshirtList = new List<Tshirt>();
-            foreach (Tshirt tshirt in Clothing.Tshirts)
-                this.tshirtList.Add(tshirt);
-
-            this.glovesList = new List<Gloves>();
-            foreach (Gloves gloves in Clothing.Gloves)
-                this.glovesList.Add(gloves);
-
-            this.eyesList = new List<Eyes>();
-            foreach (Eyes eyes in Clothing.Eyes)
-                this.eyesList.Add(eyes);
+            }           
         }
 
         void OnGUI()
@@ -371,20 +339,20 @@ namespace UnityEngine.Networking
             if (GUI.Button(new Rect(this.posX + this.spacing * 2, this.posY + this.spacing * 4f, this.width / 3, this.width / 3), Resources.Load<Texture2D>("Sprites/Interfaces/ToolBarSelected")))
                 this.categoryCloth = CategoryCloth.TShirt;
 
+            Text tooltip = null;
             switch (this.categoryCloth)
             {
                 case (CategoryCloth.Beard):
                     break;
                 case (CategoryCloth.Body):
-
                     break;
                 case (CategoryCloth.Hair):
                     break;
                 case (CategoryCloth.Gloves):
-
                     break;
                 case (CategoryCloth.Eyes):
                     int y = 0;
+                    int x = 0;
                     foreach (Eyes e in Clothing.Eyes)
                     {
                         Texture2D fill = new Texture2D(this.width / 3, this.width / 3, TextureFormat.ARGB32, false);
@@ -392,9 +360,17 @@ namespace UnityEngine.Networking
                             for (int j = 0; j < this.width / 3; j++)
                                 fill.SetPixel(i, j, e.Color);
                         fill.Apply();
-                        if (GUI.Button(new Rect(0, this.spacing * y, this.width / 3, this.width / 3), fill))
+                        Rect rect = new Rect((10 + Screen.width / 20) * x + Screen.width / 25f, y * (10 + Screen.height / 10) + Screen.height / 2.25f, Screen.height / 11, Screen.height / 11);
+                        if (rect.Contains(Event.current.mousePosition))
+                            tooltip = e.Description;
+                        if (GUI.Button(rect, fill))
+                        {
                             this.skinCharacter.Eyes = e;
-                        y++;
+                            this.skinCharacter.Apply(this.character);
+                        }
+                        x = (x + 1) % 3;
+                        if (x == 0)
+                            y++;
                     }
                     break;
                 case (CategoryCloth.Pant):
@@ -404,8 +380,11 @@ namespace UnityEngine.Networking
                 default:
                     break;
             }
-        }
 
+            if (tooltip != null)
+                GUI.Box(new Rect(Event.current.mousePosition.x - Screen.width / 20, Event.current.mousePosition.y + Screen.height / 20, 100, 35 + 20 * (tooltip.GetText().Length / 35 + 1)),
+                               tooltip.GetText(), this.skin.GetStyle("Skin"));
+        }
         /// <summary>
         ///  Dessine l'interface des options linguistiques.
         /// </summary>
