@@ -81,7 +81,7 @@ namespace UnityEngine.Networking
             Text.SetLanguage(langue);
             this.firstScene = GameObject.Find("Map").GetComponent<FirstScene>();
             string skintStr = PlayerPrefs.GetString("Skin", "");
-            if (skintStr == "" || playerName == "")
+            if (true || skintStr == "" || playerName == "")
             {
                 this.characterShown = true;
                 this.skinCharacter = new Skin(Clothing.NormalBrownBeard, Clothing.NormalBrownHair, Clothing.NoneHat, Clothing.BasicBody, Clothing.BrownPant, Clothing.NoneTshirt, Clothing.BrownGloves, Clothing.BlackEye);
