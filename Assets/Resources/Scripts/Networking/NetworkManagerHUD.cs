@@ -367,7 +367,7 @@ namespace UnityEngine.Networking
             {
                 this.categoryCloth = CategoryCloth.Pant;
                 this.smoothAparition = 0;
-            }    
+            }
 
             Text tooltip = null;
             switch (this.categoryCloth)
@@ -377,19 +377,31 @@ namespace UnityEngine.Networking
                     int x = 0;
                     Rect rect = new Rect(Screen.width / 25f, -(10 + Screen.height / 10) + Screen.height / 2.25f, Screen.height / 11, Screen.height / 11);
                     if (GUI.Button(rect, Resources.Load<Texture2D>("Sprites/Cosmetics/NoneIcon")))
+                    {
+                        this.smoothAparition = 0;
                         typeCloth = (int)Hat.TypeHat.None;
+                    }
                     rect.x += (10 + Screen.width / 20);
 
                     if (GUI.Button(rect, Resources.Load<Texture2D>("Sprites/Cosmetics/HatIcon")))
+                    {
+                        this.smoothAparition = 0;
                         typeCloth = (int)Hat.TypeHat.TopHat;
+                    }
                     rect.x += (10 + Screen.width / 20);
 
                     if (GUI.Button(rect, Resources.Load<Texture2D>("Sprites/Cosmetics/StrawHatIcon")))
+                    {
+                        this.smoothAparition = 0;
                         typeCloth = (int)Hat.TypeHat.StrawHat;
+                    }
                     rect.x += (10 + Screen.width / 20);
 
                     if (GUI.Button(rect, Resources.Load<Texture2D>("Sprites/Cosmetics/CowBoyIcon")))
+                    {
+                        this.smoothAparition = 0;
                         typeCloth = (int)Hat.TypeHat.Cowboy;
+                    }
 
                     foreach (Hat h in Clothing.Hats)
                     {
@@ -398,22 +410,20 @@ namespace UnityEngine.Networking
                             x = this.typeCloth;
                             Texture2D fill = new Texture2D(this.width / 3, this.width / 3);
                             Color fillcolor = h.Color;
-                            fillcolor.a = Mathf.Clamp01(this.smoothAparition - (x + y * 5) * TransitionDelay);
+                            fillcolor.a = Mathf.Clamp01(this.smoothAparition - y * TransitionDelay);
                             for (int i = 0; i < this.width / 3; i++)
                                 for (int j = 0; j < this.width / 3; j++)
-                                    fill.SetPixel(i, j, h.Color);
+                                    fill.SetPixel(i, j, fillcolor);
                             fill.Apply();
                             rect = new Rect((10 + Screen.width / 20) * x + Screen.width / 25f, y * (10 + Screen.height / 10) + Screen.height / 2.25f, Screen.height / 11, Screen.height / 11);
                             if (rect.Contains(Event.current.mousePosition))
                                 tooltip = h.Description;
-                            if (this.smoothAparition > (x + y * 5) * TransitionDelay && GUI.Button(rect, fill))
+                            if (this.smoothAparition > y * TransitionDelay && GUI.Button(rect, fill))
                             {
                                 this.skinCharacter.Hat = h;
                                 this.skinCharacter.Apply(this.character);
                             }
-                            y = (y + 1) % 5;
-                            if (y == 0)
-                                x++;
+                            y += 1;
                         }
                     }
                     break;
@@ -426,13 +436,13 @@ namespace UnityEngine.Networking
                     rect.x += (5 + Screen.width / 20);
 
                     if (GUI.Button(rect, Resources.Load<Texture2D>("Sprites/Cosmetics/HatIcon")))
-                        typeCloth = (int)Beard.TypeBeard.Beard ;
+                        typeCloth = (int)Beard.TypeBeard.Beard;
                     rect.x += (5 + Screen.width / 20);
 
                     if (GUI.Button(rect, Resources.Load<Texture2D>("Sprites/Cosmetics/StrawHatIcon")))
                         typeCloth = (int)Beard.TypeBeard.BeardMoustachSplit;
                     rect.x += (5 + Screen.width / 20);
-                    
+
                     if (GUI.Button(rect, Resources.Load<Texture2D>("Sprites/Cosmetics/StrawHatIcon")))
                         typeCloth = (int)Beard.TypeBeard.BearsOnly;
                     rect.x += (5 + Screen.width / 20);
@@ -445,12 +455,12 @@ namespace UnityEngine.Networking
                         if (this.typeCloth == (int)b.GetTypeBeard)
                         {
                             x = this.typeCloth;
-                            Texture2D fill = new Texture2D(this.width / 3, this.width / 3); 
+                            Texture2D fill = new Texture2D(this.width / 3, this.width / 3);
                             Color fillcolor = b.Color;
                             fillcolor.a = Mathf.Clamp01(this.smoothAparition - (x + y * 5) * TransitionDelay);
                             for (int i = 0; i < this.width / 3; i++)
                                 for (int j = 0; j < this.width / 3; j++)
-                                    fill.SetPixel(i, j, b.Color);
+                                    fill.SetPixel(i, j, fillcolor);
                             fill.Apply();
                             rect = new Rect((5 + Screen.width / 20) * x + Screen.width / 25f, y * (10 + Screen.height / 10) + Screen.height / 2.25f, Screen.height / 11, Screen.height / 11);
                             if (rect.Contains(Event.current.mousePosition))
