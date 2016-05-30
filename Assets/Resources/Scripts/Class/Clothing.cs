@@ -87,8 +87,8 @@ public class Clothing
         {
             yield return NoneHair;
 
-            yield return NormalGreenHair;
             yield return NormalBrownHair;
+            yield return NormalGreenHair;
 
             yield return CreteBrownHair;
             yield return CreteGreenHair;
@@ -106,6 +106,9 @@ public class Clothing
         {
             yield return NoneBeard;
 
+            yield return NormalBrownBeard;
+            yield return NormalPurpleBeard;
+
             yield return BeardMoustachSplitBrownBeard;
             yield return BeardMoustachSplitPurpleBeard;
 
@@ -115,9 +118,7 @@ public class Clothing
             yield return MoustachBrownBeard;
             yield return MoustachPurpleBeard;
 
-            yield return NormalBrownBeard;
-            yield return NormalPurpleBeard;
-
+            
         }
     }
     public static IEnumerable<Body> Bodies
@@ -232,7 +233,7 @@ public class Clothing
     public static readonly Eyes BrownEye = new Eyes(42, Resources.Load<Texture2D>("Models/Character/Textures/Eyes/Eyes_Brown"), TextDatabase.BrwonEyes, new Color(.490f, .309f, .133f));
     public static readonly Eyes BlueEye = new Eyes(43, Resources.Load<Texture2D>("Models/Character/Textures/Eyes/Eyes_Blue"), TextDatabase.BlueEyes, new Color(.145f, .231f, .666f));
 
-    public static readonly Hair NoneHair = new Hair(50, TextDatabase.GreenHair);
+    public static readonly Hair NoneHair = new Hair(50, TextDatabase.NoneHair);
     public static readonly Hair NormalGreenHair = new Hair(51, Resources.Load<Texture2D>("Models/Character/Textures/Hairs/Hair_Green"), TextDatabase.GreenHair, new Color(.396f, .501f, .164f), Hair.TypeHair.Normal);
     public static readonly Hair NormalBrownHair = new Hair(52, Resources.Load<Texture2D>("Models/Character/Textures/Hairs/Hair_Brown"), TextDatabase.BrownHair, new Color(.337f, .078f, .031f), Hair.TypeHair.Normal);
     public static readonly Hair CreteGreenHair = new Hair(56, Resources.Load<Texture2D>("Models/Character/Textures/Hairs/Hair_Green"), TextDatabase.GreenHair, new Color(.396f, .501f, .164f), Hair.TypeHair.Crete);
