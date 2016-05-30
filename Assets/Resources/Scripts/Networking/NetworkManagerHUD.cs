@@ -80,14 +80,18 @@ namespace UnityEngine.Networking
             this.categoryCloth = CategoryCloth.None;
             Text.SetLanguage(langue);
             this.firstScene = GameObject.Find("Map").GetComponent<FirstScene>();
+
             string skintStr = PlayerPrefs.GetString("Skin", "");
-            if (true || skintStr == "" || playerName == "")
+            try
+            {
+                this.skinCharacter = Skin.Load(skintStr);
+                this.skinCharacter.Apply(this.character);
+            }
+            catch
             {
                 this.characterShown = true;
                 this.skinCharacter = new Skin(Clothing.NormalBrownBeard, Clothing.NormalBrownHair, Clothing.NoneHat, Clothing.BasicBody, Clothing.BrownPant, Clothing.NoneTshirt, Clothing.BrownGloves, Clothing.BlackEye);
             }
-            else
-                this.skinCharacter = Skin.Load(skintStr);
 
             if (!Directory.Exists(Application.dataPath + "/Saves"))
                 Directory.CreateDirectory(Application.dataPath + "/Saves");
@@ -111,7 +115,6 @@ namespace UnityEngine.Networking
         {
             this.loadingVideo.loop = true;
             this.firstScene.OnChar = this.characterShown;
-            this.skinCharacter.Apply(this.character);
             worldsList = new List<string>(Directory.GetDirectories(Application.dataPath + "/Saves"));
             for (int i = 0; i < worldsList.Count; i++)
                 worldsList[i] = worldsList[i].Remove(0, Application.dataPath.Length + 7);
@@ -330,6 +333,7 @@ namespace UnityEngine.Networking
                 this.firstScene.PlayButtonSound();
             }
 
+            #region Category
             if (GUI.Button(new Rect(this.posX, this.posY - this.spacing * 2, this.width / 5, this.width / 5), Resources.Load<Texture2D>("Sprites/Cosmetics/HatIcon")))
             {
                 this.categoryCloth = CategoryCloth.Hat;
@@ -370,10 +374,12 @@ namespace UnityEngine.Networking
                 this.categoryCloth = CategoryCloth.Pant;
                 this.smoothAparition = 0;
             }
+            #endregion
 
             Text tooltip = null;
             switch (this.categoryCloth)
             {
+                #region Hat
                 case (CategoryCloth.Hat):
                     int y = 0;
                     int x = 0;
@@ -406,7 +412,6 @@ namespace UnityEngine.Networking
                     }
 
                     foreach (Hat h in Clothing.Hats)
-                    {
                         if (this.typeCloth == (int)h.GetTypeHat)
                         {
                             x = this.typeCloth;
@@ -427,39 +432,54 @@ namespace UnityEngine.Networking
                             }
                             y += 1;
                         }
-                    }
                     break;
+                #endregion
+                #region Beard
                 case (CategoryCloth.Beard):
                     y = 0;
                     x = 0;
                     rect = new Rect(Screen.width / 25f, -(10 + Screen.height / 10) + Screen.height / 2.25f, Screen.height / 11, Screen.height / 11);
                     if (GUI.Button(rect, Resources.Load<Texture2D>("Sprites/Cosmetics/NoneIcon")))
+                    {
+                        this.smoothAparition = 0;
                         typeCloth = (int)Beard.TypeBeard.None;
+                    }
                     rect.x += (5 + Screen.width / 20);
 
                     if (GUI.Button(rect, Resources.Load<Texture2D>("Sprites/Cosmetics/HatIcon")))
+                    {
+                        this.smoothAparition = 0;
                         typeCloth = (int)Beard.TypeBeard.Beard;
-                    rect.x += (5 + Screen.width / 20);
-         
-                    if (GUI.Button(rect, Resources.Load<Texture2D>("Sprites/Cosmetics/StrawHatIcon")))
-                        typeCloth = (int)Beard.TypeBeard.BearsOnly;
+                    }
                     rect.x += (5 + Screen.width / 20);
 
                     if (GUI.Button(rect, Resources.Load<Texture2D>("Sprites/Cosmetics/StrawHatIcon")))
+                    {
+                        this.smoothAparition = 0;
+                        typeCloth = (int)Beard.TypeBeard.BeardOnly;
+                    }
+                    rect.x += (5 + Screen.width / 20);
+
+                    if (GUI.Button(rect, Resources.Load<Texture2D>("Sprites/Cosmetics/StrawHatIcon")))
+                    {
+                        this.smoothAparition = 0;
                         typeCloth = (int)Beard.TypeBeard.BeardMoustachSplit;
+                    }
                     rect.x += (5 + Screen.width / 20);
 
                     if (GUI.Button(rect, Resources.Load<Texture2D>("Sprites/Cosmetics/CowBoyIcon")))
+                    {
+                        this.smoothAparition = 0;
                         typeCloth = (int)Beard.TypeBeard.Moustach;
+                    }
 
                     foreach (Beard b in Clothing.Beards)
-                    {
                         if (this.typeCloth == (int)b.GetTypeBeard)
                         {
                             x = this.typeCloth;
                             Texture2D fill = new Texture2D(this.width / 3, this.width / 3);
                             Color fillcolor = b.Color;
-                            fillcolor.a = Mathf.Clamp01(this.smoothAparition - (x + y * 5) * TransitionDelay);
+                            fillcolor.a = Mathf.Clamp01(this.smoothAparition - y * TransitionDelay);
                             for (int i = 0; i < this.width / 3; i++)
                                 for (int j = 0; j < this.width / 3; j++)
                                     fill.SetPixel(i, j, fillcolor);
@@ -467,7 +487,7 @@ namespace UnityEngine.Networking
                             rect = new Rect((5 + Screen.width / 20) * x + Screen.width / 25f, y * (10 + Screen.height / 10) + Screen.height / 2.25f, Screen.height / 11, Screen.height / 11);
                             if (rect.Contains(Event.current.mousePosition))
                                 tooltip = b.Description;
-                            if (this.smoothAparition > (x + y * 5) * TransitionDelay && GUI.Button(rect, fill))
+                            if (this.smoothAparition > y * TransitionDelay && GUI.Button(rect, fill))
                             {
                                 this.skinCharacter.Beard = b;
                                 this.skinCharacter.Apply(this.character);
@@ -476,8 +496,9 @@ namespace UnityEngine.Networking
                             if (y == 0)
                                 x++;
                         }
-                    }
                     break;
+                #endregion
+                #region Body
                 case (CategoryCloth.Body):
                     y = 0;
                     x = 0;
@@ -503,28 +524,45 @@ namespace UnityEngine.Networking
                             y++;
                     }
                     break;
+                #endregion
+                #region Hair
                 case (CategoryCloth.Hair):
                     y = 0;
                     x = 0;
                     rect = new Rect(Screen.width / 25f, -(10 + Screen.height / 10) + Screen.height / 2.25f, Screen.height / 11, Screen.height / 11);
                     if (GUI.Button(rect, Resources.Load<Texture2D>("Sprites/Cosmetics/NoneIcon")))
+                    {
+                        this.smoothAparition = 0;
                         typeCloth = (int)Hair.TypeHair.None;
+                    }
                     rect.x += (5 + Screen.width / 20);
 
                     if (GUI.Button(rect, Resources.Load<Texture2D>("Sprites/Cosmetics/HatIcon")))
+                    {
+                        this.smoothAparition = 0;
                         typeCloth = (int)Hair.TypeHair.Normal;
+                    }
                     rect.x += (5 + Screen.width / 20);
 
                     if (GUI.Button(rect, Resources.Load<Texture2D>("Sprites/Cosmetics/StrawHatIcon")))
+                    {
+                        this.smoothAparition = 0;
                         typeCloth = (int)Hair.TypeHair.Crete;
+                    }
                     rect.x += (5 + Screen.width / 20);
 
                     if (GUI.Button(rect, Resources.Load<Texture2D>("Sprites/Cosmetics/StrawHatIcon")))
+                    {
+                        this.smoothAparition = 0;
                         typeCloth = (int)Hair.TypeHair.LongHair;
+                    }
                     rect.x += (5 + Screen.width / 20);
 
                     if (GUI.Button(rect, Resources.Load<Texture2D>("Sprites/Cosmetics/CowBoyIcon")))
+                    {
+                        this.smoothAparition = 0;
                         typeCloth = (int)Hair.TypeHair.Meche;
+                    }
 
                     foreach (Hair h in Clothing.Hairs)
                     {
@@ -533,7 +571,7 @@ namespace UnityEngine.Networking
                             x = this.typeCloth;
                             Texture2D fill = new Texture2D(this.width / 3, this.width / 3);
                             Color fillcolor = h.Color;
-                            fillcolor.a = Mathf.Clamp01(this.smoothAparition - (x + y * 5) * TransitionDelay);
+                            fillcolor.a = Mathf.Clamp01(this.smoothAparition - y * TransitionDelay);
                             for (int i = 0; i < this.width / 3; i++)
                                 for (int j = 0; j < this.width / 3; j++)
                                     fill.SetPixel(i, j, fillcolor);
@@ -541,7 +579,7 @@ namespace UnityEngine.Networking
                             rect = new Rect((5 + Screen.width / 20) * x + Screen.width / 25f, y * (10 + Screen.height / 10) + Screen.height / 2.25f, Screen.height / 11, Screen.height / 11);
                             if (rect.Contains(Event.current.mousePosition))
                                 tooltip = h.Description;
-                            if (this.smoothAparition > (x + y * 5) * TransitionDelay && GUI.Button(rect, fill))
+                            if (this.smoothAparition > y * TransitionDelay && GUI.Button(rect, fill))
                             {
                                 this.skinCharacter.Hair = h;
                                 this.skinCharacter.Apply(this.character);
@@ -552,6 +590,8 @@ namespace UnityEngine.Networking
                         }
                     }
                     break;
+                #endregion
+                #region Gloves
                 case (CategoryCloth.Gloves):
                     y = 0;
                     x = 0;
@@ -577,6 +617,8 @@ namespace UnityEngine.Networking
                             y++;
                     }
                     break;
+                #endregion
+                #region Eyes
                 case (CategoryCloth.Eyes):
                     y = 0;
                     x = 0;
@@ -602,10 +644,15 @@ namespace UnityEngine.Networking
                             y++;
                     }
                     break;
+                #endregion
+                #region Pant
                 case (CategoryCloth.Pant):
                     break;
+                #endregion
+                #region TShirt
                 case (CategoryCloth.TShirt):
                     break;
+                #endregion             
                 default:
                     break;
             }

@@ -88,16 +88,28 @@ public class Clothing
             yield return NoneHair;
 
             yield return NormalBrownHair;
-            yield return NormalGreenHair;
-
-            yield return CreteBrownHair;
-            yield return CreteGreenHair;
+            yield return NormalBlackHair;
+            yield return NormalBlondHair;
+            yield return NormalRedHair;
+            yield return NormalWhiteHair;
 
             yield return LongBrownHair;
-            yield return LongGreenHair;
+            yield return LongBlackHair;
+            yield return LongBlondHair;
+            yield return LongRedHair;
+            yield return LongWhiteHair;
 
             yield return MecheBrownHair;
-            yield return MecheGreenHair;
+            yield return MecheBlackHair;
+            yield return MecheBlondHair;
+            yield return MecheRedHair;
+            yield return MecheWhiteHair;
+
+            yield return CreteBrownHair;
+            yield return CreteBlackHair;
+            yield return CreteBlondHair;
+            yield return CreteRedHair;
+            yield return CreteWhiteHair;
         }
     }
     public static IEnumerable<Beard> Beards
@@ -106,19 +118,30 @@ public class Clothing
         {
             yield return NoneBeard;
 
-            yield return NormalBrownBeard;
-            yield return NormalPurpleBeard;
-
+            yield return BeardMoustachSplitBlackBeard;
+            yield return BeardMoustachSplitBlondBeard;
             yield return BeardMoustachSplitBrownBeard;
-            yield return BeardMoustachSplitPurpleBeard;
+            yield return BeardMoustachSplitRedBeard;
+            yield return BeardMoustachSplitWhiteBeard;
 
-            yield return BearsOnlyBrownBeard;
-            yield return BearsOnlyPurpleBeard;
+            yield return BeardOnlyBlackBeard;
+            yield return BeardOnlyBlondBeard;
+            yield return BeardOnlyBrownBeard;
+            yield return BeardOnlyRedBeard;
+            yield return BeardOnlyWhiteBeard;
 
+            yield return MoustachBlackBeard;
+            yield return MoustachBlondBeard;
             yield return MoustachBrownBeard;
-            yield return MoustachPurpleBeard;
+            yield return MoustachRedBeard;
+            yield return MoustachWhiteBeard;
 
-            
+            yield return NormalBlackBeard;
+            yield return NormalBlondBeard;
+            yield return NormalBrownBeard;
+            yield return NormalRedBeard;
+            yield return NormalWhiteBeard;
+
         }
     }
     public static IEnumerable<Body> Bodies
@@ -130,7 +153,7 @@ public class Clothing
             yield return DarkBody;
             yield return BlackBody;
             yield return AlienBody;
-
+            yield return AquaBody;
         }
     }
     public static IEnumerable<Pant> Pants
@@ -218,6 +241,7 @@ public class Clothing
     public static readonly Body DarkBody = new Body(12, Resources.Load<Texture2D>("Models/Character/Textures/Bodies/Body_Dark"), TextDatabase.DarkBody, new Color(.392f, .196f, .105f));
     public static readonly Body BlackBody = new Body(13, Resources.Load<Texture2D>("Models/Character/Textures/Bodies/Body_Black"), TextDatabase.BlackBody, new Color(.086f, 0f, 0f));
     public static readonly Body AlienBody = new Body(14, Resources.Load<Texture2D>("Models/Character/Textures/Bodies/Body_Alien"), TextDatabase.AlienBody, new Color(.341f, .525f, .184f));
+    public static readonly Body AquaBody = new Body(15, Resources.Load<Texture2D>("Models/Character/Textures/Bodies/Body_Aqua"), TextDatabase.AquaBody, new Color(.290f, .439f, .384f));
 
     public static readonly Pant BrownPant = new Pant(20, Resources.Load<Texture2D>("Models/Character/Textures/Pants/Pants_Brown"), TextDatabase.BrownPant, new Color(128f, 64f, 0f));
 
@@ -234,14 +258,26 @@ public class Clothing
     public static readonly Eyes BlueEye = new Eyes(43, Resources.Load<Texture2D>("Models/Character/Textures/Eyes/Eyes_Blue"), TextDatabase.BlueEyes, new Color(.145f, .231f, .666f));
 
     public static readonly Hair NoneHair = new Hair(50, TextDatabase.NoneHair);
-    public static readonly Hair NormalGreenHair = new Hair(51, Resources.Load<Texture2D>("Models/Character/Textures/Hairs/Hair_Green"), TextDatabase.GreenHair, new Color(.396f, .501f, .164f), Hair.TypeHair.Normal);
+    public static readonly Hair NormalBlackHair = new Hair(51, Resources.Load<Texture2D>("Models/Character/Textures/Hairs/Hair_Black"), TextDatabase.BlackHair, Color.black, Hair.TypeHair.Normal);
     public static readonly Hair NormalBrownHair = new Hair(52, Resources.Load<Texture2D>("Models/Character/Textures/Hairs/Hair_Brown"), TextDatabase.BrownHair, new Color(.337f, .078f, .031f), Hair.TypeHair.Normal);
-    public static readonly Hair CreteGreenHair = new Hair(56, Resources.Load<Texture2D>("Models/Character/Textures/Hairs/Hair_Green"), TextDatabase.GreenHair, new Color(.396f, .501f, .164f), Hair.TypeHair.Crete);
+    public static readonly Hair NormalRedHair = new Hair(53, Resources.Load<Texture2D>("Models/Character/Textures/Hairs/Hair_Red"), TextDatabase.RedHair, new Color(.333f, .113f, .016f), Hair.TypeHair.Normal);
+    public static readonly Hair NormalBlondHair = new Hair(54, Resources.Load<Texture2D>("Models/Character/Textures/Hairs/Hair_Blond"), TextDatabase.BlondHair, new Color(.627f, .494f, 0f), Hair.TypeHair.Normal);
+    public static readonly Hair NormalWhiteHair = new Hair(55, Resources.Load<Texture2D>("Models/Character/Textures/Hairs/Hair_White"), TextDatabase.WhiteHair, new Color(.514f, .514f, .514f), Hair.TypeHair.Normal);
+    public static readonly Hair CreteBlackHair = new Hair(56, Resources.Load<Texture2D>("Models/Character/Textures/Hairs/Hair_Black"), TextDatabase.BlackHair, Color.black, Hair.TypeHair.Crete);
     public static readonly Hair CreteBrownHair = new Hair(57, Resources.Load<Texture2D>("Models/Character/Textures/Hairs/Hair_Brown"), TextDatabase.BrownHair, new Color(.337f, .078f, .031f), Hair.TypeHair.Crete);
-    public static readonly Hair LongGreenHair = new Hair(61, Resources.Load<Texture2D>("Models/Character/Textures/Hairs/Hair_Green"), TextDatabase.GreenHair, new Color(.396f, .501f, .164f), Hair.TypeHair.LongHair);
+    public static readonly Hair CreteRedHair = new Hair(58, Resources.Load<Texture2D>("Models/Character/Textures/Hairs/Hair_Red"), TextDatabase.RedHair, new Color(.333f, .113f, .016f), Hair.TypeHair.Crete);
+    public static readonly Hair CreteBlondHair = new Hair(59, Resources.Load<Texture2D>("Models/Character/Textures/Hairs/Hair_Blond"), TextDatabase.BlondHair, new Color(.627f, .494f, 0f), Hair.TypeHair.Crete);
+    public static readonly Hair CreteWhiteHair = new Hair(60, Resources.Load<Texture2D>("Models/Character/Textures/Hairs/Hair_White"), TextDatabase.WhiteHair, new Color(.514f, .514f, .514f), Hair.TypeHair.Crete);
+    public static readonly Hair LongBlackHair = new Hair(61, Resources.Load<Texture2D>("Models/Character/Textures/Hairs/Hair_Black"), TextDatabase.BlackHair, Color.black, Hair.TypeHair.LongHair);
     public static readonly Hair LongBrownHair = new Hair(62, Resources.Load<Texture2D>("Models/Character/Textures/Hairs/Hair_Brown"), TextDatabase.BrownHair, new Color(.337f, .078f, .031f), Hair.TypeHair.LongHair);
-    public static readonly Hair MecheGreenHair = new Hair(67, Resources.Load<Texture2D>("Models/Character/Textures/Hairs/Hair_Green"), TextDatabase.GreenHair, new Color(.396f, .501f, .164f), Hair.TypeHair.Meche);
-    public static readonly Hair MecheBrownHair = new Hair(68, Resources.Load<Texture2D>("Models/Character/Textures/Hairs/Hair_Brown"), TextDatabase.BrownHair, new Color(.337f, .078f, .031f), Hair.TypeHair.Meche);
+    public static readonly Hair LongRedHair = new Hair(63, Resources.Load<Texture2D>("Models/Character/Textures/Hairs/Hair_Red"), TextDatabase.RedHair, new Color(.333f, .113f, .016f), Hair.TypeHair.LongHair);
+    public static readonly Hair LongBlondHair = new Hair(64, Resources.Load<Texture2D>("Models/Character/Textures/Hairs/Hair_Blond"), TextDatabase.BlondHair, new Color(.627f, .494f, 0f), Hair.TypeHair.LongHair);
+    public static readonly Hair LongWhiteHair = new Hair(65, Resources.Load<Texture2D>("Models/Character/Textures/Hairs/Hair_White"), TextDatabase.WhiteHair, new Color(.514f, .514f, .514f), Hair.TypeHair.LongHair);
+    public static readonly Hair MecheBlackHair = new Hair(66, Resources.Load<Texture2D>("Models/Character/Textures/Hairs/Hair_Black"), TextDatabase.BlackHair, Color.black, Hair.TypeHair.Meche);
+    public static readonly Hair MecheBrownHair = new Hair(67, Resources.Load<Texture2D>("Models/Character/Textures/Hairs/Hair_Brown"), TextDatabase.BrownHair, new Color(.337f, .078f, .031f), Hair.TypeHair.Meche);
+    public static readonly Hair MecheRedHair = new Hair(68, Resources.Load<Texture2D>("Models/Character/Textures/Hairs/Hair_Red"), TextDatabase.RedHair, new Color(.333f, .113f, .016f), Hair.TypeHair.Meche);
+    public static readonly Hair MecheBlondHair = new Hair(69, Resources.Load<Texture2D>("Models/Character/Textures/Hairs/Hair_Blond"), TextDatabase.BlondHair, new Color(.627f, .494f, 0f), Hair.TypeHair.Meche);
+    public static readonly Hair MecheWhiteHair = new Hair(70, Resources.Load<Texture2D>("Models/Character/Textures/Hairs/Hair_White"), TextDatabase.WhiteHair, new Color(.514f, .514f, .514f), Hair.TypeHair.Meche);
 
     public static readonly Hat NoneHat = new Hat(80, TextDatabase.NoneHat);
     public static readonly Hat AmericanTopHat = new Hat(81, Resources.Load<Texture2D>("Models/Character/Textures/Hat/TopAmerica"), TextDatabase.AmericanTopHat, Color.blue, Hat.TypeHat.TopHat);
@@ -250,16 +286,29 @@ public class Clothing
 
 
     public static readonly Beard NoneBeard = new Beard(90, TextDatabase.NoneBeard);
-    public static readonly Beard NormalPurpleBeard = new Beard(91, Resources.Load<Texture2D>("Models/Character/Textures/Beards/Beard_Purple"), TextDatabase.PurpleBeard, new Color(.356f, .2f, .408f), Beard.TypeBeard.Beard);
+    public static readonly Beard NormalBlackBeard = new Beard(91, Resources.Load<Texture2D>("Models/Character/Textures/Beards/Beard_Black"), TextDatabase.BlackBeard, Color.black, Beard.TypeBeard.Beard);
     public static readonly Beard NormalBrownBeard = new Beard(92, Resources.Load<Texture2D>("Models/Character/Textures/Beards/Beard_Brown"), TextDatabase.BrownBeard, new Color(.337f, .078f, .031f), Beard.TypeBeard.Beard);
-    public static readonly Beard BeardMoustachSplitPurpleBeard = new Beard(96, Resources.Load<Texture2D>("Models/Character/Textures/Beards/Beard_Purple"), TextDatabase.PurpleBeard, new Color(.356f, .2f, .408f), Beard.TypeBeard.BeardMoustachSplit);
+    public static readonly Beard NormalRedBeard = new Beard(93, Resources.Load<Texture2D>("Models/Character/Textures/Beards/Beard_Red"), TextDatabase.RedBeard, new Color(.333f, .113f, .016f), Beard.TypeBeard.Beard);
+    public static readonly Beard NormalBlondBeard = new Beard(94, Resources.Load<Texture2D>("Models/Character/Textures/Beards/Beard_Blond"), TextDatabase.BlondBeard, new Color(.627f, .494f, 0f), Beard.TypeBeard.Beard);
+    public static readonly Beard NormalWhiteBeard = new Beard(95, Resources.Load<Texture2D>("Models/Character/Textures/Beards/Beard_White"), TextDatabase.WhiteBeard, new Color(.514f, .514f, .514f), Beard.TypeBeard.Beard);
+    public static readonly Beard BeardMoustachSplitBlackBeard = new Beard(96, Resources.Load<Texture2D>("Models/Character/Textures/Beards/Beard_Black"), TextDatabase.BlackBeard, Color.black, Beard.TypeBeard.BeardMoustachSplit);
     public static readonly Beard BeardMoustachSplitBrownBeard = new Beard(97, Resources.Load<Texture2D>("Models/Character/Textures/Beards/Beard_Brown"), TextDatabase.BrownBeard, new Color(.337f, .078f, .031f), Beard.TypeBeard.BeardMoustachSplit);
-    public static readonly Beard BearsOnlyPurpleBeard = new Beard(91, Resources.Load<Texture2D>("Models/Character/Textures/Beards/Beard_Purple"), TextDatabase.PurpleBeard, new Color(.356f, .2f, .408f), Beard.TypeBeard.BearsOnly);
-    public static readonly Beard BearsOnlyBrownBeard = new Beard(92, Resources.Load<Texture2D>("Models/Character/Textures/Beards/Beard_Brown"), TextDatabase.BrownBeard, new Color(.337f, .078f, .031f), Beard.TypeBeard.BearsOnly);
-    public static readonly Beard MoustachPurpleBeard = new Beard(97, Resources.Load<Texture2D>("Models/Character/Textures/Beards/Beard_Purple"), TextDatabase.PurpleBeard, new Color(.356f, .2f, .408f), Beard.TypeBeard.Moustach);
-    public static readonly Beard MoustachBrownBeard = new Beard(98, Resources.Load<Texture2D>("Models/Character/Textures/Beards/Beard_Brown"), TextDatabase.BrownBeard, new Color(.337f, .078f, .031f), Beard.TypeBeard.Moustach);
+    public static readonly Beard BeardMoustachSplitRedBeard = new Beard(98, Resources.Load<Texture2D>("Models/Character/Textures/Beards/Beard_Red"), TextDatabase.RedBeard, new Color(.333f, .113f, .016f), Beard.TypeBeard.BeardMoustachSplit);
+    public static readonly Beard BeardMoustachSplitBlondBeard = new Beard(99, Resources.Load<Texture2D>("Models/Character/Textures/Beards/Beard_Blond"), TextDatabase.BlondBeard, new Color(.627f, .494f, 0f), Beard.TypeBeard.BeardMoustachSplit);
+    public static readonly Beard BeardMoustachSplitWhiteBeard = new Beard(100, Resources.Load<Texture2D>("Models/Character/Textures/Beards/Beard_White"), TextDatabase.WhiteBeard, new Color(.514f, .514f, .514f), Beard.TypeBeard.BeardMoustachSplit);
+    public static readonly Beard BeardOnlyBlackBeard = new Beard(101, Resources.Load<Texture2D>("Models/Character/Textures/Beards/Beard_Black"), TextDatabase.BlackBeard, Color.black, Beard.TypeBeard.BeardOnly);
+    public static readonly Beard BeardOnlyBrownBeard = new Beard(102, Resources.Load<Texture2D>("Models/Character/Textures/Beards/Beard_Brown"), TextDatabase.BrownBeard, new Color(.337f, .078f, .031f), Beard.TypeBeard.BeardOnly);
+    public static readonly Beard BeardOnlyRedBeard = new Beard(103, Resources.Load<Texture2D>("Models/Character/Textures/Beards/Beard_Red"), TextDatabase.RedBeard, new Color(.333f, .113f, .016f), Beard.TypeBeard.BeardOnly);
+    public static readonly Beard BeardOnlyBlondBeard = new Beard(104, Resources.Load<Texture2D>("Models/Character/Textures/Beards/Beard_Blond"), TextDatabase.BlondBeard, new Color(.627f, .494f, 0f), Beard.TypeBeard.BeardOnly);
+    public static readonly Beard BeardOnlyWhiteBeard = new Beard(105, Resources.Load<Texture2D>("Models/Character/Textures/Beards/Beard_White"), TextDatabase.WhiteBeard, new Color(.514f, .514f, .514f), Beard.TypeBeard.BeardOnly);
+    public static readonly Beard MoustachBlackBeard = new Beard(106, Resources.Load<Texture2D>("Models/Character/Textures/Beards/Beard_Black"), TextDatabase.BlackBeard, Color.black, Beard.TypeBeard.Moustach);
+    public static readonly Beard MoustachBrownBeard = new Beard(107, Resources.Load<Texture2D>("Models/Character/Textures/Beards/Beard_Brown"), TextDatabase.BrownBeard, new Color(.337f, .078f, .031f), Beard.TypeBeard.Moustach);
+    public static readonly Beard MoustachRedBeard = new Beard(108, Resources.Load<Texture2D>("Models/Character/Textures/Beards/Beard_Red"), TextDatabase.RedBeard, new Color(.333f, .113f, .016f), Beard.TypeBeard.Moustach);
+    public static readonly Beard MoustachBlondBeard = new Beard(109, Resources.Load<Texture2D>("Models/Character/Textures/Beards/Beard_Blond"), TextDatabase.BlondBeard, new Color(.627f, .494f, 0f), Beard.TypeBeard.Moustach);
+    public static readonly Beard MoustachWhiteBeard = new Beard(110, Resources.Load<Texture2D>("Models/Character/Textures/Beards/Beard_White"), TextDatabase.WhiteBeard, new Color(.514f, .514f, .514f), Beard.TypeBeard.Moustach);
 
-    public static readonly Tshirt NoneTshirt = new Tshirt(110, TextDatabase.PurpleBeard);
+    public static readonly Tshirt NoneTshirt = new Tshirt(111, TextDatabase.Apple);
+
     //Getter/Setter
     public int ID
     {
@@ -328,7 +377,7 @@ public class Skin
         List<Clothing> merge = new List<Clothing>();
         merge.Add(this.body);
         merge.Add(this.pant);
-        if (tshirt.GetTypeTshirt == Tshirt.TypeTshirt.Tshhirt)
+        if (this.tshirt.GetTypeTshirt != Tshirt.TypeTshirt.None)
             merge.Add(this.tshirt);
         merge.Add(gloves);
         merge.Add(eyes);
@@ -569,7 +618,7 @@ public class Beard : Clothing
     private Color color;
     private TypeBeard type;
 
-    public enum TypeBeard { None, Beard, BearsOnly, BeardMoustachSplit, Moustach };
+    public enum TypeBeard { None, Beard, BeardOnly, BeardMoustachSplit, Moustach };
 
     // Constructeur
     public Beard() : base()
