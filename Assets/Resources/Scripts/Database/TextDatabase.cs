@@ -11,7 +11,7 @@ public class TextDatabase
     public static readonly Text Default = new Text();
 
     // Ressource 
-        // Name
+    // Name
     public static readonly Text Log = new Text("Bois", "Wood");
     public static readonly Text Stone = new Text("Pierre", "Stone");
     public static readonly Text Sand = new Text("Sable", "Sand");
@@ -177,8 +177,8 @@ public class TextDatabase
     public static readonly Text SunkiumSwordDescription = new Text("Une epee de qualite", "A quality sword");
 
     // Miscellanous
-	public static readonly Text Yes = new Text("Oui","Yes");
-	public static readonly Text No = new Text ("Non", "No");
+    public static readonly Text Yes = new Text("Oui", "Yes");
+    public static readonly Text No = new Text("Non", "No");
     public static readonly Text Quit = new Text("Quitter", "Quit");
     public static readonly Text Continue = new Text("Continuer", "Continue");
     public static readonly Text Sound = new Text("Son", "Sound");
@@ -209,7 +209,7 @@ public class TextDatabase
     public static readonly Text WorktopAbsent = new Text("L'établie necessaire ne se trouve pas à porté", "Necessary woktop is not present \n");
     public static readonly Text DontHaveItem = new Text("Tu ne possède pas les objets necessaire pour cette recette", "You don't have the necessary item for this recipe \n");
     public static readonly Text InventoryFull = new Text("Ton inventaire est plein", "Your inventory is full");
-	public static readonly Text Tutorial = new Text ("Suivre le didacticiel ?", "Follow the tutorial ?");
+    public static readonly Text Tutorial = new Text("Suivre le didacticiel ?", "Follow the tutorial ?");
     public static readonly Text QuitTuto = new Text("Quitter le tutoriel ?", "Quit the tuto ?");
     public static readonly Text FieldOfView = new Text("Champ de vision", "Field of view");
     public static readonly Text Sensibility = new Text("Sensibilite", "Sensibility");
@@ -217,32 +217,81 @@ public class TextDatabase
     public static readonly Text Help = new Text("Aide", "Help");
     public static readonly Text CombatHelp = new Text("Combat", "Fight");
     public static readonly Text InventaireHelp = new Text("Inventaire", "Inventory");
+    public static readonly Text Resume = new Text("retour au jeu", "Resume");
+
     // Tutoriel
 
-    public static readonly Text Move = new Text("Ille commence à se déplacer un petit peu pour se réhabituer à ses jambes","Ille begin to move to get used to his legs");
-	public static readonly Text MoveObjectif = new Text("Se deplacer","Move");
-	public static readonly Text Run = new Text("S'étant habitué à ses jambes, iI décide de se mettre à courir","Getting used to his legs, Ille decided to start running");
-	public static readonly Text RunObjectif = new Text ("Cours (bouge avec la touche shift enfoncé)", "Run (hold the shift key and move)");
-	public static readonly Text Jump = new Text ("Ille est tellement en forme qu'il pense même pouvoir se permettre de sauter sans problème", "Ille is so fit that he thinks he can even afford to jump");
-	public static readonly Text JumpObjectif = new Text ("Saute (appuie sur la barre espace)", "Jump (press the spacebar)");
-	public static readonly Text PickItem1 = new Text ("Juste après avoir sauté, Ille entend un sinistre grognement.", "Just after he jumped, Ille heard a sinister growl.");
-	public static readonly Text PickItem2 = new Text ("Ille a faim. Cependant dans cette contrée sauvage, il devine qu'il doit chasser sa nourriture. Mais pour chasser il a besoin d'une arme. Justement il remarque un bâton sur le chemin, l'arme parfaite pour lui", "Ille is hungry. However, in this wilderness, he guesses he must hunt for food.Therefore he needs a weapon to hunt. At this moment he noticed a stick on the way, the perfect weapon for him");
-	public static readonly Text PickItemObjectif = new Text ("Prendre le bâton (clic droit enfoncé près de l'objet)", "Take the Stick (hold the rightclick down near the stick)");
-	public static readonly Text Equip = new Text("Après avoir mis le bâton dans sa poche, Ille se dit qu'il devrait peut être le sortir de celle-ci pour que son arme soit utilisable","After putting the stick in his pocket, Ille take it out to use it");
-	public static readonly Text EquipObjectif = new Text ("Equiper le baton (ouvrez l'inventaire avec I et faite glisser le bâton dans la barre de racourcis en bas de l'écran, fermez l'inventaire (I ou escape) et sélectionnez ensuite le bâton avec la molette de la souris)", "Equip the stick (open the inventory with I, drag the stick in the bar on bottom of the screen, close the inventory (I or escape) and scrol to select the Stick )");
-	public static readonly Text KillThePig = new Text ("Ille se met à la recherche de nourriture et en se retournant tombe nez à nez avec un sanglier. Ni une ni deux, il attaque son petit déjeuner", "He starts looking for food and, while turning around, came face to face with a wild boar. It's time for breakfast..");
-	public static readonly Text KillThePigObjectif = new Text ("Attaque un cochon avec le clic gauche et récupère de la viande", "Kill a wild boar with the leftclick and get meat");
-	public static readonly Text CraftABrochette = new Text ("Cependant, Ille a un vague souvenir que la viande crue n'est pas très digeste au petit déjeuner. Faute de feu, il décide quand même de manger sa viande préparée en brochette","However, Ille has a vague recollection that raw meat is not an easily digestible breakfast. Without fire, he still decides to eat his meat prepared on skewers");
-	public static readonly Text CraftABrochetteObejctif = new Text ("Ouvrez l'inventaire et cliqué sur la potion à gauche puis cliqué sur la brochette et enfin valider pour crafter", "Open the inventory, click on the potion at left, click at the skewer and valid to craft");
-	public static readonly Text EatSomething = new Text ("Le repas de Ille est près. Il ne lui suffisait plus que de consommer sa brochette et le grondement de son ventre cesserait","Ille's meal is ready. He just need to consumed his skewer and the rumble of his stomach would stop");
-	public static readonly Text EatSomethingObjectif = new Text ("sélectionne la brochette et maintient le clic droit pour manger", "select the skewer and hold the right click to eat");
-	public static readonly Text CinematiqueWhereIAm1 = new Text ("Maintenant que Ille a trouvé de quoi survivre, il peut enfin se reposer. Jusqu'à présent  Ille n'a pensé qu'à manger mais une fois le ventre rempli il se met à penser et à se questionner \" Mais où suis-je? Quel est cet endroit ?\" En effet cet archipel d'îles volantes ne lui est pas familier ", "Now that Ille has found how to survive he can finally rest. So far Ille only thougt to eat but once his stomach fill he begin to think and to question himself \" where am I? What is this place? \" Indeed this archipelago of floating island was not a familiar landscape for Ille.");
-	public static readonly Text CinematiqueWhereIAm2 = new Text ("\"Attends !!! Des îles volantes ?? Mais ce n'est pas possible, ça ne peut pas exister \" Et pourtant ce qui s'étend à perte de vue n'est pas une illusion. Ille ne se trouve plus chez lui, peut être même plus dans son monde.", "\"Wait !!! Floating islands ?? But this is not possible, it can't exist \"Yet what lies out of sight is not an illusion. Ille is no longer at home, perhaps even not in his world.");
-	public static readonly Text CinematiqueWhereIAm3 = new Text ("Quand Ille eu assimilé ce qui lui arrive, il prit une décision \" Il faut absolument que je comprenne où je suis et pour ça il faut que j'explore ces drôles d'îles\" Et c'est ainsi que Ille commence son aventure.","When Ille assimilated what happens to him, he makes a decision \" It is imperative that I understand where I am and for that I must explore these strange islands \" And thus Ille begins his adventure.");
-	public static readonly Text CristalView = new Text("en regardant aux alentours Ille vit un étrange éclat. Il decida donc de trouver sa source","looking around Ille saw a strange glow. So he decided to find its source");
-	public static readonly Text CristalViewObjectif = new Text ("trouve un cristal et examine le avec un clic droit", "Find a cristal and inspect it with a rightclick");
-	public static readonly Text FirstCristal = new Text("Le reflet vient d'un gigantesque cristal taillé comme un prisme, mais le plus impressionnant est que celui-ci lévite... Malgré sa stupeur, Ille se ressaisit assez vite \" hum pas si étonnant que ça vu que je me trouve actuellement sur une île volant dans le ciel\". Après s'être calmé et posé, il voit que le cristal réagit à sa présence et plus précisément au métal de sa boucle de ceinture qui semble attirée vers le cristal. Ille décide donc d'aller chercher du métal pour tester ces étranges réactions et s'éloigne rapidement ne voulant pas perdre sa précieuse ceinture.","The reflection comes from a huge crystal cut as a prism but the most impressive thing is that it levitates ... Despite his stupor, Ille is recovering fast enough\"um not so surprising considering the fact that I find myself on an island floating in the sky\" Having calmed down he sees that the crystal reacts to his presence and specifically to its metal belt buckle that seems drawn to the crystal. Ille decides to go for the metal to test these strange reactions and moves away quickly not wanting to lose his precious belt");
-	public static readonly Text FirstCrisatlObjectif = new Text ("fabrique une hache,équippe la pour récolter du bois ,fabrique un établi, pose le avec le clic droit, fabrique une pioche et part récupérer les minerai pour enfin activer le cristal", "Craft an ace, equip it to gather wood,Craft a worktop, pose it with a rightclick, craft a pickaxe and go find ore to finally activate the crystal");
+    public static readonly Text Move = new Text(
+        "Pour se réhabituer à ses jambes, Ille commença à se déplacer",
+        "Ille begin to move to get used to his legs");
+    public static readonly Text MoveObjectif = new Text("Se deplacer", "Move");
+    public static readonly Text Run = new Text(
+        "S'étant habitué à ses jambes, Ille décida de se mettre à courir",
+        "Getting used to his legs, Ille decided to start running");
+    public static readonly Text RunObjectif = new Text("Cours (bouge avec la touche shift enfoncé)", "Run (hold the shift key and move)");
+    public static readonly Text Jump = new Text(
+        "Ille estait tellement en forme qu'il pensait même pouvoir se permettre de sauter", 
+        "Ille is so fit that he thinks he can even afford to jump");
+    public static readonly Text JumpObjectif = new Text("Saute (appuie sur la barre espace)", "Jump (press the spacebar)");
+    public static readonly Text PickItem1 = new Text(
+        "Juste après avoir sauté, Ille entendi un sinistre grognement.", 
+        "Just after he jumped, Ille heard a sinister growl.");
+    public static readonly Text PickItem2 = new Text(
+        "Ille avait faim. Cependant dans cette contrée sauvage, il devina qu'il devait chasser sa nourriture. Mais pour chasser Ille avait besoin d'une arme.",
+        "Ille is hungry. However, in this wilderness, he guesses he must hunt for food.Therefore he needs a weapon to hunt.");
+    public static readonly Text PickItem3 = new Text(
+        "Justement il remarqua un bâton sur le chemin, l'arme parfaite pour lui", 
+        "At this moment he noticed a stick on the way, the perfect weapon for him");
+    public static readonly Text PickItemObjectif = new Text("Prendre le bâton (clic droit enfoncé près de l'objet)", "Take the Stick (hold the rightclick down near the stick)");
+    public static readonly Text Equip = new Text(
+        "Après avoir mis le bâton dans sa poche, Ille se dit qu'il devrait peut être le sortir de celle-ci pour que son arme soit utilisable", 
+        "After putting the stick in his pocket, Ille take it out to use it");
+    public static readonly Text EquipObjectif = new Text("Equiper le baton (ouvrez l'inventaire avec I et faite glisser le bâton dans la barre de racourcis en bas de l'écran, fermez l'inventaire (I ou escape) et sélectionnez ensuite le bâton avec la molette de la souris)", "Equip the stick (open the inventory with I, drag the stick in the bar on bottom of the screen, close the inventory (I or escape) and scrol to select the Stick )");
+    public static readonly Text KillThePig = new Text(
+        "Ille se mit à la recherche de nourriture et en se retournant tomba nez à nez avec un animal. Ni une ni deux Ille attaqua son petit déjeuner", 
+        "He starts looking for food and, while turning around, came face to face with an animal. It's time for breakfast..");
+    public static readonly Text KillThePigObjectif = new Text("Attaque un cochon avec le clic gauche et récupère de la viande", "Kill a wild boar with the leftclick and get meat");
+    public static readonly Text CraftABrochette = new Text(
+        "Cependant, Ille avait un vague souvenir que la viande crue n'était pas très digeste au petit déjeuner. Faute de feu, il décida quand même de manger sa viande préparée en brochette",
+        "However, Ille has a vague recollection that raw meat is not an easily digestible breakfast. Without fire, he still decides to eat his meat prepared on skewers");
+    public static readonly Text CraftABrochetteObejctif = new Text("Ouvrez l'inventaire et cliqué sur la potion à gauche puis cliqué sur la brochette et enfin valider pour créer", "Open the inventory, click on the potion at left, click at the skewer and valid to craft");
+    public static readonly Text EatSomething = new Text(
+        "Le repas de Ille est près. Il ne lui suffisait plus que de consommer sa brochette et le grondement de son ventre cesserait", 
+        "Ille's meal is ready. He just need to consumed his skewer and the rumble of his stomach would stop");
+    public static readonly Text EatSomethingObjectif = new Text("sélectionne la brochette et maintient le clic droit pour manger", "select the skewer and hold the right click to eat");
+    public static readonly Text DrinkSomething1 = new Text(
+        "Après avoir manger Ille devait également trouver à boire. Ille examina les environ mais ne trouva pas d'eau.",
+        "After having eaten Ille had to find something to drink. Ille looked around but he found no water.");
+    public static readonly Text DrinkSomething2 = new Text(
+        " Cependant Ille vit des petit cactus à l'horizon et se dit qu'il pourait peut être trouver de l'eau à l'intérieur ",
+        "However Ille saw little cactus on the horizon and thought that he could find some water in them");
+    public static readonly Text DrinSomethingObjectif = new Text("récupère des cactus et transforme les en eau grâce à l'interface de création d'objets", "Gather some cactus and transforms them into water with the crafting interface");
+    public static readonly Text CinematiqueWhereIAm1 = new Text(
+        "Maintenant que Ille avait trouvé de quoi survivre, il pouvait enfin se reposer. Jusqu'à présent  Ille n'avait pensé qu'à manger mais une fois le ventre rempli il se mit à penser et à se questionner", 
+        "Now that Ille has found how to survive he can finally rest. So far Ille only thougt to eat but once his stomach fill he begin to think and to question himself ");
+    public static readonly Text CinematiqueWhereIAm2 = new Text(
+        "\" Mais où suis-je? Quel est cet endroit ?\" En effet cet archipel d'îles volantes ne lui etait pas familier ",
+        "\" where am I? What is this place? \" Indeed this archipelago of floating island was not a familiar landscape for Ille.");
+    public static readonly Text CinematiqueWhereIAm3 = new Text(
+        "\"Attends !!! Des îles volantes ?? Mais ce n'est pas possible, ça ne peut pas exister \" Et pourtant ce qui s'étendait à perte de vue n'estait pas une illusion. Ille ne se trouve plus chez lui, peut être même plus dans son monde.", 
+        "\"Wait !!! Floating islands ?? But this is not possible, it can't exist \"Yet what lies out of sight is not an illusion. Ille is no longer at home, perhaps even not in his world.");
+    public static readonly Text CinematiqueWhereIAm4 = new Text(
+        "Quand Ille eu assimilé ce qui lui arrive, il prit une décision \" Il faut absolument que je comprenne où je suis et pour ça il faut que j'explore ces drôles d'îles\" Et c'est ainsi que Ille commença son aventure.",
+        "When Ille assimilated what happens to him, he makes a decision \" It is imperative that I understand where I am and for that I must explore these strange islands \" And thus Ille begins his adventure.");
+    public static readonly Text CristalView = new Text(
+        "en regardant aux alentours Ille vit un étrange éclat. Il decida donc de trouver sa source", 
+        "looking around Ille saw a strange glow. So he decided to find its source");
+    public static readonly Text CristalViewObjectif = new Text("trouve un cristal et examine le avec un clic droit", "Find a cristal and inspect it with a rightclick");
+    public static readonly Text FirstCristal1 = new Text(
+        "Le reflet vient d'un gigantesque cristal taillé comme un prisme, mais le plus impressionnant etait que celui-ci lévitait... Malgré sa stupeur, Ille se ressaisit assez vite ",
+        "The reflection comes from a huge crystal cut as a prism but the most impressive thing is that it levitates ... Despite his stupor, Ille is recovering fast enough");
+    public static readonly Text FirstCristal2 = new Text(
+        "\" hum pas si étonnant que ça vu que je me trouve actuellement sur une île volant dans le ciel\". Après s'être calmé et posé, il vit que le cristal réagissait à sa présence et plus précisément au métal de sa boucle de ceinture qui semblait attirée vers le cristal.",
+        "\"um not so surprising considering the fact that I find myself on an island floating in the sky\" Having calmed down he sees that the crystal reacts to his presence and specifically to its metal belt buckle that seems drawn to the crystal.");
+    public static readonly Text FirstCristal3 = new Text(
+        "Ille décida donc d'aller chercher du métal pour tester ces étranges réactions et s'éloigna rapidement ne voulant pas perdre sa précieuse ceinture.",
+        "Ille decides to go for the metal to test these strange reactions and moves away quickly not wanting to lose his precious belt");
+    public static readonly Text FirstCrisatlObjectif = new Text("fabrique une hache,équippe la pour récolter du bois ,fabrique un établi, pose le avec le clic droit, fabrique une pioche et part récupérer les minerai pour enfin activer le cristal", "Craft an ace, equip it to gather wood,Craft a worktop, pose it with a rightclick, craft a pickaxe and go find ore to finally activate the crystal");
 
     // Skin 
     public static readonly Text WhiteBody = new Text("Corps blanc", "White skin");
