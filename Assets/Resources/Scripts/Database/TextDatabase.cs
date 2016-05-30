@@ -295,19 +295,29 @@ public class TextDatabase
 
     // Skin 
     public static readonly Text WhiteBody = new Text("Corps blanc", "White skin");
+    public static readonly Text BasicBody = new Text("Corps basic", "Basic skin");
+    public static readonly Text BlackBody = new Text("Corps noir", "Black skin");
+    public static readonly Text DarkBody = new Text("Corps bronzé", "Dark skin");
+    public static readonly Text AlienBody = new Text("Corps vert", "Green skin");
 
     public static readonly Text BrownPant = new Text("Pantalon marron", "Brown pant");
 
-    public static readonly Text BrownGloves = new Text("Gants marrons", "Brown gloves");
+    public static readonly Text BrownGloves = new Text("Gants marron", "Brown gloves");
+    public static readonly Text BlueGloves = new Text("Gants bleus", "Blue gloves");
+    public static readonly Text GreenGloves = new Text("Gants verts", "Green gloves");
+    public static readonly Text PurpleGloves = new Text("Gants violets", "Purple gloves");
+    public static readonly Text RedGloves = new Text("Gants rouges", "Red gloves");
+    public static readonly Text WhiteGloves = new Text("Gants blancs", "White gloves");
 
     public static readonly Text BlackEyes = new Text("Yeux noir", "Black Eyes");
-
     public static readonly Text GreenEyes = new Text("Yeux vert", "Green Eyes");
-    public static readonly Text RedEyes = new Text("Yeux rouge", "Red Eyes");
+    public static readonly Text BrwonEyes = new Text("Yeux marron", "Brown Eyes");
     public static readonly Text BlueEyes = new Text("Yeux bleu", "Blue Eyes");
     public static readonly Text PurpleEyes = new Text("Yeux violet", "Purple Eyes");
 
+    public static readonly Text NoneHair = new Text("Pas de cheveux", "Any hair");
     public static readonly Text GreenHair = new Text("Cheveux vert", "Green hair");
+    public static readonly Text BrownHair = new Text("Cheveux marron", "Brown hair");
 
     public static readonly Text NoneBeard = new Text("Pas de barbe", "Any beard");
     public static readonly Text PurpleBeard = new Text("Barbe violet", "Purple beard");

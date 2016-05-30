@@ -84,7 +84,7 @@ namespace UnityEngine.Networking
             if (skintStr == "" || playerName == "")
             {
                 this.characterShown = true;
-                this.skinCharacter = new Skin(Clothing.PurpleBeard, Clothing.GreenHair, Clothing.NoneHat, Clothing.WhiteBody, Clothing.BrownPant, Clothing.NoneTshirt, Clothing.BrownGloves, Clothing.BlackEye);
+                this.skinCharacter = new Skin(Clothing.NormalBrownBeard, Clothing.NormalBrownHair, Clothing.NoneHat, Clothing.BasicBody, Clothing.BrownPant, Clothing.NoneTshirt, Clothing.BrownGloves, Clothing.BlackEye);
             }
             else
                 this.skinCharacter = Skin.Load(skintStr);
@@ -134,6 +134,8 @@ namespace UnityEngine.Networking
                     GameObject map = GameObject.Find("Map");
                     if (this.firstScene == null && map != null)
                     {
+                        this.character = GameObject.Find("CharacterModel");
+                        this.skinCharacter.ForceApply(this.character);
                         this.firstScene = map.GetComponent<FirstScene>();
                         Cursor.visible = true;
                         Cursor.lockState = CursorLockMode.None;
@@ -477,10 +479,56 @@ namespace UnityEngine.Networking
                     }
                     break;
                 case (CategoryCloth.Body):
+                    y = 0;
+                    x = 0;
+                    foreach (Body b in Clothing.Bodies)
+                    {
+                        Texture2D fill = new Texture2D(this.width / 3, this.width / 3);
+                        Color fillcolor = b.Color;
+                        fillcolor.a = Mathf.Clamp01(this.smoothAparition - (x + y * 3) * TransitionDelay);
+                        for (int i = 0; i < this.width / 3; i++)
+                            for (int j = 0; j < this.width / 3; j++)
+                                fill.SetPixel(i, j, fillcolor);
+                        fill.Apply();
+                        rect = new Rect((10 + Screen.width / 20) * x + Screen.width / 25f, y * (10 + Screen.height / 10) + Screen.height / 2.25f, Screen.height / 11, Screen.height / 11);
+                        if (rect.Contains(Event.current.mousePosition))
+                            tooltip = b.Description;
+                        if (this.smoothAparition > (x + y * 3) * TransitionDelay && GUI.Button(rect, fill))
+                        {
+                            this.skinCharacter.Body = b;
+                            this.skinCharacter.Apply(this.character);
+                        }
+                        x = (x + 1) % 3;
+                        if (x == 0)
+                            y++;
+                    }
                     break;
                 case (CategoryCloth.Hair):
                     break;
                 case (CategoryCloth.Gloves):
+                    y = 0;
+                    x = 0;
+                    foreach (Gloves g in Clothing.Gloves)
+                    {
+                        Texture2D fill = new Texture2D(this.width / 3, this.width / 3);
+                        Color fillcolor = g.Color;
+                        fillcolor.a = Mathf.Clamp01(this.smoothAparition - (x + y * 3) * TransitionDelay);
+                        for (int i = 0; i < this.width / 3; i++)
+                            for (int j = 0; j < this.width / 3; j++)
+                                fill.SetPixel(i, j, fillcolor);
+                        fill.Apply();
+                        rect = new Rect((10 + Screen.width / 20) * x + Screen.width / 25f, y * (10 + Screen.height / 10) + Screen.height / 2.25f, Screen.height / 11, Screen.height / 11);
+                        if (rect.Contains(Event.current.mousePosition))
+                            tooltip = g.Description;
+                        if (this.smoothAparition > (x + y * 3) * TransitionDelay && GUI.Button(rect, fill))
+                        {
+                            this.skinCharacter.Gloves = g;
+                            this.skinCharacter.Apply(this.character);
+                        }
+                        x = (x + 1) % 3;
+                        if (x == 0)
+                            y++;
+                    }
                     break;
                 case (CategoryCloth.Eyes):
                     y = 0;
