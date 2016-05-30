@@ -206,25 +206,18 @@ public class Graph
 
     public static bool isValidPosition(Vector3 pos)
     {
-        bool isOverGround = false;
-        foreach (Collider col in Physics.OverlapBox(pos, new Vector3(.25f, 1f, .25f)))
-        {
-            if (!col.isTrigger)
-            {
-                if (col.name.Contains("Island"))
-                    isOverGround = true;
-                else if (!col.name.Contains("Character") && !col.gameObject.CompareTag("Loot"))
-                    return false;
-            }
-
-        }
-        return isOverGround;
+        foreach (Collider col in Physics.OverlapBox(pos, new Vector3(.25f, 1f, .25f)))       
+            if (!col.isTrigger)            
+                if (!col.name.Contains("Character") && !col.gameObject.CompareTag("Loot") && !col.name.Contains("Island") && !col.name.Contains("Trap"))
+                    return false;          
+                
+        return isOverGround(pos);
     }
 
     public static bool isOverGround(Vector3 pos)
     {
-        foreach (Collider col in Physics.OverlapBox(pos, new Vector3(.25f, 1f, .25f)))
-            if (col.isTrigger == false && col.name.Contains("Island"))
+        foreach (RaycastHit col in Physics.RaycastAll(pos, Vector3.down))
+            if (col.collider.isTrigger == false && col.collider.name.Contains("Island"))
                 return true;
         return false;
     }

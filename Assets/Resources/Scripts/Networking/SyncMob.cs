@@ -93,7 +93,7 @@ public class SyncMob : NetworkBehaviour
         // Flee
         if (this.flee)
         {
-            if (dist > 20)
+            if (dist > this.myMob.VisionFleeing + 2)
                 this.flee = false;
             else if (this.path.Count == 0)
             {
@@ -150,7 +150,20 @@ public class SyncMob : NetworkBehaviour
             }
         }
         else if (this.path.Count == 0)
-            ChooseRandomGoal();
+        {
+            Transform trap = null;
+            foreach (Collider col in Physics.OverlapSphere(gameObject.transform.position, 8))
+                if (col.gameObject.name.Contains("Trap"))
+                    trap = col.transform.parent;
+            if (trap != null && UnityEngine.Random.Range(0, 2) == 0)
+            {
+                this.goal = this.chunk.GetComponent<SyncChunk>().MyGraph.GetNode(trap.position);
+                if (this.goal != null && this.goal.IsValid)
+                    this.path = this.chunk.GetComponent<SyncChunk>().MyGraph.AStarPath(this.node, this.goal, .71f);
+            }
+            else
+                ChooseRandomGoal();
+        }
 
         // Move the mob       
         if (this.path.Count > 0)
@@ -168,6 +181,16 @@ public class SyncMob : NetworkBehaviour
                 this.path.RemoveAt(0);
                 this.cdMove = 0;
             }
+        }
+    }
+
+    // Check if the mob is traped
+    void OnCollisionEnter(Collision col)
+    {
+        if (col.gameObject.name.Contains("Trap"))
+        {
+            col.transform.parent.gameObject.GetComponent<SyncElement>().Elmt.Life -= 50;
+            this.myMob.Life = 0;
         }
     }
 

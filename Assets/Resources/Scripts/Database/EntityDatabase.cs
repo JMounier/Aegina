@@ -61,6 +61,7 @@ public static class EntityDatabase
     public static readonly Entity FirepitLoot = new Entity(68, 60, Resources.Load<GameObject>("Prefabs/Loots/Firepit"));
     public static readonly Entity TorchLoot = new Entity(50, 60, Resources.Load<GameObject>("Prefabs/Loots/Torche"));
     public static readonly Entity ChestLoot = new Entity(51, 60, Resources.Load<GameObject>("Prefabs/Loots/Chest"));
+    public static readonly Entity WolfTrapLoot = new Entity(52, 60, Resources.Load<GameObject>("Prefabs/Loots/WolfTrap"));
 
 
     public static readonly Entity AquaPotion = new Entity(69, 60, Resources.Load<GameObject>("Prefabs/Loots/AquaPotion"));
@@ -124,6 +125,7 @@ public static class EntityDatabase
     public static readonly Element Forge = new Element(133, 100, Resources.Load<GameObject>("Prefabs/Elements/PuttedObjects/Hoven"), Element.DestructionTool.Pickaxe, 1.5f, new DropConfig(40, 1));
     public static readonly Element Torch = new Element(134, 100, Resources.Load<GameObject>("Prefabs/Elements/PuttedObjects/Torch"), Element.DestructionTool.None, .5f, new DropConfig(44, 1));
     public static readonly Chest Chest = new Chest(135, Resources.Load<GameObject>("Prefabs/Elements/PuttedObjects/Chest"));
+    public static readonly Element WolfTrap = new Element(136, 100, Resources.Load<GameObject>("Prefabs/Elements/PuttedObjects/WolfTrap"), Element.DestructionTool.Indestructible, .5f);
 
     // IslandCore
     public static readonly IslandCore IslandCore = new IslandCore(142, Resources.Load<GameObject>("Prefabs/Elements/Cristals/IslandCore"));
@@ -276,6 +278,7 @@ public static class EntityDatabase
             yield return FirepitLoot;
             yield return TorchLoot;
             yield return ChestLoot;
+            yield return WolfTrapLoot;
 
             // Chunk
             foreach (Chunk chunk in Chunks)
@@ -334,6 +337,7 @@ public static class EntityDatabase
             yield return Workbench;
             yield return Torch;
             yield return Chest;
+            yield return WolfTrap;
 
             // IslandCore
             yield return IslandCore;
