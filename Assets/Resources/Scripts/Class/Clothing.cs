@@ -32,6 +32,7 @@ public class Clothing
 
     public static Texture2D MergeSkin(params Clothing[] skin)
     {
+        int a = 0;
         Texture2D newCloth = new Texture2D(skin[0].texture.width, skin[0].texture.height);
         foreach (Clothing cloth in skin)
         {
@@ -44,6 +45,7 @@ public class Clothing
                     if (pixel.a != 0)
                         newCloth.SetPixel(i, j, pixel);
                 }
+            a++;
         }
         newCloth.Apply();
         return newCloth;
@@ -90,7 +92,9 @@ public class Clothing
     {
         get
         {
+            yield return NoneBeard; 
             yield return PurpleBeard;
+            yield return BrownBeard;
         }
     }
     public static IEnumerable<Body> Bodies
@@ -129,7 +133,6 @@ public class Clothing
             yield return RedEye;
             yield return BlueEye;
             yield return GreenEye;
-            yield return PurpleEye;
         }
     }
 
@@ -170,6 +173,7 @@ public class Clothing
                 else
                     return new Clothing(cloth);
         }
+        Debug.Log(id.ToString());
         throw new System.Exception("Clothing.Find : Clothing not find");
     }
 
@@ -184,17 +188,19 @@ public class Clothing
     public static readonly Eyes GreenEye = new Eyes(41, Resources.Load<Texture2D>("Models/Character/Textures/Eyes/Eyes_Green"), TextDatabase.GreenEyes, new Color(.05f, .447f, .278f));
     public static readonly Eyes RedEye = new Eyes(42, Resources.Load<Texture2D>("Models/Character/Textures/Eyes/Eyes_Red"), TextDatabase.RedEyes, new Color(.392f, .149f, .0f));
     public static readonly Eyes BlueEye = new Eyes(43, Resources.Load<Texture2D>("Models/Character/Textures/Eyes/Eyes_Blue"), TextDatabase.BlueEyes, new Color(.145f, .454f, .584f));
-    public static readonly Eyes PurpleEye = new Eyes(44, Resources.Load<Texture2D>("Models/Character/Textures/Eyes/Eyes_Purple"), TextDatabase.PurpleEyes, new Color(.564f, .380f, .545f));
 
-    public static readonly Hair GreenHair = new Hair(50, Resources.Load<Texture2D>("Models/Character/Textures/Hairs/Hair_Green"), TextDatabase.GreenHair, Color.green, Hair.TypeHair.Hair);
-
-    public static readonly Beard PurpleBeard = new Beard(60, Resources.Load<Texture2D>("Models/Character/Textures/Beards/Beard_Purple"), TextDatabase.PurpleBeard, new Color(84f, 48f, 94f), Beard.TypeBeard.Beard);
+    public static readonly Hair GreenHair = new Hair(50, Resources.Load<Texture2D>("Models/Character/Textures/Hairs/Hair_Green"), TextDatabase.GreenHair, Color.green, Hair.TypeHair.Normal);
+    
+    public static readonly Beard NoneBeard = new Beard(60, TextDatabase.NoneBeard);
+    public static readonly Beard PurpleBeard = new Beard(61, Resources.Load<Texture2D>("Models/Character/Textures/Beards/Beard_Purple"), TextDatabase.PurpleBeard, new Color( .368f, .211f,.419f), Beard.TypeBeard.Beard);
+    public static readonly Beard BrownBeard = new Beard(62, Resources.Load<Texture2D>("Models/Character/Textures/Beards/Beard_Brown"), TextDatabase.BrownBeard, new Color(.207f, .019f, .003f), Beard.TypeBeard.Beard);
+    
 
     public static readonly Tshirt NoneTshirt = new Tshirt(70, TextDatabase.PurpleBeard);
 
     public static readonly Hat NoneHat = new Hat(80, TextDatabase.NoneHat);
-    public static readonly Hat AmericanTopHat = new Hat(81, Resources.Load<Texture2D>("Models/Character/Cosmetics/Textures/HautTextAMERICA"), TextDatabase.AmericanTopHat, Color.blue, Hat.TypeHat.TopHat);
-    public static readonly Hat BlackTopHat = new Hat(82, Resources.Load<Texture2D>("Models/Character/Cosmetics/Textures/HautTextBlack"), TextDatabase.BlackTopHat, Color.black, Hat.TypeHat.TopHat);
+    public static readonly Hat AmericanTopHat = new Hat(81, Resources.Load<Texture2D>("Models/Character/Textures/Hat/HautTextAMERICA"), TextDatabase.AmericanTopHat, Color.blue, Hat.TypeHat.TopHat);
+    public static readonly Hat BlackTopHat = new Hat(82, Resources.Load<Texture2D>("Models/Character/Textures/Hat/HautTextBlack"), TextDatabase.BlackTopHat, Color.black, Hat.TypeHat.TopHat);
 
     //Getter/Setter
     public int ID
@@ -318,50 +324,81 @@ public class Skin
     }
     public static void ChangeHat(Hat hat, GameObject character)
     {
+        character.transform.FindChild("Character").FindChild("Armature").FindChild("Head_slot").FindChild("Hat").FindChild("HautForm").gameObject.SetActive(false);
+        character.transform.FindChild("Character").FindChild("Armature").FindChild("Head_slot").FindChild("Hat").FindChild("StrawHat").gameObject.SetActive(false);
         switch (hat.GetTypeHat)
-        {
-            case Hat.TypeHat.None:
-                character.transform.FindChild("Character").FindChild("Armature").FindChild("Head_slot").FindChild("HautForm").gameObject.SetActive(false);
-                character.transform.FindChild("Character").FindChild("Armature").FindChild("Head_slot").FindChild("StrawHat").gameObject.SetActive(false);
-                break;
+        {            
             case Hat.TypeHat.TopHat:
-                character.transform.FindChild("Character").FindChild("Armature").FindChild("Head_slot").FindChild("HautForm").gameObject.SetActive(true);
-                character.transform.FindChild("Character").FindChild("Armature").FindChild("Head_slot").FindChild("StrawHat").gameObject.SetActive(false);
-                character.transform.FindChild("Character").FindChild("Armature").FindChild("Head_slot").FindChild("HautForm").GetComponentInChildren<Renderer>().material.mainTexture = hat.Texture;
+                character.transform.FindChild("Character").FindChild("Armature").FindChild("Head_slot").FindChild("Hat").FindChild("HautForm").gameObject.SetActive(true);
+                character.transform.FindChild("Character").FindChild("Armature").FindChild("Head_slot").FindChild("Hat").FindChild("HautForm").GetComponentInChildren<Renderer>().material.mainTexture = hat.Texture;
                 break;
             case Hat.TypeHat.StrawHat:
-                character.transform.FindChild("Character").FindChild("Armature").FindChild("Head_slot").FindChild("HautForm").gameObject.SetActive(false);
-                character.transform.FindChild("Character").FindChild("Armature").FindChild("Head_slot").FindChild("StrawHat").gameObject.SetActive(true);
-                character.transform.FindChild("Character").FindChild("Armature").FindChild("Head_slot").FindChild("StrawHat").GetComponentInChildren<Renderer>().material.mainTexture = hat.Texture;
+                character.transform.FindChild("Character").FindChild("Armature").FindChild("Head_slot").FindChild("Hat").FindChild("StrawHat").gameObject.SetActive(true);
+                character.transform.FindChild("Character").FindChild("Armature").FindChild("Head_slot").FindChild("Hat").FindChild("StrawHat").GetComponentInChildren<Renderer>().material.mainTexture = hat.Texture;
                 break;
             case Hat.TypeHat.Cowboy:
-                character.transform.FindChild("Character").FindChild("Armature").FindChild("Head_slot").FindChild("HautForm").gameObject.SetActive(false);
-                character.transform.FindChild("Character").FindChild("Armature").FindChild("Head_slot").FindChild("StrawHat").gameObject.SetActive(false);
                 break;
             default:
                 break;
         }
     }
-    public static void ChangeHair(Hair hair, GameObject character)
+    
+    public void ChangeBeard(Beard beard, GameObject character)
     {
-        if (hair.GetTypeHair == Hair.TypeHair.None)
-            character.transform.FindChild("Character").FindChild("Armature").FindChild("Head_slot").FindChild("NPC_Hair_009").gameObject.SetActive(false);
-        else
-        {
-            character.transform.FindChild("Character").FindChild("Armature").FindChild("Head_slot").FindChild("NPC_Hair_009").gameObject.SetActive(true);
-            character.transform.FindChild("Character").FindChild("Armature").FindChild("Head_slot").FindChild("NPC_Hair_009").GetComponentInChildren<Renderer>().material.mainTexture = hair.Texture;
+        character.transform.FindChild("Character").FindChild("Armature").FindChild("Head_slot").FindChild("Beard").FindChild("NPC_Beard_008").gameObject.SetActive(false);
+        character.transform.FindChild("Character").FindChild("Armature").FindChild("Head_slot").FindChild("Beard").FindChild("Moustach").gameObject.SetActive(false);
+        character.transform.FindChild("Character").FindChild("Armature").FindChild("Head_slot").FindChild("Beard").FindChild("BeardMoustachSplit").gameObject.SetActive(false);
+        character.transform.FindChild("Character").FindChild("Armature").FindChild("Head_slot").FindChild("Beard").FindChild("BearsOnly").gameObject.SetActive(false);
+        switch (beard.GetTypeBeard)
+        {          
+            case Beard.TypeBeard.Beard:
+                character.transform.FindChild("Character").FindChild("Armature").FindChild("Head_slot").FindChild("Beard").FindChild("NPC_Beard_008").gameObject.SetActive(true);
+                character.transform.FindChild("Character").FindChild("Armature").FindChild("Head_slot").FindChild("Beard").FindChild("NPC_Beard_008").GetComponent<Renderer>().material.mainTexture = Beard.Texture;
+                break;
+            case Beard.TypeBeard.BeardMoustachSplit:
+                character.transform.FindChild("Character").FindChild("Armature").FindChild("Head_slot").FindChild("Beard").FindChild("BeardMoustachSplit").gameObject.SetActive(true);
+                character.transform.FindChild("Character").FindChild("Armature").FindChild("Head_slot").FindChild("Beard").FindChild("BeardMoustachSplit").GetComponent<Renderer>().material.mainTexture = Beard.Texture;
+                break;
+            case Beard.TypeBeard.BearsOnly:
+                character.transform.FindChild("Character").FindChild("Armature").FindChild("Head_slot").FindChild("Beard").FindChild("BearsOnly").gameObject.SetActive(true);
+                character.transform.FindChild("Character").FindChild("Armature").FindChild("Head_slot").FindChild("Beard").FindChild("BearsOnly").GetComponent<Renderer>().material.mainTexture = Beard.Texture;
+                break;
+            case Beard.TypeBeard.Moustach:
+                character.transform.FindChild("Character").FindChild("Armature").FindChild("Head_slot").FindChild("Beard").FindChild("Moustach").gameObject.SetActive(true);
+                character.transform.FindChild("Character").FindChild("Armature").FindChild("Head_slot").FindChild("Beard").FindChild("Moustache").GetComponent<Renderer>().material.mainTexture = Beard.Texture;
+                break;
+            default:
+                break;   
         }
     }
 
-    public void ChangeBeard(Beard beard, GameObject character)
+    public static void ChangeHair(Hair hair, GameObject character)
     {
-        if (beard.GetTypeBeard == Beard.TypeBeard.None)
-            character.transform.FindChild("Character").FindChild("Armature").FindChild("Head_slot").FindChild("NPC_Beard_008").gameObject.SetActive(false);
-        else
-        {
-            character.transform.FindChild("Character").FindChild("Armature").FindChild("Head_slot").FindChild("NPC_Beard_008").gameObject.SetActive(true);
-            character.transform.FindChild("Character").FindChild("Armature").FindChild("Head_slot").FindChild("NPC_Beard_008").GetComponentInChildren<Renderer>().material.mainTexture = beard.Texture;
-        }
+        character.transform.FindChild("Character").FindChild("Armature").FindChild("Head_slot").FindChild("Hair").FindChild("NPC_Hair_009").gameObject.SetActive(false);
+        character.transform.FindChild("Character").FindChild("Armature").FindChild("Head_slot").FindChild("Hair").FindChild("Crete").gameObject.SetActive(false);
+        character.transform.FindChild("Character").FindChild("Armature").FindChild("Head_slot").FindChild("Hair").FindChild("Meche").gameObject.SetActive(false);
+        character.transform.FindChild("Character").FindChild("Armature").FindChild("Head_slot").FindChild("Hair").FindChild("LongHair").gameObject.SetActive(false);
+        switch (hair.GetTypeHair)
+        {          
+            case Hair.TypeHair.Normal:
+                character.transform.FindChild("Character").FindChild("Armature").FindChild("Head_slot").FindChild("Hair").FindChild("NPC_Hair_009").gameObject.SetActive(true);
+                character.transform.FindChild("Character").FindChild("Armature").FindChild("Head_slot").FindChild("Hair").FindChild("NPC_Hair_009").GetComponentInChildren<Renderer>().material.mainTexture = hair.Texture;
+                break;
+            case Hair.TypeHair.Crete:
+                character.transform.FindChild("Character").FindChild("Armature").FindChild("Head_slot").FindChild("Hair").FindChild("Crete").gameObject.SetActive(true);
+                character.transform.FindChild("Character").FindChild("Armature").FindChild("Head_slot").FindChild("Hair").FindChild("Crete").GetComponentInChildren<Renderer>().material.mainTexture = hair.Texture;
+                break;
+            case Hair.TypeHair.LongHair:
+                character.transform.FindChild("Character").FindChild("Armature").FindChild("Head_slot").FindChild("Hair").FindChild("LongHair").gameObject.SetActive(true);
+                character.transform.FindChild("Character").FindChild("Armature").FindChild("Head_slot").FindChild("Hair").FindChild("LongHair").GetComponentInChildren<Renderer>().material.mainTexture = hair.Texture;
+                break;
+            case Hair.TypeHair.Meche:
+                character.transform.FindChild("Character").FindChild("Armature").FindChild("Head_slot").FindChild("Hair").FindChild("Meche").gameObject.SetActive(true);
+                character.transform.FindChild("Character").FindChild("Armature").FindChild("Head_slot").FindChild("Hair").FindChild("Meche").GetComponentInChildren<Renderer>().material.mainTexture = hair.Texture;
+                break;
+            default:
+                break;
+        }         
     }
 
     public void ChangeBody(Texture2D skin, GameObject character)
@@ -456,7 +493,7 @@ public class Hair : Clothing
     private Color color;
     private TypeHair type;
 
-    public enum TypeHair { None, Hair };
+    public enum TypeHair { None, Normal, Crete, LongHair, Meche };
 
     // Constructeur
     public Hair() : base()
@@ -502,7 +539,7 @@ public class Beard : Clothing
     private Color color;
     private TypeBeard type;
 
-    public enum TypeBeard { None, Beard };
+    public enum TypeBeard { None, Beard, BearsOnly, BeardMoustachSplit, Moustach };
 
     // Constructeur
     public Beard() : base()
