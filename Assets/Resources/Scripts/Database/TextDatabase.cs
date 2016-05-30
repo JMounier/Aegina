@@ -217,6 +217,7 @@ public class TextDatabase
     public static readonly Text Help = new Text("Aide", "Help");
     public static readonly Text CombatHelp = new Text("Combat", "Fight");
     public static readonly Text InventaireHelp = new Text("Inventaire", "Inventory");
+    public static readonly Text Resume = new Text("retour au jeu", "Resume");
 
     // Tutoriel
 
@@ -247,8 +248,8 @@ public class TextDatabase
         "After putting the stick in his pocket, Ille take it out to use it");
     public static readonly Text EquipObjectif = new Text("Equiper le baton (ouvrez l'inventaire avec I et faite glisser le bâton dans la barre de racourcis en bas de l'écran, fermez l'inventaire (I ou escape) et sélectionnez ensuite le bâton avec la molette de la souris)", "Equip the stick (open the inventory with I, drag the stick in the bar on bottom of the screen, close the inventory (I or escape) and scrol to select the Stick )");
     public static readonly Text KillThePig = new Text(
-        "Ille se mit à la recherche de nourriture et en se retournant tomba nez à nez avec un sanglier. Ni une ni deux Ille attaqua son petit déjeuner", 
-        "He starts looking for food and, while turning around, came face to face with a wild boar. It's time for breakfast..");
+        "Ille se mit à la recherche de nourriture et en se retournant tomba nez à nez avec un animal. Ni une ni deux Ille attaqua son petit déjeuner", 
+        "He starts looking for food and, while turning around, came face to face with an animal. It's time for breakfast..");
     public static readonly Text KillThePigObjectif = new Text("Attaque un cochon avec le clic gauche et récupère de la viande", "Kill a wild boar with the leftclick and get meat");
     public static readonly Text CraftABrochette = new Text(
         "Cependant, Ille avait un vague souvenir que la viande crue n'était pas très digeste au petit déjeuner. Faute de feu, il décida quand même de manger sa viande préparée en brochette",

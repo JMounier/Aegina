@@ -140,11 +140,13 @@ public class Tutoriel : NetworkBehaviour
             case 7:
                 textNarator = TextDatabase.KillThePig;
                 textObjectif = TextDatabase.KillThePigObjectif;
-                if (this.cooldown == 1)
+                if (this.cooldown > 0 && this.cooldown < 1)
                 {
+                    Debug.Log("screen");
                     this.cooldown = 0;
                     this.menu.Helpshown = true;
                     this.menu.Page = Text.GetLanguage() == SystemLanguage.English ? 0 : 3;
+                    this.controler.Pause = true;
                 }
                 if (this.cooldown <= 0 && inventaire.InventoryContains(ItemDatabase.Gigot))
                 {
@@ -156,10 +158,11 @@ public class Tutoriel : NetworkBehaviour
             case 8:
                 textNarator = TextDatabase.CraftABrochette;
                 textObjectif = TextDatabase.CraftABrochetteObejctif;
-                if (this.cooldown == 1)
+                if (this.cooldown > 0 && this.cooldown < 1)
                 {
                     this.cooldown = 0;
                     this.menu.Helpshown = true;
+                    this.controler.Pause = true;
                     this.menu.Page = 2 +(Text.GetLanguage() == SystemLanguage.English ? 0 : 3);
                 }
                 if (this.cooldown <= 0 && inventaire.InventoryContains(ItemDatabase.MeatBalls))
@@ -224,10 +227,11 @@ public class Tutoriel : NetworkBehaviour
             case 13:
                 textNarator = TextDatabase.FirstCristal1;
                 textObjectif = TextDatabase.FirstCrisatlObjectif;
-                if (this.cooldown == 1)
+                if (this.cooldown > 0 && this.cooldown <1)
                 {
                     this.cooldown = 0;
                     this.menu.Helpshown = true;
+                    this.controler.Pause = true;
                     this.menu.Page = 1 + (Text.GetLanguage() == SystemLanguage.English ? 0 : 3);
                 }
                 if (this.cooldown > 10 && this.cooldown <= 20)
