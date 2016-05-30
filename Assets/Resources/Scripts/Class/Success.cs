@@ -60,6 +60,43 @@ public class Success
             {
                 currentSuccess.RemoveAt(j);
                 succ.Unlock(display);
+                if (succ.id % 10 == 0)
+                {
+                    GameObject[] allplayer = GameObject.FindGameObjectsWithTag("Player");
+                    switch (succ.id / 10)
+                    {
+                        case 1:
+                            foreach (GameObject player in allplayer)
+                                player.GetComponent<Craft_HUD>().mastered(1, 2, 6, 7, 8, 27, 34, 41);
+                            break;
+                        case 2:
+                            foreach (GameObject player in allplayer)
+                                player.GetComponent<Craft_HUD>().mastered(4, 9, 14, 28, 35, 42);
+                            break;
+                        case 3:
+                            foreach (GameObject player in allplayer)
+                                player.GetComponent<Craft_HUD>().mastered(3, 10, 20, 21, 22, 23, 24, 25, 29, 36, 43);
+                            break;
+                        case 4:
+                            foreach (GameObject player in allplayer)
+                                player.GetComponent<Craft_HUD>().mastered(11, 17, 30, 37, 44);
+                            break;
+                        case 5:
+                            foreach (GameObject player in allplayer)
+                                player.GetComponent<Craft_HUD>().mastered(12, 31, 38, 45);
+                            break;
+                        case 6:
+                            foreach (GameObject player in allplayer)
+                                player.GetComponent<Craft_HUD>().mastered(13, 32, 38, 46);
+                            break;
+                        case 7:
+                            foreach (GameObject player in allplayer)
+                                player.GetComponent<Craft_HUD>().mastered(14, 33, 39, 47);
+                            break;
+                        default:
+                            break;
+                    }
+                }
             }
             else
                 j++;
@@ -88,8 +125,8 @@ public class Success
             {
                 if (img.GetPixel(i, j).a == 0)
                     shadow.SetPixel(i, j, Color.clear);
-                else                
-                    shadow.SetPixel(i, j, Color.gray);                
+                else
+                    shadow.SetPixel(i, j, Color.gray);
             }
         shadow.Apply();
         return shadow;
