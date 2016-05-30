@@ -397,6 +397,8 @@ namespace UnityEngine.Networking
                         {
                             x = this.typeCloth;
                             Texture2D fill = new Texture2D(this.width / 3, this.width / 3);
+                            Color fillcolor = h.Color;
+                            fillcolor.a = Mathf.Clamp01(this.smoothAparition - (x + y * 5) * TransitionDelay);
                             for (int i = 0; i < this.width / 3; i++)
                                 for (int j = 0; j < this.width / 3; j++)
                                     fill.SetPixel(i, j, h.Color);
@@ -404,7 +406,7 @@ namespace UnityEngine.Networking
                             rect = new Rect((10 + Screen.width / 20) * x + Screen.width / 25f, y * (10 + Screen.height / 10) + Screen.height / 2.25f, Screen.height / 11, Screen.height / 11);
                             if (rect.Contains(Event.current.mousePosition))
                                 tooltip = h.Description;
-                            if (GUI.Button(rect, fill))
+                            if (this.smoothAparition > (x + y * 5) * TransitionDelay && GUI.Button(rect, fill))
                             {
                                 this.skinCharacter.Hat = h;
                                 this.skinCharacter.Apply(this.character);
@@ -416,6 +418,53 @@ namespace UnityEngine.Networking
                     }
                     break;
                 case (CategoryCloth.Beard):
+                    y = 0;
+                    x = 0;
+                    rect = new Rect(Screen.width / 25f, -(10 + Screen.height / 10) + Screen.height / 2.25f, Screen.height / 11, Screen.height / 11);
+                    if (GUI.Button(rect, Resources.Load<Texture2D>("Sprites/Cosmetics/NoneIcon")))
+                        typeCloth = (int)Beard.TypeBeard.None;
+                    rect.x += (5 + Screen.width / 20);
+
+                    if (GUI.Button(rect, Resources.Load<Texture2D>("Sprites/Cosmetics/HatIcon")))
+                        typeCloth = (int)Beard.TypeBeard.Beard ;
+                    rect.x += (5 + Screen.width / 20);
+
+                    if (GUI.Button(rect, Resources.Load<Texture2D>("Sprites/Cosmetics/StrawHatIcon")))
+                        typeCloth = (int)Beard.TypeBeard.BeardMoustachSplit;
+                    rect.x += (5 + Screen.width / 20);
+                    
+                    if (GUI.Button(rect, Resources.Load<Texture2D>("Sprites/Cosmetics/StrawHatIcon")))
+                        typeCloth = (int)Beard.TypeBeard.BearsOnly;
+                    rect.x += (5 + Screen.width / 20);
+
+                    if (GUI.Button(rect, Resources.Load<Texture2D>("Sprites/Cosmetics/CowBoyIcon")))
+                        typeCloth = (int)Beard.TypeBeard.BearsOnly;
+
+                    foreach (Beard b in Clothing.Beards)
+                    {
+                        if (this.typeCloth == (int)b.GetTypeBeard)
+                        {
+                            x = this.typeCloth;
+                            Texture2D fill = new Texture2D(this.width / 3, this.width / 3); 
+                            Color fillcolor = b.Color;
+                            fillcolor.a = Mathf.Clamp01(this.smoothAparition - (x + y * 5) * TransitionDelay);
+                            for (int i = 0; i < this.width / 3; i++)
+                                for (int j = 0; j < this.width / 3; j++)
+                                    fill.SetPixel(i, j, b.Color);
+                            fill.Apply();
+                            rect = new Rect((5 + Screen.width / 20) * x + Screen.width / 25f, y * (10 + Screen.height / 10) + Screen.height / 2.25f, Screen.height / 11, Screen.height / 11);
+                            if (rect.Contains(Event.current.mousePosition))
+                                tooltip = b.Description;
+                            if (this.smoothAparition > (x + y * 5) * TransitionDelay && GUI.Button(rect, fill))
+                            {
+                                this.skinCharacter.Beard = b;
+                                this.skinCharacter.Apply(this.character);
+                            }
+                            y = (y + 1) % 5;
+                            if (y == 0)
+                                x++;
+                        }
+                    }
                     break;
                 case (CategoryCloth.Body):
                     break;

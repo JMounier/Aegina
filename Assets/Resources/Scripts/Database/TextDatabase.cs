@@ -246,15 +246,24 @@ public class TextDatabase
 
     // Skin 
     public static readonly Text WhiteBody = new Text("Corps blanc", "White skin");
+
     public static readonly Text BrownPant = new Text("Pantalon marron", "Brown pant");
+
     public static readonly Text BrownGloves = new Text("Gants marrons", "Brown gloves");
+
     public static readonly Text BlackEyes = new Text("Yeux noir", "Black Eyes");
+
     public static readonly Text GreenEyes = new Text("Yeux vert", "Green Eyes");
     public static readonly Text RedEyes = new Text("Yeux rouge", "Red Eyes");
     public static readonly Text BlueEyes = new Text("Yeux bleu", "Blue Eyes");
     public static readonly Text PurpleEyes = new Text("Yeux violet", "Purple Eyes");
+
     public static readonly Text GreenHair = new Text("Cheveux vert", "Green hair");
+
+    public static readonly Text NoneBeard = new Text("Pas de barbe", "Any beard");
     public static readonly Text PurpleBeard = new Text("Barbe violet", "Purple beard");
+    public static readonly Text BrownBeard = new Text("Barbe marron", "Brown beard");
+
     public static readonly Text NoneHat = new Text("Pas de chapeau", "Any hat");
     public static readonly Text AmericanTopHat = new Text("Le chapeau de l'oncle sam", "Oncle sam's hat");
     public static readonly Text BlackTopHat = new Text("Vous avez la classe", "Swag over 9000");
