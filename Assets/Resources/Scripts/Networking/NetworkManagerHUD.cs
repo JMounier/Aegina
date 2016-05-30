@@ -11,6 +11,7 @@ namespace UnityEngine.Networking
     [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
     public class NetworkManagerHUD : MonoBehaviour
     {
+        private const float TransitionDelay = .3f;
         private enum CategoryCloth { None, Body, Hair, Eyes, Beard, Pant, TShirt, Gloves, Hat };
         private MovieTexture loadingVideo;
         private Texture loadingImage;
@@ -381,8 +382,12 @@ namespace UnityEngine.Networking
 
                     if (GUI.Button(rect, Resources.Load<Texture2D>("Sprites/Cosmetics/HatIcon")))
                         typeCloth = (int)Hat.TypeHat.TopHat;
-
                     rect.x += (10 + Screen.width / 20);
+
+                    if (GUI.Button(rect, Resources.Load<Texture2D>("Sprites/Cosmetics/StrawHatIcon")))
+                        typeCloth = (int)Hat.TypeHat.StrawHat;
+                    rect.x += (10 + Screen.width / 20);
+
                     if (GUI.Button(rect, Resources.Load<Texture2D>("Sprites/Cosmetics/CowBoyIcon")))
                         typeCloth = (int)Hat.TypeHat.Cowboy;
 
@@ -424,14 +429,16 @@ namespace UnityEngine.Networking
                     foreach (Eyes e in Clothing.Eyes)
                     {
                         Texture2D fill = new Texture2D(this.width / 3, this.width / 3);
+                        Color fillcolor = e.Color;
+                        fillcolor.a = Mathf.Clamp01(this.smoothAparition - (x + y * 3) * TransitionDelay);
                         for (int i = 0; i < this.width / 3; i++)
                             for (int j = 0; j < this.width / 3; j++)
-                                fill.SetPixel(i, j, e.Color);
+                                fill.SetPixel(i, j, fillcolor);
                         fill.Apply();
                         rect = new Rect((10 + Screen.width / 20) * x + Screen.width / 25f, y * (10 + Screen.height / 10) + Screen.height / 2.25f, Screen.height / 11, Screen.height / 11);
                         if (rect.Contains(Event.current.mousePosition))
                             tooltip = e.Description;
-                        if (this.smoothAparition > (x + y * 3) * .1f && GUI.Button(rect, fill))
+                        if (this.smoothAparition > (x + y * 3) * TransitionDelay && GUI.Button(rect, fill))
                         {
                             this.skinCharacter.Eyes = e;
                             this.skinCharacter.Apply(this.character);
