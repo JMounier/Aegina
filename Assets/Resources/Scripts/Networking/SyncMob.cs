@@ -155,7 +155,7 @@ public class SyncMob : NetworkBehaviour
             foreach (Collider col in Physics.OverlapSphere(gameObject.transform.position, 8))
                 if (col.gameObject.name.Contains("Trap"))
                     trap = col.transform.parent;
-            if (trap != null && UnityEngine.Random.Range(0, 2) == 0)
+            if (trap != null && UnityEngine.Random.Range(0f, 1f) > this.myMob.Smart)
             {
                 this.goal = this.chunk.GetComponent<SyncChunk>().MyGraph.GetNode(trap.position);
                 if (this.goal != null && this.goal.IsValid)
