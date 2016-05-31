@@ -81,21 +81,21 @@ namespace UnityEngine.Networking
             Text.SetLanguage(langue);
             this.firstScene = GameObject.Find("Map").GetComponent<FirstScene>();
 
-            string skintStr = PlayerPrefs.GetString("Skin", "");
+            if (!Directory.Exists(Application.dataPath + "/Saves"))
+                Directory.CreateDirectory(Application.dataPath + "/Saves");
+            this.skin.GetStyle("loading").normal.textColor = Color.black;
+
             try
             {
+                string skintStr = PlayerPrefs.GetString("Skin", "");
                 this.skinCharacter = Skin.Load(skintStr);
-                this.skinCharacter.Apply(this.character);
+                this.skinCharacter.ForceApply(this.character);
             }
             catch
             {
                 this.characterShown = true;
                 this.skinCharacter = new Skin(Clothing.NormalBrownBeard, Clothing.NormalBrownHair, Clothing.NoneHat, Clothing.BasicBody, Clothing.BrownPant, Clothing.NoneTshirt, Clothing.BrownGloves, Clothing.BlackEye);
             }
-
-            if (!Directory.Exists(Application.dataPath + "/Saves"))
-                Directory.CreateDirectory(Application.dataPath + "/Saves");
-            this.skin.GetStyle("loading").normal.textColor = Color.black;
         }
         void Update()
         {
@@ -124,7 +124,7 @@ namespace UnityEngine.Networking
             {
                 ipList.Add(PlayerPrefs.GetString("ip" + j.ToString()));
                 j++;
-            }
+            }           
         }
 
         void OnGUI()
@@ -314,17 +314,18 @@ namespace UnityEngine.Networking
             this.smoothAparition += Time.deltaTime;
             this.skin.textField.alignment = TextAnchor.MiddleCenter;
             this.playerName = GUI.TextField(new Rect(this.posX, this.posY + this.spacing * 6.2f, this.width, this.height), this.RemoveSpecialCharacter(this.playerName, "abcdefghijklmnopqrstuvwxyz123456789-_", false), 15, this.skin.textField);
-            if (this.playerName != "" && GUI.Button(new Rect(this.posX, this.posY + this.spacing * 7f, this.width / 2.1f, this.height), TextDatabase.Validate.GetText(), this.skin.GetStyle("button")))
+            bool firstLaunch = PlayerPrefs.GetString("PlayerName", "") == "";
+
+            if (this.playerName != "" && GUI.Button(new Rect(this.posX, this.posY + this.spacing * 7f, this.width / (firstLaunch ? 1f : 2.1f), this.height), TextDatabase.Validate.GetText(), this.skin.GetStyle("button")))
             {
                 this.characterShown = false;
                 this.firstScene.OnChar = false;
                 this.optionShown = true;
                 PlayerPrefs.SetString("PlayerName", this.playerName);
                 PlayerPrefs.SetString("Skin", Skin.Save(this.skinCharacter));
-
                 this.firstScene.PlayButtonSound();
             }
-            if (GUI.Button(new Rect(this.posX + this.width / 1.9f, this.posY + this.spacing * 7, this.width / 2.1f, this.height), TextDatabase.Back.GetText(), this.skin.GetStyle("button")))
+            if (!firstLaunch && GUI.Button(new Rect(this.posX + this.width / 1.9f, this.posY + this.spacing * 7, this.width / 2.1f, this.height), TextDatabase.Back.GetText(), this.skin.GetStyle("button")))
             {
                 this.characterShown = false;
                 this.firstScene.OnChar = false;
