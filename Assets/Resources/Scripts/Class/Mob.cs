@@ -7,13 +7,13 @@ using System.Collections;
 public class Mob : Entity
 {
     private int spawnProbability;
+    private float smart;
     private int damage;
     private float visionFocus;
     private float visionFleeing;
     private float walkSpeed;
     private float runSpeed;
     private float attackSpeed;
-
     private int[] biomes;
     private DropConfig[] dropConfigs;
 
@@ -22,6 +22,7 @@ public class Mob : Entity
     public Mob() : base()
     {
         this.spawnProbability = 0;
+        this.smart = 0;
         this.damage = 0;
         this.visionFocus = 0;
         this.visionFleeing = 0;
@@ -35,6 +36,7 @@ public class Mob : Entity
     public Mob(Mob mob) : base(mob)
     {
         this.spawnProbability = mob.spawnProbability;
+        this.smart = mob.smart;
         this.damage = mob.damage;
         this.visionFocus = mob.visionFocus;
         this.visionFleeing = mob.visionFleeing;
@@ -45,9 +47,10 @@ public class Mob : Entity
         this.biomes = mob.biomes;
     }
 
-    public Mob(int id, int life, GameObject prefab, int spawnProbability, int damage, float visionFocus, float visionFleeing, float walkSpeed, float runSpeed, float attackSpeed, int[] biomes, params DropConfig[] dropConfigs) : base(id, life, prefab)
+    public Mob(int id, int life, GameObject prefab, int spawnProbability, float smart, int damage, float visionFocus, float visionFleeing, float walkSpeed, float runSpeed, float attackSpeed, int[] biomes, params DropConfig[] dropConfigs) : base(id, life, prefab)
     {
         this.spawnProbability = spawnProbability;
+        this.smart = smart;
         this.damage = damage;
         this.visionFocus = visionFocus;
         this.visionFleeing = visionFleeing;
@@ -119,6 +122,15 @@ public class Mob : Entity
     {
         get { return this.spawnProbability; }
         set { this.spawnProbability = value; }
+    }
+
+    /// <summary>
+    /// L'intelligence du mob a se faire piéger.
+    /// </summary>
+    public float Smart
+    {
+        get { return this.smart; }
+        set { this.smart = value; }
     }
 
     /// <summary>

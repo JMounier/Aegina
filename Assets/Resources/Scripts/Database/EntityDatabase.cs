@@ -61,6 +61,7 @@ public static class EntityDatabase
     public static readonly Entity FirepitLoot = new Entity(68, 60, Resources.Load<GameObject>("Prefabs/Loots/Firepit"));
     public static readonly Entity TorchLoot = new Entity(50, 60, Resources.Load<GameObject>("Prefabs/Loots/Torche"));
     public static readonly Entity ChestLoot = new Entity(51, 60, Resources.Load<GameObject>("Prefabs/Loots/Chest"));
+    public static readonly Entity WolfTrapLoot = new Entity(52, 60, Resources.Load<GameObject>("Prefabs/Loots/WolfTrap"));
 
 
     public static readonly Entity AquaPotion = new Entity(69, 60, Resources.Load<GameObject>("Prefabs/Loots/AquaPotion"));
@@ -124,18 +125,19 @@ public static class EntityDatabase
     public static readonly Element Forge = new Element(133, 100, Resources.Load<GameObject>("Prefabs/Elements/PuttedObjects/Hoven"), Element.DestructionTool.Pickaxe, 1.5f, new DropConfig(40, 1));
     public static readonly Element Torch = new Element(134, 100, Resources.Load<GameObject>("Prefabs/Elements/PuttedObjects/Torch"), Element.DestructionTool.None, .5f, new DropConfig(44, 1));
     public static readonly Chest Chest = new Chest(135, Resources.Load<GameObject>("Prefabs/Elements/PuttedObjects/Chest"));
+    public static readonly Element WolfTrap = new Element(136, 100, Resources.Load<GameObject>("Prefabs/Elements/PuttedObjects/WolfTrap"), Element.DestructionTool.Indestructible, .5f);
 
     // IslandCore
     public static readonly IslandCore IslandCore = new IslandCore(142, Resources.Load<GameObject>("Prefabs/Elements/Cristals/IslandCore"));
 
     // Mobs
-    public static readonly Mob Boar = new Mob(500, 20, Resources.Load<GameObject>("Prefabs/Mobs/Boar"), 15, 7, 6f, 7f, 1.3f, 2.8f, 1.5f,
+    public static readonly Mob Boar = new Mob(500, 20, Resources.Load<GameObject>("Prefabs/Mobs/Boar"), 15, .5f, 7, 6f, 7f, 1.3f, 2.8f, 1.5f,
         new int[3] { 0, 2, 3 }, new DropConfig(83, 1), new DropConfig(83, 0, 1), new DropConfig(84, 1), new DropConfig(84, 0, 1), new DropConfig(86, 0, 1), new DropConfig(88, 1, 2));
-    public static readonly Mob Pampa = new Mob(501, 15, Resources.Load<GameObject>("Prefabs/Mobs/Pampa"), 15, 8, 1.5f, 8f, 1f, 3.8f, 1.8f,
+    public static readonly Mob Pampa = new Mob(501, 15, Resources.Load<GameObject>("Prefabs/Mobs/Pampa"), 15, .7f, 8, 1.5f, 8f, 1f, 3.8f, 1.8f,
         new int[1] { 1 }, new DropConfig(83, 1), new DropConfig(83, 0, 1), new DropConfig(80, 1), new DropConfig(80, 0, 1), new DropConfig(86, 0, 1));
-    public static readonly Mob SnowBunny = new Mob(502, 10, Resources.Load<GameObject>("Prefabs/Mobs/SnowBunny"), 15, 0, 0f, 6f, 1.5f, 3f, 1f,
+    public static readonly Mob SnowBunny = new Mob(502, 10, Resources.Load<GameObject>("Prefabs/Mobs/SnowBunny"), 15, .25f, 0, 0f, 6f, 1.5f, 3f, 1f,
        new int[1] { 2 }, new DropConfig(83, 1), new DropConfig(86, 0, 1), new DropConfig(88, 1));
-    public static readonly Mob Bunny = new Mob(503, 10, Resources.Load<GameObject>("Prefabs/Mobs/Bunny"), 15, 0, 0f, 6f, 1.5f, 3f, 1f,
+    public static readonly Mob Bunny = new Mob(503, 10, Resources.Load<GameObject>("Prefabs/Mobs/Bunny"), 15, .25f, 0, 0f, 6f, 1.5f, 3f, 1f,
      new int[2] { 0, 3 }, new DropConfig(83, 1), new DropConfig(86, 0, 1), new DropConfig(88, 1));
 
     // Chunk
@@ -276,6 +278,7 @@ public static class EntityDatabase
             yield return FirepitLoot;
             yield return TorchLoot;
             yield return ChestLoot;
+            yield return WolfTrapLoot;
 
             // Chunk
             foreach (Chunk chunk in Chunks)
@@ -334,6 +337,7 @@ public static class EntityDatabase
             yield return Workbench;
             yield return Torch;
             yield return Chest;
+            yield return WolfTrap;
 
             // IslandCore
             yield return IslandCore;
