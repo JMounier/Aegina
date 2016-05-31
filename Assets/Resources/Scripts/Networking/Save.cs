@@ -76,8 +76,8 @@ public class Save : NetworkBehaviour
             return;
 
         this.coolDownSave -= Time.deltaTime;
-        if (this.coolDownSave <= 0 || Stats.TimePlayer() == 0)        
-            this.SaveWorld();        
+        if (this.coolDownSave <= 0)
+            this.SaveWorld();
         Success.Update();
     }
 
@@ -259,7 +259,9 @@ public class Save : NetworkBehaviour
         Directory.CreateDirectory(Application.dataPath + "/Saves/" + name);
         Directory.CreateDirectory(Application.dataPath + "/Saves/" + name + "/Chunks");
         Directory.CreateDirectory(Application.dataPath + "/Saves/" + name + "/Players");
-        File.WriteAllText(Application.dataPath + "/Saves/" + name + "/properties", seed.ToString() + "|" + coop.ToString() + "|0\n" + Stats.Empty());
+        File.WriteAllText(Application.dataPath + "/Saves/" + name + "/properties", seed.ToString() + "|" + coop.ToString() + "|0\n" +
+            // Stats
+            Stats.Empty());
     }
 
     // Getter & Setters
@@ -404,32 +406,28 @@ public class ChunkSave
     /// </summary>
     public void Save()
     {
-        try
+        using (StreamWriter file = new StreamWriter(this.path))
         {
-            using (StreamWriter file = new StreamWriter(this.path))
+            foreach (int id in this.idSave)
+                file.Write(id.ToString() + '|');
+            file.Write("\n");
+            foreach (Triple<Element, Vector3, Vector3> wt in this.workTops)
+                file.Write(wt.Item1.ID.ToString() + ":" + wt.Item2.x.ToString() + ":" + wt.Item2.y.ToString() + ":" + wt.Item2.z.ToString() + ":"
+      + wt.Item3.x.ToString() + ":" + wt.Item3.y.ToString() + ":" + wt.Item3.x.ToString() + "|");
+            
+            foreach (Quadruple<Element, Vector3, Vector3, ItemStack[,]> wt in this.chests)
             {
-                foreach (int id in this.idSave)
-                    file.Write(id.ToString() + '|');
-                file.Write("\n");
-                foreach (Triple<Element, Vector3, Vector3> wt in this.workTops)
-                    file.Write(wt.Item1.ID.ToString() + ":" + wt.Item2.x.ToString() + ":" + wt.Item2.y.ToString() + ":" + wt.Item2.z.ToString() + ":"
-          + wt.Item3.x.ToString() + ":" + wt.Item3.y.ToString() + ":" + wt.Item3.x.ToString() + "|");
-
-                foreach (Quadruple<Element, Vector3, Vector3, ItemStack[,]> wt in this.chests)
-                {
-                    file.Write(wt.Item1.ID.ToString() + ":" + wt.Item2.x.ToString() + ":" + wt.Item2.y.ToString() + ":" + wt.Item2.z.ToString() + ":"
-                        + wt.Item3.x.ToString() + ":" + wt.Item3.y.ToString() + ":" + wt.Item3.x.ToString() + ":");
-                    for (int i = 0; i < 3; i++)
-                        for (int j = 0; j < 3; j++)
-                            file.Write(wt.Item1.Prefab.GetComponent<SyncChest>().Content[i, j].Items.ID.ToString() + ":" + wt.Item1.Prefab.GetComponent<SyncChest>().Content[i, j].Quantity.ToString() + (i == 2 && j == 2 ? "" : ":"));
-                    file.Write("|");
-                }
-                file.Write("\n");
-                file.Write(cristal[0].ToString() + "|" + cristal[1].ToString() + "|" + cristal[2].ToString() + "|" + cristal[3].ToString() + "|" +
-                 cristal[4].ToString() + "|" + cristal[5].ToString() + "|" + cristal[6].ToString() + "|" + cristal[7].ToString());
+                file.Write(wt.Item1.ID.ToString() + ":" + wt.Item2.x.ToString() + ":" + wt.Item2.y.ToString() + ":" + wt.Item2.z.ToString() + ":"
+                    + wt.Item3.x.ToString() + ":" + wt.Item3.y.ToString() + ":" + wt.Item3.x.ToString() + ":");
+                for (int i = 0; i < 3; i++)
+                    for (int j = 0; j < 3; j++)
+                        file.Write(wt.Item1.Prefab.GetComponent<SyncChest>().Content[i, j].Items.ID.ToString() + ":" + wt.Item1.Prefab.GetComponent<SyncChest>().Content[i, j].Quantity.ToString() + (i == 2 && j == 2 ? "" : ":"));
+                file.Write("|");
             }
+            file.Write("\n");
+            file.Write(cristal[0].ToString() + "|" + cristal[1].ToString() + "|" + cristal[2].ToString() + "|" + cristal[3].ToString() + "|" +
+             cristal[4].ToString() + "|" + cristal[5].ToString() + "|" + cristal[6].ToString() + "|" + cristal[7].ToString());
         }
-        catch { }
     }
 
     // Getters & Setters
