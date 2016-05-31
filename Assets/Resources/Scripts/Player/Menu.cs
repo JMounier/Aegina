@@ -264,16 +264,24 @@ public class Menu : NetworkBehaviour
         }
         else
         {
-            Rect rect = new Rect(Screen.width / 4, Screen.height / 7, Screen.width / 2, Screen.height / 2 + 2*this.spacing);
+            Rect rect = new Rect(Screen.width / 4, Screen.height / 7, Screen.width / 2, Screen.height / 2 + 2 * this.spacing);
             GUI.Box(rect, "", skin.GetStyle("inventory"));
             rect.x += Screen.width / 50;
             rect.y += Screen.height / 20;
             rect.width -= Screen.width / 25;
             rect.height -= Screen.height / 10;
             GUI.DrawTexture(rect, HelpPage[page]);
-            rect = new Rect(Screen.width / 2 -Screen.width/20, 3 * Screen.height / 4 + this.spacing / 2, Screen.width / 10, this.spacing);
+            rect = new Rect(Screen.width / 2 - 3 * Screen.width / 20, 3 * Screen.height / 4 + this.spacing / 2, Screen.width / 10, this.spacing);
             if (GUI.Button(rect, TextDatabase.Back.GetText(), skin.GetStyle("button")))
-                this.page = -1; 
+                this.page = -1;
+            rect = new Rect(Screen.width / 2 + Screen.width / 20, 3 * Screen.height / 4 + this.spacing / 2, Screen.width / 10, this.spacing);
+            if (GUI.Button(rect,TextDatabase.Resume.GetText(),skin.GetStyle("button")))
+            {
+                this.page = -1;
+                this.helpageShown = false;
+                this.soundAudio.PlaySound(AudioClips.Button, 1f);
+                this.controller.Pause = false;
+            }
         }
     }
 
