@@ -19,7 +19,7 @@ public class Craft_HUD : NetworkBehaviour
     private Craft craftshow;
     private bool tooltip = false;
     private Item tooltipItem;
-    private bool[] craftMastered;
+	private Dictionary<int,bool> craftMastered;
     private int Decal;
 
     // Use this for initialization
@@ -38,75 +38,61 @@ public class Craft_HUD : NetworkBehaviour
         this.CraftConsumable = new List<Craft>();
         this.CraftTools = new List<Craft>();
         this.CraftArmor = new List<Craft>();
+		this.craftMastered = new Dictionary<int, bool> ();
         this.character = GetComponentInChildren<CharacterCollision>().gameObject;
         this.Craftslist[0] = CraftElementary;
         this.Craftslist[1] = CraftWorkTop;
         this.Craftslist[2] = CraftConsumable;
         this.Craftslist[3] = CraftTools;
         this.Craftslist[4] = CraftArmor;
-        int i = 0;
         foreach (Craft craft in CraftDatabase.Crafts)
         {
             if (!craft.Secret)
             {
                 this.Craftslist[(int)(craft.What) - 1].Add(craft);
             }
-            i++;
+			this.craftMastered.Add (craft.ID, false);
         }
 
         this.craftindex = 0;
         this.showcraft = false;
         this.pos = -1;
         this.craftshow = new Craft(Craft.Type.None);
-        this.craftMastered = new bool[i + 1];
         this.nearwork = new bool[4];
         for (int j = 0; j < 4; j++)
             nearwork[j] = false;
-
-        for (int j = 0; j < this.craftMastered.Length; j++)
-            this.craftMastered[j] = false;
+		
         List<int> mastered = new List<int>();
-        int[] basicmastered = { 0, 5, 16, 26 };
-        mastered.AddRange(basicmastered);
+		mastered.AddRange(new int[] { 0, 5, 16, 26 });
         if (SuccessDatabase.StoneAge.Achived)
         {
-            int[] stonemastered = { 1, 2, 6, 7, 8, 27, 34, 41 }; //id des craft de l'armure en cuir à ajouter
-            mastered.AddRange(stonemastered);
+			mastered.AddRange(new int[] { 1, 2, 6, 7, 8, 27, 34, 41 }); //id des craft de l'armure en cuir à ajouter
             if (SuccessDatabase.CopperAge.Achived)
             {
-                int[] coppermastered = { 4, 9, 14, 28, 35, 42 }; //id du craft du chest à ajouter et de l'armure en cuivre
-                mastered.AddRange(coppermastered);
+				mastered.AddRange(new int[] { 4, 9, 14, 28, 35, 42 }); //id du craft du chest à ajouter et de l'armure en cuivre
                 if (SuccessDatabase.IronAge.Achived)
                 {
-                    int[] ironmastered = { 3, 10, 20, 21, 22, 23, 24, 25, 29, 36, 43 }; //id des crafts de l'armure en fer à ajouter
-                    mastered.AddRange(ironmastered);
+					mastered.AddRange(new int[] { 3, 10, 20, 21, 22, 23, 24, 25, 29, 36, 43 }); //id des crafts de l'armure en fer à ajouter
                     if (SuccessDatabase.GoldAge.Achived)
                     {
-                        int[] goldmastered = { 11, 17, 30, 37, 44 }; //id des crafts des pièges à ajouter et de l'armure en or
-                        mastered.AddRange(goldmastered);
+						mastered.AddRange(new int[] { 11, 17, 30, 37, 44 }); //id des crafts des pièges à ajouter et de l'armure en or
                         if (SuccessDatabase.MithrilAge.Achived)
                         {
-                            int[] mithrilmastered = { 12, 31, 38, 45 }; //id des crafts des murailles et de l'armure en mitril à ajouter
-                            mastered.AddRange(mithrilmastered);
+							mastered.AddRange(new int[] { 12, 31, 38, 45 }); //id des crafts des murailles et de l'armure en mitril à ajouter
                             if (SuccessDatabase.floatiumAge.Achived)
                             {
-                                int[] floatiummastered = { 13, 32, 38, 46 }; //id des crafts de l'armure en floatium à ajouter
-                                mastered.AddRange(floatiummastered);
+								mastered.AddRange(new int[] { 13, 32, 38, 46 });//id des crafts de l'armure en floatium à ajouter
                                 if (SuccessDatabase.SunkiumAge.Achived)
-                                {
-                                    int[] sunkiummastered = { 14, 33, 39, 47 };
-                                    mastered.AddRange(sunkiummastered);
-                                }
+									mastered.AddRange(new int[] { 14, 33, 39, 47 }); //id des crafts de l'armure en sunkium à ajouter
+                            }
                             }
                         }
                     }
                 }
             }
-        }
+        
         foreach (int ids in mastered)
-        {
             this.craftMastered[ids] = true;
-        }
     }
 
     // Update is called once per frame
