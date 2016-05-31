@@ -63,35 +63,36 @@ public class Success
                 if (succ.id % 10 == 0)
                 {
                     GameObject[] allplayer = GameObject.FindGameObjectsWithTag("Player");
-                    switch (succ.id / 10)
+					if(display)
+					switch (succ.id / 10)
                     {
                         case 1:
                             foreach (GameObject player in allplayer)
-                                player.GetComponent<Craft_HUD>().mastered(1, 2, 6, 7, 8, 27, 34, 41);
+							player.GetComponent<Craft_HUD>().mastered(1, 2, 40, 50, 60, 71, 72, 73);
                             break;
                         case 2:
                             foreach (GameObject player in allplayer)
-                                player.GetComponent<Craft_HUD>().mastered(4, 9, 14, 28, 35, 42);
+							player.GetComponent<Craft_HUD>().mastered( 4, 5, 10, 16, 41, 51, 61);
                             break;
                         case 3:
                             foreach (GameObject player in allplayer)
-                                player.GetComponent<Craft_HUD>().mastered(3, 10, 20, 21, 22, 23, 24, 25, 29, 36, 43);
+							player.GetComponent<Craft_HUD>().mastered(3, 6, 10, 22, 23, 24, 25, 26, 27, 42, 52, 62);
                             break;
                         case 4:
                             foreach (GameObject player in allplayer)
-                                player.GetComponent<Craft_HUD>().mastered(11, 17, 30, 37, 44);
+							player.GetComponent<Craft_HUD>().mastered( 12, 21, 43, 53, 63);
                             break;
                         case 5:
                             foreach (GameObject player in allplayer)
-                                player.GetComponent<Craft_HUD>().mastered(12, 31, 38, 45);
+							player.GetComponent<Craft_HUD>().mastered( 13, 44, 54, 64 );
                             break;
                         case 6:
                             foreach (GameObject player in allplayer)
-                                player.GetComponent<Craft_HUD>().mastered(13, 32, 38, 46);
+							player.GetComponent<Craft_HUD>().mastered( 14, 45, 55, 65);
                             break;
                         case 7:
                             foreach (GameObject player in allplayer)
-                                player.GetComponent<Craft_HUD>().mastered(14, 33, 39, 47);
+							player.GetComponent<Craft_HUD>().mastered( 15, 46, 56, 66);
                             break;
                         default:
                             break;
