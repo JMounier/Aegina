@@ -336,9 +336,9 @@ namespace UnityEngine.Networking
             }
 
             if (GUI.RepeatButton(new Rect(this.posX + this.spacing * 4.3f, this.posY + this.spacing * 5.2f, this.width / 4, this.width / 6), "", this.skin.GetStyle("right_arrow")))
-                this.character.transform.Rotate(Vector3.up, -10);
+                this.character.transform.Rotate(Vector3.up, -5);
             if (GUI.RepeatButton(new Rect(this.posX, this.posY + this.spacing * 5.2f, this.width / 4, this.width / 6), "", this.skin.GetStyle("left_arrow")))
-                this.character.transform.Rotate(Vector3.up, +10);
+                this.character.transform.Rotate(Vector3.up, +5);
            
             #region Category
             if (GUI.Button(new Rect(this.posX, this.posY - this.spacing * 1.5f, this.width / 5, this.width / 5), Resources.Load<Texture2D>("Sprites/Cosmetics/HatIcon")))
