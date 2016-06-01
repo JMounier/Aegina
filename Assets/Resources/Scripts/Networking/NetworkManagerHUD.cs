@@ -499,9 +499,7 @@ namespace UnityEngine.Networking
                                 this.skinCharacter.Beard = b;
                                 this.skinCharacter.Apply(this.character);
                             }
-                            y = (y + 1) % 5;
-                            if (y == 0)
-                                x++;
+                            y += 1;
                         }
                     break;
                 #endregion
@@ -544,28 +542,28 @@ namespace UnityEngine.Networking
                     }
                     rect.x += (5 + Screen.width / 20);
 
-                    if (GUI.Button(rect, Resources.Load<Texture2D>("Sprites/Cosmetics/HatIcon")))
+                    if (GUI.Button(rect, Resources.Load<Texture2D>("Sprites/Cosmetics/HairIcon")))
                     {
                         this.smoothAparition = 0;
                         typeCloth = (int)Hair.TypeHair.Normal;
                     }
                     rect.x += (5 + Screen.width / 20);
 
-                    if (GUI.Button(rect, Resources.Load<Texture2D>("Sprites/Cosmetics/StrawHatIcon")))
+                    if (GUI.Button(rect, Resources.Load<Texture2D>("Sprites/Cosmetics/PunkHair")))
                     {
                         this.smoothAparition = 0;
                         typeCloth = (int)Hair.TypeHair.Crete;
                     }
                     rect.x += (5 + Screen.width / 20);
 
-                    if (GUI.Button(rect, Resources.Load<Texture2D>("Sprites/Cosmetics/StrawHatIcon")))
+                    if (GUI.Button(rect, Resources.Load<Texture2D>("Sprites/Cosmetics/LongHair")))
                     {
                         this.smoothAparition = 0;
                         typeCloth = (int)Hair.TypeHair.LongHair;
                     }
                     rect.x += (5 + Screen.width / 20);
 
-                    if (GUI.Button(rect, Resources.Load<Texture2D>("Sprites/Cosmetics/CowBoyIcon")))
+                    if (GUI.Button(rect, Resources.Load<Texture2D>("Sprites/Cosmetics/WickHair")))
                     {
                         this.smoothAparition = 0;
                         typeCloth = (int)Hair.TypeHair.Meche;
@@ -591,9 +589,7 @@ namespace UnityEngine.Networking
                                 this.skinCharacter.Hair = h;
                                 this.skinCharacter.Apply(this.character);
                             }
-                            y = (y + 1) % 5;
-                            if (y == 0)
-                                x++;
+                            y += 1;
                         }
                     }
                     break;
@@ -689,9 +685,8 @@ namespace UnityEngine.Networking
                                 this.skinCharacter.Pant = p;
                                 this.skinCharacter.Apply(this.character);
                             }
-                            y = (y + 1) % 5;
-                            if (y == 0)
-                                x++;
+                            y += 1;
+
                         }
                     break;
                 #endregion
@@ -725,9 +720,7 @@ namespace UnityEngine.Networking
                                 this.skinCharacter.Tshirt = t;
                                 this.skinCharacter.Apply(this.character);
                             }
-                            y = (y + 1) % 5;
-                            if (y == 0)
-                                x++;
+                            y += 1;
                         }
                     break;
                 #endregion             
