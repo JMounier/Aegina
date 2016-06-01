@@ -64,11 +64,11 @@ public class Clothing
             foreach (Body body in Bodies)
                 yield return body;
 
-            foreach (Pant pant in Pants)
-                yield return pant;
-
             foreach (Tshirt tshirt in Tshirts)
                 yield return tshirt;
+
+            foreach (Pant pant in Pants)
+                yield return pant;
 
             foreach (Gloves gloves in Gloves)
                 yield return gloves;
@@ -225,10 +225,10 @@ public class Clothing
                     return new Beard((Beard)cloth);
                 else if (cloth is Body)
                     return new Body((Body)cloth);
-                else if (cloth is Pant)
-                    return new Pant((Pant)cloth);
                 else if (cloth is Tshirt)
                     return new Tshirt((Tshirt)cloth);
+                else if (cloth is Pant)
+                    return new Pant((Pant)cloth);
                 else if (cloth is Gloves)
                     return new Gloves((Gloves)cloth);
                 else if (cloth is Eyes)
@@ -345,8 +345,8 @@ public class Skin
     private Hair hair;
     private Hat hat;
     private Body body;
-    private Pant pant;
     private Tshirt tshirt;
+    private Pant pant;
     private Gloves gloves;
     private Eyes eyes;
     private bool beardApplied, hairApplied, hatApplied, bodyApplied;
@@ -358,20 +358,20 @@ public class Skin
         this.hair = new Hair();
         this.hat = new Hat();
         this.body = new Body();
-        this.pant = new Pant();
         this.tshirt = new Tshirt();
+        this.pant = new Pant();
         this.gloves = new Gloves();
         this.eyes = new Eyes();
     }
 
-    public Skin(Beard beard, Hair hair, Hat hat, Body body, Pant pant, Tshirt tshirt, Gloves gloves, Eyes eyes)
+    public Skin(Beard beard, Hair hair, Hat hat, Body body, Tshirt tshirt, Pant pant, Gloves gloves, Eyes eyes)
     {
         this.beard = beard;
         this.hair = hair;
         this.hat = hat;
         this.body = body;
-        this.pant = pant;
         this.tshirt = tshirt;
+        this.pant = pant;
         this.gloves = gloves;
         this.eyes = eyes;
     }
@@ -388,9 +388,9 @@ public class Skin
 
         List<Clothing> merge = new List<Clothing>();
         merge.Add(this.body);
-        merge.Add(this.pant);
         if (this.tshirt.GetTypeTshirt != Tshirt.TypeTshirt.None)
             merge.Add(this.tshirt);
+        merge.Add(this.pant);
         merge.Add(gloves);
         merge.Add(eyes);
 
@@ -414,8 +414,8 @@ public class Skin
             skin.Beard.ID.ToString() + ":" +
             skin.Hair.ID.ToString() + ":" +
             skin.Body.ID.ToString() + ":" +
-            skin.Pant.ID.ToString() + ":" +
             skin.Tshirt.ID.ToString() + ":" +
+            skin.Pant.ID.ToString() + ":" +
             skin.Gloves.ID.ToString() + ":" +
             skin.Eyes.ID.ToString() + ":" +
             skin.hat.ID.ToString();
@@ -433,13 +433,13 @@ public class Skin
         Beard beard = Clothing.Find(int.Parse(skin[0])) as Beard;
         Hair hair = Clothing.Find(int.Parse(skin[1])) as Hair;
         Body body = Clothing.Find(int.Parse(skin[2])) as Body;
-        Pant pant = Clothing.Find(int.Parse(skin[3])) as Pant;
-        Tshirt tshirt = Clothing.Find(int.Parse(skin[4])) as Tshirt;
+        Tshirt tshirt = Clothing.Find(int.Parse(skin[3])) as Tshirt;
+        Pant pant = Clothing.Find(int.Parse(skin[4])) as Pant;
         Gloves gloves = Clothing.Find(int.Parse(skin[5])) as Gloves;
         Eyes eyes = Clothing.Find(int.Parse(skin[6])) as Eyes;
         Hat hat = Clothing.Find(int.Parse(skin[7])) as Hat;
 
-        return new Skin(beard, hair, hat, body, pant, tshirt, gloves, eyes);
+        return new Skin(beard, hair, hat, body, tshirt, pant, gloves, eyes);
     }
     public static void ChangeHat(Hat hat, GameObject character)
     {
@@ -732,7 +732,7 @@ public class Pant : Clothing
         set { this.color = value; }
     }
 
-    public TypePant Type
+    public TypePant GetTypePant
     {
         get { return this.type; }
         set { this.type = value; }
