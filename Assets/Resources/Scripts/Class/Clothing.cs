@@ -225,12 +225,12 @@ public class Clothing
                     return new Beard((Beard)cloth);
                 else if (cloth is Body)
                     return new Body((Body)cloth);
-                else if (cloth is Tshirt)
-                    return new Tshirt((Tshirt)cloth);
                 else if (cloth is Pant)
                     return new Pant((Pant)cloth);
                 else if (cloth is Gloves)
                     return new Gloves((Gloves)cloth);
+                else if (cloth is Tshirt)
+                    return new Tshirt((Tshirt)cloth);
                 else if (cloth is Eyes)
                     return new Eyes((Eyes)cloth);
                 else if (cloth is Hat)

@@ -335,11 +335,11 @@ namespace UnityEngine.Networking
                 this.firstScene.PlayButtonSound();
             }
 
-            if (GUI.Button(new Rect(this.posX + this.spacing * 4.3f, this.posY + this.spacing * 5.2f, this.width / 4, this.width / 6), "", this.skin.GetStyle("right_arrow")))
+            if (GUI.RepeatButton(new Rect(this.posX + this.spacing * 4.3f, this.posY + this.spacing * 5.2f, this.width / 4, this.width / 6), "", this.skin.GetStyle("right_arrow")))
                 this.character.transform.Rotate(Vector3.up, -10);
-            if (GUI.Button(new Rect(this.posX, this.posY + this.spacing * 5.2f, this.width / 4, this.width / 6), "", this.skin.GetStyle("left_arrow")))
+            if (GUI.RepeatButton(new Rect(this.posX, this.posY + this.spacing * 5.2f, this.width / 4, this.width / 6), "", this.skin.GetStyle("left_arrow")))
                 this.character.transform.Rotate(Vector3.up, +10);
-
+           
             #region Category
             if (GUI.Button(new Rect(this.posX, this.posY - this.spacing * 1.5f, this.width / 5, this.width / 5), Resources.Load<Texture2D>("Sprites/Cosmetics/HatIcon")))
             {
@@ -390,7 +390,7 @@ namespace UnityEngine.Networking
                 case (CategoryCloth.Hat):
                     int y = 0;
                     int x = 0;
-                    Rect rect = new Rect(Screen.width / 25f, -(10 + Screen.height / 10) + Screen.height / 2.25f, Screen.height / 11, Screen.height / 11);
+                    Rect rect = new Rect(Screen.width / 25f, this.posY - this.spacing * 1.5f, Screen.height / 11, Screen.height / 11);
                     if (GUI.Button(rect, Resources.Load<Texture2D>("Sprites/Cosmetics/NoneIcon")))
                     {
                         this.smoothAparition = 0;
@@ -429,7 +429,7 @@ namespace UnityEngine.Networking
                                 for (int j = 0; j < this.width / 3; j++)
                                     fill.SetPixel(i, j, fillcolor);
                             fill.Apply();
-                            rect = new Rect((5 + Screen.width / 20) * x + Screen.width / 25f, y * (5 + Screen.height / 10) + Screen.height / 2.25f, Screen.height / 11, Screen.height / 11);
+                            rect = new Rect((5 + Screen.width / 20) * x + Screen.width / 25f, y * (Screen.height / 10) + Screen.height / 2.6f, Screen.height / 11, Screen.height / 11);
                             if (rect.Contains(Event.current.mousePosition))
                                 tooltip = h.Description;
                             if (this.smoothAparition > y * TransitionDelay && GUI.Button(rect, fill))
@@ -445,7 +445,7 @@ namespace UnityEngine.Networking
                 case (CategoryCloth.Beard):
                     y = 0;
                     x = 0;
-                    rect = new Rect(Screen.width / 25f, -(10 + Screen.height / 10) + Screen.height / 2.25f, Screen.height / 11, Screen.height / 11);
+                    rect = new Rect(Screen.width / 25f, this.posY - this.spacing * 1.5f, Screen.height / 11, Screen.height / 11);
                     if (GUI.Button(rect, Resources.Load<Texture2D>("Sprites/Cosmetics/NoneIcon")))
                     {
                         this.smoothAparition = 0;
@@ -491,7 +491,7 @@ namespace UnityEngine.Networking
                                 for (int j = 0; j < this.width / 3; j++)
                                     fill.SetPixel(i, j, fillcolor);
                             fill.Apply();
-                            rect = new Rect((5 + Screen.width / 20) * x + Screen.width / 25f, y * (5 + Screen.height / 10) + Screen.height / 2.25f, Screen.height / 11, Screen.height / 11);
+                            rect = new Rect((5 + Screen.width / 20) * x + Screen.width / 25f, y * (Screen.height / 10) + Screen.height / 2.6f, Screen.height / 11, Screen.height / 11);
                             if (rect.Contains(Event.current.mousePosition))
                                 tooltip = b.Description;
                             if (this.smoothAparition > y * TransitionDelay && GUI.Button(rect, fill))
@@ -536,7 +536,7 @@ namespace UnityEngine.Networking
                 case (CategoryCloth.Hair):
                     y = 0;
                     x = 0;
-                    rect = new Rect(Screen.width / 25f, -(10 + Screen.height / 10) + Screen.height / 2.25f, Screen.height / 11, Screen.height / 11);
+                    rect = new Rect(Screen.width / 25f, this.posY - this.spacing * 1.5f, Screen.height / 11, Screen.height / 11);
                     if (GUI.Button(rect, Resources.Load<Texture2D>("Sprites/Cosmetics/NoneIcon")))
                     {
                         this.smoothAparition = 0;
@@ -583,7 +583,7 @@ namespace UnityEngine.Networking
                                 for (int j = 0; j < this.width / 3; j++)
                                     fill.SetPixel(i, j, fillcolor);
                             fill.Apply();
-                            rect = new Rect((5 + Screen.width / 20) * x + Screen.width / 25f, y * (5 + Screen.height / 10) + Screen.height / 2.25f, Screen.height / 11, Screen.height / 11);
+                            rect = new Rect((5 + Screen.width / 20) * x + Screen.width / 25f, y * (Screen.height / 10) + Screen.height / 2.6f, Screen.height / 11, Screen.height / 11);
                             if (rect.Contains(Event.current.mousePosition))
                                 tooltip = h.Description;
                             if (this.smoothAparition > y * TransitionDelay && GUI.Button(rect, fill))
@@ -656,7 +656,7 @@ namespace UnityEngine.Networking
                 case (CategoryCloth.Pant):
                     y = 0;
                     x = 0;
-                    rect = new Rect(Screen.width / 25f, -(10 + Screen.height / 10) + Screen.height / 2.25f, Screen.height / 11, Screen.height / 11);
+                    rect = new Rect(Screen.width / 25f, this.posY - this.spacing * 1.5f, Screen.height / 11, Screen.height / 11);
                     if (GUI.Button(rect, Resources.Load<Texture2D>("Sprites/Cosmetics/Overalls")))
                     {
                         this.smoothAparition = 0;
@@ -681,7 +681,7 @@ namespace UnityEngine.Networking
                                 for (int j = 0; j < this.width / 3; j++)
                                     fill.SetPixel(i, j, fillcolor);
                             fill.Apply();
-                            rect = new Rect((5 + Screen.width / 20) * x + Screen.width / 25f, y * (5 + Screen.height / 10) + Screen.height / 2.25f, Screen.height / 11, Screen.height / 11);
+                            rect = new Rect((5 + Screen.width / 20) * x + Screen.width / 25f, y * (Screen.height / 10) + Screen.height / 2.6f, Screen.height / 11, Screen.height / 11);
                             if (rect.Contains(Event.current.mousePosition))
                                 tooltip = p.Description;
                             if (this.smoothAparition > y * TransitionDelay && GUI.Button(rect, fill))
@@ -699,7 +699,7 @@ namespace UnityEngine.Networking
                 case (CategoryCloth.TShirt):
                     y = 0;
                     x = 0;
-                    rect = new Rect(Screen.width / 25f, -(10 + Screen.height / 10) + Screen.height / 2.25f, Screen.height / 11, Screen.height / 11);
+                    rect = new Rect(Screen.width / 25f, this.posY - this.spacing * 1.5f, Screen.height / 11, Screen.height / 11);
                     if (GUI.Button(rect, Resources.Load<Texture2D>("Sprites/Cosmetics/NoneIcon")))
                     {
                         this.smoothAparition = 0;
@@ -717,7 +717,7 @@ namespace UnityEngine.Networking
                                 for (int j = 0; j < this.width / 3; j++)
                                     fill.SetPixel(i, j, fillcolor);
                             fill.Apply();
-                            rect = new Rect((5 + Screen.width / 20) * x + Screen.width / 25f, y * (5 + Screen.height / 10) + Screen.height / 2.25f, Screen.height / 11, Screen.height / 11);
+                            rect = new Rect((5 + Screen.width / 20) * x + Screen.width / 25f, y * (Screen.height / 10) + Screen.height / 2.6f, Screen.height / 11, Screen.height / 11);
                             if (rect.Contains(Event.current.mousePosition))
                                 tooltip = t.Description;
                             if (this.smoothAparition > y * TransitionDelay && GUI.Button(rect, fill))
