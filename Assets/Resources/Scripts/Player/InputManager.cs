@@ -120,14 +120,10 @@ public class InputManager : NetworkBehaviour
 
             if (validplace != this.lastvalidplace)
             {
-                Material mat = Resources.Load<Material>("Models/WorkStations/Materials/Previsu" + (validplace ? 1 : 2));
+				string shadname = "Previsus/Previsu" + (validplace ? "" : "NOT") + "OK";
                 foreach (MeshRenderer mesh in wt.Previsu.GetComponentsInChildren<MeshRenderer>())
-                {
-                    Material[] mats = new Material[mesh.materials.Length];
-                    for (int i = 0; i < mats.Length; i++)
-                        mats[i] = mat;
-                    mesh.materials = mats;
-                }
+                foreach (Material mat in mesh.materials)
+						mat.shader = Shader.Find(shadname);
                 this.lastvalidplace = validplace;
             }
 

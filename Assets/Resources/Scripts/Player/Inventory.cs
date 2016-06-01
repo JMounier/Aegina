@@ -108,7 +108,10 @@ public class Inventory : NetworkBehaviour
                 (this.UsedItem.Items as WorkTop).Previsu.transform.position = (charact.transform.position - charact.transform.forward);
                 (this.UsedItem.Items as WorkTop).Previsu.transform.parent = WorkTop.GetHierarchy(charact.transform.position);
                 (this.UsedItem.Items as WorkTop).Previsu.transform.LookAt(new Vector3(charact.transform.position.x, (this.UsedItem.Items as WorkTop).Previsu.transform.position.y, charact.transform.position.z));
-            }
+				foreach (MeshRenderer mr in (this.UsedItem.Items as WorkTop).Previsu.GetComponentsInChildren<MeshRenderer>())
+					foreach (Material mat in mr.materials)
+						mat.shader = Shader.Find("Previsus/PrevisuOK");
+			}
 
             this.lastUseddItem = this.UsedItem.Items;
         }
