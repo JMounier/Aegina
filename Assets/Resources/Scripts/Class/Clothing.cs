@@ -207,7 +207,11 @@ public class Clothing
             yield return NoneHat;
             yield return AmericanTopHat;
             yield return BlackTopHat;
-            yield return StrawHat;
+            yield return RedStrawHat;
+            yield return WhiteStrawHat;
+            yield return YellowStrawHat;
+            yield return PurpleStrawHat;
+            yield return BlackStrawHat;
         }
     }
 
@@ -288,7 +292,12 @@ public class Clothing
     public static readonly Hat NoneHat = new Hat(80, TextDatabase.NoneHat);
     public static readonly Hat AmericanTopHat = new Hat(81, Resources.Load<Texture2D>("Models/Character/Textures/Hat/TopAmerica"), TextDatabase.AmericanTopHat, Color.blue, Hat.TypeHat.TopHat);
     public static readonly Hat BlackTopHat = new Hat(82, Resources.Load<Texture2D>("Models/Character/Textures/Hat/TopBlack"), TextDatabase.BlackTopHat, Color.black, Hat.TypeHat.TopHat);
-    public static readonly Hat StrawHat = new Hat(85, Resources.Load<Texture2D>("Models/Character/Textures/Hat/StrawRed"), TextDatabase.BlackTopHat, Color.red, Hat.TypeHat.StrawHat);
+    public static readonly Hat RedStrawHat = new Hat(83, Resources.Load<Texture2D>("Models/Character/Textures/Hat/StrawRed"), TextDatabase.StrawRed, Color.red, Hat.TypeHat.StrawHat);
+    public static readonly Hat BlackStrawHat = new Hat(84, Resources.Load<Texture2D>("Models/Character/Textures/Hat/StrawBlack"), TextDatabase.Strawblack, Color.black, Hat.TypeHat.StrawHat);
+    public static readonly Hat WhiteStrawHat = new Hat(85, Resources.Load<Texture2D>("Models/Character/Textures/Hat/StrawWhite"), TextDatabase.StrawWhite, Color.white, Hat.TypeHat.StrawHat);
+    public static readonly Hat YellowStrawHat = new Hat(86, Resources.Load<Texture2D>("Models/Character/Textures/Hat/StrawYellow"), TextDatabase.StrawYellow, Color.yellow, Hat.TypeHat.StrawHat);
+    public static readonly Hat PurpleStrawHat = new Hat(87, Resources.Load<Texture2D>("Models/Character/Textures/Hat/StrawPurple"), TextDatabase.StrawPurple, new Color(.733f,.156f,.878f), Hat.TypeHat.StrawHat);
+
 
     public static readonly Beard NoneBeard = new Beard(90, TextDatabase.NoneBeard);
     public static readonly Beard NormalBlackBeard = new Beard(91, Resources.Load<Texture2D>("Models/Character/Textures/Beards/Beard_Black"), TextDatabase.BlackBeard, Color.black, Beard.TypeBeard.Beard);

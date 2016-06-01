@@ -344,6 +344,13 @@ public class TextDatabase
     public static readonly Text NoneHat = new Text("Pas de chapeau", "Any hat");
     public static readonly Text AmericanTopHat = new Text("Le chapeau de l'oncle sam", "Oncle sam's hat");
     public static readonly Text BlackTopHat = new Text("Vous avez la classe", "Swag over 9000");
+    public static readonly Text StrawRed = new Text("Bonjour luffy", "Hello luffy");
+    public static readonly Text Strawblack = new Text("Chapeau de paille noir", "Black straw hat");
+    public static readonly Text StrawWhite = new Text("Chapeau de paille blanc", "White straw hat");
+    public static readonly Text StrawPurple = new Text("Chapeau de paille violet", "Purple straw hat");
+    public static readonly Text StrawYellow = new Text("Chapeau de paille jaune", "Yellow straw hat");
+
+
 }
 
 
