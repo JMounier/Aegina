@@ -166,6 +166,8 @@ public class Clothing
             yield return GreenOveralls;
             yield return RedOveralls;
             yield return WhiteOveralls;
+            yield return BrownPant;
+            yield return WhitePant;
         }
     }
     public static IEnumerable<Tshirt> Tshirts
@@ -247,12 +249,14 @@ public class Clothing
     public static readonly Body AlienBody = new Body(14, Resources.Load<Texture2D>("Models/Character/Textures/Bodies/Body_Alien"), TextDatabase.AlienBody, new Color(.341f, .525f, .184f));
     public static readonly Body AquaBody = new Body(15, Resources.Load<Texture2D>("Models/Character/Textures/Bodies/Body_Aqua"), TextDatabase.AquaBody, new Color(.290f, .439f, .384f));
 
-    public static readonly Pant BrownOveralls = new Pant(20, Resources.Load<Texture2D>("Models/Character/Textures/Pants/Overalls_Brown"), TextDatabase.BrownOveralls, new Color(.188f, .074f, .02f));
-    public static readonly Pant BlueOveralls = new Pant(21, Resources.Load<Texture2D>("Models/Character/Textures/Pants/Overalls_Blue"), TextDatabase.BlueOveralls, new Color(.02f, .047f, .188f));
-    public static readonly Pant RedOveralls = new Pant(22, Resources.Load<Texture2D>("Models/Character/Textures/Pants/Overalls_Red"), TextDatabase.RedOveralls, new Color(.203f, 0f, .059f));
-    public static readonly Pant GreenOveralls = new Pant(23, Resources.Load<Texture2D>("Models/Character/Textures/Pants/Overalls_Green"), TextDatabase.GreenOveralls, new Color(.157f, .188f, .019f));
-    public static readonly Pant BlackOveralls = new Pant(24, Resources.Load<Texture2D>("Models/Character/Textures/Pants/Overalls_Black"), TextDatabase.BlackOveralls, new Color(.043f, .043f, .043f));
-    public static readonly Pant WhiteOveralls = new Pant(25, Resources.Load<Texture2D>("Models/Character/Textures/Pants/Overalls_White"), TextDatabase.WhiteOveralls, new Color(.525f, .525f, .525f));
+    public static readonly Pant BrownOveralls = new Pant(20, Resources.Load<Texture2D>("Models/Character/Textures/Pants/Overalls_Brown"), TextDatabase.BrownOveralls, new Color(.188f, .074f, .02f), Pant.TypePant.Overalls);
+    public static readonly Pant BlueOveralls = new Pant(21, Resources.Load<Texture2D>("Models/Character/Textures/Pants/Overalls_Blue"), TextDatabase.BlueOveralls, new Color(.02f, .047f, .188f), Pant.TypePant.Overalls);
+    public static readonly Pant RedOveralls = new Pant(22, Resources.Load<Texture2D>("Models/Character/Textures/Pants/Overalls_Red"), TextDatabase.RedOveralls, new Color(.203f, 0f, .059f), Pant.TypePant.Overalls);
+    public static readonly Pant GreenOveralls = new Pant(23, Resources.Load<Texture2D>("Models/Character/Textures/Pants/Overalls_Green"), TextDatabase.GreenOveralls, new Color(.157f, .188f, .019f), Pant.TypePant.Overalls);
+    public static readonly Pant BlackOveralls = new Pant(24, Resources.Load<Texture2D>("Models/Character/Textures/Pants/Overalls_Black"), TextDatabase.BlackOveralls, new Color(.043f, .043f, .043f), Pant.TypePant.Overalls);
+    public static readonly Pant WhiteOveralls = new Pant(25, Resources.Load<Texture2D>("Models/Character/Textures/Pants/Overalls_White"), TextDatabase.WhiteOveralls, new Color(.525f, .525f, .525f), Pant.TypePant.Overalls);
+    public static readonly Pant BrownPant = new Pant(26, Resources.Load<Texture2D>("Models/Character/Textures/Pants/Pant_Brown"), TextDatabase.BrownPant, new Color(.188f, .074f, .02f), Pant.TypePant.Pant);
+    public static readonly Pant WhitePant = new Pant(27, Resources.Load<Texture2D>("Models/Character/Textures/Pants/Pant_White"), TextDatabase.WhitePant, new Color(.525f, .525f, .525f), Pant.TypePant.Pant);
 
     public static readonly Eyes BlackEye = new Eyes(40, Resources.Load<Texture2D>("Models/Character/Textures/Eyes/Eyes_Black"), TextDatabase.BlackEyes, new Color(0f, 0f, 0f));
     public static readonly Eyes GreenEye = new Eyes(41, Resources.Load<Texture2D>("Models/Character/Textures/Eyes/Eyes_Green"), TextDatabase.GreenEyes, new Color(.026f, .525f, .314f));
@@ -671,7 +675,7 @@ public class Beard : Clothing
 public class Body : Clothing
 {
     private Color color;
-
+   
     // Constructeur
     public Body() : base()
     {
@@ -699,21 +703,26 @@ public class Body : Clothing
 public class Pant : Clothing
 {
     private Color color;
+    private TypePant type;
+    public enum TypePant { Overalls, Pant };
 
     // Constructeur
     public Pant() : base()
     {
         this.color = new Color();
+        this.type = TypePant.Overalls;
     }
 
-    public Pant(int id, Texture2D texture, Text description, Color color) : base(id, texture, description)
+    public Pant(int id, Texture2D texture, Text description, Color color, TypePant type) : base(id, texture, description)
     {
         this.color = color;
+        this.type = type;
     }
 
     public Pant(Pant pant) : base(pant)
     {
         this.color = pant.color;
+        this.type = pant.type;
     }
 
     // Getter/Setter 
@@ -721,6 +730,12 @@ public class Pant : Clothing
     {
         get { return this.color; }
         set { this.color = value; }
+    }
+
+    public TypePant Type
+    {
+        get { return this.type; }
+        set { this.type = value; }
     }
 }
 

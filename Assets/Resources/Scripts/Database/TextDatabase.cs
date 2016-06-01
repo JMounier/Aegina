@@ -311,6 +311,8 @@ public class TextDatabase
     public static readonly Text RedOveralls = new Text("Salopette rouge", "Red overalls");
     public static readonly Text GreenOveralls = new Text("Salopette verte", "Green overalls");
     public static readonly Text WhiteOveralls = new Text("Salopette blanche", "White overalls");
+    public static readonly Text BrownPant = new Text("Pantalon marron", "Brown pant");
+    public static readonly Text WhitePant = new Text("Pantalon blanc", "White pant");
 
     public static readonly Text BrownGloves = new Text("Gants marron", "Brown gloves");
     public static readonly Text BlueGloves = new Text("Gants bleus", "Blue gloves");
