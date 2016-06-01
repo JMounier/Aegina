@@ -61,7 +61,10 @@ public static class EntityDatabase
     public static readonly Entity FirepitLoot = new Entity(68, 60, Resources.Load<GameObject>("Prefabs/Loots/Firepit"));
     public static readonly Entity TorchLoot = new Entity(50, 60, Resources.Load<GameObject>("Prefabs/Loots/Torche"));
     public static readonly Entity ChestLoot = new Entity(51, 60, Resources.Load<GameObject>("Prefabs/Loots/Chest"));
-    public static readonly Entity WolfTrapLoot = new Entity(52, 60, Resources.Load<GameObject>("Prefabs/Loots/WolfTrap"));
+	public static readonly Entity WolfTrapLoot = new Entity(52, 60, Resources.Load<GameObject>("Prefabs/Loots/WolfTrap"));
+	public static readonly Entity PiquesLoot = new Entity(53, 60, Resources.Load<GameObject>("Prefabs/Loots/Spiques"));
+	public static readonly Entity WoodenWallLoot = new Entity(54, 60, Resources.Load<GameObject>("Prefabs/Loots/WoodenWall"));
+	public static readonly Entity StoneWallLoot = new Entity(55, 60, Resources.Load<GameObject>("Prefabs/Loots/StoneWall"));
 
 
     public static readonly Entity AquaPotion = new Entity(69, 60, Resources.Load<GameObject>("Prefabs/Loots/AquaPotion"));
@@ -126,6 +129,9 @@ public static class EntityDatabase
     public static readonly Element Torch = new Element(134, 100, Resources.Load<GameObject>("Prefabs/Elements/PuttedObjects/Torch"), Element.DestructionTool.None, .5f, new DropConfig(44, 1));
     public static readonly Chest Chest = new Chest(135, Resources.Load<GameObject>("Prefabs/Elements/PuttedObjects/Chest"));
     public static readonly Element WolfTrap = new Element(136, 100, Resources.Load<GameObject>("Prefabs/Elements/PuttedObjects/WolfTrap"), Element.DestructionTool.Indestructible, .5f);
+	public static readonly Element Piques = new Element(137, 100, Resources.Load<GameObject>("Prefabs/Elements/PuttedObjects/Spiques"), Element.DestructionTool.Pickaxe, .5f, new DropConfig(47, 1));
+	public static readonly Element WoodenWall = new Element(138, 200, Resources.Load<GameObject>("Prefabs/Elements/PuttedObjects/WoodenWall"), Element.DestructionTool.Indestructible, .5f, new DropConfig(48, 1));
+	public static readonly Element StoneWall = new Element(139, 300, Resources.Load<GameObject>("Prefabs/Elements/PuttedObjects/StoneWall"), Element.DestructionTool.Indestructible, .5f, new DropConfig(49, 1));
 
     // IslandCore
     public static readonly IslandCore IslandCore = new IslandCore(142, Resources.Load<GameObject>("Prefabs/Elements/Cristals/IslandCore"));
@@ -279,6 +285,9 @@ public static class EntityDatabase
             yield return TorchLoot;
             yield return ChestLoot;
             yield return WolfTrapLoot;
+			yield return PiquesLoot;
+			yield return WoodenWallLoot;
+			yield return StoneWallLoot;
 
             // Chunk
             foreach (Chunk chunk in Chunks)
@@ -338,6 +347,9 @@ public static class EntityDatabase
             yield return Torch;
             yield return Chest;
             yield return WolfTrap;
+			yield return Piques;
+			yield return WoodenWall;
+			yield return StoneWall;
 
             // IslandCore
             yield return IslandCore;

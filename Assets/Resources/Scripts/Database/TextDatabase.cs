@@ -36,6 +36,12 @@ public class TextDatabase
     public static readonly Text Torch = new Text("Torche", "Torch");
     public static readonly Text Chest = new Text("Coffre", "Chest");
     public static readonly Text WolfTrap = new Text("Piège à loup", "Wolf trap");
+	public static readonly Text Spiques = new Text("Pique", "Pique trap");
+	public static readonly Text WoodenWall = new Text("Mur en bois", "Wooden wall");
+	public static readonly Text StoneWall = new Text("Mur en pierre", "Stone wall");
+
+
+
 
     public static readonly Text WaterPotion = new Text("Fiole d'eau", "Water phial");
     public static readonly Text SpeedPotion = new Text("Potion de vitesse", "Potion of speed");
@@ -89,7 +95,11 @@ public class TextDatabase
     public static readonly Text FirepitDescription = new Text("Feu !!! Viande !!! Repas !!!", "Fire !!! Meat !!! Meal !!!");
     public static readonly Text TorchDescription = new Text("Et la lumière fut !", "And there was light !");
     public static readonly Text ChestDescription = new Text("Permet de stocker plein de chose inutiles !", "Able to stock a lot of useless stuff !");
-    public static readonly Text WolfTrapDescription = new Text("Utile pour chasser les créatures.", "Useful for hunting mobs.");
+    public static readonly Text WolfTrapDescription = new Text("Utile pour chasser les créatures.", "Useful to hunt creatures.");
+	public static readonly Text SpiquesDescription = new Text("Un piège vicieux mais efficace", "The solution to protect your belongings from vicious robbers");
+	public static readonly Text WoodenWallDescription = new Text("Quelques piquets suffisent pour defendre votre maison", "In an other world, skulls were put on this kind of wall to frighten foreigners");
+	public static readonly Text StoneWallDescription = new Text("De quoi construire un vrai chateau", "An other brique in the wall");
+
 
     public static readonly Text WaterPotionDescription = new Text("Une fiole pleine d'eau !", "A full water phial!");
     public static readonly Text SpeedPotionDescription = new Text("Une potion pour courir plus vite !", "A potion to run faster !");

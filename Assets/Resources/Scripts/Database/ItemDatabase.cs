@@ -57,6 +57,9 @@ public static class ItemDatabase
     public static readonly WorkTop Torch = new WorkTop(44, TextDatabase.Torch, TextDatabase.TorchDescription, 12, Resources.Load<Texture2D>("Sprites/Items/WorkStation/Torch"), new Entity(EntityDatabase.TorchLoot), Resources.Load<GameObject>("PrefabsNoNetID/Previsualisations/Torch"), 134);
     public static readonly WorkTop Chest = new WorkTop(45, TextDatabase.Chest, TextDatabase.ChestDescription, 1, Resources.Load<Texture2D>("Sprites/Items/WorkStation/Chest"), new Entity(EntityDatabase.ChestLoot), Resources.Load<GameObject>("PrefabsNoNetID/Previsualisations/Chest"), 135);
     public static readonly WorkTop WolfTrap = new WorkTop(46, TextDatabase.WolfTrap, TextDatabase.WolfTrapDescription, 1, Resources.Load<Texture2D>("Sprites/Items/WorkStation/WolfTrap"), new Entity(EntityDatabase.WolfTrapLoot), Resources.Load<GameObject>("PrefabsNoNetID/Previsualisations/WolfTrap"), 136);
+	public static readonly WorkTop Piques = new WorkTop(47, TextDatabase.Spiques, TextDatabase.SpiquesDescription, 1, Resources.Load<Texture2D>("Sprites/Items/WorkStation/Spiques"), new Entity(EntityDatabase.PiquesLoot), Resources.Load<GameObject>("PrefabsNoNetID/Previsualisations/Spiques"), 137);
+	public static readonly WorkTop WoodenWall = new WorkTop(48, TextDatabase.WoodenWall, TextDatabase.WoodenWallDescription, 1, Resources.Load<Texture2D>("Sprites/Items/WorkStation/WoodenWall"), new Entity(EntityDatabase.WoodenWallLoot), Resources.Load<GameObject>("PrefabsNoNetID/Previsualisations/WoodenWall"), 138);
+	public static readonly WorkTop StoneWall = new WorkTop(49, TextDatabase.StoneWall, TextDatabase.StoneWallDescription, 1, Resources.Load<Texture2D>("Sprites/Items/WorkStation/StoneWall"), new Entity(EntityDatabase.StoneWallLoot), Resources.Load<GameObject>("PrefabsNoNetID/Previsualisations/StoneWall"), 139);
 
     // Tools |change the stonepickaxe if willing|
     public static readonly Pickaxe StonePickaxe = new Pickaxe(50, TextDatabase.StonePickaxe, TextDatabase.StonePickaxeDescription, 100, 100, Resources.Load<Texture2D>("Sprites/Items/Tools/IronPickaxe"), new Entity(EntityDatabase.IronPickaxe), Resources.Load<GameObject>("Prefabs/Tools/Pickaxes/IronPickaxe"));
@@ -238,6 +241,9 @@ public static class ItemDatabase
             yield return Workbench;
             yield return Chest;
             yield return WolfTrap;
+			yield return Piques;
+			yield return WoodenWall;
+			yield return StoneWall;
         }
     }
 
