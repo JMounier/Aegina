@@ -94,7 +94,8 @@ namespace UnityEngine.Networking
             catch
             {
                 this.characterShown = true;
-                this.skinCharacter = new Skin(Clothing.NormalBrownBeard, Clothing.NormalBrownHair, Clothing.NoneHat, Clothing.BasicBody, Clothing.BrownPant, Clothing.NoneTshirt, Clothing.BrownGloves, Clothing.BlackEye);
+                this.skinCharacter = new Skin(Clothing.NormalBrownBeard, Clothing.NormalBrownHair, Clothing.NoneHat, Clothing.BasicBody, Clothing.BrownOveralls, Clothing.NoneTshirt, Clothing.BrownGloves, Clothing.BlackEye);
+                this.skinCharacter.ForceApply(this.character);
             }
         }
         void Update()

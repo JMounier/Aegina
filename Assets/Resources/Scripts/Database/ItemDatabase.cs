@@ -42,11 +42,11 @@ public static class ItemDatabase
     public static readonly Consumable JumpPotion = new Consumable(24, TextDatabase.JumpPotion, TextDatabase.JumpPotionDescription, 64, Resources.Load<Texture2D>("Sprites/Items/Potions/YellowPotion"), new Entity(EntityDatabase.YellowPotion), new Effect(Effect.EffectType.JumpBoost, 1), Resources.Load<GameObject>("Prefabs/Consumables/Potions/Yellow"));
 
     // Foods
-    public static readonly Consumable MeatBalls = new Consumable(25, TextDatabase.MeatBalls, TextDatabase.MeatBallsDcription, 64, Resources.Load<Texture2D>("Sprites/Items/Foods/MeatBalls"), new Entity(EntityDatabase.MeatBalls), new Effect(Effect.EffectType.Saturation, 2), Resources.Load<GameObject>("Prefabs/Consumables/Foods/MeatBalls"));
-    public static readonly Consumable WaterCact = new Consumable(26, TextDatabase.WaterCact, TextDatabase.WaterCactDescription, 64, Resources.Load<Texture2D>("Sprites/Items/Foods/WaterCact"), new Entity(EntityDatabase.WaterCact), new Effect(Effect.EffectType.Refreshment, 2), Resources.Load<GameObject>("Prefabs/Consumables/Foods/WaterCact"));
+    public static readonly Consumable MeatBalls = new Consumable(25, TextDatabase.MeatBalls, TextDatabase.MeatBallsDcription, 64, Resources.Load<Texture2D>("Sprites/Items/Foods/MeatBalls"), new Entity(EntityDatabase.MeatBalls), new Effect(Effect.EffectType.Saturation, 3), Resources.Load<GameObject>("Prefabs/Consumables/Foods/MeatBalls"));
+    public static readonly Consumable WaterCact = new Consumable(26, TextDatabase.WaterCact, TextDatabase.WaterCactDescription, 64, Resources.Load<Texture2D>("Sprites/Items/Foods/WaterCact"), new Entity(EntityDatabase.WaterCact), new Effect(Effect.EffectType.Refreshment, 3), Resources.Load<GameObject>("Prefabs/Consumables/Foods/WaterCact"));
     public static readonly Consumable Mushroom = new Consumable(27, TextDatabase.Mushroom, TextDatabase.MushroomDescription, 64, Resources.Load<Texture2D>("Sprites/Items/Plants/Mushroom"), new Entity(EntityDatabase.MushroomLoot), new Effect(Effect.EffectType.Saturation, 2), Resources.Load<GameObject>("Prefabs/Consumables/Foods/Mushroom"));
-    public static readonly Consumable RedMushroom = new Consumable(28, TextDatabase.RedMushroom, TextDatabase.RedMushroom, 64, Resources.Load<Texture2D>("Sprites/Items/Plants/RedMushroom"), new Entity(EntityDatabase.RedMushroomLoot), new Effect(Effect.EffectType.Poison, 2), Resources.Load<GameObject>("Prefabs/Consumables/Foods/RedMushroom"));
-    public static readonly Consumable Steaw = new Consumable(29, TextDatabase.Sand, TextDatabase.Sand, 20, Resources.Load<Texture2D>("Sprites/Items/Foods/Steaw"), new Entity(EntityDatabase.Steaw), new Effect(Effect.EffectType.Saturation, 1), Resources.Load<GameObject>("Prefabs/Consumables/Foods/Steaw"));
+    public static readonly Consumable RedMushroom = new Consumable(28, TextDatabase.RedMushroom, TextDatabase.RedMushroom, 64, Resources.Load<Texture2D>("Sprites/Items/Plants/RedMushroom"), new Entity(EntityDatabase.RedMushroomLoot), new Effect(Effect.EffectType.Poison, 1), Resources.Load<GameObject>("Prefabs/Consumables/Foods/RedMushroom"));
+    public static readonly Consumable Soup = new Consumable(29, TextDatabase.Soup, TextDatabase.SoupDescription, 20, Resources.Load<Texture2D>("Sprites/Items/Foods/Soup"), new Entity(EntityDatabase.Soup), new Effect(Effect.EffectType.Saturation, 1), Resources.Load<GameObject>("Prefabs/Consumables/Foods/Soup"));
     public static readonly Consumable Apple = new Consumable(30, TextDatabase.Apple, TextDatabase.AppleDescription, 64, Resources.Load<Texture2D>("Sprites/Items/Plants/Apple"), new Entity(EntityDatabase.Apple), new Effect(Effect.EffectType.Saturation, 1), Resources.Load<GameObject>("Prefabs/Consumables/Foods/Apple"));
 
     // WorckTops
@@ -222,7 +222,7 @@ public static class ItemDatabase
             yield return WaterCact;
             yield return Mushroom;
             yield return RedMushroom;
-            yield return Steaw;
+            yield return Soup;
             yield return Apple;
         }
     }

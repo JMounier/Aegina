@@ -57,6 +57,7 @@ public class TextDatabase
 
 
     public static readonly Text Apple = new Text("Pomme", "Apple");
+    public static readonly Text Soup = new Text("Soupe", "Soup");
     public static readonly Text Cactus = new Text("Cactus", "Castus");
     public static readonly Text Petal = new Text("Petal", "Petal");
     public static readonly Text RedMushroom = new Text("Champignon rouge", "Red Mushroom");
@@ -108,6 +109,7 @@ public class TextDatabase
     public static readonly Text FangDescription = new Text("C'est une dent", "It's a fang");
 
     public static readonly Text AppleDescription = new Text("Une pomme bien rouge et juteuse", "A bright red and juicy apple");
+    public static readonly Text SoupDescription = new Text("Une soupe bien chaude", "A hot soup");
     public static readonly Text CactusDescription = new Text("Un petit cactus avec une fleur dessus. Il semble contenir une bonne quantite d'eau", "A little cactus with a flozer on it. It seem to contain a good amount of water");
     public static readonly Text PetalDescription = new Text("Un petale de fleur. C'est jolie mais peut utile. Vous n'allez pas le manger tout de meme ?", "A flower petal. It's beautiful but useless. You will not eat it, is it ? ");
     public static readonly Text RedMushroomDescription = new Text("Un champignon qui pourrait être comestible", "Mushroom which could be edible");
@@ -303,7 +305,12 @@ public class TextDatabase
     public static readonly Text AlienBody = new Text("C'est pas humain ca !", "This isn't a human !");
     public static readonly Text AquaBody = new Text("Avatar", "Avatar");
 
-    public static readonly Text BrownPant = new Text("Pantalon marron", "Brown pant");
+    public static readonly Text BrownOveralls = new Text("Salopette marron", "Brown overalls");
+    public static readonly Text BlueOveralls = new Text("Salopette bleue", "Blue overalls");
+    public static readonly Text BlackOveralls = new Text("Salopette noire", "Black overalls");
+    public static readonly Text RedOveralls = new Text("Salopette rouge", "Red overalls");
+    public static readonly Text GreenOveralls = new Text("Salopette verte", "Green overalls");
+    public static readonly Text WhiteOveralls = new Text("Salopette blanche", "White overalls");
 
     public static readonly Text BrownGloves = new Text("Gants marron", "Brown gloves");
     public static readonly Text BlueGloves = new Text("Gants bleus", "Blue gloves");

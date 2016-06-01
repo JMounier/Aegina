@@ -160,7 +160,12 @@ public class Clothing
     {
         get
         {
-            yield return BrownPant;
+            yield return BlackOveralls;
+            yield return BlueOveralls;
+            yield return BrownOveralls;
+            yield return GreenOveralls;
+            yield return RedOveralls;
+            yield return WhiteOveralls;
         }
     }
     public static IEnumerable<Tshirt> Tshirts
@@ -231,7 +236,6 @@ public class Clothing
                 else
                     return new Clothing(cloth);
         }
-        Debug.Log(id.ToString());
         throw new System.Exception("Clothing.Find : Clothing not find");
     }
 
@@ -243,14 +247,12 @@ public class Clothing
     public static readonly Body AlienBody = new Body(14, Resources.Load<Texture2D>("Models/Character/Textures/Bodies/Body_Alien"), TextDatabase.AlienBody, new Color(.341f, .525f, .184f));
     public static readonly Body AquaBody = new Body(15, Resources.Load<Texture2D>("Models/Character/Textures/Bodies/Body_Aqua"), TextDatabase.AquaBody, new Color(.290f, .439f, .384f));
 
-    public static readonly Pant BrownPant = new Pant(20, Resources.Load<Texture2D>("Models/Character/Textures/Pants/Pants_Brown"), TextDatabase.BrownPant, new Color(128f, 64f, 0f));
-
-    public static readonly Gloves BrownGloves = new Gloves(30, Resources.Load<Texture2D>("Models/Character/Textures/Gloves/Gloves_Brown"), TextDatabase.BrownGloves, new Color(.247f, .145f, .078f));
-    public static readonly Gloves BlueGloves = new Gloves(31, Resources.Load<Texture2D>("Models/Character/Textures/Gloves/Gloves_Blue"), TextDatabase.BlueGloves, new Color(.047f, .117f, .176f));
-    public static readonly Gloves WhiteGloves = new Gloves(32, Resources.Load<Texture2D>("Models/Character/Textures/Gloves/Gloves_White"), TextDatabase.WhiteGloves, new Color(.576f, .576f, .576f));
-    public static readonly Gloves RedGloves = new Gloves(33, Resources.Load<Texture2D>("Models/Character/Textures/Gloves/Gloves_Red"), TextDatabase.RedGloves, new Color(.337f, .055f, .020f));
-    public static readonly Gloves GreenGloves = new Gloves(34, Resources.Load<Texture2D>("Models/Character/Textures/Gloves/Gloves_Green"), TextDatabase.GreenGloves, new Color(.074f, .243f, .066f));
-    public static readonly Gloves PurpleGloves = new Gloves(35, Resources.Load<Texture2D>("Models/Character/Textures/Gloves/Gloves_Purple"), TextDatabase.PurpleGloves, new Color(.227f, .066f, .243f));
+    public static readonly Pant BrownOveralls = new Pant(20, Resources.Load<Texture2D>("Models/Character/Textures/Pants/Overalls_Brown"), TextDatabase.BrownOveralls, new Color(.188f, .074f, .02f));
+    public static readonly Pant BlueOveralls = new Pant(21, Resources.Load<Texture2D>("Models/Character/Textures/Pants/Overalls_Blue"), TextDatabase.BlueOveralls, new Color(.02f, .047f, .188f));
+    public static readonly Pant RedOveralls = new Pant(22, Resources.Load<Texture2D>("Models/Character/Textures/Pants/Overalls_Red"), TextDatabase.RedOveralls, new Color(.203f, 0f, .059f));
+    public static readonly Pant GreenOveralls = new Pant(23, Resources.Load<Texture2D>("Models/Character/Textures/Pants/Overalls_Green"), TextDatabase.GreenOveralls, new Color(.157f, .188f, .019f));
+    public static readonly Pant BlackOveralls = new Pant(24, Resources.Load<Texture2D>("Models/Character/Textures/Pants/Overalls_Black"), TextDatabase.BlackOveralls, new Color(.043f, .043f, .043f));
+    public static readonly Pant WhiteOveralls = new Pant(25, Resources.Load<Texture2D>("Models/Character/Textures/Pants/Overalls_White"), TextDatabase.WhiteOveralls, new Color(.525f, .525f, .525f));
 
     public static readonly Eyes BlackEye = new Eyes(40, Resources.Load<Texture2D>("Models/Character/Textures/Eyes/Eyes_Black"), TextDatabase.BlackEyes, new Color(0f, 0f, 0f));
     public static readonly Eyes GreenEye = new Eyes(41, Resources.Load<Texture2D>("Models/Character/Textures/Eyes/Eyes_Green"), TextDatabase.GreenEyes, new Color(.026f, .525f, .314f));
@@ -284,7 +286,6 @@ public class Clothing
     public static readonly Hat BlackTopHat = new Hat(82, Resources.Load<Texture2D>("Models/Character/Textures/Hat/TopBlack"), TextDatabase.BlackTopHat, Color.black, Hat.TypeHat.TopHat);
     public static readonly Hat StrawHat = new Hat(85, Resources.Load<Texture2D>("Models/Character/Textures/Hat/StrawRed"), TextDatabase.BlackTopHat, Color.red, Hat.TypeHat.StrawHat);
 
-
     public static readonly Beard NoneBeard = new Beard(90, TextDatabase.NoneBeard);
     public static readonly Beard NormalBlackBeard = new Beard(91, Resources.Load<Texture2D>("Models/Character/Textures/Beards/Beard_Black"), TextDatabase.BlackBeard, Color.black, Beard.TypeBeard.Beard);
     public static readonly Beard NormalBrownBeard = new Beard(92, Resources.Load<Texture2D>("Models/Character/Textures/Beards/Beard_Brown"), TextDatabase.BrownBeard, new Color(.337f, .078f, .031f), Beard.TypeBeard.Beard);
@@ -307,7 +308,14 @@ public class Clothing
     public static readonly Beard MoustachBlondBeard = new Beard(109, Resources.Load<Texture2D>("Models/Character/Textures/Beards/Beard_Blond"), TextDatabase.BlondBeard, new Color(.627f, .494f, 0f), Beard.TypeBeard.Moustach);
     public static readonly Beard MoustachWhiteBeard = new Beard(110, Resources.Load<Texture2D>("Models/Character/Textures/Beards/Beard_White"), TextDatabase.WhiteBeard, new Color(.514f, .514f, .514f), Beard.TypeBeard.Moustach);
 
-    public static readonly Tshirt NoneTshirt = new Tshirt(111, TextDatabase.Apple);
+    public static readonly Gloves BrownGloves = new Gloves(111, Resources.Load<Texture2D>("Models/Character/Textures/Gloves/Gloves_Brown"), TextDatabase.BrownGloves, new Color(.247f, .145f, .078f));
+    public static readonly Gloves BlueGloves = new Gloves(112, Resources.Load<Texture2D>("Models/Character/Textures/Gloves/Gloves_Blue"), TextDatabase.BlueGloves, new Color(.047f, .117f, .176f));
+    public static readonly Gloves WhiteGloves = new Gloves(113, Resources.Load<Texture2D>("Models/Character/Textures/Gloves/Gloves_White"), TextDatabase.WhiteGloves, new Color(.576f, .576f, .576f));
+    public static readonly Gloves RedGloves = new Gloves(114, Resources.Load<Texture2D>("Models/Character/Textures/Gloves/Gloves_Red"), TextDatabase.RedGloves, new Color(.337f, .055f, .020f));
+    public static readonly Gloves GreenGloves = new Gloves(115, Resources.Load<Texture2D>("Models/Character/Textures/Gloves/Gloves_Green"), TextDatabase.GreenGloves, new Color(.074f, .243f, .066f));
+    public static readonly Gloves PurpleGloves = new Gloves(116, Resources.Load<Texture2D>("Models/Character/Textures/Gloves/Gloves_Purple"), TextDatabase.PurpleGloves, new Color(.227f, .066f, .243f));
+
+    public static readonly Tshirt NoneTshirt = new Tshirt(120, TextDatabase.Apple);
 
     //Getter/Setter
     public int ID

@@ -75,7 +75,7 @@ public static class EntityDatabase
     public static readonly Entity WaterCact = new Entity(76, 60, Resources.Load<GameObject>("Prefabs/Loots/WaterCact"));
     public static readonly Entity MushroomLoot = new Entity(85, 60, Resources.Load<GameObject>("Prefabs/Loots/Mushroom"));
     public static readonly Entity RedMushroomLoot = new Entity(86, 60, Resources.Load<GameObject>("Prefabs/Loots/RedMushroom"));
-    public static readonly Entity Steaw = new Entity(87, 60, Resources.Load<GameObject>("Prefabs/Loots/Steaw"));
+    public static readonly Entity Soup = new Entity(87, 60, Resources.Load<GameObject>("Prefabs/Loots/Soup"));
 
     public static readonly Entity WoodenPlank = new Entity(77, 60, Resources.Load<GameObject>("Prefabs/Loots/WoodenPlank"));
     public static readonly Entity Glass = new Entity(78, 60, Resources.Load<GameObject>("Prefabs/Loots/Glass"));
@@ -269,7 +269,7 @@ public static class EntityDatabase
             yield return MushroomLoot;
             yield return RedMushroomLoot;
             yield return WaterCact;
-            yield return Steaw;
+            yield return Soup;
 
             //Worktops
             yield return ForgeLoot;
