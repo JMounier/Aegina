@@ -28,6 +28,7 @@ public class Menu : NetworkBehaviour
             return;
         this.inventory = GetComponentInParent<Inventory>();
         this.controller = GetComponentInParent<Controller>();
+        this.controller.Sensitivity = PlayerPrefs.GetFloat("Sensitivity", 4f);
         this.skin = Resources.Load<GUISkin>("Sprites/GUIskin/skin");
         this.skin.GetStyle("button").fontSize = (int)(Screen.height * 0.025f);
         this.NM = FindObjectOfType<NetworkManager>();
@@ -37,7 +38,9 @@ public class Menu : NetworkBehaviour
         this.height = Screen.height / 30;
         this.spacing = this.height * 2;
         this.soundAudio = GetComponent<Sound>();
+        this.soundAudio.Volume = PlayerPrefs.GetFloat("Sound_intensity", 0.1f);
         this.camera = this.GetComponentInChildren<Camera>();
+        this.camera.farClipPlane = PlayerPrefs.GetFloat("FieldOfView", 60f);
         this.page = -1;
         this.HelpPage = Resources.LoadAll<Texture2D>("Sprites/AideDeJeu");
     }
@@ -137,7 +140,6 @@ public class Menu : NetworkBehaviour
             this.optionShown = false;
             this.sonShown = true;
             this.soundAudio.PlaySound(AudioClips.Button, 1f);
-            this.soundAudio.Volume = PlayerPrefs.GetFloat("Sound_intensity", 0.1f);
         }
 
         if (GUI.Button(new Rect(this.posX, this.posY + this.spacing, this.width, this.height), TextDatabase.Language.GetText(), this.skin.GetStyle("button")))
@@ -157,9 +159,7 @@ public class Menu : NetworkBehaviour
         {
             this.optionShown = false;
             this.controlShown = true;
-            this.soundAudio.PlaySound(AudioClips.Button, 1f);
-            this.soundAudio.Volume = PlayerPrefs.GetFloat("Sensitivity", 4f);
-            this.camera.farClipPlane = PlayerPrefs.GetFloat("FieldOfView", 60f);
+            this.soundAudio.PlaySound(AudioClips.Button, 1f);           
         }
     }
 
@@ -229,8 +229,8 @@ public class Menu : NetworkBehaviour
         {
             this.optionShown = true;
             this.controlShown = false;
-            PlayerPrefs.SetFloat("Sensitivity", this.soundAudio.Volume);
-            PlayerPrefs.SetFloat("FieldOfView", this.soundAudio.Volume);
+            PlayerPrefs.SetFloat("Sensitivity", this.controller.Sensitivity);
+            PlayerPrefs.SetFloat("FieldOfView", this.camera.farClipPlane);
             this.soundAudio.PlaySound(AudioClips.Button, 1f);
         }
         GUI.Box(new Rect(this.posX, this.posY + 2 * this.spacing, this.width, this.height), TextDatabase.FieldOfView.GetText(), skin.GetStyle("Description"));
@@ -239,8 +239,6 @@ public class Menu : NetworkBehaviour
         {
             this.optionShown = true;
             this.controlShown = false;
-            this.soundAudio.Volume = PlayerPrefs.GetFloat("Sensitivity", 4f);
-            this.camera.farClipPlane = PlayerPrefs.GetFloat("FieldOfView", 60f);
             this.soundAudio.PlaySound(AudioClips.Button, 1f);
         }
     }

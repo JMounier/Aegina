@@ -13,7 +13,6 @@ namespace UnityEngine.Networking
     {
         private const float TransitionDelay = .3f;
         private enum CategoryCloth { None, Body, Hair, Eyes, Beard, Pant, TShirt, Gloves, Hat };
-        private MovieTexture loadingVideo;
         private Texture loadingImage;
 
         public enum TypeLaunch { Host, Client, Server, Stop };
@@ -55,7 +54,6 @@ namespace UnityEngine.Networking
         void Awake()
         {
             this.character = GameObject.Find("CharacterModel");
-            this.loadingVideo = Resources.Load<MovieTexture>("Sprites/SplashImages/LoadingVideo");
             this.loadingImage = Resources.Load<Texture>("Sprites/SplashImages/LoadingImage");
 
             this.incr = Random.Range(-0.02f, 0.02f);
@@ -108,13 +106,10 @@ namespace UnityEngine.Networking
             this.width = Screen.width / 4;
             this.height = Screen.height / 25;
             this.spacing = this.height * 2;
-            if (!this.manager.isNetworkActive)
-                loadingVideo.Stop();
         }
 
         void Start()
         {
-            this.loadingVideo.loop = true;
             this.firstScene.OnChar = this.characterShown;
             worldsList = new List<string>(Directory.GetDirectories(Application.dataPath + "/Saves"));
             for (int i = 0; i < worldsList.Count; i++)
@@ -180,7 +175,7 @@ namespace UnityEngine.Networking
 
                 else if (!this.manager.IsClientConnected())
                 {
-                    GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), this.loadingVideo);
+                    GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), this.loadingImage);
                     GUI.Box(new Rect(Screen.width / 4, Screen.height / 10, Screen.width / 2, Screen.width / 12.8f), "", this.skin.GetStyle("aegina"));
                     if (GUI.Button(new Rect(this.posX, Screen.height / 1.1f, this.width, this.height), TextDatabase.Cancel.GetText(), this.skin.GetStyle("button")))
                     {
@@ -189,8 +184,11 @@ namespace UnityEngine.Networking
                         this.manager.networkAddress = "localhost";
                     }
                 }
-                else if (!this.manager.clientLoadedScene)
+                else if (!this.manager.clientLoadedScene || GameObject.Find("Player(Clone)") == null || GameObject.Find("Player(Clone)").GetComponent<Controller>().Loading)
+                {
                     GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), this.loadingImage);
+                    GUI.Box(new Rect(Screen.width / 4, Screen.height / 10, Screen.width / 2, Screen.width / 12.8f), "", this.skin.GetStyle("aegina"));
+                }
             }
             else
             {
@@ -237,7 +235,6 @@ namespace UnityEngine.Networking
                     break;
                 case TypeLaunch.Client:
                     this.manager.StartClient();
-                    loadingVideo.Play();
                     break;
                 case TypeLaunch.Server:
                     this.manager.OnStartServer();
@@ -292,7 +289,6 @@ namespace UnityEngine.Networking
 
             if (GUI.Button(new Rect(this.posX, this.posY + this.spacing, this.width, this.height), TextDatabase.Validate.GetText(), this.skin.GetStyle("button")))
             {
-                this.optionShown = true;
                 this.sonShown = false;
                 PlayerPrefs.SetFloat("Sound_intensity", this.firstScene.Volume);
                 this.firstScene.PlayButtonSound();
@@ -321,7 +317,6 @@ namespace UnityEngine.Networking
             {
                 this.characterShown = false;
                 this.firstScene.OnChar = false;
-                this.optionShown = true;
                 PlayerPrefs.SetString("PlayerName", this.playerName);
                 PlayerPrefs.SetString("Skin", Skin.Save(this.skinCharacter));
                 this.firstScene.PlayButtonSound();
@@ -339,7 +334,7 @@ namespace UnityEngine.Networking
                 this.character.transform.Rotate(Vector3.up, -5);
             if (GUI.RepeatButton(new Rect(this.posX, this.posY + this.spacing * 5.2f, this.width / 4, this.width / 6), "", this.skin.GetStyle("left_arrow")))
                 this.character.transform.Rotate(Vector3.up, +5);
-           
+
             #region Category
             if (GUI.Button(new Rect(this.posX, this.posY - this.spacing * 1.5f, this.width / 5, this.width / 5), Resources.Load<Texture2D>("Sprites/Cosmetics/HatIcon")))
             {
@@ -948,31 +943,26 @@ namespace UnityEngine.Networking
                 i++;
             }
 
-            if (possible)
-            {
-                if (GUI.Button(rect, TextDatabase.Create.GetText(), skin.GetStyle("button")))
-                {
-                    if (newWorldName != "")
-                    {
-                        this.world = this.newWorldName;
-                        this.newWorldName = "World";
-                        this.worldcreateShown = false;
-                        System.Random genSeed = new System.Random();
-                        int seed = 0;
-                        if (seedstr == "")
-                            seed = genSeed.Next(int.MaxValue);
-                        else
-                            seed = MapGeneration.SeedToInt(seedstr);
 
-                        Save.CreateWorld(this.world, seed, this.typeCoop);
-                        this.worldsList.Add(this.world);
-                        this.Launch(TypeLaunch.Host);
-                    }
-                    this.firstScene.PlayButtonSound();
-                }
+            if (newWorldName != "" && possible && GUI.Button(rect, TextDatabase.Create.GetText(), skin.GetStyle("button")))
+            {
+
+                this.world = this.newWorldName;
+                this.newWorldName = "World";
+                this.worldcreateShown = false;
+                System.Random genSeed = new System.Random();
+                int seed = 0;
+                if (seedstr == "")
+                    seed = genSeed.Next(int.MaxValue);
+                else
+                    seed = MapGeneration.SeedToInt(seedstr);
+
+                Save.CreateWorld(this.world, seed, this.typeCoop);
+                this.worldsList.Add(this.world);
+                this.Launch(TypeLaunch.Host);
+                this.firstScene.PlayButtonSound();
             }
-            else
-                GUI.Box(rect, TextDatabase.Create.GetText(), this.skin.GetStyle("button"));
+         
             rect = new Rect(this.posX + this.width / 2, this.posY + 6 * this.spacing + 1.5f * this.height, (this.width - 10) / 2, this.height);
             if (GUI.Button(rect, TextDatabase.Back.GetText(), skin.GetStyle("button")))
             {

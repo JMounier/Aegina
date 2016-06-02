@@ -48,6 +48,9 @@ public class Controller : NetworkBehaviour
     private GameObject objectiv;
     private float interactDistance;
 
+    // Use for loading
+    private bool loading = true;
+
     // Use this for initialization
     void Start()
     {
@@ -60,7 +63,7 @@ public class Controller : NetworkBehaviour
         this.soundAudio = gameObject.GetComponent<Sound>();
 
         this.objectiv = null;
-
+        this.loading = true;
         if (!isLocalPlayer)
         {
             this.cam.SetActive(false);
@@ -77,8 +80,9 @@ public class Controller : NetworkBehaviour
         {
             int x = (int)Mathf.Round(this.character.transform.position.x / Chunk.Size);
             int y = (int)Mathf.Round(this.character.transform.position.z / Chunk.Size);
-            if (this.character.transform.position.y < 0 && !GameObject.Find("Map").GetComponent<MapGeneration>().isLoaded(x, y))
-                gameObject.GetComponent<Social_HUD>().RpcTeleport(new Vector3(this.character.transform.position.x, 10, this.character.transform.position.z));
+            this.loading = !GameObject.Find("Map").GetComponent<MapGeneration>().isLoaded(x, y);
+            if (this.character.transform.position.y < 0 && loading)            
+                gameObject.GetComponent<Social_HUD>().RpcTeleport(new Vector3(this.character.transform.position.x, 10, this.character.transform.position.z));            
         }
         if (!isLocalPlayer)
             return;
@@ -388,5 +392,10 @@ public class Controller : NetworkBehaviour
     {
         get { return this.interactDistance; }
         set { this.interactDistance = value; }
+    }
+
+    public bool Loading
+    {
+        get { return this.loading; }
     }
 }

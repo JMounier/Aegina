@@ -98,6 +98,8 @@ public class Success_HUD : NetworkBehaviour
     {
         Rect rect = new Rect(this.pos_x_success - 24, this.pos_y_success - 32, 12 * this.size + 48, 10 * this.size + 48);
         GUI.Box(rect, "", this.skin.GetStyle("inventory"));
+        Text tooltip = null;
+
         Queue file = new Queue();
         file.Enqueue(SuccessDatabase.Root);
         while (file.Count > 0)
@@ -172,7 +174,12 @@ public class Success_HUD : NetworkBehaviour
             rect2.width -= this.size / 2.5f;
             rect2.height -= this.size / 2.5f;
             GUI.DrawTexture(rect2, icon);
+            if (rect2.Contains(Event.current.mousePosition))
+                tooltip = node.Description;
         }
+        if (tooltip != null)
+            GUI.Box(new Rect(Event.current.mousePosition.x - Screen.width / 20, Event.current.mousePosition.y + Screen.height / 20, 100, 35 + 20 * (tooltip.GetText().Length / 35 + 1)),
+                           tooltip.GetText(), this.skin.GetStyle("Skin"));
     }
 
     private Texture GetCoude(bool firstX, int x, int y, Success son)
