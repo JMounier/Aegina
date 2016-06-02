@@ -197,6 +197,8 @@ public class Clothing
             yield return BrownEye;
             yield return BlueEye;
             yield return GreenEye;
+            yield return RedEye;
+            yield return OrangeEye;
         }
     }
 
@@ -267,6 +269,8 @@ public class Clothing
     public static readonly Eyes GreenEye = new Eyes(41, Resources.Load<Texture2D>("Models/Character/Textures/Eyes/Eyes_Green"), TextDatabase.GreenEyes, new Color(.026f, .525f, .314f));
     public static readonly Eyes BrownEye = new Eyes(42, Resources.Load<Texture2D>("Models/Character/Textures/Eyes/Eyes_Brown"), TextDatabase.BrwonEyes, new Color(.490f, .309f, .133f));
     public static readonly Eyes BlueEye = new Eyes(43, Resources.Load<Texture2D>("Models/Character/Textures/Eyes/Eyes_Blue"), TextDatabase.BlueEyes, new Color(.145f, .231f, .666f));
+    public static readonly Eyes RedEye = new Eyes(44, Resources.Load<Texture2D>("Models/Character/Textures/Eyes/Eyes_Red"), TextDatabase.RedEyes, new Color(.890f, .196f, .193f));
+    public static readonly Eyes OrangeEye = new Eyes(45, Resources.Load<Texture2D>("Models/Character/Textures/Eyes/Eyes_Orange"), TextDatabase.OrangeEyes, new Color(.949f, .580f, .110f));
 
     public static readonly Hair NoneHair = new Hair(50, TextDatabase.NoneHair);
     public static readonly Hair NormalBlackHair = new Hair(51, Resources.Load<Texture2D>("Models/Character/Textures/Hairs/Hair_Black"), TextDatabase.BlackHair, Color.black, Hair.TypeHair.Normal);
@@ -402,8 +406,8 @@ public class Skin
         if (this.tshirt.GetTypeTshirt != Tshirt.TypeTshirt.None)
             merge.Add(this.tshirt);
         merge.Add(this.pant);
-        merge.Add(gloves);
-        merge.Add(eyes);
+        merge.Add(this.gloves);
+        merge.Add(this.eyes);
         if (!this.bodyApplied)
         {
             Texture2D bodyTexture = Clothing.MergeSkin(merge.ToArray());
