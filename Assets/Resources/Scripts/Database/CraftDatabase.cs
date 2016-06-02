@@ -21,7 +21,7 @@ public static class CraftDatabase
     public static readonly Craft Glass = new Craft(16, new ItemStack(ItemDatabase.Glass, 1), false, false, true, false, false, Craft.Type.Elementary, new ItemStack(ItemDatabase.Sand, 3));
 
     public static readonly Craft MeatBrochette = new Craft(20, new ItemStack(ItemDatabase.MeatBalls, 1), false, false, false, false, false, Craft.Type.Consumable, new ItemStack(ItemDatabase.Gigot, 1), new ItemStack(ItemDatabase.Stick, 1));
-	public static readonly Craft Stew = new Craft(21,new ItemStack(ItemDatabase.Steaw,1),false,false,false,true,false,Craft.Type.Consumable,new ItemStack(ItemDatabase.Bowl,1),new ItemStack(ItemDatabase.Gigot,2),new ItemStack(ItemDatabase.WaterCact,1));
+	public static readonly Craft Stew = new Craft(21,new ItemStack(ItemDatabase.Soup,1),false,false,false,true,false,Craft.Type.Consumable,new ItemStack(ItemDatabase.Bowl,1),new ItemStack(ItemDatabase.Gigot,2),new ItemStack(ItemDatabase.WaterCact,1));
     public static readonly Craft Potion1 = new Craft(22, new ItemStack(ItemDatabase.WaterPotion, 1), false, false, false, true, false, Craft.Type.Consumable, new ItemStack(ItemDatabase.Glass, 1), new ItemStack(ItemDatabase.WaterCact, 3));
     public static readonly Craft Potion2 = new Craft(23, new ItemStack(ItemDatabase.SpeedPotion, 1), false, false, false, true, false, Craft.Type.Consumable, new ItemStack(ItemDatabase.WaterPotion, 1), new ItemStack(ItemDatabase.WaterCact, 3));
     public static readonly Craft Potion3 = new Craft(24, new ItemStack(ItemDatabase.PoisonPotion, 1), false, false, false, true, false, Craft.Type.Consumable, new ItemStack(ItemDatabase.Glass, 1), new ItemStack(ItemDatabase.RedMushroom, 2), new ItemStack(ItemDatabase.WaterCact, 1));

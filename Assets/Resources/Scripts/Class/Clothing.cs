@@ -64,11 +64,11 @@ public class Clothing
             foreach (Body body in Bodies)
                 yield return body;
 
-            foreach (Pant pant in Pants)
-                yield return pant;
-
             foreach (Tshirt tshirt in Tshirts)
                 yield return tshirt;
+
+            foreach (Pant pant in Pants)
+                yield return pant;
 
             foreach (Gloves gloves in Gloves)
                 yield return gloves;
@@ -160,7 +160,14 @@ public class Clothing
     {
         get
         {
+            yield return BlackOveralls;
+            yield return BlueOveralls;
+            yield return BrownOveralls;
+            yield return GreenOveralls;
+            yield return RedOveralls;
+            yield return WhiteOveralls;
             yield return BrownPant;
+            yield return WhitePant;
         }
     }
     public static IEnumerable<Tshirt> Tshirts
@@ -200,7 +207,11 @@ public class Clothing
             yield return NoneHat;
             yield return AmericanTopHat;
             yield return BlackTopHat;
-            yield return StrawHat;
+            yield return RedStrawHat;
+            yield return WhiteStrawHat;
+            yield return YellowStrawHat;
+            yield return PurpleStrawHat;
+            yield return BlackStrawHat;
         }
     }
 
@@ -220,10 +231,10 @@ public class Clothing
                     return new Body((Body)cloth);
                 else if (cloth is Pant)
                     return new Pant((Pant)cloth);
-                else if (cloth is Tshirt)
-                    return new Tshirt((Tshirt)cloth);
                 else if (cloth is Gloves)
                     return new Gloves((Gloves)cloth);
+                else if (cloth is Tshirt)
+                    return new Tshirt((Tshirt)cloth);
                 else if (cloth is Eyes)
                     return new Eyes((Eyes)cloth);
                 else if (cloth is Hat)
@@ -231,7 +242,6 @@ public class Clothing
                 else
                     return new Clothing(cloth);
         }
-        Debug.Log(id.ToString());
         throw new System.Exception("Clothing.Find : Clothing not find");
     }
 
@@ -243,14 +253,14 @@ public class Clothing
     public static readonly Body AlienBody = new Body(14, Resources.Load<Texture2D>("Models/Character/Textures/Bodies/Body_Alien"), TextDatabase.AlienBody, new Color(.341f, .525f, .184f));
     public static readonly Body AquaBody = new Body(15, Resources.Load<Texture2D>("Models/Character/Textures/Bodies/Body_Aqua"), TextDatabase.AquaBody, new Color(.290f, .439f, .384f));
 
-    public static readonly Pant BrownPant = new Pant(20, Resources.Load<Texture2D>("Models/Character/Textures/Pants/Pants_Brown"), TextDatabase.BrownPant, new Color(128f, 64f, 0f));
-
-    public static readonly Gloves BrownGloves = new Gloves(30, Resources.Load<Texture2D>("Models/Character/Textures/Gloves/Gloves_Brown"), TextDatabase.BrownGloves, new Color(.247f, .145f, .078f));
-    public static readonly Gloves BlueGloves = new Gloves(31, Resources.Load<Texture2D>("Models/Character/Textures/Gloves/Gloves_Blue"), TextDatabase.BlueGloves, new Color(.047f, .117f, .176f));
-    public static readonly Gloves WhiteGloves = new Gloves(32, Resources.Load<Texture2D>("Models/Character/Textures/Gloves/Gloves_White"), TextDatabase.WhiteGloves, new Color(.576f, .576f, .576f));
-    public static readonly Gloves RedGloves = new Gloves(33, Resources.Load<Texture2D>("Models/Character/Textures/Gloves/Gloves_Red"), TextDatabase.RedGloves, new Color(.337f, .055f, .020f));
-    public static readonly Gloves GreenGloves = new Gloves(34, Resources.Load<Texture2D>("Models/Character/Textures/Gloves/Gloves_Green"), TextDatabase.GreenGloves, new Color(.074f, .243f, .066f));
-    public static readonly Gloves PurpleGloves = new Gloves(35, Resources.Load<Texture2D>("Models/Character/Textures/Gloves/Gloves_Purple"), TextDatabase.PurpleGloves, new Color(.227f, .066f, .243f));
+    public static readonly Pant BrownOveralls = new Pant(20, Resources.Load<Texture2D>("Models/Character/Textures/Pants/Overalls_Brown"), TextDatabase.BrownOveralls, new Color(.188f, .074f, .02f), Pant.TypePant.Overalls);
+    public static readonly Pant BlueOveralls = new Pant(21, Resources.Load<Texture2D>("Models/Character/Textures/Pants/Overalls_Blue"), TextDatabase.BlueOveralls, new Color(.02f, .047f, .188f), Pant.TypePant.Overalls);
+    public static readonly Pant RedOveralls = new Pant(22, Resources.Load<Texture2D>("Models/Character/Textures/Pants/Overalls_Red"), TextDatabase.RedOveralls, new Color(.203f, 0f, .059f), Pant.TypePant.Overalls);
+    public static readonly Pant GreenOveralls = new Pant(23, Resources.Load<Texture2D>("Models/Character/Textures/Pants/Overalls_Green"), TextDatabase.GreenOveralls, new Color(.157f, .188f, .019f), Pant.TypePant.Overalls);
+    public static readonly Pant BlackOveralls = new Pant(24, Resources.Load<Texture2D>("Models/Character/Textures/Pants/Overalls_Black"), TextDatabase.BlackOveralls, new Color(.043f, .043f, .043f), Pant.TypePant.Overalls);
+    public static readonly Pant WhiteOveralls = new Pant(25, Resources.Load<Texture2D>("Models/Character/Textures/Pants/Overalls_White"), TextDatabase.WhiteOveralls, new Color(.525f, .525f, .525f), Pant.TypePant.Overalls);
+    public static readonly Pant BrownPant = new Pant(26, Resources.Load<Texture2D>("Models/Character/Textures/Pants/Pant_Brown"), TextDatabase.BrownPant, new Color(.188f, .074f, .02f), Pant.TypePant.Pant);
+    public static readonly Pant WhitePant = new Pant(27, Resources.Load<Texture2D>("Models/Character/Textures/Pants/Pant_White"), TextDatabase.WhitePant, new Color(.525f, .525f, .525f), Pant.TypePant.Pant);
 
     public static readonly Eyes BlackEye = new Eyes(40, Resources.Load<Texture2D>("Models/Character/Textures/Eyes/Eyes_Black"), TextDatabase.BlackEyes, new Color(0f, 0f, 0f));
     public static readonly Eyes GreenEye = new Eyes(41, Resources.Load<Texture2D>("Models/Character/Textures/Eyes/Eyes_Green"), TextDatabase.GreenEyes, new Color(.026f, .525f, .314f));
@@ -282,7 +292,11 @@ public class Clothing
     public static readonly Hat NoneHat = new Hat(80, TextDatabase.NoneHat);
     public static readonly Hat AmericanTopHat = new Hat(81, Resources.Load<Texture2D>("Models/Character/Textures/Hat/TopAmerica"), TextDatabase.AmericanTopHat, Color.blue, Hat.TypeHat.TopHat);
     public static readonly Hat BlackTopHat = new Hat(82, Resources.Load<Texture2D>("Models/Character/Textures/Hat/TopBlack"), TextDatabase.BlackTopHat, Color.black, Hat.TypeHat.TopHat);
-    public static readonly Hat StrawHat = new Hat(85, Resources.Load<Texture2D>("Models/Character/Textures/Hat/StrawRed"), TextDatabase.BlackTopHat, Color.red, Hat.TypeHat.StrawHat);
+    public static readonly Hat RedStrawHat = new Hat(83, Resources.Load<Texture2D>("Models/Character/Textures/Hat/StrawRed"), TextDatabase.StrawRed, Color.red, Hat.TypeHat.StrawHat);
+    public static readonly Hat BlackStrawHat = new Hat(84, Resources.Load<Texture2D>("Models/Character/Textures/Hat/StrawBlack"), TextDatabase.Strawblack, Color.black, Hat.TypeHat.StrawHat);
+    public static readonly Hat WhiteStrawHat = new Hat(85, Resources.Load<Texture2D>("Models/Character/Textures/Hat/StrawWhite"), TextDatabase.StrawWhite, Color.white, Hat.TypeHat.StrawHat);
+    public static readonly Hat YellowStrawHat = new Hat(86, Resources.Load<Texture2D>("Models/Character/Textures/Hat/StrawYellow"), TextDatabase.StrawYellow, Color.yellow, Hat.TypeHat.StrawHat);
+    public static readonly Hat PurpleStrawHat = new Hat(87, Resources.Load<Texture2D>("Models/Character/Textures/Hat/StrawPurple"), TextDatabase.StrawPurple, new Color(.733f,.156f,.878f), Hat.TypeHat.StrawHat);
 
 
     public static readonly Beard NoneBeard = new Beard(90, TextDatabase.NoneBeard);
@@ -307,7 +321,14 @@ public class Clothing
     public static readonly Beard MoustachBlondBeard = new Beard(109, Resources.Load<Texture2D>("Models/Character/Textures/Beards/Beard_Blond"), TextDatabase.BlondBeard, new Color(.627f, .494f, 0f), Beard.TypeBeard.Moustach);
     public static readonly Beard MoustachWhiteBeard = new Beard(110, Resources.Load<Texture2D>("Models/Character/Textures/Beards/Beard_White"), TextDatabase.WhiteBeard, new Color(.514f, .514f, .514f), Beard.TypeBeard.Moustach);
 
-    public static readonly Tshirt NoneTshirt = new Tshirt(111, TextDatabase.Apple);
+    public static readonly Gloves BrownGloves = new Gloves(111, Resources.Load<Texture2D>("Models/Character/Textures/Gloves/Gloves_Brown"), TextDatabase.BrownGloves, new Color(.247f, .145f, .078f));
+    public static readonly Gloves BlueGloves = new Gloves(112, Resources.Load<Texture2D>("Models/Character/Textures/Gloves/Gloves_Blue"), TextDatabase.BlueGloves, new Color(.047f, .117f, .176f));
+    public static readonly Gloves WhiteGloves = new Gloves(113, Resources.Load<Texture2D>("Models/Character/Textures/Gloves/Gloves_White"), TextDatabase.WhiteGloves, new Color(.576f, .576f, .576f));
+    public static readonly Gloves RedGloves = new Gloves(114, Resources.Load<Texture2D>("Models/Character/Textures/Gloves/Gloves_Red"), TextDatabase.RedGloves, new Color(.337f, .055f, .020f));
+    public static readonly Gloves GreenGloves = new Gloves(115, Resources.Load<Texture2D>("Models/Character/Textures/Gloves/Gloves_Green"), TextDatabase.GreenGloves, new Color(.074f, .243f, .066f));
+    public static readonly Gloves PurpleGloves = new Gloves(116, Resources.Load<Texture2D>("Models/Character/Textures/Gloves/Gloves_Purple"), TextDatabase.PurpleGloves, new Color(.227f, .066f, .243f));
+
+    public static readonly Tshirt NoneTshirt = new Tshirt(120, TextDatabase.Apple);
 
     //Getter/Setter
     public int ID
@@ -333,8 +354,8 @@ public class Skin
     private Hair hair;
     private Hat hat;
     private Body body;
-    private Pant pant;
     private Tshirt tshirt;
+    private Pant pant;
     private Gloves gloves;
     private Eyes eyes;
     private bool beardApplied, hairApplied, hatApplied, bodyApplied;
@@ -346,20 +367,20 @@ public class Skin
         this.hair = new Hair();
         this.hat = new Hat();
         this.body = new Body();
-        this.pant = new Pant();
         this.tshirt = new Tshirt();
+        this.pant = new Pant();
         this.gloves = new Gloves();
         this.eyes = new Eyes();
     }
 
-    public Skin(Beard beard, Hair hair, Hat hat, Body body, Pant pant, Tshirt tshirt, Gloves gloves, Eyes eyes)
+    public Skin(Beard beard, Hair hair, Hat hat, Body body, Tshirt tshirt, Pant pant, Gloves gloves, Eyes eyes)
     {
         this.beard = beard;
         this.hair = hair;
         this.hat = hat;
         this.body = body;
-        this.pant = pant;
         this.tshirt = tshirt;
+        this.pant = pant;
         this.gloves = gloves;
         this.eyes = eyes;
     }
@@ -376,9 +397,9 @@ public class Skin
 
         List<Clothing> merge = new List<Clothing>();
         merge.Add(this.body);
-        merge.Add(this.pant);
         if (this.tshirt.GetTypeTshirt != Tshirt.TypeTshirt.None)
             merge.Add(this.tshirt);
+        merge.Add(this.pant);
         merge.Add(gloves);
         merge.Add(eyes);
 
@@ -402,8 +423,8 @@ public class Skin
             skin.Beard.ID.ToString() + ":" +
             skin.Hair.ID.ToString() + ":" +
             skin.Body.ID.ToString() + ":" +
-            skin.Pant.ID.ToString() + ":" +
             skin.Tshirt.ID.ToString() + ":" +
+            skin.Pant.ID.ToString() + ":" +
             skin.Gloves.ID.ToString() + ":" +
             skin.Eyes.ID.ToString() + ":" +
             skin.hat.ID.ToString();
@@ -421,13 +442,13 @@ public class Skin
         Beard beard = Clothing.Find(int.Parse(skin[0])) as Beard;
         Hair hair = Clothing.Find(int.Parse(skin[1])) as Hair;
         Body body = Clothing.Find(int.Parse(skin[2])) as Body;
-        Pant pant = Clothing.Find(int.Parse(skin[3])) as Pant;
-        Tshirt tshirt = Clothing.Find(int.Parse(skin[4])) as Tshirt;
+        Tshirt tshirt = Clothing.Find(int.Parse(skin[3])) as Tshirt;
+        Pant pant = Clothing.Find(int.Parse(skin[4])) as Pant;
         Gloves gloves = Clothing.Find(int.Parse(skin[5])) as Gloves;
         Eyes eyes = Clothing.Find(int.Parse(skin[6])) as Eyes;
         Hat hat = Clothing.Find(int.Parse(skin[7])) as Hat;
 
-        return new Skin(beard, hair, hat, body, pant, tshirt, gloves, eyes);
+        return new Skin(beard, hair, hat, body, tshirt, pant, gloves, eyes);
     }
     public static void ChangeHat(Hat hat, GameObject character)
     {
@@ -663,7 +684,7 @@ public class Beard : Clothing
 public class Body : Clothing
 {
     private Color color;
-
+   
     // Constructeur
     public Body() : base()
     {
@@ -691,21 +712,26 @@ public class Body : Clothing
 public class Pant : Clothing
 {
     private Color color;
+    private TypePant type;
+    public enum TypePant { Overalls, Pant };
 
     // Constructeur
     public Pant() : base()
     {
         this.color = new Color();
+        this.type = TypePant.Overalls;
     }
 
-    public Pant(int id, Texture2D texture, Text description, Color color) : base(id, texture, description)
+    public Pant(int id, Texture2D texture, Text description, Color color, TypePant type) : base(id, texture, description)
     {
         this.color = color;
+        this.type = type;
     }
 
     public Pant(Pant pant) : base(pant)
     {
         this.color = pant.color;
+        this.type = pant.type;
     }
 
     // Getter/Setter 
@@ -713,6 +739,12 @@ public class Pant : Clothing
     {
         get { return this.color; }
         set { this.color = value; }
+    }
+
+    public TypePant GetTypePant
+    {
+        get { return this.type; }
+        set { this.type = value; }
     }
 }
 
