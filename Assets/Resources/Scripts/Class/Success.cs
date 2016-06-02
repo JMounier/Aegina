@@ -67,33 +67,54 @@ public class Success
 					switch (succ.id / 10)
                     {
                         case 1:
-                            foreach (GameObject player in allplayer)
-							player.GetComponent<Craft_HUD>().mastered(1, 2, 40, 50, 60, 71, 72, 73);
+                                foreach (GameObject player in allplayer)
+                                {
+                                    player.GetComponent<Craft_HUD>().mastered(1, 2, 40, 50, 60, 71, 72, 73);
+                                    player.GetComponent<Tutoriel>().Story();
+                                }
                             break;
                         case 2:
-                            foreach (GameObject player in allplayer)
-							player.GetComponent<Craft_HUD>().mastered( 4, 5, 10, 16, 41, 51, 61);
+                                foreach (GameObject player in allplayer)
+                                {
+                                    player.GetComponent<Craft_HUD>().mastered(4, 5, 10, 16, 41, 51, 61);
+                                    player.GetComponent<Tutoriel>().Story();
+                                }
                             break;
                         case 3:
-                            foreach (GameObject player in allplayer)
-							player.GetComponent<Craft_HUD>().mastered(3, 6, 10, 22, 23, 24, 25, 26, 27, 42, 52, 62);
+                                foreach (GameObject player in allplayer)
+                                {
+                                    player.GetComponent<Craft_HUD>().mastered(3, 6, 10, 22, 23, 24, 25, 26, 27, 42, 52, 62);
+                                    player.GetComponent<Tutoriel>().Story();
+                                }
                             break;
                         case 4:
-                            foreach (GameObject player in allplayer)
-							player.GetComponent<Craft_HUD>().mastered( 12, 21, 43, 53, 63);
-                            break;
+                                foreach (GameObject player in allplayer)
+                                {
+                                    player.GetComponent<Craft_HUD>().mastered(12, 21, 43, 53, 63);
+                                    player.GetComponent<Tutoriel>().Story();
+                                }
+                                break;
                         case 5:
-                            foreach (GameObject player in allplayer)
-							player.GetComponent<Craft_HUD>().mastered( 13, 44, 54, 64 );
-                            break;
+                                foreach (GameObject player in allplayer)
+                                {
+                                    player.GetComponent<Craft_HUD>().mastered(13, 44, 54, 64);
+                                    player.GetComponent<Tutoriel>().Story();
+                                }
+                                break;
                         case 6:
-                            foreach (GameObject player in allplayer)
-							player.GetComponent<Craft_HUD>().mastered( 14, 45, 55, 65);
-                            break;
+                                foreach (GameObject player in allplayer)
+                                {
+                                    player.GetComponent<Craft_HUD>().mastered(14, 45, 55, 65);
+                                    player.GetComponent<Tutoriel>().Story();
+                                }
+                                break;
                         case 7:
-                            foreach (GameObject player in allplayer)
-							player.GetComponent<Craft_HUD>().mastered( 15, 46, 56, 66);
-                            break;
+                                foreach (GameObject player in allplayer)
+                                {
+                                    player.GetComponent<Craft_HUD>().mastered(15, 46, 56, 66);
+                                    player.GetComponent<Tutoriel>().Story();
+                                }
+                                break;
                         default:
                             break;
                     }

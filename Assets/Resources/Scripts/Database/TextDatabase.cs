@@ -36,9 +36,9 @@ public class TextDatabase
     public static readonly Text Torch = new Text("Torche", "Torch");
     public static readonly Text Chest = new Text("Coffre", "Chest");
     public static readonly Text WolfTrap = new Text("Piège à loup", "Wolf trap");
-	public static readonly Text Spiques = new Text("Pique", "Pique trap");
-	public static readonly Text WoodenWall = new Text("Mur en bois", "Wooden wall");
-	public static readonly Text StoneWall = new Text("Mur en pierre", "Stone wall");
+    public static readonly Text Spiques = new Text("Pique", "Pique trap");
+    public static readonly Text WoodenWall = new Text("Mur en bois", "Wooden wall");
+    public static readonly Text StoneWall = new Text("Mur en pierre", "Stone wall");
 
 
 
@@ -97,9 +97,9 @@ public class TextDatabase
     public static readonly Text TorchDescription = new Text("Et la lumière fut !", "And there was light !");
     public static readonly Text ChestDescription = new Text("Permet de stocker plein de chose inutiles !", "Able to stock a lot of useless stuff !");
     public static readonly Text WolfTrapDescription = new Text("Utile pour chasser les créatures.", "Useful to hunt creatures.");
-	public static readonly Text SpiquesDescription = new Text("Un piège vicieux mais efficace", "The solution to protect your belongings from vicious robbers");
-	public static readonly Text WoodenWallDescription = new Text("Quelques piquets suffisent pour defendre votre maison", "In an other world, skulls were put on this kind of wall to frighten foreigners");
-	public static readonly Text StoneWallDescription = new Text("De quoi construire un vrai chateau", "An other brique in the wall");
+    public static readonly Text SpiquesDescription = new Text("Un piège vicieux mais efficace", "The solution to protect your belongings from vicious robbers");
+    public static readonly Text WoodenWallDescription = new Text("Quelques piquets suffisent pour defendre votre maison", "In an other world, skulls were put on this kind of wall to frighten foreigners");
+    public static readonly Text StoneWallDescription = new Text("De quoi construire un vrai chateau", "An other brique in the wall");
 
 
     public static readonly Text WaterPotionDescription = new Text("Une fiole pleine d'eau !", "A full water phial!");
@@ -244,25 +244,25 @@ public class TextDatabase
         "Getting used to his legs, Ille decided to start running");
     public static readonly Text RunObjectif = new Text("Cours (bouge avec la touche shift enfoncé)", "Run (hold the shift key and move)");
     public static readonly Text Jump = new Text(
-        "Ille estait tellement en forme qu'il pensait même pouvoir se permettre de sauter", 
+        "Ille estait tellement en forme qu'il pensait même pouvoir se permettre de sauter",
         "Ille is so fit that he thinks he can even afford to jump");
     public static readonly Text JumpObjectif = new Text("Saute (appuie sur la barre espace)", "Jump (press the spacebar)");
     public static readonly Text PickItem1 = new Text(
-        "Juste après avoir sauté, Ille entendi un sinistre grognement.", 
+        "Juste après avoir sauté, Ille entendi un sinistre grognement.",
         "Just after he jumped, Ille heard a sinister growl.");
     public static readonly Text PickItem2 = new Text(
         "Ille avait faim. Cependant dans cette contrée sauvage, il devina qu'il devait chasser sa nourriture. Mais pour chasser Ille avait besoin d'une arme.",
         "Ille is hungry. However, in this wilderness, he guesses he must hunt for food.Therefore he needs a weapon to hunt.");
     public static readonly Text PickItem3 = new Text(
-        "Justement il remarqua un bâton sur le chemin, l'arme parfaite pour lui", 
+        "Justement il remarqua un bâton sur le chemin, l'arme parfaite pour lui",
         "At this moment he noticed a stick on the way, the perfect weapon for him");
     public static readonly Text PickItemObjectif = new Text("Prendre le bâton (clic droit enfoncé près de l'objet)", "Take the Stick (hold the rightclick down near the stick)");
     public static readonly Text Equip = new Text(
-        "Après avoir mis le bâton dans sa poche, Ille se dit qu'il devrait peut être le sortir de celle-ci pour que son arme soit utilisable", 
+        "Après avoir mis le bâton dans sa poche, Ille se dit qu'il devrait peut être le sortir de celle-ci pour que son arme soit utilisable",
         "After putting the stick in his pocket, Ille take it out to use it");
     public static readonly Text EquipObjectif = new Text("Equiper le baton (ouvrez l'inventaire avec I et faite glisser le bâton dans la barre de racourcis en bas de l'écran, fermez l'inventaire (I ou escape) et sélectionnez ensuite le bâton avec la molette de la souris)", "Equip the stick (open the inventory with I, drag the stick in the bar on bottom of the screen, close the inventory (I or escape) and scrol to select the Stick )");
     public static readonly Text KillThePig = new Text(
-        "Ille se mit à la recherche de nourriture et en se retournant tomba nez à nez avec un animal. Ni une ni deux Ille attaqua son petit déjeuner", 
+        "Ille se mit à la recherche de nourriture et en se retournant tomba nez à nez avec un animal. Ni une ni deux Ille attaqua son petit déjeuner",
         "He starts looking for food and, while turning around, came face to face with an animal. It's time for breakfast..");
     public static readonly Text KillThePigObjectif = new Text("Attaque un cochon avec le clic gauche et récupère de la viande", "Kill a wild boar with the leftclick and get meat");
     public static readonly Text CraftABrochette = new Text(
@@ -270,7 +270,7 @@ public class TextDatabase
         "However, Ille has a vague recollection that raw meat is not an easily digestible breakfast. Without fire, he still decides to eat his meat prepared on skewers");
     public static readonly Text CraftABrochetteObejctif = new Text("Ouvrez l'inventaire et cliqué sur la potion à gauche puis cliqué sur la brochette et enfin valider pour créer", "Open the inventory, click on the potion at left, click at the skewer and valid to craft");
     public static readonly Text EatSomething = new Text(
-        "Le repas de Ille est près. Il ne lui suffisait plus que de consommer sa brochette et le grondement de son ventre cesserait", 
+        "Le repas de Ille est près. Il ne lui suffisait plus que de consommer sa brochette et le grondement de son ventre cesserait",
         "Ille's meal is ready. He just need to consumed his skewer and the rumble of his stomach would stop");
     public static readonly Text EatSomethingObjectif = new Text("sélectionne la brochette et maintient le clic droit pour manger", "select the skewer and hold the right click to eat");
     public static readonly Text DrinkSomething1 = new Text(
@@ -281,19 +281,19 @@ public class TextDatabase
         "However Ille saw little cactus on the horizon and thought that he could find some water in them");
     public static readonly Text DrinSomethingObjectif = new Text("récupère des cactus et transforme les en eau grâce à l'interface de création d'objets", "Gather some cactus and transforms them into water with the crafting interface");
     public static readonly Text CinematiqueWhereIAm1 = new Text(
-        "Maintenant que Ille avait trouvé de quoi survivre, il pouvait enfin se reposer. Jusqu'à présent  Ille n'avait pensé qu'à manger mais une fois le ventre rempli il se mit à penser et à se questionner", 
+        "Maintenant que Ille avait trouvé de quoi survivre, il pouvait enfin se reposer. Jusqu'à présent  Ille n'avait pensé qu'à manger mais une fois le ventre rempli il se mit à penser et à se questionner",
         "Now that Ille has found how to survive he can finally rest. So far Ille only thougt to eat but once his stomach fill he begin to think and to question himself ");
     public static readonly Text CinematiqueWhereIAm2 = new Text(
         "\" Mais où suis-je? Quel est cet endroit ?\" En effet cet archipel d'îles volantes ne lui etait pas familier ",
         "\" where am I? What is this place? \" Indeed this archipelago of floating island was not a familiar landscape for Ille.");
     public static readonly Text CinematiqueWhereIAm3 = new Text(
-        "\"Attends !!! Des îles volantes ?? Mais ce n'est pas possible, ça ne peut pas exister \" Et pourtant ce qui s'étendait à perte de vue n'estait pas une illusion. Ille ne se trouve plus chez lui, peut être même plus dans son monde.", 
+        "\"Attends !!! Des îles volantes ?? Mais ce n'est pas possible, ça ne peut pas exister \" Et pourtant ce qui s'étendait à perte de vue n'estait pas une illusion. Ille ne se trouve plus chez lui, peut être même plus dans son monde.",
         "\"Wait !!! Floating islands ?? But this is not possible, it can't exist \"Yet what lies out of sight is not an illusion. Ille is no longer at home, perhaps even not in his world.");
     public static readonly Text CinematiqueWhereIAm4 = new Text(
         "Quand Ille eu assimilé ce qui lui arrive, il prit une décision \" Il faut absolument que je comprenne où je suis et pour ça il faut que j'explore ces drôles d'îles\" Et c'est ainsi que Ille commença son aventure.",
         "When Ille assimilated what happens to him, he makes a decision \" It is imperative that I understand where I am and for that I must explore these strange islands \" And thus Ille begins his adventure.");
     public static readonly Text CristalView = new Text(
-        "en regardant aux alentours Ille vit un étrange éclat. Il decida donc de trouver sa source", 
+        "en regardant aux alentours Ille vit un étrange éclat. Il decida donc de trouver sa source",
         "looking around Ille saw a strange glow. So he decided to find its source");
     public static readonly Text CristalViewObjectif = new Text("trouve un cristal et examine le avec un clic droit", "Find a cristal and inspect it with a rightclick");
     public static readonly Text FirstCristal1 = new Text(
@@ -307,12 +307,109 @@ public class TextDatabase
         "Ille decides to go for the metal to test these strange reactions and moves away quickly not wanting to lose his precious belt");
     public static readonly Text FirstCrisatlObjectif = new Text("fabrique une hache,équippe la pour récolter du bois ,fabrique un établi, pose le avec le clic droit, fabrique une pioche et part récupérer les minerai pour enfin activer le cristal", "Craft an ace, equip it to gather wood,Craft a worktop, pose it with a rightclick, craft a pickaxe and go find ore to finally activate the crystal");
 
-    // Skin 
+    // Story
+
+    public static readonly Text StoneAgeStory1 = new Text("", "");
+    public static readonly Text StoneAgeStory2 = new Text("", "");
+    public static readonly Text StoneAgeStory3 = new Text("", "");
+    public static readonly Text StoneAgeStory4 = new Text("", "");
+    public static readonly Text StoneAgeStory5 = new Text("", "");
+    public static readonly Text StoneAgeStory6 = new Text("", "");
+    public static readonly Text StoneAgeStory7 = new Text("", "");
+    public static readonly Text StoneAgeStory8 = new Text("", "");
+    public static readonly Text StoneAgeStory9 = new Text("", "");
+
+    public static readonly Text CopperAgeStory1 = new Text("", "");
+    public static readonly Text CopperAgeStory2 = new Text("", "");
+    public static readonly Text CopperAgeStory3 = new Text("", "");
+    public static readonly Text CopperAgeStory4 = new Text("", "");
+    public static readonly Text CopperAgeStory5 = new Text("", "");
+    public static readonly Text CopperAgeStory6 = new Text("", "");
+    public static readonly Text CopperAgeStory7 = new Text("", "");
+    public static readonly Text CopperAgeStory8 = new Text("", "");
+
+    public static readonly Text IronAgeStory1 = new Text("", "");
+    public static readonly Text IronAgeStory2 = new Text("", "");
+    public static readonly Text IronAgeStory3 = new Text("", "");
+    public static readonly Text IronAgeStory4 = new Text("", "");
+    public static readonly Text IronAgeStory5 = new Text("", "");
+    public static readonly Text IronAgeStory6 = new Text("", "");
+    public static readonly Text IronAgeStory7 = new Text("", "");
+
+    public static readonly Text GoldAgeStory1 = new Text("", "");
+    public static readonly Text GoldAgeStory2 = new Text("", "");
+    public static readonly Text GoldAgeStory3 = new Text("", "");
+    public static readonly Text GoldAgeStory4 = new Text("", "");
+    public static readonly Text GoldAgeStory5 = new Text("", "");
+    public static readonly Text GoldAgeStory6 = new Text("", "");
+    public static readonly Text GoldAgeStory7 = new Text("", "");
+    public static readonly Text GoldAgeStory8 = new Text("", "");
+    public static readonly Text GoldAgeStory9 = new Text("", "");
+
+    public static readonly Text MithrilAgeStory1 = new Text("", "");
+    public static readonly Text MithrilAgeStory2 = new Text("", "");
+    public static readonly Text MithrilAgeStory3 = new Text("", "");
+    public static readonly Text MithrilAgeStory4 = new Text("", "");
+    public static readonly Text MithrilAgeStory5 = new Text("", "");
+    public static readonly Text MithrilAgeStory6 = new Text("", "");
+    public static readonly Text MithrilAgeStory7 = new Text("", "");
+    public static readonly Text MithrilAgeStory8 = new Text("", "");
+    public static readonly Text MithrilAgeStory9 = new Text("", "");
+
+    public static readonly Text FloatiumAgeStory1 = new Text("", "");
+    public static readonly Text FloatiumAgeStory2 = new Text("", "");
+    public static readonly Text FloatiumAgeStory3 = new Text("", "");
+    public static readonly Text FloatiumAgeStory4 = new Text("", "");
+    public static readonly Text FloatiumAgeStory5 = new Text("", "");
+    public static readonly Text FloatiumAgeStory6 = new Text("", "");
+    public static readonly Text FloatiumAgeStory7 = new Text("", "");
+    public static readonly Text FloatiumAgeStory8 = new Text("", "");
+    public static readonly Text FloatiumAgeStory9 = new Text("", "");
+
+    public static readonly Text PreSunkiumAgeStory = new Text("", "");
+
+    // Boss
+
+    public static readonly Text PreBossBattle1 = new Text("", "");
+    public static readonly Text PreBossBattle2 = new Text("", "");
+    public static readonly Text PreBossBattle3 = new Text("", "");
+    public static readonly Text PreBossBattle4 = new Text("", "");
+    public static readonly Text PreBossBattle5 = new Text("", "");
+    public static readonly Text PreBossBattle6 = new Text("", "");
+    public static readonly Text PreBossBattle7 = new Text("", "");
+    public static readonly Text PreBossBattle8 = new Text("", "");
+    public static readonly Text PreBossBattle9 = new Text("", "");
+    public static readonly Text PreBossBattle10 = new Text("", "");
+    public static readonly Text PreBossBattle11 = new Text("", "");
+    public static readonly Text PreBossBattle12 = new Text("", "");
+    public static readonly Text PreBossBattle13 = new Text("", "");
+    public static readonly Text PreBossBattle14 = new Text("", "");
+    public static readonly Text PreBossBattle15 = new Text("", "");
+    public static readonly Text PreBossBattle16 = new Text("", "");
+    public static readonly Text PreBossBattle17 = new Text("", "");
+    public static readonly Text PreBossBattle18 = new Text("", "");
+    public static readonly Text PreBossBattle19 = new Text("", "");
+    public static readonly Text PreBossBattle20 = new Text("", "");
+    public static readonly Text PreBossBattle21 = new Text("", "");
+    public static readonly Text PreBossBattle22 = new Text("", "");
+
+    // Fin
+
+    public static readonly Text FinEgoïsme = new Text("", "");
+
+    public static readonly Text FinSacrifice = new Text("", "");
+
+    public static readonly Text HappyEnd = new Text("", "");
+
+
+
+    // Skin
+
     public static readonly Text WhiteBody = new Text("Corps blanc", "White skin");
     public static readonly Text BasicBody = new Text("Corps basic", "Basic skin");
     public static readonly Text BlackBody = new Text("Corps noir", "Black skin");
-    public static readonly Text DarkBody = new Text("Corps bronzé", "Dark skin");
-    public static readonly Text AlienBody = new Text("C'est pas humain ca !", "This isn't a human !");
+    public static readonly Text DarkBody = new Text("Corps bronzé", "Tanned skin");
+    public static readonly Text AlienBody = new Text("C'est pas humain ca !", "This isn't human !");
     public static readonly Text AquaBody = new Text("Avatar", "Avatar");
 
     public static readonly Text BrownOveralls = new Text("Salopette marron", "Brown overalls");
