@@ -51,7 +51,7 @@ public class MapGeneration : NetworkBehaviour
             foreach (Tuple<int, int> pos in posPlayers)
             {
                 int x = pos.Item1;
-                int y = pos.Item2;               
+                int y = pos.Item2;
 
                 for (int i = x - 1; i < x + 2; i++)
                     for (int j = y - 1; j < y + 2; j++)
@@ -63,7 +63,7 @@ public class MapGeneration : NetworkBehaviour
                             min = dist;
                             best = new Tuple<int, int>(i, j);
                         }
-                    }             
+                    }
             }
             if (best != null)
                 this.generating = GenerateChunk(best.Item1, best.Item2);
@@ -119,7 +119,7 @@ public class MapGeneration : NetworkBehaviour
             System.Random randDown = new System.Random(chunkSeed(x, y - 1));
             randDown.NextDouble();
             down = randDown.NextDouble() < .5f || x == 0 && y == 1;
-            cristal = rand.NextDouble() < .1f || x == 0 && y == 0;
+            cristal = rand.NextDouble() < .1f && (left || right || up || down) || x == 0 && y == 0;
         }
         if (!up && !right && !down && !left)
             return EntityDatabase.RandChunk(Bridges.None, rand).StartGenerate(x, y, rand, (Directions)rand.Next(4), gameObject, cristal);

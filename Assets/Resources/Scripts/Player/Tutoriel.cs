@@ -142,7 +142,6 @@ public class Tutoriel : NetworkBehaviour
                 textObjectif = TextDatabase.KillThePigObjectif;
                 if (this.cooldown > 0 && this.cooldown < 1)
                 {
-                    Debug.Log("screen");
                     this.cooldown = 0;
                     this.menu.Helpshown = true;
                     this.menu.Page = Text.GetLanguage() == SystemLanguage.English ? 0 : 3;
