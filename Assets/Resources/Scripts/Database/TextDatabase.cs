@@ -309,89 +309,75 @@ public class TextDatabase
 
     // Story
 
-    public static readonly Text StoneAgeStory1 = new Text("", "");
-    public static readonly Text StoneAgeStory2 = new Text("", "");
-    public static readonly Text StoneAgeStory3 = new Text("", "");
-    public static readonly Text StoneAgeStory4 = new Text("", "");
-    public static readonly Text StoneAgeStory5 = new Text("", "");
-    public static readonly Text StoneAgeStory6 = new Text("", "");
-    public static readonly Text StoneAgeStory7 = new Text("", "");
-    public static readonly Text StoneAgeStory8 = new Text("", "");
-    public static readonly Text StoneAgeStory9 = new Text("", "");
+    public static readonly Text StoneAgeStory1 = new Text("En activant le cristal Ille sentit un puissant pouvoir se dégager de celui-ci et un lien se former entre lui et le cristal", "");
+    public static readonly Text StoneAgeStory2 = new Text("Le pouvoir du cristal était exceptionnelle et se mit à traverser le corps de Ille", "");
+    public static readonly Text StoneAgeStory3 = new Text("Ille comprit alors ce que le cristal avait fait. Tant que celui-ci serait activer Ille sera immortelle. La mort ne serait qu’une étape passagère avant que le cristal le ramène à la vie.", "");
+    public static readonly Text StoneAgeStory4 = new Text("Dans ce monde le cristal avait besoin de lui et Ille avait besoin du cristal pour survivre.", "");
+    public static readonly Text StoneAgeStory5 = new Text(" En sentant ce pouvoir Ille se dit que la clef pour retourner chez lui se trouvait dans ce cristal", "");
+    public static readonly Text StoneAgeStory6 = new Text("Cependant le cristal n’avait pas encore retrouvé tout ces pouvoirs. Celui-ci se mit à communiqué avec Ille.", "");
+    public static readonly Text StoneAgeStory7 = new Text("Pour retrouvé ses pouvoirs Ille devait lui ramener une ressources particulière qu’il ne pourrait trouvé que sur le cadavre d’un chef de meute sanglier. ", "");
+    public static readonly Text StoneAgeStory8 = new Text("Ille ne pouvait pas tout de suite affronter un chef de meute sanglier. Il devait d’abord se préparer.", "");
+    public static readonly Text StoneAgeStory9 = new Text("Ille décida qu’il allait fabriquer un coffre car ses poches commençait à se remplir. ensuite il fabriquerait une arme pour combattre les sangliers  et se créer une armure.", "");
+    public static readonly Text StoneAgeStory10 = new Text("Quand tout sera prêt Ille pourra enfin combattre un chef de meute sanglier. ", ""); 
 
-    public static readonly Text CopperAgeStory1 = new Text("", "");
-    public static readonly Text CopperAgeStory2 = new Text("", "");
-    public static readonly Text CopperAgeStory3 = new Text("", "");
-    public static readonly Text CopperAgeStory4 = new Text("", "");
-    public static readonly Text CopperAgeStory5 = new Text("", "");
-    public static readonly Text CopperAgeStory6 = new Text("", "");
-    public static readonly Text CopperAgeStory7 = new Text("", "");
-    public static readonly Text CopperAgeStory8 = new Text("", "");
 
-    public static readonly Text IronAgeStory1 = new Text("", "");
-    public static readonly Text IronAgeStory2 = new Text("", "");
-    public static readonly Text IronAgeStory3 = new Text("", "");
-    public static readonly Text IronAgeStory4 = new Text("", "");
-    public static readonly Text IronAgeStory5 = new Text("", "");
-    public static readonly Text IronAgeStory6 = new Text("", "");
-    public static readonly Text IronAgeStory7 = new Text("", "");
+    public static readonly Text CopperAgeStory1 = new Text("Ille avait réussi. Le chef de meute sanglier gisait maintenant à ces pieds et avec son cadavre la ressources> qu’il recherchait", "");
+    public static readonly Text CopperAgeStory2 = new Text("Il voulait s’empresser d’offrir cette ressource au cristal mais tout ne se passa pas comme prévue.", "");
+    public static readonly Text CopperAgeStory3 = new Text("Cependant le cristal ne pouvait pas absorber la ressource telle qu’elle. Celui-ci avait également besoin de minerai pour l’aider.", "");
+    public static readonly Text CopperAgeStory4 = new Text("Ces minerais devait être bien plus pur que ceux que l’on trouve dans la nature.", "");
+    public static readonly Text CopperAgeStory5 = new Text("Ille n’avait pas d’autre choix que de préparer les minerais lui-même. et pour cela il lui faudrait une forge.", "");
+    public static readonly Text CopperAgeStory6 = new Text("De plus Ille avait été blessé pendant son combat et il fallait qu’il récupère.", "");
+    public static readonly Text CopperAgeStory7 = new Text("Heureusement le cristal lui avait donné une recette pour fabriquer une potion qui pourrait le soigner mais cela demanderait la fabrication d’un chaudron.", "");
+    public static readonly Text CopperAgeStory8 = new Text("s’en attendre Ille décida de se mettre au boulot.", "");
 
-    public static readonly Text GoldAgeStory1 = new Text("", "");
-    public static readonly Text GoldAgeStory2 = new Text("", "");
-    public static readonly Text GoldAgeStory3 = new Text("", "");
-    public static readonly Text GoldAgeStory4 = new Text("", "");
-    public static readonly Text GoldAgeStory5 = new Text("", "");
-    public static readonly Text GoldAgeStory6 = new Text("", "");
-    public static readonly Text GoldAgeStory7 = new Text("", "");
-    public static readonly Text GoldAgeStory8 = new Text("", "");
-    public static readonly Text GoldAgeStory9 = new Text("", "");
+    public static readonly Text IronAgeStory1 = new Text("Ille était de nouveau comme neuf et le cristal avait récupérer une partie de ses pouvoirs.", "");
+    public static readonly Text IronAgeStory2 = new Text("Cependant rentre chez lui demanderait au cristal un pouvoir encore plus grand. Il avait donc besoin de récupérer encore plus de force.", "");
+    public static readonly Text IronAgeStory3 = new Text("Cette fois ci le cristal avait besoin d’une ressource garder par le chef de meute pampi une créatures craintif qui serait extrêmement difficile à tuer d’autant plus qu’elle possède une force monstrueuse.", "");
+    public static readonly Text IronAgeStory4 = new Text("Pour se préparer Ille prévoyait d’utiliser de sa nouvelle forge pour se créer de nouvelles armes et armures.", "");
+    public static readonly Text IronAgeStory5 = new Text("Ille prévoyait également d’aller combattre des pampas pour comprendre leur comportement.", "");
+    public static readonly Text IronAgeStory6 = new Text("Enfin, afin d’éviter que le <chef de meute pampi> s’enfuit, Ille allait créer des pièges pour l'immobiliser et le vaincre plus facilement.", "");
 
-    public static readonly Text MithrilAgeStory1 = new Text("", "");
-    public static readonly Text MithrilAgeStory2 = new Text("", "");
-    public static readonly Text MithrilAgeStory3 = new Text("", "");
-    public static readonly Text MithrilAgeStory4 = new Text("", "");
-    public static readonly Text MithrilAgeStory5 = new Text("", "");
-    public static readonly Text MithrilAgeStory6 = new Text("", "");
-    public static readonly Text MithrilAgeStory7 = new Text("", "");
-    public static readonly Text MithrilAgeStory8 = new Text("", "");
-    public static readonly Text MithrilAgeStory9 = new Text("", "");
+    public static readonly Text GoldAgeStory1 = new Text("Une seconde fois le cadavre d’un chef de meute se trouvait à ses pieds. Mais Ille ne se sentait pas aussi bien que la dernière fois. Le comportement et les bruits de ses pampa était beaucoup trop humain.", "");
+    public static readonly Text GoldAgeStory2 = new Text("Lors de ces derniers instant le chef de meute pampi lui avait jeter un regard empli de peur qui l’avait rendu mal à l’aise. Il avait même eu l’impression que celui-ci avait appelé à l’aide lors de ces derniers instants.", "");
+    public static readonly Text GoldAgeStory3 = new Text("Ille avait-il vraiment le droit de priver ces être de la vie. Ce n’était pas juste comme quand Ille chassait pour manger. ", "");
+    public static readonly Text GoldAgeStory4 = new Text("Là il avait tuer de nombreux pampa dans le seul but de s'entraîner puis le chef de meute pampi, qui ne demandait qu’a vivre en paix, pour récupérer sa ressource.", "");
+    public static readonly Text GoldAgeStory5 = new Text("Cependant tout cela était nécessaire pour qu’Ille retourne chez lui et il décida donc de laisser ses remords de coté et d’aller revoir le cristal.", "");
+    public static readonly Text GoldAgeStory6 = new Text("Le cristal lui appris alors que pour récupérer une nouvelles parties de ses pouvoirs, en plus d’absorber la ressource il aurait besoin d’être connecter à d’autres cristaux de nature différentes.", "");
+    public static readonly Text GoldAgeStory7 = new Text("Pour cela Ille devrait trouver des cristaux de guerre et de récolte et leur redonner du pouvoir comme ce qu’il avait fait avec le cristal divin.", "");
+     
+    public static readonly Text MithrilAgeStory1 = new Text("Après avoir récupéré une seconde partie de ses ces pouvoirs le cristal révéla à Ille qu’il ne lui restait plus qu’a lui apporter une dernière ressources pour que le cristal récupère tout ses pouvoirs.", "");
+    public static readonly Text MithrilAgeStory2 = new Text("Cette <ressources> était garder par les slimes de terribles monstres capable de résister aux attaques des armes normales et dont les attaques pouvait passer à travers les armures basiques.", "");
+    public static readonly Text MithrilAgeStory3 = new Text("Le cristal conseilla à Ille de s'équiper avec des armes et armures plus résistante puis de s’entrainer sur les slimes avant de s’attaquer au chef de meute slime qui détient la dernière ressource.", "");
 
-    public static readonly Text FloatiumAgeStory1 = new Text("", "");
-    public static readonly Text FloatiumAgeStory2 = new Text("", "");
-    public static readonly Text FloatiumAgeStory3 = new Text("", "");
-    public static readonly Text FloatiumAgeStory4 = new Text("", "");
-    public static readonly Text FloatiumAgeStory5 = new Text("", "");
-    public static readonly Text FloatiumAgeStory6 = new Text("", "");
-    public static readonly Text FloatiumAgeStory7 = new Text("", "");
-    public static readonly Text FloatiumAgeStory8 = new Text("", "");
-    public static readonly Text FloatiumAgeStory9 = new Text("", "");
+    public static readonly Text FloatiumAgeStory1 = new Text("En ramenant la ressource le cristal lui appris que pour absorber celle-ci il aurait besoin que deux autres cristaux de récolte et de guerre ai récupéré tout leurs pouvoirs.", "");
+    public static readonly Text FloatiumAgeStory2 = new Text("Ille se sentit énervé d’être utilisé comme ça mais vu que le cristal allait bientôt retrouver tout ces pouvoir et pourrait le ramener chez lui Ille décida de prendre sur lui même et ce mit en route.", "");
 
-    public static readonly Text PreSunkiumAgeStory = new Text("", "");
+    public static readonly Text PreSunkiumAgeStory = new Text("Le moment était venu, il ne lui restait plus qu’a améliorer une dernière fois le cristal divin et celui-ci pourrait enfin le ramener chez lui", "");
 
     // Boss
 
-    public static readonly Text PreBossBattle1 = new Text("", "");
-    public static readonly Text PreBossBattle2 = new Text("", "");
-    public static readonly Text PreBossBattle3 = new Text("", "");
-    public static readonly Text PreBossBattle4 = new Text("", "");
-    public static readonly Text PreBossBattle5 = new Text("", "");
-    public static readonly Text PreBossBattle6 = new Text("", "");
-    public static readonly Text PreBossBattle7 = new Text("", "");
-    public static readonly Text PreBossBattle8 = new Text("", "");
-    public static readonly Text PreBossBattle9 = new Text("", "");
-    public static readonly Text PreBossBattle10 = new Text("", "");
-    public static readonly Text PreBossBattle11 = new Text("", "");
-    public static readonly Text PreBossBattle12 = new Text("", "");
-    public static readonly Text PreBossBattle13 = new Text("", "");
-    public static readonly Text PreBossBattle14 = new Text("", "");
-    public static readonly Text PreBossBattle15 = new Text("", "");
-    public static readonly Text PreBossBattle16 = new Text("", "");
-    public static readonly Text PreBossBattle17 = new Text("", "");
-    public static readonly Text PreBossBattle18 = new Text("", "");
-    public static readonly Text PreBossBattle19 = new Text("", "");
-    public static readonly Text PreBossBattle20 = new Text("", "");
-    public static readonly Text PreBossBattle21 = new Text("", "");
-    public static readonly Text PreBossBattle22 = new Text("", "");
+    public static readonly Text PreBossBattle1 = new Text("Juste après avoir amélioré une dernière fois le cristal divin Ille se senti transporter dans un autre lieu.", "");
+    public static readonly Text PreBossBattle2 = new Text("En relevant la tête Ille vit qu’il se trouvait sur un socle au beau milieu d’un espace d’un noir insondable.", "");
+    public static readonly Text PreBossBattle3 = new Text("“Où suis-je ?” demanda Ille", "");
+    public static readonly Text PreBossBattle4 = new Text("“Nous sommes dans les abysses d’Aegina. là où tout finis. Je me suis dis que ce serai un endroit convenable pour la fin de ton périple”", "");
+    public static readonly Text PreBossBattle5 = new Text("En entendant cette voix Ille se retourna et vit un immense cristal flottant dans le vide. La voix lui était vaguement familière et semblait venir du cristal.", "");
+    public static readonly Text PreBossBattle6 = new Text("“C’est vrai que je ne me suis jamais vraiment présenté. Je suis Gundam le seigneur des cristaux.”", "");
+    public static readonly Text PreBossBattle7 = new Text("“Durant ton séjour dans ce monde tu n’as pas arrêter de m’aider à amplifier mes pouvoirs dans le but de revenir chez toi.”", "");
+    public static readonly Text PreBossBattle8 = new Text("“Tu as tué de nombreux sangliers pampa et <troisième créatures agrésive> ainsi que leur chef et je t’en remercie.”", "");
+    public static readonly Text PreBossBattle9 = new Text("“Ces créatures était les gardiens des <ressources> et les gardaient pour empêcher les cristaux d’amplifier leurs pouvoirs”", "");
+    public static readonly Text PreBossBattle10 = new Text("“Mais grâce à toi j’ai assez de pouvoir pour me connecter à tous les cristaux d’Aegina et les activer.”", "");
+    public static readonly Text PreBossBattle11 = new Text("“Je suis devenue le dieu d’Aegina.”", "");
+    public static readonly Text PreBossBattle12 = new Text("“Cependant avant que je m’attelle à cette tâche et que je punisse ces sombres créatures qui ont tenté de m’entraver il reste un dernier détail à régler.”", "");
+    public static readonly Text PreBossBattle13 = new Text("“Ce dernier détail c’est toi Ille.”", "");
+    public static readonly Text PreBossBattle14 = new Text("“Je te remercie vraiment de ce que tu as fait mais tu ne te rend pas compte à qu’elle point ce que tu me demandes et difficile”", "");
+    public static readonly Text PreBossBattle15 = new Text("“Même un dieu à ces limites car je suis le dieu d’Aegina et non celui de ton monde”", "");
+    public static readonly Text PreBossBattle16 = new Text("“Te ramener dans ton monde,comme tu es actuellement, demanderais une très grande partie de l’énergie d’Aegina et je ne peut pas me permettre d’utiliser tous le pouvoir que je viens à peine d’obtenir.”", "");
+    public static readonly Text PreBossBattle17 = new Text("“Cependant tu m’as grandement aidé et j’ai donc trouvé un compromis”", "");
+    public static readonly Text PreBossBattle18 = new Text("“Je vais te tuer et renvoyé ton âme dans ton monde”", "");
+    public static readonly Text PreBossBattle19 = new Text("“Ce n’était pas ce qui était convenue” s’exclama Ille.", "");
+    public static readonly Text PreBossBattle20 = new Text("“Mais voyons Ille je ne t’ai jamais rien promis”", "");
+    public static readonly Text PreBossBattle21 = new Text("“Je ne peux malheureusement pas te laisser en vie... tu tenterais sûrement de t’opposer à moi... et personne n’a le droit de s’opposer à dieu.”", "");
+    public static readonly Text PreBossBattle22 = new Text("“je ne me laisserais pas faire je vais me battre pour survivre comme je l’ai toujours fait” s'écria Ille en se préparant au combat.", "");
 
     // Fin
 
@@ -399,7 +385,7 @@ public class TextDatabase
 
     public static readonly Text FinSacrifice = new Text("", "");
 
-    public static readonly Text HappyEnd = new Text("", "");
+    public static readonly Text FinPardon   = new Text("", "");
 
 
 
