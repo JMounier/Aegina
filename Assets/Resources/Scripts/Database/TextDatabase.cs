@@ -359,8 +359,7 @@ public class TextDatabase
     public static readonly Text StrawWhite = new Text("Chapeau de paille blanc", "White straw hat");
     public static readonly Text StrawPurple = new Text("Chapeau de paille violet", "Purple straw hat");
     public static readonly Text StrawYellow = new Text("Chapeau de paille jaune", "Yellow straw hat");
-
-
+    public static readonly Text CowBoyBrown = new Text("Chapeau de coyboy marron", "Brown cowboy hat");
 }
 
 

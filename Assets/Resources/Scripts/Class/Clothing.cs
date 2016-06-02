@@ -212,6 +212,7 @@ public class Clothing
             yield return YellowStrawHat;
             yield return PurpleStrawHat;
             yield return BlackStrawHat;
+            yield return BrownCowboy;
         }
     }
 
@@ -296,7 +297,8 @@ public class Clothing
     public static readonly Hat BlackStrawHat = new Hat(84, Resources.Load<Texture2D>("Models/Character/Textures/Hat/StrawBlack"), TextDatabase.Strawblack, Color.black, Hat.TypeHat.StrawHat);
     public static readonly Hat WhiteStrawHat = new Hat(85, Resources.Load<Texture2D>("Models/Character/Textures/Hat/StrawWhite"), TextDatabase.StrawWhite, Color.white, Hat.TypeHat.StrawHat);
     public static readonly Hat YellowStrawHat = new Hat(86, Resources.Load<Texture2D>("Models/Character/Textures/Hat/StrawYellow"), TextDatabase.StrawYellow, Color.yellow, Hat.TypeHat.StrawHat);
-    public static readonly Hat PurpleStrawHat = new Hat(87, Resources.Load<Texture2D>("Models/Character/Textures/Hat/StrawPurple"), TextDatabase.StrawPurple, new Color(.733f,.156f,.878f), Hat.TypeHat.StrawHat);
+    public static readonly Hat PurpleStrawHat = new Hat(87, Resources.Load<Texture2D>("Models/Character/Textures/Hat/StrawPurple"), TextDatabase.StrawPurple, new Color(.733f, .156f, .878f), Hat.TypeHat.StrawHat);
+    public static readonly Hat BrownCowboy = new Hat(88, Resources.Load<Texture2D>("Models/Character/Textures/Hat/CowBoyBrown"), TextDatabase.CowBoyBrown, new Color(.439f, .251f, .164f), Hat.TypeHat.CowBoy);
 
 
     public static readonly Beard NoneBeard = new Beard(90, TextDatabase.NoneBeard);
@@ -402,10 +404,11 @@ public class Skin
         merge.Add(this.pant);
         merge.Add(gloves);
         merge.Add(eyes);
-
-        Texture2D bodyTexture = Clothing.MergeSkin(merge.ToArray());
         if (!this.bodyApplied)
+        {
+            Texture2D bodyTexture = Clothing.MergeSkin(merge.ToArray());
             ChangeBody(bodyTexture, character);
+        }
         this.beardApplied = true;
         this.hairApplied = true;
         this.hatApplied = true;
@@ -512,7 +515,7 @@ public class Skin
         get { return this.beard; }
         set
         {
-            this.beardApplied = false;
+            this.beardApplied = this.beard.ID == value.ID;
             this.beard = value;
         }
     }
@@ -522,7 +525,7 @@ public class Skin
         get { return this.hair; }
         set
         {
-            this.hairApplied = false;
+            this.hairApplied = this.hair.ID == value.ID;
             this.hair = value;
         }
     }
@@ -532,7 +535,7 @@ public class Skin
         get { return this.body; }
         set
         {
-            this.bodyApplied = false;
+            this.bodyApplied = this.body.ID == value.ID;
             this.body = value;
         }
     }
@@ -542,7 +545,7 @@ public class Skin
         get { return this.pant; }
         set
         {
-            this.bodyApplied = false;
+            this.bodyApplied = this.pant.ID == value.ID;
             this.pant = value;
         }
     }
@@ -552,7 +555,7 @@ public class Skin
         get { return this.tshirt; }
         set
         {
-            this.bodyApplied = false;
+            this.bodyApplied = this.tshirt.ID == value.ID;
             this.tshirt = value;
         }
     }
@@ -562,7 +565,7 @@ public class Skin
         get { return this.gloves; }
         set
         {
-            this.bodyApplied = false;
+            this.bodyApplied = this.gloves.ID == value.ID;
             this.gloves = value;
         }
     }
@@ -572,7 +575,7 @@ public class Skin
         get { return this.eyes; }
         set
         {
-            this.bodyApplied = false;
+            this.bodyApplied = this.eyes.ID == value.ID;
             this.eyes = value;
         }
     }
@@ -582,7 +585,7 @@ public class Skin
         get { return this.hat; }
         set
         {
-            this.hatApplied = false;
+            this.hatApplied = this.hair.ID == value.ID;
             this.hat = value;
         }
     }
@@ -684,7 +687,7 @@ public class Beard : Clothing
 public class Body : Clothing
 {
     private Color color;
-   
+
     // Constructeur
     public Body() : base()
     {
@@ -854,7 +857,7 @@ public class Hat : Clothing
     private Color32 color;
     private TypeHat type;
 
-    public enum TypeHat { None, TopHat, StrawHat, Cowboy };
+    public enum TypeHat { None, TopHat, StrawHat, CowBoy };
 
     // Constructeur
     public Hat() : base()
