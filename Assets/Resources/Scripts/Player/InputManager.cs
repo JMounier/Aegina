@@ -396,7 +396,7 @@ public class InputManager : NetworkBehaviour
         else if (atk == TypeAttack.Aerial)
         {
             cibles = Physics.OverlapBox(this.character.transform.position - this.character.transform.forward / 2 + new Vector3(0, -2f), new Vector3(0.1f, 2f, 0.25f), this.character.transform.rotation);
-            this.syncCharacter.RpcApplyForce(0, -30000f - this.syncCharacter.Jump, 0);
+            this.syncCharacter.RpcApplyForce(0, -30000f, 0);
         }
         else if (atk == TypeAttack.Charge)
         {

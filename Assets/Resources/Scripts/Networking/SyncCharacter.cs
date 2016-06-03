@@ -337,6 +337,7 @@ public class SyncCharacter : NetworkBehaviour
     {
         if (isLocalPlayer)
         {
+            this.character.GetComponent<Rigidbody>().velocity = Vector3.zero;
             this.character.GetComponent<Rigidbody>().AddForce(x, y, z);
             this.controller.IsJumping = true;
         }
