@@ -81,8 +81,8 @@ public class Controller : NetworkBehaviour
             int x = (int)Mathf.Round(this.character.transform.position.x / Chunk.Size);
             int y = (int)Mathf.Round(this.character.transform.position.z / Chunk.Size);
             this.loading = !GameObject.Find("Map").GetComponent<MapGeneration>().isLoaded(x, y);
-            if (this.character.transform.position.y < 0 && loading)            
-                gameObject.GetComponent<Social_HUD>().RpcTeleport(new Vector3(this.character.transform.position.x, 10, this.character.transform.position.z));            
+            if (this.character.transform.position.y < 0 && loading)
+                gameObject.GetComponent<Social_HUD>().RpcTeleport(new Vector3(this.character.transform.position.x, 10, this.character.transform.position.z));
         }
         if (!isLocalPlayer)
             return;
@@ -396,6 +396,6 @@ public class Controller : NetworkBehaviour
 
     public bool Loading
     {
-        get { return this.loading; }
+        get { return !isServer || this.loading; }
     }
 }
