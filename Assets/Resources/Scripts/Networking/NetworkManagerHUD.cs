@@ -410,7 +410,7 @@ namespace UnityEngine.Networking
                     if (GUI.Button(rect, Resources.Load<Texture2D>("Sprites/Cosmetics/CowBoyIcon")))
                     {
                         this.smoothAparition = 0;
-                        typeCloth = (int)Hat.TypeHat.Cowboy;
+                        typeCloth = (int)Hat.TypeHat.CowBoy;
                     }
 
                     foreach (Hat h in Clothing.Hats)
