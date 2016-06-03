@@ -69,7 +69,7 @@ public class Tutoriel : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!isLocalPlayer || progress > 13)
+        if (!isLocalPlayer)
             return;
 
         this.skin.GetStyle("Objectifs").fontSize = (int)(Screen.height * 0.025f);
@@ -299,8 +299,8 @@ public class Tutoriel : NetworkBehaviour
         rect.x += 2 * Screen.width / 15;
         if (GUI.Button(rect, TextDatabase.No.GetText(), skin.GetStyle("button")))
         {
-            this.progress = 13;
-            CmdSaveProgress(13);
+            this.progress = 14;
+            CmdSaveProgress(14);
             this.controler.Pause = false;
             CmdTutoEnding();
         }

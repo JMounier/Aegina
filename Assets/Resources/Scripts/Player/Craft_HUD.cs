@@ -80,7 +80,7 @@ public class Craft_HUD : NetworkBehaviour
                         if (SuccessDatabase.MithrilAge.Achived)
                         {
 							mastered.AddRange(new int[] { 13, 44, 54, 64 }); //id des crafts des murailles et de l'armure en mitril à ajouter
-                            if (SuccessDatabase.floatiumAge.Achived)
+                            if (SuccessDatabase.FloatiumAge.Achived)
                             {
 								mastered.AddRange(new int[] { 14, 45, 55, 65});//id des crafts de l'armure en floatium à ajouter
                                 if (SuccessDatabase.SunkiumAge.Achived)

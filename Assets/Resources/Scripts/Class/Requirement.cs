@@ -4,10 +4,15 @@ using System.Collections.Generic;
 
 public static class Requirement
 {
-    public enum Requirements { PlayTheGame,Tuto, FirstBlood, FirstCap, FirstDeath, FirstHunt, CraftChest, CraftStoneWeapon, HuntMassBoar, CraftFirstArmor, HuntBoarChief, CraftForge, DivineCristalLVL3, CraftCauldron, DrinkHealPotion, CraftTrap, EquipInIron, HuntMassPampi, HuntPampiChief, DivineCrisatlLVL4, OtherCrisatlLVL3, FloatiumArmor, MithrilWeapon, HuntMassSlime, HuntSlimeChief,SunkiumEquip, OtherCristalLVL5, DivineCrisatlLVL5, KillTheBoss, FirstEnd, SecondEnd };
+    public enum Requirements
+    {
+        PlayTheGame, Tuto, FirstBlood, FirstCap, FirstDeath, FirstHunt, CraftChest, CraftStoneWeapon, HuntMassBoar, CraftFirstArmor, HuntBoarChief, CraftForge,
+        DivineCristalLVL3, CraftCauldron, DrinkHealPotion, CraftTrap, EquipInIron, HuntMassPampi, HuntPampiChief, DivineCrisatlLVL4, OtherCrisatlLVL3, FloatiumArmor, MithrilWeapon,
+        HuntMassSlime, HuntSlimeChief, SunkiumEquip, OtherCristalLVL5, DivineCrisatlLVL5, KillTheBoss, FirstEnd, SecondEnd
+    };
 
     public static bool Check(Requirements require)
-    {
+    { 
         switch (require)
         {
             case Requirements.PlayTheGame:
@@ -23,7 +28,7 @@ public static class Requirement
             case Requirements.Tuto:
                 return Stats.TutoComplete();
             case Requirements.CraftChest:
-                break;// TO DO
+                return Stats.Crafted(CraftDatabase.Chest) > 0;
             case Requirements.CraftStoneWeapon:
                 return Stats.Crafted(CraftDatabase.StoneSword) > 0;// TO IMPROVE
             case Requirements.HuntMassBoar:
@@ -41,7 +46,7 @@ public static class Requirement
             case Requirements.DrinkHealPotion:
                 return Stats.Used(ItemDatabase.HealingPotion) > 0;
             case Requirements.CraftTrap:
-                break;// TO DO 
+                return Stats.Crafted(CraftDatabase.WolfTrap) > 0;
             case Requirements.EquipInIron:
                 return Stats.Crafted(CraftDatabase.IronTop) > 0 && Stats.Crafted(CraftDatabase.IronBottom) > 0 && Stats.Crafted(CraftDatabase.IronSword) > 0;// TO IMPROVE
             case Requirements.HuntMassPampi:

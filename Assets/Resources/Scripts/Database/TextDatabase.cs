@@ -538,6 +538,46 @@ public class TextDatabase
     public static readonly Text StrawPurple = new Text("Chapeau de paille violet", "Purple straw hat");
     public static readonly Text StrawYellow = new Text("Chapeau de paille jaune", "Yellow straw hat");
 
+    // succes
+
+    public static readonly Text PlayTheGame = new Text("Lancer une partie"," Lauch the game");
+    public static readonly Text Tuto = new Text("Réussir le tutoriel", "Finish the tutorial");
+    public static readonly Text FirstBlood = new Text("Tuer un autre joueur", "Kill an other player");
+    public static readonly Text FirstCap = new Text("Activer un cristal", "Activate a cristal");
+    public static readonly Text FirstDeath = new Text("Mourir une fois", "dir once");
+    public static readonly Text FirstHunt = new Text("Tuer une créature", "Kill a mob");
+    public static readonly Text CraftChest = new Text("Créer un coffre", "Craft a chest");
+    public static readonly Text CraftStoneWeapon = new Text("créer une arme en pierre", "Craft a stone weapon");
+    public static readonly Text HuntMassBoar = new Text("Tuer 10 sangliers", "Kill 10 wild boars");
+    public static readonly Text CraftFirstArmor = new Text("Créer une armure en cuir", "Craft a leather armor");
+    public static readonly Text HuntBoarChief = new Text("Tuer un chef de meute sanglier", "Kill a pack leader wild boar");
+    public static readonly Text CraftForge = new Text("Créer une forge", "Craft a forge");
+    public static readonly Text DivineCristalLVL3 = new Text("Améliorer un cristal divin au niveau 3", "Upgrade a divine cristal at level 3");
+    public static readonly Text CraftCauldron = new Text("Créer un chaudron", "Craft a cauldron");
+    public static readonly Text DrinkHealPotion = new Text("Boire une potion de vie", "Drink an health potion");
+    public static readonly Text CraftTrap = new Text("Créer un piège", "Craft a trap");
+    public static readonly Text EquipInIron = new Text("Créer un équipement complet en fer", "Craft a complete equipement in iron");
+    public static readonly Text HuntMassPampi = new Text("Tuer 25 pampis", "Kill 25 pampis");
+    public static readonly Text HuntPampiChief = new Text("Tuer un chef de meute pampi", "Kill a pack leader pampi");
+    public static readonly Text DivineCrisatlLVL4 = new Text("Améliorer un cristal divin au niveau 4", "Uprade a divine cristal at level 4");
+    public static readonly Text OtherCrisatlLVL3 = new Text("Améliorer un cristal de récolte et un cristal de guerre au niveau 3", "Upgrade a harvest cristal and a war cristal at level 3");
+    public static readonly Text FloatiumArmor = new Text("Créer une armure de floatium", "Craft a floatium armor");
+    public static readonly Text MithrilWeapon = new Text("Créer une arme en mithril", "Craft a mithril weapon");
+    public static readonly Text HuntMassSlime = new Text("Tuer 50 slimes", "Kill 50 slimes");
+    public static readonly Text HuntSlimeChief = new Text("Tuer un chef de meute slime", "Kill a pack leader slime");
+    public static readonly Text SunkiumEquip = new Text("Créer un équipement complet en sunkium", "Craft a complete equipement in sunkium");
+    public static readonly Text OtherCristalLVL5 = new Text("Améliorer un cristal de récolte et un cristal de guerre au niveau 5", "Upgrade a harvest cristal and a war cristal at level 5");
+    public static readonly Text DivineCrisatlLVL5 = new Text("Améliorer un cristal divin au niveau 5", "Uprade a divine cristal at level 5");
+    public static readonly Text KillTheBoss = new Text("Tuer le boss", "Kill the boss");
+    public static readonly Text FirstEnd = new Text("Choisir la fin\"retour chez soi\"", "Choose the \"back to home\" end");
+    public static readonly Text SecondEnd = new Text("choisir la fin \"sacrifice\"", "Choose the \"sacrifice\" end");
+    public static readonly Text StoneAge = new Text("Avancer dans l'histoire", "Advance in the story");
+    public static readonly Text CopperAge = new Text("Avancer dans l'histoire", "Advance in the story");
+    public static readonly Text GoldAge = new Text("Avancer dans l'histoire", "Advance in the story");
+    public static readonly Text MithrilAge = new Text("Avancer dans l'histoire", "Advance in the story");
+    public static readonly Text FloatiumAge = new Text("Avancer dans l'histoire", "Advance in the story");
+    public static readonly Text SunkiumAge = new Text("Avancer dans l'histoire", "Advance in the story");
+    public static readonly Text IronAge = new Text("Avancer dans l'histoire", "Advance in the story");
 
 }
 
