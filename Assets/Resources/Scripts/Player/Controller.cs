@@ -396,6 +396,6 @@ public class Controller : NetworkBehaviour
 
     public bool Loading
     {
-        get { return !isServer || this.loading; }
+        get { return isServer && this.loading; }
     }
 }
