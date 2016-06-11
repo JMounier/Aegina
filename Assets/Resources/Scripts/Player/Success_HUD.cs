@@ -6,6 +6,7 @@ using System;
 public class Success_HUD : NetworkBehaviour
 {
     private int pos_x_success, pos_y_success, size;
+    private float move_x, move_y;
     private float incrémentation;
     private float posYpercent;
     private Queue successToDisplay;
@@ -98,6 +99,11 @@ public class Success_HUD : NetworkBehaviour
     {
         Rect rect = new Rect(this.pos_x_success - 24, this.pos_y_success - 32, 12 * this.size + 48, 10 * this.size + 48);
         GUI.Box(rect, "", this.skin.GetStyle("inventory"));
+        if (Event.current.button == 0 && Event.current.type == EventType.MouseDrag)
+        {
+            this.move_x += Input.GetAxis("Mouse X") * 10;
+            this.move_y -= Input.GetAxis("Mouse Y") * 10;
+        }
         Text tooltip = null;
 
         Queue file = new Queue();
@@ -105,7 +111,7 @@ public class Success_HUD : NetworkBehaviour
         while (file.Count > 0)
         {
             Success node = (Success)file.Dequeue();
-            Rect rect2 = new Rect(node.PosX * this.size + 6 * this.size + this.pos_x_success, node.PosY * this.size + 5 * this.size + this.pos_y_success, this.size, this.size);
+            Rect rect2 = new Rect(node.PosX * this.size + 6 * this.size + this.pos_x_success + this.move_x, node.PosY * this.size + 5 * this.size + this.pos_y_success + this.move_y, this.size, this.size);
             Texture icon = node.Icon;
             if (node.Achived)
             {
@@ -120,46 +126,60 @@ public class Success_HUD : NetworkBehaviour
                             while (x != son.PosX)
                             {
                                 x += (son.PosX - x) > 0 ? 1 : -1;
-                                Rect rect3 = new Rect(x * this.size + 6 * this.size + this.pos_x_success, y * this.size + 5 * this.size + this.pos_y_success, this.size, this.size);
-                                GUI.DrawTexture(rect3, this.hLine);
+                                Rect rect3 = new Rect(x * this.size + 6 * this.size + this.pos_x_success + this.move_x, y * this.size + 5 * this.size + this.pos_y_success + this.move_y, this.size, this.size);
+                                if (rect3.x < 5 * this.size + 6 * this.size + this.pos_x_success && rect3.x > -6 * this.size + 6 * this.size + this.pos_x_success
+                                     && rect3.y < 2 * this.size + 6 * this.size + this.pos_y_success && rect3.y > -6 * this.size + 6 * this.size + this.pos_y_success)
+                                    GUI.DrawTexture(rect3, this.hLine);
                             }
                         else if (x == son.PosX)
                             while (y != son.PosY)
                             {
                                 y += (son.PosY - y) > 0 ? 1 : -1;
-                                Rect rect3 = new Rect(x * this.size + 6 * this.size + this.pos_x_success, y * this.size + 5 * this.size + this.pos_y_success, this.size, this.size);
-                                GUI.DrawTexture(rect3, this.vLine);
+                                Rect rect3 = new Rect(x * this.size + 6 * this.size + this.pos_x_success + this.move_x, y * this.size + 5 * this.size + this.pos_y_success + this.move_y, this.size, this.size);
+                                if (rect3.x < 5 * this.size + 6 * this.size + this.pos_x_success && rect3.x > -6 * this.size + 6 * this.size + this.pos_x_success
+                                     && rect3.y < 2 * this.size + 6 * this.size + this.pos_y_success && rect3.y > -6 * this.size + 6 * this.size + this.pos_y_success)
+                                    GUI.DrawTexture(rect3, this.vLine);
                             }
                         else
                         {
                             Texture c = GetCoude(true, x, y, son);
                             x += (son.PosX - x) > 0 ? 1 : -1;
-                            Rect rect3 = new Rect(x * this.size + 6 * this.size + this.pos_x_success, y * this.size + 5 * this.size + this.pos_y_success, this.size, this.size);
-                            GUI.DrawTexture(rect3, c);
+                            Rect rect3 = new Rect(x * this.size + 6 * this.size + this.pos_x_success + this.move_x, y * this.size + 5 * this.size + this.pos_y_success + this.move_y, this.size, this.size);
+                            if (rect3.x < 5 * this.size + 6 * this.size + this.pos_x_success && rect3.x > -6 * this.size + 6 * this.size + this.pos_x_success
+                                     && rect3.y < 2 * this.size + 6 * this.size + this.pos_y_success && rect3.y > -6 * this.size + 6 * this.size + this.pos_y_success)
+                                GUI.DrawTexture(rect3, c);
 
                             while (Math.Abs(y - son.PosY) > 1)
                             {
                                 y += (son.PosY - y) > 0 ? 1 : -1;
-                                rect3 = new Rect(x * this.size + 6 * this.size + this.pos_x_success, y * this.size + 5 * this.size + this.pos_y_success, this.size, this.size);
-                                GUI.DrawTexture(rect3, this.vLine);
+                                rect3 = new Rect(x * this.size + 6 * this.size + this.pos_x_success + this.move_x, y * this.size + 5 * this.size + this.pos_y_success + this.move_y, this.size, this.size);
+                                if (rect3.x < 5 * this.size + 6 * this.size + this.pos_x_success && rect3.x > -6 * this.size + 6 * this.size + this.pos_x_success
+                                     && rect3.y < 2 * this.size + 6 * this.size + this.pos_y_success && rect3.y > -6 * this.size + 6 * this.size + this.pos_y_success)
+                                    GUI.DrawTexture(rect3, this.vLine);
                             }
                             if (x == son.PosX)
                             {
                                 y += (son.PosY - y) > 0 ? 1 : -1;
-                                rect3 = new Rect(x * this.size + 6 * this.size + this.pos_x_success, y * this.size + 5 * this.size + this.pos_y_success, this.size, this.size);
-                                GUI.DrawTexture(rect3, this.vLine);
+                                rect3 = new Rect(x * this.size + 6 * this.size + this.pos_x_success + this.move_x, y * this.size + 5 * this.size + this.pos_y_success + this.move_y, this.size, this.size);
+                                if (rect3.x < 5 * this.size + 6 * this.size + this.pos_x_success && rect3.x > -6 * this.size + 6 * this.size + this.pos_x_success
+                                     && rect3.y < 2 * this.size + 6 * this.size + this.pos_y_success && rect3.y > -6 * this.size + 6 * this.size + this.pos_y_success)
+                                    GUI.DrawTexture(rect3, this.vLine);
                             }
                             else
                             {
                                 c = GetCoude(false, x, y, son);
                                 y += (son.PosY - y) > 0 ? 1 : -1;
-                                rect3 = new Rect(x * this.size + 6 * this.size + this.pos_x_success, y * this.size + 5 * this.size + this.pos_y_success, this.size, this.size);
-                                GUI.DrawTexture(rect3, c);
+                                rect3 = new Rect(x * this.size + 6 * this.size + this.pos_x_success + this.move_x, y * this.size + 5 * this.size + this.pos_y_success + this.move_y, this.size, this.size);
+                                if (rect3.x < 5 * this.size + 6 * this.size + this.pos_x_success && rect3.x > -6 * this.size + 6 * this.size + this.pos_x_success
+                                     && rect3.y < 2 * this.size + 6 * this.size + this.pos_y_success && rect3.y > -6 * this.size + 6 * this.size + this.pos_y_success)
+                                    GUI.DrawTexture(rect3, c);
                                 while (x != son.PosX)
                                 {
                                     x += (son.PosX - x) > 0 ? 1 : -1;
-                                    rect3 = new Rect(x * this.size + 6 * this.size + this.pos_x_success, y * this.size + 5 * this.size + this.pos_y_success, this.size, this.size);
-                                    GUI.DrawTexture(rect3, this.hLine);
+                                    rect3 = new Rect(x * this.size + 6 * this.size + this.pos_x_success + this.move_x, y * this.size + 5 * this.size + this.pos_y_success + this.move_y, this.size, this.size);
+                                    if (rect3.x < 5 * this.size + 6 * this.size + this.pos_x_success && rect3.x > -6 * this.size + 6 * this.size + this.pos_x_success
+                                     && rect3.y < 2 * this.size + 6 * this.size + this.pos_y_success && rect3.y > -6 * this.size + 6 * this.size + this.pos_y_success)
+                                        GUI.DrawTexture(rect3, this.hLine);
                                 }
                             }
                         }
@@ -167,13 +187,16 @@ public class Success_HUD : NetworkBehaviour
             }
             else
                 icon = node.Shadow;
-
-            GUI.Box(rect2, "", this.skin.GetStyle("slot"));
-            rect2.x += this.size / 5;
-            rect2.y += this.size / 5;
-            rect2.width -= this.size / 2.5f;
-            rect2.height -= this.size / 2.5f;
-            GUI.DrawTexture(rect2, icon);
+            if (rect2.x < 5 * this.size + 6 * this.size + this.pos_x_success && rect2.x > -6 * this.size + 6 * this.size + this.pos_x_success
+                && rect2.y < 2 * this.size + 6 * this.size + this.pos_y_success && rect2.y > -6 * this.size + 6 * this.size + this.pos_y_success)
+            {
+                GUI.Box(rect2, "", this.skin.GetStyle("slot"));
+                rect2.x += this.size / 5;
+                rect2.y += this.size / 5;
+                rect2.width -= this.size / 2.5f;
+                rect2.height -= this.size / 2.5f;
+                GUI.DrawTexture(rect2, icon);
+            }
             if (rect2.Contains(Event.current.mousePosition))
                 tooltip = node.Description;
         }
@@ -235,6 +258,14 @@ public class Success_HUD : NetworkBehaviour
     public bool Activate
     {
         get { return this.activate; }
-        set { this.activate = value; }
+        set
+        {
+            this.activate = value;
+            if (!this.activate)
+            {
+                this.move_x = 0;
+                this.move_y = 0;
+            }
+        }
     }
 }
