@@ -365,6 +365,10 @@ public class TextDatabase
 
     public static readonly Text NoneTshirt = new Text("A poil","Naked");
     public static readonly Text RedTshirt = new Text("T-Shirt rouge", "Red T-Shirt");
+    public static readonly Text BlueTshirt = new Text("T-Shirt bleu", "Blue T-Shirt");
+    public static readonly Text GreenTshirt = new Text("T-Shirt vert", "Green T-Shirt");
+    public static readonly Text PurpleTshirt = new Text("T-Shirt violet", "Purple T-Shirt");
+    public static readonly Text YellowTshirt = new Text("T-Shirt jaune", "Yellow T-Shirt");
 }
 
 

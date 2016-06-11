@@ -330,9 +330,9 @@ namespace UnityEngine.Networking
                 this.firstScene.PlayButtonSound();
             }
 
-            if (GUI.RepeatButton(new Rect(this.posX + this.spacing * 4.3f, this.posY + this.spacing * 5.2f, this.width / 4, this.width / 6), "", this.skin.GetStyle("right_arrow")))
+            if (GUI.RepeatButton(new Rect(this.posX + this.width - this.width / 4, this.posY + this.spacing * 4.8f, this.width / 4, this.width / 6), "", this.skin.GetStyle("right_arrow")))
                 this.character.transform.Rotate(Vector3.up, -5);
-            if (GUI.RepeatButton(new Rect(this.posX, this.posY + this.spacing * 5.2f, this.width / 4, this.width / 6), "", this.skin.GetStyle("left_arrow")))
+            if (GUI.RepeatButton(new Rect(this.posX, this.posY + this.spacing * 4.8f, this.width / 4, this.width / 6), "", this.skin.GetStyle("left_arrow")))
                 this.character.transform.Rotate(Vector3.up, +5);
 
             #region Category
@@ -366,7 +366,7 @@ namespace UnityEngine.Networking
                     this.categoryCloth = CategoryCloth.Body;
                 }
             }
-            if (GUI.Button(new Rect(this.posX + this.spacing * 4.5f, this.posY, this.width / 5, this.width / 5), Resources.Load<Texture2D>("Sprites/Cosmetics/EyeIcon")))
+            if (GUI.Button(new Rect(this.posX + this.width - this.width / 5, this.posY, this.width / 5, this.width / 5), Resources.Load<Texture2D>("Sprites/Cosmetics/EyeIcon")))
             {
                 if (this.categoryCloth == CategoryCloth.Eyes)
                     this.categoryCloth = CategoryCloth.None;
@@ -376,7 +376,7 @@ namespace UnityEngine.Networking
                     this.categoryCloth = CategoryCloth.Eyes;
                 }
             }
-            if (GUI.Button(new Rect(this.posX + this.spacing * 4.5f, this.posY - this.spacing * 1.5f, this.width / 5, this.width / 5), Resources.Load<Texture2D>("Sprites/Cosmetics/HairIcon")))
+            if (GUI.Button(new Rect(this.posX + this.width - this.width / 5, this.posY - this.spacing * 1.5f, this.width / 5, this.width / 5), Resources.Load<Texture2D>("Sprites/Cosmetics/HairIcon")))
             {
                 if (this.categoryCloth == CategoryCloth.Hair)
                     this.categoryCloth = CategoryCloth.None;
@@ -386,7 +386,7 @@ namespace UnityEngine.Networking
                     this.categoryCloth = CategoryCloth.Hair;
                 }
             }
-            if (GUI.Button(new Rect(this.posX + this.spacing * 4.5f, this.posY + this.spacing * 3f, this.width / 5, this.width / 5), Resources.Load<Texture2D>("Sprites/Cosmetics/GlovesIcon")))
+            if (GUI.Button(new Rect(this.posX + this.width - this.width / 5, this.posY + this.spacing * 3f, this.width / 5, this.width / 5), Resources.Load<Texture2D>("Sprites/Cosmetics/GlovesIcon")))
             {
                 if (this.categoryCloth == CategoryCloth.Gloves)
                     this.categoryCloth = CategoryCloth.None;
@@ -396,7 +396,7 @@ namespace UnityEngine.Networking
                     this.categoryCloth = CategoryCloth.Gloves;
                 }
             }
-            if (GUI.Button(new Rect(this.posX + this.spacing * 4.5f, this.posY + this.spacing * 1.5f, this.width / 5, this.width / 5), Resources.Load<Texture2D>("Sprites/Cosmetics/TshirtIcon")))
+            if (GUI.Button(new Rect(this.posX + this.width - this.width / 5, this.posY + this.spacing * 1.5f, this.width / 5, this.width / 5), Resources.Load<Texture2D>("Sprites/Cosmetics/TshirtIcon")))
             {
                 if (this.categoryCloth == CategoryCloth.TShirt)
                     this.categoryCloth = CategoryCloth.None;
@@ -416,7 +416,12 @@ namespace UnityEngine.Networking
                     this.smoothAparition = 0;
                 }
             }
-         
+            if (GUI.Button(new Rect(this.posX + this.width + this.width / 5, this.posY - this.spacing * 1.5f, this.width / 5, this.width / 5), Resources.Load<Texture2D>("Sprites/Cosmetics/EyeIcon")))
+            {
+                this.skinCharacter = this.skinCharacter.RandomSkin(this.character);
+                this.skinCharacter.Apply(this.character);
+            }
+
             switch (this.categoryCloth)
             {                
                 case CategoryCloth.Hair:
