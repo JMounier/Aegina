@@ -49,7 +49,7 @@ public class Save : NetworkBehaviour
             this.dnc.SetTime(float.Parse(properties[2]));
             Stats.Load(world[1]);
 
-            Success.Reset();        
+            Success.Reset();
 
             // Find cristals
             string[] chunksName = Directory.GetFiles(this.chunksPath);
@@ -62,6 +62,7 @@ public class Save : NetworkBehaviour
                         this.respawn[(int)info.Item2].Add(info.Item1);
                 }
             }
+
             for (int i = 0; i < 4; i++)
                 if (this.respawn[i].Count == 0)
                     this.respawn[i].Add(new Vector2(0, 0));
@@ -75,8 +76,8 @@ public class Save : NetworkBehaviour
             return;
 
         this.coolDownSave -= Time.deltaTime;
-        if (this.coolDownSave <= 0)
-            this.SaveWorld();
+        if (this.coolDownSave <= 0 || Stats.TimePlayer() == 0)        
+            this.SaveWorld();        
         Success.Update();
     }
 
@@ -143,7 +144,7 @@ public class Save : NetworkBehaviour
         foreach (ChunkSave cs in this.chunks)
             if (cs.X == x && cs.Y == y)
                 return cs;
-        throw new System.ArgumentException("Chunk wasn't tracked");
+        throw new System.ArgumentException("Chunk (" + x.ToString() + " : " + y.ToString() + ") wasn't tracked");
     }
 
     /// <summary>
@@ -166,14 +167,24 @@ public class Save : NetworkBehaviour
     {
         foreach (ChunkSave cs in this.chunks)
             if (cs.X == x && cs.Y == y)
-                for (int i = 0; i < cs.WorkTops.Count; i++)
-                {
-                    if (worktop.Prefab.transform.position == cs.WorkTops[i].Item2)
+                if (worktop.ID == 135)
+                    for (int i = 0; i < cs.Chests.Count; i++)
                     {
-                        cs.WorkTops.RemoveAt(i);
-                        break;
+                        if ((worktop.Prefab.transform.position - cs.Chests[i].Item2).magnitude < .5f)
+                        {
+                            cs.Chests.RemoveAt(i);
+                            break;
+                        }
                     }
-                }
+                else
+                    for (int i = 0; i < cs.WorkTops.Count; i++)
+                    {
+                        if ((worktop.Prefab.transform.position - cs.WorkTops[i].Item2).magnitude < .5f)
+                        {
+                            cs.WorkTops.RemoveAt(i);
+                            break;
+                        }
+                    }
     }
 
     /// <summary>
@@ -183,7 +194,10 @@ public class Save : NetworkBehaviour
     {
         foreach (ChunkSave cs in this.chunks)
             if (cs.X == x && cs.Y == y)
-                cs.WorkTops.Add(new Triple<Element, Vector3, Vector3>(worktop, worktop.Prefab.transform.position, worktop.Prefab.transform.rotation.eulerAngles));
+                if (worktop.ID == 135)
+                    cs.Chests.Add(new Quadruple<Element, Vector3, Vector3, ItemStack[,]>(worktop, worktop.Prefab.transform.position, worktop.Prefab.transform.rotation.eulerAngles, null));
+                else
+                    cs.WorkTops.Add(new Triple<Element, Vector3, Vector3>(worktop, worktop.Prefab.transform.position, worktop.Prefab.transform.rotation.eulerAngles));
     }
 
     /// <summary>
@@ -245,9 +259,7 @@ public class Save : NetworkBehaviour
         Directory.CreateDirectory(Application.dataPath + "/Saves/" + name);
         Directory.CreateDirectory(Application.dataPath + "/Saves/" + name + "/Chunks");
         Directory.CreateDirectory(Application.dataPath + "/Saves/" + name + "/Players");
-        File.WriteAllText(Application.dataPath + "/Saves/" + name + "/properties", seed.ToString() + "|" + coop.ToString() + "|0\n" +
-            // Stats
-            Stats.Empty());
+        File.WriteAllText(Application.dataPath + "/Saves/" + name + "/properties", seed.ToString() + "|" + coop.ToString() + "|0\n" + Stats.Empty());
     }
 
     // Getter & Setters
@@ -289,6 +301,7 @@ public class ChunkSave
     private int y;
     private List<int> idSave;
     private List<Triple<Element, Vector3, Vector3>> workTops;
+    private List<Quadruple<Element, Vector3, Vector3, ItemStack[,]>> chests;
     private string path;
     private float[] cristal;
 
@@ -304,44 +317,63 @@ public class ChunkSave
         this.y = y;
         this.idSave = new List<int>();
         this.workTops = new List<Triple<Element, Vector3, Vector3>>();
+        this.chests = new List<Quadruple<Element, Vector3, Vector3, ItemStack[,]>>();
         this.path = pathChunk + x.ToString() + "_" + y.ToString();
         this.cristal = new float[8];
 
         if (File.Exists(this.path))
         {
             string[] lines = File.ReadAllLines(this.path);
-            foreach (string str in lines[0].Split('|'))
+            if (lines.Length > 1)
             {
-                int id;
-                if (int.TryParse(str, out id))
-                    this.idSave.Add(id);
-            }
-            foreach (string str in lines[1].Split('|'))
-            {
-                string[] components = str.Split(':');
-                int id;
-                if (int.TryParse(components[0], out id))
+                foreach (string str in lines[0].Split('|'))
                 {
-                    float posX = float.Parse(components[1]);
-                    float posY = float.Parse(components[2]);
-                    float posZ = float.Parse(components[3]);
-                    float rotX = float.Parse(components[4]);
-                    float rotY = float.Parse(components[5]);
-                    float rotZ = float.Parse(components[6]);
-                    this.workTops.Add(new Triple<Element, Vector3, Vector3>(EntityDatabase.Find(id) as Element,
-                        new Vector3(posX, posY, posZ), new Vector3(rotX, rotY, rotZ)));
+                    int id;
+                    if (int.TryParse(str, out id))
+                        this.idSave.Add(id);
+                }
+                foreach (string str in lines[1].Split('|'))
+                {
+                    string[] components = str.Split(':');
+                    int id;
+                    if (int.TryParse(components[0], out id))
+                    {
+                        float posX = float.Parse(components[1]);
+                        float posY = float.Parse(components[2]);
+                        float posZ = float.Parse(components[3]);
+                        float rotX = float.Parse(components[4]);
+                        float rotY = float.Parse(components[5]);
+                        float rotZ = float.Parse(components[6]);
+                        if (id == 135)
+                        {
+                            ItemStack[,] content = new ItemStack[3, 3];
+                            for (int i = 0; i < 9; i++)
+                                content[i / 3, i % 3] = new ItemStack(ItemDatabase.Find(int.Parse(components[7 + i * 2])), int.Parse(components[8 + i * 2]));
+                            this.chests.Add(new Quadruple<Element, Vector3, Vector3, ItemStack[,]>(EntityDatabase.Find(id) as Element,
+                            new Vector3(posX, posY, posZ), new Vector3(rotX, rotY, rotZ), content));
+                        }
+                        else
+                            this.workTops.Add(new Triple<Element, Vector3, Vector3>(EntityDatabase.Find(id) as Element,
+                                new Vector3(posX, posY, posZ), new Vector3(rotX, rotY, rotZ)));
+                    }
+                }
+                if (lines.Length > 2)
+                {
+                    string[] cristalCaract = lines[2].Split('|');
+                    for (int i = 0; i < 6; i++)
+                        this.cristal[i] = int.Parse(cristalCaract[i]);
+                    for (int i = 6; i < 8; i++)
+                        this.cristal[i] = float.Parse(cristalCaract[i]);
                 }
             }
-            if (lines.Length > 2)
+            else
             {
-                string[] cristalCaract = lines[2].Split('|');
-                for (int i = 0; i < 6; i++)
-                    this.cristal[i] = int.Parse(cristalCaract[i]);
-                for (int i = 6; i < 8; i++)
-                    this.cristal[i] = float.Parse(cristalCaract[i]);
+                File.Create(this.path);
+                this.cristal[5] = 1000;
             }
         }
-        else {
+        else
+        {
             File.Create(this.path);
             this.cristal[5] = 1000;
         }
@@ -372,20 +404,32 @@ public class ChunkSave
     /// </summary>
     public void Save()
     {
-        using (StreamWriter file = new StreamWriter(this.path))
+        try
         {
-            foreach (int id in this.idSave)
-                file.Write(id.ToString() + '|');
-            file.Write("\n");
-            foreach (Triple<Element, Vector3, Vector3> wt in this.workTops)
+            using (StreamWriter file = new StreamWriter(this.path))
             {
-                file.Write(wt.Item1.ID.ToString() + ":" + wt.Item2.x.ToString() + ":" + wt.Item2.y.ToString() + ":" + wt.Item2.z.ToString() + ":"
-                      + wt.Item3.x.ToString() + ":" + wt.Item3.y.ToString() + ":" + wt.Item3.x.ToString() + "|");
+                foreach (int id in this.idSave)
+                    file.Write(id.ToString() + '|');
+                file.Write("\n");
+                foreach (Triple<Element, Vector3, Vector3> wt in this.workTops)
+                    file.Write(wt.Item1.ID.ToString() + ":" + wt.Item2.x.ToString() + ":" + wt.Item2.y.ToString() + ":" + wt.Item2.z.ToString() + ":"
+          + wt.Item3.x.ToString() + ":" + wt.Item3.y.ToString() + ":" + wt.Item3.x.ToString() + "|");
+
+                foreach (Quadruple<Element, Vector3, Vector3, ItemStack[,]> wt in this.chests)
+                {
+                    file.Write(wt.Item1.ID.ToString() + ":" + wt.Item2.x.ToString() + ":" + wt.Item2.y.ToString() + ":" + wt.Item2.z.ToString() + ":"
+                        + wt.Item3.x.ToString() + ":" + wt.Item3.y.ToString() + ":" + wt.Item3.x.ToString() + ":");
+                    for (int i = 0; i < 3; i++)
+                        for (int j = 0; j < 3; j++)
+                            file.Write(wt.Item1.Prefab.GetComponent<SyncChest>().Content[i, j].Items.ID.ToString() + ":" + wt.Item1.Prefab.GetComponent<SyncChest>().Content[i, j].Quantity.ToString() + (i == 2 && j == 2 ? "" : ":"));
+                    file.Write("|");
+                }
+                file.Write("\n");
+                file.Write(cristal[0].ToString() + "|" + cristal[1].ToString() + "|" + cristal[2].ToString() + "|" + cristal[3].ToString() + "|" +
+                 cristal[4].ToString() + "|" + cristal[5].ToString() + "|" + cristal[6].ToString() + "|" + cristal[7].ToString());
             }
-            file.Write("\n");
-            file.Write(cristal[0].ToString() + "|" + cristal[1].ToString() + "|" + cristal[2].ToString() + "|" + cristal[3].ToString() + "|" +
-             cristal[4].ToString() + "|" + cristal[5].ToString() + "|" + cristal[6].ToString() + "|" + cristal[7].ToString());
         }
+        catch { }
     }
 
     // Getters & Setters
@@ -419,6 +463,12 @@ public class ChunkSave
     {
         get { return this.workTops; }
         set { this.workTops = value; }
+    }
+
+    public List<Quadruple<Element, Vector3, Vector3, ItemStack[,]>> Chests
+    {
+        get { return this.chests; }
+        set { this.chests = value; }
     }
     public float[] CristalCaracteristics
     {

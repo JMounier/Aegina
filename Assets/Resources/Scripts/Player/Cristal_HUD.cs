@@ -41,7 +41,7 @@ public class Cristal_HUD : NetworkBehaviour
             return;
         this.pos_x = Screen.width / 3;
         this.pos_y = Screen.height / 4;
-        this.width = 17 * Screen.width / 40;
+        this.width = 15 * Screen.width / 40;
         this.height = Screen.height / 2;
         this.space = Screen.height / 25;
         this.spaceH = Screen.width / 40;
@@ -158,27 +158,6 @@ public class Cristal_HUD : NetworkBehaviour
             rect = new Rect(this.pos_x + (5 + 3 * i) * spaceH, this.pos_y + height - 11 * space - 15, 3 * spaceH - 5, space);
             GUI.Box(rect, "<color=#FFFFFF>" + (i == 0 ? TextDatabase.AttackPower.GetText() : i == 1 ? TextDatabase.GrowingPower.GetText() : TextDatabase.PortalPower.GetText()) + "</color>", skin.GetStyle("Description"));
         }
-        rect = new Rect(this.pos_x + width - 2 * this.spaceH, this.pos_y + space, 1.1f * this.spaceH, this.height - 5 * this.space);
-        GUI.DrawTexture(rect, Resources.Load<Texture2D>("Sprites/Bars/Thirst/ThirstBar" + ((int)this.cristal.Life / 10).ToString()));
-        if (this.cristal.Life < 1000)
-        {
-            rect.y += this.height - 3 * this.space;
-            rect.height = this.space;
-            if (GUI.Button(rect, TextDatabase.Heal.GetText(), skin.GetStyle("button")) && this.inventory.InventoryContains(this.cristal.RepairCost))
-            {
-                this.inventory.DeleteItems(this.cristal.RepairCost);
-                this.cristal.Life += 100;
-            }
-            Rect costrect = new Rect(rect.x, rect.y - 1.2f * this.space, this.space, this.space);
-            costrect.x += (rect.width - costrect.width) / 2;
-            GUI.Box(costrect, "", skin.GetStyle("Slot"));
-            costrect.x += 6;
-            costrect.y += 6;
-            costrect.width -= 12;
-            costrect.height -= 12;
-            GUI.DrawTexture(costrect, this.cristal.RepairCost.Items.Icon);
-            GUI.Box(costrect, "10", this.skin.GetStyle("quantity"));
-        }
     }
 
     /// <summary>
@@ -257,24 +236,27 @@ public class Cristal_HUD : NetworkBehaviour
     public void CmdSetLevelProd(int level, GameObject cristal)
     {
         cristal.GetComponent<SyncCore>().CmdSetLevelProd(level);
+        Stats.ChangeCristalLevel(0, (uint)level);
     }
 
     [Command]
     public void CmdSetLevelAtk(int level, GameObject cristal)
     {
         cristal.GetComponent<SyncCore>().CmdSetLevelAtk(level);
+        Stats.ChangeCristalLevel(1, (uint)level);
     }
 
     [Command]
     public void CmdSetLevelPort(int level, GameObject cristal)
     {
         cristal.GetComponent<SyncCore>().CmdSetLevelPort(level);
+        Stats.ChangeCristalLevel(2, (uint)level);
     }
 
     [Command]
     private void CmdSaveCristal(GameObject cristal)
     {
-        ChunkSave cs = GameObject.Find("Map").GetComponent<Save>().LoadChunk((int)Mathf.Round(gameObject.transform.position.x / Chunk.Size), (int)Mathf.Round(gameObject.transform.position.z / Chunk.Size));
+        ChunkSave cs = GameObject.Find("Map").GetComponent<Save>().LoadChunk((int)Mathf.Round(cristal.transform.position.x / Chunk.Size), (int)Mathf.Round(cristal.transform.position.z / Chunk.Size));
         cs.CristalCaracteristics = new float[8] {
             (int)cristal.GetComponent<SyncCore>().Team,
             cristal.GetComponent<SyncCore>().LevelAtk,

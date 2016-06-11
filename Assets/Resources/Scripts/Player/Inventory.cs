@@ -11,6 +11,7 @@ public class Inventory : NetworkBehaviour
     private int pos_x_toolbar, pos_y_toolbar;
     private int size_inventory, size_toolbar;
     private int[] previndex = new int[2];
+    private bool inchest = false;
     private bool draggingItemStack = false;
     private int cursor = 0;
     private bool inventoryShown = false;
@@ -25,13 +26,19 @@ public class Inventory : NetworkBehaviour
     private Sound sound;
     private Item lastUseddItem;
 
+    private GameObject chest;
+    private ItemStack[,] slotsChest;
+
     #region Behaviour Methods
     // Use this for initialization
     void Start()
     {
         if (!isLocalPlayer)
             return;
-
+        this.slotsChest = new ItemStack[3, 3] {
+            { new ItemStack(), new ItemStack(), new ItemStack() },
+            { new ItemStack(), new ItemStack(), new ItemStack() },
+            { new ItemStack(), new ItemStack(), new ItemStack() } };
         this.size_inventory = Screen.width / 22;
         this.size_toolbar = (Screen.width / 20);
         this.pos_x_inventory = (Screen.width - this.columns * this.size_inventory) / 2;
@@ -51,6 +58,21 @@ public class Inventory : NetworkBehaviour
 
     void Update()
     {
+        if (isServer && this.chest != null && this.chest.GetComponent<SyncChest>().Content != null)
+        {
+            ItemStack[,] content = this.chest.GetComponent<SyncChest>().Content;
+            RpcUpdateChest(
+                content[0, 0].Items.ID, content[0, 0].Quantity,
+                content[0, 1].Items.ID, content[0, 1].Quantity,
+                content[0, 2].Items.ID, content[0, 2].Quantity,
+                content[1, 0].Items.ID, content[1, 0].Quantity,
+                content[1, 1].Items.ID, content[1, 1].Quantity,
+                content[1, 2].Items.ID, content[1, 2].Quantity,
+                content[2, 0].Items.ID, content[2, 0].Quantity,
+                content[2, 1].Items.ID, content[2, 1].Quantity,
+                content[2, 2].Items.ID, content[2, 2].Quantity);
+        }
+
         if (!isLocalPlayer)
             return;
         this.size_inventory = Screen.width / 22;
@@ -86,7 +108,10 @@ public class Inventory : NetworkBehaviour
                 (this.UsedItem.Items as WorkTop).Previsu.transform.position = (charact.transform.position - charact.transform.forward);
                 (this.UsedItem.Items as WorkTop).Previsu.transform.parent = WorkTop.GetHierarchy(charact.transform.position);
                 (this.UsedItem.Items as WorkTop).Previsu.transform.LookAt(new Vector3(charact.transform.position.x, (this.UsedItem.Items as WorkTop).Previsu.transform.position.y, charact.transform.position.z));
-            }
+				foreach (MeshRenderer mr in (this.UsedItem.Items as WorkTop).Previsu.GetComponentsInChildren<MeshRenderer>())
+					foreach (Material mat in mr.materials)
+						mat.shader = Shader.Find("Previsus/PrevisuOK");
+			}
 
             this.lastUseddItem = this.UsedItem.Items;
         }
@@ -100,16 +125,32 @@ public class Inventory : NetworkBehaviour
         this.DrawToolbar();
         if (this.inventoryShown)
         {
+            if (this.chest != null)
+            {
+                this.InteractChest();
+                this.DrawChest();
+            }
             this.InteractInventory();
-            this.DrawInventory();
+            this.DrawInventory();   
         }
         else if (this.draggingItemStack)
         {
-            if (this.slots[this.previndex[0], this.previndex[1]].Quantity == 0)
-                this.slots[this.previndex[0], this.previndex[1]] = this.selectedItem;
+            if (!inchest)
+            {
+                if (this.slots[this.previndex[0], this.previndex[1]].Quantity == 0)
+                    this.slots[this.previndex[0], this.previndex[1]] = this.selectedItem;
+                else
+                    this.slots[this.previndex[0], this.previndex[1]].Quantity += this.selectedItem.Quantity;
+                this.draggingItemStack = false;
+            }
             else
-                this.slots[this.previndex[0], this.previndex[1]].Quantity += this.selectedItem.Quantity;
-            this.draggingItemStack = false;
+            {
+                if (this.slotsChest[this.previndex[0], this.previndex[1]].Quantity == 0)
+                    CmdInteractChest(this.previndex[0], this.previndex[1], selectedItem.Items.ID, selectedItem.Quantity);
+                else
+                    CmdInteractChest(this.previndex[0], this.previndex[1], selectedItem.Items.ID, this.slots[this.previndex[0], this.previndex[1]].Quantity + selectedItem.Quantity);
+                this.draggingItemStack = false;
+            }
         }
     }
 
@@ -149,6 +190,7 @@ public class Inventory : NetworkBehaviour
                             this.draggingItemStack = true;
                             this.previndex[0] = i;
                             this.previndex[1] = j;
+                            this.inchest = false;
 
                             if (Event.current.shift)
                             {
@@ -176,6 +218,7 @@ public class Inventory : NetworkBehaviour
                         this.previndex[0] = i;
                         this.previndex[1] = j;
                         this.selectedItem = this.slots[i, j];
+                        this.inchest = false;
                         this.tooltipshown = true;
                     }
                     // Relachement du stack dans un slot
@@ -186,8 +229,16 @@ public class Inventory : NetworkBehaviour
                         {
                             if (this.slots[i, j].Quantity == this.selectedItem.Items.Size)
                             {
-                                this.selectedItem.Quantity += this.slots[this.previndex[0], this.previndex[1]].Quantity;
-                                this.slots[this.previndex[0], this.previndex[1]] = this.slots[i, j];
+                                if (!inchest)
+                                {
+                                    this.selectedItem.Quantity += this.slots[this.previndex[0], this.previndex[1]].Quantity;
+                                    this.slots[this.previndex[0], this.previndex[1]] = this.slots[i, j];
+                                }
+                                else
+                                {
+                                    this.selectedItem.Quantity += this.slotsChest[this.previndex[0], this.previndex[1]].Quantity;
+                                    CmdInteractChest(this.previndex[0], this.previndex[1], this.slots[i, j].Items.ID, this.slots[i, j].Quantity);
+                                }
                                 this.slots[i, j] = this.selectedItem;
                             }
                             else if (this.slots[i, j].Quantity + this.selectedItem.Quantity > this.selectedItem.Items.Size)
@@ -195,25 +246,47 @@ public class Inventory : NetworkBehaviour
                                 int diff = this.slots[i, j].Quantity + this.selectedItem.Quantity - this.selectedItem.Items.Size;
                                 this.slots[i, j].Quantity += this.selectedItem.Quantity;
                                 this.selectedItem.Quantity = diff;
-                                this.slots[this.previndex[0], this.previndex[1]] = this.selectedItem;
+                                if (!inchest)
+                                    this.slots[this.previndex[0], this.previndex[1]] = this.selectedItem;
+                                else
+                                    CmdInteractChest(this.previndex[0], this.previndex[1], this.selectedItem.Items.ID, this.selectedItem.Quantity);
                             }
                             else
                                 this.slots[i, j].Quantity += this.selectedItem.Quantity;
                         }
                         else if (this.slots[i, j].Items.ID != -1)
                         {
-                            if (this.slots[this.previndex[0], this.previndex[1]].Items.ID == -1)
+                            if (!inchest)
                             {
-                                this.slots[this.previndex[0], this.previndex[1]] = this.slots[i, j];
-                                this.slots[i, j] = this.selectedItem;
-                            }
-                            else if (this.slots[this.previndex[0], this.previndex[1]].Items.ID == this.selectedItem.Items.ID)
-                            {
-                                this.slots[this.previndex[0], this.previndex[1]].Quantity += this.selectedItem.Quantity;
+                                if (this.slots[this.previndex[0], this.previndex[1]].Items.ID == -1)
+                                {
+                                    this.slots[this.previndex[0], this.previndex[1]] = this.slots[i, j];
+                                    this.slots[i, j] = this.selectedItem;
+                                }
+                                else if (this.slots[this.previndex[0], this.previndex[1]].Items.ID == this.selectedItem.Items.ID)
+                                {
+                                    this.slots[this.previndex[0], this.previndex[1]].Quantity += this.selectedItem.Quantity;
+                                }
+                                else
+                                {
+                                    this.Drop(this.selectedItem);
+                                }
                             }
                             else
                             {
-                                this.Drop(this.selectedItem);
+                                if (this.slotsChest[this.previndex[0], this.previndex[1]].Items.ID == -1)
+                                {
+                                    CmdInteractChest(this.previndex[0], this.previndex[1], this.slots[i, j].Items.ID, this.slots[i, j].Quantity);
+                                    this.slots[i, j] = this.selectedItem;
+                                }
+                                else if (this.slotsChest[this.previndex[0], this.previndex[1]].Items.ID == this.selectedItem.Items.ID)
+                                {
+                                    CmdInteractChest(this.previndex[0], this.previndex[1], this.selectedItem.Items.ID, this.selectedItem.Quantity);
+                                }
+                                else
+                                {
+                                    this.Drop(this.selectedItem);
+                                }
                             }
                         }
                         else
@@ -242,13 +315,14 @@ public class Inventory : NetworkBehaviour
         // Relachement de l'item hors de l'inventaire
         rect = new Rect(pos_x_inventory, pos_y_inventory, columns * this.size_inventory, (rows + .5f) * this.size_inventory);
         Rect secondrect = new Rect(this.pos_x_toolbar, this.pos_y_toolbar, this.columns * this.size_toolbar, this.size_toolbar);
-        if (!rect.Contains(Event.current.mousePosition) && !secondrect.Contains(Event.current.mousePosition) && this.draggingItemStack && Event.current.button == 0 && Event.current.type == EventType.MouseUp)
+        Rect thirdrect = new Rect(this.columns * this.size_inventory + this.pos_x_inventory + 72, this.pos_y_inventory, 3 * this.size_inventory, 3 * this.size_inventory);
+        if (!rect.Contains(Event.current.mousePosition) && !secondrect.Contains(Event.current.mousePosition) && !(this.chest != null && thirdrect.Contains(Event.current.mousePosition)) && this.draggingItemStack && Event.current.button == 0 && Event.current.type == EventType.MouseUp)
         {
             this.Drop(this.selectedItem);
             this.draggingItemStack = false;
         }
         // Relachement d'un item hors de l'inventaire
-        if (!rect.Contains(Event.current.mousePosition) && !secondrect.Contains(Event.current.mousePosition) && this.draggingItemStack && Event.current.button == 1 && Event.current.type == EventType.MouseUp)
+        if (!rect.Contains(Event.current.mousePosition) && !secondrect.Contains(Event.current.mousePosition) && !(this.chest != null && thirdrect.Contains(Event.current.mousePosition)) && this.draggingItemStack && Event.current.button == 1 && Event.current.type == EventType.MouseUp)
         {
             this.Drop(new ItemStack(selectedItem.Items, 1));
             this.selectedItem.Quantity--;
@@ -303,6 +377,190 @@ public class Inventory : NetworkBehaviour
                 "<color=#ffffff>" + this.selectedItem.Items.Name + "</color>\n\n" + this.selectedItem.Items.Description, this.skin.GetStyle("tooltip"));
         }
     }
+    /// <summary>
+    /// s'occupe de la gestion du chest.
+    /// </summary>
+    void InteractChest()
+    {
+        int posX = this.columns * this.size_inventory + this.pos_x_inventory + 72;
+        this.tooltipshown = false;
+        Rect rect;
+        for (int i = 0; i < 3; i++)
+            for (int j = 0; j < 3; j++)
+            {
+                rect = new Rect(posX + j * this.size_inventory, this.pos_y_inventory + i * this.size_inventory, this.size_inventory, this.size_inventory);
+
+                if (rect.Contains(Event.current.mousePosition))
+                {
+                    // Prise du stack
+                    if (!this.draggingItemStack && Event.current.button == 0 && Event.current.type == EventType.MouseDown)
+                    {
+                        if (this.slotsChest[i, j].Items.ID != -1)
+                        {
+                            this.draggingItemStack = true;
+                            this.previndex[0] = i;
+                            this.previndex[1] = j;
+                            this.inchest = true;
+
+                            if (Event.current.shift)
+                            {
+                                this.selectedItem = new ItemStack(this.slotsChest[i, j].Items, (this.slotsChest[i, j].Quantity + 1) / 2);
+                                if (this.slotsChest[i, j].Quantity == 1)
+                                {
+                                    CmdInteractChest(i, j, -1, 0);
+                                }
+                                else
+                                {
+                                    CmdInteractChest(i, j, this.slotsChest[i, j].Items.ID, (this.slotsChest[i, j].Quantity + 1) / 2);
+                                }
+                            }
+                            else
+                            {
+                                if (this.chest != null)
+                                {
+                                    this.InteractChest();
+                                    this.DrawChest();
+                                }
+                                this.selectedItem = new ItemStack(this.slotsChest[i, j].Items, this.slotsChest[i, j].Quantity);
+                                CmdInteractChest(i, j, -1, 0);
+                            }
+                        }
+
+                    }
+                    // Description du stack
+                    else if (!this.draggingItemStack && this.slots[i, j].Items.ID != -1)
+                    {
+                        this.previndex[0] = i;
+                        this.previndex[1] = j;
+                        this.selectedItem = this.slotsChest[i, j];
+                        this.tooltipshown = true;
+                        this.inchest = true;
+                    }
+                    // Relachement du stack dans un slot
+                    else if (this.draggingItemStack && Event.current.button == 0 && Event.current.type == EventType.MouseUp)
+                    {
+                        this.draggingItemStack = false;
+                        if (this.slotsChest[i, j].Items.ID == this.selectedItem.Items.ID)
+                        {
+                            if (this.slotsChest[i, j].Quantity == this.selectedItem.Items.Size)
+                            {
+                                if (!inchest)
+                                {
+                                    this.selectedItem.Quantity += this.slots[this.previndex[0], this.previndex[1]].Quantity;
+                                    this.slots[this.previndex[0], this.previndex[1]] = this.slotsChest[i, j];
+                                }
+                                else
+                                {
+                                    this.selectedItem.Quantity += this.slotsChest[this.previndex[0], this.previndex[1]].Quantity;
+                                    CmdInteractChest(this.previndex[0], this.previndex[1], this.slotsChest[i, j].Items.ID, this.slotsChest[i, j].Quantity);
+                                }
+                                CmdInteractChest(i, j, this.selectedItem.Items.ID, this.selectedItem.Quantity);
+                            }
+                            else if (this.slotsChest[i, j].Quantity + this.selectedItem.Quantity > this.selectedItem.Items.Size)
+                            {
+                                int diff = this.slotsChest[i, j].Quantity + this.selectedItem.Quantity - this.selectedItem.Items.Size;
+                                CmdInteractChest(i, j, this.selectedItem.Items.ID, this.slotsChest[i, j].Quantity + this.selectedItem.Quantity);
+                                this.selectedItem.Quantity = diff;
+                                if (!inchest)
+                                    this.slots[this.previndex[0], this.previndex[1]] = this.selectedItem;
+                                else
+                                    CmdInteractChest(this.previndex[0], this.previndex[1], this.selectedItem.Items.ID, this.selectedItem.Quantity);
+                            }
+                            else
+                                CmdInteractChest(i, j, this.selectedItem.Items.ID, this.slotsChest[i, j].Quantity + this.selectedItem.Quantity);
+                        }
+                        else if (this.slotsChest[i, j].Items.ID != -1)
+                        {
+                            if (!inchest)
+                            {
+                                if (this.slots[this.previndex[0], this.previndex[1]].Items.ID == -1)
+                                {
+                                    this.slots[this.previndex[0], this.previndex[1]] = this.slotsChest[i, j];
+                                    this.CmdInteractChest(i, j, this.selectedItem.Items.ID, this.selectedItem.Quantity);
+                                }
+                                else if (this.slots[this.previndex[0], this.previndex[1]].Items.ID == this.selectedItem.Items.ID)
+                                {
+                                    this.slots[this.previndex[0], this.previndex[1]].Quantity += this.selectedItem.Quantity;
+                                }
+                                else
+                                {
+                                    this.Drop(this.selectedItem);
+                                }
+                            }
+                            else
+                            {
+                                if (this.slotsChest[this.previndex[0], this.previndex[1]].Items.ID == -1)
+                                {
+                                    CmdInteractChest(this.previndex[0], this.previndex[1], this.slotsChest[i, j].Items.ID, this.slotsChest[i, j].Quantity);
+                                    this.CmdInteractChest(i, j, this.selectedItem.Items.ID, this.selectedItem.Quantity);
+                                }
+                                else if (this.slotsChest[this.previndex[0], this.previndex[1]].Items.ID == this.selectedItem.Items.ID)
+                                {
+                                    CmdInteractChest(this.previndex[0], this.previndex[1], this.selectedItem.Items.ID, this.selectedItem.Quantity);
+                                }
+                                else
+                                {
+                                    this.Drop(this.selectedItem);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            this.CmdInteractChest(i, j, this.selectedItem.Items.ID, this.selectedItem.Quantity);
+                        }
+                    }
+                    // Relachement d'un item dans un slot
+                    else if (this.draggingItemStack && Event.current.button == 1 && Event.current.type == EventType.MouseUp)
+                    {
+                        if (this.slotsChest[i, j].Items.ID == this.selectedItem.Items.ID && this.slotsChest[i, j].Quantity < this.slotsChest[i, j].Items.Size)
+                        {
+                            this.CmdInteractChest(i, j, this.slotsChest[i, j].Items.ID, this.slotsChest[i, j].Quantity + 1);
+                            this.selectedItem.Quantity--;
+                        }
+                        else if (this.slotsChest[i, j].Items.ID == -1)
+                        {
+                            this.CmdInteractChest(i, j, this.selectedItem.Items.ID, 1);
+                            this.selectedItem.Quantity--;
+                        }
+                        if (this.selectedItem.Quantity == 0)
+                            this.draggingItemStack = false;
+                    }
+                }
+            }
+    }
+
+    /// <summary>
+    /// S'occupe de dessiner l'interface du coffre.
+    /// </summary>
+    void DrawChest()
+    {
+        int posX = this.columns * this.size_inventory + this.pos_x_inventory + 72;
+        Rect rect = new Rect(posX - 24, this.pos_y_inventory - 32, 3 * this.size_inventory + 48, 3 * this.size_inventory + 64);
+        GUI.Box(rect, "", this.skin.GetStyle("inventory"));
+        for (int i = 0; i < 3; i++)
+            for (int j = 0; j < 3; j++)
+            {
+                // Dessin du slot               
+                rect = new Rect(posX + j * this.size_inventory, this.pos_y_inventory + i * this.size_inventory, this.size_inventory, this.size_inventory);
+                GUI.Box(rect, "", this.skin.GetStyle("slot"));
+
+                if (this.slotsChest[i, j].Items.ID != -1)
+                {
+                    // Dessin de l'item + quantite
+                    rect.x += this.size_inventory / 5;
+                    rect.y += this.size_inventory / 5;
+                    rect.width -= this.size_inventory / 2.5f;
+                    rect.height -= this.size_inventory / 2.5f;
+                    GUI.DrawTexture(rect, this.slotsChest[i, j].Items.Icon);
+                    rect.x -= this.size_inventory / 10;
+                    rect.y -= this.size_inventory / 10;
+                    rect.width += this.size_inventory / 5;
+                    rect.height += this.size_inventory / 5;
+                    if (this.slotsChest[i, j].Quantity > 1)
+                        GUI.Box(rect, this.slotsChest[i, j].Quantity.ToString(), this.skin.GetStyle("quantity"));
+                }
+            }
+    }   
 
     /// <summary>
     /// S'occupe de dessiner la toolbar en bas de l'ecran.
@@ -370,8 +628,16 @@ public class Inventory : NetworkBehaviour
                     {
                         if (this.slots[i, j].Quantity == this.selectedItem.Items.Size)
                         {
-                            this.selectedItem.Quantity += this.slots[this.previndex[0], this.previndex[1]].Quantity;
-                            this.slots[this.previndex[0], this.previndex[1]] = this.slots[i, j];
+                            if (!inchest)
+                            {
+                                this.selectedItem.Quantity += this.slots[this.previndex[0], this.previndex[1]].Quantity;
+                                this.slots[this.previndex[0], this.previndex[1]] = this.slots[i, j];
+                            }
+                            else
+                            {
+                                this.selectedItem.Quantity += this.slotsChest[this.previndex[0], this.previndex[1]].Quantity;
+                                CmdInteractChest(this.previndex[0], this.previndex[1], this.slots[i, j].Items.ID, this.slots[i, j].Quantity);
+                            }
                             this.slots[i, j] = this.selectedItem;
                         }
                         else if (this.slots[i, j].Quantity + this.selectedItem.Quantity > this.selectedItem.Items.Size)
@@ -379,25 +645,47 @@ public class Inventory : NetworkBehaviour
                             int diff = this.slots[i, j].Quantity + this.selectedItem.Quantity - this.selectedItem.Items.Size;
                             this.slots[i, j].Quantity += this.selectedItem.Quantity;
                             this.selectedItem.Quantity = diff;
-                            this.slots[this.previndex[0], this.previndex[1]] = this.selectedItem;
+                            if (!inchest)
+                                this.slots[this.previndex[0], this.previndex[1]] = this.selectedItem;
+                            else
+                                CmdInteractChest(this.previndex[0], this.previndex[1], this.selectedItem.Items.ID, this.selectedItem.Quantity);
                         }
                         else
                             this.slots[i, j].Quantity += this.selectedItem.Quantity;
                     }
                     else if (this.slots[i, j].Items.ID != -1)
                     {
-                        if (this.slots[this.previndex[0], this.previndex[1]].Items.ID == -1)
+                        if (!inchest)
                         {
-                            this.slots[this.previndex[0], this.previndex[1]] = this.slots[i, j];
-                            this.slots[i, j] = this.selectedItem;
-                        }
-                        else if (this.slots[this.previndex[0], this.previndex[1]].Items.ID == this.selectedItem.Items.ID)
-                        {
-                            this.slots[this.previndex[0], this.previndex[1]].Quantity += this.selectedItem.Quantity;
+                            if (this.slots[this.previndex[0], this.previndex[1]].Items.ID == -1)
+                            {
+                                this.slots[this.previndex[0], this.previndex[1]] = this.slots[i, j];
+                                this.slots[i, j] = this.selectedItem;
+                            }
+                            else if (this.slots[this.previndex[0], this.previndex[1]].Items.ID == this.selectedItem.Items.ID)
+                            {
+                                this.slots[this.previndex[0], this.previndex[1]].Quantity += this.selectedItem.Quantity;
+                            }
+                            else
+                            {
+                                this.Drop(this.selectedItem);
+                            }
                         }
                         else
                         {
-                            this.Drop(this.selectedItem);
+                            if (this.slotsChest[this.previndex[0], this.previndex[1]].Items.ID == -1)
+                            {
+                                CmdInteractChest(this.previndex[0], this.previndex[1], this.slots[i, j].Items.ID, this.slots[i, j].Quantity);
+                                this.slots[i, j] = this.selectedItem;
+                            }
+                            else if (this.slotsChest[this.previndex[0], this.previndex[1]].Items.ID == this.selectedItem.Items.ID)
+                            {
+                                CmdInteractChest(this.previndex[0], this.previndex[1], this.slotsChest[this.previndex[0], this.previndex[1]].Items.ID, this.slotsChest[this.previndex[0], this.previndex[1]].Quantity + this.selectedItem.Quantity);
+                            }
+                            else
+                            {
+                                this.Drop(this.selectedItem);
+                            }
                         }
                     }
                     else
@@ -790,6 +1078,59 @@ public class Inventory : NetworkBehaviour
         ItemDatabase.Find(id, meta).Spawn(pos + forward * 0.3f + Vector3.up * 0.7f, forward + Vector3.up, quantity);
     }
 
+    [ClientRpc]
+    private void RpcUpdateChest(int id00, int quantity00, int id01, int quantity01, int id02, int quantity02,
+        int id10, int quantity10, int id11, int quantity11, int id12, int quantity12,
+        int id20, int quantity20, int id21, int quantity21, int id22, int quantity22)
+    {
+        if (isLocalPlayer)
+        {
+            if (this.slotsChest[0, 0].Quantity != quantity00)
+                this.slotsChest[0, 0].Quantity = quantity00;
+            if (this.slotsChest[0, 0].Items.ID != id00)
+                this.slotsChest[0, 0].Items = ItemDatabase.Find(id00);
+
+            if (this.slotsChest[0, 1].Quantity != quantity01)
+                this.slotsChest[0, 1].Quantity = quantity01;
+            if (this.slotsChest[0, 1].Items.ID != id01)
+                this.slotsChest[0, 1].Items = ItemDatabase.Find(id01);
+
+            if (this.slotsChest[0, 2].Quantity != quantity02)
+                this.slotsChest[0, 2].Quantity = quantity02;
+            if (this.slotsChest[0, 2].Items.ID != id02)
+                this.slotsChest[0, 2].Items = ItemDatabase.Find(id02);
+
+            if (this.slotsChest[1, 0].Quantity != quantity10)
+                this.slotsChest[1, 0].Quantity = quantity10;
+            if (this.slotsChest[1, 0].Items.ID != id10)
+                this.slotsChest[1, 0].Items = ItemDatabase.Find(id10);
+
+            if (this.slotsChest[1, 1].Quantity != quantity11)
+                this.slotsChest[1, 1].Quantity = quantity11;
+            if (this.slotsChest[1, 1].Items.ID != id11)
+                this.slotsChest[1, 1].Items = ItemDatabase.Find(id11);
+
+            if (this.slotsChest[1, 2].Quantity != quantity12)
+                this.slotsChest[1, 2].Quantity = quantity12;
+            if (this.slotsChest[1, 2].Items.ID != id12)
+                this.slotsChest[1, 2].Items = ItemDatabase.Find(id12);
+
+            if (this.slotsChest[2, 0].Quantity != quantity20)
+                this.slotsChest[2, 0].Quantity = quantity20;
+            if (this.slotsChest[2, 0].Items.ID != id20)
+                this.slotsChest[2, 0].Items = ItemDatabase.Find(id20);
+
+            if (this.slotsChest[2, 1].Quantity != quantity21)
+                this.slotsChest[2, 1].Quantity = quantity21;
+            if (this.slotsChest[2, 1].Items.ID != id21)
+                this.slotsChest[2, 1].Items = ItemDatabase.Find(id21);
+
+            if (this.slotsChest[2, 2].Quantity != quantity22)
+                this.slotsChest[2, 2].Quantity = quantity22;
+            if (this.slotsChest[2, 2].Items.ID != id22)
+                this.slotsChest[2, 2].Items = ItemDatabase.Find(id22);
+        }
+    }
     #endregion
 
     #region Save & Load
@@ -855,6 +1196,18 @@ public class Inventory : NetworkBehaviour
                 }
             }
         }
+    }
+
+    [Command]
+    private void CmdSetChest(GameObject chest)
+    {
+        this.chest = chest;
+    }
+
+    [Command]
+    private void CmdInteractChest(int x, int y, int id, int quantity)
+    {
+        this.chest.GetComponent<SyncChest>().Content[x, y] = new ItemStack(ItemDatabase.Find(id), quantity);
     }
     #endregion
 
@@ -938,6 +1291,17 @@ public class Inventory : NetworkBehaviour
     public int Columns
     {
         get { return this.columns; }
+    }
+
+    public GameObject Chest
+    {
+        get { return this.chest; }
+        set
+        {
+            this.chest = value;
+            if (!isServer)
+                CmdSetChest(value);
+        }
     }
     #endregion
 }

@@ -12,6 +12,8 @@ public class Social_HUD : NetworkBehaviour
     [SyncVar]
     private string namePlayer;
     [SyncVar]
+    private string skinPlayer;
+    [SyncVar]
     private bool chatShown = false;
     [SyncVar]
     private Team team = Team.Neutre;
@@ -39,11 +41,15 @@ public class Social_HUD : NetworkBehaviour
             this.skin.GetStyle("chat").alignment = TextAnchor.LowerLeft;
             this.skin.GetStyle("chat").fontStyle = FontStyle.Normal;
             this.skin.GetStyle("chat").normal.textColor = Color.grey;
+            this.skin.textField.alignment = TextAnchor.UpperLeft;
+
             this.skin.textField.fontSize = (int)(Screen.height * 0.025f);
             // PlayerName
             this.nameTextMesh.gameObject.SetActive(false);
             this.namePlayer = PlayerPrefs.GetString("PlayerName", "");
-            this.CmdSetName(this.namePlayer);
+            this.skinPlayer = PlayerPrefs.GetString("Skin", "");
+            Skin.Load(this.skinPlayer).Apply(gameObject);
+            this.CmdSetName(this.namePlayer, skinPlayer);
             this.CmdSendActivity(Activity.Connection);
         }
     }
@@ -57,7 +63,11 @@ public class Social_HUD : NetworkBehaviour
                 if (player != null && !gameObject.Equals(player))
                 {
                     Social_HUD other = player.GetComponent<Social_HUD>();
-                    other.nameTextMesh.text = other.namePlayer;
+                    if (other.nameTextMesh.text != other.namePlayer && other.skinPlayer != null)
+                    {
+                        other.nameTextMesh.text = other.namePlayer;
+                        Skin.Load(other.skinPlayer).Apply(player);
+                    }
                     other.nameTextMesh.color = other.team == Team.Blue ? new Color(.12f, 0f, 1f) : new Color(.78f, .15f, .15f);
                     if (other.GetComponent<SyncCharacter>().Life > 0 && Vector3.Distance(player.transform.FindChild("Character").position, gameObject.transform.FindChild("Character").position) < 10)
                     {
@@ -156,14 +166,15 @@ public class Social_HUD : NetworkBehaviour
     /// </summary>
     /// <param name="name"></param>
     [Command]
-    public void CmdSetName(string name)
+    public void CmdSetName(string name, string skin)
     {
         this.namePlayer = name;
+        this.skinPlayer = skin;
         Save save = GameObject.Find("Map").GetComponent<Save>();
         save.AddPlayer(gameObject, isLocalPlayer);
         PlayerSave ps = save.LoadPlayer(gameObject);
         this.isOp = ps.IsOp;
-        this.team = ps.PlayerTeam;        
+        this.team = ps.PlayerTeam;
     }
 
     /// <summary>

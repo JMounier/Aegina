@@ -14,6 +14,7 @@ public class Tutoriel : NetworkBehaviour
     private Text textNarator;
     private GUISkin skin;
     private float cooldown = 10;
+    private Menu menu;
 
     // Use this for initialization
     void Start()
@@ -24,6 +25,7 @@ public class Tutoriel : NetworkBehaviour
         this.controler = this.transform.GetComponent<Controller>();
         this.inventaire = this.transform.GetComponent<Inventory>();
         this.cristal = this.transform.GetComponent<Cristal_HUD>();
+        this.menu = this.transform.GetComponent<Menu>();
         this.IM = this.transform.GetComponent<InputManager>();
         this.skin = Resources.Load<GUISkin>("Sprites/GUIskin/skin");
         this.textNarator = new Text();
@@ -51,7 +53,7 @@ public class Tutoriel : NetworkBehaviour
         else if (progress < 0)
             EndtutoHUD();
 
-        else if (progress < 13)
+        else if (progress < 14)
         {
             if (this.cooldown > 0 && !this.controler.Pause)
             {
@@ -122,6 +124,8 @@ public class Tutoriel : NetworkBehaviour
                     this.cooldown = 10;
                     //déclenchement du texte et du son
                 }
+                else if (this.cooldown > 0 && this.cooldown <= 10)
+                    textNarator = TextDatabase.PickItem3;
                 break;
             case 6:
                 textNarator = TextDatabase.Equip;
@@ -136,6 +140,13 @@ public class Tutoriel : NetworkBehaviour
             case 7:
                 textNarator = TextDatabase.KillThePig;
                 textObjectif = TextDatabase.KillThePigObjectif;
+                if (this.cooldown > 0 && this.cooldown < 1)
+                {
+                    this.cooldown = 0;
+                    this.menu.Helpshown = true;
+                    this.menu.Page = Text.GetLanguage() == SystemLanguage.English ? 0 : 3;
+                    this.controler.Pause = true;
+                }
                 if (this.cooldown <= 0 && inventaire.InventoryContains(ItemDatabase.Gigot))
                 {
                     CmdSaveProgress(progress + 1);
@@ -146,6 +157,13 @@ public class Tutoriel : NetworkBehaviour
             case 8:
                 textNarator = TextDatabase.CraftABrochette;
                 textObjectif = TextDatabase.CraftABrochetteObejctif;
+                if (this.cooldown > 0 && this.cooldown < 1)
+                {
+                    this.cooldown = 0;
+                    this.menu.Helpshown = true;
+                    this.controler.Pause = true;
+                    this.menu.Page = 2 +(Text.GetLanguage() == SystemLanguage.English ? 0 : 3);
+                }
                 if (this.cooldown <= 0 && inventaire.InventoryContains(ItemDatabase.MeatBalls))
                 {
                     CmdSaveProgress(progress + 1);
@@ -159,41 +177,67 @@ public class Tutoriel : NetworkBehaviour
                 if (this.cooldown <= 0 && !this.inventaire.InventoryContains(ItemDatabase.MeatBalls) && Input.GetButton("Fire2")) /* récupérer la consomation d'un objet : attendre la fin de stats */
                 {
                     CmdSaveProgress(progress + 1);
-                    this.cooldown = 60;
-                    //déclenchement Cinématique
+                    this.cooldown = 20;
+                    //déclenchement du texte
                 }
                 break;
             case 10:
-                textObjectif = new Text();
-                textNarator = TextDatabase.CinematiqueWhereIAm1;
-                if (this.cooldown <= 45)
-                    textNarator = TextDatabase.CinematiqueWhereIAm2;
-                if (this.cooldown <= 35)
+                textObjectif = TextDatabase.DrinSomethingObjectif;
+                textNarator = TextDatabase.DrinkSomething1;
+                if (this.cooldown > 0 && this.cooldown <= 10)
+                    textNarator = TextDatabase.DrinkSomething2;
+                if (this.cooldown <= 0 && this.inventaire.InventoryContains(ItemDatabase.WaterCact))
                 {
-                    textNarator = TextDatabase.CinematiqueWhereIAm3;
-
-                    if (this.cooldown <= 0)
-                    {
-                        CmdSaveProgress(progress + 1);
-                        this.cooldown = 10;
-                        //déclenchement du texte et du son
-                    }
+                    CmdSaveProgress(progress + 1);
+                    this.cooldown = 40;
+                    //déclenchement du son
                 }
                 break;
             case 11:
+                textObjectif = new Text();
+                textNarator = TextDatabase.CinematiqueWhereIAm1;
+                if (this.cooldown <= 30)
+                    textNarator = TextDatabase.CinematiqueWhereIAm2;
+                if (this.cooldown <= 20)
+                {
+                    textNarator = TextDatabase.CinematiqueWhereIAm3;
+                    if (this.cooldown <= 10)
+                    {
+                        textNarator = TextDatabase.CinematiqueWhereIAm4;
+                        if (this.cooldown <= 0)
+                        {
+                            CmdSaveProgress(progress + 1);
+                            this.cooldown = 10;
+                            //déclenchement du texte et du son
+                        }
+                    }
+                }
+                break;
+            case 12:
                 textNarator = TextDatabase.CristalView;
                 textObjectif = TextDatabase.CristalViewObjectif;
                 if (this.cooldown <= 0 && this.cristal.Cristal_shown)
                 {
                     CmdSaveProgress(progress + 1);
-                    this.cooldown = 20;
+                    this.cooldown = 30;
                     //déclenchement du texte et du son
                 }
                 break;
-            case 12:
-                textNarator = TextDatabase.FirstCristal;
+            case 13:
+                textNarator = TextDatabase.FirstCristal1;
                 textObjectif = TextDatabase.FirstCrisatlObjectif;
-                if (this.cooldown <= 0 && this.cristal.Cristal_shown && this.cristal.Cristal.LevelTot > 0)
+                if (this.cooldown > 0 && this.cooldown <1)
+                {
+                    this.cooldown = 0;
+                    this.menu.Helpshown = true;
+                    this.controler.Pause = true;
+                    this.menu.Page = 1 + (Text.GetLanguage() == SystemLanguage.English ? 0 : 3);
+                }
+                if (this.cooldown > 10 && this.cooldown <= 20)
+                    textNarator = TextDatabase.FirstCristal2;
+                else if (this.cooldown > 0)
+                    textNarator = TextDatabase.FirstCristal3;
+                else if (this.cooldown <= 0 && this.cristal.Cristal_shown && this.cristal.Cristal.LevelTot > 0)
                 {
                     CmdSaveProgress(progress + 1);
                     CmdTutoEnding();
@@ -264,7 +308,7 @@ public class Tutoriel : NetworkBehaviour
         rect.x += Screen.width / 15;
         if (GUI.Button(rect, TextDatabase.Yes.GetText(), skin.GetStyle("button")))
         {
-            CmdSaveProgress(13);
+            CmdSaveProgress(14);
             this.controler.Pause = false;
             CmdTutoEnding();
         }
@@ -301,7 +345,7 @@ public class Tutoriel : NetworkBehaviour
     //Getters Setters
     public bool Finished_tuto
     {
-        get { return progress > 12; }
+        get { return progress > 13; }
     }
     public bool Tutoshown
     {
@@ -310,8 +354,8 @@ public class Tutoriel : NetworkBehaviour
         {
             if (!value)
             {
-                this.progress = 13;
-                CmdSaveProgress(13);
+                this.progress = 14;
+                CmdSaveProgress(14);
             }
         }
     }

@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System;
 using UnityEngine.Networking;
+using System.Linq;
 
 public class Graph
 {
     private Dictionary<string, Node> nodes;
     private List<Node> origins;
+    private Queue<Node> file;
+    private List<string> keys;
 
     #region Methods
     public Graph(params Vector3[] origins)
@@ -14,41 +17,48 @@ public class Graph
         this.nodes = new Dictionary<string, Node>();
         this.origins = new List<Node>();
 
+        this.file = new Queue<Node>();
+
         foreach (Vector3 o in origins)
         {
             Vector3 origin = new Vector3(Convert.ToSingle(Math.Round(o.x * 2, 0) / 2), 7f, Convert.ToSingle(Math.Round(o.z * 2, 0) / 2));
-            Queue<Node> file = new Queue<Node>();
             Node node = new Node(isValidPosition(origin), origin);
             this.origins.Add(node);
-            file.Enqueue(node);
+            this.file.Enqueue(node);
             this.nodes.Add(VectorToString(origin), node);
-            while (file.Count > 0)
-            {
-                node = file.Dequeue();
-                foreach (Vector3 posNeighbour in Neighbours(node))
-                {
-                    string posNeighbourString = VectorToString(posNeighbour);
-                    if (isOverGround(posNeighbour))
-                    {
-                        if (!this.nodes.ContainsKey(posNeighbourString))
-                        {
-                            Node neighbour = new Node(isValidPosition(posNeighbour), posNeighbour);
-                            node.Neighbours.Add(neighbour);
-                            neighbour.Neighbours.Add(node);
-                            this.nodes.Add(posNeighbourString, neighbour);
-                            file.Enqueue(neighbour);
-                        }
-                        else if (!node.Neighbours.Contains(this.nodes[posNeighbourString]))
-                        {
-                            node.Neighbours.Add(this.nodes[posNeighbourString]);
-                            this.nodes[posNeighbourString].Neighbours.Add(node);
-                        }
-                    }
-                }
-            }
         }
     }
 
+    public void GenerateGraph(int nbTurn)
+    {
+        while (this.file.Count > 0 && nbTurn > 0)
+        {
+            Node node = this.file.Dequeue();
+            foreach (Vector3 posNeighbour in Neighbours(node))
+            {
+                string posNeighbourString = VectorToString(posNeighbour);
+                if (isOverGround(posNeighbour))
+                {
+                    if (!this.nodes.ContainsKey(posNeighbourString))
+                    {
+                        Node neighbour = new Node(isValidPosition(posNeighbour), posNeighbour);
+                        node.Neighbours.Add(neighbour);
+                        neighbour.Neighbours.Add(node);
+                        this.nodes.Add(posNeighbourString, neighbour);
+                        this.file.Enqueue(neighbour);
+                    }
+                    else if (!node.Neighbours.Contains(this.nodes[posNeighbourString]))
+                    {
+                        node.Neighbours.Add(this.nodes[posNeighbourString]);
+                        this.nodes[posNeighbourString].Neighbours.Add(node);
+                    }
+                }
+            }
+            nbTurn--;
+        }
+        if (file.Count == 0)
+            this.keys = Enumerable.ToList(this.nodes.Keys);
+    }
     public Node GetNode(Vector3 pos)
     {
         try
@@ -172,6 +182,13 @@ public class Graph
                 Reset(neighbour, validity);
         }
     }
+
+    public Node ChoseRandomNode()
+    {
+        if (this.keys.Count == 0)
+            return null;
+        return this.nodes[this.keys[UnityEngine.Random.Range(0, this.keys.Count)]];
+    }
     #endregion
 
     #region Statics methods
@@ -189,22 +206,18 @@ public class Graph
 
     public static bool isValidPosition(Vector3 pos)
     {
-        bool isOverGround = false;
-        foreach (Collider col in Physics.OverlapBox(pos, new Vector3(.25f, 1f, .25f)))
-        {
-            if (!col.isTrigger)
-                if (col.name.Contains("Island"))
-                    isOverGround = true;
-                else if (!col.gameObject.name.Contains("Character"))                
-                    return false;                
-        }
-        return isOverGround;
+        foreach (Collider col in Physics.OverlapBox(pos, new Vector3(.25f, 1f, .25f)))       
+            if (!col.isTrigger)            
+                if (!col.name.Contains("Character") && !col.gameObject.CompareTag("Loot") && !col.name.Contains("Island") && !col.name.Contains("Trap"))
+                    return false;          
+                
+        return isOverGround(pos);
     }
 
     public static bool isOverGround(Vector3 pos)
     {
-        foreach (Collider col in Physics.OverlapBox(pos, new Vector3(.25f, 1f, .25f)))
-            if (col.isTrigger == false && col.name.Contains("Island"))
+        foreach (RaycastHit col in Physics.RaycastAll(pos, Vector3.down))
+            if (col.collider.isTrigger == false && col.collider.name.Contains("Island"))
                 return true;
         return false;
     }
@@ -228,6 +241,13 @@ public class Graph
     {
         string[] cut = pos.Split(':');
         return new Vector3(float.Parse(cut[0]) / 2, 7f, float.Parse(cut[1]) / 2);
+    }
+    #endregion
+
+    #region Getters/Setters
+    public bool IsFileEmpty
+    {
+        get { return this.file.Count == 0; }
     }
     #endregion
 }

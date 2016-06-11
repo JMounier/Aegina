@@ -20,7 +20,7 @@ public class SyncChunk : NetworkBehaviour
     private List<Tuple<float, Vector3>> toReset;
     [SerializeField]
     private bool debugGraph = false;
-
+    private bool biomeUpdated = false;
     // Use this for initialization
     void Start()
     {
@@ -29,18 +29,16 @@ public class SyncChunk : NetworkBehaviour
             this.rotation = gameObject.transform.eulerAngles;
             this.toReset = new List<Tuple<float, Vector3>>();
         }
-        else {
-            gameObject.transform.eulerAngles = rotation;
-            Biome b = BiomeDatabase.Find(this.biomeId);
+        else
+        {
             foreach (Transform child in gameObject.transform)
             {
                 if (child.name.Contains("Island"))
                 {
                     if (child.GetComponent<MeshRenderer>().materials[0].name.Contains("Rock"))
-                        child.GetComponent<MeshRenderer>().materials = new Material[2] { b.Rock, b.Grass };
-                    else {
-                        child.GetComponent<MeshRenderer>().materials = new Material[2] { b.Grass, b.Rock };
-                    }
+                        child.GetComponent<MeshRenderer>().materials = new Material[2] { BiomeDatabase.Forest.Rock, BiomeDatabase.Forest.Grass };
+                    else
+                        child.GetComponent<MeshRenderer>().materials = new Material[2] { BiomeDatabase.Forest.Grass, BiomeDatabase.Forest.Rock };
                 }
             }
         }
@@ -48,6 +46,23 @@ public class SyncChunk : NetworkBehaviour
 
     void Update()
     {
+        if (this.biomeId != 0 && !biomeUpdated)
+        {
+            biomeUpdated = true;
+            Biome b = BiomeDatabase.Find(this.biomeId);
+            foreach (Transform child in gameObject.transform)
+            {
+                if (child.name.Contains("Island"))
+                {
+                    if (child.GetComponent<MeshRenderer>().materials[0].name.Contains("Rock"))
+                        child.GetComponent<MeshRenderer>().materials = new Material[2] { b.Rock, b.Grass };
+                    else
+                        child.GetComponent<MeshRenderer>().materials = new Material[2] { b.Grass, b.Rock };
+                }
+            }
+        }
+        if (gameObject.transform.eulerAngles != this.rotation)
+            gameObject.transform.eulerAngles = this.rotation;
         if (!isServer)
             return;
         if (debugGraph)

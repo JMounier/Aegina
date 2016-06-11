@@ -3,42 +3,51 @@ using System.Collections;
 
 public class FirstScene : MonoBehaviour
 {
-	
-	[SerializeField]
+
+    [SerializeField]
     private Light sun;
 
-	private int diameter = 100;
-	private float actual_time;
-	private float cycleTime = 120;
+    private int diameter = 100;
+    private float actual_time;
+    private float cycleTime = 120;
+
+    [SerializeField]
+    private GameObject campCameraPos;
+
+    [SerializeField]
+    private Camera cam;
+    [SerializeField]
+    private float camSpeed = 0.05f;
+
+    [SerializeField]
+    private GameObject Path;
+    [SerializeField]
+    private float acceptance = 1;
+
+    private GameObject step;
+    private GameObject fistStep;
 
 
-
-	[SerializeField]
-	private Camera cam;
-	[SerializeField]
-	private float camSpeed = 0.05f;
-
-	[SerializeField]
-	private GameObject fistStep;
-	[SerializeField]
-	private float acceptance = 1;
-
-	private GameObject step;
-
-
-
-	[SerializeField]
-	private AudioSource source;
+    [SerializeField]
+    private AudioSource source;
 
     private AudioClip clipMenu;
     private AudioClip clipButton;
     private float cdMusic;
     private float volume;
 
+    private bool onChar;
 
+    private bool goingback;
+    private Vector3 backpos;
+    private Quaternion backrot;
+    private GameObject camAim;
+    float speed;
     // Use this for initialization
     void Start()
     {
+        this.onChar = false;
+        this.goingback = false;
         // D/N
         //this.sun = gameObject.GetComponentInChildren<Light>();
         this.sun.gameObject.transform.TransformPoint(sun.transform.position);
@@ -46,15 +55,26 @@ public class FirstScene : MonoBehaviour
         this.actual_time = 0f;
         this.cdMusic = 0f;
         this.volume = PlayerPrefs.GetFloat("Sound_intensity", 0.1f);
+        this.fistStep = this.Path.transform.GetChild(0).gameObject;
+        this.step = this.fistStep;
+        // Camera and Path
+        for (int i = 1; i < this.Path.transform.childCount; i++)
+        {
+            this.step.GetComponent<FSPath>().NextStep = Path.transform.GetChild(i).gameObject;
+            this.step = Path.transform.GetChild(i).gameObject;
+        }
 
-		// Camera and Path
-		this.cam.transform.position = this.fistStep.transform.position;
-		this.step = this.fistStep.GetComponent<FSPath> ().NextStep;
-		//this.camSpeed = this.step.GetComponent<FSPath> ().Speed;
-		this.cam.transform.LookAt (this.step.transform);
+        this.step.GetComponent<FSPath>().NextStep = this.fistStep;
+        this.step = this.fistStep;
+        this.cam.transform.position = this.step.transform.position;
+        this.step = this.step.GetComponent<FSPath>().NextStep;
+        this.cam.transform.LookAt(this.step.transform);
+        this.camAim = this.campCameraPos.transform.GetChild(0).gameObject;
 
-		// Audio Source
-		this.source.volume = this.volume;
+        this.backpos = this.cam.transform.position;
+        this.backrot = this.cam.transform.rotation;
+        // Audio Source
+        this.source.volume = this.volume;
         this.clipMenu = Resources.Load<AudioClip>("Sounds/Music/Menu");
         this.clipButton = Resources.Load<AudioClip>("Sounds/Button/Button");
     }
@@ -70,31 +90,62 @@ public class FirstScene : MonoBehaviour
         this.sun.transform.position = Orbit(this.actual_time);
         this.sun.transform.LookAt(gameObject.transform);
 
-       // Sound 
+        // Sound 
         this.cdMusic -= Time.deltaTime;
         if (this.cdMusic <= 0)
         {
             this.source.PlayOneShot(this.clipMenu, 1f);
             this.cdMusic = 112f;
-        }  
+        }
 
-		// Camera
+        if (this.onChar)
+        {
+            if (Vector3.Distance(this.cam.transform.position, this.camAim.transform.position) > this.acceptance * this.speed / 1.2f )
+            {
+                this.cam.transform.rotation = Quaternion.Lerp(this.cam.transform.rotation, this.camAim.transform.rotation, 0.08f);
+                cam.transform.Translate((this.camAim.transform.position - cam.transform.position).normalized * this.speed, Space.World);
+            }
+            else
+            {
+                this.speed = 0.05f;
+                Quaternion lastrot = this.cam.transform.rotation;
+                this.cam.transform.LookAt(this.camAim.transform.GetChild(0));
+                Quaternion newrot = this.cam.transform.rotation;
+                this.cam.transform.rotation = Quaternion.Lerp(lastrot, newrot, 0.1f);
+            }
+        }
+        else if (this.goingback)
+        {
+            this.speed = 1.2f;
+            if (Vector3.Distance(this.cam.transform.position, this.backpos) > this.acceptance)
+            {
+                cam.transform.Translate((this.backpos - cam.transform.position).normalized * 1.2f, Space.World);
+                this.cam.transform.rotation = Quaternion.Lerp(this.cam.transform.rotation, this.backrot, 0.1f);
+            }
+            else
+                this.goingback = false;
+        }
+        else
+        {
+            // Camera
 
-		cam.transform.Translate(Vector3.forward * this.camSpeed);
+            cam.transform.Translate(Vector3.forward * this.camSpeed);
 
-		//choose the rot;
-		Quaternion lastrot = this.cam.transform.rotation;
-		this.cam.transform.LookAt (this.step.transform);
-		Quaternion newrot = this.cam.transform.rotation;
-		this.cam.transform.rotation = Quaternion.Lerp (lastrot, newrot, 0.01f);
+            //choose the rot;
+            Quaternion lastrot = this.cam.transform.rotation;
+            this.cam.transform.LookAt(this.step.transform);
+            Quaternion newrot = this.cam.transform.rotation;
+            this.cam.transform.rotation = Quaternion.Lerp(lastrot, newrot, 0.01f);
 
-		if (Vector3.Distance (this.cam.transform.position, this.step.transform.position) <= this.acceptance) {
-			this.step = this.step.GetComponent<FSPath> ().NextStep;
-			if (this.step.GetComponent<FSPath> () == null)
-				this.step = this.fistStep;
-			//this.camSpeed = this.step.GetComponent<FSPath> ().Speed;
-		}
-
+            if (Vector3.Distance(this.cam.transform.position, this.step.transform.position) <= this.acceptance)
+            {
+                this.step = this.step.GetComponent<FSPath>().NextStep;
+                if (this.step.GetComponent<FSPath>() == null)
+                    this.step = this.fistStep;
+            }
+            this.backpos = this.cam.gameObject.transform.position;
+            this.backrot = this.cam.gameObject.transform.rotation;
+        }
     }
 
 
@@ -115,6 +166,21 @@ public class FirstScene : MonoBehaviour
             this.source.volume = this.volume;
         }
     }
+
+    public bool OnChar
+    {
+        get { return this.onChar; }
+        set
+        {
+            this.onChar = value;
+            this.goingback = !value;
+        }
+    }
+
+    public void CameraAim(int aim)
+    {
+        this.camAim = this.campCameraPos.transform.GetChild(aim).gameObject;
+    }    
 
     public void PlayButtonSound()
     {

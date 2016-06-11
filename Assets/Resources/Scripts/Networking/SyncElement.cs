@@ -10,15 +10,19 @@ public class SyncElement : NetworkBehaviour
     private Element elmt;
     private int idSave;
 
-    // Use this for initialization
-    void Start()
+    // Use this for initialization    
+    protected virtual void Start()
     {
         if (isServer)
             this.rotation = gameObject.transform.eulerAngles;
-        else
+    }
+
+    protected virtual void Update()
+    {
+        if (gameObject.transform.eulerAngles != this.rotation)
             gameObject.transform.eulerAngles = rotation;
     }
-    
+
     public void UpdateGraph()
     {
         Graph graph = gameObject.transform.parent.parent.GetComponent<SyncChunk>().MyGraph;

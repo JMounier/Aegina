@@ -43,7 +43,7 @@ public class Craft
     }
     public Craft(Type what)
     {
-        this.id = 0;
+        this.id = -1;
         this.product = new ItemStack();
         this.consume = new ItemStack[0];
         this.fire = false;

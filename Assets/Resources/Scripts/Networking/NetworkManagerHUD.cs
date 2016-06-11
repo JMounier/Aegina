@@ -11,7 +11,8 @@ namespace UnityEngine.Networking
     [System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)]
     public class NetworkManagerHUD : MonoBehaviour
     {
-        private MovieTexture loadingVideo;
+        private const float TransitionDelay = .3f;
+        private enum CategoryCloth { None, Body, Hair, Eyes, Beard, Pant, TShirt, Gloves, Hat };
         private Texture loadingImage;
 
         public enum TypeLaunch { Host, Client, Server, Stop };
@@ -30,7 +31,6 @@ namespace UnityEngine.Networking
         private string newipname = "Serveur";
         private bool typeCoop = true;
 
-        private bool showGUI = true;
         private bool optionShown = false;
         private bool sonShown = false;
         private bool langueShown = false;
@@ -43,10 +43,17 @@ namespace UnityEngine.Networking
         private float incg;
         private float incb;
 
+        private CategoryCloth categoryCloth;
+        private int typeCloth;
+        private Skin skinCharacter;
+        private float smoothAparition;
+
+        private GameObject character;
+
         #region Monobehaviour methods
         void Awake()
         {
-            this.loadingVideo = Resources.Load<MovieTexture>("Sprites/SplashImages/LoadingVideo");
+            this.character = GameObject.Find("CharacterModel");
             this.loadingImage = Resources.Load<Texture>("Sprites/SplashImages/LoadingImage");
 
             this.incr = Random.Range(-0.02f, 0.02f);
@@ -68,14 +75,26 @@ namespace UnityEngine.Networking
             this.spacing = this.height * 2;
             this.playerName = PlayerPrefs.GetString("PlayerName", "");
             SystemLanguage langue = PlayerPrefs.GetInt("langue", 1) == 1 ? SystemLanguage.English : SystemLanguage.French;
+            this.categoryCloth = CategoryCloth.None;
             Text.SetLanguage(langue);
             this.firstScene = GameObject.Find("Map").GetComponent<FirstScene>();
-            if (playerName == "")
-                this.showGUI = false;
 
             if (!Directory.Exists(Application.dataPath + "/Saves"))
                 Directory.CreateDirectory(Application.dataPath + "/Saves");
             this.skin.GetStyle("loading").normal.textColor = Color.black;
+
+            try
+            {
+                string skintStr = PlayerPrefs.GetString("Skin", "");
+                this.skinCharacter = Skin.Load(skintStr);
+                this.skinCharacter.ForceApply(this.character);
+            }
+            catch
+            {
+                this.characterShown = true;
+                this.skinCharacter = new Skin(Clothing.NormalBrownBeard, Clothing.NormalBrownHair, Clothing.NoneHat, Clothing.BasicBody, Clothing.NoneTshirt, Clothing.BrownOveralls, Clothing.BrownGloves, Clothing.BlackEye);
+                this.skinCharacter.ForceApply(this.character);
+            }
         }
         void Update()
         {
@@ -87,13 +106,11 @@ namespace UnityEngine.Networking
             this.width = Screen.width / 4;
             this.height = Screen.height / 25;
             this.spacing = this.height * 2;
-            if (!this.manager.isNetworkActive)
-                loadingVideo.Stop();
         }
 
         void Start()
         {
-            this.loadingVideo.loop = true;
+            this.firstScene.OnChar = this.characterShown;
             worldsList = new List<string>(Directory.GetDirectories(Application.dataPath + "/Saves"));
             for (int i = 0; i < worldsList.Count; i++)
                 worldsList[i] = worldsList[i].Remove(0, Application.dataPath.Length + 7);
@@ -108,18 +125,7 @@ namespace UnityEngine.Networking
 
         void OnGUI()
         {
-            if (!showGUI)
-            {
-                GUI.Box(new Rect(Screen.width / 4, Screen.height / 6, Screen.width / 2, Screen.width / 12.8f), "", this.skin.GetStyle("aegina"));
-                GUI.Box(new Rect(this.posX, this.posY - this.spacing, this.width, this.height * 2.5f), "<color=white>" + TextDatabase.EnterName.GetText() + "</color>", this.skin.GetStyle("chat"));
-                this.playerName = GUI.TextField(new Rect(this.posX, this.posY + this.spacing, this.width, this.height), this.RemoveSpecialCharacter(this.playerName, "abcdefghijklmnopqrstuvwxyz123456789-_", false), 15, this.skin.textField);
-                if (this.playerName != "" && GUI.Button(new Rect(this.posX, this.posY + this.spacing * 2, this.width, this.height), TextDatabase.Validate.GetText(), this.skin.GetStyle("button")))
-                {
-                    this.showGUI = true;
-                    PlayerPrefs.SetString("PlayerName", this.playerName);
-                }
-            }
-            else if (!optionShown && !sonShown && !langueShown && !characterShown && !worldcreateShown && !ipserveurshown)
+            if (!optionShown && !sonShown && !langueShown && !characterShown && !worldcreateShown && !ipserveurshown)
             {
                 if (!this.manager.isNetworkActive)
                 {
@@ -127,12 +133,14 @@ namespace UnityEngine.Networking
                     GameObject map = GameObject.Find("Map");
                     if (this.firstScene == null && map != null)
                     {
+                        this.character = GameObject.Find("CharacterModel");
+                        this.skinCharacter.ForceApply(this.character);
                         this.firstScene = map.GetComponent<FirstScene>();
                         Cursor.visible = true;
                         Cursor.lockState = CursorLockMode.None;
                     }
 
-                    GUI.Box(new Rect(Screen.width / 4, Screen.height / 6, Screen.width / 2, Screen.width / 12.8f), "", this.skin.GetStyle("aegina"));
+                    GUI.Box(new Rect(Screen.width / 4, Screen.height / 10, Screen.width / 2, Screen.width / 12.8f), "", this.skin.GetStyle("aegina"));
                     if (GUI.Button(new Rect(this.posX, this.posY, this.width, this.height), TextDatabase.Play.GetText(), this.skin.GetStyle("button")))
                     {
                         this.worldsShown = !this.worldsShown;
@@ -167,8 +175,8 @@ namespace UnityEngine.Networking
 
                 else if (!this.manager.IsClientConnected())
                 {
-                    GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), this.loadingVideo);
-                    GUI.Box(new Rect(Screen.width / 4, Screen.height / 6, Screen.width / 2, Screen.width / 12.8f), "", this.skin.GetStyle("aegina"));
+                    GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), this.loadingImage);
+                    GUI.Box(new Rect(Screen.width / 4, Screen.height / 10, Screen.width / 2, Screen.width / 12.8f), "", this.skin.GetStyle("aegina"));
                     if (GUI.Button(new Rect(this.posX, Screen.height / 1.1f, this.width, this.height), TextDatabase.Cancel.GetText(), this.skin.GetStyle("button")))
                     {
                         this.firstScene.PlayButtonSound();
@@ -176,12 +184,15 @@ namespace UnityEngine.Networking
                         this.manager.networkAddress = "localhost";
                     }
                 }
-                else if (!this.manager.clientLoadedScene)
+                else if (!this.manager.clientLoadedScene || GameObject.Find("Player(Clone)") == null || GameObject.Find("Player(Clone)").GetComponent<Controller>().Loading)
+                {
                     GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), this.loadingImage);
+                    GUI.Box(new Rect(Screen.width / 4, Screen.height / 10, Screen.width / 2, Screen.width / 12.8f), "", this.skin.GetStyle("aegina"));
+                }
             }
             else
             {
-                GUI.Box(new Rect(Screen.width / 4, Screen.height / 6, Screen.width / 2, Screen.width / 12.8f), "", this.skin.GetStyle("aegina"));
+                GUI.Box(new Rect(Screen.width / 4, Screen.height / 10, Screen.width / 2, Screen.width / 12.8f), "", this.skin.GetStyle("aegina"));
 
                 if (this.optionShown)
                     this.DrawOption();
@@ -224,7 +235,6 @@ namespace UnityEngine.Networking
                     break;
                 case TypeLaunch.Client:
                     this.manager.StartClient();
-                    loadingVideo.Play();
                     break;
                 case TypeLaunch.Server:
                     this.manager.OnStartServer();
@@ -259,6 +269,7 @@ namespace UnityEngine.Networking
             {
                 this.characterShown = true;
                 this.optionShown = false;
+                this.firstScene.OnChar = true;
                 this.firstScene.PlayButtonSound();
             }
 
@@ -278,7 +289,6 @@ namespace UnityEngine.Networking
 
             if (GUI.Button(new Rect(this.posX, this.posY + this.spacing, this.width, this.height), TextDatabase.Validate.GetText(), this.skin.GetStyle("button")))
             {
-                this.optionShown = true;
                 this.sonShown = false;
                 PlayerPrefs.SetFloat("Sound_intensity", this.firstScene.Volume);
                 this.firstScene.PlayButtonSound();
@@ -298,24 +308,487 @@ namespace UnityEngine.Networking
         /// </summary>
         private void DrawCharacter()
         {
-            GUI.Box(new Rect(this.posX, this.posY - this.spacing, this.width, this.height * 2.5f), "<color=white>" + TextDatabase.EnterName.GetText() + "</color>", this.skin.GetStyle("chat"));
-            this.playerName = GUI.TextField(new Rect(this.posX, this.posY + this.spacing, this.width, this.height), this.RemoveSpecialCharacter(this.playerName, "abcdefghijklmnopqrstuvwxyz123456789-_", false), 15, this.skin.textField);
-            if (this.playerName != "" && GUI.Button(new Rect(this.posX, this.posY + this.spacing * 2, this.width, this.height), TextDatabase.Validate.GetText(), this.skin.GetStyle("button")))
+            this.smoothAparition += Time.deltaTime;
+            this.skin.textField.alignment = TextAnchor.MiddleCenter;
+            this.playerName = GUI.TextField(new Rect(this.posX, this.posY + this.spacing * 6.2f, this.width, this.height), this.RemoveSpecialCharacter(this.playerName, "abcdefghijklmnopqrstuvwxyz123456789-_", false), 15, this.skin.textField);
+            bool firstLaunch = PlayerPrefs.GetString("PlayerName", "") == "";
+
+            if (this.playerName != "" && GUI.Button(new Rect(this.posX, this.posY + this.spacing * 7f, this.width / (firstLaunch ? 1f : 2.1f), this.height), TextDatabase.Validate.GetText(), this.skin.GetStyle("button")))
             {
                 this.characterShown = false;
-                this.optionShown = true;
+                this.firstScene.OnChar = false;
                 PlayerPrefs.SetString("PlayerName", this.playerName);
+                PlayerPrefs.SetString("Skin", Skin.Save(this.skinCharacter));
                 this.firstScene.PlayButtonSound();
             }
-            if (GUI.Button(new Rect(this.posX, this.posY + this.spacing * 3, this.width, this.height), TextDatabase.Back.GetText(), this.skin.GetStyle("button")))
+            if (!firstLaunch && GUI.Button(new Rect(this.posX + this.width / 1.9f, this.posY + this.spacing * 7, this.width / 2.1f, this.height), TextDatabase.Back.GetText(), this.skin.GetStyle("button")))
             {
                 this.characterShown = false;
+                this.firstScene.OnChar = false;
                 this.optionShown = true;
                 this.playerName = PlayerPrefs.GetString("PlayerName", "");
                 this.firstScene.PlayButtonSound();
             }
-        }
 
+            if (GUI.RepeatButton(new Rect(this.posX + this.spacing * 4.3f, this.posY + this.spacing * 5.2f, this.width / 4, this.width / 6), "", this.skin.GetStyle("right_arrow")))
+                this.character.transform.Rotate(Vector3.up, -5);
+            if (GUI.RepeatButton(new Rect(this.posX, this.posY + this.spacing * 5.2f, this.width / 4, this.width / 6), "", this.skin.GetStyle("left_arrow")))
+                this.character.transform.Rotate(Vector3.up, +5);
+
+            #region Category
+            if (GUI.Button(new Rect(this.posX, this.posY - this.spacing * 1.5f, this.width / 5, this.width / 5), Resources.Load<Texture2D>("Sprites/Cosmetics/HatIcon")))
+            {
+                if (this.categoryCloth == CategoryCloth.Hat)
+                    this.categoryCloth = CategoryCloth.None;
+                else
+                {
+                    this.categoryCloth = CategoryCloth.Hat;
+                    this.smoothAparition = 0;
+                }
+            }
+            if (GUI.Button(new Rect(this.posX, this.posY, this.width / 5, this.width / 5), Resources.Load<Texture2D>("Sprites/Cosmetics/BeardIcon")))
+            {
+                if (this.categoryCloth == CategoryCloth.Beard)
+                    this.categoryCloth = CategoryCloth.None;
+                else
+                {
+                    this.smoothAparition = 0;
+                    this.categoryCloth = CategoryCloth.Beard;
+                }
+            }
+            if (GUI.Button(new Rect(this.posX, this.posY + this.spacing * 1.5f, this.width / 5, this.width / 5), Resources.Load<Texture2D>("Sprites/Cosmetics/BodyIcon")))
+            {
+                if (this.categoryCloth == CategoryCloth.Body)
+                    this.categoryCloth = CategoryCloth.None;
+                else
+                {
+                    this.smoothAparition = 0;
+                    this.categoryCloth = CategoryCloth.Body;
+                }
+            }
+            if (GUI.Button(new Rect(this.posX + this.spacing * 4.5f, this.posY, this.width / 5, this.width / 5), Resources.Load<Texture2D>("Sprites/Cosmetics/EyeIcon")))
+            {
+                if (this.categoryCloth == CategoryCloth.Eyes)
+                    this.categoryCloth = CategoryCloth.None;
+                else
+                {
+                    this.smoothAparition = 0;
+                    this.categoryCloth = CategoryCloth.Eyes;
+                }
+            }
+            if (GUI.Button(new Rect(this.posX + this.spacing * 4.5f, this.posY - this.spacing * 1.5f, this.width / 5, this.width / 5), Resources.Load<Texture2D>("Sprites/Cosmetics/HairIcon")))
+            {
+                if (this.categoryCloth == CategoryCloth.Hair)
+                    this.categoryCloth = CategoryCloth.None;
+                else
+                {
+                    this.smoothAparition = 0;
+                    this.categoryCloth = CategoryCloth.Hair;
+                }
+            }
+            if (GUI.Button(new Rect(this.posX + this.spacing * 4.5f, this.posY + this.spacing * 3f, this.width / 5, this.width / 5), Resources.Load<Texture2D>("Sprites/Cosmetics/GlovesIcon")))
+            {
+                if (this.categoryCloth == CategoryCloth.Gloves)
+                    this.categoryCloth = CategoryCloth.None;
+                else
+                {
+                    this.smoothAparition = 0;
+                    this.categoryCloth = CategoryCloth.Gloves;
+                }
+            }
+            if (GUI.Button(new Rect(this.posX + this.spacing * 4.5f, this.posY + this.spacing * 1.5f, this.width / 5, this.width / 5), Resources.Load<Texture2D>("Sprites/Cosmetics/TshirtIcon")))
+            {
+                if (this.categoryCloth == CategoryCloth.TShirt)
+                    this.categoryCloth = CategoryCloth.None;
+                else
+                {
+                    this.smoothAparition = 0;
+                    this.categoryCloth = CategoryCloth.TShirt;
+                }
+            }
+            if (GUI.Button(new Rect(this.posX, this.posY + this.spacing * 3f, this.width / 5, this.width / 5), Resources.Load<Texture2D>("Sprites/Cosmetics/PantIcon")))
+            {
+                if (this.categoryCloth == CategoryCloth.Pant)
+                    this.categoryCloth = CategoryCloth.None;
+                else
+                {
+                    this.categoryCloth = CategoryCloth.Pant;
+                    this.smoothAparition = 0;
+                }
+            }
+         
+            switch (this.categoryCloth)
+            {                
+                case CategoryCloth.Hair:
+                case CategoryCloth.Eyes:
+                case CategoryCloth.Beard:
+                case CategoryCloth.Hat:
+                    this.firstScene.CameraAim(1);
+                    break;
+                case CategoryCloth.Gloves:
+                    this.firstScene.CameraAim(2);
+                    break;                 
+                default:
+                    this.firstScene.CameraAim(0);
+                    break;
+            }
+
+            #endregion
+
+            Text tooltip = null;
+            switch (this.categoryCloth)
+            {
+                #region Hat
+                case (CategoryCloth.Hat):
+                    int y = 0;
+                    int x = 0;
+                    Rect rect = new Rect(Screen.width / 25f, this.posY - this.spacing * 1.5f, Screen.height / 11, Screen.height / 11);
+                    if (GUI.Button(rect, Resources.Load<Texture2D>("Sprites/Cosmetics/NoneIcon")))
+                    {
+                        this.smoothAparition = 0;
+                        typeCloth = (int)Hat.TypeHat.None;
+                    }
+                    rect.x += (5 + Screen.width / 20);
+
+                    if (GUI.Button(rect, Resources.Load<Texture2D>("Sprites/Cosmetics/HatIcon")))
+                    {
+                        this.smoothAparition = 0;
+                        typeCloth = (int)Hat.TypeHat.TopHat;
+                    }
+                    rect.x += (5 + Screen.width / 20);
+
+                    if (GUI.Button(rect, Resources.Load<Texture2D>("Sprites/Cosmetics/StrawHatIcon")))
+                    {
+                        this.smoothAparition = 0;
+                        typeCloth = (int)Hat.TypeHat.StrawHat;
+                    }
+                    rect.x += (5 + Screen.width / 20);
+
+                    if (GUI.Button(rect, Resources.Load<Texture2D>("Sprites/Cosmetics/CowBoyIcon")))
+                    {
+                        this.smoothAparition = 0;
+                        typeCloth = (int)Hat.TypeHat.CowBoy;
+                    }
+
+                    foreach (Hat h in Clothing.Hats)
+                        if (this.typeCloth == (int)h.GetTypeHat)
+                        {
+                            x = this.typeCloth;
+                            Texture2D fill = new Texture2D(this.width / 3, this.width / 3);
+                            Color fillcolor = h.Color;
+                            fillcolor.a = Mathf.Clamp01(this.smoothAparition - y * TransitionDelay);
+                            for (int i = 0; i < this.width / 3; i++)
+                                for (int j = 0; j < this.width / 3; j++)
+                                    fill.SetPixel(i, j, fillcolor);
+                            fill.Apply();
+                            rect = new Rect((5 + Screen.width / 20) * x + Screen.width / 25f, y * (Screen.height / 10) + Screen.height / 2.6f, Screen.height / 11, Screen.height / 11);
+                            if (rect.Contains(Event.current.mousePosition))
+                                tooltip = h.Description;
+                            if (this.smoothAparition > y * TransitionDelay && GUI.Button(rect, fill))
+                            {
+                                this.skinCharacter.Hat = h;
+                                this.skinCharacter.Apply(this.character);
+                            }
+                            y += 1;
+                        }
+                    break;
+                #endregion
+                #region Beard
+                case (CategoryCloth.Beard):
+                    y = 0;
+                    x = 0;
+                    rect = new Rect(Screen.width / 25f, this.posY - this.spacing * 1.5f, Screen.height / 11, Screen.height / 11);
+                    if (GUI.Button(rect, Resources.Load<Texture2D>("Sprites/Cosmetics/NoneIcon")))
+                    {
+                        this.smoothAparition = 0;
+                        typeCloth = (int)Beard.TypeBeard.None;
+                    }
+                    rect.x += (5 + Screen.width / 20);
+
+                    if (GUI.Button(rect, Resources.Load<Texture2D>("Sprites/Cosmetics/BeardIcon")))
+                    {
+                        this.smoothAparition = 0;
+                        typeCloth = (int)Beard.TypeBeard.Beard;
+                    }
+                    rect.x += (5 + Screen.width / 20);
+
+                    if (GUI.Button(rect, Resources.Load<Texture2D>("Sprites/Cosmetics/BeardOnlyIcon")))
+                    {
+                        this.smoothAparition = 0;
+                        typeCloth = (int)Beard.TypeBeard.BeardOnly;
+                    }
+                    rect.x += (5 + Screen.width / 20);
+
+                    if (GUI.Button(rect, Resources.Load<Texture2D>("Sprites/Cosmetics/BeardIcon 1")))
+                    {
+                        this.smoothAparition = 0;
+                        typeCloth = (int)Beard.TypeBeard.BeardMoustachSplit;
+                    }
+                    rect.x += (5 + Screen.width / 20);
+
+                    if (GUI.Button(rect, Resources.Load<Texture2D>("Sprites/Cosmetics/MustacheIcon")))
+                    {
+                        this.smoothAparition = 0;
+                        typeCloth = (int)Beard.TypeBeard.Moustach;
+                    }
+
+                    foreach (Beard b in Clothing.Beards)
+                        if (this.typeCloth == (int)b.GetTypeBeard)
+                        {
+                            x = this.typeCloth;
+                            Texture2D fill = new Texture2D(this.width / 3, this.width / 3);
+                            Color fillcolor = b.Color;
+                            fillcolor.a = Mathf.Clamp01(this.smoothAparition - y * TransitionDelay);
+                            for (int i = 0; i < this.width / 3; i++)
+                                for (int j = 0; j < this.width / 3; j++)
+                                    fill.SetPixel(i, j, fillcolor);
+                            fill.Apply();
+                            rect = new Rect((5 + Screen.width / 20) * x + Screen.width / 25f, y * (Screen.height / 10) + Screen.height / 2.6f, Screen.height / 11, Screen.height / 11);
+                            if (rect.Contains(Event.current.mousePosition))
+                                tooltip = b.Description;
+                            if (this.smoothAparition > y * TransitionDelay && GUI.Button(rect, fill))
+                            {
+                                this.skinCharacter.Beard = b;
+                                this.skinCharacter.Apply(this.character);
+                            }
+                            y += 1;
+                        }
+                    break;
+                #endregion
+                #region Body
+                case (CategoryCloth.Body):
+                    y = 0;
+                    x = 0;
+                    foreach (Body b in Clothing.Bodies)
+                    {
+                        Texture2D fill = new Texture2D(this.width / 3, this.width / 3);
+                        Color fillcolor = b.Color;
+                        fillcolor.a = Mathf.Clamp01(this.smoothAparition - (x + y * 3) * TransitionDelay);
+                        for (int i = 0; i < this.width / 3; i++)
+                            for (int j = 0; j < this.width / 3; j++)
+                                fill.SetPixel(i, j, fillcolor);
+                        fill.Apply();
+                        rect = new Rect((10 + Screen.width / 20) * x + Screen.width / 25f, y * (10 + Screen.height / 10) + Screen.height / 2.25f, Screen.height / 11, Screen.height / 11);
+                        if (rect.Contains(Event.current.mousePosition))
+                            tooltip = b.Description;
+                        if (this.smoothAparition > (x + y * 3) * TransitionDelay && GUI.Button(rect, fill))
+                        {
+                            this.skinCharacter.Body = b;
+                            this.skinCharacter.Apply(this.character);
+                        }
+                        x = (x + 1) % 3;
+                        if (x == 0)
+                            y++;
+                    }
+                    break;
+                #endregion
+                #region Hair
+                case (CategoryCloth.Hair):
+                    y = 0;
+                    x = 0;
+                    rect = new Rect(Screen.width / 25f, this.posY - this.spacing * 1.5f, Screen.height / 11, Screen.height / 11);
+                    if (GUI.Button(rect, Resources.Load<Texture2D>("Sprites/Cosmetics/NoneIcon")))
+                    {
+                        this.smoothAparition = 0;
+                        typeCloth = (int)Hair.TypeHair.None;
+                    }
+                    rect.x += (5 + Screen.width / 20);
+
+                    if (GUI.Button(rect, Resources.Load<Texture2D>("Sprites/Cosmetics/HairIcon")))
+                    {
+                        this.smoothAparition = 0;
+                        typeCloth = (int)Hair.TypeHair.Normal;
+                    }
+                    rect.x += (5 + Screen.width / 20);
+
+                    if (GUI.Button(rect, Resources.Load<Texture2D>("Sprites/Cosmetics/PunkHair")))
+                    {
+                        this.smoothAparition = 0;
+                        typeCloth = (int)Hair.TypeHair.Crete;
+                    }
+                    rect.x += (5 + Screen.width / 20);
+
+                    if (GUI.Button(rect, Resources.Load<Texture2D>("Sprites/Cosmetics/LongHair")))
+                    {
+                        this.smoothAparition = 0;
+                        typeCloth = (int)Hair.TypeHair.LongHair;
+                    }
+                    rect.x += (5 + Screen.width / 20);
+
+                    if (GUI.Button(rect, Resources.Load<Texture2D>("Sprites/Cosmetics/WickHair")))
+                    {
+                        this.smoothAparition = 0;
+                        typeCloth = (int)Hair.TypeHair.Meche;
+                    }
+
+                    foreach (Hair h in Clothing.Hairs)
+                    {
+                        if (this.typeCloth == (int)h.GetTypeHair)
+                        {
+                            x = this.typeCloth;
+                            Texture2D fill = new Texture2D(this.width / 3, this.width / 3);
+                            Color fillcolor = h.Color;
+                            fillcolor.a = Mathf.Clamp01(this.smoothAparition - y * TransitionDelay);
+                            for (int i = 0; i < this.width / 3; i++)
+                                for (int j = 0; j < this.width / 3; j++)
+                                    fill.SetPixel(i, j, fillcolor);
+                            fill.Apply();
+                            rect = new Rect((5 + Screen.width / 20) * x + Screen.width / 25f, y * (Screen.height / 10) + Screen.height / 2.6f, Screen.height / 11, Screen.height / 11);
+                            if (rect.Contains(Event.current.mousePosition))
+                                tooltip = h.Description;
+                            if (this.smoothAparition > y * TransitionDelay && GUI.Button(rect, fill))
+                            {
+                                this.skinCharacter.Hair = h;
+                                this.skinCharacter.Apply(this.character);
+                            }
+                            y += 1;
+                        }
+                    }
+                    break;
+                #endregion
+                #region Gloves
+                case (CategoryCloth.Gloves):
+                    y = 0;
+                    x = 0;
+                    foreach (Gloves g in Clothing.Gloves)
+                    {
+                        Texture2D fill = new Texture2D(this.width / 3, this.width / 3);
+                        Color fillcolor = g.Color;
+                        fillcolor.a = Mathf.Clamp01(this.smoothAparition - (x + y * 3) * TransitionDelay);
+                        for (int i = 0; i < this.width / 3; i++)
+                            for (int j = 0; j < this.width / 3; j++)
+                                fill.SetPixel(i, j, fillcolor);
+                        fill.Apply();
+                        rect = new Rect((10 + Screen.width / 20) * x + Screen.width / 25f, y * (10 + Screen.height / 10) + Screen.height / 2.25f, Screen.height / 11, Screen.height / 11);
+                        if (rect.Contains(Event.current.mousePosition))
+                            tooltip = g.Description;
+                        if (this.smoothAparition > (x + y * 3) * TransitionDelay && GUI.Button(rect, fill))
+                        {
+                            this.skinCharacter.Gloves = g;
+                            this.skinCharacter.Apply(this.character);
+                        }
+                        x = (x + 1) % 3;
+                        if (x == 0)
+                            y++;
+                    }
+                    break;
+                #endregion
+                #region Eyes
+                case (CategoryCloth.Eyes):
+                    y = 0;
+                    x = 0;
+                    foreach (Eyes e in Clothing.Eyes)
+                    {
+                        Texture2D fill = new Texture2D(this.width / 3, this.width / 3);
+                        Color fillcolor = e.Color;
+                        fillcolor.a = Mathf.Clamp01(this.smoothAparition - (x + y * 3) * TransitionDelay);
+                        for (int i = 0; i < this.width / 3; i++)
+                            for (int j = 0; j < this.width / 3; j++)
+                                fill.SetPixel(i, j, fillcolor);
+                        fill.Apply();
+                        rect = new Rect((10 + Screen.width / 20) * x + Screen.width / 25f, y * (10 + Screen.height / 10) + Screen.height / 2.25f, Screen.height / 11, Screen.height / 11);
+                        if (rect.Contains(Event.current.mousePosition))
+                            tooltip = e.Description;
+                        if (this.smoothAparition > (x + y * 3) * TransitionDelay && GUI.Button(rect, fill))
+                        {
+                            this.skinCharacter.Eyes = e;
+                            this.skinCharacter.Apply(this.character);
+                        }
+                        x = (x + 1) % 3;
+                        if (x == 0)
+                            y++;
+                    }
+                    break;
+                #endregion
+                #region Pant
+                case (CategoryCloth.Pant):
+                    y = 0;
+                    x = 0;
+                    rect = new Rect(Screen.width / 25f, this.posY - this.spacing * 1.5f, Screen.height / 11, Screen.height / 11);
+                    if (GUI.Button(rect, Resources.Load<Texture2D>("Sprites/Cosmetics/Overalls")))
+                    {
+                        this.smoothAparition = 0;
+                        typeCloth = (int)Pant.TypePant.Overalls;
+                    }
+                    rect.x += (5 + Screen.width / 20);
+
+                    if (GUI.Button(rect, Resources.Load<Texture2D>("Sprites/Cosmetics/PantIcon")))
+                    {
+                        this.smoothAparition = 0;
+                        typeCloth = (int)Pant.TypePant.Pant;
+                    }
+
+                    foreach (Pant p in Clothing.Pants)
+                        if (this.typeCloth == (int)p.GetTypePant)
+                        {
+                            x = this.typeCloth;
+                            Texture2D fill = new Texture2D(this.width / 3, this.width / 3);
+                            Color fillcolor = p.Color;
+                            fillcolor.a = Mathf.Clamp01(this.smoothAparition - y * TransitionDelay);
+                            for (int i = 0; i < this.width / 3; i++)
+                                for (int j = 0; j < this.width / 3; j++)
+                                    fill.SetPixel(i, j, fillcolor);
+                            fill.Apply();
+                            rect = new Rect((5 + Screen.width / 20) * x + Screen.width / 25f, y * (Screen.height / 10) + Screen.height / 2.6f, Screen.height / 11, Screen.height / 11);
+                            if (rect.Contains(Event.current.mousePosition))
+                                tooltip = p.Description;
+                            if (this.smoothAparition > y * TransitionDelay && GUI.Button(rect, fill))
+                            {
+                                this.skinCharacter.Pant = p;
+                                this.skinCharacter.Apply(this.character);
+                            }
+                            y += 1;
+
+                        }
+                    break;
+                #endregion
+                #region TShirt
+                case (CategoryCloth.TShirt):
+                    y = 0;
+                    x = 0;
+                    rect = new Rect(Screen.width / 25f, this.posY - this.spacing * 1.5f, Screen.height / 11, Screen.height / 11);
+                    if (GUI.Button(rect, Resources.Load<Texture2D>("Sprites/Cosmetics/NoneIcon")))
+                    {
+                        this.smoothAparition = 0;
+                        typeCloth = (int)Tshirt.TypeTshirt.None;
+                    }
+                    rect.x += (5 + Screen.width / 20);
+                    if (GUI.Button(rect, Resources.Load<Texture2D>("Sprites/Cosmetics/TshirtIcon")))
+                    {
+                        this.smoothAparition = 0;
+                        typeCloth = (int)Tshirt.TypeTshirt.TShirt;
+                    }
+                    foreach (Tshirt t in Clothing.Tshirts)
+                        if (this.typeCloth == (int)t.GetTypeTshirt)
+                        {
+                            x = this.typeCloth;
+                            Texture2D fill = new Texture2D(this.width / 3, this.width / 3);
+                            Color fillcolor = t.Color;
+                            fillcolor.a = Mathf.Clamp01(this.smoothAparition - y * TransitionDelay);
+                            for (int i = 0; i < this.width / 3; i++)
+                                for (int j = 0; j < this.width / 3; j++)
+                                    fill.SetPixel(i, j, fillcolor);
+                            fill.Apply();
+                            rect = new Rect((5 + Screen.width / 20) * x + Screen.width / 25f, y * (Screen.height / 10) + Screen.height / 2.6f, Screen.height / 11, Screen.height / 11);
+                            if (rect.Contains(Event.current.mousePosition))
+                                tooltip = t.Description;
+                            if (this.smoothAparition > y * TransitionDelay && GUI.Button(rect, fill))
+                            {
+                                this.skinCharacter.Tshirt = t;
+                                this.skinCharacter.Apply(this.character);
+                            }
+                            y += 1;
+                        }
+                    break;
+                #endregion             
+                default:
+                    break;
+            }
+
+            if (tooltip != null)
+                GUI.Box(new Rect(Event.current.mousePosition.x - Screen.width / 20, Event.current.mousePosition.y + Screen.height / 20, 100, 35 + 20 * (tooltip.GetText().Length / 35 + 1)),
+                               tooltip.GetText(), this.skin.GetStyle("Skin"));
+        }
         /// <summary>
         ///  Dessine l'interface des options linguistiques.
         /// </summary>
@@ -532,31 +1005,26 @@ namespace UnityEngine.Networking
                 i++;
             }
 
-            if (possible)
-            {
-                if (GUI.Button(rect, TextDatabase.Create.GetText(), skin.GetStyle("button")))
-                {
-                    if (newWorldName != "")
-                    {
-                        this.world = this.newWorldName;
-                        this.newWorldName = "World";
-                        this.worldcreateShown = false;
-                        System.Random genSeed = new System.Random();
-                        int seed = 0;
-                        if (seedstr == "")
-                            seed = genSeed.Next(int.MaxValue);
-                        else
-                            seed = MapGeneration.SeedToInt(seedstr);
 
-                        Save.CreateWorld(this.world, seed, this.typeCoop);
-                        this.worldsList.Add(this.world);
-                        this.Launch(TypeLaunch.Host);
-                    }
-                    this.firstScene.PlayButtonSound();
-                }
+            if (newWorldName != "" && possible && GUI.Button(rect, TextDatabase.Create.GetText(), skin.GetStyle("button")))
+            {
+
+                this.world = this.newWorldName;
+                this.newWorldName = "World";
+                this.worldcreateShown = false;
+                System.Random genSeed = new System.Random();
+                int seed = 0;
+                if (seedstr == "")
+                    seed = genSeed.Next(int.MaxValue);
+                else
+                    seed = MapGeneration.SeedToInt(seedstr);
+
+                Save.CreateWorld(this.world, seed, this.typeCoop);
+                this.worldsList.Add(this.world);
+                this.Launch(TypeLaunch.Host);
+                this.firstScene.PlayButtonSound();
             }
-            else
-                GUI.Box(rect, TextDatabase.Create.GetText(), this.skin.GetStyle("button"));
+         
             rect = new Rect(this.posX + this.width / 2, this.posY + 6 * this.spacing + 1.5f * this.height, (this.width - 10) / 2, this.height);
             if (GUI.Button(rect, TextDatabase.Back.GetText(), skin.GetStyle("button")))
             {

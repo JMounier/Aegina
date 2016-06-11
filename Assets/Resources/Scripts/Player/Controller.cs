@@ -19,7 +19,6 @@ public class Controller : NetworkBehaviour
     private float jumpForce = 13000f;
     private float coolDownJump = 0;
 
-    private bool isJumping;
     private Animator anim;
 
     // Use for Camera
@@ -37,8 +36,9 @@ public class Controller : NetworkBehaviour
     private float rotationY = 0F;
     private float rotationX = 0F;
     private bool pause = false;
-	private bool ismoving = false;
-	private bool isSprinting = false;
+    private bool ismoving = false;
+    private bool isSprinting = false;
+    private bool isJumping = false;
 
     // Use for Sound
     private Sound soundAudio;
@@ -46,7 +46,10 @@ public class Controller : NetworkBehaviour
     // Pathfinding
     private InputManager im;
     private GameObject objectiv;
-    private Element.TypeElement oType;
+    private float interactDistance;
+
+    // Use for loading
+    private bool loading = true;
 
     // Use this for initialization
     void Start()
@@ -60,8 +63,7 @@ public class Controller : NetworkBehaviour
         this.soundAudio = gameObject.GetComponent<Sound>();
 
         this.objectiv = null;
-        this.oType = Element.TypeElement.None;
-
+        this.loading = true;
         if (!isLocalPlayer)
         {
             this.cam.SetActive(false);
@@ -74,7 +76,14 @@ public class Controller : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (isServer)
+        {
+            int x = (int)Mathf.Round(this.character.transform.position.x / Chunk.Size);
+            int y = (int)Mathf.Round(this.character.transform.position.z / Chunk.Size);
+            this.loading = !GameObject.Find("Map").GetComponent<MapGeneration>().isLoaded(x, y);
+            if (this.character.transform.position.y < 0 && loading)
+                gameObject.GetComponent<Social_HUD>().RpcTeleport(new Vector3(this.character.transform.position.x, 10, this.character.transform.position.z));
+        }
         if (!isLocalPlayer)
             return;
         /*
@@ -146,8 +155,8 @@ public class Controller : NetworkBehaviour
         bool right = !this.pause && Input.GetButton("Right");
         bool left = !this.pause && Input.GetButton("Left");
         bool jump = !this.pause && Input.GetButton("Jump");
-        bool isSprinting = !this.pause && Input.GetButton("Sprint");
-		ismoving = forward || back || right || left || jump;
+        isSprinting = !this.pause && Input.GetButton("Sprint");
+        ismoving = forward || back || right || left || jump;
         Vector3 move = new Vector3(0, 0, 0);
 
         // Jump
@@ -230,7 +239,7 @@ public class Controller : NetworkBehaviour
         if (this.isJumping)
         {
             this.objectiv = null;
-            this.oType = Element.TypeElement.None;
+            this.interactDistance = float.PositiveInfinity;
             anim.SetInteger("Action", 3);
             if (isSprinting)
                 move *= Time.deltaTime * (this.sprintSpeed + this.jumpingBoost + this.syncChar.Speed);
@@ -242,7 +251,7 @@ public class Controller : NetworkBehaviour
             if (isMoving)
             {
                 this.objectiv = null;
-                this.oType = Element.TypeElement.None;
+                this.interactDistance = float.PositiveInfinity;
                 if (isSprinting)
                 {
                     move *= Time.deltaTime * (this.sprintSpeed + this.syncChar.Speed);
@@ -279,13 +288,13 @@ public class Controller : NetworkBehaviour
                     Quaternion targetRotation = Quaternion.LookRotation(viewRot);
                     this.character.transform.rotation = Quaternion.Lerp(this.character.transform.rotation, targetRotation, Time.deltaTime * 5);
                 }
-                // look here pour des probleme de syncro
+                // Look here pour des probleme de syncro
                 gameObject.transform.Translate(-this.character.transform.forward * Time.deltaTime * this.WalkSpeed, Space.World);
-                //gameObject.GetComponentInChildren<Rigidbody>().AddForce(gameObject.transform.forward * Time.deltaTime * this.WalkSpeed);
-                if (Vector3.Distance(this.character.transform.position, pos) < 1.25f)
+
+                if (Vector3.Distance(this.character.transform.position, pos) < this.interactDistance)
                 {
                     this.objectiv = null;
-                    this.oType = Element.TypeElement.None;
+                    this.interactDistance = float.PositiveInfinity;
                 }
             }
             else if (this.anim.GetInteger("Action") <= 3 || !Input.GetButton("Fire2") || this.im.NearElement == null)
@@ -301,11 +310,11 @@ public class Controller : NetworkBehaviour
     }
 
     // Setters | Getters
-	public float Sensitivity
-	{
-		get{ return this.sensitivity;}
-		set{ this.sensitivity = value;}
-	}
+    public float Sensitivity
+    {
+        get { return this.sensitivity; }
+        set { this.sensitivity = value; }
+    }
     /// <sumary>
     /// Si le personnage est en saut.
     /// </sumary>
@@ -323,17 +332,19 @@ public class Controller : NetworkBehaviour
         get { return this.pause; }
         set { this.pause = value; }
     }
-	/// <summary>
-	/// Gets a value indicating whether this instance ismoving.
-	/// </summary>
-	/// <value><c>true</c> if this instance ismoving; otherwise, <c>false</c>.</value>
-	public bool Ismoving{
-		get{ return this.ismoving; }
-	}
+    /// <summary>
+    /// Gets a value indicating whether this instance ismoving.
+    /// </summary>
+    /// <value><c>true</c> if this instance ismoving; otherwise, <c>false</c>.</value>
+    public bool Ismoving
+    {
+        get { return this.ismoving; }
+    }
 
-	public bool IsSprinting{
-		get{ return this.isSprinting;}
-	}
+    public bool IsSprinting
+    {
+        get { return this.isSprinting; }
+    }
 
     /// <sumary>
     /// La vitesse de marche du personnage.
@@ -377,9 +388,14 @@ public class Controller : NetworkBehaviour
         set { this.objectiv = value; }
     }
 
-    public Element.TypeElement OType
+    public float InteractDistance
     {
-        get { return this.oType; }
-        set { this.oType = value; }
+        get { return this.interactDistance; }
+        set { this.interactDistance = value; }
+    }
+
+    public bool Loading
+    {
+        get { return isServer && this.loading; }
     }
 }

@@ -8,7 +8,6 @@ public static class Stats
     private static ulong timePlayed;
     private static bool tutoComplete;
     //PVE
-    private static uint hunt;
     private static uint death;
 
     //PVP
@@ -21,6 +20,8 @@ public static class Stats
     private static Dictionary<int, uint> destroyed;
     private static Dictionary<int, uint> put;
     private static Dictionary<int, uint> used;
+    private static Dictionary<int, uint> hunted;
+    private static Dictionary<int, uint> cristalLevel;
 
     //Craft
     private static Dictionary<int, uint> crafted;
@@ -47,12 +48,38 @@ public static class Stats
 
     public static uint Hunt()
     {
+        uint hunt = 0;
+        foreach (int key in hunted.Keys)
+            hunt += hunted[key];
         return hunt;
     }
 
-    public static void IncrementHunt()
+    public static void AddHunt(Mob mob)
     {
-        hunt++;
+        if (hunted.ContainsKey(mob.ID))
+            hunted[mob.ID]++;
+        else
+            hunted.Add(mob.ID, 1);
+    }
+
+    public static uint Hunted(Mob mob)
+    {
+        if (hunted.ContainsKey(mob.ID))
+            return hunted[mob.ID];
+        return 0;
+    }
+    public static void ChangeCristalLevel(int type, uint level)
+    {
+        if (hunted.ContainsKey(type) && hunted[type] < level)
+            hunted[type] = level;
+        else
+            hunted.Add(type, level);
+    }
+    public static uint CristalLevel(int type)
+    {
+        if (cristalLevel.ContainsKey(type))
+            return hunted[type];
+        return 0;
     }
 
     public static uint Death()
@@ -159,7 +186,6 @@ public static class Stats
         string[] vars = save.Split('|');
         timePlayed = ulong.Parse(vars[v++]);
         tutoComplete = bool.Parse(vars[v++]);
-        hunt = uint.Parse(vars[v++]);
         death = uint.Parse(vars[v++]);
         kill = uint.Parse(vars[v++]);
         capturedCristal = uint.Parse(vars[v++]);
@@ -187,17 +213,29 @@ public static class Stats
         if (craft[0] != string.Empty)
             for (int i = 0; i < craft.Length; i += 2)
                 crafted.Add(int.Parse(craft[i]), uint.Parse(craft[i + 1]));
+
+        hunted = new Dictionary<int, uint>();
+        string[] chasse = vars[v++].Split(':');
+        if (chasse[0] != string.Empty)
+            for (int i = 0; i < chasse.Length; i += 2)
+                hunted.Add(int.Parse(chasse[i]), uint.Parse(chasse[i + 1]));
+
+        cristalLevel = new Dictionary<int, uint>();
+        string[] levelcristal = vars[v++].Split(':');
+        if (levelcristal[0] != string.Empty)
+            for (int i = 0; i < levelcristal.Length; i += 2)
+                cristalLevel.Add(int.Parse(levelcristal[i]), uint.Parse(levelcristal[i + 1]));
     }
 
     public static string Save()
     {
-        string save = timePlayed.ToString() + "|" + tutoComplete.ToString() + "|" + hunt.ToString() + "|" + death.ToString() + "|" + kill.ToString() + "|" + capturedCristal.ToString() + "|";
+        string save = timePlayed.ToString() + "|" + tutoComplete.ToString() + "|" + death.ToString() + "|" + kill.ToString() + "|" + capturedCristal.ToString() + "|";
 
         foreach (int key in destroyed.Keys)
             save += key.ToString() + ":" + destroyed[key].ToString() + ":";
-        if (save.EndsWith(":"))        
+        if (save.EndsWith(":"))
             save = save.Remove(save.Length - 1);
-        
+
         save += "|";
 
         foreach (int key in put.Keys)
@@ -218,11 +256,23 @@ public static class Stats
             save = save.Remove(save.Length - 1);
         save += "|";
 
+        foreach (int key in hunted.Keys)
+            save += key.ToString() + ":" + hunted[key].ToString() + ":";
+        if (save.EndsWith(":"))
+            save = save.Remove(save.Length - 1);
+        save += "|";
+
+        foreach (int key in cristalLevel.Keys)
+            save += key.ToString() + ":" + cristalLevel[key].ToString() + ":";
+        if (save.EndsWith(":"))
+            save = save.Remove(save.Length - 1);
+        save += "|";
+
         return save;
     }
 
     public static string Empty()
     {
-        return "0|False|0|0|0|0||||";
+        return "0|False|0|0|0||||||";
     }
 }
