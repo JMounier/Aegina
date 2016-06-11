@@ -416,9 +416,9 @@ namespace UnityEngine.Networking
                     this.smoothAparition = 0;
                 }
             }
-            if (GUI.Button(new Rect(this.posX + this.width + this.width / 5, this.posY - this.spacing * 1.5f, this.width / 5, this.width / 5), Resources.Load<Texture2D>("Sprites/Cosmetics/EyeIcon")))
+            if (GUI.Button(new Rect(this.posX + this.width + this.width / 5, this.posY - this.spacing * 1.5f, this.width / 5, this.width / 5), Resources.Load<Texture2D>("Sprites/Cosmetics/RandomIcon")))
             {
-                this.skinCharacter = this.skinCharacter.RandomSkin(this.character);
+                this.skinCharacter = Skin.RandomSkin();
                 this.skinCharacter.Apply(this.character);
             }
 
