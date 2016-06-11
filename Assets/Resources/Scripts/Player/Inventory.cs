@@ -25,6 +25,8 @@ public class Inventory : NetworkBehaviour
     private Transform trans;
     private Sound sound;
     private Item lastUseddItem;
+    private ItemStack top;
+    private ItemStack Bottom;
 
     private GameObject chest;
     private ItemStack[,] slotsChest;
@@ -52,6 +54,8 @@ public class Inventory : NetworkBehaviour
         this.trans = gameObject.GetComponent<Transform>();
         this.sound = gameObject.GetComponent<Sound>();
         this.lastUseddItem = new Item();
+        this.top = new ItemStack();
+        this.Bottom = new ItemStack();
 
         this.CmdLoadInventory();
     }
@@ -108,10 +112,10 @@ public class Inventory : NetworkBehaviour
                 (this.UsedItem.Items as WorkTop).Previsu.transform.position = (charact.transform.position - charact.transform.forward);
                 (this.UsedItem.Items as WorkTop).Previsu.transform.parent = WorkTop.GetHierarchy(charact.transform.position);
                 (this.UsedItem.Items as WorkTop).Previsu.transform.LookAt(new Vector3(charact.transform.position.x, (this.UsedItem.Items as WorkTop).Previsu.transform.position.y, charact.transform.position.z));
-				foreach (MeshRenderer mr in (this.UsedItem.Items as WorkTop).Previsu.GetComponentsInChildren<MeshRenderer>())
-					foreach (Material mat in mr.materials)
-						mat.shader = Shader.Find("Previsus/PrevisuOK");
-			}
+                foreach (MeshRenderer mr in (this.UsedItem.Items as WorkTop).Previsu.GetComponentsInChildren<MeshRenderer>())
+                    foreach (Material mat in mr.materials)
+                        mat.shader = Shader.Find("Previsus/PrevisuOK");
+            }
 
             this.lastUseddItem = this.UsedItem.Items;
         }
@@ -125,13 +129,15 @@ public class Inventory : NetworkBehaviour
         this.DrawToolbar();
         if (this.inventoryShown)
         {
+            this.DrawAndInteractArmorSlot();
             if (this.chest != null)
             {
                 this.InteractChest();
                 this.DrawChest();
             }
             this.InteractInventory();
-            this.DrawInventory();   
+            this.DrawInventory();
+            
         }
         else if (this.draggingItemStack)
         {
@@ -316,7 +322,8 @@ public class Inventory : NetworkBehaviour
         rect = new Rect(pos_x_inventory, pos_y_inventory, columns * this.size_inventory, (rows + .5f) * this.size_inventory);
         Rect secondrect = new Rect(this.pos_x_toolbar, this.pos_y_toolbar, this.columns * this.size_toolbar, this.size_toolbar);
         Rect thirdrect = new Rect(this.columns * this.size_inventory + this.pos_x_inventory + 72, this.pos_y_inventory, 3 * this.size_inventory, 3 * this.size_inventory);
-        if (!rect.Contains(Event.current.mousePosition) && !secondrect.Contains(Event.current.mousePosition) && !(this.chest != null && thirdrect.Contains(Event.current.mousePosition)) && this.draggingItemStack && Event.current.button == 0 && Event.current.type == EventType.MouseUp)
+        Rect forthrect = new Rect(this.pos_x_inventory - 5 * this.size_inventory / 2, this.pos_y_inventory + this.size_inventory / 2, this.size_inventory, 2 * this.size_inventory);
+        if (!rect.Contains(Event.current.mousePosition) && !secondrect.Contains(Event.current.mousePosition) && !(this.chest != null && thirdrect.Contains(Event.current.mousePosition)) && !forthrect.Contains(Event.current.mousePosition) && this.draggingItemStack && Event.current.button == 0 && Event.current.type == EventType.MouseUp)
         {
             this.Drop(this.selectedItem);
             this.draggingItemStack = false;
@@ -560,7 +567,7 @@ public class Inventory : NetworkBehaviour
                         GUI.Box(rect, this.slotsChest[i, j].Quantity.ToString(), this.skin.GetStyle("quantity"));
                 }
             }
-    }   
+    }
 
     /// <summary>
     /// S'occupe de dessiner la toolbar en bas de l'ecran.
@@ -725,6 +732,96 @@ public class Inventory : NetworkBehaviour
         }
     }
 
+    void DrawAndInteractArmorSlot()
+    {
+        int pos_x_armor_slot = this.pos_x_inventory - 3 * this.size_inventory;
+        int pos_y_armor_slot = this.pos_y_inventory;
+        GUI.Box(new Rect(pos_x_armor_slot, pos_y_armor_slot, 2 * this.size_inventory, 3 * this.size_inventory), "", this.skin.GetStyle("inventory"));
+        Rect rectTop = new Rect(pos_x_armor_slot + this.size_inventory / 2, pos_y_armor_slot + this.size_inventory / 2, this.size_inventory, this.size_inventory);
+        Rect rectBottom = new Rect(pos_x_armor_slot + this.size_inventory / 2, pos_y_armor_slot + 3 * this.size_inventory / 2, this.size_inventory, this.size_inventory);
+
+        GUI.Box(rectTop, "", this.skin.GetStyle("slot"));
+
+        if (rectTop.Contains(Event.current.mousePosition))
+        {
+            //déséquipper l'armure
+            if (!this.draggingItemStack && Event.current.button == 1 && Event.current.type == EventType.MouseDown)
+            {
+                AddItemStack(this.top, false);
+                if (this.top != null)
+                {
+                    Drop(this.top);
+                    this.top = null;
+                }
+            }
+            //équipper l'armure
+            if (this.draggingItemStack && Event.current.button == 0 && Event.current.type == EventType.MouseUp)
+            {
+                if (this.selectedItem.Items is TopArmor)
+                {
+                    AddItemStack(this.top, false);
+                    if (this.top != null)
+                        Drop(this.top);
+                    this.top = selectedItem;
+                }
+                else
+                {
+                    if (inchest)
+                        CmdInteractChest(this.previndex[0], this.previndex[1], this.selectedItem.Items.ID, this.selectedItem.Quantity);
+                    else
+                        this.slots[this.previndex[0], this.previndex[1]] = this.selectedItem;
+                }
+                this.selectedItem = null;
+            }
+
+        }
+        rectTop.x += this.size_inventory / 5;
+        rectTop.y += this.size_inventory / 5;
+        rectTop.width -= this.size_inventory / 2.5f;
+        rectTop.height -= this.size_inventory / 2.5f;
+        GUI.DrawTexture(rectTop, this.top.Items.Icon);
+
+        GUI.Box(rectBottom, "", this.skin.GetStyle("slot"));
+        if (rectBottom.Contains(Event.current.mousePosition))
+        {
+            //déséquipper l'armure
+            if (!this.draggingItemStack && Event.current.button == 1 && Event.current.type == EventType.MouseDown)
+            {
+                AddItemStack(this.Bottom, false);
+                if (this.Bottom != null)
+                {
+                    Drop(this.Bottom);
+                    this.Bottom = null;
+                }
+            }
+            //équipper l'armure
+            if (this.draggingItemStack && Event.current.button == 0 && Event.current.type == EventType.MouseUp)
+            {
+                if (this.selectedItem.Items is BottomArmor)
+                {
+                    AddItemStack(this.Bottom, false);
+                    if (this.Bottom != null)
+                        Drop(this.Bottom);
+                    this.Bottom = selectedItem;
+                }
+                else
+                {
+                    if (inchest)
+                        CmdInteractChest(this.previndex[0], this.previndex[1], this.selectedItem.Items.ID, this.selectedItem.Quantity);
+                    else
+                        this.slots[this.previndex[0], this.previndex[1]] = this.selectedItem;
+                }
+                this.selectedItem = null;
+                this.draggingItemStack = false;
+            }
+
+        }
+        rectBottom.x += this.size_inventory / 5;
+        rectBottom.y += this.size_inventory / 5;
+        rectBottom.width -= this.size_inventory / 2.5f;
+        rectBottom.height -= this.size_inventory / 2.5f;
+        GUI.DrawTexture(rectBottom, this.Bottom.Items.Icon);
+    }
 
     /// <summary>
     /// Permet d'ajotuer des objes dans l'inventaire.
