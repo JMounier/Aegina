@@ -53,6 +53,13 @@ ModelImporter:
     100090: Sphere_005
     100092: Sphere_006
     100094: Sphere_007
+    100096: Darm
+    100098: Dhand
+    100100: Dshould
+    100102: Garm
+    100104: Ghand
+    100106: Gshould
+    100108: Head
     400000: //RootNode
     400002: Cone
     400004: Cube
@@ -101,6 +108,13 @@ ModelImporter:
     400090: Sphere_005
     400092: Sphere_006
     400094: Sphere_007
+    400096: Darm
+    400098: Dhand
+    400100: Dshould
+    400102: Garm
+    400104: Ghand
+    400106: Gshould
+    400108: Head
     2300000: Cone
     2300002: Cube
     2300004: Cube_001
@@ -123,6 +137,13 @@ ModelImporter:
     2300038: Sphere_005
     2300040: Sphere_006
     2300042: Sphere_007
+    2300044: Darm
+    2300046: Dhand
+    2300048: Dshould
+    2300050: Garm
+    2300052: Ghand
+    2300054: Gshould
+    2300056: Head
     3300000: Cone
     3300002: Cube
     3300004: Cube_001
@@ -145,6 +166,13 @@ ModelImporter:
     3300038: Sphere_005
     3300040: Sphere_006
     3300042: Sphere_007
+    3300044: Darm
+    3300046: Dhand
+    3300048: Dshould
+    3300050: Garm
+    3300052: Ghand
+    3300054: Gshould
+    3300056: Head
     4300000: Sphere_004
     4300002: Sphere_003
     4300004: Cube_003
@@ -167,6 +195,13 @@ ModelImporter:
     4300038: Sphere_005
     4300040: Cube_005
     4300042: Cube_004
+    4300044: Dhand
+    4300046: Garm
+    4300048: Dshould
+    4300050: Gshould
+    4300052: Darm
+    4300054: Head
+    4300056: Ghand
     7400000: Default Take
     7400002: ArmatureAction
     9500000: //RootNode
