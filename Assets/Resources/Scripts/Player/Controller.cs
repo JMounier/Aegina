@@ -73,7 +73,6 @@ public class Controller : NetworkBehaviour
         gameObject.transform.position.Set(0, 10, 0);
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (isServer)
@@ -84,6 +83,11 @@ public class Controller : NetworkBehaviour
             if (this.character.transform.position.y < 0 && loading)
                 gameObject.GetComponent<Social_HUD>().RpcTeleport(new Vector3(this.character.transform.position.x, 10, this.character.transform.position.z));
         }
+    }
+
+    // Update is called once per frame
+    void FixedUpdate()
+    {       
         if (!isLocalPlayer)
             return;
         /*
