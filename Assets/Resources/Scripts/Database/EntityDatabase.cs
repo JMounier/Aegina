@@ -139,11 +139,15 @@ public static class EntityDatabase
     // Mobs
     public static readonly Mob Boar = new Mob(500, 20, Resources.Load<GameObject>("Prefabs/Mobs/Boar"), 15, .5f, 7, 6f, 7f, 1.3f, 2.8f, 1.5f,
         new int[3] { 0, 2, 3 }, new DropConfig(83, 1), new DropConfig(83, 0, 1), new DropConfig(84, 1), new DropConfig(84, 0, 1), new DropConfig(86, 0, 1), new DropConfig(88, 1, 2));
-    public static readonly Mob Pampa = new Mob(501, 15, Resources.Load<GameObject>("Prefabs/Mobs/Pampa"), 15, .7f, 8, 1.5f, 8f, 1f, 3.8f, 1.8f,
+    public static readonly Mob BoarChief = new Mob(501, 35, Resources.Load<GameObject>("Prefabs/Mobs/BoarChief"), 1, 1f, 15, 8f, 0f, 1.8f, 3.2f, 2f,
+        new int[3] { 0, 2, 3 }, new DropConfig(83, 2), new DropConfig(83, 1, 2), new DropConfig(84, 1), new DropConfig(84, 0, 1), new DropConfig(86, 1, 2), new DropConfig(88, 2, 3));
+    public static readonly Mob Pampa = new Mob(502, 15, Resources.Load<GameObject>("Prefabs/Mobs/Pampa"), 15, .7f, 8, 1.5f, 8f, 1f, 3.8f, 1.8f,
         new int[1] { 1 }, new DropConfig(83, 1), new DropConfig(83, 0, 1), new DropConfig(80, 1), new DropConfig(80, 0, 1), new DropConfig(86, 0, 1));
-    public static readonly Mob SnowBunny = new Mob(502, 10, Resources.Load<GameObject>("Prefabs/Mobs/SnowBunny"), 15, .25f, 0, 0f, 6f, 1.5f, 3f, 1f,
+    public static readonly Mob PampaChief = new Mob(503, 25, Resources.Load<GameObject>("Prefabs/Mobs/PampaChief"), 1, 1f, 16, 2f, 9f, 1.3f, 4.2f, 2.5f,
+         new int[1] { 1 }, new DropConfig(83, 2), new DropConfig(83, 1, 2), new DropConfig(80, 2), new DropConfig(80, 1, 2), new DropConfig(86, 1, 2));
+    public static readonly Mob SnowBunny = new Mob(504, 10, Resources.Load<GameObject>("Prefabs/Mobs/SnowBunny"), 15, .25f, 0, 0f, 6f, 1.5f, 3f, 1f,
        new int[1] { 2 }, new DropConfig(83, 1), new DropConfig(86, 0, 1), new DropConfig(88, 1));
-    public static readonly Mob Bunny = new Mob(503, 10, Resources.Load<GameObject>("Prefabs/Mobs/Bunny"), 15, .25f, 0, 0f, 6f, 1.5f, 3f, 1f,
+    public static readonly Mob Bunny = new Mob(505, 10, Resources.Load<GameObject>("Prefabs/Mobs/Bunny"), 15, .25f, 0, 0f, 6f, 1.5f, 3f, 1f,
      new int[2] { 0, 3 }, new DropConfig(83, 1), new DropConfig(86, 0, 1), new DropConfig(88, 1));
 
     // Chunk
@@ -421,7 +425,9 @@ public static class EntityDatabase
         get
         {
             yield return Boar;
+            yield return BoarChief;
             yield return Pampa;
+            yield return PampaChief;
             yield return SnowBunny;
             yield return Bunny;
         }
