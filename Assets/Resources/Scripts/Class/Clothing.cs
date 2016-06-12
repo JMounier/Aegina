@@ -176,6 +176,10 @@ public class Clothing
         {
             yield return NoneTshirt;
             yield return RedTshirt;
+            yield return BlueTshirt;
+            yield return GreenTshirt;
+            yield return YellowTshirt;
+            yield return PurpleTshirt;
         }
     }
     public static IEnumerable<Gloves> Gloves
@@ -337,6 +341,11 @@ public class Clothing
 
     public static readonly Tshirt NoneTshirt = new Tshirt(120, TextDatabase.NoneTshirt);
     public static readonly Tshirt RedTshirt = new Tshirt(121, Resources.Load<Texture2D>("Models/Character/Textures/TShirts/Red"), TextDatabase.RedTshirt, Color.red, Tshirt.TypeTshirt.TShirt);
+    public static readonly Tshirt BlueTshirt = new Tshirt(122, Resources.Load<Texture2D>("Models/Character/Textures/TShirts/Blue"), TextDatabase.BlueTshirt, Color.blue, Tshirt.TypeTshirt.TShirt);
+    public static readonly Tshirt PurpleTshirt = new Tshirt(123, Resources.Load<Texture2D>("Models/Character/Textures/TShirts/Purple"), TextDatabase.PurpleTshirt, new Color(0.754f, 0.156f, 0.878f), Tshirt.TypeTshirt.TShirt);
+    public static readonly Tshirt GreenTshirt = new Tshirt(124, Resources.Load<Texture2D>("Models/Character/Textures/TShirts/Green"), TextDatabase.GreenTshirt, Color.green, Tshirt.TypeTshirt.TShirt);
+    public static readonly Tshirt YellowTshirt = new Tshirt(125, Resources.Load<Texture2D>("Models/Character/Textures/TShirts/Yellow"), TextDatabase.YellowTshirt, Color.yellow, Tshirt.TypeTshirt.TShirt);
+
 
     //Getter/Setter
     public int ID
@@ -394,6 +403,55 @@ public class Skin
     }
 
     // Method
+
+    public void Randomize()
+    {
+        List<Eyes> eyes = new List<Eyes>();
+        foreach (Eyes e in Clothing.Eyes)
+            eyes.Add(e);
+        this.eyes = eyes[Random.Range(0, eyes.Count - 1)];
+
+        List<Gloves> gloves = new List<Gloves>();
+        foreach (Gloves g in Clothing.Gloves)
+            gloves.Add(g);
+        this.gloves = gloves[Random.Range(0, gloves.Count - 1)];
+
+        List<Pant> pant = new List<Pant>();
+        foreach (Pant p in Clothing.Pants)
+            pant.Add(p);
+        this.pant = pant[Random.Range(0, pant.Count - 1)];
+
+        List<Tshirt> tshirt = new List<Tshirt>();
+        foreach (Tshirt t in Clothing.Tshirts)
+            tshirt.Add(t);
+        this.tshirt = tshirt[Random.Range(0, tshirt.Count - 1)];
+
+        List<Body> body = new List<Body>();
+        foreach (Body b in Clothing.Bodies)
+            body.Add(b);
+        this.body = body[Random.Range(0, body.Count - 1)];
+
+        List<Hair> hair = new List<Hair>();
+        foreach (Hair h in Clothing.Hairs)
+            hair.Add(h);
+        this.hair = hair[Random.Range(0, hair.Count - 1)];
+
+        if (this.hair.GetTypeHair == Hair.TypeHair.Crete)
+            this.hat = Hat.NoneHat;
+        else
+        {
+            List<Hat> hat = new List<Hat>();
+            foreach (Hat h in Clothing.Hats)
+                hat.Add(h);
+            this.hat = hat[Random.Range(0, hat.Count - 1)];
+        }
+
+        List<Beard> beard = new List<Beard>();
+        foreach (Beard b in Clothing.Beards)
+            beard.Add(b);
+        this.beard = beard[Random.Range(0, beard.Count - 1)];
+    }
+
     public void Apply(GameObject character)
     {
         if (!this.beardApplied)
@@ -420,6 +478,61 @@ public class Skin
         this.hatApplied = true;
         this.bodyApplied = true;
     }
+
+    /// <summary>
+    /// Creer un skin aleatoire.
+    /// </summary>
+    /// <returns></returns>
+    public static Skin RandomSkin()
+    {
+        Skin skin = new Skin();
+        List<Eyes> eyes = new List<Eyes>();
+        foreach (Eyes e in Clothing.Eyes)
+            eyes.Add(e);
+        skin.eyes = eyes[Random.Range(0, eyes.Count - 1)];
+
+        List<Gloves> gloves = new List<Gloves>();
+        foreach (Gloves g in Clothing.Gloves)
+            gloves.Add(g);
+        skin.gloves = gloves[Random.Range(0, gloves.Count - 1)];
+
+        List<Pant> pant = new List<Pant>();
+        foreach (Pant p in Clothing.Pants)
+            pant.Add(p);
+        skin.pant = pant[Random.Range(0, pant.Count - 1)];
+
+        List<Tshirt> tshirt = new List<Tshirt>();
+        foreach (Tshirt t in Clothing.Tshirts)
+            tshirt.Add(t);
+        skin.tshirt = tshirt[Random.Range(0, tshirt.Count - 1)];
+
+        List<Body> body = new List<Body>();
+        foreach (Body b in Clothing.Bodies)
+            body.Add(b);
+        skin.body = body[Random.Range(0, body.Count - 1)];
+
+        List<Hair> hair = new List<Hair>();
+        foreach (Hair h in Clothing.Hairs)
+            hair.Add(h);
+        skin.hair = hair[Random.Range(0, hair.Count - 1)];
+
+        if (skin.hair.GetTypeHair == Hair.TypeHair.Crete)
+            skin.hat = Hat.NoneHat;
+        else
+        {
+            List<Hat> hat = new List<Hat>();
+            foreach (Hat h in Clothing.Hats)
+                hat.Add(h);
+            skin.hat = hat[Random.Range(0, hat.Count - 1)];
+        }
+
+        List<Beard> beard = new List<Beard>();
+        foreach (Beard b in Clothing.Beards)
+            beard.Add(b);
+        skin.beard = beard[Random.Range(0, beard.Count - 1)];
+        return skin;
+    }
+
 
     /// <summary>
     /// Parse a skin to string.
