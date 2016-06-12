@@ -112,7 +112,6 @@ public class Controller : NetworkBehaviour
             deltaMouse *= this.sensitivity * this.distance * Time.deltaTime;
 
             // Moove the camera
-
             this.cam.transform.Translate(deltaMouse.x, Mathf.Clamp(deltaMouse.y, this.yMin * this.distance + posPersonnage.y - posCamera.y, this.yMax * this.distance + posPersonnage.y - posCamera.y), 0);
 
             this.cam.transform.LookAt(this.character.transform.position + this.translateReferentiel);

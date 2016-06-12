@@ -43,20 +43,13 @@ public class SyncTransform : NetworkBehaviour
         if (isLocalPlayer)
         {
             if (this.syncPosition && Vector3.Distance(this.lastPos, this.trans.position) > this.tresholdPosition)
-            {
                 this.TransmitPosition();
-
-            }
             if (this.syncRotation && Vector3.Distance(this.lastRot, this.trans.eulerAngles) > this.tresholdRotation)
-            {
                 this.TransmitRotation();
-            }
         }
         if (!isLocalPlayer)
         {
-            if (this.syncPosition && Vector3.Distance(this.trans.position, this.syncPos) < 10)
-                this.trans.position = Vector3.Lerp(this.trans.position, this.syncPos, Time.deltaTime * 15);
-            else if (this.syncPosition)
+            if (this.syncPosition)
                 this.trans.position = this.syncPos;
             if (this.syncRotation)
                 this.trans.rotation = Quaternion.Lerp(this.trans.rotation, Quaternion.Euler(this.syncRot), Time.deltaTime * 15);
