@@ -13,10 +13,10 @@ public class Controller : NetworkBehaviour
     private SyncCharacter syncChar;
 
     // Use for Character
-    private float walkSpeed = 3f;
-    private float sprintSpeed = 5f;
-    private float jumpingBoost = .5f;
-    private float jumpForce = 13000f;
+    private int walkSpeed = 9000;
+    private int sprintSpeed = 13000;
+    private int jumpingBoost = 500;
+    private int jumpForce = 13000;
     private float coolDownJump = 0;
 
     private Animator anim;
@@ -112,12 +112,8 @@ public class Controller : NetworkBehaviour
             deltaMouse *= this.sensitivity * this.distance * Time.deltaTime;
 
             // Moove the camera
-            if (posCamera.y + deltaMouse.y > this.yMax * this.distance + posPersonnage.y)
-                this.cam.transform.Translate(deltaMouse.x, this.yMax * this.distance + posPersonnage.y - posCamera.y, 0);
-            else if (posCamera.y + deltaMouse.y < this.yMin * this.distance + posPersonnage.y)
-                this.cam.transform.Translate(deltaMouse.x, this.yMin * this.distance + posPersonnage.y - posCamera.y, 0);
-            else
-                this.cam.transform.Translate(deltaMouse.x, deltaMouse.y, 0);
+
+            this.cam.transform.Translate(deltaMouse.x, Mathf.Clamp(deltaMouse.y, this.yMin * this.distance + posPersonnage.y - posCamera.y, this.yMax * this.distance + posPersonnage.y - posCamera.y), 0);
 
             this.cam.transform.LookAt(this.character.transform.position + this.translateReferentiel);
 
@@ -242,9 +238,9 @@ public class Controller : NetworkBehaviour
             this.interactDistance = float.PositiveInfinity;
             anim.SetInteger("Action", 3);
             if (isSprinting)
-                move *= Time.deltaTime * (this.sprintSpeed + this.jumpingBoost + this.syncChar.Speed);
+                move *= this.sprintSpeed + this.jumpingBoost + this.syncChar.Speed;
             else
-                move *= Time.deltaTime * (this.walkSpeed + this.jumpingBoost + this.syncChar.Speed);
+                move *= this.walkSpeed + this.jumpingBoost + this.syncChar.Speed;
         }
         else
         {
@@ -254,7 +250,7 @@ public class Controller : NetworkBehaviour
                 this.interactDistance = float.PositiveInfinity;
                 if (isSprinting)
                 {
-                    move *= Time.deltaTime * (this.sprintSpeed + this.syncChar.Speed);
+                    move *= this.sprintSpeed + this.syncChar.Speed;
                     this.anim.SetInteger("Action", 2);
                     if (this.soundAudio.IsReady(2))
                     {
@@ -266,7 +262,7 @@ public class Controller : NetworkBehaviour
                 }
                 else
                 {
-                    move *= Time.deltaTime * (this.walkSpeed + this.syncChar.Speed);
+                    move *= this.walkSpeed + this.syncChar.Speed;
                     this.anim.SetInteger("Action", 1);
                     if (this.soundAudio.IsReady(1))
                     {
@@ -300,7 +296,11 @@ public class Controller : NetworkBehaviour
             else if (this.anim.GetInteger("Action") <= 3 || !Input.GetButton("Fire2") || this.im.NearElement == null)
                 this.anim.SetInteger("Action", 0);
         }
-        gameObject.transform.Translate(move, Space.World);
+
+        this.character.GetComponent<Rigidbody>().velocity = new Vector3(0, this.character.GetComponent<Rigidbody>().velocity.y, 0);
+        this.character.GetComponent<Rigidbody>().AddForce(move);
+        this.cam.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        this.cam.GetComponent<Rigidbody>().AddForce(move);
 
         if (isMoving)
         {
@@ -349,7 +349,7 @@ public class Controller : NetworkBehaviour
     /// <sumary>
     /// La vitesse de marche du personnage.
     /// </sumary>
-    public float WalkSpeed
+    public int WalkSpeed
     {
         get { return this.walkSpeed; }
         set { this.walkSpeed = value; }
@@ -358,7 +358,7 @@ public class Controller : NetworkBehaviour
     /// <sumary>
     /// La vittesse de course du personnage.
     /// </sumary>
-    public float SprintSpeed
+    public int SprintSpeed
     {
         get { return this.sprintSpeed; }
         set { this.sprintSpeed = value; }
@@ -367,7 +367,7 @@ public class Controller : NetworkBehaviour
     /// <sumary>
     /// Le gain de vitesse du personnage lorsqu'il saute.
     /// </sumary>
-    public float JumpingBoost
+    public int JumpingBoost
     {
         get { return this.jumpingBoost; }
         set { this.jumpingBoost = value; }
@@ -376,7 +376,7 @@ public class Controller : NetworkBehaviour
     /// <sumary>
     /// La force du saut du personnage.
     /// </sumary>
-    public float JumpForce
+    public int JumpForce
     {
         get { return this.jumpForce; }
         set { this.jumpForce = value; }
