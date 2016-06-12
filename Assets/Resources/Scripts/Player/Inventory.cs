@@ -787,7 +787,7 @@ public class Inventory : NetworkBehaviour
         {
             for (int j = 0; j < this.columns; j++)
             {
-                if (this.slots[i, j].Items.ID == it.ID && this.slots[i, j].Items.Meta == it.Meta)
+                if (this.slots[i, j].Items.ID == it.ID)
                     return true;
             }
         }
@@ -806,7 +806,7 @@ public class Inventory : NetworkBehaviour
         int j = 0;
         while (quantity > 0 && j < this.columns)
         {
-            if (this.slots[i, j].Items.ID == it.ID && this.slots[i, j].Items.Meta == it.Meta)
+            if (this.slots[i, j].Items.ID == it.ID)
                 quantity -= this.slots[i, j].Quantity;
             i = (i + 1) % this.rows;
             if (i == 0)
@@ -872,7 +872,7 @@ public class Inventory : NetworkBehaviour
         int j = 0;
         while (quantity > 0 && j < this.columns)
         {
-            if (this.slots[i, j].Items.ID == it.ID && this.slots[i, j].Items.Meta == it.Meta)
+            if (this.slots[i, j].Items.ID == it.ID)
             {
                 if (this.slots[i, j].Quantity <= quantity)
                 {
@@ -1061,7 +1061,7 @@ public class Inventory : NetworkBehaviour
     [Client]
     public void Drop(ItemStack itemS)
     {
-        CmdDrop(itemS.Quantity, itemS.Items.ID, itemS.Items.Meta, this.trans.GetComponentInChildren<CharacterCollision>().gameObject.transform.position, -this.trans.GetComponentInChildren<CharacterCollision>().gameObject.transform.forward);
+        CmdDrop(itemS.Quantity, itemS.Items.ID, this.trans.GetComponentInChildren<CharacterCollision>().gameObject.transform.position, -this.trans.GetComponentInChildren<CharacterCollision>().gameObject.transform.forward);
     }
 
     /// <summary>
@@ -1073,9 +1073,9 @@ public class Inventory : NetworkBehaviour
     /// <param name="pos"></param>
     /// <param name="forward"></param>
     [Command]
-    private void CmdDrop(int quantity, int id, int meta, Vector3 pos, Vector3 forward)
+    private void CmdDrop(int quantity, int id, Vector3 pos, Vector3 forward)
     {
-        ItemDatabase.Find(id, meta).Spawn(pos + forward * 0.3f + Vector3.up * 0.7f, forward + Vector3.up, quantity);
+        ItemDatabase.Find(id).Spawn(pos + forward * 0.3f + Vector3.up * 0.7f, forward + Vector3.up, quantity);
     }
 
     [ClientRpc]
