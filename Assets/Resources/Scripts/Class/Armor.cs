@@ -25,12 +25,6 @@ public class Armor : Item
         this.armorValue = armorValue;
         this.armorPrefab = armorPrefab;
     }
-    public Armor(int id, int meta, Text name, Text description, Texture2D icon, Entity ent, int armorValue, GameObject armorPrefab) :
-        base(id, meta, name, description, 1, icon, ent)
-    {
-        this.armorValue = armorValue;
-        this.armorPrefab = armorPrefab;
-    }
 
 
     //Getters Setters
@@ -53,14 +47,10 @@ public class TopArmor : Armor
     // Constructors
     public TopArmor() : base() { }
 
-    public TopArmor(TopArmor axe) : base(axe) { }
+    public TopArmor(TopArmor topArmor) : base(topArmor) { }
 
     public TopArmor(int id, Text name, Text description, Texture2D icon, Entity ent, int armorValue, GameObject armorPrefab) :
        base(id, name, description, icon, ent, armorValue, armorPrefab)
-    { }
-
-    public TopArmor(int id,int meta, Text name, Text description, Texture2D icon, Entity ent, int armorValue, GameObject armorPrefab) :
-       base(id,meta, name, description, icon, ent, armorValue, armorPrefab)
     { }
 }
 
@@ -69,13 +59,9 @@ public class BottomArmor : Armor
     // Constructors
     public BottomArmor() : base() { }
 
-    public BottomArmor(BottomArmor axe) : base(axe) { }
+    public BottomArmor(BottomArmor bottomArmor) : base(bottomArmor) { }
 
     public BottomArmor(int id, Text name, Text description, Texture2D icon, Entity ent, int armorValue, GameObject armorPrefab) :
        base(id, name, description, icon, ent, armorValue, armorPrefab)
-    { }
-
-    public BottomArmor(int id, int meta, Text name, Text description, Texture2D icon, Entity ent, int armorValue, GameObject armorPrefab) :
-       base(id, meta, name, description, icon, ent, armorValue, armorPrefab)
     { }
 }
