@@ -26,7 +26,7 @@ public class Inventory : NetworkBehaviour
     private Sound sound;
     private Item lastUseddItem;
     private ItemStack top;
-    private ItemStack Bottom;
+    private ItemStack bottom;
 
     private GameObject chest;
     private ItemStack[,] slotsChest;
@@ -55,7 +55,7 @@ public class Inventory : NetworkBehaviour
         this.sound = gameObject.GetComponent<Sound>();
         this.lastUseddItem = new Item();
         this.top = new ItemStack();
-        this.Bottom = new ItemStack();
+        this.bottom = new ItemStack();
 
         this.CmdLoadInventory();
     }
@@ -300,6 +300,22 @@ public class Inventory : NetworkBehaviour
                             this.slots[i, j] = this.selectedItem;
                         }
                     }
+                    // équipper une armure
+                    else if (!this.draggingItemStack && Event.current.button == 1 && Event.current.type == EventType.MouseUp)
+                    {
+                        if (this.slots[i,j].Items is TopArmor)
+                        {
+                            ItemStack temp = this.slots[i, j];
+                            this.slots[i, j] = this.top;
+                            this.top = temp;
+                        }
+                        else if (this.slots[i, j].Items is BottomArmor)
+                        {
+                            ItemStack temp = this.slots[i, j];
+                            this.slots[i, j] = this.bottom;
+                            this.bottom = temp;
+                        }
+                    }
                     // Relachement d'un item dans un slot
                     else if (this.draggingItemStack && Event.current.button == 1 && Event.current.type == EventType.MouseUp)
                     {
@@ -322,8 +338,7 @@ public class Inventory : NetworkBehaviour
         rect = new Rect(pos_x_inventory, pos_y_inventory, columns * this.size_inventory, (rows + .5f) * this.size_inventory);
         Rect secondrect = new Rect(this.pos_x_toolbar, this.pos_y_toolbar, this.columns * this.size_toolbar, this.size_toolbar);
         Rect thirdrect = new Rect(this.columns * this.size_inventory + this.pos_x_inventory + 72, this.pos_y_inventory, 3 * this.size_inventory, 3 * this.size_inventory);
-        Rect forthrect = new Rect(this.pos_x_inventory - 5 * this.size_inventory / 2, this.pos_y_inventory + this.size_inventory / 2, this.size_inventory, 2 * this.size_inventory);
-        if (!rect.Contains(Event.current.mousePosition) && !secondrect.Contains(Event.current.mousePosition) && !(this.chest != null && thirdrect.Contains(Event.current.mousePosition)) && !forthrect.Contains(Event.current.mousePosition) && this.draggingItemStack && Event.current.button == 0 && Event.current.type == EventType.MouseUp)
+        if (!rect.Contains(Event.current.mousePosition) && !secondrect.Contains(Event.current.mousePosition) && !(this.chest != null && thirdrect.Contains(Event.current.mousePosition)) && this.draggingItemStack && Event.current.button == 0 && Event.current.type == EventType.MouseUp)
         {
             this.Drop(this.selectedItem);
             this.draggingItemStack = false;
@@ -740,7 +755,7 @@ public class Inventory : NetworkBehaviour
         Rect rectTop = new Rect(pos_x_armor_slot + this.size_inventory / 2, pos_y_armor_slot + this.size_inventory / 2, this.size_inventory, this.size_inventory);
         Rect rectBottom = new Rect(pos_x_armor_slot + this.size_inventory / 2, pos_y_armor_slot + 3 * this.size_inventory / 2, this.size_inventory, this.size_inventory);
 
-        GUI.Box(rectTop, "", this.skin.GetStyle("slot"));
+        GUI.Box(rectTop, "", this.skin.GetStyle("toolbar_selected"));
 
         if (rectTop.Contains(Event.current.mousePosition))
         {
@@ -754,26 +769,6 @@ public class Inventory : NetworkBehaviour
                     this.top = null;
                 }
             }
-            //équipper l'armure
-            if (this.draggingItemStack && Event.current.button == 0 && Event.current.type == EventType.MouseUp)
-            {
-                if (this.selectedItem.Items is TopArmor)
-                {
-                    AddItemStack(this.top, false);
-                    if (this.top != null)
-                        Drop(this.top);
-                    this.top = selectedItem;
-                }
-                else
-                {
-                    if (inchest)
-                        CmdInteractChest(this.previndex[0], this.previndex[1], this.selectedItem.Items.ID, this.selectedItem.Quantity);
-                    else
-                        this.slots[this.previndex[0], this.previndex[1]] = this.selectedItem;
-                }
-                this.selectedItem = null;
-            }
-
         }
         rectTop.x += this.size_inventory / 5;
         rectTop.y += this.size_inventory / 5;
@@ -781,38 +776,18 @@ public class Inventory : NetworkBehaviour
         rectTop.height -= this.size_inventory / 2.5f;
         GUI.DrawTexture(rectTop, this.top.Items.Icon);
 
-        GUI.Box(rectBottom, "", this.skin.GetStyle("slot"));
+        GUI.Box(rectBottom, "", this.skin.GetStyle("toolbar_selected"));
         if (rectBottom.Contains(Event.current.mousePosition))
         {
             //déséquipper l'armure
             if (!this.draggingItemStack && Event.current.button == 1 && Event.current.type == EventType.MouseDown)
             {
-                AddItemStack(this.Bottom, false);
-                if (this.Bottom != null)
+                AddItemStack(this.bottom, false);
+                if (this.bottom != null)
                 {
-                    Drop(this.Bottom);
-                    this.Bottom = null;
+                    Drop(this.bottom);
+                    this.bottom = null;
                 }
-            }
-            //équipper l'armure
-            if (this.draggingItemStack && Event.current.button == 0 && Event.current.type == EventType.MouseUp)
-            {
-                if (this.selectedItem.Items is BottomArmor)
-                {
-                    AddItemStack(this.Bottom, false);
-                    if (this.Bottom != null)
-                        Drop(this.Bottom);
-                    this.Bottom = selectedItem;
-                }
-                else
-                {
-                    if (inchest)
-                        CmdInteractChest(this.previndex[0], this.previndex[1], this.selectedItem.Items.ID, this.selectedItem.Quantity);
-                    else
-                        this.slots[this.previndex[0], this.previndex[1]] = this.selectedItem;
-                }
-                this.selectedItem = null;
-                this.draggingItemStack = false;
             }
 
         }
@@ -820,7 +795,7 @@ public class Inventory : NetworkBehaviour
         rectBottom.y += this.size_inventory / 5;
         rectBottom.width -= this.size_inventory / 2.5f;
         rectBottom.height -= this.size_inventory / 2.5f;
-        GUI.DrawTexture(rectBottom, this.Bottom.Items.Icon);
+        GUI.DrawTexture(rectBottom, this.bottom.Items.Icon);
     }
 
     /// <summary>
