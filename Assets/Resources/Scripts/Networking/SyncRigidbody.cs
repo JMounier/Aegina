@@ -10,12 +10,10 @@ public class SyncRigidbody : NetworkBehaviour
 
     [SyncVar]
     private Vector3 syncVelocity;
-    private Vector3 lastVelocity;
 
     // Use this for initialization
     void Start()
     {
-        this.lastVelocity = this.rig.velocity;
         this.syncVelocity = this.rig.velocity;
         if (isLocalPlayer)
             TransmitVelocity();
@@ -25,13 +23,9 @@ public class SyncRigidbody : NetworkBehaviour
     void FixedUpdate()
     {
         if (isLocalPlayer)
-        {
             this.TransmitVelocity();
-        }
-        if (!isLocalPlayer)
-        {
-            this.rig.velocity = this.syncVelocity;
-        }
+        else
+            this.rig.velocity = new Vector3(this.rig.velocity.x, this.syncVelocity.y, this.rig.velocity.z);
     }
 
     [Command]
