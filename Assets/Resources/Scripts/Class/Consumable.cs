@@ -25,13 +25,7 @@ public class Consumable : Item
     {
         this.e = e;
         this.consumablePrefab = consumablePrefab;
-    }
-
-    public Consumable(int id, int meta, Text name, Text description, int size, Texture2D icon, Entity ent, Effect e, GameObject consumablePrefab) : base(id, meta, name, description, size, icon, ent)
-    {
-        this.e = e;
-        this.consumablePrefab = consumablePrefab;
-    } 
+    }       
 
     // Getter & Setters
 

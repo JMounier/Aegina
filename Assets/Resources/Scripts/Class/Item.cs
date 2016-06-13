@@ -7,7 +7,6 @@ using System.Collections;
 public class Item
 {
     protected int iD;
-    protected int meta;
     protected Text name;
     protected Text description;
     protected Texture2D icon;
@@ -20,7 +19,6 @@ public class Item
         this.size = 0;
         this.name = new Text();
         this.iD = -1;
-        this.meta = 0;
         this.description = new Text();
         this.icon = null;
         this.ent = new Entity();
@@ -31,7 +29,6 @@ public class Item
         this.size = item.size;
         this.name = item.name;
         this.iD = item.iD;
-        this.meta = item.meta;
         this.description = item.description;
         this.icon = item.icon;
         this.ent = new Entity(item.ent);
@@ -41,23 +38,11 @@ public class Item
     {
         this.name = name;
         this.iD = id;
-        this.meta = 0;
         this.description = description;
         this.size = size;
         this.icon = icon;
         this.ent = ent;
-    }
-
-    public Item(int id, int meta, Text name, Text description, int size, Texture2D icon, Entity ent)
-    {
-        this.name = name;
-        this.iD = id;
-        this.meta = meta;
-        this.description = description;
-        this.size = size;
-        this.icon = icon;
-        this.ent = ent;
-    }
+    }      
 
     // Methods
     /// <summary>
@@ -95,16 +80,7 @@ public class Item
     {
         get { return this.iD; }
         set { this.iD = value; }
-    }
-
-    /// <summary>
-    /// Retourne la métadonnées de l'item.
-    /// </summary>
-    public int Meta
-    {
-        get { return this.meta; }
-        set { this.meta = value; }
-    }
+    }     
 
     /// <summary>
     /// Retourne le nom de l'item.

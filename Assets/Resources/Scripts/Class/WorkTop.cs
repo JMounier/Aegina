@@ -26,13 +26,6 @@ public class WorkTop : Item
         this.elementID = elementID;
     }
 
-    public WorkTop(int id, int meta, Text name, Text description, int size, Texture2D icon, Entity ent, GameObject previsualisation, int elementID) : base(id, meta, name, description, size, icon, ent)
-    {
-        this.previsu = previsualisation;
-        this.elementID = elementID;
-    }
-
-
     public static Transform GetHierarchy(Vector3 pos)
     {
         Transform parent = null;

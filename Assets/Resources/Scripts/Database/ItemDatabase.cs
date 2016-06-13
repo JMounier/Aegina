@@ -246,32 +246,15 @@ public static class ItemDatabase
 			yield return StoneWall;
         }
     }
-
+     
     /// <summary>
     /// Retourne l'item correspondant a l'identifiant. (La copie)
     /// </summary>
     public static Item Find(int id)
     {
-        return Find(id, 0);
-    }
-
-    /// <summary>
-    /// Retourne l'item correspondant au nom anglais. (La copie)
-    /// Ne fait pas attention a la casse.
-    /// </summary>
-    public static Item Find(string name)
-    {
-        return Find(name, 0);
-    }
-
-    /// <summary>
-    /// Retourne l'item correspondant a l'identifiant et au metadonnee. (La copie)
-    /// </summary>
-    public static Item Find(int id, int meta)
-    {
         foreach (Item i in Items)
         {
-            if (i.ID == id && i.Meta == meta)
+            if (i.ID == id)
             {
                 if (i is Pickaxe)
                     return new Pickaxe((Pickaxe)i);
@@ -291,14 +274,14 @@ public static class ItemDatabase
     }
 
     /// <summary>
-    /// Retourne l'item correspondant au nom anglais et au metadonnee. (La copie)
+    /// Retourne l'item correspondant au nom anglais. (La copie)
     /// Ne fait pas attention a la casse.
     /// </summary>
-    public static Item Find(string name, int meta)
+    public static Item Find(string name)
     {
         foreach (Item i in Items)
         {
-            if (i.NameText.GetText(SystemLanguage.English).ToLower().Replace(" ", "") == name.ToLower() && i.Meta == meta)
+            if (i.NameText.GetText(SystemLanguage.English).ToLower().Replace(" ", "") == name.ToLower())
             {
                 if (i is Pickaxe)
                     return new Pickaxe((Pickaxe)i);
