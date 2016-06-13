@@ -14,6 +14,7 @@ public class Mob : Entity
     private float walkSpeed;
     private float runSpeed;
     private float attackSpeed;
+    private float rangeAttack;
     private int[] biomes;
     private DropConfig[] dropConfigs;
 
@@ -29,6 +30,7 @@ public class Mob : Entity
         this.walkSpeed = 0;
         this.walkSpeed = 0;
         this.attackSpeed = 0;
+        this.rangeAttack = 0;
         this.biomes = new int[0];
         this.dropConfigs = new DropConfig[0];
     }
@@ -43,11 +45,12 @@ public class Mob : Entity
         this.walkSpeed = mob.walkSpeed;
         this.runSpeed = mob.runSpeed;
         this.attackSpeed = mob.attackSpeed;
+        this.rangeAttack = mob.rangeAttack;
         this.dropConfigs = mob.dropConfigs;
         this.biomes = mob.biomes;
     }
 
-    public Mob(int id, int life, GameObject prefab, int spawnProbability, float smart, int damage, float visionFocus, float visionFleeing, float walkSpeed, float runSpeed, float attackSpeed, int[] biomes, params DropConfig[] dropConfigs) : base(id, life, prefab)
+    public Mob(int id, int life, GameObject prefab, int spawnProbability, float smart, int damage, float visionFocus, float visionFleeing, float walkSpeed, float runSpeed, float attackSpeed, float rangeAttack, int[] biomes, params DropConfig[] dropConfigs) : base(id, life, prefab)
     {
         this.spawnProbability = spawnProbability;
         this.smart = smart;
@@ -57,6 +60,7 @@ public class Mob : Entity
         this.walkSpeed = walkSpeed;
         this.runSpeed = runSpeed;
         this.attackSpeed = attackSpeed;
+        this.rangeAttack = rangeAttack;
         this.biomes = biomes;
         this.dropConfigs = dropConfigs;
     }
@@ -185,6 +189,15 @@ public class Mob : Entity
     {
         get { return this.attackSpeed; }
         set { this.attackSpeed = value; }
+    }
+
+    /// <summary>
+    /// La portee d'attaque du mob.
+    /// </summary>
+    public float RangeAttack
+    {
+        get { return this.rangeAttack; }
+        set { this.rangeAttack = value; }
     }
 
     /// <summary>
