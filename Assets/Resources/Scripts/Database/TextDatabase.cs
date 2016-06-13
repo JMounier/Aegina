@@ -36,9 +36,9 @@ public class TextDatabase
     public static readonly Text Torch = new Text("Torche", "Torch");
     public static readonly Text Chest = new Text("Coffre", "Chest");
     public static readonly Text WolfTrap = new Text("Piège à loup", "Wolf trap");
-	public static readonly Text Spiques = new Text("Pique", "Pique trap");
-	public static readonly Text WoodenWall = new Text("Mur en bois", "Wooden wall");
-	public static readonly Text StoneWall = new Text("Mur en pierre", "Stone wall");
+    public static readonly Text Spiques = new Text("Pique", "Pique trap");
+    public static readonly Text WoodenWall = new Text("Mur en bois", "Wooden wall");
+    public static readonly Text StoneWall = new Text("Mur en pierre", "Stone wall");
 
 
 
@@ -97,9 +97,9 @@ public class TextDatabase
     public static readonly Text TorchDescription = new Text("Et la lumière fut !", "And there was light !");
     public static readonly Text ChestDescription = new Text("Permet de stocker plein de chose inutiles !", "Able to stock a lot of useless stuff !");
     public static readonly Text WolfTrapDescription = new Text("Utile pour chasser les créatures.", "Useful to hunt creatures.");
-	public static readonly Text SpiquesDescription = new Text("Un piège vicieux mais efficace", "The solution to protect your belongings from vicious robbers");
-	public static readonly Text WoodenWallDescription = new Text("Quelques piquets suffisent pour defendre votre maison", "In an other world, skulls were put on this kind of wall to frighten foreigners");
-	public static readonly Text StoneWallDescription = new Text("De quoi construire un vrai chateau", "An other brique in the wall");
+    public static readonly Text SpiquesDescription = new Text("Un piège vicieux mais efficace", "The solution to protect your belongings from vicious robbers");
+    public static readonly Text WoodenWallDescription = new Text("Quelques piquets suffisent pour defendre votre maison", "In an other world, skulls were put on this kind of wall to frighten foreigners");
+    public static readonly Text StoneWallDescription = new Text("De quoi construire un vrai chateau", "An other brique in the wall");
 
 
     public static readonly Text WaterPotionDescription = new Text("Une fiole pleine d'eau !", "A full water phial!");
@@ -244,25 +244,25 @@ public class TextDatabase
         "Getting used to his legs, Ille decided to start running");
     public static readonly Text RunObjectif = new Text("Cours (bouge avec la touche shift enfoncé)", "Run (hold the shift key and move)");
     public static readonly Text Jump = new Text(
-        "Ille estait tellement en forme qu'il pensait même pouvoir se permettre de sauter", 
+        "Ille estait tellement en forme qu'il pensait même pouvoir se permettre de sauter",
         "Ille is so fit that he thinks he can even afford to jump");
     public static readonly Text JumpObjectif = new Text("Saute (appuie sur la barre espace)", "Jump (press the spacebar)");
     public static readonly Text PickItem1 = new Text(
-        "Juste après avoir sauté, Ille entendi un sinistre grognement.", 
+        "Juste après avoir sauté, Ille entendi un sinistre grognement.",
         "Just after he jumped, Ille heard a sinister growl.");
     public static readonly Text PickItem2 = new Text(
         "Ille avait faim. Cependant dans cette contrée sauvage, il devina qu'il devait chasser sa nourriture. Mais pour chasser Ille avait besoin d'une arme.",
         "Ille is hungry. However, in this wilderness, he guesses he must hunt for food.Therefore he needs a weapon to hunt.");
     public static readonly Text PickItem3 = new Text(
-        "Justement il remarqua un bâton sur le chemin, l'arme parfaite pour lui", 
+        "Justement il remarqua un bâton sur le chemin, l'arme parfaite pour lui",
         "At this moment he noticed a stick on the way, the perfect weapon for him");
     public static readonly Text PickItemObjectif = new Text("Prendre le bâton (clic droit enfoncé près de l'objet)", "Take the Stick (hold the rightclick down near the stick)");
     public static readonly Text Equip = new Text(
-        "Après avoir mis le bâton dans sa poche, Ille se dit qu'il devrait peut être le sortir de celle-ci pour que son arme soit utilisable", 
+        "Après avoir mis le bâton dans sa poche, Ille se dit qu'il devrait peut être le sortir de celle-ci pour que son arme soit utilisable",
         "After putting the stick in his pocket, Ille take it out to use it");
     public static readonly Text EquipObjectif = new Text("Equiper le baton (ouvrez l'inventaire avec I et faite glisser le bâton dans la barre de racourcis en bas de l'écran, fermez l'inventaire (I ou escape) et sélectionnez ensuite le bâton avec la molette de la souris)", "Equip the stick (open the inventory with I, drag the stick in the bar on bottom of the screen, close the inventory (I or escape) and scrol to select the Stick )");
     public static readonly Text KillThePig = new Text(
-        "Ille se mit à la recherche de nourriture et en se retournant tomba nez à nez avec un animal. Ni une ni deux Ille attaqua son petit déjeuner", 
+        "Ille se mit à la recherche de nourriture et en se retournant tomba nez à nez avec un animal. Ni une ni deux Ille attaqua son petit déjeuner",
         "He starts looking for food and, while turning around, came face to face with an animal. It's time for breakfast..");
     public static readonly Text KillThePigObjectif = new Text("Attaque un cochon avec le clic gauche et récupère de la viande", "Kill a wild boar with the leftclick and get meat");
     public static readonly Text CraftABrochette = new Text(
@@ -270,7 +270,7 @@ public class TextDatabase
         "However, Ille has a vague recollection that raw meat is not an easily digestible breakfast. Without fire, he still decides to eat his meat prepared on skewers");
     public static readonly Text CraftABrochetteObejctif = new Text("Ouvrez l'inventaire et cliqué sur la potion à gauche puis cliqué sur la brochette et enfin valider pour créer", "Open the inventory, click on the potion at left, click at the skewer and valid to craft");
     public static readonly Text EatSomething = new Text(
-        "Le repas de Ille est près. Il ne lui suffisait plus que de consommer sa brochette et le grondement de son ventre cesserait", 
+        "Le repas de Ille est près. Il ne lui suffisait plus que de consommer sa brochette et le grondement de son ventre cesserait",
         "Ille's meal is ready. He just need to consumed his skewer and the rumble of his stomach would stop");
     public static readonly Text EatSomethingObjectif = new Text("sélectionne la brochette et maintient le clic droit pour manger", "select the skewer and hold the right click to eat");
     public static readonly Text DrinkSomething1 = new Text(
@@ -281,19 +281,19 @@ public class TextDatabase
         "However Ille saw little cactus on the horizon and thought that he could find some water in them");
     public static readonly Text DrinSomethingObjectif = new Text("récupère des cactus et transforme les en eau grâce à l'interface de création d'objets", "Gather some cactus and transforms them into water with the crafting interface");
     public static readonly Text CinematiqueWhereIAm1 = new Text(
-        "Maintenant que Ille avait trouvé de quoi survivre, il pouvait enfin se reposer. Jusqu'à présent  Ille n'avait pensé qu'à manger mais une fois le ventre rempli il se mit à penser et à se questionner", 
+        "Maintenant que Ille avait trouvé de quoi survivre, il pouvait enfin se reposer. Jusqu'à présent  Ille n'avait pensé qu'à manger mais une fois le ventre rempli il se mit à penser et à se questionner",
         "Now that Ille has found how to survive he can finally rest. So far Ille only thougt to eat but once his stomach fill he begin to think and to question himself ");
     public static readonly Text CinematiqueWhereIAm2 = new Text(
         "\" Mais où suis-je? Quel est cet endroit ?\" En effet cet archipel d'îles volantes ne lui etait pas familier ",
         "\" where am I? What is this place? \" Indeed this archipelago of floating island was not a familiar landscape for Ille.");
     public static readonly Text CinematiqueWhereIAm3 = new Text(
-        "\"Attends !!! Des îles volantes ?? Mais ce n'est pas possible, ça ne peut pas exister \" Et pourtant ce qui s'étendait à perte de vue n'estait pas une illusion. Ille ne se trouve plus chez lui, peut être même plus dans son monde.", 
+        "\"Attends !!! Des îles volantes ?? Mais ce n'est pas possible, ça ne peut pas exister \" Et pourtant ce qui s'étendait à perte de vue n'estait pas une illusion. Ille ne se trouve plus chez lui, peut être même plus dans son monde.",
         "\"Wait !!! Floating islands ?? But this is not possible, it can't exist \"Yet what lies out of sight is not an illusion. Ille is no longer at home, perhaps even not in his world.");
     public static readonly Text CinematiqueWhereIAm4 = new Text(
         "Quand Ille eu assimilé ce qui lui arrive, il prit une décision \" Il faut absolument que je comprenne où je suis et pour ça il faut que j'explore ces drôles d'îles\" Et c'est ainsi que Ille commença son aventure.",
         "When Ille assimilated what happens to him, he makes a decision \" It is imperative that I understand where I am and for that I must explore these strange islands \" And thus Ille begins his adventure.");
     public static readonly Text CristalView = new Text(
-        "en regardant aux alentours Ille vit un étrange éclat. Il decida donc de trouver sa source", 
+        "en regardant aux alentours Ille vit un étrange éclat. Il decida donc de trouver sa source",
         "looking around Ille saw a strange glow. So he decided to find its source");
     public static readonly Text CristalViewObjectif = new Text("trouve un cristal et examine le avec un clic droit", "Find a cristal and inspect it with a rightclick");
     public static readonly Text FirstCristal1 = new Text(
@@ -307,12 +307,190 @@ public class TextDatabase
         "Ille decides to go for the metal to test these strange reactions and moves away quickly not wanting to lose his precious belt");
     public static readonly Text FirstCrisatlObjectif = new Text("fabrique une hache,équippe la pour récolter du bois ,fabrique un établi, pose le avec le clic droit, fabrique une pioche et part récupérer les minerai pour enfin activer le cristal", "Craft an ace, equip it to gather wood,Craft a worktop, pose it with a rightclick, craft a pickaxe and go find ore to finally activate the crystal");
 
-    // Skin 
+    // Story
+
+    public static readonly Text StoneAgeStory1 = new Text(
+        "En activant le cristal Ille sentit un puissant pouvoir se dégager de celui-ci et un lien se former entre lui et le cristal",
+        "By activating the crystal Ille felt a mighty power from it that form a link between him and the crystal");
+    public static readonly Text StoneAgeStory2 = new Text(
+        "Le pouvoir du cristal était exceptionnelle et se mit à traverser le corps de Ille",
+        "The power of the crystal was exceptional and began to cross through the body of Ille");
+    public static readonly Text StoneAgeStory3 = new Text(
+        "Ille comprit alors ce que le cristal avait fait. Tant que celui-ci serait activer Ille sera immortelle. La mort ne serait qu’une étape passagère avant que le cristal le ramène à la vie",
+        "Ille understood what the crystal had done. As it would be enable Ille will be immortal.Death would be a passing phase before the crystal brought him back to life");
+    public static readonly Text StoneAgeStory4 = new Text(
+        "Dans ce monde le cristal avait besoin de lui et Ille avait besoin du cristal pour survivre",
+        "In this world the crystal needed him and Ille needed the crystal to survive");
+    public static readonly Text StoneAgeStory5 = new Text(
+        " En sentant ce pouvoir Ille se dit que la clef pour retourner chez lui se trouvait dans ce cristal",
+        "Feeling that power Ille thought that the key to return home was in that crystal");
+    public static readonly Text StoneAgeStory6 = new Text(
+        "Cependant le cristal n’avait pas encore retrouvé tout ces pouvoirs. Celui-ci se mit à communiqué avec Ille",
+        "However the crystal had not retrieve all his powers. It began to communicate with Ille");
+    public static readonly Text StoneAgeStory7 = new Text(
+        "Pour retrouvé ses pouvoirs Ille devait lui ramener une ressources particulière qu’il ne pourrait trouvé que sur le cadavre d’un chef de meute sanglier ",
+        "To regained his powers Ille has to bring him special resources he could find on the carcass of a wild boar pack leader");
+    public static readonly Text StoneAgeStory8 = new Text(
+        "Ille ne pouvait pas tout de suite affronter un chef de meute sanglier. Il devait d’abord se préparer",
+        "Ille could not immediately confront a boar pack leader.He must first prepare");
+    public static readonly Text StoneAgeStory9 = new Text(
+        "Ille décida qu’il allait fabriquer un coffre car ses poches commençait à se remplir. ensuite il fabriquerait une arme pour combattre les sangliers  et se créer une armure",
+        "Ille decided he was going to make a chest because his pockets began to be full. then he would manufacture a weapon to fight wild boar and create armor");
+    public static readonly Text StoneAgeStory10 = new Text(
+        "Quand tout sera prêt Ille pourra enfin combattre un chef de meute sanglier",
+        "When everything will be ready Ille will finally fight a boar pack leader");
+
+
+    public static readonly Text CopperAgeStory1 = new Text(
+        "Ille avait réussi. Le chef de meute sanglier gisait maintenant à ces pieds et avec son cadavre la ressources qu’il recherchait",
+        "Ille had succeeded.The pack leader boar was now lying on his feet and with his corps the resources he sought");
+    public static readonly Text CopperAgeStory2 = new Text(
+        "Il voulait s’empresser d’offrir cette ressource au cristal mais tout ne se passa pas comme prévue",
+        "He wanted to rush to offer this resource to the crystal but all did not work out as planned");
+    public static readonly Text CopperAgeStory3 = new Text(
+        "Le cristal ne pouvait pas absorber la ressource telle qu’elle. Celui-ci avait également besoin de minerai pour l’aider",
+        "The crystal could not absorb the resource now. It also needed ore to help him absorb them");
+    public static readonly Text CopperAgeStory4 = new Text(
+        "Ces minerais devait être bien plus pur que ceux que l’on trouve dans la nature",
+        "These minerals should be more pure than that found in nature");
+    public static readonly Text CopperAgeStory5 = new Text(
+        "Ille n’avait pas d’autre choix que de préparer les minerais lui-même. et pour cela il lui faudrait une forge", "");
+    public static readonly Text CopperAgeStory6 = new Text(
+        "De plus Ille avait été blessé pendant son combat et il fallait qu’il récupère.",
+        "Ille had no choice but to prepare the ore itself.and for that he would need a forge");
+    public static readonly Text CopperAgeStory7 = new Text(
+        "Heureusement le cristal lui avait donné une recette pour fabriquer une potion qui pourrait le soigner mais cela demanderait la fabrication d’un chaudron",
+        "Fortunately the crystal gave him a recipe for a potion that would heal him but it would require a cauldron");
+    public static readonly Text CopperAgeStory8 = new Text(
+        "sans attendre Ille décida de se mettre au boulot",
+        "without waiting Ille decided to get to work");
+
+    public static readonly Text IronAgeStory1 = new Text(
+        "Ille était de nouveau comme neuf et le cristal avait récupérer une partie de ses pouvoirs",
+        "Ille was like new and the crystal was recovering some of his powers");
+    public static readonly Text IronAgeStory2 = new Text(
+        "Cependant rentre chez lui demanderait au cristal un pouvoir encore plus grand. Il avait donc besoin de récupérer encore plus de force",
+        "However to return home the crystal need an even greater power.It therefore must recover even more strength");
+    public static readonly Text IronAgeStory3 = new Text(
+        "Cette fois ci le cristal avait besoin d’une ressource garder par le chef de meute pampi une créatures craintif qui serait extrêmement difficile à tuer d’autant plus qu’elle possède une force monstrueuse",
+        "This time the crystal needed a resource keeped by the pack leader Pampi a timid creatures that would be extremely difficult to kill especially as it has a monstrous strength");
+    public static readonly Text IronAgeStory4 = new Text(
+        "Pour se préparer Ille prévoyait d’utiliser de sa nouvelle forge pour se créer de nouvelles armes et armures",
+        "To be prepared Ille planned to use its new forge to create new weapons and armor");
+    public static readonly Text IronAgeStory5 = new Text(
+        "Ille prévoyait également d’aller combattre des pampas pour comprendre leur comportement",
+        "Ille also planned to go fight the pampas to understand their behavior");
+    public static readonly Text IronAgeStory6 = new Text(
+        "Enfin, afin d’éviter que le chef de meute pampi s’enfuit, Ille allait créer des pièges pour l'immobiliser et le vaincre plus facilement",
+        "Finally, to prevent the pack leader Pampi to flee, Ille would create traps to immobilize and defeat it more easily");
+
+    public static readonly Text GoldAgeStory1 = new Text(
+        "Une seconde fois le cadavre d’un chef de meute se trouvait à ses pieds. Mais Ille ne se sentait pas aussi bien que la dernière fois. Le comportement et les bruits de ses pampa était beaucoup trop humain",
+        "Again the body of a pack leader was at his feet. However Ille did not feel as good as last time. The behavior and the sounds of Pampas was much too human");
+    public static readonly Text GoldAgeStory2 = new Text(
+        "Lors de ces derniers instant le chef de meute pampi lui avait jeter un regard empli de peur qui l’avait rendu mal à l’aise. Il avait même eu l’impression que celui-ci avait appelé à l’aide lors de ces derniers instants",
+        "During his last moment the pack leader Pampi had cast to him a glance full of fear that had made ​​him uneasy. He even felt that he had called for help during his last moments");
+    public static readonly Text GoldAgeStory3 = new Text(
+        "Ille avait-il vraiment le droit de priver ces être de la vie. Ce n’était pas juste comme quand Ille chassait pour manger ",
+        "Had Ille the right to deprive these being of theirs life. It was not just like when Ille hunted for eating");
+    public static readonly Text GoldAgeStory4 = new Text(
+        "Là il avait tuer de nombreux pampa dans le seul but de s'entraîner puis le chef de meute pampi, qui ne demandait qu’a vivre en paix, pour récupérer sa ressource",
+        "He had killed many pampas with the sole purpose of training and the pack leader Pampi , which has sought to live in peace ,only to recover its resource");
+    public static readonly Text GoldAgeStory5 = new Text(
+        "Cependant tout cela était nécessaire pour qu’Ille retourne chez lui et il décida donc de laisser ses remords de coté et d’aller revoir le cristal",
+        "However all that was needed for Ille to return home so he decided to leave his remorse aside and go see the crystal");
+    public static readonly Text GoldAgeStory6 = new Text(
+        "Le cristal lui appris alors que pour récupérer une nouvelles parties de ses pouvoirs, en plus d’absorber la ressource il aurait besoin d’être connecter à d’autres cristaux de nature différentes",
+        "The crystal taught him that in addition to absorbing the resource it needs to be connected to other crystals of different kind to get back a new parts of his powers");
+    public static readonly Text GoldAgeStory7 = new Text(
+        "Pour cela Ille devrait trouver des cristaux de guerre et de récolte et leur redonner du pouvoir comme ce qu’il avait fait avec le cristal divin",
+        "For this Ille should find crystals of war and harvest and give them power as he had done with the divine crystal");
+
+    public static readonly Text MithrilAgeStory1 = new Text(
+        "Après avoir récupéré une seconde partie de ses ces pouvoirs le cristal révéla à Ille qu’il ne lui restait plus qu’a lui apporter une dernière ressources pour que le cristal récupère tout ses pouvoirs",
+        "After getting a second part of its powers the crystal revealed to Ille that he only nead to find a last resource and the crystal could recovers all its powers");
+    public static readonly Text MithrilAgeStory2 = new Text(
+        "Cette ressource était garder par les slimes de terribles monstres capable de résister aux attaques des armes normales et dont les attaques pouvait passer à travers les armures basiques",
+        "This resource was keeped by the terrible slime monsters capable of withstanding attacks of normal weapons and whose attacks could get through basic armor");
+    public static readonly Text MithrilAgeStory3 = new Text(
+        "Le cristal conseilla à Ille de s'équiper avec des armes et armures plus résistante puis de s’entrainer sur les slimes avant de s’attaquer au chef de meute slime qui détient la dernière ressource",
+        "The crystal advised Ille to equip himselves with weapons and armor more resistant then to train with normal slimes before attacking the slime pack leader who holds the last resource");
+
+    public static readonly Text FloatiumAgeStory1 = new Text(
+        "En ramenant la ressource le cristal lui appris que pour absorber celle-ci il aurait besoin que deux autres cristaux de récolte et de guerre ai récupéré tout leurs pouvoirs",
+        "By bringing back the resource the crystal taught him that ,to absorb it, he would need another two crystal of harvest and war that have recovered all their powers");
+    public static readonly Text FloatiumAgeStory2 = new Text(
+        "Ille se sentit énervé d’être utilisé comme ça mais vu que le cristal allait bientôt retrouver tout ces pouvoir et pourrait le ramener chez lui Ille décida de prendre sur lui même et se mit en route",
+        "Ille felt annoyed to be used like that but since the crystal would soon regain all the power and might bring him home Ille decided to take upon himself and set off");
+
+    public static readonly Text PreSunkiumAgeStory = new Text(
+        "Le moment était venu, il ne lui restait plus qu’a améliorer une dernière fois le cristal divin et celui-ci pourrait enfin le ramener chez lui",
+        "It was time, he only has to improve the divine crystal one last time and he could finally return home");
+
+    // Boss
+
+    public static readonly Text PreBossBattle1 = new Text(
+        "Juste après avoir amélioré une dernière fois le cristal divin Ille se senti transporter dans un autre lieu.", "");
+    public static readonly Text PreBossBattle2 = new Text(
+        "En relevant la tête Ille vit qu’il se trouvait sur un socle au beau milieu d’un espace d’un noir insondable.", "");
+    public static readonly Text PreBossBattle3 = new Text(
+        "“Où suis-je ?” demanda Ille", "");
+    public static readonly Text PreBossBattle4 = new Text(
+        "“Nous sommes dans les abysses d’Aegina. là où tout finis. Je me suis dis que ce serai un endroit convenable pour la fin de ton périple”", "");
+    public static readonly Text PreBossBattle5 = new Text(
+        "En entendant cette voix Ille se retourna et vit un immense cristal flottant dans le vide. La voix lui était vaguement familière et semblait venir du cristal.", "");
+    public static readonly Text PreBossBattle6 = new Text(
+        "“C’est vrai que je ne me suis jamais vraiment présenté. Je suis Gundam le seigneur des cristaux.”", "");
+    public static readonly Text PreBossBattle7 = new Text(
+        "“Durant ton séjour dans ce monde tu n’as pas arrêter de m’aider à amplifier mes pouvoirs dans le but de revenir chez toi.”", "");
+    public static readonly Text PreBossBattle8 = new Text(
+        "“Tu as tué de nombreux sangliers pampa et <troisième créatures agrésive> ainsi que leur chef et je t’en remercie.”", "");
+    public static readonly Text PreBossBattle9 = new Text(
+        "“Ces créatures était les gardiens des <ressources> et les gardaient pour empêcher les cristaux d’amplifier leurs pouvoirs”", "");
+    public static readonly Text PreBossBattle10 = new Text(
+        "“Mais grâce à toi j’ai assez de pouvoir pour me connecter à tous les cristaux d’Aegina et les activer.”", "");
+    public static readonly Text PreBossBattle11 = new Text(
+        "“Je suis devenue le dieu d’Aegina.”", "");
+    public static readonly Text PreBossBattle12 = new Text(
+        "“Cependant avant que je m’attelle à cette tâche et que je punisse ces sombres créatures qui ont tenté de m’entraver il reste un dernier détail à régler.”", "");
+    public static readonly Text PreBossBattle13 = new Text(
+        "“Ce dernier détail c’est toi Ille.”", "");
+    public static readonly Text PreBossBattle14 = new Text(
+        "“Je te remercie vraiment de ce que tu as fait mais tu ne te rend pas compte à qu’elle point ce que tu me demandes et difficile”", "");
+    public static readonly Text PreBossBattle15 = new Text(
+        "“Même un dieu à ces limites car je suis le dieu d’Aegina et non celui de ton monde”", "");
+    public static readonly Text PreBossBattle16 = new Text(
+        "“Te ramener dans ton monde,comme tu es actuellement, demanderais une très grande partie de l’énergie d’Aegina et je ne peut pas me permettre d’utiliser tous le pouvoir que je viens à peine d’obtenir.”", "");
+    public static readonly Text PreBossBattle17 = new Text(
+        "“Cependant tu m’as grandement aidé et j’ai donc trouvé un compromis”", "");
+    public static readonly Text PreBossBattle18 = new Text(
+        "“Je vais te tuer et renvoyé ton âme dans ton monde”", "");
+    public static readonly Text PreBossBattle19 = new Text
+        ("“Ce n’était pas ce qui était convenue” s’exclama Ille.", "");
+    public static readonly Text PreBossBattle20 = new Text(
+        "“Mais voyons Ille je ne t’ai jamais rien promis”", "");
+    public static readonly Text PreBossBattle21 = new Text(
+        "“Je ne peux malheureusement pas te laisser en vie... tu tenterais sûrement de t’opposer à moi... et personne n’a le droit de s’opposer à dieu.”", "");
+    public static readonly Text PreBossBattle22 = new Text(
+        "“je ne me laisserais pas faire je vais me battre pour survivre comme je l’ai toujours fait” s'écria Ille en se préparant au combat.", "");
+
+    // Fin
+
+    public static readonly Text FinEgoïsme = new Text("", "");
+
+    public static readonly Text FinSacrifice = new Text("", "");
+
+    public static readonly Text FinPardon = new Text("", "");
+
+
+
+    // Skin
+
     public static readonly Text WhiteBody = new Text("Corps blanc", "White skin");
     public static readonly Text BasicBody = new Text("Corps basic", "Basic skin");
     public static readonly Text BlackBody = new Text("Corps noir", "Black skin");
-    public static readonly Text DarkBody = new Text("Corps bronzé", "Dark skin");
-    public static readonly Text AlienBody = new Text("C'est pas humain ca !", "This isn't a human !");
+    public static readonly Text DarkBody = new Text("Corps bronzé", "Tanned skin");
+    public static readonly Text AlienBody = new Text("C'est pas humain ca !", "This isn't human !");
     public static readonly Text AquaBody = new Text("Avatar", "Avatar");
 
     public static readonly Text BrownOveralls = new Text("Salopette marron", "Brown overalls");
@@ -369,6 +547,49 @@ public class TextDatabase
     public static readonly Text GreenTshirt = new Text("T-Shirt vert", "Green T-Shirt");
     public static readonly Text PurpleTshirt = new Text("T-Shirt violet", "Purple T-Shirt");
     public static readonly Text YellowTshirt = new Text("T-Shirt jaune", "Yellow T-Shirt");
+
+    // succes
+
+    public static readonly Text PlayTheGame = new Text("Lancer une partie"," Lauch the game");
+    public static readonly Text Tuto = new Text("Réussir le tutoriel", "Finish the tutorial");
+    public static readonly Text FirstBlood = new Text("Tuer un autre joueur", "Kill an other player");
+    public static readonly Text FirstCap = new Text("Activer un cristal", "Activate a cristal");
+    public static readonly Text FirstDeath = new Text("Mourir une fois", "dir once");
+    public static readonly Text FirstHunt = new Text("Tuer une créature", "Kill a mob");
+    public static readonly Text CraftChest = new Text("Créer un coffre", "Craft a chest");
+    public static readonly Text CraftStoneWeapon = new Text("créer une arme en pierre", "Craft a stone weapon");
+    public static readonly Text HuntMassBoar = new Text("Tuer 10 sangliers", "Kill 10 wild boars");
+    public static readonly Text CraftFirstArmor = new Text("Créer une armure en cuir", "Craft a leather armor");
+    public static readonly Text HuntBoarChief = new Text("Tuer un chef de meute sanglier", "Kill a pack leader wild boar");
+    public static readonly Text CraftForge = new Text("Créer une forge", "Craft a forge");
+    public static readonly Text DivineCristalLVL3 = new Text("Améliorer un cristal divin au niveau 3", "Upgrade a divine cristal at level 3");
+    public static readonly Text CraftCauldron = new Text("Créer un chaudron", "Craft a cauldron");
+    public static readonly Text DrinkHealPotion = new Text("Boire une potion de vie", "Drink an health potion");
+    public static readonly Text CraftTrap = new Text("Créer un piège", "Craft a trap");
+    public static readonly Text EquipInIron = new Text("Créer un équipement complet en fer", "Craft a complete equipement in iron");
+    public static readonly Text HuntMassPampi = new Text("Tuer 25 pampis", "Kill 25 pampis");
+    public static readonly Text HuntPampiChief = new Text("Tuer un chef de meute pampi", "Kill a pack leader pampi");
+    public static readonly Text DivineCrisatlLVL4 = new Text("Améliorer un cristal divin au niveau 4", "Uprade a divine cristal at level 4");
+    public static readonly Text OtherCrisatlLVL3 = new Text("Améliorer un cristal de récolte et un cristal de guerre au niveau 3", "Upgrade a harvest cristal and a war cristal at level 3");
+    public static readonly Text FloatiumArmor = new Text("Créer une armure de floatium", "Craft a floatium armor");
+    public static readonly Text MithrilWeapon = new Text("Créer une arme en mithril", "Craft a mithril weapon");
+    public static readonly Text HuntMassSlime = new Text("Tuer 50 slimes", "Kill 50 slimes");
+    public static readonly Text HuntSlimeChief = new Text("Tuer un chef de meute slime", "Kill a pack leader slime");
+    public static readonly Text SunkiumEquip = new Text("Créer un équipement complet en sunkium", "Craft a complete equipement in sunkium");
+    public static readonly Text OtherCristalLVL5 = new Text("Améliorer un cristal de récolte et un cristal de guerre au niveau 5", "Upgrade a harvest cristal and a war cristal at level 5");
+    public static readonly Text DivineCrisatlLVL5 = new Text("Améliorer un cristal divin au niveau 5", "Uprade a divine cristal at level 5");
+    public static readonly Text KillTheBoss = new Text("Tuer le boss", "Kill the boss");
+    public static readonly Text FirstEnd = new Text("Choisir la fin\"retour chez soi\"", "Choose the \"back to home\" end");
+    public static readonly Text SecondEnd = new Text("choisir la fin \"sacrifice\"", "Choose the \"sacrifice\" end");
+    public static readonly Text StoneAge = new Text("Avancer dans l'histoire", "Advance in the story");
+    public static readonly Text CopperAge = new Text("Avancer dans l'histoire", "Advance in the story");
+    public static readonly Text GoldAge = new Text("Avancer dans l'histoire", "Advance in the story");
+    public static readonly Text MithrilAge = new Text("Avancer dans l'histoire", "Advance in the story");
+    public static readonly Text FloatiumAge = new Text("Avancer dans l'histoire", "Advance in the story");
+    public static readonly Text SunkiumAge = new Text("Avancer dans l'histoire", "Advance in the story");
+    public static readonly Text IronAge = new Text("Avancer dans l'histoire", "Advance in the story");
+
+
 }
 
 

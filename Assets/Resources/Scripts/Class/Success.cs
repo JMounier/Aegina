@@ -60,43 +60,70 @@ public class Success
             {
                 currentSuccess.RemoveAt(j);
                 succ.Unlock(display);
-                if (succ.id % 10 == 0)
+                if (succ.id % 10 == 0 || succ.id == 62)
                 {
                     GameObject[] allplayer = GameObject.FindGameObjectsWithTag("Player");
-					if(display)
-					switch (succ.id / 10)
-                    {
-                        case 1:
-                            foreach (GameObject player in allplayer)
-							player.GetComponent<Craft_HUD>().mastered(1, 2, 40, 50, 60, 71, 72, 73);
-                            break;
-                        case 2:
-                            foreach (GameObject player in allplayer)
-							player.GetComponent<Craft_HUD>().mastered( 4, 5, 10, 16, 41, 51, 61);
-                            break;
-                        case 3:
-                            foreach (GameObject player in allplayer)
-							player.GetComponent<Craft_HUD>().mastered(3, 6, 10, 22, 23, 24, 25, 26, 27, 42, 52, 62);
-                            break;
-                        case 4:
-                            foreach (GameObject player in allplayer)
-							player.GetComponent<Craft_HUD>().mastered( 12, 21, 43, 53, 63);
-                            break;
-                        case 5:
-                            foreach (GameObject player in allplayer)
-							player.GetComponent<Craft_HUD>().mastered( 13, 44, 54, 64 );
-                            break;
-                        case 6:
-                            foreach (GameObject player in allplayer)
-							player.GetComponent<Craft_HUD>().mastered( 14, 45, 55, 65);
-                            break;
-                        case 7:
-                            foreach (GameObject player in allplayer)
-							player.GetComponent<Craft_HUD>().mastered( 15, 46, 56, 66);
-                            break;
-                        default:
-                            break;
-                    }
+                    if (display)
+                        switch (succ.id / 10)
+                        {
+                            case 1:
+                                foreach (GameObject player in allplayer)
+                                {
+                                    player.GetComponent<Craft_HUD>().mastered(1, 2, 40, 50, 60, 71, 72, 73);
+                                    player.GetComponent<Tutoriel>().Story(TextDatabase.StoneAgeStory1, TextDatabase.StoneAgeStory2, TextDatabase.StoneAgeStory3, TextDatabase.StoneAgeStory4, TextDatabase.StoneAgeStory5, TextDatabase.StoneAgeStory6, TextDatabase.StoneAgeStory7, TextDatabase.StoneAgeStory8, TextDatabase.StoneAgeStory9, TextDatabase.StoneAgeStory10);
+                                }
+                                break;
+                            case 2:
+                                foreach (GameObject player in allplayer)
+                                {
+                                    player.GetComponent<Craft_HUD>().mastered(4, 5, 10, 16, 41, 51, 61);
+                                    player.GetComponent<Tutoriel>().Story(TextDatabase.CopperAgeStory1, TextDatabase.CopperAgeStory2, TextDatabase.CopperAgeStory3, TextDatabase.CopperAgeStory4, TextDatabase.CopperAgeStory5, TextDatabase.CopperAgeStory6, TextDatabase.CopperAgeStory7, TextDatabase.CopperAgeStory8);
+                                }
+                                break;
+                            case 3:
+                                foreach (GameObject player in allplayer)
+                                {
+                                    player.GetComponent<Craft_HUD>().mastered(3, 6, 10, 22, 23, 24, 25, 26, 27, 42, 52, 62);
+                                    player.GetComponent<Tutoriel>().Story(TextDatabase.IronAgeStory1, TextDatabase.IronAgeStory2, TextDatabase.IronAgeStory3, TextDatabase.IronAgeStory4, TextDatabase.IronAgeStory5, TextDatabase.IronAgeStory6);
+                                }
+                                break;
+                            case 4:
+                                foreach (GameObject player in allplayer)
+                                {
+                                    player.GetComponent<Craft_HUD>().mastered(12, 21, 43, 53, 63);
+                                    player.GetComponent<Tutoriel>().Story(TextDatabase.GoldAgeStory1, TextDatabase.GoldAgeStory2, TextDatabase.GoldAgeStory3, TextDatabase.GoldAgeStory4, TextDatabase.GoldAgeStory5, TextDatabase.GoldAgeStory6, TextDatabase.GoldAgeStory7);
+                                }
+                                break;
+                            case 5:
+                                foreach (GameObject player in allplayer)
+                                {
+                                    player.GetComponent<Craft_HUD>().mastered(13, 44, 54, 64);
+                                    player.GetComponent<Tutoriel>().Story(TextDatabase.MithrilAgeStory1, TextDatabase.MithrilAgeStory2, TextDatabase.MithrilAgeStory3);
+                                }
+                                break;
+                            case 6:
+                                if (succ.id != 62)
+                                    foreach (GameObject player in allplayer)
+                                    {
+                                        player.GetComponent<Craft_HUD>().mastered(14, 45, 55, 65);
+                                        player.GetComponent<Tutoriel>().Story(TextDatabase.FloatiumAgeStory1, TextDatabase.FloatiumAgeStory2);
+                                    }
+                                else
+                                    foreach (GameObject player in allplayer)
+                                    {
+                                        player.GetComponent<Tutoriel>().Story(TextDatabase.PreSunkiumAgeStory);
+                                    }
+                                break;
+                            case 7:
+                                foreach (GameObject player in allplayer)
+                                {
+                                    player.GetComponent<Craft_HUD>().mastered(15, 46, 56, 66);
+                                    // DECLENCHE LE BOSS BATTLE
+                                }
+                                break;
+                            default:
+                                break;
+                        }
                 }
             }
             else
