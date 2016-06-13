@@ -571,8 +571,8 @@ public class TextDatabase
     public static readonly Text HuntPampiChief = new Text("Tuer un chef de meute pampi", "Kill a pack leader pampi");
     public static readonly Text DivineCrisatlLVL4 = new Text("Améliorer un cristal divin au niveau 4", "Uprade a divine cristal at level 4");
     public static readonly Text OtherCrisatlLVL3 = new Text("Améliorer un cristal de récolte et un cristal de guerre au niveau 3", "Upgrade a harvest cristal and a war cristal at level 3");
-    public static readonly Text FloatiumArmor = new Text("Créer une armure de floatium", "Craft a floatium armor");
-    public static readonly Text MithrilWeapon = new Text("Créer une arme en mithril", "Craft a mithril weapon");
+    public static readonly Text MithrilArmor = new Text("Créer une armure de mithril", "Craft a mithril armor");
+    public static readonly Text FloatiumWeapon = new Text("Créer une arme en floatium", "Craft a mithril floatium");
     public static readonly Text HuntMassSlime = new Text("Tuer 50 slimes", "Kill 50 slimes");
     public static readonly Text HuntSlimeChief = new Text("Tuer un chef de meute slime", "Kill a pack leader slime");
     public static readonly Text SunkiumEquip = new Text("Créer un équipement complet en sunkium", "Craft a complete equipement in sunkium");

@@ -60,19 +60,13 @@ public static class CraftDatabase
     public static readonly Craft CutStone = new Craft(73, new ItemStack(ItemDatabase.CuttedStone, 2), false, true, false, false, false, Craft.Type.Elementary, new ItemStack(ItemDatabase.Stone, 3));
 
     public static readonly Craft LeatherTop = new Craft(Craft.Type.Armor);
-    public static readonly Craft CopperTop = new Craft(Craft.Type.Armor);
     public static readonly Craft IronTop = new Craft(Craft.Type.Armor);
-    public static readonly Craft GoldTop = new Craft(Craft.Type.Armor);
     public static readonly Craft MithrilTop = new Craft(Craft.Type.Armor);
-    public static readonly Craft FLoatiumTop = new Craft(Craft.Type.Armor);
     public static readonly Craft SunkiumTop = new Craft(Craft.Type.Armor);
 
     public static readonly Craft LeatherBottom = new Craft(Craft.Type.Armor);
-    public static readonly Craft CopperBottom = new Craft(Craft.Type.Armor);
     public static readonly Craft IronBottom = new Craft(Craft.Type.Armor);
-    public static readonly Craft GoldBottom = new Craft(Craft.Type.Armor);
     public static readonly Craft MithrilBottom = new Craft(Craft.Type.Armor);
-    public static readonly Craft FLoatiumBottom = new Craft(Craft.Type.Armor);
     public static readonly Craft SunkiumBottom = new Craft(Craft.Type.Armor);
 
 
@@ -136,19 +130,13 @@ public static class CraftDatabase
             yield return SunkiumSword;
 
             yield return LeatherTop;
-            yield return CopperTop;
             yield return IronTop;
-            yield return GoldTop;
             yield return MithrilTop;
-            yield return FLoatiumTop;
             yield return SunkiumTop;
 
             yield return LeatherBottom;
-            yield return CopperBottom;
             yield return IronBottom;
-            yield return GoldBottom;
             yield return MithrilBottom;
-            yield return FLoatiumBottom;
             yield return SunkiumBottom;
         }
     }

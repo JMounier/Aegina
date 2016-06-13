@@ -40,6 +40,11 @@ public static class EntityDatabase
     public static readonly Entity FloatiumAxe = new Entity(26, 60, Resources.Load<GameObject>("Prefabs/Loots/FloatiumAxe"));
     public static readonly Entity SunkiumAxe = new Entity(27, 60, Resources.Load<GameObject>("Prefabs/Loots/SunkiumAxe"));
 
+    public static readonly Entity LeatherArmor = new Entity(30, 60, Resources.Load<GameObject>("Prefabs/Loots/LeatherArmor"));
+    public static readonly Entity IronArmor = new Entity(31, 60, Resources.Load<GameObject>("Prefabs/Loots/IronArmor"));
+    public static readonly Entity MithrilArmor = new Entity(32, 60, Resources.Load<GameObject>("Prefabs/Loots/MithrilArmor"));
+    public static readonly Entity SunkiumArmor = new Entity(33, 60, Resources.Load<GameObject>("Prefabs/Loots/SunkiumArmor"));
+
     public static readonly Entity CopperPickaxe = new Entity(52, 60, Resources.Load<GameObject>("Prefabs/Loots/CopperPickaxe"));
     public static readonly Entity IronPickaxe = new Entity(53, 60, Resources.Load<GameObject>("Prefabs/Loots/IronPickaxe"));
     public static readonly Entity GoldPickaxe = new Entity(54, 60, Resources.Load<GameObject>("Prefabs/Loots/GoldPickaxe"));
