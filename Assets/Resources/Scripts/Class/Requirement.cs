@@ -7,7 +7,7 @@ public static class Requirement
     public enum Requirements
     {
         PlayTheGame, Tuto, FirstBlood, FirstCap, FirstDeath, FirstHunt, CraftChest, CraftStoneWeapon, HuntMassBoar, CraftFirstArmor, HuntBoarChief, CraftForge,
-        DivineCristalLVL3, CraftCauldron, DrinkHealPotion, CraftTrap, EquipInIron, HuntMassPampi, HuntPampiChief, DivineCrisatlLVL4, OtherCrisatlLVL3, FloatiumArmor, MithrilWeapon,
+        DivineCristalLVL3, CraftCauldron, DrinkHealPotion, CraftTrap, EquipInIron, HuntMassPampi, HuntPampiChief, DivineCrisatlLVL4, OtherCrisatlLVL3, MithrilArmor, FloatiumWeapon,
         HuntMassSlime, HuntSlimeChief, SunkiumEquip, OtherCristalLVL5, DivineCrisatlLVL5, KillTheBoss, FirstEnd, SecondEnd
     };
 
@@ -36,7 +36,7 @@ public static class Requirement
             case Requirements.CraftFirstArmor:
                 return Stats.Crafted(CraftDatabase.LeatherTop) > 0 && Stats.Crafted(CraftDatabase.LeatherBottom) > 0;
             case Requirements.HuntBoarChief:
-                break;// TO DO
+                return Stats.Hunted(EntityDatabase.BoarChief) > 1;
             case Requirements.CraftForge:
                 return Stats.Crafted(CraftDatabase.Forge) > 0;
             case Requirements.DivineCristalLVL3:
@@ -52,15 +52,15 @@ public static class Requirement
             case Requirements.HuntMassPampi:
                 return Stats.Hunted(EntityDatabase.Pampa) > 25;
             case Requirements.HuntPampiChief:
-                break;// TO DO
+                return Stats.Hunted(EntityDatabase.PampaChief) > 1;
             case Requirements.DivineCrisatlLVL4:
                 return Stats.CristalLevel(2) > 3;
             case Requirements.OtherCrisatlLVL3:
                 return Stats.CristalLevel(0) > 2 && Stats.CristalLevel(1) > 2;
-            case Requirements.FloatiumArmor:
-                return Stats.Crafted(CraftDatabase.FLoatiumTop) > 0 && Stats.Crafted(CraftDatabase.FLoatiumBottom) > 0;// TO IMPROVE
-            case Requirements.MithrilWeapon:
-                return Stats.Crafted(CraftDatabase.MithrilSword) > 0;// TO IMPROVE
+            case Requirements.MithrilArmor:
+                return Stats.Crafted(CraftDatabase.MithrilTop) > 0 && Stats.Crafted(CraftDatabase.MithrilBottom) > 0;
+            case Requirements.FloatiumWeapon:
+                return Stats.Crafted(CraftDatabase.FloatiumSword) > 0;// TO IMPROVE
             case Requirements.HuntMassSlime:
                 break;// TO DO
             case Requirements.HuntSlimeChief:

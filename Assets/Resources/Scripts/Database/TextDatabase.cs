@@ -71,6 +71,9 @@ public class TextDatabase
     public static readonly Text WaterCact = new Text("Eau", "Water cactus");
     public static readonly Text MeatBalls = new Text("Boullettes de viande", "MeatBalls");
     public static readonly Text AnimalFat = new Text("Graisse animal", "Animal fat");
+    public static readonly Text SlimeCore = new Text("Coeur de slime", "Slime core");
+    public static readonly Text BoarCore = new Text("Coeur de sanglier", "Boar core");
+    public static readonly Text PampiCore = new Text("Coeur de pampi", "Pampi core");
 
     // Description
     public static readonly Text LogDescription = new Text("Un morceau de bois pouvant servir pour créer d'autres objets", "A piece of wood usable to make other objects");
@@ -129,6 +132,10 @@ public class TextDatabase
     public static readonly Text BoneDescription = new Text("Berk ! Vous avez vraiment ramasse ca ?", "Yuck! You really pick that?");
     public static readonly Text PumpkinDescription = new Text("Mmm... Il doit y avoir moyen de cuisiner quelque chose avec !", "Mmm ... There must be a way to cook something with!");
     public static readonly Text AnimalFatDescription = new Text("De la graisse animal... degoutant", " Animal fat... gross");
+    public static readonly Text SlimeCoreDescription = new Text("Cristal mysterieux", "Mysterious cristal");
+    public static readonly Text BoarCoreDescription = new Text("Cristal mysterieux", "Mysterious cristal");
+    public static readonly Text PampiCoreDescription = new Text("Cristal mysterieux", "Mysterious cristal");
+    public static readonly Text Instable = new Text("???", "???");
 
 
     // Tools
@@ -571,8 +578,8 @@ public class TextDatabase
     public static readonly Text HuntPampiChief = new Text("Tuer un chef de meute pampi", "Kill a pack leader pampi");
     public static readonly Text DivineCrisatlLVL4 = new Text("Améliorer un cristal divin au niveau 4", "Uprade a divine cristal at level 4");
     public static readonly Text OtherCrisatlLVL3 = new Text("Améliorer un cristal de récolte et un cristal de guerre au niveau 3", "Upgrade a harvest cristal and a war cristal at level 3");
-    public static readonly Text FloatiumArmor = new Text("Créer une armure de floatium", "Craft a floatium armor");
-    public static readonly Text MithrilWeapon = new Text("Créer une arme en mithril", "Craft a mithril weapon");
+    public static readonly Text MithrilArmor = new Text("Créer une armure de mithril", "Craft a mithril armor");
+    public static readonly Text FloatiumWeapon = new Text("Créer une arme en floatium", "Craft a mithril floatium");
     public static readonly Text HuntMassSlime = new Text("Tuer 50 slimes", "Kill 50 slimes");
     public static readonly Text HuntSlimeChief = new Text("Tuer un chef de meute slime", "Kill a pack leader slime");
     public static readonly Text SunkiumEquip = new Text("Créer un équipement complet en sunkium", "Craft a complete equipement in sunkium");

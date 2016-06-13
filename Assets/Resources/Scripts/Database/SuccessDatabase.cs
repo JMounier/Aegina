@@ -14,9 +14,9 @@ public class SuccessDatabase
     public static readonly Success FloatiumAge = new Success(60, 30, 0, TextDatabase.FloatiumAge, ItemDatabase.FloatiumIngot, new Requirement.Requirements[0] { }, 1,SunkiumEquip,OtherLVL5);
     public static readonly Success SlimeChief = new Success(54, 28, 0, TextDatabase.HuntSlimeChief, ItemDatabase.Apple, new Requirement.Requirements[1] { Requirement.Requirements.HuntSlimeChief }, 3,FloatiumAge);
     public static readonly Success Slimicide = new Success(53, 26, 2, TextDatabase.HuntMassSlime, ItemDatabase.Apple, new Requirement.Requirements[1] { Requirement.Requirements.HuntMassSlime }, 1,SlimeChief);
-    public static readonly Success FloatiumArmor = new Success(52, 26, 0, TextDatabase.FloatiumArmor, ItemDatabase.Apple, new Requirement.Requirements[1] { Requirement.Requirements.FloatiumArmor }, 1,SlimeChief);
-    public static readonly Success MithrilWeapon = new Success(51, 26,-2, TextDatabase.MithrilWeapon, ItemDatabase.MithrilSword, new Requirement.Requirements[1] { Requirement.Requirements.MithrilWeapon }, 1,SlimeChief);
-    public static readonly Success MithrilAge = new Success(50, 24, 0, TextDatabase.MithrilAge, ItemDatabase.MithrilIngot, new Requirement.Requirements[0] { }, 2,MithrilWeapon,FloatiumArmor,Slimicide);
+    public static readonly Success MithrilArmor = new Success(52, 26, 0, TextDatabase.MithrilArmor, ItemDatabase.Apple, new Requirement.Requirements[1] { Requirement.Requirements.MithrilArmor }, 1,SlimeChief);
+    public static readonly Success FloatiumWeapon = new Success(51, 26,-2, TextDatabase.FloatiumWeapon, ItemDatabase.MithrilSword, new Requirement.Requirements[1] { Requirement.Requirements.FloatiumWeapon }, 1,SlimeChief);
+    public static readonly Success MithrilAge = new Success(50, 24, 0, TextDatabase.MithrilAge, ItemDatabase.MithrilIngot, new Requirement.Requirements[0] { }, 2, FloatiumWeapon, MithrilArmor,Slimicide);
     public static readonly Success DivineLVL4 = new Success(42, 22, 1, TextDatabase.DivineCrisatlLVL4, ItemDatabase.Apple, new Requirement.Requirements[1] { Requirement.Requirements.DivineCrisatlLVL4 }, 1,MithrilAge);
     public static readonly Success OtherLVL3 = new Success(41, 22, -1, TextDatabase.OtherCrisatlLVL3, ItemDatabase.Apple, new Requirement.Requirements[1] { Requirement.Requirements.OtherCrisatlLVL3 }, 1,MithrilAge);
     public static readonly Success GoldAge = new Success(40, 20, 0, TextDatabase.GoldAge, ItemDatabase.GoldIngot, new Requirement.Requirements[0] { }, 1,OtherLVL3,DivineLVL4);
@@ -58,8 +58,8 @@ public class SuccessDatabase
             yield return FloatiumAge;
             yield return SlimeChief;
             yield return Slimicide;
-            yield return FloatiumArmor;
-            yield return MithrilWeapon;
+            yield return MithrilArmor;
+            yield return FloatiumWeapon;
             yield return MithrilAge;
             yield return DivineLVL4;
             yield return OtherLVL3;
