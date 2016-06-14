@@ -69,7 +69,21 @@ public static class CraftDatabase
     public static readonly Craft MithrilBottom = new Craft(Craft.Type.Armor);
     public static readonly Craft SunkiumBottom = new Craft(Craft.Type.Armor);
 
-    public static readonly Craft InstableCore = new Craft(100, new ItemStack(ItemDatabase.InstableCore, 1), false, false, false, false, true, Craft.Type.Consumable, new ItemStack(ItemDatabase.BoarCore, 1), new ItemStack(ItemDatabase.SlimeCore, 1), new ItemStack(ItemDatabase.PampiCore, 1));
+    public static readonly Craft CopperBattleAxe = new Craft(90, new ItemStack(ItemDatabase.CopperBattleAxe, 1), false, true, true, false, false, Craft.Type.Tools, new ItemStack(ItemDatabase.CopperIngot, 4), new ItemStack(ItemDatabase.Stick, 1));
+    public static readonly Craft IronBattleAxe = new Craft(91, new ItemStack(ItemDatabase.IronBattleAxe, 1), false, true, true, false, false, Craft.Type.Tools, new ItemStack(ItemDatabase.IronIngot, 4), new ItemStack(ItemDatabase.Stick, 1));
+    public static readonly Craft GoldBattleAxe = new Craft(92, new ItemStack(ItemDatabase.GoldBattleAxe, 1), false, true, true, false, false, Craft.Type.Tools, new ItemStack(ItemDatabase.GoldIngot, 4), new ItemStack(ItemDatabase.Stick, 1));
+    public static readonly Craft MithrilBattleAxe = new Craft(93, new ItemStack(ItemDatabase.MithrilBattleAxe, 1), false, true, true, false, false, Craft.Type.Tools, new ItemStack(ItemDatabase.MithrilIngot, 4), new ItemStack(ItemDatabase.Stick, 1));
+    public static readonly Craft FloatiumBattleAxe = new Craft(94, new ItemStack(ItemDatabase.FloatiumBattleAxe, 1), false, true, true, false, false, Craft.Type.Tools, new ItemStack(ItemDatabase.FloatiumIngot, 4), new ItemStack(ItemDatabase.Stick, 1));
+    public static readonly Craft SunkiumBattleAxe = new Craft(95, new ItemStack(ItemDatabase.SunkiumBattleAxe, 1), false, true, true, false, false, Craft.Type.Tools, new ItemStack(ItemDatabase.SunkiumIngot, 4), new ItemStack(ItemDatabase.Stick, 1));
+
+    public static readonly Craft CopperSpear = new Craft(100, new ItemStack(ItemDatabase.CopperSpear, 1), false, true, true, false, false, Craft.Type.Tools, new ItemStack(ItemDatabase.CopperIngot, 2), new ItemStack(ItemDatabase.Stick, 3));
+    public static readonly Craft IronSpear = new Craft(101, new ItemStack(ItemDatabase.IronSpear, 1), false, true, true, false, false, Craft.Type.Tools, new ItemStack(ItemDatabase.IronIngot, 2), new ItemStack(ItemDatabase.Stick, 3));
+    public static readonly Craft GoldSpear = new Craft(102, new ItemStack(ItemDatabase.GoldSpear, 1), false, true, true, false, false, Craft.Type.Tools, new ItemStack(ItemDatabase.GoldIngot, 2), new ItemStack(ItemDatabase.Stick, 3));
+    public static readonly Craft MithrilSpear = new Craft(103, new ItemStack(ItemDatabase.MithrilSpear, 1), false, true, true, false, false, Craft.Type.Tools, new ItemStack(ItemDatabase.MithrilIngot, 2), new ItemStack(ItemDatabase.Stick, 3));
+    public static readonly Craft FloatiumSpear = new Craft(104, new ItemStack(ItemDatabase.FloatiumSpear, 1), false, true, true, false, false, Craft.Type.Tools, new ItemStack(ItemDatabase.FloatiumIngot, 2), new ItemStack(ItemDatabase.Stick, 3));
+    public static readonly Craft SunkiumSpear = new Craft(105, new ItemStack(ItemDatabase.SunkiumSpear, 1), false, true, true, false, false, Craft.Type.Tools, new ItemStack(ItemDatabase.SunkiumIngot, 2), new ItemStack(ItemDatabase.Stick, 3));
+
+    public static readonly Craft InstableCore = new Craft(666, new ItemStack(ItemDatabase.InstableCore, 1), false, false, false, false, true, Craft.Type.Consumable, new ItemStack(ItemDatabase.BoarCore, 1), new ItemStack(ItemDatabase.SlimeCore, 1), new ItemStack(ItemDatabase.PampiCore, 1));
 
 
 

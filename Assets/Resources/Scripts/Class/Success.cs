@@ -76,28 +76,28 @@ public class Success
                             case 2:
                                 foreach (GameObject player in allplayer)
                                 {
-                                    player.GetComponent<Craft_HUD>().mastered(4, 5, 10, 16, 41, 51, 61);
+                                    player.GetComponent<Craft_HUD>().mastered(4, 5, 10, 16, 41, 51, 61, 90, 100);
                                     player.GetComponent<Tutoriel>().Story(TextDatabase.CopperAgeStory1, TextDatabase.CopperAgeStory2, TextDatabase.CopperAgeStory3, TextDatabase.CopperAgeStory4, TextDatabase.CopperAgeStory5, TextDatabase.CopperAgeStory6, TextDatabase.CopperAgeStory7, TextDatabase.CopperAgeStory8);
                                 }
                                 break;
                             case 3:
                                 foreach (GameObject player in allplayer)
                                 {
-                                    player.GetComponent<Craft_HUD>().mastered(3, 6, 10, 22, 23, 24, 25, 26, 27, 42, 52, 62);
+                                    player.GetComponent<Craft_HUD>().mastered(3, 6, 10, 22, 23, 24, 25, 26, 27, 42, 52, 62,91,101);
                                     player.GetComponent<Tutoriel>().Story(TextDatabase.IronAgeStory1, TextDatabase.IronAgeStory2, TextDatabase.IronAgeStory3, TextDatabase.IronAgeStory4, TextDatabase.IronAgeStory5, TextDatabase.IronAgeStory6);
                                 }
                                 break;
                             case 4:
                                 foreach (GameObject player in allplayer)
                                 {
-                                    player.GetComponent<Craft_HUD>().mastered(12, 21, 43, 53, 63);
+                                    player.GetComponent<Craft_HUD>().mastered(12, 21, 43, 53, 63,92,102);
                                     player.GetComponent<Tutoriel>().Story(TextDatabase.GoldAgeStory1, TextDatabase.GoldAgeStory2, TextDatabase.GoldAgeStory3, TextDatabase.GoldAgeStory4, TextDatabase.GoldAgeStory5, TextDatabase.GoldAgeStory6, TextDatabase.GoldAgeStory7);
                                 }
                                 break;
                             case 5:
                                 foreach (GameObject player in allplayer)
                                 {
-                                    player.GetComponent<Craft_HUD>().mastered(13, 44, 54, 64);
+                                    player.GetComponent<Craft_HUD>().mastered(13, 44, 54, 64,93,103);
                                     player.GetComponent<Tutoriel>().Story(TextDatabase.MithrilAgeStory1, TextDatabase.MithrilAgeStory2, TextDatabase.MithrilAgeStory3);
                                 }
                                 break;
@@ -105,7 +105,7 @@ public class Success
                                 if (succ.id != 62)
                                     foreach (GameObject player in allplayer)
                                     {
-                                        player.GetComponent<Craft_HUD>().mastered(14, 45, 55, 65);
+                                        player.GetComponent<Craft_HUD>().mastered(14, 45, 55, 65,94,104);
                                         player.GetComponent<Tutoriel>().Story(TextDatabase.FloatiumAgeStory1, TextDatabase.FloatiumAgeStory2);
                                     }
                                 else
@@ -117,7 +117,7 @@ public class Success
                             case 7:
                                 foreach (GameObject player in allplayer)
                                 {
-                                    player.GetComponent<Craft_HUD>().mastered(15, 46, 56, 66,100);
+                                    player.GetComponent<Craft_HUD>().mastered(15, 46, 56, 66, 95,105,666);
                                     // DECLENCHE LE BOSS BATTLE
                                 }
                                 break;
