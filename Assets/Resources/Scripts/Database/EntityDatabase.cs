@@ -95,6 +95,10 @@ public static class EntityDatabase
     public static readonly Entity Fang = new Entity(84, 60, Resources.Load<GameObject>("Prefabs/Loots/Fang"));
     public static readonly Entity AnimalFat = new Entity(85, 60, Resources.Load<GameObject>("Prefabs/Loots/AnimalFat"));
     public static readonly Entity Apple = new Entity(86, 60, Resources.Load<GameObject>("Prefabs/Loots/Apple"));
+    public static readonly Entity BoarCore = new Entity(87, 60, Resources.Load<GameObject>("Prefabs/Loots/Boarcore"));
+    public static readonly Entity SlimeCore = new Entity(88, 60, Resources.Load<GameObject>("Prefabs/Loots/Slimecore"));
+    public static readonly Entity PampiCore = new Entity(89, 60, Resources.Load<GameObject>("Prefabs/Loots/Pampicore"));
+    public static readonly Entity InstableCore = new Entity(666, 60, Resources.Load<GameObject>("Prefabs/Loots/Instable"));
 
 
     // SmallElements
@@ -238,6 +242,11 @@ public static class EntityDatabase
             yield return Bone;
             yield return Apple;
             yield return AnimalFat;
+
+            yield return BoarCore;
+            yield return SlimeCore;
+            yield return PampiCore;
+            yield return InstableCore;
 
             //Ingot
             yield return IronIngot;

@@ -69,6 +69,8 @@ public static class CraftDatabase
     public static readonly Craft MithrilBottom = new Craft(Craft.Type.Armor);
     public static readonly Craft SunkiumBottom = new Craft(Craft.Type.Armor);
 
+    public static readonly Craft InstableCore = new Craft(100, new ItemStack(ItemDatabase.InstableCore, 1), false, false, false, false, true, Craft.Type.Consumable, new ItemStack(ItemDatabase.BoarCore, 1), new ItemStack(ItemDatabase.SlimeCore, 1), new ItemStack(ItemDatabase.PampiCore, 1));
+
 
 
     public static IEnumerable<Craft> Crafts

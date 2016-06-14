@@ -117,7 +117,7 @@ public class Success
                             case 7:
                                 foreach (GameObject player in allplayer)
                                 {
-                                    player.GetComponent<Craft_HUD>().mastered(15, 46, 56, 66);
+                                    player.GetComponent<Craft_HUD>().mastered(15, 46, 56, 66,100);
                                     // DECLENCHE LE BOSS BATTLE
                                 }
                                 break;
