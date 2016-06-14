@@ -47,7 +47,7 @@ public class SyncCore : SyncElement
     void Update()
     {
         gameObject.transform.Rotate(Vector3.up, 0.25f);
-        gameObject.transform.position = new Vector3(gameObject.transform.position.x,  7 + Mathf.Sin(Time.time) * .5f, gameObject.transform.position.z);
+        gameObject.transform.position = new Vector3(gameObject.transform.position.x, 7 + Mathf.Sin(Time.time) * .5f, gameObject.transform.position.z);
     }
     void NeedUpdate()
     {
@@ -104,18 +104,18 @@ public class SyncCore : SyncElement
             if (this.levelTot == 0)
             {
                 liste = new ItemStack[3];
-                liste[0] = new ItemStack(needs[0], 15);
-                liste[1] = new ItemStack(needs[1], 15);
-                liste[2] = new ItemStack(needs[2], 1);
+                liste[0] = new ItemStack(needs[0], 10);
+                liste[1] = new ItemStack(needs[1], 10);
+                liste[2] = new ItemStack(needs[2], 3);
             }
             else
             {
-                liste[0] = new ItemStack(needs[0], (this.levelAttack + this.levelProd + 2 * this.LevelPortal) * 10);
-                liste[1] = new ItemStack(needs[1], (2 * this.levelAttack + this.levelProd + this.LevelPortal) * 10);
-                liste[2] = new ItemStack(needs[2], (this.levelAttack + 2 * this.levelProd + this.LevelPortal) * 10);
-                liste[3] = new ItemStack(needs[3], (this.levelAttack + 2 * this.levelProd + 3 * this.LevelPortal) * 10);
-                liste[4] = new ItemStack(needs[4], (2 * this.levelAttack + this.levelProd + 3 * this.LevelPortal) * 10);
-                liste[5] = new ItemStack(needs[5], (this.levelAttack + this.levelProd + 3 * this.LevelPortal) * 10);
+                liste[0] = new ItemStack(new Item(ItemDatabase.CopperIngot), 3 * this.levelTot);
+                liste[1] = new ItemStack(new Item(ItemDatabase.IronIngot), 3 * this.levelTot);
+                liste[2] = new ItemStack(new Item(ItemDatabase.GoldIngot), 2 * this.levelTot);
+                liste[3] = new ItemStack(new Item(ItemDatabase.BoarCore), levelTot/2);
+                liste[4] = new ItemStack(new Item(ItemDatabase.PampiCore), levelTot/3);
+                liste[5] = new ItemStack(new Item(ItemDatabase.SlimeCore), levelTot/4);
             }
             return liste;
         }
