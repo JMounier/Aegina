@@ -167,6 +167,20 @@ public class TextDatabase
     public static readonly Text FloatiumSword = new Text("Epee en floatium", "Floatium Sword");
     public static readonly Text SunkiumSword = new Text("Epee en sunkium", "Sunkium Sword");
 
+    public static readonly Text CopperBattleAxe = new Text("Hache de guerre en cuivre", "Copper battle axe");
+    public static readonly Text IronBattleAxe = new Text("Hache de guerre en fer", "Iron battle axe");
+    public static readonly Text GoldBattleAxe = new Text("Hache de guerre en or", "Gold battle axe");
+    public static readonly Text MithrilBattleAxe = new Text("Hache de guerre en mithril", "Mithril battle axe");
+    public static readonly Text FloatiumBattleAxe = new Text("Hache de guerre en floatium", "Floatium battle axe");
+    public static readonly Text SunkiumBattleAxe = new Text("Hache de guerre en sunkium", "Sunkium battle axe");
+
+    public static readonly Text CopperSpear = new Text("Lance en cuivre", "Copper Spear");
+    public static readonly Text IronSpear = new Text("Lance en fer", "Iron Spear");
+    public static readonly Text GoldSpear = new Text("Lance en or", "Gold Spear");
+    public static readonly Text MithrilSpear = new Text("Lance en mithril", "Mithril Spear");
+    public static readonly Text FloatiumSpear = new Text("Lance en floatium", "Floatium Spear");
+    public static readonly Text SunkiumSpear = new Text("Lance en sunkium", "Sunkium Spear");
+
     // Description
 
     public static readonly Text WoodenPickaxeDescription = new Text("Un ensemble de morceaux de bois ressemblant à une pioche", "A set of wood pieces looking like a pickaxe");
@@ -192,11 +206,24 @@ public class TextDatabase
     public static readonly Text StoneSwordDescription = new Text("Un outil rudimentaire de pierre ressemblant à une epee", "A rudimentary stone tool looking like a sword");
     public static readonly Text CopperSwordDescription = new Text("Une epee de qualite douteuse", "Questionable quality sword");
     public static readonly Text IronSwordDescription = new Text("Une bonne epee", "A good sword");
-    public static readonly Text GoldSwordDescription = new Text("Une epee pour riche", "An sword to rich");
+    public static readonly Text GoldSwordDescription = new Text("Une epee pour riche", "A sword for rich");
     public static readonly Text MithrilSwordDescription = new Text("Une epee legendaire", "A legendary sword");
     public static readonly Text FloatiumSwordDescription = new Text("Une epee de solidite infaillible", "A foolproof solidity sword");
     public static readonly Text SunkiumSwordDescription = new Text("Une epee de qualite", "A quality sword");
 
+    public static readonly Text CopperBattleAxeDescription = new Text("Une hache de guerre de qualite douteuse", "Questionable quality battle axe");
+    public static readonly Text IronBattleAxeDescription = new Text("Une bonne hache de guerre", "A good battle axe");
+    public static readonly Text GoldBattleAxeDescription = new Text("Une hache de guerre pour riche", "A battle axe for rich");
+    public static readonly Text MithrilBattleAxeDescription = new Text("Une hache de guerre legendaire", "A legendary battle axe");
+    public static readonly Text FloatiumBattleAxeDescription = new Text("Une hache de guerre de solidite infaillible", "A foolproof solidity battle axe");
+    public static readonly Text SunkiumBattleAxeDescription = new Text("Une hache de guerre de qualite", "A quality battle axe");
+
+    public static readonly Text CopperSpearDescription = new Text("Une lance de qualite douteuse", "Questionable quality spear");
+    public static readonly Text IronSpearDescription = new Text("Une bonne lance", "A good spear");
+    public static readonly Text GoldSpearDescription = new Text("Une lance pour riche", "A spear for rich");
+    public static readonly Text MithrilSpearDescription = new Text("Une lance legendaire", "A legendary spear");
+    public static readonly Text FloatiumSpearDescription = new Text("Une lance de solidite infaillible", "A foolproof solidity spear");
+    public static readonly Text SunkiumSpearDescription = new Text("Une lance de qualite", "A quality spear");
     // Miscellanous
     public static readonly Text Yes = new Text("Oui", "Yes");
     public static readonly Text No = new Text("Non", "No");

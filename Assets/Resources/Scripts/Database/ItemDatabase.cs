@@ -95,9 +95,13 @@ public static class ItemDatabase
     public static readonly Item Bone = new Item(86, TextDatabase.Bone, TextDatabase.BoneDescription, 64, Resources.Load<Texture2D>("Sprites/Items/Foods/Bone"), new Entity(EntityDatabase.Bone));
     public static readonly Item Pumpkin = new Item(87, TextDatabase.Pumpkin, TextDatabase.PumpkinDescription, 64, Resources.Load<Texture2D>("Sprites/Items/Plants/Pumpkin"), new Entity(EntityDatabase.PumpkinLoot));
     public static readonly Item AnimalFat = new Item(88, TextDatabase.AnimalFat, TextDatabase.AnimalFatDescription, 64, Resources.Load<Texture2D>("Sprites/Items/Animals/AnimalFat"), new Entity(EntityDatabase.AnimalFat));
+
     public static readonly Item SlimeCore = new Item(89, TextDatabase.SlimeCore, TextDatabase.SlimeCoreDescription, 5, Resources.Load<Texture2D>(""), new Entity(EntityDatabase.SlimeCore));
     public static readonly Item BoarCore = new Item(90, TextDatabase.BoarCore, TextDatabase.BoarCoreDescription, 5, Resources.Load<Texture2D>(""), new Entity(EntityDatabase.BoarCore));
     public static readonly Item PampiCore = new Item(91, TextDatabase.PampiCore, TextDatabase.PampiCoreDescription, 5, Resources.Load<Texture2D>(""), new Entity(EntityDatabase.PampiCore));
+
+    public static readonly BattleAxe Battleaxe = new BattleAxe(92, TextDatabase.CopperBattleAxe,TextDatabase.CopperBattleAxeDescription,100,220,Resources.Load<Texture2D>("Sprites/Items/Tools/BattleAxe"),new Entity(EntityDatabase.CopperBattleAxe),)
+
     public static readonly Consumable InstableCore = new Consumable(100, TextDatabase.Instable, TextDatabase.Instable, 1, Resources.Load<Texture2D>(""), new Entity(EntityDatabase.InstableCore),new Effect(Effect.EffectType.Resistance,2),Resources.Load<GameObject>("Prefabs/Consumables/InstableCore"));
     /// <summary>
     /// Liste tous les items du jeu. (Utilisez avec foreach)

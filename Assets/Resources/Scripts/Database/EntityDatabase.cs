@@ -45,6 +45,20 @@ public static class EntityDatabase
     public static readonly Entity MithrilArmor = new Entity(32, 60, Resources.Load<GameObject>("Prefabs/Loots/MithrilArmor"));
     public static readonly Entity SunkiumArmor = new Entity(33, 60, Resources.Load<GameObject>("Prefabs/Loots/SunkiumArmor"));
 
+    public static readonly Entity CopperBattleAxe = new Entity(38, 60, Resources.Load<GameObject>("Prefabs/Loots/CopperBattleAxe"));
+    public static readonly Entity IronBattleAxe = new Entity(39, 60, Resources.Load<GameObject>("Prefabs/Loots/IronBattleAxe"));
+    public static readonly Entity GoldBattleAxe = new Entity(40, 60, Resources.Load<GameObject>("Prefabs/Loots/GoldBattleAxe"));
+    public static readonly Entity MithrilBattleAxe = new Entity(41, 60, Resources.Load<GameObject>("Prefabs/Loots/MithrilBattleAxe"));
+    public static readonly Entity FloatiumBattleAxe = new Entity(42, 60, Resources.Load<GameObject>("Prefabs/Loots/FloatiumBattleAxe"));
+    public static readonly Entity SunkiumBattleAxe = new Entity(43, 60, Resources.Load<GameObject>("Prefabs/Loots/SunkiumBattleAxe"));
+
+    public static readonly Entity CopperSpear = new Entity(44, 60, Resources.Load<GameObject>("Prefabs/Loots/CopperSpear"));
+    public static readonly Entity IronSpear = new Entity(45, 60, Resources.Load<GameObject>("Prefabs/Loots/IronSpear"));
+    public static readonly Entity GoldSpear = new Entity(46, 60, Resources.Load<GameObject>("Prefabs/Loots/GoldSpear"));
+    public static readonly Entity MithrilSpear = new Entity(47, 60, Resources.Load<GameObject>("Prefabs/Loots/MithrilSpear"));
+    public static readonly Entity FloatiumSpear = new Entity(48, 60, Resources.Load<GameObject>("Prefabs/Loots/FloatiumSpear"));
+    public static readonly Entity SunkiumSpear = new Entity(49, 60, Resources.Load<GameObject>("Prefabs/Loots/SunkiumSpear"));
+
     public static readonly Entity CopperPickaxe = new Entity(52, 60, Resources.Load<GameObject>("Prefabs/Loots/CopperPickaxe"));
     public static readonly Entity IronPickaxe = new Entity(53, 60, Resources.Load<GameObject>("Prefabs/Loots/IronPickaxe"));
     public static readonly Entity GoldPickaxe = new Entity(54, 60, Resources.Load<GameObject>("Prefabs/Loots/GoldPickaxe"));
