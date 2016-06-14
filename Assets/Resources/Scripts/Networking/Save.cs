@@ -76,8 +76,8 @@ public class Save : NetworkBehaviour
             return;
 
         this.coolDownSave -= Time.deltaTime;
-        if (this.coolDownSave <= 0 || Stats.TimePlayer() == 0)        
-            this.SaveWorld();        
+        if (this.coolDownSave <= 0 || Stats.TimePlayer() == 0)
+            this.SaveWorld();
         Success.Update();
     }
 
@@ -127,6 +127,7 @@ public class Save : NetworkBehaviour
         for (int i = 0; i < this.chunks.Count; i++)
             if (this.chunks[i].X == x && this.chunks[i].Y == y)
             {
+                this.chunks[i].RespawnElements();
                 this.chunks[i].Save();
                 this.chunks.RemoveAt(i);
                 break;
@@ -153,11 +154,11 @@ public class Save : NetworkBehaviour
     /// <param name="x">La positoin x du chunk.</param>
     /// <param name="y">La position y du chunk.</param>
     /// <param name="idSave">L'id correspondant a l'element detruit.</param>
-    public void SaveDestroyedElement(int x, int y, int idSave)
+    public void SaveDestroyedElement(int x, int y, int idSave, Vector3 pos)
     {
         foreach (ChunkSave cs in this.chunks)
             if (cs.X == x && cs.Y == y)
-                cs.SaveDestroyedElement(idSave);
+                cs.SaveDestroyedElement(idSave, pos);
     }
 
     /// <summary>
@@ -178,13 +179,11 @@ public class Save : NetworkBehaviour
                     }
                 else
                     for (int i = 0; i < cs.WorkTops.Count; i++)
-                    {
                         if ((worktop.Prefab.transform.position - cs.WorkTops[i].Item2).magnitude < .5f)
                         {
                             cs.WorkTops.RemoveAt(i);
                             break;
                         }
-                    }
     }
 
     /// <summary>
@@ -299,7 +298,7 @@ public class ChunkSave
 {
     private int x;
     private int y;
-    private List<int> idSave;
+    private List<Tuple<int, Vector3>> idSave;
     private List<Triple<Element, Vector3, Vector3>> workTops;
     private List<Quadruple<Element, Vector3, Vector3, ItemStack[,]>> chests;
     private string path;
@@ -315,7 +314,7 @@ public class ChunkSave
     {
         this.x = x;
         this.y = y;
-        this.idSave = new List<int>();
+        this.idSave = new List<Tuple<int, Vector3>>();
         this.workTops = new List<Triple<Element, Vector3, Vector3>>();
         this.chests = new List<Quadruple<Element, Vector3, Vector3, ItemStack[,]>>();
         this.path = pathChunk + x.ToString() + "_" + y.ToString();
@@ -330,7 +329,7 @@ public class ChunkSave
                 {
                     int id;
                     if (int.TryParse(str, out id))
-                        this.idSave.Add(id);
+                        this.idSave.Add(new Tuple<int, Vector3>(id, Vector3.zero));
                 }
                 foreach (string str in lines[1].Split('|'))
                 {
@@ -383,7 +382,7 @@ public class ChunkSave
     /// Sauvegarde un element comme detruit sur ce chunk.
     /// </summary>
     /// <param name="id">L'identifiant de sauvegarde de l'element</param>
-    public void SaveDestroyedElement(int id)
+    public void SaveDestroyedElement(int id, Vector3 pos)
     {
         int d = 0;
         int f = this.idSave.Count - 1;
@@ -391,12 +390,12 @@ public class ChunkSave
         while (d <= f)
         {
             m = (d + f) / 2;
-            if (id > this.idSave[m])
+            if (id > this.idSave[m].Item1)
                 d = m + 1;
             else
                 f = m - 1;
         }
-        this.idSave.Insert(d, id);
+        this.idSave.Insert(d, new Tuple<int, Vector3>(id, pos));
     }
 
     /// <summary>
@@ -408,8 +407,8 @@ public class ChunkSave
         {
             using (StreamWriter file = new StreamWriter(this.path))
             {
-                foreach (int id in this.idSave)
-                    file.Write(id.ToString() + '|');
+                foreach (Tuple<int, Vector3> id in this.idSave)
+                    file.Write(id.Item1.ToString() + '|');
                 file.Write("\n");
                 foreach (Triple<Element, Vector3, Vector3> wt in this.workTops)
                     file.Write(wt.Item1.ID.ToString() + ":" + wt.Item2.x.ToString() + ":" + wt.Item2.y.ToString() + ":" + wt.Item2.z.ToString() + ":"
@@ -430,6 +429,23 @@ public class ChunkSave
             }
         }
         catch { }
+    }
+
+    public void RespawnElements()
+    {
+        int i = 0;
+        while(i < this.idSave.Count)
+        {
+            float r =Random.Range(0f, 1f);
+            Debug.Log(this.idSave[i].Item2);
+            if (r < .1f + .02 * this.cristal[2] && Graph.isValidPosition(this.idSave[i].Item2))
+            {
+                this.idSave.RemoveAt(i);
+                Debug.Log("Ok");
+            }
+            else
+                i++;
+        }
     }
 
     // Getters & Setters
@@ -454,7 +470,7 @@ public class ChunkSave
     /// <summary>
     /// La liste des id des elements modifies sur le chunk.
     /// </summary>
-    public List<int> ListIdSave
+    public List<Tuple<int, Vector3>> ListIdSave
     {
         get { return this.idSave; }
     }
