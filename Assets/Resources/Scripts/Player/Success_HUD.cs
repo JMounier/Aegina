@@ -81,7 +81,7 @@ public class Success_HUD : NetworkBehaviour
             rect.y += Screen.height / 100;
             rect.height -= Screen.height / 50;
             rect.width -= Screen.width / 50;
-            GUI.Box(rect, "Achievement Get", skin.GetStyle("Description"));
+            GUI.Box(rect, TextDatabase.Achievment.GetText(), skin.GetStyle("Description"));
             rect.x -= Screen.width / 14;
             rect.width = rect.height;
             GUI.DrawTexture(rect, ActualSucces.Icon);

@@ -238,7 +238,8 @@ public class TextDatabase
     public static readonly Text Help = new Text("Aide", "Help");
     public static readonly Text CombatHelp = new Text("Combat", "Fight");
     public static readonly Text InventaireHelp = new Text("Inventaire", "Inventory");
-    public static readonly Text Resume = new Text("retour au jeu", "Resume");
+    public static readonly Text Resume = new Text("Retour au jeu", "Resume");
+    public static readonly Text Achievment = new Text("Achievment !", "Exploit !");
 
     // Tutoriel
 
