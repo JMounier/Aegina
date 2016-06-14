@@ -1,90 +1,67 @@
 ﻿using UnityEngine;
-using UnityEngine.Networking;
 using System.Collections;
 using System.Collections.Generic;
 
-public class BossSceneManager : NetworkBehaviour {
+public class BossSceneManager : MonoBehaviour
+{
 
-	[SerializeField]
-	private GameObject SpawnWall;
+    private GameObject spawnWall;
+    private GameObject SpecCamPos;
+    private GameObject Spawn;
 
-	[SerializeField]
-	private List<GameObject> OrbitingStuff;
+    private List<GameObject> OrbitingStuff;
 
-	[SerializeField]
-	private GameObject SpecCamPos;
+    private List<GameObject> PlayersInFight;
 
-	[SerializeField]
-	private GameObject Spawn;
+    private int Specpos;
 
-	private List<GameObject> PlayersInFight;
+    // Use this for initialization
+    void Start()
+    {
 
-	private int DeathCount;
-	private int Specpos;
+        this.spawnWall = gameObject.transform.GetChild(0).gameObject;
+        this.SpecCamPos = gameObject.transform.GetChild(1).gameObject;
+        this.Spawn = gameObject.transform.GetChild(2).gameObject;
 
-	// Use this for initialization
-	void Start ()
-	{
-		this.SpawnWall.SetActive (false);
-		this.Specpos = 0;
-		foreach (GameObject obj in OrbitingStuff) {
-			obj.transform.LookAt (obj.transform.parent);
-		}
+        this.OrbitingStuff = new List<GameObject>();
+
+        this.OrbitingStuff.Add(this.SpecCamPos.transform.GetChild(0).gameObject);
 
 
-		if (!isServer)
-			return;
-
-		this.PlayersInFight = new List<GameObject> ();
-	}
-	
-	// Update is called once per frame
-	void Update ()
-	{
-		
-		foreach (GameObject obj in OrbitingStuff) {
-			obj.transform.LookAt (obj.transform.parent);
-			obj.transform.RotateAround (obj.transform.parent.position, obj.transform.parent.up, 0.5f);
-		}
 
 
-		if (!isServer)
-			return;
+        this.spawnWall.SetActive(false);
+        this.Specpos = 0;
 
-		/*
-		if (isdead)
-		{
-			SpecCamPos.transform.GetChild (Specpos).gameObject.SetActive(false);
+        foreach (GameObject obj in OrbitingStuff)
+        {
+            obj.transform.LookAt(obj.transform.parent);
+        }
+    }
 
-			int delta = 0;
-			//make something to switchpose as spec
-			
-			this.Specpos += delta;
-			this.Specpos = (this.Specpos + 4)% 4;
+    // Update is called once per frame
+    void Update()
+    {
+        foreach (GameObject obj in OrbitingStuff)
+            obj.transform.RotateAround(obj.transform.parent.position, obj.transform.parent.up, 0.5f);
+    }
 
-			SpecCamPos.transform.GetChild (Specpos).gameObject.SetActive(true);
-		}*/
-	}
+    /// <summary>
+    /// only call this method when the player is dead;
+    /// </summary>
+    /// <param name="delta"></param>
+    public void SwitchView(int delta)
+    {
+        this.SpecCamPos.transform.GetChild(this.Specpos).gameObject.SetActive(false);
+        this.Specpos = (this.Specpos + 4) % 4;
+        this.SpecCamPos.transform.GetChild(this.Specpos).gameObject.SetActive(true);
+    }
 
-	void OnCollisionEnter (Collision collision)
-	{
-		if (collision.gameObject.tag == "Player")
-			if (!this.SpawnWall.activeInHierarchy)
-			{
-				this.SpawnWall.SetActive (true);
-				CmdEnterFight (collision.gameObject);
-			}
-	}
+    #region Getters/Setters
+    public GameObject SpawnWall
+    {
+        get { return this.spawnWall; }
+    }
+    #endregion
 
-	[Command]
-	private void CmdEnterFight(GameObject player){
-		if (!this.PlayersInFight.Contains(player))
-			this.PlayersInFight.Add (player);
-	}
-
-	[ClientRpc]
-	private void RpcRestart(){
-		// tp to the spawn
-		this.SpawnWall.SetActive(false);
-	}
 }

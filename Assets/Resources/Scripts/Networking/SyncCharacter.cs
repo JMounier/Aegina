@@ -45,6 +45,7 @@ public class SyncCharacter : NetworkBehaviour
     private GameObject character;
     private Inventory inventory;
     private Controller controller;
+    private BossFight bossfight;
 
     // Use this for initialization
     void Start()
@@ -59,6 +60,7 @@ public class SyncCharacter : NetworkBehaviour
 
         this.inventory = gameObject.GetComponent<Inventory>();
         this.controller = gameObject.GetComponent<Controller>();
+        this.bossfight = gameObject.GetComponent<BossFight>();
         this.skin = Resources.Load<GUISkin>("Sprites/GUIskin/skin");
 
         this.lifeMax = 100;
@@ -105,22 +107,31 @@ public class SyncCharacter : NetworkBehaviour
 
         if (this.life <= 0)
         {
-            if (GUI.Button(new Rect(5 * Screen.width / 14, Screen.height / 2 - 100, 2 * Screen.width / 7, 100), TextDatabase.Respawn.GetText(), skin.GetStyle("button")))
+            if (this.bossfight.InFight)
             {
-                Respawn();
-                GetComponent<Sound>().PlaySound(AudioClips.Button, 1f);
+                this.bossfight.Spec();
+                //fix me
+
             }
-            if (GUI.Button(new Rect(5 * Screen.width / 14, Screen.height / 2 + 100, 2 * Screen.width / 7, 100), TextDatabase.Quit.GetText(), skin.GetStyle("button")))
+            else
             {
-                Respawn();
-                GetComponent<Sound>().PlaySound(AudioClips.Button, 1f);
-                if (isServer)
+                if (GUI.Button(new Rect(5 * Screen.width / 14, Screen.height / 2 - 100, 2 * Screen.width / 7, 100), TextDatabase.Respawn.GetText(), skin.GetStyle("button")))
                 {
-                    GameObject.Find("Map").GetComponent<Save>().SaveWorld();
-                    GameObject.Find("NetworkManager").GetComponent<NetworkManager>().StopHost();
+                    Respawn();
+                    GetComponent<Sound>().PlaySound(AudioClips.Button, 1f);
                 }
-                else
-                    GetComponent<Menu>().CmdDisconnect();
+                if (GUI.Button(new Rect(5 * Screen.width / 14, Screen.height / 2 + 100, 2 * Screen.width / 7, 100), TextDatabase.Quit.GetText(), skin.GetStyle("button")))
+                {
+                    Respawn();
+                    GetComponent<Sound>().PlaySound(AudioClips.Button, 1f);
+                    if (isServer)
+                    {
+                        GameObject.Find("Map").GetComponent<Save>().SaveWorld();
+                        GameObject.Find("NetworkManager").GetComponent<NetworkManager>().StopHost();
+                    }
+                    else
+                        GetComponent<Menu>().CmdDisconnect();
+                }
             }
         }
     }
@@ -213,7 +224,7 @@ public class SyncCharacter : NetworkBehaviour
         }
     }
 
-    private void Respawn()
+    public void Respawn()
     {
         gameObject.transform.FindChild("Character").FindChild("Armature").gameObject.SetActive(true);
         gameObject.transform.FindChild("Character").FindChild("NPC_Man_Normal001").gameObject.SetActive(true);
@@ -224,7 +235,8 @@ public class SyncCharacter : NetworkBehaviour
         this.Hunger = this.hungerMax;
         this.Thirst = this.thirstMax;
         this.character.GetComponent<Rigidbody>().velocity = Vector3.zero;
-        CmdRespawnPos();
+        if (!this.bossfight.InFight)
+            CmdRespawnPos();
     }
 
     /// <summary>
@@ -329,7 +341,7 @@ public class SyncCharacter : NetworkBehaviour
         this.Life -= 100 * damage / armor;
         if (this.Life == 0 && isPlayer)
             Stats.IncrementKill();
-        
+
     }
 
     [ClientRpc]
