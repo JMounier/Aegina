@@ -18,9 +18,7 @@ public class FirstScene : MonoBehaviour
     private Camera cam;
     [SerializeField]
     private float camSpeed = 0.05f;
-
-    [SerializeField]
-    private GameObject Path;
+    private GameObject path;
     [SerializeField]
     private float acceptance = 1;
 
@@ -55,13 +53,14 @@ public class FirstScene : MonoBehaviour
         this.actual_time = 0f;
         this.cdMusic = 0f;
         this.volume = PlayerPrefs.GetFloat("Sound_intensity", 0.1f);
-        this.fistStep = this.Path.transform.GetChild(0).gameObject;
+        this.path = gameObject.transform.FindChild("Path").gameObject;
+        this.fistStep = this.path.transform.GetChild(0).gameObject;
         this.step = this.fistStep;
         // Camera and Path
-        for (int i = 1; i < this.Path.transform.childCount; i++)
+        for (int i = 1; i < this.path.transform.childCount; i++)
         {
-            this.step.GetComponent<FSPath>().NextStep = Path.transform.GetChild(i).gameObject;
-            this.step = Path.transform.GetChild(i).gameObject;
+            this.step.GetComponent<FSPath>().NextStep = path.transform.GetChild(i).gameObject;
+            this.step = path.transform.GetChild(i).gameObject;
         }
 
         this.step.GetComponent<FSPath>().NextStep = this.fistStep;
@@ -100,6 +99,7 @@ public class FirstScene : MonoBehaviour
 
         if (this.onChar)
         {
+            this.speed = 1.2f;
             if (Vector3.Distance(this.cam.transform.position, this.camAim.transform.position) > this.acceptance * this.speed / 1.2f )
             {
                 this.cam.transform.rotation = Quaternion.Lerp(this.cam.transform.rotation, this.camAim.transform.rotation, 0.08f);
