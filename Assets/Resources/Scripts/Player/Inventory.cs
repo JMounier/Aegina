@@ -1333,6 +1333,16 @@ public class Inventory : NetworkBehaviour
         }
     }
 
+    public Armor Top
+    {
+        get { return this.top.Items as Armor; }
+    }
+    
+    public Armor Bottom
+    {
+        get { return this.bottom.Items as Armor; }
+    }
+
     /// <summary>
     /// La taille de la toolbar
     /// </summary>
