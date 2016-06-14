@@ -36,12 +36,12 @@ public class BossFight : NetworkBehaviour
             this.syncChar = gameObject.GetComponent<SyncCharacter>();
             this.character = gameObject.GetComponentInChildren<CharacterCollision>().gameObject;
             this.control = gameObject.GetComponent<Controller>();
+            this.inFight = false;
         }
 
-        this.inFight = false;
         if (!isServer)
             return;
-
+        infightcount = 0;
         deathCount = 0;
     }
 
@@ -98,8 +98,8 @@ public class BossFight : NetworkBehaviour
     {
         foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
         {
-            Debug.Log("coucou");
-            if(player.GetComponent<BossFight>().inFight)
+            Debug.Log("ok");
+            if (player.GetComponent<BossFight>().inFight)
                 player.GetComponent<BossFight>().RpcRestart();
         }
         infightcount = 0;
@@ -109,9 +109,10 @@ public class BossFight : NetworkBehaviour
     [ClientRpc]
     public void RpcRestart()
     {
+        Debug.Log("here");
         if (!isLocalPlayer)
             return;
-
+        Debug.Log("here to");
         this.syncChar.Respawn();
         this.bSM.NotSpecAnyMore();
         this.inFight = false;
