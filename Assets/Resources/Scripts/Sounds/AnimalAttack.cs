@@ -11,7 +11,7 @@ public class AnimalAttack : StateMachineBehaviour
         if (cd > .666f)
         {
             string mobName = animator.gameObject.name.Replace("(Clone)", "");
-            animator.gameObject.GetComponentInParent<AudioSource>().PlayOneShot(Resources.Load<AudioClip>("Sounds/Mob/" + mobName + "/Agressif"), 5);
+            animator.gameObject.GetComponentInParent<AudioSource>().PlayOneShot(Resources.Load<AudioClip>("Sounds/Mob/" + mobName + "/Agressif"), 4);
             cd = 0;
         }
     }

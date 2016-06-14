@@ -11,7 +11,8 @@ public class AnimalStep : StateMachineBehaviour
         if (cd > .5f)
         {
             AudioSource soundAudio = animator.gameObject.GetComponent<AudioSource>();
-            soundAudio.PlayOneShot(Resources.Load("Sounds/Player/Walk1") as AudioClip, 2);
+            int rand = Random.Range(1, 3);
+            soundAudio.PlayOneShot(Resources.Load("Sounds/Player/Walk" + rand.ToString()) as AudioClip, 2);
             cd = 0;
         }     
     }

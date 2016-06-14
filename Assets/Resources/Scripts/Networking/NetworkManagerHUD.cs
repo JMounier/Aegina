@@ -386,7 +386,7 @@ namespace UnityEngine.Networking
                     this.categoryCloth = CategoryCloth.Hair;
                 }
             }
-            if (GUI.Button(new Rect(this.posX + this.width - this.width / 5, this.posY + this.spacing * 3f, this.width / 5, this.width / 5), Resources.Load<Texture2D>("Sprites/Cosmetics/GlovesIcon"), skin.GetStyle("Square")))
+            if (GUI.Button(new Rect(this.posX, this.posY + this.spacing * 3f, this.width / 5, this.width / 5), Resources.Load<Texture2D>("Sprites/Cosmetics/GlovesIcon"), skin.GetStyle("Square")))
             {
                 if (this.categoryCloth == CategoryCloth.Gloves)
                     this.categoryCloth = CategoryCloth.None;
@@ -406,7 +406,7 @@ namespace UnityEngine.Networking
                     this.categoryCloth = CategoryCloth.TShirt;
                 }
             }
-            if (GUI.Button(new Rect(this.posX, this.posY + this.spacing * 3f, this.width / 5, this.width / 5), Resources.Load<Texture2D>("Sprites/Cosmetics/PantIcon"), skin.GetStyle("Square")))
+            if (GUI.Button(new Rect(this.posX + this.width - this.width / 5, this.posY + this.spacing * 3f, this.width / 5, this.width / 5), Resources.Load<Texture2D>("Sprites/Cosmetics/PantIcon"), skin.GetStyle("Square")))
             {
                 if (this.categoryCloth == CategoryCloth.Pant)
                     this.categoryCloth = CategoryCloth.None;
