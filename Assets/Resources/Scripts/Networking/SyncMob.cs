@@ -122,7 +122,7 @@ public class SyncMob : NetworkBehaviour
                 this.path.Clear();
                 this.anim.SetInteger("Action", 3);
             }
-            else if (dist < 1f)
+            else if (dist < this.myMob.RangeAttack && this.myMob.Damage > 0)
             {
                 nearPlayer.GetComponent<SyncCharacter>().ReceiveDamage(this.myMob.Damage, new Vector3(), false);
                 this.cdAttack = 0;

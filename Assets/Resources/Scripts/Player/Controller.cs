@@ -80,8 +80,8 @@ public class Controller : NetworkBehaviour
             int x = (int)Mathf.Round(this.character.transform.position.x / Chunk.Size);
             int y = (int)Mathf.Round(this.character.transform.position.z / Chunk.Size);
             this.loading = !GameObject.Find("Map").GetComponent<MapGeneration>().isLoaded(x, y);
-            if (this.character.transform.position.y < 0 && loading)
-                gameObject.GetComponent<Social_HUD>().RpcTeleport(new Vector3(this.character.transform.position.x, 10, this.character.transform.position.z));
+            if (this.character.transform.position.y < 0 && loading)            
+                gameObject.GetComponent<Social_HUD>().RpcTeleport(new Vector3(this.character.transform.position.x, 10, this.character.transform.position.z));            
         }
     }
 
@@ -274,7 +274,7 @@ public class Controller : NetworkBehaviour
                         this.soundAudio.PlaySound(walkRand, 1f, .325f, 1);
                         this.soundAudio.CmdPlaySound(walkRand, 1f);
                     }
-                }
+                }              
             }
             else if (this.objectiv != null)
             {
@@ -287,8 +287,9 @@ public class Controller : NetworkBehaviour
                     Quaternion targetRotation = Quaternion.LookRotation(viewRot);
                     this.character.transform.rotation = Quaternion.Lerp(this.character.transform.rotation, targetRotation, Time.deltaTime * 5);
                 }
-                // Look here pour des probleme de syncro
-                gameObject.transform.Translate(-this.character.transform.forward * Time.deltaTime * this.WalkSpeed, Space.World);
+
+                move = -this.character.transform.forward;
+                move *= this.walkSpeed + this.syncChar.Speed;
 
                 if (Vector3.Distance(this.character.transform.position, pos) < this.interactDistance)
                 {
