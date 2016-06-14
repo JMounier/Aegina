@@ -107,11 +107,13 @@ public class SyncCharacter : NetworkBehaviour
 
         if (this.life <= 0)
         {
-            if (this.bossfight.InFight)
+            if (this.bossfight.BossHere)
             {
-                this.bossfight.Spec();
                 //fix me
-
+                if (this.bossfight.InFight)
+                    this.bossfight.Spec();
+                else
+                    Respawn();
             }
             else
             {
@@ -235,8 +237,14 @@ public class SyncCharacter : NetworkBehaviour
         this.Hunger = this.hungerMax;
         this.Thirst = this.thirstMax;
         this.character.GetComponent<Rigidbody>().velocity = Vector3.zero;
-        if (!this.bossfight.InFight)
+        if (!this.bossfight.BossHere)
             CmdRespawnPos();
+        else
+        {
+            transform.GetChild(0).gameObject.SetActive(true);
+            gameObject.GetComponent<Social_HUD>().RpcTeleport(Vector3.up * 7);
+        }
+
     }
 
     /// <summary>

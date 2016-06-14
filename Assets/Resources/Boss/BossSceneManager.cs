@@ -57,6 +57,13 @@ public class BossSceneManager : MonoBehaviour
         this.SpecCamPos.transform.GetChild(this.Specpos).gameObject.SetActive(true);
     }
 
+    public void NotSpecAnyMore()
+    {
+        this.spawnWall.SetActive(false);
+        this.SpecCamPos.transform.GetChild(this.Specpos).gameObject.SetActive(false);
+        this.Specpos = 0;
+    }
+
     #region Getters/Setters
     public GameObject SpawnWall
     {

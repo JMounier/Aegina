@@ -8,34 +8,41 @@ public class BossFight : NetworkBehaviour
 
     private Vector3 bossPos;
     private bool inFight;
+
     private static int deathCount;
+    private static int infightcount;
 
     private BossSceneManager bSM;
     private GameObject character;
     private SyncCharacter syncChar;
     private Controller control;
+    private MapGeneration mp;
 
 
-    private List<GameObject> playersInFight;
 
     // Use this for initialization
     void Start()
     {
         this.bossPos = Vector3.zero;
-        if (GameObject.Find("Map").GetComponent<MapGeneration>() != null)
-            this.bossPos = GameObject.FindGameObjectWithTag("Mob").transform.position;
-        this.bSM = GameObject.Find("FightManager").GetComponent<BossSceneManager>();
-        this.syncChar = gameObject.GetComponent<SyncCharacter>();
-        this.character = gameObject.GetComponentInChildren<CharacterCollision>().gameObject;
-        this.control = gameObject.GetComponent<Controller>();
 
+        this.mp = GameObject.Find("Map").GetComponent<MapGeneration>();
+        if (this.mp == null)
+        {
+            this.bossPos = GameObject.FindGameObjectWithTag("Mob").transform.position;
+            this.bSM = GameObject.Find("FightManager").GetComponent<BossSceneManager>();
+        }
+        if (isLocalPlayer)
+        {
+            this.syncChar = gameObject.GetComponent<SyncCharacter>();
+            this.character = gameObject.GetComponentInChildren<CharacterCollision>().gameObject;
+            this.control = gameObject.GetComponent<Controller>();
+        }
 
         this.inFight = false;
         if (!isServer)
             return;
 
         deathCount = 0;
-        this.playersInFight = new List<GameObject>();
     }
 
     // Update is called once per frame
@@ -56,7 +63,8 @@ public class BossFight : NetworkBehaviour
         if (!inFight && Vector3.Distance(this.character.transform.position, this.bossPos) < 28.4f)
         {
             this.inFight = true;
-            CmdEnterFight(gameObject);
+            this.bSM.SpawnWall.SetActive(true);
+            CmdEnterFight();
         }
     }
 
@@ -65,36 +73,37 @@ public class BossFight : NetworkBehaviour
     {
         if (gameObject.transform.GetChild(0).gameObject.activeInHierarchy)
         {
-            gameObject.transform.GetChild(0).gameObject.SetActive(false);
+            this.bSM.SwitchView(0);
+            transform.GetChild(0).gameObject.SetActive(false);
             CmdDead();
         }
     }
 
     [Command]
-    private void CmdEnterFight(GameObject player)
+    private void CmdEnterFight()
     {
-        if (!this.playersInFight.Contains(player))
-        {
-            this.playersInFight.Add(player);
-            this.bSM.SpawnWall.SetActive(true);
-        }
+        Debug.Log("+1");
+        infightcount++;
     }
 
     [Command]
     private void CmdDead()
     {
         deathCount++;
-        if (deathCount == this.playersInFight.Count)
+        if (deathCount == infightcount)
             Respawn();
     }
 
     private void Respawn()
     {
-        foreach (GameObject player in this.playersInFight)
+        foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
         {
-            // peut etre transmettre l'inventaire ici
-            player.GetComponent<BossFight>().RpcRestart();
+            Debug.Log("coucou");
+            if(player.GetComponent<BossFight>().inFight)
+                player.GetComponent<BossFight>().RpcRestart();
         }
+        infightcount = 0;
+        deathCount = 0;
     }
 
     [ClientRpc]
@@ -103,14 +112,8 @@ public class BossFight : NetworkBehaviour
         if (!isLocalPlayer)
             return;
 
-        //rendre l'inventaire.
-
-        gameObject.transform.GetChild(0).gameObject.SetActive(true);
-        this.character.transform.position = Vector3.up * 7;
-
         this.syncChar.Respawn();
-
-        this.bSM.SpawnWall.SetActive(false);
+        this.bSM.NotSpecAnyMore();
         this.inFight = false;
     }
 
@@ -118,6 +121,11 @@ public class BossFight : NetworkBehaviour
     public bool InFight
     {
         get { return this.inFight; }
+    }
+
+    public bool BossHere
+    {
+        get { return this.mp == null; }
     }
     #endregion
 

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.Networking;
 using System.Collections;
 using System.Collections.Generic;
 using System;
@@ -22,6 +23,8 @@ public class Command
     private static readonly Command Op = new Command("op", "/op <player>", true);
     private static readonly Command DeOp = new Command("deop", "/deop <player>", true);
     private static readonly Command ChoseTeam = new Command("choseteam", "/choseteam <team> [player]", true);
+    private static readonly Command Boss = new Command("boss", "/boss", true);
+    private static readonly Command World = new Command("world", "/world", true);
 
     /// <summary>
     /// Liste tous les biomes du jeu. (Utilisez avec foreach)
@@ -46,6 +49,8 @@ public class Command
             yield return Op;
             yield return DeOp;
             yield return ChoseTeam;
+            yield return Boss;
+            yield return World;
         }
     }
 
@@ -416,6 +421,17 @@ public class Command
                 foreach (GameObject p in GameObject.FindGameObjectsWithTag("Player"))
                     p.GetComponent<Social_HUD>().RpcReceiveMsg(player.GetComponent<Social_HUD>().PlayerName + " is now part of the " + t.ToString().ToLower() + " team.");
             }
+            // Boss
+            else if(c == Boss)
+            {
+                GameObject.Find("Map").GetComponent<Save>().SaveWorld();
+                foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
+                    player.GetComponent<Social_HUD>().RpcReceiveMsg("The world has been forcefully saved by " + namePlayer + ".");
+
+                GameObject.Find("NetworkManager").GetComponent<NetworkManager2>().ServerChangeScene("BossScene");
+            }
+            else if (c == World)
+                GameObject.Find("NetworkManager").GetComponent<NetworkManager2>().ServerChangeScene("Main");
         }
         catch
         {
