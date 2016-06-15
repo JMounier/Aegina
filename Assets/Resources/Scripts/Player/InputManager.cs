@@ -236,9 +236,7 @@ public class InputManager : NetworkBehaviour
             switch (this.attack)
             {
                 case TypeAttack.Charge:
-                    Debug.Log("Charge");
                     this.anim.SetInteger("Action", 9);
-                    Debug.Log(this.anim.GetInteger("Action"));
                     break;
                 case TypeAttack.Aerial:
                     this.anim.SetInteger("Action", 10);
