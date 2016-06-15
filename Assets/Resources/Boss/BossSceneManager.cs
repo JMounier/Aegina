@@ -7,7 +7,6 @@ public class BossSceneManager : MonoBehaviour
 
     private GameObject spawnWall;
     private GameObject SpecCamPos;
-    private GameObject Spawn;
 
     private List<GameObject> OrbitingStuff;
 
@@ -21,7 +20,6 @@ public class BossSceneManager : MonoBehaviour
 
         this.spawnWall = gameObject.transform.GetChild(0).gameObject;
         this.SpecCamPos = gameObject.transform.GetChild(1).gameObject;
-        this.Spawn = gameObject.transform.GetChild(2).gameObject;
 
         this.OrbitingStuff = new List<GameObject>();
 
@@ -37,6 +35,8 @@ public class BossSceneManager : MonoBehaviour
         {
             obj.transform.LookAt(obj.transform.parent);
         }
+
+		this.NotSpecAnyMore ();
     }
 
     // Update is called once per frame

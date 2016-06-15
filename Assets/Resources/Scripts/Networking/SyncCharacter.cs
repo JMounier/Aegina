@@ -109,9 +109,8 @@ public class SyncCharacter : NetworkBehaviour
         {
             if (this.bossfight.BossHere)
             {
-                //fix me
                 if (this.bossfight.InFight)
-                    this.bossfight.Spec();
+                    this.bossfight.EnterSpec();
                 else
                     Respawn();
             }

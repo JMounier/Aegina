@@ -15,8 +15,7 @@ public class BossFight : NetworkBehaviour
     private BossSceneManager bSM;
     private GameObject character;
     private SyncCharacter syncChar;
-    private Controller control;
-    private MapGeneration mp;
+    private MapGeneration mg;
 
 
 
@@ -25,17 +24,17 @@ public class BossFight : NetworkBehaviour
     {
         this.bossPos = Vector3.zero;
 
-        this.mp = GameObject.Find("Map").GetComponent<MapGeneration>();
-        if (this.mp == null)
+        this.mg = GameObject.Find("Map").GetComponent<MapGeneration>();
+        if (this.mg == null)
         {
             this.bossPos = GameObject.FindGameObjectWithTag("Mob").transform.position;
             this.bSM = GameObject.Find("FightManager").GetComponent<BossSceneManager>();
         }
+
         if (isLocalPlayer)
         {
             this.syncChar = gameObject.GetComponent<SyncCharacter>();
             this.character = gameObject.GetComponentInChildren<CharacterCollision>().gameObject;
-            this.control = gameObject.GetComponent<Controller>();
             this.inFight = false;
         }
 
@@ -50,39 +49,30 @@ public class BossFight : NetworkBehaviour
     {
         if (this.bossPos == Vector3.zero)
             return;
-
-        if (isServer)
-        {
-
-        }
-
-
+		
         if (!isLocalPlayer)
             return;
 
         if (!inFight && Vector3.Distance(this.character.transform.position, this.bossPos) < 28.4f)
-        {
-            this.inFight = true;
+		{
+			this.inFight = true;
+			CmdEnterFight();
             this.bSM.SpawnWall.SetActive(true);
-            CmdEnterFight();
         }
     }
 
 
-    public void Spec()
+    public void EnterSpec()
     {
-        if (gameObject.transform.GetChild(0).gameObject.activeInHierarchy)
-        {
-            this.bSM.SwitchView(0);
-            transform.GetChild(0).gameObject.SetActive(false);
-            CmdDead();
-        }
+       this.bSM.SwitchView(0);
+       transform.GetChild(0).gameObject.SetActive(false);
+       CmdDead();
     }
+		
 
     [Command]
     private void CmdEnterFight()
     {
-        Debug.Log("+1");
         infightcount++;
     }
 
@@ -90,29 +80,27 @@ public class BossFight : NetworkBehaviour
     private void CmdDead()
     {
         deathCount++;
-        if (deathCount == infightcount)
-            Respawn();
+		if (deathCount == infightcount)
+			Respawn ();
     }
 
-    private void Respawn()
-    {
-        foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
-        {
-            Debug.Log("ok");
-            if (player.GetComponent<BossFight>().inFight)
-                player.GetComponent<BossFight>().RpcRestart();
-        }
-        infightcount = 0;
-        deathCount = 0;
-    }
+	/// <summary>
+	/// Respawn all player in the fight.
+	/// </summary>
+	private void Respawn()
+	{
+		foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
+			player.GetComponent<BossFight> ().RpcRestart ();
+		infightcount = 0;
+		deathCount = 0;
+	}
 
     [ClientRpc]
     public void RpcRestart()
     {
-        Debug.Log("here");
-        if (!isLocalPlayer)
+		if (!isLocalPlayer || !this.inFight)
             return;
-        Debug.Log("here to");
+		
         this.syncChar.Respawn();
         this.bSM.NotSpecAnyMore();
         this.inFight = false;
@@ -122,11 +110,12 @@ public class BossFight : NetworkBehaviour
     public bool InFight
     {
         get { return this.inFight; }
+		set { this.inFight = value;}
     }
 
     public bool BossHere
     {
-        get { return this.mp == null; }
+        get { return this.mg == null; }
     }
     #endregion
 
