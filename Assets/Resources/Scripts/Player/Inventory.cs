@@ -217,24 +217,24 @@ public class Inventory : NetworkBehaviour
                         }
 
                     }
-					// équipper une armure
-					else if (!this.draggingItemStack && Event.current.button == 1 && Event.current.type == EventType.MouseUp)
-					{
-						if (this.slots[i, j].Items is TopArmor)
-						{
-							ItemStack temp = this.slots[i, j];
-							this.slots[i, j] = this.top;
-							this.top = temp;
-							CmdSetArmor(this.top.Items.ID, this.bottom.Items.ID);
-						}
-						else if (this.slots[i, j].Items is BottomArmor)
-						{
-							ItemStack temp = this.slots[i, j];
-							this.slots[i, j] = this.bottom;
-							this.bottom = temp;
-							CmdSetArmor(this.top.Items.ID, this.bottom.Items.ID);
-						}
-					}
+                    // équipper une armure
+                    else if (!this.draggingItemStack && Event.current.button == 1 && Event.current.type == EventType.MouseUp)
+                    {
+                        if (this.slots[i, j].Items is TopArmor)
+                        {
+                            ItemStack temp = this.slots[i, j];
+                            this.slots[i, j] = this.top;
+                            this.top = temp;
+                            CmdSetArmor(this.top.Items.ID, this.bottom.Items.ID);
+                        }
+                        else if (this.slots[i, j].Items is BottomArmor)
+                        {
+                            ItemStack temp = this.slots[i, j];
+                            this.slots[i, j] = this.bottom;
+                            this.bottom = temp;
+                            CmdSetArmor(this.top.Items.ID, this.bottom.Items.ID);
+                        }
+                    }
                     // Description du stack
                     else if (!this.draggingItemStack && this.slots[i, j].Items.ID != -1)
                     {
@@ -317,7 +317,7 @@ public class Inventory : NetworkBehaviour
                             this.slots[i, j] = this.selectedItem;
                         }
                     }
-                    
+
                     // Relachement d'un item dans un slot
                     else if (this.draggingItemStack && Event.current.button == 1 && Event.current.type == EventType.MouseUp)
                     {
@@ -765,20 +765,20 @@ public class Inventory : NetworkBehaviour
             if (!this.draggingItemStack && Event.current.button == 1 && Event.current.type == EventType.MouseDown)
             {
                 AddItemStack(this.top, false);
-				if (this.top.Items.ID != -1)
+                if (this.top.Items.ID != -1)
                 {
                     Drop(this.top);
-					this.top = new ItemStack();
+                    this.top = new ItemStack();
                 }
-				CmdSetArmor(this.top.Items.ID, this.bottom.Items.ID);
+                CmdSetArmor(this.top.Items.ID, this.bottom.Items.ID);
             }
         }
         rectTop.x += this.size_inventory / 5;
         rectTop.y += this.size_inventory / 5;
         rectTop.width -= this.size_inventory / 2.5f;
         rectTop.height -= this.size_inventory / 2.5f;
-		if(this.top.Items.ID != -1)
-			GUI.DrawTexture(rectTop, this.top.Items.Icon);
+        if (this.top.Items.ID != -1)
+            GUI.DrawTexture(rectTop, this.top.Items.Icon);
 
         GUI.Box(rectBottom, "", this.skin.GetStyle("toolbar_selected"));
         if (rectBottom.Contains(Event.current.mousePosition))
@@ -787,10 +787,10 @@ public class Inventory : NetworkBehaviour
             if (!this.draggingItemStack && Event.current.button == 1 && Event.current.type == EventType.MouseDown)
             {
                 AddItemStack(this.bottom, false);
-				if (this.bottom.Items.ID != -1)
+                if (this.bottom.Items.ID != -1)
                 {
                     Drop(this.bottom);
-					this.bottom = new ItemStack();
+                    this.bottom = new ItemStack();
                 }
                 CmdSetArmor(this.top.Items.ID, this.bottom.Items.ID);
             }
@@ -800,8 +800,8 @@ public class Inventory : NetworkBehaviour
         rectBottom.y += this.size_inventory / 5;
         rectBottom.width -= this.size_inventory / 2.5f;
         rectBottom.height -= this.size_inventory / 2.5f;
-		if(this.bottom.Items.ID != -1)
-        	GUI.DrawTexture(rectBottom, this.bottom.Items.Icon);
+        if (this.bottom.Items.ID != -1)
+            GUI.DrawTexture(rectBottom, this.bottom.Items.Icon);
     }
 
     /// <summary>
@@ -1048,6 +1048,19 @@ public class Inventory : NetworkBehaviour
         BottomArmor.SetArmor(gameObject, (ItemDatabase.Find(botId) as BottomArmor));
     }
 
+    [Command]
+    private void CmdUpdateArmor()
+    {
+        foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
+            player.GetComponent<Inventory>().RpcUpdateArmor();
+    }
+
+    [ClientRpc]
+    private void RpcUpdateArmor()
+    {
+        if (isLocalPlayer)
+            CmdSetArmor(this.top.Items.ID, this.bottom.Items.ID);
+    }
     /// <summary>
     /// Retire l'objet dans la main du joueur.
     /// </summary>
@@ -1142,10 +1155,11 @@ public class Inventory : NetworkBehaviour
                 Drop(slots[i, j]);
                 this.slots[i, j] = new ItemStack();
             }
-		Drop (this.top);
-		Drop (this.bottom);
-		this.top = new ItemStack ();
-		this.bottom = new ItemStack ();
+        Drop(this.top);
+        Drop(this.bottom);
+        this.top = new ItemStack();
+        this.bottom = new ItemStack();
+        this.CmdSetArmor(this.top.Items.ID, this.bottom.Items.ID);
         this.SaveInventory();
     }
 
@@ -1287,22 +1301,23 @@ public class Inventory : NetworkBehaviour
                     try
                     {
                         if (info[0] == "-1")
-                            this.top = new ItemStack(ItemDatabase.Find(int.Parse(info[2])),1);
+                            this.top = new ItemStack(ItemDatabase.Find(int.Parse(info[2])), 1);
                         else if (info[0] == "-2")
-						{
-                            this.bottom = new ItemStack(ItemDatabase.Find(int.Parse(info[2])),1);
-						}
+                        {
+                            this.bottom = new ItemStack(ItemDatabase.Find(int.Parse(info[2])), 1);
+                        }
                         else
-						{
+                        {
                             this.slots[int.Parse(info[0]), int.Parse(info[1])] = new ItemStack(ItemDatabase.Find(int.Parse(info[2])), int.Parse(info[3]));
-						}
-					}
+                        }
+                    }
                     catch
                     {
                         throw new System.ArgumentException("Le save (str) est corompu : " + itemStack);
                     }
                 }
-            }           
+            }
+            CmdUpdateArmor();
         }
     }
 
