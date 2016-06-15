@@ -388,7 +388,7 @@ public class InputManager : NetworkBehaviour
 
 
     [Command]
-    private void CmdAttack(float damage, TypeAttack atk, bool spear = false)
+    private void CmdAttack(float damage, TypeAttack atk, bool spear)
     {
         SyncChunk actual_chunk = null;
         foreach (Collider col in Physics.OverlapBox(this.character.transform.position, new Vector3(5, 100, 5)))
