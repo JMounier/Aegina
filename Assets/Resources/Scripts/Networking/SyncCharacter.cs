@@ -322,9 +322,10 @@ public class SyncCharacter : NetworkBehaviour
                 break;
             }
         }
-        float armor = 100;
+        float armor = 100 + inventory.Top.ArmorValue + inventory.Bottom.ArmorValue;
         if (chunk != null && chunk.IsCristal && chunk.Cristal.Team == gameObject.GetComponent<Social_HUD>().Team)
             armor += chunk.Cristal.LevelAtk * 20;
+        
 
         this.Life -= 100 * damage / armor;
         if (this.Life == 0 && isPlayer)
