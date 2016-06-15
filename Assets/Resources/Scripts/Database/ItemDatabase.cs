@@ -96,9 +96,9 @@ public static class ItemDatabase
     public static readonly Item Pumpkin = new Item(87, TextDatabase.Pumpkin, TextDatabase.PumpkinDescription, 64, Resources.Load<Texture2D>("Sprites/Items/Plants/Pumpkin"), new Entity(EntityDatabase.PumpkinLoot));
     public static readonly Item AnimalFat = new Item(88, TextDatabase.AnimalFat, TextDatabase.AnimalFatDescription, 64, Resources.Load<Texture2D>("Sprites/Items/Animals/AnimalFat"), new Entity(EntityDatabase.AnimalFat));
 
-    public static readonly Item SlimeCore = new Item(89, TextDatabase.SlimeCore, TextDatabase.SlimeCoreDescription, 5, Resources.Load<Texture2D>(""), new Entity(EntityDatabase.SlimeCore));
-    public static readonly Item BoarCore = new Item(90, TextDatabase.BoarCore, TextDatabase.BoarCoreDescription, 5, Resources.Load<Texture2D>(""), new Entity(EntityDatabase.BoarCore));
-    public static readonly Item PampiCore = new Item(91, TextDatabase.PampiCore, TextDatabase.PampiCoreDescription, 5, Resources.Load<Texture2D>(""), new Entity(EntityDatabase.PampiCore));
+    public static readonly Item SlimeCore = new Item(89, TextDatabase.SlimeCore, TextDatabase.SlimeCoreDescription, 5, Resources.Load<Texture2D>("Sprites/Items/Ores/SlimeCore"), new Entity(EntityDatabase.SlimeCore));
+	public static readonly Item BoarCore = new Item(90, TextDatabase.BoarCore, TextDatabase.BoarCoreDescription, 5, Resources.Load<Texture2D>("Sprites/Items/Ores/BoarCore"), new Entity(EntityDatabase.BoarCore));
+	public static readonly Item PampiCore = new Item(91, TextDatabase.PampiCore, TextDatabase.PampiCoreDescription, 5, Resources.Load<Texture2D>("Sprites/Items/Ores/PampiCore"), new Entity(EntityDatabase.PampiCore));
 
     public static readonly BattleAxe CopperBattleAxe = new BattleAxe(100, TextDatabase.CopperBattleAxe, TextDatabase.CopperBattleAxeDescription, 150, 360, Resources.Load<Texture2D>("Sprites/Items/Tools/CopperBattleAxe"), new Entity(EntityDatabase.CopperBattleAxe), Resources.Load<GameObject>("Prefabs/Tools/Weapons/BattleAxe/CopperBattleAxe"));
     public static readonly BattleAxe IronBattleAxe = new BattleAxe(101, TextDatabase.IronBattleAxe, TextDatabase.IronBattleAxeDescription, 250, 400, Resources.Load<Texture2D>("Sprites/Items/Tools/IronBattleAxe"), new Entity(EntityDatabase.IronBattleAxe), Resources.Load<GameObject>("Prefabs/Tools/Weapons/BattleAxe/IronBattleAxe"));

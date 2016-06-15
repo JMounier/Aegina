@@ -59,10 +59,10 @@ public static class CraftDatabase
     public static readonly Craft Cup = new Craft(72, new ItemStack(ItemDatabase.Bowl, 2), false, true, false, false, false, Craft.Type.Elementary, new ItemStack(ItemDatabase.Log, 3));
     public static readonly Craft CutStone = new Craft(73, new ItemStack(ItemDatabase.CuttedStone, 2), false, true, false, false, false, Craft.Type.Elementary, new ItemStack(ItemDatabase.Stone, 3));
 
-    public static readonly Craft LeatherTop = new Craft(Craft.Type.Armor);
-    public static readonly Craft IronTop = new Craft(Craft.Type.Armor);
-    public static readonly Craft MithrilTop = new Craft(Craft.Type.Armor);
-    public static readonly Craft SunkiumTop = new Craft(Craft.Type.Armor);
+	public static readonly Craft LeatherTop = new Craft(80,new ItemStack(ItemDatabase.LeatherTopArmor,1),false,true,false,false,false,Craft.Type.Armor,new ItemStack(ItemDatabase.Bone,3),new ItemStack(ItemDatabase.Hide,10));
+	public static readonly Craft IronTop = new Craft(81,new ItemStack(ItemDatabase.IronTopArmor,1),false,true,true,false,false,Craft.Type.Armor,new ItemStack(ItemDatabase.Bone,2),new ItemStack(ItemDatabase.IronIngot,5));
+	public static readonly Craft MithrilTop = new Craft(81,new ItemStack(ItemDatabase.MithrilTopArmor,1),false,true,true,false,false,Craft.Type.Armor,new ItemStack(ItemDatabase.FloatiumIngot,2),new ItemStack(ItemDatabase.MithrilIngot,5));
+	public static readonly Craft SunkiumTop = new Craft(81,new ItemStack(ItemDatabase.SunkiumTopArmor,1),false,true,true,false,false,Craft.Type.Armor,new ItemStack(ItemDatabase.IronIngot,2),new ItemStack(ItemDatabase.SunkiumIngot,5));
 
     public static readonly Craft LeatherBottom = new Craft(Craft.Type.Armor);
     public static readonly Craft IronBottom = new Craft(Craft.Type.Armor);

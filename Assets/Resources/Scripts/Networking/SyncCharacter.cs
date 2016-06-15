@@ -313,7 +313,7 @@ public class SyncCharacter : NetworkBehaviour
     public void ReceiveDamage(float damage, Vector3 knockback, bool isPlayer)
     {
         SyncChunk chunk = null;
-        this.RpcApplyForce(knockback.x * 20000f, 5000f, knockback.z * 20000f);
+        this.RpcApplyForce(knockback.x * 20000f + 1000, 2000f, knockback.z * 20000f + 1000);
         foreach (Collider col in Physics.OverlapBox(this.character.transform.position, new Vector3(5, 100, 5)))
         {
             if (col.gameObject.name.Contains("Island"))
@@ -322,7 +322,7 @@ public class SyncCharacter : NetworkBehaviour
                 break;
             }
         }
-        float armor = 100 + inventory.Top.ArmorValue + inventory.Bottom.ArmorValue;
+		float armor = 100 + (inventory.Top != null ? inventory.Top.ArmorValue : 0) + (inventory.Bottom != null ? inventory.Bottom.ArmorValue : 0);
         if (chunk != null && chunk.IsCristal && chunk.Cristal.Team == gameObject.GetComponent<Social_HUD>().Team)
             armor += chunk.Cristal.LevelAtk * 20;
         
