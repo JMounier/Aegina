@@ -178,7 +178,7 @@ public class Clothing
             yield return RedTshirt;
             yield return BlueTshirt;
             yield return GreenTshirt;
-            yield return YellowTshirt;
+            yield return GrayTshirt;
             yield return PurpleTshirt;
         }
     }
@@ -340,11 +340,11 @@ public class Clothing
     public static readonly Gloves PurpleGloves = new Gloves(116, Resources.Load<Texture2D>("Models/Character/Textures/Gloves/Gloves_Purple"), TextDatabase.PurpleGloves, new Color(.227f, .066f, .243f));
 
     public static readonly Tshirt NoneTshirt = new Tshirt(120, TextDatabase.NoneTshirt);
-    public static readonly Tshirt RedTshirt = new Tshirt(121, Resources.Load<Texture2D>("Models/Character/Textures/TShirts/Red"), TextDatabase.RedTshirt, Color.red, Tshirt.TypeTshirt.TShirt);
-    public static readonly Tshirt BlueTshirt = new Tshirt(122, Resources.Load<Texture2D>("Models/Character/Textures/TShirts/Blue"), TextDatabase.BlueTshirt, Color.blue, Tshirt.TypeTshirt.TShirt);
-    public static readonly Tshirt PurpleTshirt = new Tshirt(123, Resources.Load<Texture2D>("Models/Character/Textures/TShirts/Purple"), TextDatabase.PurpleTshirt, new Color(0.754f, 0.156f, 0.878f), Tshirt.TypeTshirt.TShirt);
-    public static readonly Tshirt GreenTshirt = new Tshirt(124, Resources.Load<Texture2D>("Models/Character/Textures/TShirts/Green"), TextDatabase.GreenTshirt, Color.green, Tshirt.TypeTshirt.TShirt);
-    public static readonly Tshirt YellowTshirt = new Tshirt(125, Resources.Load<Texture2D>("Models/Character/Textures/TShirts/Yellow"), TextDatabase.YellowTshirt, Color.yellow, Tshirt.TypeTshirt.TShirt);
+    public static readonly Tshirt RedTshirt = new Tshirt(121, Resources.Load<Texture2D>("Models/Character/Textures/TShirts/Red"), TextDatabase.RedTshirt, new Color(.549f,.16f,.223f), Tshirt.TypeTshirt.TShirt);
+    public static readonly Tshirt BlueTshirt = new Tshirt(122, Resources.Load<Texture2D>("Models/Character/Textures/TShirts/Blue"), TextDatabase.BlueTshirt, new Color(.172f, .172f, .529f), Tshirt.TypeTshirt.TShirt);
+    public static readonly Tshirt PurpleTshirt = new Tshirt(123, Resources.Load<Texture2D>("Models/Character/Textures/TShirts/Purple"), TextDatabase.PurpleTshirt, new Color(0.337f, 0.243f, 0.349f), Tshirt.TypeTshirt.TShirt);
+    public static readonly Tshirt GreenTshirt = new Tshirt(124, Resources.Load<Texture2D>("Models/Character/Textures/TShirts/Green"), TextDatabase.GreenTshirt, new Color(.172f, .576f, .192f), Tshirt.TypeTshirt.TShirt);
+    public static readonly Tshirt GrayTshirt = new Tshirt(125, Resources.Load<Texture2D>("Models/Character/Textures/TShirts/Gray"), TextDatabase.GrayTshirt, new Color(.435f, .435f, .435f), Tshirt.TypeTshirt.TShirt);
 
 
     //Getter/Setter
