@@ -233,7 +233,20 @@ public class InputManager : NetworkBehaviour
                 this.attack = TypeAttack.Vertical;
         }
         if (this.cdAttack > 4.8f)
-            this.anim.SetInteger("Action", 6);//a modifié en fonction de l'attaque
+            switch (this.attack)
+            {
+                case TypeAttack.Charge:
+                    this.anim.SetInteger("Action", 9);
+                    break;
+                case TypeAttack.Aerial:
+                    this.anim.SetInteger("Action", 10);
+                    break;
+                case TypeAttack.Vertical:
+                    this.anim.SetInteger("Action", 6);
+                    break;
+                default:
+                    break;
+            }
         if (this.cdAttack < 4.8f && this.cdAttack > 4.7f)
         {
 
@@ -401,8 +414,7 @@ public class InputManager : NetworkBehaviour
         else if (atk == TypeAttack.Charge)
         {
             cibles = Physics.OverlapBox(this.character.transform.position - this.character.transform.forward / 2 + new Vector3(0, 0.5f, 1.5f), new Vector3(0.2f, 0.2f, 1.75f), this.character.transform.rotation);
-            this.controller.IsJumping = true;
-            this.syncCharacter.RpcApplyRelativeForce(0, 5000f, -20000f);
+            this.syncCharacter.RpcApplyRelativeForce(0,0 , -25000f);
         }
         foreach (Collider cible in cibles)
         {
