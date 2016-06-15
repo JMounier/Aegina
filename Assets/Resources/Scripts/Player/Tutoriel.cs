@@ -317,6 +317,7 @@ public class Tutoriel : NetworkBehaviour
         {
             CmdSaveProgress(14);
             this.controler.Pause = false;
+            this.textObjectif = new Text();
             CmdTutoEnding();
         }
         rect.x += 2 * Screen.width / 15;
