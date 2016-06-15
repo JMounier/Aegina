@@ -99,6 +99,12 @@ public static class ItemDatabase
     public static readonly Item BoarCore = new Item(90, TextDatabase.BoarCore, TextDatabase.BoarCoreDescription, 5, Resources.Load<Texture2D>("Sprites/Items/Ores/BoarCore"), new Entity(EntityDatabase.BoarCore));
     public static readonly Item PampiCore = new Item(91, TextDatabase.PampiCore, TextDatabase.PampiCoreDescription, 5, Resources.Load<Texture2D>("Sprites/Items/Ores/PampiCore"), new Entity(EntityDatabase.PampiCore));
     public static readonly Consumable InstableCore = new Consumable(100, TextDatabase.Instable, TextDatabase.Instable, 1, Resources.Load<Texture2D>("Sprites/Items/Ores/InstableCore"), new Entity(EntityDatabase.InstableCore),new Effect(Effect.EffectType.Resistance,2),Resources.Load<GameObject>("Prefabs/Consumables/InstableCore"));
+
+    public static readonly TopArmor LeatherTopArmor = new TopArmor(110, TextDatabase.LeatherTopArmor, TextDatabase.LeatherTopArmorDescription, Resources.Load<Texture2D>("Sprites/Items/Armors/LeatherTopArmor"), new Entity(EntityDatabase.LeatherTopArmor), 50, Resources.Load<Material>("Models/Items/Armors/Materials/LeatherArmor"), Resources.Load<Material>("Models/Items/Armors/Materials/IronA"));
+    public static readonly TopArmor IronTopArmor = new TopArmor(111, TextDatabase.IronTopArmor, TextDatabase.IronTopArmorDescription, Resources.Load<Texture2D>("Sprites/Items/Armors/IronTopArmor"), new Entity(EntityDatabase.IronTopArmor), 50, Resources.Load<Material>("Models/Items/Armors/Materials/ArmorIron"), Resources.Load<Material>("Models/Items/Armors/Materials/ArmorIron"));
+    public static readonly TopArmor MithrilTopArmor = new TopArmor(112, TextDatabase.MithrilTopArmor, TextDatabase.MithrilTopArmorDescription, Resources.Load<Texture2D>("Sprites/Items/Armors/MithrilTopArmor"), new Entity(EntityDatabase.MithrilTopArmor), 50, Resources.Load<Material>("Models/Items/Armors/Materials/Mithril"), Resources.Load<Material>("Models/Items/Armors/Materials/Floatium"));
+    public static readonly TopArmor SunkiumTopArmor = new TopArmor(113, TextDatabase.SunkiumTopArmor, TextDatabase.SunkiumTopArmorDescription, Resources.Load<Texture2D>("Sprites/Items/Armors/SunkiumTopArmor"), new Entity(EntityDatabase.SunkiumTopArmor), 50, Resources.Load<Material>("Models/Items/Armors/Materials/SunkiumCenter"), Resources.Load<Material>("Models/Items/Armors/Materials/IronA"));
+
     /// <summary>
     /// Liste tous les items du jeu. (Utilisez avec foreach)
     /// </summary>
@@ -146,7 +152,9 @@ public static class ItemDatabase
             yield return BoarCore;
             yield return PampiCore;
 
-            // Tools
+            foreach (TopArmor topArmor in TopArmors)
+                yield return topArmor;
+            
             foreach (Pickaxe pickaxe in Pickaxes)
                 yield return pickaxe;
 
@@ -163,6 +171,19 @@ public static class ItemDatabase
                 yield return work;
         }
     }
+
+    public static IEnumerable<TopArmor> TopArmors
+    {
+        get
+        {
+            yield return LeatherTopArmor;
+            yield return IronTopArmor;
+            yield return MithrilTopArmor;
+            yield return SunkiumTopArmor;
+        }
+    }
+
+    
 
     /// <summary>
     /// Liste tous les haches du jeu. (Utilisez avec foreach)

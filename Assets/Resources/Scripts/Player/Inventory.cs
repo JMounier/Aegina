@@ -1029,6 +1029,19 @@ public class Inventory : NetworkBehaviour
         obj.transform.localScale = scale;
     }
 
+    [Command]
+    public void CmdSetArmor(int topId, int botId)
+    {
+        RpcSetArmor(topId, botId);
+    }
+
+    [ClientRpc]
+    public void RpcSetArmor(int topId, int botId)
+    {
+        TopArmor.SetArmor(gameObject, ItemDatabase.Find(topId) as TopArmor);
+        BottomArmor.SetArmor(gameObject, ItemDatabase.Find(botId) as BottomArmor);
+    }
+
     /// <summary>
     /// Retire l'objet dans la main du joueur.
     /// </summary>

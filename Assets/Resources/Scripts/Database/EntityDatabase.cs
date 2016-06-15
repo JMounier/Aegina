@@ -40,10 +40,15 @@ public static class EntityDatabase
     public static readonly Entity FloatiumAxe = new Entity(26, 60, Resources.Load<GameObject>("Prefabs/Loots/FloatiumAxe"));
     public static readonly Entity SunkiumAxe = new Entity(27, 60, Resources.Load<GameObject>("Prefabs/Loots/SunkiumAxe"));
 
-    public static readonly Entity LeatherArmor = new Entity(30, 60, Resources.Load<GameObject>("Prefabs/Loots/LeatherArmor"));
-    public static readonly Entity IronArmor = new Entity(31, 60, Resources.Load<GameObject>("Prefabs/Loots/IronArmor"));
-    public static readonly Entity MithrilArmor = new Entity(32, 60, Resources.Load<GameObject>("Prefabs/Loots/MithrilArmor"));
-    public static readonly Entity SunkiumArmor = new Entity(33, 60, Resources.Load<GameObject>("Prefabs/Loots/SunkiumArmor"));
+    public static readonly Entity LeatherTopArmor = new Entity(30, 60, Resources.Load<GameObject>("Prefabs/Loots/LeatherTopArmor"));
+    public static readonly Entity IronTopArmor = new Entity(31, 60, Resources.Load<GameObject>("Prefabs/Loots/IronTopArmor"));
+    public static readonly Entity MithrilTopArmor = new Entity(32, 60, Resources.Load<GameObject>("Prefabs/Loots/MithrilTopArmor"));
+    public static readonly Entity SunkiumTopArmor = new Entity(33, 60, Resources.Load<GameObject>("Prefabs/Loots/SunkiumTopArmor"));
+
+    public static readonly Entity LeatherBottomArmor = new Entity(34, 60, Resources.Load<GameObject>("Prefabs/Loots/LeatherBottomArmor"));
+    public static readonly Entity IronBottomArmor = new Entity(35, 60, Resources.Load<GameObject>("Prefabs/Loots/IronBottomArmor"));
+    public static readonly Entity MithrilBottomArmor = new Entity(36, 60, Resources.Load<GameObject>("Prefabs/Loots/MithrilBottomArmor"));
+    public static readonly Entity SunkiumBottomArmor = new Entity(37, 60, Resources.Load<GameObject>("Prefabs/Loots/SunkiumBottomArmor"));
 
     public static readonly Entity CopperPickaxe = new Entity(52, 60, Resources.Load<GameObject>("Prefabs/Loots/CopperPickaxe"));
     public static readonly Entity IronPickaxe = new Entity(53, 60, Resources.Load<GameObject>("Prefabs/Loots/IronPickaxe"));
@@ -296,6 +301,18 @@ public static class EntityDatabase
             yield return RedMushroomLoot;
             yield return WaterCact;
             yield return Soup;
+
+            //Armor
+
+            yield return LeatherTopArmor;
+            yield return IronTopArmor;
+            yield return MithrilTopArmor;
+            yield return SunkiumTopArmor;
+
+            yield return LeatherBottomArmor;
+            yield return IronBottomArmor;
+            yield return MithrilBottomArmor;
+            yield return SunkiumBottomArmor;
 
             //Worktops
             yield return ForgeLoot;

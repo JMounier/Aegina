@@ -197,6 +197,30 @@ public class TextDatabase
     public static readonly Text FloatiumSwordDescription = new Text("Une epee de solidite infaillible", "A foolproof solidity sword");
     public static readonly Text SunkiumSwordDescription = new Text("Une epee de qualite", "A quality sword");
 
+    // Armure
+
+    public static readonly Text LeatherTopArmor = new Text("Bas d'armure de cuir", "Leather bottom Armor");
+    public static readonly Text IronTopArmor = new Text("Bas d'armure de fer", "Iron bottom Armor");
+    public static readonly Text MithrilTopArmor = new Text("Bas d'armure de mithril", "Mithril bottom Armor");
+    public static readonly Text SunkiumTopArmor = new Text("Bas d'armure de sunkium", "Sunkium bottom Armor");
+
+    public static readonly Text LeatherBottomArmor = new Text("Bas d'armure de cuir", "Leather bottom Armor");
+    public static readonly Text IronBottomArmor = new Text("Bas d'armure de fer", "Iron bottom Armor");
+    public static readonly Text MithrilBottomArmor = new Text("Bas d'armure de mithril", "Mithril bottom Armor");
+    public static readonly Text SunkiumBottomArmor = new Text("Bas d'armure de sunkium", "Sunkium bottom Armor");
+
+    // Description
+
+    public static readonly Text LeatherTopArmorDescription = new Text("Bas d'armure de cuir", "Leather bottom Armor");
+    public static readonly Text IronTopArmorDescription = new Text("Bas d'armure de fer", "Iron bottom Armor");
+    public static readonly Text MithrilTopArmorDescription = new Text("Bas d'armure de mithril", "Mithril bottom Armor");
+    public static readonly Text SunkiumTopArmorDescription = new Text("Bas d'armure de sunkium", "Sunkium bottom Armor");
+
+    public static readonly Text LeatherBottomArmorDescription = new Text("Bas d'armure de cuir", "Leather bottom Armor");
+    public static readonly Text IronBottomArmorDescription = new Text("Bas d'armure de fer", "Iron bottom Armor");
+    public static readonly Text MithrilBottomArmorDescription = new Text("Bas d'armure de mithril", "Mithril bottom Armor");
+    public static readonly Text SunkiumBottomArmorDescription = new Text("Bas d'armure de sunkium", "Sunkium bottom Armor");
+
     // Miscellanous
     public static readonly Text Yes = new Text("Oui", "Yes");
     public static readonly Text No = new Text("Non", "No");
