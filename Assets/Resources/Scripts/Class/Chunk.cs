@@ -89,22 +89,28 @@ public class Chunk : Entity
     }
     public bool Generate()
     {
-        List<int> chunkSave = cs.ListIdSave;
+        List<Tuple<int, Vector3>> chunkSave = cs.ListIdSave;
 
         // Generate elements
         if (this.step > -1 && this.step < this.ancres.Count)
         {
             Transform ancre = this.ancres[step];
             if (ancre.CompareTag("Ancre"))
-                if (this.posSave < chunkSave.Count && chunkSave[this.posSave] == step)
+                if (this.posSave < chunkSave.Count && chunkSave[this.posSave].Item1 == step)
+                {
+                    chunkSave[this.posSave].Item2 = ancre.position;
+                    this.rand.NextDouble();
+                    this.rand.NextDouble();
                     this.posSave++;
+                }
                 else
-                    this.GenerateEntity(this.b.Chose(this.rand), ancre.gameObject, step);
+                    this.GenerateEntity(this.b.Chose(this.rand), ancre.gameObject, (int)(this.rand.NextDouble() * 360), step);
 
 
             else if (ancre.CompareTag("MainAncre"))
                 if (this.isPrisme)
-                    this.GenerateEntity(EntityDatabase.IslandCore, ancre.gameObject, step);
+                    this.GenerateEntity(EntityDatabase.IslandCore, ancre.gameObject, 0, step);
+            GameObject.Destroy(ancre.gameObject);
         }
         else if (step == this.ancres.Count)
         {
@@ -160,12 +166,12 @@ public class Chunk : Entity
         return false;
     }
 
-    private void GenerateEntity(Entity e, GameObject ancre, int idSave)
+    private void GenerateEntity(Entity e, GameObject ancre, int rotY, int idSave)
     {
         if (e.ID != -1)
         {
             Vector3 rot = e.Prefab.transform.eulerAngles;
-            rot.y = UnityEngine.Random.Range(0, 360);
+            rot.y = rotY;
             if (e is IslandCore)
                 new IslandCore(e as IslandCore).Spawn(ancre.transform.position, Quaternion.Euler(rot), ancre.transform.parent, idSave);
             else if (e is Element)
@@ -173,8 +179,7 @@ public class Chunk : Entity
             else
                 throw new Exception("You want to spawn something else than an element in the chunk...");
 
-        }
-        GameObject.Destroy(ancre);
+        }        
     }
 
     // Getters & Setters

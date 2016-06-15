@@ -182,6 +182,19 @@ public class MapGeneration : NetworkBehaviour
     }
 
     /// <summary>
+    /// Retourne un chunk a partir de ces coordonees.
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    /// <returns></returns>
+    public Chunk getChunk(int x,int y)
+    {
+        if (isLoaded(x, y))
+            return this.generated[x.ToString() + ":" + y.ToString()];
+        return null;
+    }
+
+    /// <summary>
     /// Transform a seed in string to int.
     /// </summary>
     /// <param name="seed"></param>

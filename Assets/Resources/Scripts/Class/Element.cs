@@ -54,7 +54,7 @@ public class Element : Entity
         if (idSave == -1)
             GameObject.Find("Map").GetComponent<Save>().SaveDestroyedWorktop(x, y, this);
         else
-            GameObject.Find("Map").GetComponent<Save>().SaveDestroyedElement(x, y, idSave);
+            GameObject.Find("Map").GetComponent<Save>().SaveDestroyedElement(x, y, idSave, base.prefab.transform.position);
         base.Kill();
     }
 

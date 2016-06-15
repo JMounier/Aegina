@@ -158,7 +158,7 @@ public static class EntityDatabase
        new int[1] { 2 }, new DropConfig(83, 1), new DropConfig(86, 0, 1), new DropConfig(88, 1));
     public static readonly Mob Bunny = new Mob(505, 10, Resources.Load<GameObject>("Prefabs/Mobs/Bunny"), 15, .25f, 0, 0f, 6f, 1.5f, 3f, 1f, 0f,
      new int[2] { 0, 3 }, new DropConfig(83, 1), new DropConfig(86, 0, 1), new DropConfig(88, 1));
-    public static readonly Mob Penguin = new Mob(506, 10, Resources.Load<GameObject>("Prefabs/Mobs/Penguin"), 100, 1f, 0, 6f,0f, 0.8f, 1.5f, 1f, 2f,
+    public static readonly Mob Penguin = new Mob(506, 10, Resources.Load<GameObject>("Prefabs/Mobs/Penguin"), 20, 1f, 0, 6f,0f, 0.8f, 1.5f, 1f, 2f,
       new int[1] { 2 }, new DropConfig(83, 1), new DropConfig(86, 0, 1), new DropConfig(88, 1));
 
     // Chunk
