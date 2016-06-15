@@ -81,18 +81,9 @@ public class TopArmor : Armor
             torse.gameObject.SetActive(true);
             leftBracer.gameObject.SetActive(true);
             rightBracer.gameObject.SetActive(true);
-            Material[] materialsleftBracer = leftBracer.GetComponent<MeshRenderer>().materials;
-            Material[] materialsrightBracer = rightBracer.GetComponent<MeshRenderer>().materials;
-            Material[] materialsTorse = torse.GetComponent<MeshRenderer>().materials;
-
-            materialsTorse[0] = topArmor.Interieur;
-            materialsTorse[1] = topArmor.Exterieur;
-
-            materialsleftBracer[0] = topArmor.Exterieur;
-            materialsleftBracer[1] = topArmor.Interieur;
-
-            materialsrightBracer[0] = topArmor.Exterieur;
-            materialsrightBracer[1] = topArmor.Interieur;
+			leftBracer.GetComponent<MeshRenderer>().materials = new Material[] { topArmor.Exterieur,topArmor.Interieur} ;
+			rightBracer.GetComponent<MeshRenderer>().materials = new Material[] { topArmor.Exterieur,topArmor.Interieur};
+			torse.GetComponent<MeshRenderer> ().materials = new Material[] { topArmor.Interieur, topArmor.Exterieur };
         }
 
     }

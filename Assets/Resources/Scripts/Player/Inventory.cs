@@ -220,10 +220,8 @@ public class Inventory : NetworkBehaviour
 					// équipper une armure
 					else if (!this.draggingItemStack && Event.current.button == 1 && Event.current.type == EventType.MouseUp)
 					{
-						Debug.Log (this.slots[i,j].Items);
 						if (this.slots[i, j].Items is TopArmor)
 						{
-							Debug.Log ("test 2");
 							ItemStack temp = this.slots[i, j];
 							this.slots[i, j] = this.top;
 							this.top = temp;
@@ -1144,6 +1142,10 @@ public class Inventory : NetworkBehaviour
                 Drop(slots[i, j]);
                 this.slots[i, j] = new ItemStack();
             }
+		Drop (this.top);
+		Drop (this.bottom);
+		this.top = new ItemStack ();
+		this.bottom = new ItemStack ();
         this.SaveInventory();
     }
 
