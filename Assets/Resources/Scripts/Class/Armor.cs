@@ -67,17 +67,17 @@ public class TopArmor : Armor
     {
         if (topArmor == null)
         {
-            Transform Armature = player.transform.FindChild("Character").FindChild("Armature");
-            Armature.FindChild("Backet_Bone").FindChild("Armor").gameObject.SetActive(false);
-            Armature.FindChild("LBracers_slot").FindChild("Armor").gameObject.SetActive(false);
-            Armature.FindChild("RBracers_slot").FindChild("Armor").gameObject.SetActive(false);
+			Transform Back = player.transform.FindChild("Character").FindChild("Armature").FindChild("Backet_Bone");
+			Back.FindChild("Armor").gameObject.SetActive(false);
+			Back.FindChild("ArmorL").gameObject.SetActive(false);
+			Back.FindChild("ArmorR").gameObject.SetActive(false);
         }
         else
         {
-            Transform Armature = player.transform.FindChild("Character").FindChild("Armature");
-            Transform torse = Armature.FindChild("Backet_Bone").FindChild("Armor");
-            Transform leftBracer = Armature.FindChild("LBracers_slot").FindChild("Armor");
-            Transform rightBracer = Armature.FindChild("RBracers_slot").FindChild("Armor");
+			Transform Back = player.transform.FindChild("Character").FindChild("Armature").FindChild("Backet_Bone");
+            Transform torse = Back.FindChild("Armor");
+			Transform leftBracer = Back.FindChild("ArmorL");
+			Transform rightBracer = Back.FindChild("ArmorR");
             torse.gameObject.SetActive(true);
             leftBracer.gameObject.SetActive(true);
             rightBracer.gameObject.SetActive(true);

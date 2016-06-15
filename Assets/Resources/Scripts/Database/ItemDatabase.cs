@@ -285,17 +285,19 @@ public static class ItemDatabase
         {
             if (i.ID == id)
             {
-                if (i is Pickaxe)
-                    return new Pickaxe((Pickaxe)i);
-                else if (i is Axe)
-                    return new Axe((Axe)i);
-                else if (i is Sword)
-                    return new Sword((Sword)i);
-                else if (i is Consumable)
-                    return new Consumable((Consumable)i);
-                else if (i is WorkTop)
-                    return new WorkTop((WorkTop)i);
-                else
+				if (i is Pickaxe)
+					return new Pickaxe ((Pickaxe)i);
+				else if (i is Axe)
+					return new Axe ((Axe)i);
+				else if (i is Sword)
+					return new Sword ((Sword)i);
+				else if (i is Consumable)
+					return new Consumable ((Consumable)i);
+				else if (i is WorkTop)
+					return new WorkTop ((WorkTop)i);
+				else if (i is TopArmor)
+					return new TopArmor ((TopArmor)i);
+				else
                     return new Item(i);
             }
         }
@@ -322,6 +324,8 @@ public static class ItemDatabase
                     return new Consumable((Consumable)i);
                 else if (i is WorkTop)
                     return new WorkTop((WorkTop)i);
+				else if (i is TopArmor)
+					return new TopArmor ((TopArmor)i);
                 else
                     return new Item(i);
             }
