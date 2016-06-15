@@ -1175,7 +1175,7 @@ public class Inventory : NetworkBehaviour
     /// </summary>
     /// <param name="str"></param>
     [ClientRpc]
-    private void RpcLoadInventory(string save)
+    public void RpcLoadInventory(string save)
     {
         if (isLocalPlayer)
         {

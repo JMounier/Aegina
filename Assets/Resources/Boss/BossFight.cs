@@ -6,7 +6,7 @@ using System.Collections.Generic;
 public class BossFight : NetworkBehaviour
 {
 
-    private Vector3 bossPos;
+    private GameObject boss;
     private bool inFight;
 
     private static int deathCount;
@@ -15,19 +15,18 @@ public class BossFight : NetworkBehaviour
     private BossSceneManager bSM;
     private GameObject character;
     private SyncCharacter syncChar;
-    private MapGeneration mg;
 
 
 
     // Use this for initialization
     void Start()
     {
-        this.bossPos = Vector3.zero;
+		this.boss = null;
 
-        this.mg = GameObject.Find("Map").GetComponent<MapGeneration>();
-        if (this.mg == null)
+
+		if (GameObject.Find("Map").GetComponent<MapGeneration>() == null)
         {
-            this.bossPos = GameObject.FindGameObjectWithTag("Mob").transform.position;
+            this.boss = GameObject.FindGameObjectWithTag("Mob");
             this.bSM = GameObject.Find("FightManager").GetComponent<BossSceneManager>();
         }
 
@@ -47,13 +46,20 @@ public class BossFight : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (this.bossPos == Vector3.zero)
+        if (this.boss == null)
             return;
-		
+
+		if (this.bSM.Won)
+			return;
+		if (isServer && this.boss.GetComponent<BossAI>().Life <= 0)
+		{
+			//edit succes or stats
+		}
+
         if (!isLocalPlayer)
             return;
 
-        if (!inFight && Vector3.Distance(this.character.transform.position, this.bossPos) < 28.4f)
+        if (!inFight && Vector3.Distance(this.character.transform.position, this.boss.transform.position) < 28.4f)
 		{
 			this.inFight = true;
 			CmdEnterFight();
@@ -61,14 +67,41 @@ public class BossFight : NetworkBehaviour
         }
     }
 
+	private void OnGUI()
+	{
+		if (this.syncChar.Life <= 0) 
+		{
+			int delta = 0;
+			// draw button to switch spec cam
+			this.bSM.SwitchView(delta);
+		}
+	}
+
+	/// <summary>
+	/// call this to use a cristal (consumable) in input manager
+	/// </summary>
+	/// <returns><c>true</c>, if cristal was used, <c>false</c> otherwise.</returns>
+	public bool UseCristal ()
+	{
+		if(this.BossHere)
+		{
+			CmdUseCristal ();
+			return true;
+		}
+		return false;
+	}
 
     public void EnterSpec()
     {
-       this.bSM.SwitchView(0);
        transform.GetChild(0).gameObject.SetActive(false);
        CmdDead();
     }
 		
+	[Command]
+	private void CmdUseCristal()
+	{
+		this.boss.GetComponent<BossAI> ().UseCristal();
+	}
 
     [Command]
     private void CmdEnterFight()
@@ -85,20 +118,28 @@ public class BossFight : NetworkBehaviour
     }
 
 	/// <summary>
-	/// Respawn all player in the fight.
+	/// Respawn all player in the fight and reset their inventory
 	/// </summary>
 	private void Respawn()
 	{
-		foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
+		foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player")) 
+		{
+			Inventory i = player.GetComponent<Inventory> ();
+			i.DropAll ();
+			i.RpcLoadInventory (GameObject.Find("Map").GetComponent<Save>().LoadPlayer(gameObject).Inventory);
 			player.GetComponent<BossFight> ().RpcRestart ();
+			player.GetComponent<Inventory> ().RpcLoadInventory ();
+		}
 		infightcount = 0;
 		deathCount = 0;
+
+		this.boss.GetComponent<BossAI> ().Restart ();
 	}
 
     [ClientRpc]
     public void RpcRestart()
     {
-		if (!isLocalPlayer || !this.inFight)
+		if (!isLocalPlayer)
             return;
 		
         this.syncChar.Respawn();
@@ -115,7 +156,7 @@ public class BossFight : NetworkBehaviour
 
     public bool BossHere
     {
-        get { return this.mg == null; }
+        get { return this.boss != null; }
     }
     #endregion
 

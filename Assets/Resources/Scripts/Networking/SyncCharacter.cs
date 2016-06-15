@@ -219,7 +219,8 @@ public class SyncCharacter : NetworkBehaviour
             this.Regen = 0;
             this.Speed = 0;
             this.Jump = 0;
-            gameObject.GetComponent<Inventory>().DropAll();
+			if (!this.bossfight.BossHere)
+            	gameObject.GetComponent<Inventory>().DropAll();
             gameObject.GetComponent<Social_HUD>().CmdSendActivity(Activity.Death);
             GetComponent<InputManager>().IAmDead();
         }
