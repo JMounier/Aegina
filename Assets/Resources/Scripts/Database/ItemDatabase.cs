@@ -95,15 +95,32 @@ public static class ItemDatabase
     public static readonly Item Bone = new Item(86, TextDatabase.Bone, TextDatabase.BoneDescription, 64, Resources.Load<Texture2D>("Sprites/Items/Foods/Bone"), new Entity(EntityDatabase.Bone));
     public static readonly Item Pumpkin = new Item(87, TextDatabase.Pumpkin, TextDatabase.PumpkinDescription, 64, Resources.Load<Texture2D>("Sprites/Items/Plants/Pumpkin"), new Entity(EntityDatabase.PumpkinLoot));
     public static readonly Item AnimalFat = new Item(88, TextDatabase.AnimalFat, TextDatabase.AnimalFatDescription, 64, Resources.Load<Texture2D>("Sprites/Items/Animals/AnimalFat"), new Entity(EntityDatabase.AnimalFat));
-    public static readonly Item SlimeCore = new Item(89, TextDatabase.SlimeCore, TextDatabase.SlimeCoreDescription, 5, Resources.Load<Texture2D>("Sprites/Items/Ores/SlimeCore"), new Entity(EntityDatabase.SlimeCore));
-    public static readonly Item BoarCore = new Item(90, TextDatabase.BoarCore, TextDatabase.BoarCoreDescription, 5, Resources.Load<Texture2D>("Sprites/Items/Ores/BoarCore"), new Entity(EntityDatabase.BoarCore));
-    public static readonly Item PampiCore = new Item(91, TextDatabase.PampiCore, TextDatabase.PampiCoreDescription, 5, Resources.Load<Texture2D>("Sprites/Items/Ores/PampiCore"), new Entity(EntityDatabase.PampiCore));
-    public static readonly Consumable InstableCore = new Consumable(100, TextDatabase.Instable, TextDatabase.Instable, 1, Resources.Load<Texture2D>("Sprites/Items/Ores/InstableCore"), new Entity(EntityDatabase.InstableCore),new Effect(Effect.EffectType.Resistance,2),Resources.Load<GameObject>("Prefabs/Consumables/InstableCore"));
 
-    public static readonly TopArmor LeatherTopArmor = new TopArmor(110, TextDatabase.LeatherTopArmor, TextDatabase.LeatherTopArmorDescription, Resources.Load<Texture2D>("Sprites/Items/Armors/LeatherTopArmor"), new Entity(EntityDatabase.LeatherTopArmor), 50, Resources.Load<Material>("Models/Items/Armors/Materials/LeatherArmor"), Resources.Load<Material>("Models/Items/Armors/Materials/IronA"));
-    public static readonly TopArmor IronTopArmor = new TopArmor(111, TextDatabase.IronTopArmor, TextDatabase.IronTopArmorDescription, Resources.Load<Texture2D>("Sprites/Items/Armors/IronTopArmor"), new Entity(EntityDatabase.IronTopArmor), 50, Resources.Load<Material>("Models/Items/Armors/Materials/ArmorIron"), Resources.Load<Material>("Models/Items/Armors/Materials/ArmorIron"));
-    public static readonly TopArmor MithrilTopArmor = new TopArmor(112, TextDatabase.MithrilTopArmor, TextDatabase.MithrilTopArmorDescription, Resources.Load<Texture2D>("Sprites/Items/Armors/MithrilTopArmor"), new Entity(EntityDatabase.MithrilTopArmor), 50, Resources.Load<Material>("Models/Items/Armors/Materials/Mithril"), Resources.Load<Material>("Models/Items/Armors/Materials/Floatium"));
-    public static readonly TopArmor SunkiumTopArmor = new TopArmor(113, TextDatabase.SunkiumTopArmor, TextDatabase.SunkiumTopArmorDescription, Resources.Load<Texture2D>("Sprites/Items/Armors/SunkiumTopArmor"), new Entity(EntityDatabase.SunkiumTopArmor), 50, Resources.Load<Material>("Models/Items/Armors/Materials/SunkiumCenter"), Resources.Load<Material>("Models/Items/Armors/Materials/IronA"));
+    public static readonly Item SlimeCore = new Item(89, TextDatabase.SlimeCore, TextDatabase.SlimeCoreDescription, 5, Resources.Load<Texture2D>(""), new Entity(EntityDatabase.SlimeCore));
+    public static readonly Item BoarCore = new Item(90, TextDatabase.BoarCore, TextDatabase.BoarCoreDescription, 5, Resources.Load<Texture2D>(""), new Entity(EntityDatabase.BoarCore));
+    public static readonly Item PampiCore = new Item(91, TextDatabase.PampiCore, TextDatabase.PampiCoreDescription, 5, Resources.Load<Texture2D>(""), new Entity(EntityDatabase.PampiCore));
+
+    public static readonly BattleAxe CopperBattleAxe = new BattleAxe(100, TextDatabase.CopperBattleAxe, TextDatabase.CopperBattleAxeDescription, 150, 360, Resources.Load<Texture2D>("Sprites/Items/Tools/CopperBattleAxe"), new Entity(EntityDatabase.CopperBattleAxe), Resources.Load<GameObject>("Prefabs/Tools/Weapons/BattleAxe/CopperBattleAxe"));
+    public static readonly BattleAxe IronBattleAxe = new BattleAxe(101, TextDatabase.IronBattleAxe, TextDatabase.IronBattleAxeDescription, 250, 400, Resources.Load<Texture2D>("Sprites/Items/Tools/IronBattleAxe"), new Entity(EntityDatabase.IronBattleAxe), Resources.Load<GameObject>("Prefabs/Tools/Weapons/BattleAxe/IronBattleAxe"));
+    public static readonly BattleAxe GoldBattleAxe = new BattleAxe(102, TextDatabase.GoldBattleAxe, TextDatabase.GoldBattleAxeDescription, 50, 360, Resources.Load<Texture2D>("Sprites/Items/Tools/GoldBattleAxe"), new Entity(EntityDatabase.GoldBattleAxe), Resources.Load<GameObject>("Prefabs/Tools/Weapons/BattleAxe/GoldBattleAxe"));
+    public static readonly BattleAxe MithrilBattleAxe = new BattleAxe(103, TextDatabase.MithrilBattleAxe, TextDatabase.MithrilBattleAxeDescription, 200, 400, Resources.Load<Texture2D>("Sprites/Items/Tools/MithrilBattleAxe"), new Entity(EntityDatabase.MithrilBattleAxe), Resources.Load<GameObject>("Prefabs/Tools/Weapons/BattleAxe/MithrilBattleAxe"));
+    public static readonly BattleAxe FloatiumBattleAxe = new BattleAxe(104, TextDatabase.FloatiumBattleAxe, TextDatabase.FloatiumBattleAxeDescription, 200, 500, Resources.Load<Texture2D>("Sprites/Items/Tools/FloatiumBattleAxe"), new Entity(EntityDatabase.FloatiumBattleAxe), Resources.Load<GameObject>("Prefabs/Tools/Weapons/BattleAxe/FloatiumBattleAxe"));
+    public static readonly BattleAxe SunkiumBattleAxe = new BattleAxe(105, TextDatabase.SunkiumBattleAxe, TextDatabase.SunkiumBattleAxeDescription, 500, 600, Resources.Load<Texture2D>("Sprites/Items/Tools/SunkiumBattleAxe"), new Entity(EntityDatabase.SunkiumBattleAxe), Resources.Load<GameObject>("Prefabs/Tools/Weapons/BattleAxe/SunkiumBattleAxe"));
+
+    public static readonly Spear CopperSpear = new Spear(110, TextDatabase.CopperSpear, TextDatabase.CopperSpearDescription, 150, 120, Resources.Load<Texture2D>("Sprites/Items/Tools/CopperSpear"), new Entity(EntityDatabase.CopperSpear), Resources.Load<GameObject>("Prefabs/Tools/Weapons/Spear/CopperSpear"));
+    public static readonly Spear IronSpear = new Spear(111, TextDatabase.IronSpear, TextDatabase.IronSpearDescription, 250, 190, Resources.Load<Texture2D>("Sprites/Items/Tools/IronSpear"), new Entity(EntityDatabase.IronSpear), Resources.Load<GameObject>("Prefabs/Tools/Weapons/Spear/IronSpear"));
+    public static readonly Spear GoldSpear = new Spear(112, TextDatabase.GoldSpear, TextDatabase.GoldSpearDescription, 50, 120, Resources.Load<Texture2D>("Sprites/Items/Tools/GoldSpear"), new Entity(EntityDatabase.GoldSpear), Resources.Load<GameObject>("Prefabs/Tools/Weapons/Spear/GoldSpear"));
+    public static readonly Spear MithrilSpear = new Spear(113, TextDatabase.MithrilSpear, TextDatabase.MithrilSpearDescription, 200, 140, Resources.Load<Texture2D>("Sprites/Items/Tools/MithrilSpear"), new Entity(EntityDatabase.MithrilSpear), Resources.Load<GameObject>("Prefabs/Tools/Weapons/Spear/MithrilSpear"));
+    public static readonly Spear FloatiumSpear = new Spear(114, TextDatabase.FloatiumSpear, TextDatabase.FloatiumSpearDescription, 200, 190, Resources.Load<Texture2D>("Sprites/Items/Tools/FloatiumSpear"), new Entity(EntityDatabase.FloatiumSpear), Resources.Load<GameObject>("Prefabs/Tools/Weapons/Spear/FloatiumSpear"));
+    public static readonly Spear SunkiumSpear = new Spear(115, TextDatabase.SunkiumSpear, TextDatabase.SunkiumSpearDescription, 500, 240, Resources.Load<Texture2D>("Sprites/Items/Tools/SunkiumSpear"), new Entity(EntityDatabase.SunkiumSpear), Resources.Load<GameObject>("Prefabs/Tools/Weapons/Spear/SunkiumSpear"));
+
+	public static readonly TopArmor LeatherTopArmor = new TopArmor(120, TextDatabase.LeatherTopArmor, TextDatabase.LeatherTopArmorDescription, Resources.Load<Texture2D>("Sprites/Items/Armors/LeatherTopArmor"), new Entity(EntityDatabase.LeatherTopArmor), 50, Resources.Load<Material>("Models/Items/Armors/Materials/LeatherArmor"), Resources.Load<Material>("Models/Items/Armors/Materials/IronA"));
+	public static readonly TopArmor IronTopArmor = new TopArmor(121, TextDatabase.IronTopArmor, TextDatabase.IronTopArmorDescription, Resources.Load<Texture2D>("Sprites/Items/Armors/IronTopArmor"), new Entity(EntityDatabase.IronTopArmor), 50, Resources.Load<Material>("Models/Items/Armors/Materials/ArmorIron"), Resources.Load<Material>("Models/Items/Armors/Materials/ArmorIron"));
+	public static readonly TopArmor MithrilTopArmor = new TopArmor(122, TextDatabase.MithrilTopArmor, TextDatabase.MithrilTopArmorDescription, Resources.Load<Texture2D>("Sprites/Items/Armors/MithrilTopArmor"), new Entity(EntityDatabase.MithrilTopArmor), 50, Resources.Load<Material>("Models/Items/Armors/Materials/Mithril"), Resources.Load<Material>("Models/Items/Armors/Materials/Floatium"));
+	public static readonly TopArmor SunkiumTopArmor = new TopArmor(123, TextDatabase.SunkiumTopArmor, TextDatabase.SunkiumTopArmorDescription, Resources.Load<Texture2D>("Sprites/Items/Armors/SunkiumTopArmor"), new Entity(EntityDatabase.SunkiumTopArmor), 50, Resources.Load<Material>("Models/Items/Armors/Materials/SunkiumCenter"), Resources.Load<Material>("Models/Items/Armors/Materials/IronA"));
+
+
+    public static readonly Consumable InstableCore = new Consumable(666, TextDatabase.Instable, TextDatabase.Instable, 1, Resources.Load<Texture2D>(""), new Entity(EntityDatabase.InstableCore),new Effect(Effect.EffectType.Resistance,2),Resources.Load<GameObject>("Prefabs/Consumables/InstableCore"));
 
     /// <summary>
     /// Liste tous les items du jeu. (Utilisez avec foreach)
@@ -169,6 +186,12 @@ public static class ItemDatabase
 
             foreach (WorkTop work in Worktops)
                 yield return work;
+
+            foreach (Spear spear in Spears)
+                yield return spear;
+
+            foreach (BattleAxe battleAxe in BattleAxes)
+                yield return battleAxe;
         }
     }
 
@@ -233,6 +256,36 @@ public static class ItemDatabase
             yield return CopperSword;
             yield return SunkiumSword;
             yield return FloatiumSword;
+        }
+    }
+    /// <summary>
+    /// Liste tous les epee du jeu. (Utilisez avec foreach)
+    /// </summary>
+    public static IEnumerable<Spear> Spears
+    {
+        get
+        {
+            yield return IronSpear;
+            yield return GoldSpear;
+            yield return MithrilSpear;
+            yield return CopperSpear;
+            yield return SunkiumSpear;
+            yield return FloatiumSpear;
+        }
+    }
+    /// <summary>
+    /// Liste tous les epee du jeu. (Utilisez avec foreach)
+    /// </summary>
+    public static IEnumerable<BattleAxe> BattleAxes
+    {
+        get
+        {
+            yield return IronBattleAxe;
+            yield return GoldBattleAxe;
+            yield return MithrilBattleAxe;
+            yield return CopperBattleAxe;
+            yield return SunkiumBattleAxe;
+            yield return FloatiumBattleAxe;
         }
     }
 

@@ -120,10 +120,10 @@ public class InputManager : NetworkBehaviour
 
             if (validplace != this.lastvalidplace)
             {
-				string shadname = "Previsus/Previsu" + (validplace ? "" : "NOT") + "OK";
+                string shadname = "Previsus/Previsu" + (validplace ? "" : "NOT") + "OK";
                 foreach (MeshRenderer mesh in wt.Previsu.GetComponentsInChildren<MeshRenderer>())
-                foreach (Material mat in mesh.materials)
-						mat.shader = Shader.Find(shadname);
+                    foreach (Material mat in mesh.materials)
+                        mat.shader = Shader.Find(shadname);
                 this.lastvalidplace = validplace;
             }
 
@@ -225,9 +225,9 @@ public class InputManager : NetworkBehaviour
         if (Input.GetButtonDown("Fire1") && cdAttack <= 0 && !this.controller.Pause)
         {
             this.cdAttack = 5f;
-            if (this.controller.IsSprinting)
+            if (this.controller.IsSprinting && ! (this.inventaire.UsedItem.Items is BattleAxe))
                 this.attack = TypeAttack.Charge;
-            else if (this.controller.IsJumping)
+            else if (this.controller.IsJumping && !(this.inventaire.UsedItem.Items is Spear))
                 this.attack = TypeAttack.Aerial;
             else
                 this.attack = TypeAttack.Vertical;
@@ -250,7 +250,7 @@ public class InputManager : NetworkBehaviour
         if (this.cdAttack < 4.8f && this.cdAttack > 4.7f)
         {
 
-            if (this.attack == TypeAttack.Charge || this.attack == TypeAttack.Aerial)
+            if (this.attack == TypeAttack.Charge || this.attack == TypeAttack.Aerial || this.inventaire.UsedItem.Items is BattleAxe)
                 this.cdAttack = 3.5f;
             else
                 this.cdAttack = .6f;
@@ -267,7 +267,7 @@ public class InputManager : NetworkBehaviour
                 damage = 5f * ((item as Tool).Damage) / 100f;
             else
                 damage = 5f;
-            CmdAttack(damage, attack);
+            CmdAttack(damage, attack, item is Spear);
         }
         #endregion
 
@@ -388,7 +388,7 @@ public class InputManager : NetworkBehaviour
 
 
     [Command]
-    private void CmdAttack(float damage, TypeAttack atk)
+    private void CmdAttack(float damage, TypeAttack atk, bool spear = false)
     {
         SyncChunk actual_chunk = null;
         foreach (Collider col in Physics.OverlapBox(this.character.transform.position, new Vector3(5, 100, 5)))
@@ -403,12 +403,12 @@ public class InputManager : NetworkBehaviour
 
         Collider[] cibles = null;
         if (atk == TypeAttack.Horizontal)
-            cibles = Physics.OverlapBox(this.character.transform.position - this.character.transform.forward / 2 + new Vector3(0, 0.5f), new Vector3(0.5f, 0.1f, 0.25f), this.character.transform.rotation);
+            cibles = Physics.OverlapBox(this.character.transform.position - this.character.transform.forward / 2 + new Vector3(0, 0.5f), (spear ? 2 : 1) * new Vector3(0.5f, 0.1f, 0.25f), this.character.transform.rotation);
         else if (atk == TypeAttack.Vertical)
-            cibles = Physics.OverlapBox(this.character.transform.position - this.character.transform.forward / 2 + new Vector3(0, 0.5f), new Vector3(0.1f, 0.5f, 0.25f), this.character.transform.rotation);
+            cibles = Physics.OverlapBox(this.character.transform.position - this.character.transform.forward / 2 + new Vector3(0, 0.5f), (spear ? 2 : 1) * new Vector3(0.1f, 0.5f, 0.25f), this.character.transform.rotation);
         else if (atk == TypeAttack.Aerial)
         {
-            cibles = Physics.OverlapBox(this.character.transform.position - this.character.transform.forward / 2 + new Vector3(0, -2f), new Vector3(0.1f, 2f, 0.25f), this.character.transform.rotation);
+            cibles = Physics.OverlapBox(this.character.transform.position - this.character.transform.forward / 2 + new Vector3(0, -2f), (spear ? 2 : 1) * new Vector3(0.1f, 2f, 0.25f), this.character.transform.rotation);
             this.syncCharacter.RpcApplyForce(0, -30000f, 0);
         }
         else if (atk == TypeAttack.Charge)
@@ -420,7 +420,7 @@ public class InputManager : NetworkBehaviour
         {
             bool notacible = false;
             if (cible.gameObject.name == "Character" && cible.gameObject.GetComponentInParent<Social_HUD>().Team != this.social.Team)
-                cible.gameObject.GetComponentInParent<SyncCharacter>().ReceiveDamage(damage, -(damage / 10f) * this.character.transform.forward ,true);
+                cible.gameObject.GetComponentInParent<SyncCharacter>().ReceiveDamage(damage, -(damage / 10f) * this.character.transform.forward, true);
             else if (cible.gameObject.tag == "Mob")
                 cible.gameObject.GetComponentInParent<SyncMob>().ReceiveDamage(damage, -(damage / 10f) * this.character.transform.forward);
             else if (cible.gameObject.name.Contains("Islandcore"))

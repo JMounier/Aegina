@@ -30,7 +30,7 @@ public static class Requirement
             case Requirements.CraftChest:
                 return Stats.Crafted(CraftDatabase.Chest) > 0;
             case Requirements.CraftStoneWeapon:
-                return Stats.Crafted(CraftDatabase.StoneSword) > 0;// TO IMPROVE
+                return Stats.Crafted(CraftDatabase.StoneSword) > 0;
             case Requirements.HuntMassBoar:
                 return Stats.Hunted(EntityDatabase.Boar) > 10;
             case Requirements.CraftFirstArmor:
@@ -48,7 +48,7 @@ public static class Requirement
             case Requirements.CraftTrap:
                 return Stats.Crafted(CraftDatabase.WolfTrap) > 0;
             case Requirements.EquipInIron:
-                return Stats.Crafted(CraftDatabase.IronTop) > 0 && Stats.Crafted(CraftDatabase.IronBottom) > 0 && Stats.Crafted(CraftDatabase.IronSword) > 0;// TO IMPROVE
+                return Stats.Crafted(CraftDatabase.IronTop) > 0 && Stats.Crafted(CraftDatabase.IronBottom) > 0 && (Stats.Crafted(CraftDatabase.IronSword) > 0 || Stats.Crafted(CraftDatabase.IronSpear) > 0 || Stats.Crafted(CraftDatabase.IronBattleAxe) > 0) ;
             case Requirements.HuntMassPampi:
                 return Stats.Hunted(EntityDatabase.Pampa) > 25;
             case Requirements.HuntPampiChief:
@@ -60,13 +60,13 @@ public static class Requirement
             case Requirements.MithrilArmor:
                 return Stats.Crafted(CraftDatabase.MithrilTop) > 0 && Stats.Crafted(CraftDatabase.MithrilBottom) > 0;
             case Requirements.FloatiumWeapon:
-                return Stats.Crafted(CraftDatabase.FloatiumSword) > 0;// TO IMPROVE
+                return Stats.Crafted(CraftDatabase.FloatiumSword) > 0 || Stats.Crafted(CraftDatabase.FloatiumSpear) > 0 || Stats.Crafted(CraftDatabase.FloatiumBattleAxe) > 0;
             case Requirements.HuntMassSlime:
                 break;// TO DO
             case Requirements.HuntSlimeChief:
                 break;// TO DO
             case Requirements.SunkiumEquip:
-                return Stats.Crafted(CraftDatabase.SunkiumTop) > 0 && Stats.Crafted(CraftDatabase.SunkiumBottom) > 0 && Stats.Crafted(CraftDatabase.SunkiumSword) > 0;// TO IMPROVE
+                return Stats.Crafted(CraftDatabase.SunkiumTop) > 0 && Stats.Crafted(CraftDatabase.SunkiumBottom) > 0 && (Stats.Crafted(CraftDatabase.SunkiumSword) > 0 || Stats.Crafted(CraftDatabase.SunkiumSpear) > 0 || Stats.Crafted(CraftDatabase.SunkiumBattleAxe) > 0);// TO IMPROVE
             case Requirements.OtherCristalLVL5:
                 return Stats.CristalLevel(0) > 4 && Stats.CristalLevel(1) > 4;
             case Requirements.DivineCrisatlLVL5:
