@@ -52,6 +52,7 @@ public class FirstScene : MonoBehaviour
 
         this.actual_time = 0f;
         this.cdMusic = 0f;
+        this.speed = 1.2f;
         this.volume = PlayerPrefs.GetFloat("Sound_intensity", 0.1f);
         this.path = gameObject.transform.FindChild("Path").gameObject;
         this.fistStep = this.path.transform.GetChild(0).gameObject;
@@ -99,7 +100,6 @@ public class FirstScene : MonoBehaviour
 
         if (this.onChar)
         {
-            this.speed = 1.2f;
             if (Vector3.Distance(this.cam.transform.position, this.camAim.transform.position) > this.acceptance * this.speed / 1.2f )
             {
                 this.cam.transform.rotation = Quaternion.Lerp(this.cam.transform.rotation, this.camAim.transform.rotation, 0.08f);

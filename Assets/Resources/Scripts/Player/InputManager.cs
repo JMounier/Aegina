@@ -195,7 +195,7 @@ public class InputManager : NetworkBehaviour
             {
                 if (cdAttack <= 0 && !this.controller.Pause)
                 {
-                    this.anim.SetInteger("Action", 6);// à remplacer par l'action de l'attaque verticale
+                    this.anim.SetInteger("Action", 11);
                     this.attack = TypeAttack.Horizontal;
                     this.cdAttack = 5f;
                 }
