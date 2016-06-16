@@ -442,6 +442,7 @@ namespace UnityEngine.Networking
             #endregion
 
             Text tooltip = null;
+            Texture2D fill = new Texture2D(this.width / 3, this.width / 3);
             switch (this.categoryCloth)
             {
                 #region Hat
@@ -454,21 +455,21 @@ namespace UnityEngine.Networking
                         this.smoothAparition = 0;
                         typeCloth = (int)Hat.TypeHat.None;
                     }
-                    rect.x += (5 + Screen.width / 20);
+                    rect.x += (Screen.width / 40 + Screen.width / 20);
 
                     if (GUI.Button(rect, Resources.Load<Texture2D>("Sprites/Cosmetics/HatIcon"), skin.GetStyle("Square")))
                     {
                         this.smoothAparition = 0;
                         typeCloth = (int)Hat.TypeHat.TopHat;
                     }
-                    rect.x += (5 + Screen.width / 20);
+                    rect.x += (Screen.width / 40 + Screen.width / 20);
 
                     if (GUI.Button(rect, Resources.Load<Texture2D>("Sprites/Cosmetics/StrawHatIcon"), skin.GetStyle("Square")))
                     {
                         this.smoothAparition = 0;
                         typeCloth = (int)Hat.TypeHat.StrawHat;
                     }
-                    rect.x += (5 + Screen.width / 20);
+                    rect.x += (Screen.width / 40 + Screen.width / 20);
 
                     if (GUI.Button(rect, Resources.Load<Texture2D>("Sprites/Cosmetics/CowBoyIcon"), skin.GetStyle("Square")))
                     {
@@ -479,15 +480,14 @@ namespace UnityEngine.Networking
                     foreach (Hat h in Clothing.Hats)
                         if (this.typeCloth == (int)h.GetTypeHat)
                         {
-                            x = this.typeCloth;
-                            Texture2D fill = new Texture2D(this.width / 3, this.width / 3);
+                            x = this.typeCloth;                           
                             Color fillcolor = h.Color;
                             fillcolor.a = Mathf.Clamp01(this.smoothAparition - y * TransitionDelay);
                             for (int i = 0; i < this.width / 3; i++)
                                 for (int j = 0; j < this.width / 3; j++)
                                     fill.SetPixel(i, j, fillcolor);
                             fill.Apply();
-                            rect = new Rect((5 + Screen.width / 20) * x + Screen.width / 25f, y * (Screen.height / 10) + Screen.height / 2.6f, Screen.height / 11, Screen.height / 11);
+                            rect = new Rect((Screen.width / 40 + Screen.width / 20) * x + Screen.width / 25f, y * (Screen.height / 10) + Screen.height / 2.6f, Screen.height / 11, Screen.height / 11);
                             if (rect.Contains(Event.current.mousePosition))
                                 tooltip = h.Description;
                             if (this.smoothAparition > y * TransitionDelay && GUI.Button(rect, fill, skin.GetStyle("Square")))
@@ -509,28 +509,28 @@ namespace UnityEngine.Networking
                         this.smoothAparition = 0;
                         typeCloth = (int)Beard.TypeBeard.None;
                     }
-                    rect.x += (5 + Screen.width / 20);
+                    rect.x += (Screen.width / 40 + Screen.width / 20);
 
                     if (GUI.Button(rect, Resources.Load<Texture2D>("Sprites/Cosmetics/BeardIcon"), skin.GetStyle("Square")))
                     {
                         this.smoothAparition = 0;
                         typeCloth = (int)Beard.TypeBeard.Beard;
                     }
-                    rect.x += (5 + Screen.width / 20);
+                    rect.x += (Screen.width / 40 + Screen.width / 20);
 
                     if (GUI.Button(rect, Resources.Load<Texture2D>("Sprites/Cosmetics/BeardOnlyIcon"), skin.GetStyle("Square")))
                     {
                         this.smoothAparition = 0;
                         typeCloth = (int)Beard.TypeBeard.BeardOnly;
                     }
-                    rect.x += (5 + Screen.width / 20);
+                    rect.x += (Screen.width / 40 + Screen.width / 20);
 
                     if (GUI.Button(rect, Resources.Load<Texture2D>("Sprites/Cosmetics/BeardIcon 1"), skin.GetStyle("Square")))
                     {
                         this.smoothAparition = 0;
                         typeCloth = (int)Beard.TypeBeard.BeardMoustachSplit;
                     }
-                    rect.x += (5 + Screen.width / 20);
+                    rect.x += (Screen.width / 40 + Screen.width / 20);
 
                     if (GUI.Button(rect, Resources.Load<Texture2D>("Sprites/Cosmetics/MustacheIcon"), skin.GetStyle("Square")))
                     {
@@ -542,14 +542,13 @@ namespace UnityEngine.Networking
                         if (this.typeCloth == (int)b.GetTypeBeard)
                         {
                             x = this.typeCloth;
-                            Texture2D fill = new Texture2D(this.width / 3, this.width / 3);
                             Color fillcolor = b.Color;
                             fillcolor.a = Mathf.Clamp01(this.smoothAparition - y * TransitionDelay);
                             for (int i = 0; i < this.width / 3; i++)
                                 for (int j = 0; j < this.width / 3; j++)
                                     fill.SetPixel(i, j, fillcolor);
                             fill.Apply();
-                            rect = new Rect((5 + Screen.width / 20) * x + Screen.width / 25f, y * (Screen.height / 10) + Screen.height / 2.6f, Screen.height / 11, Screen.height / 11);
+                            rect = new Rect((Screen.width / 40 + Screen.width / 20) * x + Screen.width / 25f, y * (Screen.height / 10) + Screen.height / 2.6f, Screen.height / 11, Screen.height / 11);
                             if (rect.Contains(Event.current.mousePosition))
                                 tooltip = b.Description;
                             if (this.smoothAparition > y * TransitionDelay && GUI.Button(rect, fill, skin.GetStyle("Square")))
@@ -567,14 +566,13 @@ namespace UnityEngine.Networking
                     x = 0;
                     foreach (Body b in Clothing.Bodies)
                     {
-                        Texture2D fill = new Texture2D(this.width / 3, this.width / 3);
                         Color fillcolor = b.Color;
                         fillcolor.a = Mathf.Clamp01(this.smoothAparition - (x + y * 3) * TransitionDelay);
                         for (int i = 0; i < this.width / 3; i++)
                             for (int j = 0; j < this.width / 3; j++)
                                 fill.SetPixel(i, j, fillcolor);
                         fill.Apply();
-                        rect = new Rect((10 + Screen.width / 20) * x + Screen.width / 25f, y * (10 + Screen.height / 10) + Screen.height / 2.25f, Screen.height / 11, Screen.height / 11);
+                        rect = new Rect((Screen.width / 40 + Screen.width / 20) * x + Screen.width / 25f, y * (10 + Screen.height / 10) + Screen.height / 2.25f, Screen.height / 11, Screen.height / 11);
                         if (rect.Contains(Event.current.mousePosition))
                             tooltip = b.Description;
                         if (this.smoothAparition > (x + y * 3) * TransitionDelay && GUI.Button(rect, fill, skin.GetStyle("Square")))
@@ -598,28 +596,28 @@ namespace UnityEngine.Networking
                         this.smoothAparition = 0;
                         typeCloth = (int)Hair.TypeHair.None;
                     }
-                    rect.x += (5 + Screen.width / 20);
+                    rect.x += (Screen.width / 50 + Screen.width / 20);
 
                     if (GUI.Button(rect, Resources.Load<Texture2D>("Sprites/Cosmetics/HairIcon"), skin.GetStyle("Square")))
                     {
                         this.smoothAparition = 0;
                         typeCloth = (int)Hair.TypeHair.Normal;
                     }
-                    rect.x += (5 + Screen.width / 20);
+                    rect.x += (Screen.width / 50 + Screen.width / 20);
 
                     if (GUI.Button(rect, Resources.Load<Texture2D>("Sprites/Cosmetics/PunkHair"), skin.GetStyle("Square")))
                     {
                         this.smoothAparition = 0;
                         typeCloth = (int)Hair.TypeHair.Crete;
                     }
-                    rect.x += (5 + Screen.width / 20);
+                    rect.x += (Screen.width / 50 + Screen.width / 20);
 
                     if (GUI.Button(rect, Resources.Load<Texture2D>("Sprites/Cosmetics/LongHair"), skin.GetStyle("Square")))
                     {
                         this.smoothAparition = 0;
                         typeCloth = (int)Hair.TypeHair.LongHair;
                     }
-                    rect.x += (5 + Screen.width / 20);
+                    rect.x += (Screen.width / 50 + Screen.width / 20);
 
                     if (GUI.Button(rect, Resources.Load<Texture2D>("Sprites/Cosmetics/WickHair"), skin.GetStyle("Square")))
                     {
@@ -632,14 +630,13 @@ namespace UnityEngine.Networking
                         if (this.typeCloth == (int)h.GetTypeHair)
                         {
                             x = this.typeCloth;
-                            Texture2D fill = new Texture2D(this.width / 3, this.width / 3);
                             Color fillcolor = h.Color;
                             fillcolor.a = Mathf.Clamp01(this.smoothAparition - y * TransitionDelay);
                             for (int i = 0; i < this.width / 3; i++)
                                 for (int j = 0; j < this.width / 3; j++)
                                     fill.SetPixel(i, j, fillcolor);
                             fill.Apply();
-                            rect = new Rect((5 + Screen.width / 20) * x + Screen.width / 25f, y * (Screen.height / 10) + Screen.height / 2.6f, Screen.height / 11, Screen.height / 11);
+                            rect = new Rect((Screen.width / 50 + Screen.width / 20) * x + Screen.width / 25f, y * (Screen.height / 10) + Screen.height / 2.6f, Screen.height / 11, Screen.height / 11);
                             if (rect.Contains(Event.current.mousePosition))
                                 tooltip = h.Description;
                             if (this.smoothAparition > y * TransitionDelay && GUI.Button(rect, fill, skin.GetStyle("Square")))
@@ -658,14 +655,13 @@ namespace UnityEngine.Networking
                     x = 0;
                     foreach (Gloves g in Clothing.Gloves)
                     {
-                        Texture2D fill = new Texture2D(this.width / 3, this.width / 3);
                         Color fillcolor = g.Color;
                         fillcolor.a = Mathf.Clamp01(this.smoothAparition - (x + y * 3) * TransitionDelay);
                         for (int i = 0; i < this.width / 3; i++)
                             for (int j = 0; j < this.width / 3; j++)
                                 fill.SetPixel(i, j, fillcolor);
                         fill.Apply();
-                        rect = new Rect((10 + Screen.width / 20) * x + Screen.width / 25f, y * (10 + Screen.height / 10) + Screen.height / 2.25f, Screen.height / 11, Screen.height / 11);
+                        rect = new Rect((Screen.width / 40 + Screen.width / 20) * x + Screen.width / 25f, y * (10 + Screen.height / 10) + Screen.height / 2.25f, Screen.height / 11, Screen.height / 11);
                         if (rect.Contains(Event.current.mousePosition))
                             tooltip = g.Description;
                         if (this.smoothAparition > (x + y * 3) * TransitionDelay && GUI.Button(rect, fill, skin.GetStyle("Square")))
@@ -685,14 +681,13 @@ namespace UnityEngine.Networking
                     x = 0;
                     foreach (Eyes e in Clothing.Eyes)
                     {
-                        Texture2D fill = new Texture2D(this.width / 3, this.width / 3);
                         Color fillcolor = e.Color;
                         fillcolor.a = Mathf.Clamp01(this.smoothAparition - (x + y * 3) * TransitionDelay);
                         for (int i = 0; i < this.width / 3; i++)
                             for (int j = 0; j < this.width / 3; j++)
                                 fill.SetPixel(i, j, fillcolor);
                         fill.Apply();
-                        rect = new Rect((10 + Screen.width / 20) * x + Screen.width / 25f, y * (10 + Screen.height / 10) + Screen.height / 2.25f, Screen.height / 11, Screen.height / 11);
+                        rect = new Rect((Screen.width / 40 + Screen.width / 20) * x + Screen.width / 25f, y * (10 + Screen.height / 10) + Screen.height / 2.25f, Screen.height / 11, Screen.height / 11);
                         if (rect.Contains(Event.current.mousePosition))
                             tooltip = e.Description;
                         if (this.smoothAparition > (x + y * 3) * TransitionDelay && GUI.Button(rect, fill, skin.GetStyle("Square")))
@@ -728,14 +723,13 @@ namespace UnityEngine.Networking
                         if (this.typeCloth == (int)p.GetTypePant)
                         {
                             x = this.typeCloth;
-                            Texture2D fill = new Texture2D(this.width / 3, this.width / 3);
                             Color fillcolor = p.Color;
                             fillcolor.a = Mathf.Clamp01(this.smoothAparition - y * TransitionDelay);
                             for (int i = 0; i < this.width / 3; i++)
                                 for (int j = 0; j < this.width / 3; j++)
                                     fill.SetPixel(i, j, fillcolor);
                             fill.Apply();
-                            rect = new Rect((5 + Screen.width / 20) * x + Screen.width / 25f, y * (Screen.height / 10) + Screen.height / 2.6f, Screen.height / 11, Screen.height / 11);
+                            rect = new Rect((Screen.width / 40 + Screen.width / 20) * x + Screen.width / 25f, y * (Screen.height / 10) + Screen.height / 2.6f, Screen.height / 11, Screen.height / 11);
                             if (rect.Contains(Event.current.mousePosition))
                                 tooltip = p.Description;
                             if (this.smoothAparition > y * TransitionDelay && GUI.Button(rect, fill, skin.GetStyle("Square")))
@@ -768,7 +762,6 @@ namespace UnityEngine.Networking
                         if (this.typeCloth == (int)t.GetTypeTshirt)
                         {
                             x = this.typeCloth;
-                            Texture2D fill = new Texture2D(this.width / 3, this.width / 3);
                             Color fillcolor = t.Color;
                             fillcolor.a = Mathf.Clamp01(this.smoothAparition - y * TransitionDelay);
                             for (int i = 0; i < this.width / 3; i++)
@@ -794,6 +787,7 @@ namespace UnityEngine.Networking
             if (tooltip != null)
                 GUI.Box(new Rect(Event.current.mousePosition.x - Screen.width / 20, Event.current.mousePosition.y + Screen.height / 20, 100, 35 + 20 * (tooltip.GetText().Length / 35 + 1)),
                                tooltip.GetText(), this.skin.GetStyle("Skin"));
+            DestroyImmediate(fill);
         }
         /// <summary>
         ///  Dessine l'interface des options linguistiques.
