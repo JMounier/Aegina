@@ -492,57 +492,76 @@ public class TextDatabase
     // Boss
 
     public static readonly Text PreBossBattle1 = new Text(
-        "Juste après avoir amélioré une dernière fois le cristal divin Ille se senti transporter dans un autre lieu.", "");
+        "“Où suis-je ?” demanda Ille",
+		"“Where I am” asked Ille");
     public static readonly Text PreBossBattle2 = new Text(
-        "En relevant la tête Ille vit qu’il se trouvait sur un socle au beau milieu d’un espace d’un noir insondable.", "");
+        "“Nous sommes dans les abysses d’Aegina. là où tout finis. Je me suis dis que ce serai un endroit convenable pour la fin de ton périple”",
+		"“We are in Aegina's Abysse. Where all end. I thougth it would be a good place for the end of your travel”");
     public static readonly Text PreBossBattle3 = new Text(
-        "“Où suis-je ?” demanda Ille", "");
+        "En entendant cette voix Ille se retourna et vit un immense cristal flottant dans le vide. La voix lui était vaguement familière et semblait venir du cristal.",
+		"Hearing this voice Ille turned and saw a giant cristal. The voice was familiar and seems to come from the cristal");
     public static readonly Text PreBossBattle4 = new Text(
-        "“Nous sommes dans les abysses d’Aegina. là où tout finis. Je me suis dis que ce serai un endroit convenable pour la fin de ton périple”", "");
+        "“C’est vrai que je ne me suis jamais vraiment présenté. Je suis Gundam le seigneur des cristaux.”",
+		"“I've never realy presented myself right ? I'm Gundam the cristal lord”");
     public static readonly Text PreBossBattle5 = new Text(
-        "En entendant cette voix Ille se retourna et vit un immense cristal flottant dans le vide. La voix lui était vaguement familière et semblait venir du cristal.", "");
+        "“Durant ton séjour dans ce monde tu n’as pas arrêter de m’aider à amplifier mes pouvoirs dans le but de revenir chez toi.”",
+		"“During your journey in this world you helped me to regain my power for going back home”");
     public static readonly Text PreBossBattle6 = new Text(
-        "“C’est vrai que je ne me suis jamais vraiment présenté. Je suis Gundam le seigneur des cristaux.”", "");
+        "“Tu as tué de nombreux sangliers pampis et slime ainsi que leur chef et je t’en remercie.”",
+		"“You killed a lot of boars, pampis and slimes and their leader. I thank you for that”");
     public static readonly Text PreBossBattle7 = new Text(
-        "“Durant ton séjour dans ce monde tu n’as pas arrêter de m’aider à amplifier mes pouvoirs dans le but de revenir chez toi.”", "");
+        "“Ces créatures était les gardiens des coeur et les gardaient pour empêcher les cristaux d’amplifier leurs pouvoirs”",
+		"“This creatures were the core's guardians that blocked me to regain my power”");
     public static readonly Text PreBossBattle8 = new Text(
-        "“Tu as tué de nombreux sangliers pampa et <troisième créatures agrésive> ainsi que leur chef et je t’en remercie.”", "");
+        "“Mais grâce à toi j’ai assez de pouvoir pour me connecter à tous les cristaux d’Aegina et les activer.”",
+		"“But thanks to you i can now connected to all other Aegina's cristals and activate them”");
     public static readonly Text PreBossBattle9 = new Text(
-        "“Ces créatures était les gardiens des <ressources> et les gardaient pour empêcher les cristaux d’amplifier leurs pouvoirs”", "");
+        "“Je suis devenue le dieu d’Aegina.”",
+		"“I'became Aegina's god”");
     public static readonly Text PreBossBattle10 = new Text(
-        "“Mais grâce à toi j’ai assez de pouvoir pour me connecter à tous les cristaux d’Aegina et les activer.”", "");
+        "“Cependant avant que je m’attelle à cette tâche et que je punisse ces sombres créatures qui ont tenté de m’entraver il reste un dernier détail à régler.”",
+		"“However before punishing these evil creatures that blocked me in my goal ther is a last detail”");
     public static readonly Text PreBossBattle11 = new Text(
-        "“Je suis devenue le dieu d’Aegina.”", "");
+        "“Ce dernier détail c’est toi Ille.”",
+		"“It's you Ille”");
     public static readonly Text PreBossBattle12 = new Text(
-        "“Cependant avant que je m’attelle à cette tâche et que je punisse ces sombres créatures qui ont tenté de m’entraver il reste un dernier détail à régler.”", "");
+        "“Je te remercie vraiment de ce que tu as fait mais tu ne te rend pas compte à qu’elle point ce que tu me demandes et difficile”",
+		"“I thank you for what you have done but what you ask is a little problematic”");
     public static readonly Text PreBossBattle13 = new Text(
-        "“Ce dernier détail c’est toi Ille.”", "");
+        "“Même un dieu à ces limites car je suis le dieu d’Aegina et non celui de ton monde”",
+		"“Even a god have limit and I am Aegina's God not your world's god”");
     public static readonly Text PreBossBattle14 = new Text(
-        "“Je te remercie vraiment de ce que tu as fait mais tu ne te rend pas compte à qu’elle point ce que tu me demandes et difficile”", "");
+        "“Te ramener dans ton monde,comme tu es actuellement, demanderais une très grande partie de l’énergie d’Aegina et je ne peut pas me permettre d’utiliser tous le pouvoir que je viens à peine d’obtenir.”",
+		"“Sending you home would use a lot of my power and I can't afford this”");
     public static readonly Text PreBossBattle15 = new Text(
-        "“Même un dieu à ces limites car je suis le dieu d’Aegina et non celui de ton monde”", "");
+        "“Cependant tu m’as grandement aidé et j’ai donc trouvé un compromis”",
+		"“However you helped me a lot ,so I have an other solution”");
     public static readonly Text PreBossBattle16 = new Text(
-        "“Te ramener dans ton monde,comme tu es actuellement, demanderais une très grande partie de l’énergie d’Aegina et je ne peut pas me permettre d’utiliser tous le pouvoir que je viens à peine d’obtenir.”", "");
-    public static readonly Text PreBossBattle17 = new Text(
-        "“Cependant tu m’as grandement aidé et j’ai donc trouvé un compromis”", "");
+        "“Je vais te tuer et renvoyé ton âme dans ton monde”",
+		"“I will kill you and send your soul in your world”");
+    public static readonly Text PreBossBattle17 = new Text
+        ("“Ce n’était pas ce qui était convenue” s’exclama Ille.",
+			"“It's not what we agree” exclaim Ille");
     public static readonly Text PreBossBattle18 = new Text(
-        "“Je vais te tuer et renvoyé ton âme dans ton monde”", "");
-    public static readonly Text PreBossBattle19 = new Text
-        ("“Ce n’était pas ce qui était convenue” s’exclama Ille.", "");
+        "“Mais voyons Ille je ne t’ai jamais rien promis”",
+		"“Ille... I never promise anithing”");
+    public static readonly Text PreBossBattle19 = new Text(
+        "“Je ne peux malheureusement pas te laisser en vie... tu tenterais sûrement de t’opposer à moi... et personne n’a le droit de s’opposer à dieu.”",
+		"“I can't let you live... You could oppose me... and nobody has the right to oppose god”");
     public static readonly Text PreBossBattle20 = new Text(
-        "“Mais voyons Ille je ne t’ai jamais rien promis”", "");
-    public static readonly Text PreBossBattle21 = new Text(
-        "“Je ne peux malheureusement pas te laisser en vie... tu tenterais sûrement de t’opposer à moi... et personne n’a le droit de s’opposer à dieu.”", "");
-    public static readonly Text PreBossBattle22 = new Text(
-        "“je ne me laisserais pas faire je vais me battre pour survivre comme je l’ai toujours fait” s'écria Ille en se préparant au combat.", "");
+        "“je ne me laisserais pas faire je vais me battre pour survivre comme je l’ai toujours fait” s'écria Ille en se préparant au combat.",
+		"“I will resist, I will fight to survive like I have always done” exclaimed Ille while preparing to fight");
 
     // Fin
 
-    public static readonly Text FinEgoïsme = new Text("", "");
+    public static readonly Text FinEgoïsme = new Text("Après la destruction de Gundam Ille utilisa le pouvoir du cristal pour créer un portail vers chez lui. Le pouvoir dégager par le cristal était tellement puissant que le monde lui même semblait s'effondrer. Ille entendait même le cri des créatures tombant dans les abbyses. Malgrès tout celà Ille entra dans le portail en ignorant les cris de tous ces être. Mais le cri de Ille les rejoingna rapidement car de l'autre coté du portail l'attendait une armée. Les personnes qui avait envoyé Ille à la mort ne souhaitais pas le revoir... Par son égoïsme Ille finit cette histoire dans la destruction", 
+		"After the destruction of Gundam Ille used the power of the crystal to create a portal to home. The power of the cristal was so powerful that the world itself seemed to collapse. Ille even hear the cry of the creatures falling into the abbyses .Despite all this Ille entered the gate , ignoring the cries of those being. But the cry of Ille rejoined quickly the other because ,at the other side of the gate, an army was waiting him .People who had sent Ille to death did not want to see him again ... By his selfishness Ille ends this world and in life in the destruction \"");
 
-    public static readonly Text FinSacrifice = new Text("", "");
+    public static readonly Text FinSacrifice = new Text("Plutôt que d'utiliser le pouvoir du cristal pour rentrer chez lui Ille le détruisit. Il ne voyait plus l'intêret de rentrer chez lui après tout ce qu'il avait fait. Le pouvoir du cristal était si grand qu'il aurait surement impacter tout aegina si il avait tenter de l'utiliser. Ille repensa à tous ce qu'il avait commis et fut ronger par des remords. Ille attendit dans les abbyses sa fin. Il ne savait pas mais la destruction de Gundam avait engendrer la destruction de tout les cristaux d'Aegina ce qui offrirait enfin la paix à ce monde.", 
+		"Rather than using the power of the crystal to go home Ille destroyed it. He did not see the point of going home after all he had done. The power of the crystal was so big it would probably impact all aegina if he was attempting to use it . Ille thought back to all that he had committed and was biting by remorse. Ille waited in the abbyses his end. He did not know but the destruction of Gundam had cause the destruction of all the crystals of Aegina which finally offer peace to this world.");
 
-    public static readonly Text FinPardon = new Text("", "");
+	public static readonly Text FinPardon = new Text("Ille ne tua pas Gundman mais choisi de l'épargner. En échange de celà Gundam qui était devenue dieu devrait s'occuper de ce monde et protéger tout ces habitants ce qui incluait les humains tombant dans Aegina. Gundam accepta ce marché et s'occupa de l'instabilité du monde. Depuis ce jour les créatures d'Aegina ont pu vivre en paix en ont arrête d'attaquer les humains. Les nouveaux arrivant dans Aegina formèrent des Communautés et vécurent en harmonie. Ille mourut à 87 ans et ses derniers mots furent : “C'est une bonne fin”", 
+		"Ille choose to spare Gundman. In exchange for this Gundam ,which had become god, should take care of this world and protect all his habitant which included humans falling in Aegina . Gundam accepted and set the instability of the world. Since that day the creatures of Aegina could live in peace and stopped attacking humans. The new human in Aegina formed communities and lived in harmony. Ille died at 87 and his last words were : \" It's an happy end \"");
 
 
 
