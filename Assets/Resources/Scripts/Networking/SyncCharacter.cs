@@ -352,6 +352,13 @@ public class SyncCharacter : NetworkBehaviour
 
     }
 
+    public void ReceiveDamage(float damage, Vector3 position)
+    {
+        this.RpcExplosion(position.x, position.y, position.z, 5000, 5);
+        float armor = 100; // mettre a jour apres merge
+        this.Life -= 100 * damage / armor;
+    }
+
     [ClientRpc]
     public void RpcApplyForce(float x, float y, float z)
     {
@@ -367,6 +374,12 @@ public class SyncCharacter : NetworkBehaviour
     {
         if (isLocalPlayer)
             this.character.GetComponent<Rigidbody>().AddRelativeForce(x, y, z);
+    }
+    [ClientRpc]
+    public void RpcExplosion(float x,float y,float z,float power, float radius)
+    {
+        if (isLocalPlayer)
+            this.character.GetComponent<Rigidbody>().AddExplosionForce(power, new Vector3(x, y, z), radius);
     }
 
     [Command]
