@@ -12,7 +12,6 @@ public class Menu : NetworkBehaviour
     private bool langueShown = false;
     private bool controlShown = false;
     private bool helpageShown = false;
-    private bool creditshown = false;
     private Inventory inventory;
     private GUISkin skin;
     private Controller controller;
@@ -70,8 +69,6 @@ public class Menu : NetworkBehaviour
             this.DrawControl();
         else if (this.helpageShown)
             this.DrawHelp();
-        else if (this.creditshown)
-            this.DrawCredit();
     }
 
     /// <summary>
@@ -107,22 +104,16 @@ public class Menu : NetworkBehaviour
             else
                 CmdDisconnect();
         }
-        if (GUI.Button(new Rect(this.posX, this.posY + this.spacing * 2, this.width, this.height), TextDatabase.Help.GetText(), skin.GetStyle("button")))
+        if (GUI.Button(new Rect(this.posX, this.posY + this.spacing * 2, this.width/2 - this.width/20, this.height), TextDatabase.Help.GetText(), skin.GetStyle("button")))
         {
             this.menuShown = false;
             this.helpageShown = true;
             this.soundAudio.PlaySound(AudioClips.Button, 1f);
         }
-        if (GUI.Button(new Rect(this.posX, this.posY + this.spacing * 4, this.width, this.height), "Succes", skin.GetStyle("button")))
+        if (GUI.Button(new Rect(this.posX + this.width/2 + this.width/20, this.posY + this.spacing * 2, this.width/2 - this.width/20, this.height), "Succes", skin.GetStyle("button")))
         {
             GetComponent<Success_HUD>().Activate = true;
             this.menuShown = false;
-            this.soundAudio.PlaySound(AudioClips.Button, 1f);
-        }
-        if (GUI.Button(new Rect(this.posX, this.posY + this.spacing * 5, this.width, this.height), "Credit", skin.GetStyle("button")))
-        {
-            this.menuShown = false;
-            this.creditshown = true;
             this.soundAudio.PlaySound(AudioClips.Button, 1f);
         }
     }
@@ -298,18 +289,6 @@ public class Menu : NetworkBehaviour
         }
     }
 
-    void DrawCredit()
-    {
-        GUI.Box(new Rect(this.posX, this.posY, this.width, 4 * this.spacing), "\n   Chef de projet : Nokiam\n Membres de l'equipe : MrColorado, Xxping et Flomonster\n Remerciements : Pierre-Alexis Mandégué et Bastien Lhuaire", this.skin.GetStyle("Skin"));
-
-        if (GUI.Button(new Rect(this.posX, this.posY + 5 * this.spacing, this.width, this.height), TextDatabase.Back.GetText(), this.skin.GetStyle("button")))
-        {
-            this.creditshown = false;
-            this.menuShown = true;
-            this.soundAudio.PlaySound(AudioClips.Button, 1f);
-        }
-    }
-
     // Getters & Setters
 
     /// <summary>
@@ -357,12 +336,6 @@ public class Menu : NetworkBehaviour
     {
         get { return this.helpageShown; }
         set { this.helpageShown = value; }
-    }
-
-    public bool CreditShown
-    {
-        get { return this.creditshown; }
-        set { this.creditshown = value; }
     }
 
     public int Page

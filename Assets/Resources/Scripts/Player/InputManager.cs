@@ -330,11 +330,6 @@ public class InputManager : NetworkBehaviour
                     this.menu.MenuShown = true;
                 }
             }
-            else if (this.menu.CreditShown)
-            {
-                this.menu.CreditShown = false;
-                this.menu.MenuShown = true;
-            }
             else
             {
                 this.menu.MenuShown = !this.menu.MenuShown;

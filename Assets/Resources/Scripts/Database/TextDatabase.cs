@@ -669,13 +669,7 @@ public class TextDatabase
     public static readonly Text KillTheBoss = new Text("Tuer le boss", "Kill the boss");
     public static readonly Text FirstEnd = new Text("Choisir la fin\"retour chez soi\"", "Choose the \"back to home\" end");
     public static readonly Text SecondEnd = new Text("choisir la fin \"sacrifice\"", "Choose the \"sacrifice\" end");
-    public static readonly Text StoneAge = new Text("Avancer dans l'histoire", "Advance in the story");
-    public static readonly Text CopperAge = new Text("Avancer dans l'histoire", "Advance in the story");
-    public static readonly Text GoldAge = new Text("Avancer dans l'histoire", "Advance in the story");
-    public static readonly Text MithrilAge = new Text("Avancer dans l'histoire", "Advance in the story");
-    public static readonly Text FloatiumAge = new Text("Avancer dans l'histoire", "Advance in the story");
-    public static readonly Text SunkiumAge = new Text("Avancer dans l'histoire", "Advance in the story");
-    public static readonly Text IronAge = new Text("Avancer dans l'histoire", "Advance in the story");
+    public static readonly Text StoneAge = new Text("Faire les succès précédents", "finish the previous succes");
 
 
 }
