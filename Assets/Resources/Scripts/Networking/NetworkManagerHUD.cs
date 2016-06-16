@@ -785,7 +785,7 @@ namespace UnityEngine.Networking
             }
 
             if (tooltip != null)
-                GUI.Box(new Rect(Event.current.mousePosition.x - Screen.width / 20, Event.current.mousePosition.y + Screen.height / 20, 100, 35 + 20 * (tooltip.GetText().Length / 35 + 1)),
+                GUI.Box(new Rect(Event.current.mousePosition.x - Screen.width / 20, Event.current.mousePosition.y + Screen.height / 20, 100, 35 + 20 * (tooltip.GetText().Length / 10 + 1)),
                                tooltip.GetText(), this.skin.GetStyle("Skin"));
             DestroyImmediate(fill);
         }
