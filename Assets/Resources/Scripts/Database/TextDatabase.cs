@@ -74,6 +74,7 @@ public class TextDatabase
     public static readonly Text SlimeCore = new Text("Coeur de slime", "Slime core");
     public static readonly Text BoarCore = new Text("Coeur de sanglier", "Boar core");
     public static readonly Text PampiCore = new Text("Coeur de pampi", "Pampi core");
+    public static readonly Text SlimeGoo = new Text("Bout de slime", "Slime goo");
 
     // Description
     public static readonly Text LogDescription = new Text("Un morceau de bois pouvant servir pour créer d'autres objets", "A piece of wood usable to make other objects");
@@ -136,6 +137,8 @@ public class TextDatabase
     public static readonly Text BoarCoreDescription = new Text("Cristal mysterieux", "Mysterious cristal");
     public static readonly Text PampiCoreDescription = new Text("Cristal mysterieux", "Mysterious cristal");
     public static readonly Text Instable = new Text("???", "???");
+    public static readonly Text SlimeGooDescription = new Text("Une matiere visqueuse... ça se mange ?", "A goo ... is it edible ?");
+
 
 
     // Tools
@@ -214,10 +217,10 @@ public class TextDatabase
 
     // Armure
 
-    public static readonly Text LeatherTopArmor = new Text("Bas d'armure de cuir", "Leather bottom Armor");
-    public static readonly Text IronTopArmor = new Text("Bas d'armure de fer", "Iron bottom Armor");
-    public static readonly Text MithrilTopArmor = new Text("Bas d'armure de mithril", "Mithril bottom Armor");
-    public static readonly Text SunkiumTopArmor = new Text("Bas d'armure de sunkium", "Sunkium bottom Armor");
+    public static readonly Text LeatherTopArmor = new Text("Haut d'armure de cuir", "Leather top Armor");
+    public static readonly Text IronTopArmor = new Text("Haut d'armure de fer", "Iron top Armor");
+    public static readonly Text MithrilTopArmor = new Text("Haut d'armure de mithril", "Mithril top Armor");
+    public static readonly Text SunkiumTopArmor = new Text("Haut d'armure de sunkium", "Sunkium top Armor");
 
     public static readonly Text LeatherBottomArmor = new Text("Bas d'armure de cuir", "Leather bottom Armor");
     public static readonly Text IronBottomArmor = new Text("Bas d'armure de fer", "Iron bottom Armor");
@@ -226,10 +229,10 @@ public class TextDatabase
 
     // Description
 
-    public static readonly Text LeatherTopArmorDescription = new Text("Bas d'armure de cuir", "Leather bottom Armor");
-    public static readonly Text IronTopArmorDescription = new Text("Bas d'armure de fer", "Iron bottom Armor");
-    public static readonly Text MithrilTopArmorDescription = new Text("Bas d'armure de mithril", "Mithril bottom Armor");
-    public static readonly Text SunkiumTopArmorDescription = new Text("Bas d'armure de sunkium", "Sunkium bottom Armor");
+    public static readonly Text LeatherTopArmorDescription = new Text("Haut d'armure de cuir", "Leather top Armor");
+    public static readonly Text IronTopArmorDescription = new Text("Haut d'armure de fer", "Iron top Armor");
+    public static readonly Text MithrilTopArmorDescription = new Text("Haut d'armure de mithril", "Mithril top Armor");
+    public static readonly Text SunkiumTopArmorDescription = new Text("Haut d'armure de sunkium", "Sunkium top Armor");
 
     public static readonly Text LeatherBottomArmorDescription = new Text("Bas d'armure de cuir", "Leather bottom Armor");
     public static readonly Text IronBottomArmorDescription = new Text("Bas d'armure de fer", "Iron bottom Armor");
