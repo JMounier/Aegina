@@ -134,7 +134,7 @@ public static class EntityDatabase
     // Tree
     public static readonly Element Fir = new Element(100, 50, Resources.Load<GameObject>("Prefabs/Elements/Trees/Fir"), Element.DestructionTool.Axe, 1.25f, new DropConfig(0, 4, 8));
     public static readonly Element SnowFir = new Element(101, 50, Resources.Load<GameObject>("Prefabs/Elements/Trees/SnowFir"), Element.DestructionTool.Axe, 1.25f, new DropConfig(0, 4, 8));
-    public static readonly Element Cactus = new Element(102, 15, Resources.Load<GameObject>("Prefabs/Elements/Trees/Cactus"), Element.DestructionTool.Axe, .5f, new DropConfig(80, 3, 6), new DropConfig(81, 1, 3));
+    public static readonly Element Cactus = new Element(102, 15, Resources.Load<GameObject>("Prefabs/Elements/Trees/Cactus"), Element.DestructionTool.Axe, .8f, new DropConfig(80, 3, 6), new DropConfig(81, 1, 3));
     public static readonly Element Oak = new Element(103, 50, Resources.Load<GameObject>("Prefabs/Elements/Trees/Oak"), Element.DestructionTool.Axe, .6f, new DropConfig(0, 4, 8), new DropConfig(30, 0, 1));
     public static readonly Element SnowOak = new Element(104, 50, Resources.Load<GameObject>("Prefabs/Elements/Trees/SnowOak"), Element.DestructionTool.Axe, .6f, new DropConfig(0, 4, 8));
     public static readonly Element FallOak1 = new Element(105, 50, Resources.Load<GameObject>("Prefabs/Elements/Trees/FallOak1"), Element.DestructionTool.Axe, .6f, new DropConfig(0, 4, 8), new DropConfig(30, 0, 1));
