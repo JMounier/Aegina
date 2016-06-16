@@ -143,6 +143,12 @@ public class InputManager : NetworkBehaviour
             this.social.ChatShown = true;
             this.controller.Pause = true;
         }
+
+        if (Input.GetButtonDown("Success") && !this.menu.MenuShown && !this.menu.OptionShown && !this.inventaire.InventoryShown && !this.cristalHUD.Cristal_shown && !this.social.ChatShown && !this.tutoriel.EndTutoShown && !this.tutoriel.Tutoshown && !this.menu.ControlShown)
+        {
+            this.sucHUD.Activate = !this.sucHUD.Activate;
+            this.controller.Pause = this.sucHUD.Activate;
+        }
         if (cdAttack <= 0 && (Input.GetKey(KeyCode.C)))
         {
             cdAttack = 1.5f;
@@ -303,7 +309,7 @@ public class InputManager : NetworkBehaviour
             else if (this.sucHUD.Activate)
             {
                 this.sucHUD.Activate = false;
-                this.menu.MenuShown = true;
+                this.controller.Pause = false;
             }
             else if (this.menu.ControlShown)
             {
@@ -329,11 +335,6 @@ public class InputManager : NetworkBehaviour
                     this.menu.Helpshown = false;
                     this.menu.MenuShown = true;
                 }
-            }
-            else if (this.menu.CreditShown)
-            {
-                this.menu.CreditShown = false;
-                this.menu.MenuShown = true;
             }
             else
             {
