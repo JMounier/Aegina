@@ -105,34 +105,24 @@ public class SyncCharacter : NetworkBehaviour
         GUI.DrawTexture((new Rect(Screen.width / 1.03f, Screen.height * 0.0125f, Screen.width / 85, Screen.height / 2f)), this.hungerBar[Mathf.CeilToInt(this.hunger * 100 / this.hungerMax)]);
         GUI.DrawTexture((new Rect(Screen.width / 1.03f - Screen.width * 0.025f, Screen.height * 0.0125f, Screen.width / 85, Screen.height / 2f)), this.ThirstBar[Mathf.CeilToInt(this.thirst * 100 / this.thirstMax)]);
 
-        if (this.life <= 0)
+        if (this.life <= 0 && gameObject.GetComponent<BossFight>().MyState == BossFight.State.Outfight)
         {
-            if (this.bossfight.BossHere)
+            if (GUI.Button(new Rect(5 * Screen.width / 14, Screen.height / 2 - 100, 2 * Screen.width / 7, 100), TextDatabase.Respawn.GetText(), skin.GetStyle("button")))
             {
-                if (this.bossfight.InFight)
-                    this.bossfight.EnterSpec();
-                else
-                    Respawn();
+                Respawn();
+                GetComponent<Sound>().PlaySound(AudioClips.Button, 1f);
             }
-            else
+            if (GUI.Button(new Rect(5 * Screen.width / 14, Screen.height / 2 + 100, 2 * Screen.width / 7, 100), TextDatabase.Quit.GetText(), skin.GetStyle("button")))
             {
-                if (GUI.Button(new Rect(5 * Screen.width / 14, Screen.height / 2 - 100, 2 * Screen.width / 7, 100), TextDatabase.Respawn.GetText(), skin.GetStyle("button")))
+                Respawn();
+                GetComponent<Sound>().PlaySound(AudioClips.Button, 1f);
+                if (isServer)
                 {
-                    Respawn();
-                    GetComponent<Sound>().PlaySound(AudioClips.Button, 1f);
+                    GameObject.Find("Map").GetComponent<Save>().SaveWorld();
+                    GameObject.Find("NetworkManager").GetComponent<NetworkManager>().StopHost();
                 }
-                if (GUI.Button(new Rect(5 * Screen.width / 14, Screen.height / 2 + 100, 2 * Screen.width / 7, 100), TextDatabase.Quit.GetText(), skin.GetStyle("button")))
-                {
-                    Respawn();
-                    GetComponent<Sound>().PlaySound(AudioClips.Button, 1f);
-                    if (isServer)
-                    {
-                        GameObject.Find("Map").GetComponent<Save>().SaveWorld();
-                        GameObject.Find("NetworkManager").GetComponent<NetworkManager>().StopHost();
-                    }
-                    else
-                        GetComponent<Menu>().CmdDisconnect();
-                }
+                else
+                    GetComponent<Menu>().CmdDisconnect();
             }
         }
     }
@@ -219,10 +209,11 @@ public class SyncCharacter : NetworkBehaviour
             this.Regen = 0;
             this.Speed = 0;
             this.Jump = 0;
-			if (!this.bossfight.BossHere)
-            	gameObject.GetComponent<Inventory>().DropAll();
+            gameObject.GetComponent<Inventory>().DropAll();
             gameObject.GetComponent<Social_HUD>().CmdSendActivity(Activity.Death);
             GetComponent<InputManager>().IAmDead();
+            if (gameObject.GetComponent<BossFight>().MyState == BossFight.State.Infight)
+                gameObject.GetComponent<BossFight>().EnterSpec();
         }
     }
 
@@ -242,7 +233,8 @@ public class SyncCharacter : NetworkBehaviour
         else
         {
             transform.GetChild(0).gameObject.SetActive(true);
-            gameObject.GetComponent<Social_HUD>().RpcTeleport(Vector3.up * 7);
+            this.character.transform.position = new Vector3(Random.Range(-2f, 2f), 7, Random.Range(-2f, 2f));
+            this.bossfight.MyState = BossFight.State.Outfight;
         }
 
     }
@@ -390,7 +382,10 @@ public class SyncCharacter : NetworkBehaviour
         this.Poison = save.Poison;
         this.CdPoison = save.CdPoison;
 
+
         Vector3 newPos = new Vector3(save.X, 7, save.Y);
+        if (GameObject.Find("Map").GetComponent<MapGeneration>() == null)
+            newPos = new Vector3(Random.Range(-2f,2f), 7, Random.Range(-2f, 2f));
         gameObject.GetComponent<Social_HUD>().RpcTeleport(newPos);
     }
 

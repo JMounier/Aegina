@@ -8,7 +8,7 @@ public class BossSceneManager : MonoBehaviour
     private GameObject spawnWall;
     private GameObject SpecCamPos;
 
-	private int trycount;
+    private int trycount;
 
     private List<GameObject> OrbitingStuff;
 
@@ -16,12 +16,9 @@ public class BossSceneManager : MonoBehaviour
 
     private int Specpos;
 
-	private bool won;
     // Use this for initialization
     void Start()
     {
-
-		this.won = false;
 
         this.spawnWall = gameObject.transform.GetChild(0).gameObject;
         this.SpecCamPos = gameObject.transform.GetChild(1).gameObject;
@@ -30,7 +27,7 @@ public class BossSceneManager : MonoBehaviour
 
         this.OrbitingStuff.Add(this.SpecCamPos.transform.GetChild(0).gameObject);
 
-		this.trycount = 0;
+        this.trycount = 0;
 
 
         this.spawnWall.SetActive(false);
@@ -41,7 +38,7 @@ public class BossSceneManager : MonoBehaviour
             obj.transform.LookAt(obj.transform.parent);
         }
 
-		this.NotSpecAnyMore ();
+        this.NotSpecAnyMore();
     }
 
     // Update is called once per frame
@@ -49,22 +46,7 @@ public class BossSceneManager : MonoBehaviour
     {
         foreach (GameObject obj in OrbitingStuff)
             obj.transform.RotateAround(obj.transform.parent.position, obj.transform.parent.up, 0.5f);
-
-		//check the win in succes
     }
-
-	private void OnGUI()
-	{
-		if (this.won)
-		{
-			//draw victory
-		}
-		else
-		{
-			//draw the boss life
-			//draw the try count
-		}
-	}
 
     /// <summary>
     /// only call this method when the player is dead;
@@ -84,23 +66,16 @@ public class BossSceneManager : MonoBehaviour
         this.Specpos = 0;
     }
 
-	public void IncreaseTryCount()
-	{
-		this.trycount++;
-	}
+    public void IncreaseTryCount()
+    {
+        this.trycount++;
+    }
 
     #region Getters/Setters
     public GameObject SpawnWall
     {
         get { return this.spawnWall; }
     }
-
-	public bool Won
-	{
-		get { return this.won;}
-		set { this.won = this.won || value;}
-	}
-
     #endregion
 
 }

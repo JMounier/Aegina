@@ -47,8 +47,8 @@ public class InputManager : NetworkBehaviour
         this.tutoriel = GetComponent<Tutoriel>();
         this.anim = gameObject.GetComponent<Animator>();
         this.syncCharacter = gameObject.GetComponent<SyncCharacter>();
-        this.validplace = false;
-        this.lastvalidplace = false;
+        this.validplace = true;
+        this.lastvalidplace = true;
 
         this.soundAudio = gameObject.GetComponent<Sound>();
         Cursor.visible = false;

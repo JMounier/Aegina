@@ -1042,12 +1042,6 @@ public class Inventory : NetworkBehaviour
 
     }
 
-    [ClientRpc]
-    public void RpcDropAll()
-    {
-        DropAll();
-    }
-
     [Client]
     public void DropAll()
     {
@@ -1059,7 +1053,7 @@ public class Inventory : NetworkBehaviour
             }
         this.SaveInventory();
     }
-
+    
     /// <summary>
     /// Jette un stack d'objet.
     /// </summary>
@@ -1185,6 +1179,7 @@ public class Inventory : NetworkBehaviour
     {
         if (isLocalPlayer)
         {
+            ClearInventory();
             string[] strSlots = save.Split('|');
             foreach (string itemStack in strSlots)
             {
