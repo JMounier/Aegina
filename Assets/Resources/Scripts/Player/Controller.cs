@@ -82,14 +82,13 @@ public class Controller : NetworkBehaviour
 
             MapGeneration mg = GameObject.Find("Map").GetComponent<MapGeneration>();
             this.loading = mg != null && !mg.isLoaded(x, y);
-            if (this.character.transform.position.y < 10 && loading)
-                gameObject.GetComponent<Social_HUD>().RpcTeleport(new Vector3(this.character.transform.position.x, 15, this.character.transform.position.z));
+            gameObject.transform.FindChild("Character").GetComponent<Rigidbody>().useGravity = !this.loading;
         }
     }
 
     // Update is called once per frame
     void FixedUpdate()
-    {       
+    {
         if (!isLocalPlayer)
             return;
         /*
@@ -276,7 +275,7 @@ public class Controller : NetworkBehaviour
                         this.soundAudio.PlaySound(walkRand, 1f, .325f, 1);
                         this.soundAudio.CmdPlaySound(walkRand, 1f);
                     }
-                }              
+                }
             }
             else if (this.objectiv != null)
             {
