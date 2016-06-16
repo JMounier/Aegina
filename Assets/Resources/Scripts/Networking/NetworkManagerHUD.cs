@@ -39,6 +39,7 @@ namespace UnityEngine.Networking
         private bool listServShown = false;
         private bool worldcreateShown = false;
         private bool ipserveurshown = false;
+        private bool creditshown = false;
         private float incr;
         private float incg;
         private float incb;
@@ -125,7 +126,7 @@ namespace UnityEngine.Networking
 
         void OnGUI()
         {
-            if (!optionShown && !sonShown && !langueShown && !characterShown && !worldcreateShown && !ipserveurshown)
+            if (!optionShown && !sonShown && !langueShown && !characterShown && !worldcreateShown && !ipserveurshown && !creditshown)
             {
                 if (!this.manager.isNetworkActive)
                 {
@@ -206,6 +207,8 @@ namespace UnityEngine.Networking
                     this.DrawWorldCreate();
                 else if (ipserveurshown)
                     this.DrawServeurCreate();
+                else if (this.creditshown)
+                    DrawCredit();
             }
         }
         #endregion
@@ -273,10 +276,15 @@ namespace UnityEngine.Networking
                 this.firstScene.PlayButtonSound();
             }
 
-            if (GUI.Button(new Rect(this.posX, this.posY + this.spacing * 3, this.width, this.height), TextDatabase.Back.GetText(), this.skin.GetStyle("button")))
+            if (GUI.Button(new Rect(this.posX, this.posY + this.spacing * 4, this.width, this.height), TextDatabase.Back.GetText(), this.skin.GetStyle("button")))
             {
                 this.optionShown = false;
                 this.firstScene.PlayButtonSound();
+            }
+            if(GUI.Button(new Rect(this.posX, this.posY + this.spacing * 3, this.width, this.height), "Credit", this.skin.GetStyle("button")))
+            {
+                this.optionShown = false;
+                this.creditshown = true;
             }
         }
 
@@ -1064,6 +1072,17 @@ namespace UnityEngine.Networking
                 this.ipserveurshown = false;
                 this.newipname = "Serveur";
                 this.firstScene.PlayButtonSound();
+            }
+        }
+
+        void DrawCredit()
+        {
+            GUI.Box(new Rect(this.posX, this.posY, this.width, 4 * this.spacing), "\n   Chef de projet : Nokiam\n Membres de l'equipe : MrColorado, Xxping et Flomonster\n Remerciements : Pierre-Alexis Mandégué et Bastien Lhuaire", this.skin.GetStyle("Skin"));
+
+            if (GUI.Button(new Rect(this.posX, this.posY + 5 * this.spacing, this.width, this.height), TextDatabase.Back.GetText(), this.skin.GetStyle("button")))
+            {
+                this.creditshown = false;
+                this.optionShown = true;
             }
         }
 

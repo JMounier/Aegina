@@ -13,7 +13,7 @@ public class SuccessDatabase
     public static readonly Success SunkiumEquip = new Success(61, 32, -1, TextDatabase.SunkiumEquip, ItemDatabase.SunkiumSword, new Requirement.Requirements[1] { Requirement.Requirements.SunkiumEquip }, 1,DivineLVL5);
     public static readonly Success FloatiumAge = new Success(60, 30, 0, TextDatabase.FloatiumAge, ItemDatabase.FloatiumIngot, new Requirement.Requirements[0] { }, 1,SunkiumEquip,OtherLVL5);
     public static readonly Success SlimeChief = new Success(54, 28, 0, TextDatabase.HuntSlimeChief, ItemDatabase.SlimeCore, new Requirement.Requirements[1] { Requirement.Requirements.HuntSlimeChief }, 3,FloatiumAge);
-    public static readonly Success Slimicide = new Success(53, 26, 2, TextDatabase.HuntMassSlime, ItemDatabase.SlimeGoo, new Requirement.Requirements[1] { Requirement.Requirements.HuntMassSlime }, 1,SlimeChief);
+    public static readonly Success Slimicide = new Success(53, 26, 2, TextDatabase.HuntMassSlime, ItemDatabase.Apple, new Requirement.Requirements[1] { Requirement.Requirements.HuntMassSlime }, 1,SlimeChief);
     public static readonly Success MithrilArmor = new Success(52, 26, 0, TextDatabase.MithrilArmor, ItemDatabase.MithrilTopArmor, new Requirement.Requirements[1] { Requirement.Requirements.MithrilArmor }, 1,SlimeChief);
     public static readonly Success FloatiumWeapon = new Success(51, 26,-2, TextDatabase.FloatiumWeapon, ItemDatabase.MithrilSword, new Requirement.Requirements[1] { Requirement.Requirements.FloatiumWeapon }, 1,SlimeChief);
     public static readonly Success MithrilAge = new Success(50, 24, 0, TextDatabase.MithrilAge, ItemDatabase.MithrilIngot, new Requirement.Requirements[0] { }, 2, FloatiumWeapon, MithrilArmor,Slimicide);
