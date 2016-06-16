@@ -45,6 +45,7 @@ public class SyncCharacter : NetworkBehaviour
     private GameObject character;
     private Inventory inventory;
     private Controller controller;
+    private BossFight bossfight;
 
     // Use this for initialization
     void Start()
@@ -59,6 +60,7 @@ public class SyncCharacter : NetworkBehaviour
 
         this.inventory = gameObject.GetComponent<Inventory>();
         this.controller = gameObject.GetComponent<Controller>();
+        this.bossfight = gameObject.GetComponent<BossFight>();
         this.skin = Resources.Load<GUISkin>("Sprites/GUIskin/skin");
 
         this.lifeMax = 100;
@@ -103,7 +105,7 @@ public class SyncCharacter : NetworkBehaviour
         GUI.DrawTexture((new Rect(Screen.width / 1.03f, Screen.height * 0.0125f, Screen.width / 85, Screen.height / 2f)), this.hungerBar[Mathf.CeilToInt(this.hunger * 100 / this.hungerMax)]);
         GUI.DrawTexture((new Rect(Screen.width / 1.03f - Screen.width * 0.025f, Screen.height * 0.0125f, Screen.width / 85, Screen.height / 2f)), this.ThirstBar[Mathf.CeilToInt(this.thirst * 100 / this.thirstMax)]);
 
-        if (this.life <= 0)
+        if (this.life <= 0 && gameObject.GetComponent<BossFight>().MyState == BossFight.State.Outfight)
         {
             if (GUI.Button(new Rect(5 * Screen.width / 14, Screen.height / 2 - 100, 2 * Screen.width / 7, 100), TextDatabase.Respawn.GetText(), skin.GetStyle("button")))
             {
@@ -210,10 +212,12 @@ public class SyncCharacter : NetworkBehaviour
             gameObject.GetComponent<Inventory>().DropAll();
             gameObject.GetComponent<Social_HUD>().CmdSendActivity(Activity.Death);
             GetComponent<InputManager>().IAmDead();
+            if (gameObject.GetComponent<BossFight>().MyState == BossFight.State.Infight)
+                gameObject.GetComponent<BossFight>().EnterSpec();
         }
     }
 
-    private void Respawn()
+    public void Respawn()
     {
         gameObject.transform.FindChild("Character").FindChild("Armature").gameObject.SetActive(true);
         gameObject.transform.FindChild("Character").FindChild("NPC_Man_Normal001").gameObject.SetActive(true);
@@ -224,7 +228,15 @@ public class SyncCharacter : NetworkBehaviour
         this.Hunger = this.hungerMax;
         this.Thirst = this.thirstMax;
         this.character.GetComponent<Rigidbody>().velocity = Vector3.zero;
-        CmdRespawnPos();
+        if (!this.bossfight.BossHere)
+            CmdRespawnPos();
+        else
+        {
+            transform.GetChild(0).gameObject.SetActive(true);
+            this.character.transform.position = new Vector3(Random.Range(-2f, 2f), 7, Random.Range(-2f, 2f));
+            this.bossfight.MyState = BossFight.State.Outfight;
+        }
+
     }
 
     /// <summary>
@@ -330,7 +342,7 @@ public class SyncCharacter : NetworkBehaviour
         this.Life -= 100 * damage / armor;
         if (this.Life == 0 && isPlayer)
             Stats.IncrementKill();
-        
+
     }
 
     [ClientRpc]
@@ -370,7 +382,10 @@ public class SyncCharacter : NetworkBehaviour
         this.Poison = save.Poison;
         this.CdPoison = save.CdPoison;
 
+
         Vector3 newPos = new Vector3(save.X, 7, save.Y);
+        if (GameObject.Find("Map").GetComponent<MapGeneration>() == null)
+            newPos = new Vector3(Random.Range(-2f,2f), 7, Random.Range(-2f, 2f));
         gameObject.GetComponent<Social_HUD>().RpcTeleport(newPos);
     }
 

@@ -54,8 +54,6 @@ public class Inventory : NetworkBehaviour
         this.trans = gameObject.GetComponent<Transform>();
         this.sound = gameObject.GetComponent<Sound>();
         this.lastUseddItem = new Item();
-        this.top = new ItemStack();
-        this.bottom = new ItemStack();
         this.CmdLoadInventory();
     }
 
@@ -988,6 +986,8 @@ public class Inventory : NetworkBehaviour
     /// </summary>
     public void ClearInventory()
     {
+        this.top = new ItemStack();
+        this.bottom = new ItemStack();
         for (int i = 0; i < this.rows; i++)
             for (int j = 0; j < this.columns; j++)
                 this.slots[i, j] = new ItemStack();
@@ -1162,7 +1162,7 @@ public class Inventory : NetworkBehaviour
         this.CmdSetArmor(this.top.Items.ID, this.bottom.Items.ID);
         this.SaveInventory();
     }
-
+    
     /// <summary>
     /// Jette un stack d'objet.
     /// </summary>
@@ -1286,12 +1286,11 @@ public class Inventory : NetworkBehaviour
     /// </summary>
     /// <param name="str"></param>
     [ClientRpc]
-    private void RpcLoadInventory(string save)
+    public void RpcLoadInventory(string save)
     {
         if (isLocalPlayer)
         {
-            this.top = new ItemStack();
-            this.bottom = new ItemStack();
+            ClearInventory();
             string[] strSlots = save.Split('|');
             foreach (string itemStack in strSlots)
             {

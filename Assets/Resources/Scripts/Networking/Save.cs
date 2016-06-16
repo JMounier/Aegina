@@ -86,6 +86,8 @@ public class Save : NetworkBehaviour
     /// </summary>
     public void SaveWorld()
     {
+        if (gameObject.GetComponentInChildren<BossSceneManager>() != null)
+            return;
         Stats.IncrementTimePlayer(60 - (ulong)this.coolDownSave);
         this.coolDownSave = 60;
 
@@ -243,9 +245,10 @@ public class Save : NetworkBehaviour
     /// <param name="go"></param>
     public void SavePlayerInventory(GameObject go, string inventory)
     {
-        foreach (PlayerSave player in this.players)
-            if (player.Player.Equals(go))
-                player.Inventory = inventory;
+        if (gameObject.GetComponentInChildren<BossSceneManager>() == null)
+            foreach (PlayerSave player in this.players)
+                if (player.Player.Equals(go))
+                    player.Inventory = inventory;
     }
 
     /// <summary>
