@@ -132,11 +132,10 @@ public class Tutoriel : NetworkBehaviour
                 case 6:
                     this.textNarator = TextDatabase.Equip;
                     this.textObjectif = TextDatabase.EquipObjectif;
-                    if (this.cooldown <= 0 && inventaire.InventoryContains(ItemDatabase.StoneAxe))
+                    if (this.cooldown <= 0 && inventaire.UsedItem.Items.Name == ItemDatabase.Stick.Name)
                     {
                         CmdSaveProgress(progress + 1);
                         this.cooldown = 10;
-                        this.menu.Page = 2 + (Text.GetLanguage() == SystemLanguage.English ? 0 : 3);
                         //déclenchement du texte et du son
                     }
                     break;
@@ -165,6 +164,7 @@ public class Tutoriel : NetworkBehaviour
                         this.cooldown = 0;
                         this.menu.Helpshown = true;
                         this.controler.Pause = true;
+                        this.menu.Page = 2 + (Text.GetLanguage() == SystemLanguage.English ? 0 : 3);
                     }
                     if (this.cooldown <= 0 && inventaire.InventoryContains(ItemDatabase.MeatBalls))
                     {
