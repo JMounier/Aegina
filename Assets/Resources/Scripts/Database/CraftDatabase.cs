@@ -4,8 +4,8 @@ using System.Collections.Generic;
 
 public static class CraftDatabase
 {
-    public static readonly Craft Torch = new Craft(0, new ItemStack(ItemDatabase.Torch, 1), false, false, false, false, false, Craft.Type.WorkTop, new ItemStack(ItemDatabase.Stick, 1), new ItemStack(ItemDatabase.AnimalFat,1));
-	public static readonly Craft FireCamp = new Craft(1,new ItemStack(ItemDatabase.Firepit,1),false,false,false,false,false,Craft.Type.WorkTop,new ItemStack(ItemDatabase.Torch,1),new ItemStack(ItemDatabase.WoodenPlank,1));
+    public static readonly Craft Torch = new Craft(0, new ItemStack(ItemDatabase.Torch, 1), true, false, false, false, false, Craft.Type.WorkTop, new ItemStack(ItemDatabase.Stick, 1));
+	public static readonly Craft FireCamp = new Craft(1,new ItemStack(ItemDatabase.Firepit,1),false,false,false,false,false,Craft.Type.WorkTop,new ItemStack(ItemDatabase.Stone,2),new ItemStack(ItemDatabase.Log,2),new ItemStack(ItemDatabase.AnimalFat,1));
     public static readonly Craft Workbench = new Craft(2, new ItemStack(ItemDatabase.Workbench, 1), false, false, false, false, false, Craft.Type.WorkTop, new ItemStack(ItemDatabase.WoodenPlank, 2), new ItemStack(ItemDatabase.Stick, 4));
     public static readonly Craft Forge = new Craft(3, new ItemStack(ItemDatabase.Forge, 1), false, true, false, false, false, Craft.Type.WorkTop, new ItemStack(ItemDatabase.CuttedStone, 5), new ItemStack(ItemDatabase.Firepit, 1));
     public static readonly Craft Brewer = new Craft(4, new ItemStack(ItemDatabase.Cauldron, 1), false, false, true, false, false, Craft.Type.WorkTop, new ItemStack(ItemDatabase.IronIngot, 3), new ItemStack(ItemDatabase.CopperIngot, 1));
