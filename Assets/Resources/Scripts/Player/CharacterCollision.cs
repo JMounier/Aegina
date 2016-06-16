@@ -17,8 +17,9 @@ public class CharacterCollision : MonoBehaviour
     void OnCollisionEnter(Collision collision)
     {
         if (collision.collider.tag == "Ground")        
-            this.controllerScript.IsJumping = false;
+            this.controllerScript.IsJumping = false;       
     }
+
     void Update()
     {
         foreach (Collider col in Physics.OverlapSphere(gameObject.transform.position, 1))

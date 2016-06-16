@@ -1324,7 +1324,11 @@ public class Inventory : NetworkBehaviour
     [Command]
     private void CmdSetChest(GameObject chest)
     {
+        if (this.chest != null)
+            this.chest.transform.FindChild("Top").gameObject.GetComponent<Animator>().SetBool("Action", false);
         this.chest = chest;
+        if (this.chest != null)
+            this.chest.transform.FindChild("Top").gameObject.GetComponent<Animator>().SetBool("Action", true);
     }
 
     [Command]
@@ -1431,9 +1435,9 @@ public class Inventory : NetworkBehaviour
         get { return this.chest; }
         set
         {
-            this.chest = value;
             if (!isServer)
-                CmdSetChest(value);
+                this.chest = value;
+            CmdSetChest(value);
         }
     }
     #endregion

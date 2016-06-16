@@ -6,7 +6,6 @@ using UnityEngine.Networking;
 
 public class SyncMob : NetworkBehaviour
 {
-
     private Mob myMob;
     private List<Node> path;
     private Animator anim;
@@ -185,14 +184,25 @@ public class SyncMob : NetworkBehaviour
     }
 
     // Check if the mob is traped
-    void OnCollisionEnter(Collision col)
+    void OnCollisionStay(Collision col)
     {
         if (col.gameObject.name.Contains("Trap"))
         {
-            col.transform.parent.gameObject.GetComponent<SyncElement>().Elmt.Life -= 50;
-            this.myMob.Life = 0;
-        }
-    }
+
+            col.transform.FindChild("Cylinder").GetComponent<Animator>().SetBool("Action", true);
+            col.transform.FindChild("Cylinder_004").GetComponent<Animator>().SetBool("Action", true);
+            this.myMob.WalkSpeed = 0;
+            this.myMob.RunSpeed = 0;
+
+            if (col.transform.FindChild("Cylinder_004").GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Base.Close"))
+            {
+                col.transform.FindChild("Cylinder").GetComponent<Animator>().SetBool("Action", false);
+                col.transform.FindChild("Cylinder_004").GetComponent<Animator>().SetBool("Action", false);
+                this.myMob.Life = 0;
+                col.transform.parent.gameObject.GetComponent<SyncElement>().Elmt.Life -= 50;
+            }
+        }    
+    }    
 
     private void ChooseRandomGoal()
     {
@@ -214,9 +224,7 @@ public class SyncMob : NetworkBehaviour
     private void Move(Vector3 pos)
     {
         if (cdDisable > 0)
-        {
             cdDisable -= Time.deltaTime;
-        }
         else
         {
             this.View(pos);

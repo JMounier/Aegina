@@ -36,7 +36,7 @@ public class TextDatabase
     public static readonly Text Torch = new Text("Torche", "Torch");
     public static readonly Text Chest = new Text("Coffre", "Chest");
     public static readonly Text WolfTrap = new Text("Piège à loup", "Wolf trap");
-    public static readonly Text Spiques = new Text("Pique", "Pique trap");
+    public static readonly Text Spiques = new Text("Piques", "Piques trap");
     public static readonly Text WoodenWall = new Text("Mur en bois", "Wooden wall");
     public static readonly Text StoneWall = new Text("Mur en pierre", "Stone wall");
 
