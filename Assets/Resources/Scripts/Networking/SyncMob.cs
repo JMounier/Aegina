@@ -189,15 +189,13 @@ public class SyncMob : NetworkBehaviour
         if (col.gameObject.name.Contains("Trap"))
         {
 
-            col.transform.FindChild("Cylinder").GetComponent<Animator>().SetBool("Action", true);
-            col.transform.FindChild("Cylinder_004").GetComponent<Animator>().SetBool("Action", true);
+            col.transform.parent.GetComponent<Animator>().SetBool("Action", true);
             this.myMob.WalkSpeed = 0;
             this.myMob.RunSpeed = 0;
 
-            if (col.transform.FindChild("Cylinder_004").GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Base.Close"))
+            if (col.transform.parent.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Base.Close"))
             {
-                col.transform.FindChild("Cylinder").GetComponent<Animator>().SetBool("Action", false);
-                col.transform.FindChild("Cylinder_004").GetComponent<Animator>().SetBool("Action", false);
+                col.transform.parent.GetComponent<Animator>().SetBool("Action", false);
                 this.myMob.Life = 0;
                 col.transform.parent.gameObject.GetComponent<SyncElement>().Elmt.Life -= 50;
             }

@@ -1324,10 +1324,10 @@ public class Inventory : NetworkBehaviour
     private void CmdSetChest(GameObject chest)
     {
         if (this.chest != null)
-            this.chest.transform.FindChild("Top").gameObject.GetComponent<Animator>().SetBool("Action", false);
+            this.chest.transform.gameObject.GetComponent<Animator>().SetBool("Action", false);
         this.chest = chest;
         if (this.chest != null)
-            this.chest.transform.FindChild("Top").gameObject.GetComponent<Animator>().SetBool("Action", true);
+            this.chest.transform.gameObject.GetComponent<Animator>().SetBool("Action", true);
     }
 
     [Command]
