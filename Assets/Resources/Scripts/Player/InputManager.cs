@@ -225,10 +225,10 @@ public class InputManager : NetworkBehaviour
         if (Input.GetButtonDown("Fire1") && cdAttack <= 0 && !this.controller.Pause)
         {
             this.cdAttack = 5f;
-            if (this.controller.IsSprinting && ! (this.inventaire.UsedItem.Items is BattleAxe))
-                this.attack = TypeAttack.Charge;
-            else if (this.controller.IsJumping && !(this.inventaire.UsedItem.Items is Spear))
+             if (this.controller.IsJumping && !(this.inventaire.UsedItem.Items is Spear))
                 this.attack = TypeAttack.Aerial;
+            else if(this.controller.IsSprinting && !(this.inventaire.UsedItem.Items is BattleAxe))
+                this.attack = TypeAttack.Charge;
             else
                 this.attack = TypeAttack.Vertical;
         }
@@ -251,7 +251,7 @@ public class InputManager : NetworkBehaviour
         {
 
             if (this.attack == TypeAttack.Charge || this.attack == TypeAttack.Aerial || this.inventaire.UsedItem.Items is BattleAxe)
-                this.cdAttack = 3.5f;
+                this.cdAttack = 1.5f;
             else
                 this.cdAttack = .6f;
             if (this.inventaire.UsedItem.Items is Tool)
