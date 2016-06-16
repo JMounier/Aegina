@@ -422,9 +422,19 @@ namespace UnityEngine.Networking
                 this.skinCharacter = Skin.RandomSkin();
                 this.skinCharacter.Apply(this.character);
             }
+            if (GUI.Button(new Rect(this.posX + this.width + this.width / 5f, this.posY, this.width / 5, this.width / 5), Resources.Load<Texture2D>("Sprites/Cosmetics/Reset"), skin.GetStyle("Square")))
+            {
+                try
+                {
+                    this.categoryCloth = CategoryCloth.None;
+                    this.skinCharacter = Skin.Load(PlayerPrefs.GetString("Skin", ""));
+                    this.skinCharacter.Apply(this.character);
+                }
+                catch { }
+            }
 
             switch (this.categoryCloth)
-            {                
+            {
                 case CategoryCloth.Hair:
                 case CategoryCloth.Eyes:
                 case CategoryCloth.Beard:
@@ -433,7 +443,7 @@ namespace UnityEngine.Networking
                     break;
                 case CategoryCloth.Gloves:
                     this.firstScene.CameraAim(2);
-                    break;                 
+                    break;
                 default:
                     this.firstScene.CameraAim(0);
                     break;
@@ -480,7 +490,7 @@ namespace UnityEngine.Networking
                     foreach (Hat h in Clothing.Hats)
                         if (this.typeCloth == (int)h.GetTypeHat)
                         {
-                            x = this.typeCloth;                           
+                            x = this.typeCloth;
                             Color fillcolor = h.Color;
                             fillcolor.a = Mathf.Clamp01(this.smoothAparition - y * TransitionDelay);
                             for (int i = 0; i < this.width / 3; i++)
@@ -509,28 +519,28 @@ namespace UnityEngine.Networking
                         this.smoothAparition = 0;
                         typeCloth = (int)Beard.TypeBeard.None;
                     }
-                    rect.x += (Screen.width / 40 + Screen.width / 20);
+                    rect.x += (Screen.width / 50 + Screen.width / 20);
 
                     if (GUI.Button(rect, Resources.Load<Texture2D>("Sprites/Cosmetics/BeardIcon"), skin.GetStyle("Square")))
                     {
                         this.smoothAparition = 0;
                         typeCloth = (int)Beard.TypeBeard.Beard;
                     }
-                    rect.x += (Screen.width / 40 + Screen.width / 20);
+                    rect.x += (Screen.width / 50 + Screen.width / 20);
 
                     if (GUI.Button(rect, Resources.Load<Texture2D>("Sprites/Cosmetics/BeardOnlyIcon"), skin.GetStyle("Square")))
                     {
                         this.smoothAparition = 0;
                         typeCloth = (int)Beard.TypeBeard.BeardOnly;
                     }
-                    rect.x += (Screen.width / 40 + Screen.width / 20);
+                    rect.x += (Screen.width / 50 + Screen.width / 20);
 
                     if (GUI.Button(rect, Resources.Load<Texture2D>("Sprites/Cosmetics/BeardIcon 1"), skin.GetStyle("Square")))
                     {
                         this.smoothAparition = 0;
                         typeCloth = (int)Beard.TypeBeard.BeardMoustachSplit;
                     }
-                    rect.x += (Screen.width / 40 + Screen.width / 20);
+                    rect.x += (Screen.width / 50 + Screen.width / 20);
 
                     if (GUI.Button(rect, Resources.Load<Texture2D>("Sprites/Cosmetics/MustacheIcon"), skin.GetStyle("Square")))
                     {
@@ -548,7 +558,7 @@ namespace UnityEngine.Networking
                                 for (int j = 0; j < this.width / 3; j++)
                                     fill.SetPixel(i, j, fillcolor);
                             fill.Apply();
-                            rect = new Rect((Screen.width / 40 + Screen.width / 20) * x + Screen.width / 25f, y * (Screen.height / 10) + Screen.height / 2.6f, Screen.height / 11, Screen.height / 11);
+                            rect = new Rect((Screen.width / 50 + Screen.width / 20) * x + Screen.width / 25f, y * (Screen.height / 10) + Screen.height / 2.6f, Screen.height / 11, Screen.height / 11);
                             if (rect.Contains(Event.current.mousePosition))
                                 tooltip = b.Description;
                             if (this.smoothAparition > y * TransitionDelay && GUI.Button(rect, fill, skin.GetStyle("Square")))
@@ -1024,7 +1034,7 @@ namespace UnityEngine.Networking
                 this.Launch(TypeLaunch.Host);
                 this.firstScene.PlayButtonSound();
             }
-         
+
             rect = new Rect(this.posX + this.width / 2, this.posY + 6 * this.spacing + 1.5f * this.height, (this.width - 10) / 2, this.height);
             if (GUI.Button(rect, TextDatabase.Back.GetText(), skin.GetStyle("button")))
             {
