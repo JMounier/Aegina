@@ -52,7 +52,10 @@ public class BossSceneManager : MonoBehaviour
         foreach (GameObject obj in OrbitingStuff)
             obj.transform.RotateAround(obj.transform.parent.position, obj.transform.parent.up, 0.5f);
         if (finalcoutndown > 0)
+        {
             finalcoutndown -= Time.deltaTime;
+            this.spawnWall.SetActive(true);
+        }
         else if (finalcoutndown <= 0 && finalcoutndown > -5)
         {
             this.spawnWall.SetActive(false);

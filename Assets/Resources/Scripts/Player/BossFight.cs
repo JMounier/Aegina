@@ -22,6 +22,7 @@ public class BossFight : NetworkBehaviour
     // Use this for initialization
     void Start()
     {
+        this.state = State.Outfight;
         if (isServer && SceneManager.GetActiveScene().name != "main")
         {
             this.syncBossLife = 500;
@@ -29,8 +30,6 @@ public class BossFight : NetworkBehaviour
         }
         if (!isLocalPlayer || SceneManager.GetActiveScene().name == "main")
             return;
-        this.state = State.Outfight;
-
         this.syncChar = gameObject.GetComponent<SyncCharacter>();
         this.character = gameObject.GetComponentInChildren<CharacterCollision>().gameObject;
 
@@ -131,6 +130,12 @@ public class BossFight : NetworkBehaviour
             Respawn();
     }
 
+    [ClientRpc]
+    public void RpcJustDoIt()
+    {
+        if (isLocalPlayer)
+            GameObject.Find("FightManager").GetComponent<BossSceneManager>().FinalCountdown = 0;
+    }
     /// <summary>
     /// Respawn all player in the fight and reset their inventory MUST BE SERVEUR !!!
     /// </summary>

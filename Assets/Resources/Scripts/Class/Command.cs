@@ -424,7 +424,7 @@ public class Command
                     p.GetComponent<Social_HUD>().RpcReceiveMsg(player.GetComponent<Social_HUD>().PlayerName + " is now part of the " + t.ToString().ToLower() + " team.");
             }
             // Boss
-            else if(c == Boss)
+            else if (c == Boss)
             {
                 GameObject.Find("Map").GetComponent<Save>().SaveWorld();
                 foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
@@ -435,13 +435,11 @@ public class Command
             else if (c == World)
                 GameObject.Find("NetworkManager").GetComponent<NetworkManager2>().ServerChangeScene("Main");
             else if (c == JustDoIt)
-            {
                 foreach (GameObject p in GameObject.FindGameObjectsWithTag("Player"))
                 {
-                    p.GetComponent<Tutoriel>().JustDoIt();
+                    p.GetComponent<Tutoriel>().RpcJustDoIt();
+                    p.GetComponent<BossFight>().RpcJustDoIt();
                 }
-                GameObject.Find("FightManager").GetComponent<BossSceneManager>().FinalCountdown = 0;
-            }
         }
         catch
         {

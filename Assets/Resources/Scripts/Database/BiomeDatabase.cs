@@ -15,9 +15,9 @@ public static class BiomeDatabase
         new SpawnConfig(EntityDatabase.Fir, 5), new SpawnConfig(EntityDatabase.Oak, 6),
     #endregion
     #region Rock
-        new SpawnConfig(EntityDatabase.StoneRock, 3), new SpawnConfig(EntityDatabase.CopperRock, 0.6f), new SpawnConfig(EntityDatabase.IronRock, 0.4f),
-        new SpawnConfig(EntityDatabase.GoldRock, 0.2f), new SpawnConfig(EntityDatabase.MithrilRock, 0.2f), new SpawnConfig(EntityDatabase.FloatiumRock, 0.1f),
-        new SpawnConfig(EntityDatabase.SunkiumRock, 0.05f),
+        new SpawnConfig(EntityDatabase.StoneRock, 3), new SpawnConfig(EntityDatabase.CopperRock, 1.5f), new SpawnConfig(EntityDatabase.IronRock, 1f),
+        new SpawnConfig(EntityDatabase.GoldRock, 0.8f), new SpawnConfig(EntityDatabase.MithrilRock, 0.5f), new SpawnConfig(EntityDatabase.FloatiumRock, 0.5f),
+        new SpawnConfig(EntityDatabase.SunkiumRock, 0.2f),
     #endregion
     #region Small Element
         new SpawnConfig(EntityDatabase.ForestFlower, 4), new SpawnConfig(EntityDatabase.Branch, 4), new SpawnConfig(EntityDatabase.LittleRock, 2));
@@ -30,9 +30,9 @@ public static class BiomeDatabase
         new SpawnConfig(EntityDatabase.Cactus, 2),
     #endregion
     #region Rock
-        new SpawnConfig(EntityDatabase.StoneRock, 3f), new SpawnConfig(EntityDatabase.CopperRock, 0.5f), new SpawnConfig(EntityDatabase.IronRock, 0.4f),
-        new SpawnConfig(EntityDatabase.GoldRock, 0.2f), new SpawnConfig(EntityDatabase.MithrilRock, 0.2f), new SpawnConfig(EntityDatabase.FloatiumRock, 0.1f),
-		new SpawnConfig(EntityDatabase.SunkiumRock, 0.05f), new SpawnConfig(EntityDatabase.Squeleton, 0.5f),
+        new SpawnConfig(EntityDatabase.StoneRock, 3), new SpawnConfig(EntityDatabase.CopperRock, 1.5f), new SpawnConfig(EntityDatabase.IronRock, 1f),
+        new SpawnConfig(EntityDatabase.GoldRock, 0.8f), new SpawnConfig(EntityDatabase.MithrilRock, 0.5f), new SpawnConfig(EntityDatabase.FloatiumRock, 0.5f),
+        new SpawnConfig(EntityDatabase.SunkiumRock, 0.2f),
 
     #endregion
     #region Small Element
@@ -46,9 +46,9 @@ public static class BiomeDatabase
         new SpawnConfig(EntityDatabase.SnowFir, 5), new SpawnConfig(EntityDatabase.SnowOak, 7),
     #endregion
     #region Rock
-        new SpawnConfig(EntityDatabase.StoneRock, 3),
-        new SpawnConfig(EntityDatabase.CopperRock, 0.6f), new SpawnConfig(EntityDatabase.IronRock, 0.4f), new SpawnConfig(EntityDatabase.GoldRock, 0.2f),
-        new SpawnConfig(EntityDatabase.MithrilRock, 0.2f), new SpawnConfig(EntityDatabase.FloatiumRock, 0.1f), new SpawnConfig(EntityDatabase.SunkiumRock, 0.05f),
+        new SpawnConfig(EntityDatabase.StoneRock, 3), new SpawnConfig(EntityDatabase.CopperRock, 1.5f), new SpawnConfig(EntityDatabase.IronRock, 1f),
+        new SpawnConfig(EntityDatabase.GoldRock, 0.8f), new SpawnConfig(EntityDatabase.MithrilRock, 0.5f), new SpawnConfig(EntityDatabase.FloatiumRock, 0.5f),
+        new SpawnConfig(EntityDatabase.SunkiumRock, 0.2f),
     #endregion
     #region Small Element
         new SpawnConfig(EntityDatabase.IceFlower, 5), new SpawnConfig(EntityDatabase.LittleRock, 3), new SpawnConfig(EntityDatabase.Branch, 2));

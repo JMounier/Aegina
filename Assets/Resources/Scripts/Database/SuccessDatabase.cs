@@ -4,17 +4,18 @@ using System.Collections.Generic;
 
 public class SuccessDatabase
 {
-    public static readonly Success FirstEnd = new Success(73, 40, 1, TextDatabase.FirstEnd, ItemDatabase.PampiCore, new Requirement.Requirements[1] { Requirement.Requirements.FirstEnd }, 1);
-    public static readonly Success SecondEnd = new Success(72, 40, -1, TextDatabase.SecondEnd, ItemDatabase.BoarCore, new Requirement.Requirements[1] { Requirement.Requirements.SecondEnd }, 1);
-    public static readonly Success GunDam = new Success(71, 38, 0, TextDatabase.KillTheBoss, ItemDatabase.InstableCore, new Requirement.Requirements[1] { Requirement.Requirements.KillTheBoss }, 1,FirstEnd,SecondEnd);
+    public static readonly Success ThirdEnd = new Success(74, 40, 2, TextDatabase.FirstEnd, ItemDatabase.SlimeCore, new Requirement.Requirements[1] { Requirement.Requirements.ThirdEnd }, 1);
+    public static readonly Success FirstEnd = new Success(73, 40, 0, TextDatabase.FirstEnd, ItemDatabase.PampiCore, new Requirement.Requirements[1] { Requirement.Requirements.FirstEnd }, 1);
+    public static readonly Success SecondEnd = new Success(72, 40, -2, TextDatabase.SecondEnd, ItemDatabase.BoarCore, new Requirement.Requirements[1] { Requirement.Requirements.SecondEnd }, 1);
+    public static readonly Success GunDam = new Success(71, 38, 0, TextDatabase.KillTheBoss, ItemDatabase.InstableCore, new Requirement.Requirements[1] { Requirement.Requirements.KillTheBoss }, 1,FirstEnd,SecondEnd,ThirdEnd);
     public static readonly Success SunkiumAge = new Success(70, 36, 0, TextDatabase.StoneAge, ItemDatabase.SunkiumIngot, new Requirement.Requirements[0] { }, 1,GunDam);
     public static readonly Success DivineLVL5 = new Success(63, 34, 0, TextDatabase.DivineCrisatlLVL5, ItemDatabase.InstableCore, new Requirement.Requirements[1] { Requirement.Requirements.DivineCrisatlLVL5 }, 2,SunkiumAge);
     public static readonly Success OtherLVL5 = new Success(62, 32, 1, TextDatabase.OtherCristalLVL5, ItemDatabase.InstableCore, new Requirement.Requirements[1] { Requirement.Requirements.OtherCristalLVL5 }, 1,DivineLVL5);
     public static readonly Success SunkiumEquip = new Success(61, 32, -1, TextDatabase.SunkiumEquip, ItemDatabase.SunkiumSword, new Requirement.Requirements[1] { Requirement.Requirements.SunkiumEquip }, 1,DivineLVL5);
     public static readonly Success FloatiumAge = new Success(60, 30, 0, TextDatabase.StoneAge, ItemDatabase.FloatiumIngot, new Requirement.Requirements[0] { }, 1,SunkiumEquip,OtherLVL5);
     public static readonly Success SlimeChief = new Success(54, 28, 0, TextDatabase.HuntSlimeChief, ItemDatabase.SlimeCore, new Requirement.Requirements[1] { Requirement.Requirements.HuntSlimeChief }, 3,FloatiumAge);
-    public static readonly Success Slimicide = new Success(53, 26, 2, TextDatabase.HuntMassSlime, ItemDatabase.Apple, new Requirement.Requirements[1] { Requirement.Requirements.HuntMassSlime }, 1,SlimeChief);
-    public static readonly Success MithrilArmor = new Success(52, 26, 0, TextDatabase.MithrilArmor, ItemDatabase.Apple, new Requirement.Requirements[1] { Requirement.Requirements.MithrilArmor }, 1,SlimeChief);
+    public static readonly Success Slimicide = new Success(53, 26, 2, TextDatabase.HuntMassSlime, ItemDatabase.SlimeGoo, new Requirement.Requirements[1] { Requirement.Requirements.HuntMassSlime }, 1,SlimeChief);
+    public static readonly Success MithrilArmor = new Success(52, 26, 0, TextDatabase.MithrilArmor, ItemDatabase.MithrilTopArmor, new Requirement.Requirements[1] { Requirement.Requirements.MithrilArmor }, 1,SlimeChief);
     public static readonly Success FloatiumWeapon = new Success(51, 26,-2, TextDatabase.FloatiumWeapon, ItemDatabase.MithrilSword, new Requirement.Requirements[1] { Requirement.Requirements.FloatiumWeapon }, 1,SlimeChief);
 
     public static readonly Success MithrilAge = new Success(50, 24, 0, TextDatabase.StoneAge, ItemDatabase.MithrilIngot, new Requirement.Requirements[0] { }, 2, FloatiumWeapon, MithrilArmor,Slimicide);
@@ -28,7 +29,7 @@ public class SuccessDatabase
     public static readonly Success Pampicide = new Success(31, 16, 2, TextDatabase.HuntMassPampi, ItemDatabase.Cact, new Requirement.Requirements[1] { Requirement.Requirements.HuntMassPampi }, 1,Pampichief);
     public static readonly Success IronAge = new Success(30, 14, 0, TextDatabase.StoneAge, ItemDatabase.IronIngot, new Requirement.Requirements[0] { }, 4, Pampicide,Trap,EquipIron);
     public static readonly Success Forge = new Success(24, 12, 3, TextDatabase.CraftForge, ItemDatabase.Forge, new Requirement.Requirements[1] { Requirement.Requirements.CraftForge }, 1, IronAge);
-    public static readonly Success DivineLVL3 = new Success(23, 12, 1, TextDatabase.DivineCristalLVL3, ItemDatabase.Apple, new Requirement.Requirements[1] { Requirement.Requirements.DivineCristalLVL3 }, 1, IronAge);
+    public static readonly Success DivineLVL3 = new Success(23, 12, 1, TextDatabase.DivineCristalLVL3, ItemDatabase.InstableCore, new Requirement.Requirements[1] { Requirement.Requirements.DivineCristalLVL3 }, 1, IronAge);
     public static readonly Success Cauldron = new Success(22, 12, -1, TextDatabase.CraftCauldron, ItemDatabase.Cauldron, new Requirement.Requirements[1] { Requirement.Requirements.CraftCauldron }, 1, IronAge);
     public static readonly Success FirstHeal = new Success(21, 12, -3, TextDatabase.DrinkHealPotion, ItemDatabase.HealingPotion, new Requirement.Requirements[1] { Requirement.Requirements.DrinkHealPotion }, 1,IronAge);
 
@@ -36,14 +37,14 @@ public class SuccessDatabase
     public static readonly Success BoarChief = new Success(15, 8, 0, TextDatabase.HuntBoarChief, ItemDatabase.BoarCore, new Requirement.Requirements[1] { Requirement.Requirements.HuntBoarChief }, 4, CopperAge);
 
     public static readonly Success Boaricide = new Success(14, 6, 3, TextDatabase.HuntMassBoar, ItemDatabase.Fang, new Requirement.Requirements[1] { Requirement.Requirements.HuntMassBoar }, 1, BoarChief);
-    public static readonly Success LeatherArmor = new Success(13, 6, 1, TextDatabase.CraftFirstArmor, ItemDatabase.Apple, new Requirement.Requirements[1] { Requirement.Requirements.CraftFirstArmor }, 1, BoarChief);
+    public static readonly Success LeatherArmor = new Success(13, 6, 1, TextDatabase.CraftFirstArmor, ItemDatabase.LeatherTopArmor, new Requirement.Requirements[1] { Requirement.Requirements.CraftFirstArmor }, 1, BoarChief);
     public static readonly Success StoneWeapon = new Success(12, 6, -1, TextDatabase.CraftStoneWeapon, ItemDatabase.StoneSword, new Requirement.Requirements[1] { Requirement.Requirements.CraftStoneWeapon }, 1, BoarChief);
     public static readonly Success FirstChest = new Success(11, 6, -3, TextDatabase.CraftChest, ItemDatabase.Chest, new Requirement.Requirements[1] { Requirement.Requirements.CraftChest }, 1, BoarChief);
     public static readonly Success StoneAge = new Success(10, 4, 0, TextDatabase.StoneAge, ItemDatabase.Stone, new Requirement.Requirements[0] { }, 2, FirstChest, StoneWeapon, LeatherArmor, Boaricide);
     public static readonly Success FirstBlood = new Success(1, 0, 2, TextDatabase.FirstBlood, ItemDatabase.IronSword, new Requirement.Requirements[1] { Requirement.Requirements.FirstBlood }, 1);
     public static readonly Success FirstDeath = new Success(2, 0, -2, TextDatabase.FirstDeath, ItemDatabase.Bone, new Requirement.Requirements[1] { Requirement.Requirements.FirstDeath }, 1);
     public static readonly Success FirstHunt = new Success(3, 2, -1, TextDatabase.FirstHunt, ItemDatabase.Gigot, new Requirement.Requirements[1] { Requirement.Requirements.FirstHunt }, 1, StoneAge);
-    public static readonly Success Cristal = new Success(4, 2, 1, TextDatabase.FirstCap, ItemDatabase.Apple, new Requirement.Requirements[1] { Requirement.Requirements.FirstCap }, 1,StoneAge);
+    public static readonly Success Cristal = new Success(4, 2, 1, TextDatabase.FirstCap, ItemDatabase.InstableCore, new Requirement.Requirements[1] { Requirement.Requirements.FirstCap }, 1,StoneAge);
     public static readonly Success Tuto = new Success(0, -2, 0, TextDatabase.Tuto, ItemDatabase.Workbench, new Requirement.Requirements[1] { Requirement.Requirements.Tuto }, 1);
     public static readonly Success Root = new Success(-1, 0, 0, TextDatabase.PlayTheGame, ItemDatabase.Apple, new Requirement.Requirements[1] { Requirement.Requirements.PlayTheGame }, 0,Tuto,FirstBlood,FirstDeath,FirstHunt,Cristal);
 

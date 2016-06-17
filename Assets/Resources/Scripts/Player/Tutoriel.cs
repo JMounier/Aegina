@@ -347,13 +347,22 @@ public class Tutoriel : NetworkBehaviour
         {
             Rect rect = new Rect(Screen.width / 3, Screen.height / 3, Screen.width / 3, Screen.height / 20);
             if (GUI.Button(rect, "Rentrer chez soi", skin.GetStyle("button"))) //text a faire
+            {
                 this.fin = 1;
+                Stats.FirstEnd = true;
+            }
             rect.y += Screen.height / 10;
             if (GUI.Button(rect, "Detruire le cristal", skin.GetStyle("button"))) //text a faire
+            {
                 this.fin = 2;
+                Stats.FirstEnd = true;
+            }
             rect.y += Screen.height / 10;
             if (Stats.Hunt() < 100 && GUI.Button(rect, "Epargner Gundam", skin.GetStyle("button"))) //text a faire
+            {
                 this.fin = 3;
+                Stats.FirstEnd = true;
+            }
         }
         else
         {
@@ -373,14 +382,27 @@ public class Tutoriel : NetworkBehaviour
                     //text a ajouter
                     break;
             }
+            if(GUI.Button(new Rect(2*Screen.width/5,2 * Screen.height/3,Screen.width/5,Screen.height/20),TextDatabase.Quit.GetText(),skin.GetStyle("button")))
+            {
+                if (isServer)
+                {
+                    GameObject.Find("Map").GetComponent<Save>().SaveWorld();
+                    FindObjectOfType<NetworkManager>().StopHost();
+                }
+                else
+                    CmdDisconnect();
+            }
         }
-            GUI.Box(new Rect(Screen.width / 3, Screen.height / 3 + 3* Screen.height/10, Screen.width / 3, Screen.height / 3), "" + ecrit.GetText() + "");
+            GUI.Box(new Rect(Screen.width / 3, Screen.height / 3 + 3* Screen.height/10, Screen.width / 3, Screen.height / 3), "" + ecrit.GetText() + "",skin.GetStyle("Narrateur"));
     }
-
-    public void JustDoIt()
+    [ClientRpc]
+    public void RpcJustDoIt()
     {
-        storydialog.Clear();
-        this.textNarator = new Text();
+        if (isLocalPlayer)
+        {
+            storydialog.Clear();
+            this.textNarator = new Text();
+        }
     }
 
     [Command]
@@ -402,6 +424,21 @@ public class Tutoriel : NetworkBehaviour
     private void CmdSaveProgress(int p)
     {
         this.progress = p;
+    }
+
+    [Command]
+    public void CmdDisconnect()
+    {
+        GameObject.Find("Map").GetComponent<Save>().RemovePlayer(gameObject);
+        RpcDisconnect();
+
+    }
+
+    [ClientRpc]
+    private void RpcDisconnect()
+    {
+        if (isLocalPlayer)
+            FindObjectOfType<NetworkManager>().StopClient();
     }
 
     public void END()

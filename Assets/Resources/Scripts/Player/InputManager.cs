@@ -143,12 +143,6 @@ public class InputManager : NetworkBehaviour
             this.social.ChatShown = true;
             this.controller.Pause = true;
         }
-
-        if (Input.GetButtonDown("Success") && !this.menu.MenuShown && !this.menu.OptionShown && !this.inventaire.InventoryShown && !this.cristalHUD.Cristal_shown && !this.social.ChatShown && !this.tutoriel.EndTutoShown && !this.tutoriel.Tutoshown && !this.menu.ControlShown)
-        {
-            this.sucHUD.Activate = !this.sucHUD.Activate;
-            this.controller.Pause = this.sucHUD.Activate;
-        }
         if (cdAttack <= 0 && (Input.GetKey(KeyCode.C)))
         {
             cdAttack = 1.5f;
@@ -225,9 +219,9 @@ public class InputManager : NetworkBehaviour
         if (Input.GetButtonDown("Fire1") && cdAttack <= 0 && !this.controller.Pause)
         {
             this.cdAttack = 5f;
-             if (this.controller.IsJumping && !(this.inventaire.UsedItem.Items is Spear))
+            if (this.controller.IsJumping && !(this.inventaire.UsedItem.Items is Spear) && this.inventaire.UsedItem.Items is Tool)
                 this.attack = TypeAttack.Aerial;
-            else if(this.controller.IsSprinting && !(this.inventaire.UsedItem.Items is BattleAxe))
+            else if (this.controller.IsSprinting && !(this.inventaire.UsedItem.Items is BattleAxe) && this.inventaire.UsedItem.Items is Tool)
                 this.attack = TypeAttack.Charge;
             else
                 this.attack = TypeAttack.Vertical;
@@ -309,7 +303,7 @@ public class InputManager : NetworkBehaviour
             else if (this.sucHUD.Activate)
             {
                 this.sucHUD.Activate = false;
-                this.controller.Pause = false;
+                this.menu.MenuShown = true;
             }
             else if (this.menu.ControlShown)
             {
@@ -405,10 +399,10 @@ public class InputManager : NetworkBehaviour
         if (atk == TypeAttack.Horizontal)
             cibles = Physics.OverlapBox(this.character.transform.position - this.character.transform.forward / 2 + new Vector3(0, 0.5f), (spear ? 2 : 1) * new Vector3(0.5f, 0.1f, 0.25f), this.character.transform.rotation);
         else if (atk == TypeAttack.Vertical)
-            cibles = Physics.OverlapBox(this.character.transform.position - this.character.transform.forward / 2 + new Vector3(0, 0.5f), (spear ? 2 : 1) * new Vector3(0.1f, 0.5f, 0.25f), this.character.transform.rotation);
+            cibles = Physics.OverlapBox(this.character.transform.position - this.character.transform.forward / 2 + new Vector3(0, 0.5f), (spear ? 2 : 1) * new Vector3(0.2f, 0.5f, 0.25f), this.character.transform.rotation);
         else if (atk == TypeAttack.Aerial)
         {
-            cibles = Physics.OverlapBox(this.character.transform.position - this.character.transform.forward / 2 + new Vector3(0, -2f), (spear ? 2 : 1) * new Vector3(0.1f, 2f, 0.25f), this.character.transform.rotation);
+            cibles = Physics.OverlapBox(this.character.transform.position - this.character.transform.forward / 2 + new Vector3(0, -2f), (spear ? 2 : 1) * new Vector3(0.2f, 2f, 0.25f), this.character.transform.rotation);
             this.syncCharacter.RpcApplyForce(0, -30000f, 0);
         }
         else if (atk == TypeAttack.Charge)
