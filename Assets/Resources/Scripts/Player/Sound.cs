@@ -12,7 +12,6 @@ public class Sound : NetworkBehaviour
     private List<float[]> coolDown = new List<float[]>();
     private static AudioClip[] AudioclipArray;
     private float volume = 0.1f;
-    private DayNightCycle DN;
 
     // Use this for initialization
     void Awake()
@@ -57,7 +56,6 @@ public class Sound : NetworkBehaviour
         if (isLocalPlayer)
         {
             this.PlaySound(AudioClips.Void, 0f, Random.Range(30, 150), 42);
-            this.DN = GameObject.FindObjectOfType<DayNightCycle>();
         }
     }
 
@@ -83,28 +81,15 @@ public class Sound : NetworkBehaviour
                 i++;
             }
         }
-        if (DN.ActualTime < 600)
+        if (this.IsReady(42))
         {
-            if (this.IsReady(42))
-            {
-                AudioClips clip = this.Getbiome();
-                if (clip == AudioClips.Void)
-                    this.PlaySound(2f, Random.Range(30, 60), 42, clip);
-                else
-                    this.PlaySound(2f, Random.Range(420, 840), 42, clip);
-            }
+            AudioClips clip = this.Getbiome();
+            if (clip == AudioClips.Void)
+                this.PlaySound(2f, Random.Range(30, 60), 42, clip);
+            else
+                this.PlaySound(2f, Random.Range(420, 840), 42, clip);
         }
-        else
-        {
-            if (this.IsReady(42))
-            {
-                AudioClips clip = this.Getbiome();
-                if (clip == AudioClips.Void)
-                    this.PlaySound(2f, Random.Range(30, 60), 42, clip);
-                else
-                    this.PlaySound(2f, Random.Range(420, 840), 42, clip);
-            }
-        }
+
     }
     /// <sumary>
     /// Joue un son avec un volume choisi.
