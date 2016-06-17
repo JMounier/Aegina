@@ -328,7 +328,7 @@ public class SyncCharacter : NetworkBehaviour
     public void ReceiveDamage(float damage, Vector3 knockback, bool isPlayer)
     {
         SyncChunk chunk = null;
-        this.RpcApplyForce(knockback.x * 15000f, 8000f, knockback.z * 15000f);
+        this.RpcApplyForce(knockback.x * 350f*damage, 8000f, knockback.z * 350f*damage);
         foreach (Collider col in Physics.OverlapBox(this.character.transform.position, new Vector3(5, 100, 5)))
         {
             if (col.gameObject.name.Contains("Island"))
