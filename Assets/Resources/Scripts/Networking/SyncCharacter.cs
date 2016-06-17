@@ -47,6 +47,8 @@ public class SyncCharacter : NetworkBehaviour
     private Controller controller;
     private BossFight bossfight;
 
+    private Sound sounAudio;
+
     // Use this for initialization
     void Start()
     {
@@ -93,6 +95,7 @@ public class SyncCharacter : NetworkBehaviour
             this.ThirstBar[i] = Resources.Load<Texture2D>("Sprites/Bars/Thirst/ThirstBar" + i.ToString());
 
         this.CmdLoad();
+        this.sounAudio = gameObject.GetComponent<Sound>();
     }
 
     void OnGUI()
@@ -148,7 +151,10 @@ public class SyncCharacter : NetworkBehaviour
         }
 
         if (this.life <= 0 && gameObject.transform.FindChild("Character").FindChild("Armature").gameObject.activeInHierarchy)
+        {
+            this.sounAudio.PlaySound(AudioClips.playerDeath, 5);
             this.Kill();
+        }
         if (this.life > 0 && (this.hunger + this.thirst) / (this.hungerMax + this.thirstMax) > .8f)
             this.Life += Time.deltaTime;
 

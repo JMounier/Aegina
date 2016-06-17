@@ -7,7 +7,7 @@ public class Success_HUD : NetworkBehaviour
 {
     private int pos_x_success, pos_y_success, size;
     private float move_x, move_y;
-    private float incrémentation;
+    private float incrementation;
     private float posYpercent;
     private Queue successToDisplay;
     private Success ActualSucces;
@@ -26,7 +26,7 @@ public class Success_HUD : NetworkBehaviour
         this.pos_y_success = (int)((Screen.height - 10 * this.size) / 2);
 
         this.successToDisplay = new Queue();
-        this.incrémentation = 0;
+        this.incrementation = 0;
         this.posYpercent = 0;
         this.skin = Resources.Load<GUISkin>("Sprites/GUIskin/skin");
         this.coude = Resources.Load<Texture2D>("Sprites/Success/Coude");
@@ -45,25 +45,25 @@ public class Success_HUD : NetworkBehaviour
         if (!isLocalPlayer)
             return;
 
-        if (successToDisplay.Count > 0 || ActualSucces != null)
+        if ((successToDisplay.Count > 0 || ActualSucces != null) && !gameObject.GetComponent<Controller>().Loading)
         {
-            if (incrémentation == 0)
+            if (incrementation == 0)
             {
                 if (successToDisplay.Count > 0)
                 {
                     ActualSucces = (Success)successToDisplay.Dequeue();
-                    incrémentation = 2;
+                    incrementation = 2;
                 }
                 else
                     ActualSucces = null;
             }
             else
             {
-                posYpercent += incrémentation;
-                if (incrémentation < 0 && posYpercent <= 0)
-                    incrémentation = 0;
+                posYpercent += incrementation;
+                if (incrementation < 0 && posYpercent <= 0)
+                    incrementation = 0;
                 else if (posYpercent > 150)
-                    incrémentation = -3;
+                    incrementation = -3;
             }
         }
     }
@@ -72,7 +72,7 @@ public class Success_HUD : NetworkBehaviour
         if (!isLocalPlayer)
             return;
 
-        if (incrémentation != 0)
+        if (incrementation != 0)
         {
             Rect rect = new Rect(Screen.width / 20, -Screen.height / 10 + (Mathf.Clamp(posYpercent, 0, 100) / 100) * Screen.height / 9, Screen.width / 7, Screen.height / 9);
             GUI.Box(rect, "", skin.GetStyle("Inventory"));
