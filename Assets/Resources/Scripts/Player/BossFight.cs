@@ -26,7 +26,8 @@ public class BossFight : NetworkBehaviour
     {
         if (isServer && GameObject.Find("Map").GetComponent<MapGeneration>() == null)
         {
-            this.syncBoss = GameObject.FindGameObjectWithTag("Mob").GetComponent<SyncBoss>();
+            this.boss = GameObject.FindGameObjectWithTag("Mob");
+            this.syncBoss = this.boss.GetComponent<SyncBoss>();
             this.syncBossLife = 500;
         }
         if (!isLocalPlayer || GameObject.Find("Map").GetComponent<MapGeneration>() != null)
@@ -113,6 +114,7 @@ public class BossFight : NetworkBehaviour
     [Command]
     private void CmdReceiveDamageBoss(float armor)
     {
+        Debug.Log(this.syncBoss.Damage);
         this.syncChar.Life -= 100 * this.syncBoss.Damage / armor;
     }
 
