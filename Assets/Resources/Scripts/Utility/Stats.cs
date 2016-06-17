@@ -10,6 +10,9 @@ public static class Stats
     //PVE
     private static uint death;
     private static bool bosskill;
+    private static bool firstend;
+    private static bool secondend;
+    private static bool thirdend;
 
     //PVP
     private static uint kill;
@@ -71,15 +74,15 @@ public static class Stats
     }
     public static void ChangeCristalLevel(int type, uint level)
     {
-        if (hunted.ContainsKey(type) && hunted[type] < level)
-            hunted[type] = level;
+        if (cristalLevel.ContainsKey(type) && cristalLevel[type] < level)
+            cristalLevel[type] = level;
         else
-            hunted.Add(type, level);
+            cristalLevel.Add(type, level);
     }
     public static uint CristalLevel(int type)
     {
         if (cristalLevel.ContainsKey(type))
-            return hunted[type];
+            return cristalLevel[type];
         return 0;
     }
 
@@ -87,6 +90,22 @@ public static class Stats
     {
         get { return bosskill; }
         set { bosskill = true; }
+    }
+
+    public static bool FirstEnd
+    {
+        get { return firstend; }
+        set { firstend = true; }
+    }
+    public static bool SecondEnd
+    {
+        get { return secondend; }
+        set { secondend = true; }
+    }
+    public static bool ThridEnd
+    {
+        get { return thirdend; }
+        set { thirdend = true; }
     }
 
     public static uint Death()
@@ -197,6 +216,9 @@ public static class Stats
         kill = uint.Parse(vars[v++]);
         capturedCristal = uint.Parse(vars[v++]);
         bosskill = bool.Parse(vars[v++]);
+        firstend = bool.Parse(vars[v++]);
+        secondend = bool.Parse(vars[v++]);
+        thirdend = bool.Parse(vars[v++]);
 
         destroyed = new Dictionary<int, uint>();
         string[] destroy = vars[v++].Split(':');
@@ -237,7 +259,7 @@ public static class Stats
 
     public static string Save()
     {
-        string save = timePlayed.ToString() + "|" + tutoComplete.ToString() + "|" + death.ToString() + "|" + kill.ToString() + "|" + capturedCristal.ToString() + "|" + bosskill.ToString() + "|";
+        string save = timePlayed.ToString() + "|" + tutoComplete.ToString() + "|" + death.ToString() + "|" + kill.ToString() + "|" + capturedCristal.ToString() + "|" + bosskill.ToString() + "|" + firstend.ToString() + "|" + secondend.ToString() + "|" + thirdend.ToString() + "|";
 
         foreach (int key in destroyed.Keys)
             save += key.ToString() + ":" + destroyed[key].ToString() + ":";
@@ -281,6 +303,6 @@ public static class Stats
 
     public static string Empty()
     {
-        return "0|False|0|0|0|False||||||";
+        return "0|False|0|0|0|False|False|False|False||||||";
     }
 }

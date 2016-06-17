@@ -39,6 +39,7 @@ namespace UnityEngine.Networking
         private bool listServShown = false;
         private bool worldcreateShown = false;
         private bool ipserveurshown = false;
+        private bool creditshown = false;
         private float incr;
         private float incg;
         private float incb;
@@ -125,7 +126,7 @@ namespace UnityEngine.Networking
 
         void OnGUI()
         {
-            if (!optionShown && !sonShown && !langueShown && !characterShown && !worldcreateShown && !ipserveurshown)
+            if (!optionShown && !sonShown && !langueShown && !characterShown && !worldcreateShown && !ipserveurshown && !creditshown)
             {
                 if (!this.manager.isNetworkActive)
                 {
@@ -204,8 +205,10 @@ namespace UnityEngine.Networking
                     this.DrawCharacter();
                 else if (this.worldcreateShown)
                     this.DrawWorldCreate();
-                else if (ipserveurshown)
+                else if (this.ipserveurshown)
                     this.DrawServeurCreate();
+                else if (this.creditshown)
+                    this.DrawCredit();
             }
         }
         #endregion
@@ -273,7 +276,13 @@ namespace UnityEngine.Networking
                 this.firstScene.PlayButtonSound();
             }
 
-            if (GUI.Button(new Rect(this.posX, this.posY + this.spacing * 3, this.width, this.height), TextDatabase.Back.GetText(), this.skin.GetStyle("button")))
+            if (GUI.Button(new Rect(this.posX, this.posY + this.spacing * 3, this.width, this.height),"Credit",skin.GetStyle("button")))
+            {
+                this.optionShown = false;
+                this.creditshown = true;
+            }
+
+            if (GUI.Button(new Rect(this.posX, this.posY + this.spacing * 4, this.width, this.height), TextDatabase.Back.GetText(), this.skin.GetStyle("button")))
             {
                 this.optionShown = false;
                 this.firstScene.PlayButtonSound();
@@ -795,7 +804,7 @@ namespace UnityEngine.Networking
             }
 
             if (tooltip != null)
-                GUI.Box(new Rect(Event.current.mousePosition.x - Screen.width / 20, Event.current.mousePosition.y + Screen.height / 20, 100, 35 + 20 * (tooltip.GetText().Length / 35 + 1)),
+                GUI.Box(new Rect(Event.current.mousePosition.x - Screen.width / 20, Event.current.mousePosition.y + Screen.height / 20, 100, 35 + 20 * (tooltip.GetText().Length / 15 + 1)),
                                tooltip.GetText(), this.skin.GetStyle("Skin"));
             DestroyImmediate(fill);
         }
@@ -1074,6 +1083,17 @@ namespace UnityEngine.Networking
                 this.ipserveurshown = false;
                 this.newipname = "Serveur";
                 this.firstScene.PlayButtonSound();
+            }
+        }
+
+        private void DrawCredit()
+        {
+            GUI.Box(new Rect(this.posX, this.posY, this.width, 3 * this.spacing), TextDatabase.Credit.GetText(), skin.GetStyle("skin"));
+
+            if (GUI.Button(new Rect(this.posX + this.width / 4, this.posY + 4 * this.spacing, this.width / 2, this.spacing), TextDatabase.Back.GetText(), skin.GetStyle("button")))
+            {
+                this.creditshown = false;
+                this.optionShown = true;
             }
         }
 

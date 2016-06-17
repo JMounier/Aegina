@@ -22,6 +22,7 @@ public class BossFight : NetworkBehaviour
     // Use this for initialization
     void Start()
     {
+        this.state = State.Outfight;
         if (isServer && SceneManager.GetActiveScene().name != "main")
         {
             this.syncBossLife = 500;
@@ -29,8 +30,6 @@ public class BossFight : NetworkBehaviour
         }
         if (!isLocalPlayer || SceneManager.GetActiveScene().name == "main")
             return;
-        this.state = State.Outfight;
-
         this.syncChar = gameObject.GetComponent<SyncCharacter>();
         this.character = gameObject.GetComponentInChildren<CharacterCollision>().gameObject;
 

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Networking;
+using UnityEngine.SceneManagement;
 
 public class Craft_HUD : NetworkBehaviour
 {
@@ -91,7 +92,12 @@ public class Craft_HUD : NetworkBehaviour
                     }
                 }
             }
-        
+        if (SceneManager.GetActiveScene().name != "main")
+        {
+            this.CraftConsumable.Add(CraftDatabase.InstableCore);
+            mastered.Add(666);
+        }
+
         foreach (int ids in mastered)
             this.craftMastered[ids] = true;
     }
@@ -353,15 +359,9 @@ public class Craft_HUD : NetworkBehaviour
 
     public void mastered(params int[] newmastered)
     {
-		if (isLocalPlayer)
-			foreach (int ids in newmastered) {
-				try{
-					craftMastered [ids] = true;
-				}
-				catch{
-					Debug.Log (ids);
-				}
-			}
+        if (isLocalPlayer)
+            foreach (int ids in newmastered)
+                craftMastered[ids] = true;
     }
 
     [Command]

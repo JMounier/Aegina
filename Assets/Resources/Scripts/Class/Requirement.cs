@@ -8,7 +8,7 @@ public static class Requirement
     {
         PlayTheGame, Tuto, FirstBlood, FirstCap, FirstDeath, FirstHunt, CraftChest, CraftStoneWeapon, HuntMassBoar, CraftFirstArmor, HuntBoarChief, CraftForge,
         DivineCristalLVL3, CraftCauldron, DrinkHealPotion, CraftTrap, EquipInIron, HuntMassPampi, HuntPampiChief, DivineCrisatlLVL4, OtherCrisatlLVL3, MithrilArmor, FloatiumWeapon,
-        HuntMassSlime, HuntSlimeChief, SunkiumEquip, OtherCristalLVL5, DivineCrisatlLVL5, KillTheBoss, FirstEnd, SecondEnd
+        HuntMassSlime, HuntSlimeChief, SunkiumEquip, OtherCristalLVL5, DivineCrisatlLVL5, KillTheBoss, FirstEnd, SecondEnd, ThirdEnd
     };
 
     public static bool Check(Requirements require)
@@ -74,9 +74,11 @@ public static class Requirement
             case Requirements.KillTheBoss:
                 return Stats.BossKill;
             case Requirements.FirstEnd:
-                break;// TO DO
+                return Stats.FirstEnd;
             case Requirements.SecondEnd:
-                break;// TO DO
+                return Stats.SecondEnd;
+            case Requirements.ThirdEnd:
+                return Stats.ThridEnd;
             default:
                 return false;
         }
