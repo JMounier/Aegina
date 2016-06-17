@@ -1162,7 +1162,7 @@ public class Inventory : NetworkBehaviour
         this.CmdSetArmor(this.top.Items.ID, this.bottom.Items.ID);
         this.SaveInventory();
     }
-    
+
     /// <summary>
     /// Jette un stack d'objet.
     /// </summary>
@@ -1397,6 +1397,10 @@ public class Inventory : NetworkBehaviour
         get { return this.bottom.Items as Armor; }
     }
 
+    public int Armor
+    {
+        get { return 100 + (this.Top != null ? this.Top.ArmorValue : 0) + (this.Bottom != null ? this.Bottom.ArmorValue : 0); }
+    }
     /// <summary>
     /// La taille de la toolbar
     /// </summary>

@@ -16,7 +16,7 @@ public class BossFight : NetworkBehaviour
     private BossSceneManager bSM;
     private GameObject character;
     private SyncCharacter syncChar;
-
+    private SyncBoss syncBoss;
 
 
     // Use this for initialization
@@ -30,6 +30,7 @@ public class BossFight : NetworkBehaviour
         {
             this.boss = GameObject.FindGameObjectWithTag("Mob");
             this.bSM = GameObject.Find("FightManager").GetComponent<BossSceneManager>();
+            this.syncBoss = this.boss.GetComponent<SyncBoss>();
         }
 
         if (isLocalPlayer)
@@ -93,10 +94,22 @@ public class BossFight : NetworkBehaviour
         CmdDead();
     }
 
+    public void receiveDamageByBoss()
+    {
+        if (isLocalPlayer)
+            CmdReceiveDamageBoss(gameObject.GetComponent<Inventory>().Armor);
+    }
+
+    [Command]
+    private void CmdReceiveDamageBoss(float armor)
+    {
+        this.syncChar.Life -= 100 * this.syncBoss.Damage / armor;
+    }
+
     [Command]
     private void CmdUseCristal()
     {
-        this.boss.GetComponent<BossAI>().UseCristal();
+        this.syncBoss.UseCristal();
     }
 
     [Command]
@@ -129,7 +142,7 @@ public class BossFight : NetworkBehaviour
             player.GetComponent<BossFight>().RpcRestart();
         }
 
-        this.boss.GetComponent<BossAI>().Restart();
+        this.syncBoss.Restart();
     }
 
     [ClientRpc]

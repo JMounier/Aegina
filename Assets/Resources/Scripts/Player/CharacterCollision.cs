@@ -6,18 +6,22 @@ public class CharacterCollision : MonoBehaviour
 
     private Controller controllerScript;
     private Inventory inventoryScript;
+    private BossFight bossFight;
 
     // Use this for initialization
     void Start()
     {
         this.controllerScript = gameObject.GetComponentInParent<Controller>();
         this.inventoryScript = gameObject.GetComponentInParent<Inventory>();
+        this.bossFight = gameObject.GetComponentInParent<BossFight>();
     }
 
     void OnCollisionEnter(Collision collision)
     {
         if (collision.collider.tag == "Ground")        
-            this.controllerScript.IsJumping = false;       
+            this.controllerScript.IsJumping = false;
+        if (collision.collider.tag == "Boss")
+            this.bossFight.receiveDamageByBoss();
     }
 
     void Update()

@@ -342,7 +342,7 @@ public class SyncCharacter : NetworkBehaviour
     {
         if (isLocalPlayer)
         {
-            float armor = 100 + (inventory.Top != null ? inventory.Top.ArmorValue : 0) + (inventory.Bottom != null ? inventory.Bottom.ArmorValue : 0) + bonusCristal;
+            float armor = this.inventory.Armor + bonusCristal;
             this.Life -= 100 * damage / armor;
             if (this.Life == 0 && isPlayer)
                 CmdIncrementKill();
