@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Networking;
 using System.Collections;
 using System.Collections.Generic;
@@ -6,42 +7,35 @@ using System.Collections.Generic;
 public class BossFight : NetworkBehaviour
 {
     public enum State { Infight, Spec, Outfight }
-    private GameObject boss;
 
     private static int deathCount;
     private static int infightcount;
-    private static float beginfight;
-
+    private static Texture2D[] Bosslife = new Texture2D[101];
+    [SyncVar]
+    private float syncBossLife;
     private State state;
 
-    private BossSceneManager bSM;
     private GameObject character;
     private SyncCharacter syncChar;
-    private SyncBoss syncBoss;
 
 
     // Use this for initialization
     void Start()
     {
-        this.boss = null;
-
-        this.state = State.Outfight;
-        beginfight = -42;
-        if (GameObject.Find("Map").GetComponent<MapGeneration>() == null)
+        if (isServer && SceneManager.GetActiveScene().name != "main")
         {
-            this.boss = GameObject.FindGameObjectWithTag("Mob");
-            this.bSM = GameObject.Find("FightManager").GetComponent<BossSceneManager>();
-            this.syncBoss = this.boss.GetComponent<SyncBoss>();
-            this.bSM.SpawnWall.SetActive(true);
-            beginfight = 105;
-        }
-
-        if (isLocalPlayer)
-        {
+            this.syncBossLife = 500;
             this.syncChar = gameObject.GetComponent<SyncCharacter>();
-            this.character = gameObject.GetComponentInChildren<CharacterCollision>().gameObject;
         }
+        if (!isLocalPlayer || SceneManager.GetActiveScene().name == "main")
+            return;
+        this.state = State.Outfight;
 
+        this.syncChar = gameObject.GetComponent<SyncCharacter>();
+        this.character = gameObject.GetComponentInChildren<CharacterCollision>().gameObject;
+
+        for (int i = 0; i < 101; i++)
+            Bosslife[i] = Resources.Load<Texture2D>("Sprites/Bars/BossLife/BossLifeBar" + i.ToString());
         if (!isServer)
             return;
         infightcount = 0;
@@ -51,37 +45,34 @@ public class BossFight : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (this.boss == null)
+        if (SceneManager.GetActiveScene().name == "main" || GameObject.FindGameObjectWithTag("Mob") == null)
             return;
-
+        if (isServer)
+            this.syncBossLife = GameObject.FindGameObjectWithTag("Mob").GetComponent<SyncBoss>().Life;
         if (!isLocalPlayer)
             return;
 
-        if (this.state == State.Outfight && Vector3.Distance(this.character.transform.position, this.boss.transform.position) < 28.4f)
+        if (this.state == State.Outfight && Vector3.Distance(this.character.transform.position, GameObject.FindGameObjectWithTag("Mob").transform.position) < 28.4f)
         {
             this.state = State.Infight;
-            this.bSM.SpawnWall.SetActive(true);
+            GameObject.Find("FightManager").GetComponent<BossSceneManager>().SpawnWall.SetActive(true);
             CmdEnterFight();
-        }
-        if(beginfight > 0)
-        {
-            beginfight -= Time.deltaTime;
-        }
-        else if (beginfight <= 0 && beginfight > -5)
-        {
-            this.bSM.SpawnWall.SetActive(false);
-            beginfight = -42;
         }
     }
 
     private void OnGUI()
     {
+        if (SceneManager.GetActiveScene().name == "main")
+            return;
+
         if (isLocalPlayer && this.state == State.Spec)
         {
             int delta = 0;
             // draw button to switch spec cam
-            this.bSM.SwitchView(delta);
+            GameObject.Find("FightManager").GetComponent<BossSceneManager>().SwitchView(delta);
         }
+        if (this.state == State.Infight || this.state == State.Spec)
+            GUI.DrawTexture(new Rect(Screen.width / 5, Screen.height / (5 * 8.86f), 3 * Screen.width / 5, Screen.height / 15), Bosslife[(int)(syncBossLife / 5)]);
     }
 
     /// <summary>
@@ -102,7 +93,7 @@ public class BossFight : NetworkBehaviour
     {
         transform.GetChild(0).gameObject.SetActive(false);
         this.state = State.Spec;
-        this.bSM.SwitchView(0);
+        GameObject.Find("FightManager").GetComponent<BossSceneManager>().SwitchView(0);
         CmdDead();
     }
 
@@ -111,25 +102,25 @@ public class BossFight : NetworkBehaviour
         if (isLocalPlayer)
             CmdReceiveDamageBoss(gameObject.GetComponent<Inventory>().Armor);
     }
-    
+
 
     [Command]
     private void CmdReceiveDamageBoss(float armor)
     {
-        this.syncChar.Life -= 100 * this.syncBoss.Damage / armor;
+        this.syncChar.Life -= 100 * GameObject.FindGameObjectWithTag("Mob").GetComponent<SyncBoss>().Damage / armor;
     }
 
     [Command]
     private void CmdUseCristal()
     {
-        this.syncBoss.UseCristal();
+        GameObject.FindGameObjectWithTag("Mob").GetComponent<SyncBoss>().UseCristal();
     }
 
     [Command]
     private void CmdEnterFight()
     {
         infightcount++;
-        this.syncBoss.Fight = true;
+        GameObject.FindGameObjectWithTag("Mob").GetComponent<SyncBoss>().Fight = true;
     }
 
     [Command]
@@ -156,7 +147,7 @@ public class BossFight : NetworkBehaviour
             player.GetComponent<BossFight>().RpcRestart();
         }
 
-        this.syncBoss.Restart();
+        GameObject.FindGameObjectWithTag("Mob").GetComponent<SyncBoss>().Restart();
     }
 
     [ClientRpc]
@@ -165,8 +156,8 @@ public class BossFight : NetworkBehaviour
         if (!isLocalPlayer)
             return;
         transform.GetChild(0).gameObject.SetActive(true);
-        this.bSM.NotSpecAnyMore();
-        this.bSM.IncreaseTryCount();
+        GameObject.Find("FightManager").GetComponent<BossSceneManager>().NotSpecAnyMore();
+        GameObject.Find("FightManager").GetComponent<BossSceneManager>().IncreaseTryCount();
         this.syncChar.Respawn();
         this.state = State.Outfight;
     }
@@ -176,17 +167,11 @@ public class BossFight : NetworkBehaviour
     {
         get { return this.state; }
         set { this.state = value; }
-    }   
+    }
 
     public bool BossHere
     {
-        get { return this.boss != null; }
-    }
-
-    public float BeginFight
-    {
-        get { return beginfight; }
-        set { beginfight = value; }
+        get { return GameObject.FindGameObjectWithTag("Mob") != null; }
     }
     #endregion    
 }

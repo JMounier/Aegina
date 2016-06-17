@@ -1058,7 +1058,7 @@ public class Inventory : NetworkBehaviour
     [ClientRpc]
     private void RpcUpdateArmor()
     {
-        if (isLocalPlayer)
+        if (isLocalPlayer && this.top != null && this.bottom != null)
             CmdSetArmor(this.top.Items.ID, this.bottom.Items.ID);
     }
     /// <summary>

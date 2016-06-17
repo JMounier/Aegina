@@ -11,7 +11,7 @@ public class SyncBoss : NetworkBehaviour
     private bool fight;
     private AttackType atkType;
 
-    public enum AttackType { Idle, Sweep, Slam, Invocation, Elbow};
+    public enum AttackType { Idle, Sweep, Slam, Invocation, Elbow };
     // Use this for initialization
     void Start()
     {
@@ -88,7 +88,9 @@ public class SyncBoss : NetworkBehaviour
 
     public void ReceiveDamage(int damage)
     {
-        this.life -= damage;
+        this.life -= Mathf.Clamp(damage, 0, 500);
+        if (life == 0)        
+            Stats.BossKill = true;        
     }
 
     public void Restart()

@@ -438,9 +438,9 @@ public class Command
             {
                 foreach (GameObject p in GameObject.FindGameObjectsWithTag("Player"))
                 {
-                    p.GetComponent<BossFight>().BeginFight = 0;
                     p.GetComponent<Tutoriel>().JustDoIt();
                 }
+                GameObject.Find("FightManager").GetComponent<BossSceneManager>().FinalCountdown = 0;
             }
         }
         catch
