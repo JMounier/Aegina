@@ -166,20 +166,34 @@ public static class EntityDatabase
     public static readonly IslandCore IslandCore = new IslandCore(142, Resources.Load<GameObject>("Prefabs/Elements/Cristals/IslandCore"));
 
     // Mobs
-    public static readonly Mob Boar = new Mob(500, 20, Resources.Load<GameObject>("Prefabs/Mobs/Boar"), 15, .5f, 7, 6f, 7f, 1.3f, 2.8f, 1.5f, 1f,
-		new int[3] { 0, 2, 3 }, new DropConfig(83, 1), new DropConfig(83, 0, 1), new DropConfig(84, 1), new DropConfig(84, 0, 1), new DropConfig(86, 0, 1), new DropConfig(88, 1, 2),new DropConfig(85,0,2));
-    public static readonly Mob BoarChief = new Mob(501, 35, Resources.Load<GameObject>("Prefabs/Mobs/BoarChief"), 1, 1f, 15, 8f, 0f, 1.8f, 3.2f, 2f, 1.5f,
-		new int[3] { 0, 2, 3 }, new DropConfig(83, 2), new DropConfig(83, 1, 2), new DropConfig(84, 1), new DropConfig(84, 0, 1), new DropConfig(86, 1, 2), new DropConfig(88, 2, 3), new DropConfig(90,1), new DropConfig(85,0,2));
-    public static readonly Mob Pampa = new Mob(502, 15, Resources.Load<GameObject>("Prefabs/Mobs/Pampa"), 15, .7f, 8, 1.5f, 8f, 1f, 3.8f, 1.8f, 1f,
+    public static readonly Mob Boar = new Mob(500, 20, Resources.Load<GameObject>("Prefabs/Mobs/Boar"), 5, .5f, 7, 6f, 7f, 1.3f, 2.8f, 1.5f, 1f,
+        new int[3] { 0, 2, 3 }, new DropConfig(83, 1), new DropConfig(83, 0, 1), new DropConfig(84, 1), new DropConfig(84, 0, 1), new DropConfig(86, 0, 1), new DropConfig(88, 1, 2), new DropConfig(85, 0, 2));
+    public static readonly Mob BoarChief = new Mob(501, 45, Resources.Load<GameObject>("Prefabs/Mobs/BoarChief"), 1, 1f, 15, 8f, 0f, 1.8f, 3.2f, 2f, 1.5f,
+        new int[3] { 0, 2, 3 }, new DropConfig(83, 2), new DropConfig(83, 1, 2), new DropConfig(84, 1), new DropConfig(84, 0, 1), new DropConfig(86, 1, 2), new DropConfig(88, 2, 3), new DropConfig(90, 1), new DropConfig(85, 0, 2));
+    public static readonly Mob Pampa = new Mob(502, 15, Resources.Load<GameObject>("Prefabs/Mobs/Pampa"), 7, .7f, 8, 1.5f, 8f, 1f, 3.8f, 1.8f, 1f,
         new int[1] { 1 }, new DropConfig(83, 1), new DropConfig(83, 0, 1), new DropConfig(80, 1), new DropConfig(80, 0, 1), new DropConfig(86, 0, 1));
-    public static readonly Mob PampaChief = new Mob(503, 25, Resources.Load<GameObject>("Prefabs/Mobs/PampaChief"), 1, 1f, 16, 2f, 9f, 1.3f, 4.2f, 2.5f, 1f,
-		new int[1] { 1 }, new DropConfig(83, 2), new DropConfig(83, 1, 2), new DropConfig(80, 2), new DropConfig(80, 1, 2), new DropConfig(86, 1, 2), new DropConfig(91,1));
-    public static readonly Mob SnowBunny = new Mob(504, 10, Resources.Load<GameObject>("Prefabs/Mobs/SnowBunny"), 15, .25f, 0, 0f, 6f, 1.5f, 3f, 1f, 0f,
-		new int[1] { 2 }, new DropConfig(83, 1), new DropConfig(86, 0, 1), new DropConfig(88, 1),new DropConfig(85,0,1));
-    public static readonly Mob Bunny = new Mob(505, 10, Resources.Load<GameObject>("Prefabs/Mobs/Bunny"), 15, .25f, 0, 0f, 6f, 1.5f, 3f, 1f, 0f,
-		new int[2] { 0, 3 }, new DropConfig(83, 1), new DropConfig(86, 0, 1), new DropConfig(88, 1),new DropConfig(85,0,1));
-    public static readonly Mob Penguin = new Mob(506, 10, Resources.Load<GameObject>("Prefabs/Mobs/Penguin"), 20, 1f, 0, 6f,0f, 0.8f, 1.5f, 1f, 2f,
+    public static readonly Mob PampaChief = new Mob(503, 35, Resources.Load<GameObject>("Prefabs/Mobs/PampaChief"), 1, 1f, 16, 2f, 9f, 1.3f, 4.2f, 2.5f, 1f,
+        new int[1] { 1 }, new DropConfig(83, 2), new DropConfig(83, 1, 2), new DropConfig(80, 2), new DropConfig(80, 1, 2), new DropConfig(86, 1, 2), new DropConfig(91, 1));
+    public static readonly Mob SnowBunny = new Mob(504, 10, Resources.Load<GameObject>("Prefabs/Mobs/SnowBunny"), 3, .25f, 0, 0f, 6f, 1.5f, 3f, 1f, 0f,
+        new int[1] { 2 }, new DropConfig(83, 1), new DropConfig(86, 0, 1), new DropConfig(88, 1), new DropConfig(85, 0, 1));
+    public static readonly Mob Bunny = new Mob(505, 10, Resources.Load<GameObject>("Prefabs/Mobs/Bunny"), 4, .25f, 0, 0f, 6f, 1.5f, 3f, 1f, 0f,
+        new int[2] { 0, 3 }, new DropConfig(83, 1), new DropConfig(86, 0, 1), new DropConfig(88, 1), new DropConfig(85, 0, 1));
+    public static readonly Mob Penguin = new Mob(506, 10, Resources.Load<GameObject>("Prefabs/Mobs/Penguin"), 6, 1f, 0, 6f, 0f, 0.8f, 1.5f, 1f, 2f,
       new int[1] { 2 }, new DropConfig(83, 1), new DropConfig(86, 0, 1), new DropConfig(88, 1));
+    public static readonly Mob SlimeAqua = new Mob(507, 35, Resources.Load<GameObject>("Prefabs/Mobs/SlimeAqua"), 2, .3f, 4, 5f, 0f, 0.6f, 1.2f, 1.25f, 1f,
+      new int[3] { 0, 1, 3 });
+    public static readonly Mob SlimeAquaSmall = new Mob(508, 15, Resources.Load<GameObject>("Prefabs/Mobs/SlimeAquaSmall"), 0, .3f, 2, 3f, 0f, 0.8f, 1.5f, 1.5f, .75f,
+      new int[0] { }, new DropConfig(31, 1), new DropConfig(31, 0, 1), new DropConfig(31, 0, 1));
+    public static readonly Mob SlimeGreen = new Mob(509, 35, Resources.Load<GameObject>("Prefabs/Mobs/SlimeGreen"), 2, .3f, 4, 5f, 0f, 0.6f, 1.2f, 1.25f, 1f,
+     new int[3] { 0, 1, 3 });
+    public static readonly Mob SlimeGreenSmall = new Mob(510, 15, Resources.Load<GameObject>("Prefabs/Mobs/SlimeGreenSmall"), 0, .3f, 2, 3f, 0f, 0.8f, 1.5f, 1.5f, .75f,
+      new int[0] { }, new DropConfig(31, 1), new DropConfig(31, 0, 1), new DropConfig(31, 0, 1));
+    public static readonly Mob SlimeYellow = new Mob(511, 35, Resources.Load<GameObject>("Prefabs/Mobs/SlimeYellow"), 2, .3f, 4, 5f, 0f, 0.6f, 1.2f, 1.25f, 1f,
+     new int[3] { 0, 1, 3 });
+    public static readonly Mob SlimeYellowSmall = new Mob(512, 15, Resources.Load<GameObject>("Prefabs/Mobs/SlimeYellowSmall"), 0, .3f, 2, 3f, 0f, 0.8f, 1.5f, 1.5f, .75f,
+      new int[0] { }, new DropConfig(31, 1), new DropConfig(31, 0, 1), new DropConfig(31, 0, 1));
+    public static readonly Mob SlimeChief = new Mob(512, 50, Resources.Load<GameObject>("Prefabs/Mobs/SlimeChief"), 1, .5f, 8, 8f, 0f, 0.8f, 1.5f, 1.5f, 1f,
+     new int[3] { 0, 1, 3 }, new DropConfig(89, 1));
 
     // Chunk
     public static readonly Chunk Chunk0_Empty = new Chunk(1000, Resources.Load<GameObject>("Prefabs/Chunks/Chunk0_Empty"), Bridges.None);
@@ -479,6 +493,13 @@ public static class EntityDatabase
             yield return SnowBunny;
             yield return Bunny;
             yield return Penguin;
+            yield return SlimeAquaSmall;
+            yield return SlimeAqua;
+            yield return SlimeGreenSmall;
+            yield return SlimeGreen;
+            yield return SlimeYellowSmall;
+            yield return SlimeYellow;
+            yield return SlimeChief;
         }
     }
 
@@ -512,6 +533,8 @@ public static class EntityDatabase
                     return new Chest((Chest)i);
                 else if (i is Element)
                     return new Element((Element)i);
+                else if (i is Mob)
+                    return new Mob((Mob)i);
                 else
                     return new Entity(i);
             }
