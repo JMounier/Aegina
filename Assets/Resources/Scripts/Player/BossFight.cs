@@ -11,7 +11,8 @@ public class BossFight : NetworkBehaviour
     private static int deathCount;
     private static int infightcount;
     private static Texture2D[] Bosslife = new Texture2D[101];
-
+    [SyncVar]
+    private float syncBossLife;
     private State state;
 
     private BossSceneManager bSM;
@@ -24,8 +25,10 @@ public class BossFight : NetworkBehaviour
     void Start()
     {
         if (isServer && GameObject.Find("Map").GetComponent<MapGeneration>() == null)
+        {
             this.syncBoss = GameObject.FindGameObjectWithTag("Mob").GetComponent<SyncBoss>();
-
+            this.syncBossLife = 500;
+        }
         if (!isLocalPlayer || GameObject.Find("Map").GetComponent<MapGeneration>() != null)
             return;
         this.state = State.Outfight;
@@ -50,7 +53,8 @@ public class BossFight : NetworkBehaviour
     {
         if (this.boss == null)
             return;
-
+        if (isServer)
+            this.syncBossLife = this.syncBoss.Life;
         if (!isLocalPlayer)
             return;
 
@@ -74,7 +78,7 @@ public class BossFight : NetworkBehaviour
             this.bSM.SwitchView(delta);
         }
         if (this.state == State.Infight || this.state == State.Spec)
-            GUI.DrawTexture(new Rect(Screen.width / 5, Screen.height / (5 * 8.86f), 3 * Screen.width / 5, Screen.height / 15), Bosslife[(int)(syncBoss.Life / 5)]);
+            GUI.DrawTexture(new Rect(Screen.width / 5, Screen.height / (5 * 8.86f), 3 * Screen.width / 5, Screen.height / 15), Bosslife[(int)(syncBossLife / 5)]);
     }
 
     /// <summary>
