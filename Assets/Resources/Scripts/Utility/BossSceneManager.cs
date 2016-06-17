@@ -39,6 +39,10 @@ public class BossSceneManager : MonoBehaviour
         }
 
         this.NotSpecAnyMore();
+        foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
+        {
+            player.GetComponent<Tutoriel>().Story(TextDatabase.PreBossBattle1, TextDatabase.PreBossBattle2, TextDatabase.PreBossBattle3, TextDatabase.PreBossBattle4, TextDatabase.PreBossBattle5, TextDatabase.PreBossBattle6, TextDatabase.PreBossBattle7, TextDatabase.PreBossBattle8, TextDatabase.PreBossBattle9, TextDatabase.PreBossBattle10, TextDatabase.PreBossBattle11, TextDatabase.PreBossBattle12, TextDatabase.PreBossBattle13, TextDatabase.PreBossBattle14, TextDatabase.PreBossBattle15, TextDatabase.PreBossBattle16, TextDatabase.PreBossBattle17, TextDatabase.PreBossBattle18, TextDatabase.PreBossBattle19, TextDatabase.PreBossBattle20);
+        }
     }
 
     // Update is called once per frame

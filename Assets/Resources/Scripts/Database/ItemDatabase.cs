@@ -372,8 +372,11 @@ public static class ItemDatabase
 					return new TopArmor ((TopArmor)i);
                 else if (i is BottomArmor)
                     return new BottomArmor((BottomArmor)i);
-                else
-                    return new Item(i);
+                else if (i is BattleAxe)
+                    return new BattleAxe((BattleAxe)i);
+                else if (i is Spear)
+                    return new Spear((Spear)i);
+                return new Item(i);
             }
         }
         throw new System.Exception("Items.Find : Item not find");
@@ -403,6 +406,10 @@ public static class ItemDatabase
 					return new TopArmor ((TopArmor)i);
                 else if (i is BottomArmor)
                     return new BottomArmor((BottomArmor)i);
+                else if (i is BattleAxe)
+                    return new BattleAxe((BattleAxe)i);
+                else if (i is Spear)
+                    return new Spear((Spear)i);
                 else
                     return new Item(i);
             }

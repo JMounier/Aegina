@@ -334,6 +334,12 @@ public class Tutoriel : NetworkBehaviour
             storydialog.Enqueue(text);
     }
 
+    public void JustDoIt()
+    {
+        storydialog.Clear();
+        this.textNarator = new Text();
+    }
+
     [Command]
     private void CmdTutoEnding()
     {

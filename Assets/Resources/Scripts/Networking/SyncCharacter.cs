@@ -342,7 +342,7 @@ public class SyncCharacter : NetworkBehaviour
     {
         if (isLocalPlayer)
         {
-            float armor = 100 + (inventory.Top != null ? inventory.Top.ArmorValue : 0) + (inventory.Bottom != null ? inventory.Bottom.ArmorValue : 0) + bonusCristal;
+            float armor = this.inventory.Armor + bonusCristal;
             this.Life -= 100 * damage / armor;
             if (this.Life == 0 && isPlayer)
                 CmdIncrementKill();
@@ -371,6 +371,12 @@ public class SyncCharacter : NetworkBehaviour
     {
         if (isLocalPlayer)
             this.character.GetComponent<Rigidbody>().AddRelativeForce(x, y, z);
+    }
+
+    [ClientRpc]
+    public void RpcApplyExplosionForce(float x, float y, float z, float radius, float power)
+    {
+        this.character.GetComponent<Rigidbody>().AddExplosionForce(power, new Vector3(x, y, z), radius);
     }
 
     [Command]
