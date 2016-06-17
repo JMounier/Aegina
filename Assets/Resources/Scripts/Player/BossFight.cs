@@ -23,24 +23,22 @@ public class BossFight : NetworkBehaviour
     // Use this for initialization
     void Start()
     {
-        this.boss = null;
+        if (isServer && GameObject.Find("Map").GetComponent<MapGeneration>() == null)
+            this.syncBoss = GameObject.FindGameObjectWithTag("Mob").GetComponent<SyncBoss>();
 
+        if (!isLocalPlayer || GameObject.Find("Map").GetComponent<MapGeneration>() != null)
+            return;
         this.state = State.Outfight;
-        if (GameObject.Find("Map").GetComponent<MapGeneration>() == null)
-        {
-            this.boss = GameObject.FindGameObjectWithTag("Mob");
-            this.bSM = GameObject.Find("FightManager").GetComponent<BossSceneManager>();
-            this.syncBoss = this.boss.GetComponent<SyncBoss>();
-            this.bSM.SpawnWall.SetActive(true);
-        }
 
-        if (isLocalPlayer)
-        {
-            this.syncChar = gameObject.GetComponent<SyncCharacter>();
-            this.character = gameObject.GetComponentInChildren<CharacterCollision>().gameObject;
-        }
+        this.boss = GameObject.FindGameObjectWithTag("Mob");
+        this.bSM = GameObject.Find("FightManager").GetComponent<BossSceneManager>();
+        this.bSM.SpawnWall.SetActive(true);
+        this.syncBoss = this.boss.GetComponent<SyncBoss>();
+        this.syncChar = gameObject.GetComponent<SyncCharacter>();
+        this.character = gameObject.GetComponentInChildren<CharacterCollision>().gameObject;
+
         for (int i = 0; i < 101; i++)
-            Bosslife[i] = Resources.Load<Texture2D>("Sprites/Bars/BossLife/BossLifeBar"+i.ToString());
+            Bosslife[i] = Resources.Load<Texture2D>("Sprites/Bars/BossLife/BossLifeBar" + i.ToString());
         if (!isServer)
             return;
         infightcount = 0;
@@ -66,6 +64,9 @@ public class BossFight : NetworkBehaviour
 
     private void OnGUI()
     {
+        if (this.boss == null)
+            return;
+
         if (isLocalPlayer && this.state == State.Spec)
         {
             int delta = 0;
@@ -73,7 +74,7 @@ public class BossFight : NetworkBehaviour
             this.bSM.SwitchView(delta);
         }
         if (this.state == State.Infight || this.state == State.Spec)
-            GUI.DrawTexture(new Rect(Screen.width / 5, Screen.height / (5*8.86f), 3 * Screen.width / 5, Screen.height / 15), Bosslife[(int)(syncBoss.Life/5)]);
+            GUI.DrawTexture(new Rect(Screen.width / 5, Screen.height / (5 * 8.86f), 3 * Screen.width / 5, Screen.height / 15), Bosslife[(int)(syncBoss.Life / 5)]);
     }
 
     /// <summary>
@@ -103,7 +104,7 @@ public class BossFight : NetworkBehaviour
         if (isLocalPlayer)
             CmdReceiveDamageBoss(gameObject.GetComponent<Inventory>().Armor);
     }
-    
+
 
     [Command]
     private void CmdReceiveDamageBoss(float armor)
@@ -168,7 +169,7 @@ public class BossFight : NetworkBehaviour
     {
         get { return this.state; }
         set { this.state = value; }
-    }   
+    }
 
     public bool BossHere
     {

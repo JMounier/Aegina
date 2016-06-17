@@ -148,7 +148,7 @@ public class Sound : NetworkBehaviour
     {
         GameObject character = gameObject.GetComponentInChildren<CharacterCollision>().gameObject;
         foreach (Collider col in Physics.OverlapBox(character.transform.position, new Vector3(1, 100, 1)))
-            if (col.gameObject.name.Contains("Island"))
+            if (col.gameObject.name.Contains("Island") && col.CompareTag("Ground"))
             {
                 switch (col.gameObject.GetComponentInParent<SyncChunk>().BiomeId)
                 {
