@@ -168,6 +168,9 @@ public class Clothing
             yield return WhiteOveralls;
             yield return BrownPant;
             yield return WhitePant;
+            yield return GreenPant;
+            yield return BluePant;
+            yield return RedPant;
         }
     }
     public static IEnumerable<Tshirt> Tshirts
@@ -273,6 +276,9 @@ public class Clothing
     public static readonly Pant WhiteOveralls = new Pant(25, Resources.Load<Texture2D>("Models/Character/Textures/Pants/Overalls_White"), TextDatabase.WhiteOveralls, new Color(.525f, .525f, .525f), Pant.TypePant.Overalls);
     public static readonly Pant BrownPant = new Pant(26, Resources.Load<Texture2D>("Models/Character/Textures/Pants/Pant_Brown"), TextDatabase.BrownPant, new Color(.188f, .074f, .02f), Pant.TypePant.Pant);
     public static readonly Pant WhitePant = new Pant(27, Resources.Load<Texture2D>("Models/Character/Textures/Pants/Pant_White"), TextDatabase.WhitePant, new Color(.525f, .525f, .525f), Pant.TypePant.Pant);
+    public static readonly Pant GreenPant = new Pant(28, Resources.Load<Texture2D>("Models/Character/Textures/Pants/Pant_Green"), TextDatabase.GreenPant, new Color(.157f, .188f, .019f), Pant.TypePant.Pant);
+    public static readonly Pant RedPant = new Pant(29, Resources.Load<Texture2D>("Models/Character/Textures/Pants/Pant_Red"), TextDatabase.RedPant, new Color(.203f, 0f, .059f), Pant.TypePant.Pant);
+    public static readonly Pant BluePant = new Pant(30, Resources.Load<Texture2D>("Models/Character/Textures/Pants/Pant_Blue"), TextDatabase.BluePant, new Color(.02f, .047f, .188f), Pant.TypePant.Pant);
 
     public static readonly Eyes BlackEye = new Eyes(40, Resources.Load<Texture2D>("Models/Character/Textures/Eyes/Eyes_Black"), TextDatabase.BlackEyes, new Color(0f, 0f, 0f));
     public static readonly Eyes GreenEye = new Eyes(41, Resources.Load<Texture2D>("Models/Character/Textures/Eyes/Eyes_Green"), TextDatabase.GreenEyes, new Color(.026f, .525f, .314f));

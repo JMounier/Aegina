@@ -186,7 +186,7 @@ public class SyncMob : NetworkBehaviour
     // Check if the mob is traped
     void OnCollisionStay(Collision col)
     {
-        if (col.gameObject.name.Contains("Trap"))
+        if (col.gameObject.name.Contains("Trap") && col.transform.parent.GetComponent<Animator>() != null)
         {
 
             col.transform.parent.GetComponent<Animator>().SetBool("Action", true);

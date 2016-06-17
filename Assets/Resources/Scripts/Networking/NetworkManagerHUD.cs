@@ -721,7 +721,7 @@ namespace UnityEngine.Networking
                         this.smoothAparition = 0;
                         typeCloth = (int)Pant.TypePant.Overalls;
                     }
-                    rect.x += (5 + Screen.width / 20);
+                    rect.x += (Screen.width / 50 + Screen.width / 20);
 
                     if (GUI.Button(rect, Resources.Load<Texture2D>("Sprites/Cosmetics/PantIcon"), skin.GetStyle("Square")))
                     {
@@ -739,7 +739,7 @@ namespace UnityEngine.Networking
                                 for (int j = 0; j < this.width / 3; j++)
                                     fill.SetPixel(i, j, fillcolor);
                             fill.Apply();
-                            rect = new Rect((Screen.width / 40 + Screen.width / 20) * x + Screen.width / 25f, y * (Screen.height / 10) + Screen.height / 2.6f, Screen.height / 11, Screen.height / 11);
+                            rect = new Rect((Screen.width / 50 + Screen.width / 20) * x + Screen.width / 25f, y * (Screen.height / 10) + Screen.height / 2.6f, Screen.height / 11, Screen.height / 11);
                             if (rect.Contains(Event.current.mousePosition))
                                 tooltip = p.Description;
                             if (this.smoothAparition > y * TransitionDelay && GUI.Button(rect, fill, skin.GetStyle("Square")))
@@ -762,7 +762,7 @@ namespace UnityEngine.Networking
                         this.smoothAparition = 0;
                         typeCloth = (int)Tshirt.TypeTshirt.None;
                     }
-                    rect.x += (5 + Screen.width / 20);
+                    rect.x += (Screen.width / 50 + Screen.width / 20);
                     if (GUI.Button(rect, Resources.Load<Texture2D>("Sprites/Cosmetics/TshirtIcon"), skin.GetStyle("Square")))
                     {
                         this.smoothAparition = 0;
@@ -778,7 +778,7 @@ namespace UnityEngine.Networking
                                 for (int j = 0; j < this.width / 3; j++)
                                     fill.SetPixel(i, j, fillcolor);
                             fill.Apply();
-                            rect = new Rect((5 + Screen.width / 20) * x + Screen.width / 25f, y * (Screen.height / 10) + Screen.height / 2.6f, Screen.height / 11, Screen.height / 11);
+                            rect = new Rect((Screen.width / 50 + Screen.width / 20) * x + Screen.width / 25f, y * (Screen.height / 10) + Screen.height / 2.6f, Screen.height / 11, Screen.height / 11);
                             if (rect.Contains(Event.current.mousePosition))
                                 tooltip = t.Description;
                             if (this.smoothAparition > y * TransitionDelay && GUI.Button(rect, fill, skin.GetStyle("Square")))
