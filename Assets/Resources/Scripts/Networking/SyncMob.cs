@@ -123,7 +123,7 @@ public class SyncMob : NetworkBehaviour
             }
             else if (dist < this.myMob.RangeAttack && this.myMob.Damage > 0)
             {
-                nearPlayer.GetComponent<SyncCharacter>().ReceiveDamage(this.myMob.Damage, new Vector3(), false);
+                nearPlayer.GetComponent<SyncCharacter>().ReceiveDamage(this.myMob.Damage, gameObject.transform.forward, false);
                 this.cdAttack = 0;
             }
             // Run to the player
@@ -189,20 +189,18 @@ public class SyncMob : NetworkBehaviour
         if (col.gameObject.name.Contains("Trap"))
         {
 
-            col.transform.FindChild("Cylinder").GetComponent<Animator>().SetBool("Action", true);
-            col.transform.FindChild("Cylinder_004").GetComponent<Animator>().SetBool("Action", true);
+            col.transform.parent.GetComponent<Animator>().SetBool("Action", true);
             this.myMob.WalkSpeed = 0;
             this.myMob.RunSpeed = 0;
 
-            if (col.transform.FindChild("Cylinder_004").GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Base.Close"))
+            if (col.transform.parent.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Base.Close"))
             {
-                col.transform.FindChild("Cylinder").GetComponent<Animator>().SetBool("Action", false);
-                col.transform.FindChild("Cylinder_004").GetComponent<Animator>().SetBool("Action", false);
+                col.transform.parent.GetComponent<Animator>().SetBool("Action", false);
                 this.myMob.Life = 0;
                 col.transform.parent.gameObject.GetComponent<SyncElement>().Elmt.Life -= 50;
             }
-        }    
-    }    
+        }
+    }
 
     private void ChooseRandomGoal()
     {
@@ -248,6 +246,8 @@ public class SyncMob : NetworkBehaviour
     /// <param name="pos"></param>
     private void View(Vector3 pos)
     {
+        if (cdDisable > 0)
+            return;
         Vector3 viewRot = new Vector3(pos.x, gameObject.transform.position.y, pos.z) - transform.position;
         if (viewRot != Vector3.zero)
         {
@@ -264,7 +264,8 @@ public class SyncMob : NetworkBehaviour
     /// <param name="damage"></param>
     public void ReceiveDamage(float damage, Vector3 knockback)
     {
-        this.GetComponent<Rigidbody>().AddForce(new Vector3(knockback.x * 10000f, 2000f, knockback.z * 10000f));
+        gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        this.GetComponent<Rigidbody>().AddForce(new Vector3(knockback.x * 25000f, 8000f, knockback.z * 25000f));
         this.myMob.Life -= damage;
         if (this.myMob.Life <= 0)
             Stats.AddHunt(this.myMob);

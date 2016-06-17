@@ -14,9 +14,9 @@ public class Controller : NetworkBehaviour
 
     // Use for Character
     private int walkSpeed = 9000;
-    private int sprintSpeed = 13000;
+    private int sprintSpeed = 15000;
     private int jumpingBoost = 500;
-    private int jumpForce = 13000;
+    private int jumpForce = 15000;
     private float coolDownJump = 0;
 
     private Animator anim;
@@ -39,7 +39,7 @@ public class Controller : NetworkBehaviour
     private bool ismoving = false;
     private bool isSprinting = false;
     private bool isJumping = false;
-
+    private float cdDisable = 0;
     // Use for Sound
     private Sound soundAudio;
 
@@ -82,7 +82,7 @@ public class Controller : NetworkBehaviour
 
             MapGeneration mg = GameObject.Find("Map").GetComponent<MapGeneration>();
             this.loading = mg != null && !mg.isLoaded(x, y);
-            gameObject.transform.FindChild("Character").GetComponent<Rigidbody>().useGravity = !this.loading;
+            gameObject.transform.FindChild("Character").GetComponent<Rigidbody>().useGravity = !this.loading && this.syncChar.Life > 0;
         }
     }
 
@@ -302,15 +302,20 @@ public class Controller : NetworkBehaviour
                 this.anim.SetInteger("Action", 0);
         }
 
-        this.character.GetComponent<Rigidbody>().velocity = new Vector3(0, this.character.GetComponent<Rigidbody>().velocity.y, 0);
-        this.character.GetComponent<Rigidbody>().AddForce(move);
-        this.cam.GetComponent<Rigidbody>().velocity = Vector3.zero;
-        this.cam.GetComponent<Rigidbody>().AddForce(move);
-
-        if (isMoving)
+        if (this.cdDisable > 0)
+            this.cdDisable -= Time.deltaTime;
+        else
         {
-            Vector3 rotCam = new Vector3(this.character.transform.eulerAngles.x, this.cam.transform.eulerAngles.y + rotation, this.character.transform.eulerAngles.z);
-            this.character.transform.rotation = Quaternion.Lerp(this.character.transform.rotation, Quaternion.Euler(rotCam), Time.deltaTime * 5);
+            this.character.GetComponent<Rigidbody>().velocity = new Vector3(0, this.character.GetComponent<Rigidbody>().velocity.y, 0);
+            this.character.GetComponent<Rigidbody>().AddForce(move);
+            this.cam.GetComponent<Rigidbody>().velocity = Vector3.zero;
+            this.cam.GetComponent<Rigidbody>().AddForce(move);
+
+            if (isMoving)
+            {
+                Vector3 rotCam = new Vector3(this.character.transform.eulerAngles.x, this.cam.transform.eulerAngles.y + rotation, this.character.transform.eulerAngles.z);
+                this.character.transform.rotation = Quaternion.Lerp(this.character.transform.rotation, Quaternion.Euler(rotCam), Time.deltaTime * 5);
+            }
         }
     }
 
@@ -402,5 +407,11 @@ public class Controller : NetworkBehaviour
     public bool Loading
     {
         get { return isServer && this.loading; }
+    }
+
+    public float CdDisable
+    {
+        set { this.cdDisable = value; }
+        get { return this.cdDisable; }
     }
 }

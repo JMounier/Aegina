@@ -20,6 +20,6 @@ public class Spiques : MonoBehaviour
                 isActive = true;
             }
         }
-        gameObject.transform.GetChild(0).GetComponent<Animator>().SetBool("Action", isActive);
+        gameObject.transform.parent.GetComponent<Animator>().SetBool("Action", isActive);
     }   
 }
