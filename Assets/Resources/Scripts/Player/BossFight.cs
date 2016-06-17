@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Networking;
 using System.Collections;
 using System.Collections.Generic;
@@ -24,13 +25,14 @@ public class BossFight : NetworkBehaviour
     // Use this for initialization
     void Start()
     {
-        if (isServer && GameObject.Find("Map").GetComponent<MapGeneration>() == null)
+        if (isServer && SceneManager.GetActiveScene().name != "main")
         {
             this.boss = GameObject.FindGameObjectWithTag("Mob");
             this.syncBoss = this.boss.GetComponent<SyncBoss>();
             this.syncBossLife = 500;
+            this.syncChar = gameObject.GetComponent<SyncCharacter>();
         }
-        if (!isLocalPlayer || GameObject.Find("Map").GetComponent<MapGeneration>() != null)
+        if (!isLocalPlayer || SceneManager.GetActiveScene().name == "main")
             return;
         this.state = State.Outfight;
 
@@ -114,7 +116,6 @@ public class BossFight : NetworkBehaviour
     [Command]
     private void CmdReceiveDamageBoss(float armor)
     {
-        Debug.Log(this.syncBoss.Damage);
         this.syncChar.Life -= 100 * this.syncBoss.Damage / armor;
     }
 
