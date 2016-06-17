@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine.Networking;
 using System.IO;
+using UnityEngine.SceneManagement;
 
 public class Save : NetworkBehaviour
 {
@@ -76,7 +77,7 @@ public class Save : NetworkBehaviour
             return;
 
         this.coolDownSave -= Time.deltaTime;
-        if (this.coolDownSave <= 0 || Stats.TimePlayer() == 0)
+        if (this.coolDownSave <= 0 || !SuccessDatabase.Root.Achived)
             this.SaveWorld();
         Success.Update();
     }
@@ -86,9 +87,9 @@ public class Save : NetworkBehaviour
     /// </summary>
     public void SaveWorld()
     {
-        if (gameObject.GetComponentInChildren<BossSceneManager>() != null)
+        if (SceneManager.GetActiveScene().name != "main")
             return;
-        Stats.IncrementTimePlayer(60 - (ulong)this.coolDownSave);
+        Stats.IncrementTimePlayer(60 - (uint)Mathf.FloorToInt(this.coolDownSave));
         this.coolDownSave = 60;
 
         File.WriteAllText(this.worldPath + "properties", this.seed.ToString() + "|" +
@@ -437,9 +438,9 @@ public class ChunkSave
     public void RespawnElements()
     {
         int i = 0;
-        while(i < this.idSave.Count)
+        while (i < this.idSave.Count)
         {
-            float r =Random.Range(0f, 1f);
+            float r = Random.Range(0f, 1f);
             Debug.Log(this.idSave[i].Item2);
             if (r < .1f + .02 * this.cristal[2] && Graph.isValidPosition(this.idSave[i].Item2))
             {
