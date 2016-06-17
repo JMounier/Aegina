@@ -147,7 +147,7 @@ public class Chunk : Entity
         }
         else if (step == this.ancres.Count + 2 && base.iD != EntityDatabase.Chunk0_Empty.iD)
         {
-            //generate Mobs
+            // Generate Mobs
             foreach (Mob mob in EntityDatabase.Mobs)
             {
                 bool biomeValid = false;
@@ -159,7 +159,14 @@ public class Chunk : Entity
                     }
                 if (biomeValid)
                     for (int i = 0; i < mob.SpawnProbability; i++)
-                        new Mob(mob).Spawn(Prefab.GetComponent<SyncChunk>().MyGraph.ChoseRandomNode().Position, Prefab.transform.FindChild("Mob"));
+                    {
+                        if (UnityEngine.Random.Range(0, 2) == 0)
+                        {
+                            Node node = Prefab.GetComponent<SyncChunk>().MyGraph.ChoseRandomNode();
+                            if (node.IsValid)
+                                new Mob(mob).Spawn(node.Position, Prefab.transform.FindChild("Mob"));
+                        }
+                    }
             }
             return true;
         }

@@ -10,6 +10,7 @@ public class SyncBoss : NetworkBehaviour
     private int damage;
     private bool fight;
     private AttackType atkType;
+    private Vector3 cible;
 
     public enum AttackType { Idle, Sweep, Slam, Invocation, Elbow };
     // Use this for initialization
@@ -20,6 +21,7 @@ public class SyncBoss : NetworkBehaviour
         {
             this.Restart();
             this.anim = gameObject.GetComponent<Animator>();
+            this.cible = new Vector3(0, gameObject.transform.position.y, 0);
         }
     }
 
@@ -32,28 +34,55 @@ public class SyncBoss : NetworkBehaviour
         if (this.life <= 0)
             return;
         if (this.cd > 0)
-            this.cd -= Time.deltaTime;
-
-        if (this.cd <= 0 && fight && this.atkType == AttackType.Idle)
         {
-            switch ((AttackType)Random.Range(0, 5))
+            this.cd -= Time.deltaTime;
+            Quaternion targetRotation = Quaternion.LookRotation(this.cible - transform.position);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, 5f * Time.deltaTime);
+        }
+        else if (fight && this.atkType == AttackType.Idle)
+        {
+            // AI Chose atk
+            float min = float.PositiveInfinity;
+            AttackType atk = AttackType.Invocation;
+            this.cible = new Vector3(0, gameObject.transform.position.y, 0);
+            foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
             {
-                case AttackType.Idle:
-                    this.atkType = AttackType.Idle;
-                    this.damage = 0;
-                    this.cd = 2;
-                    this.anim.SetInteger("Action", 0);
-                    break;
+                float dist = Vector3.Distance(player.transform.FindChild("Character").position, gameObject.transform.position);
+                if (Mathf.Abs(dist - 15f) < 2 && Mathf.Abs(dist - 15f) < min)
+                {
+                    atk = AttackType.Sweep;
+                    min = Mathf.Abs(dist - 15f);
+                    this.cible = player.transform.FindChild("Character").position;
+                    this.cible.y = gameObject.transform.position.y;
+                }
+                if (Mathf.Abs(dist - 14f) < 2 && Mathf.Abs(dist - 14f) < min)
+                {
+                    atk = AttackType.Slam;
+                    min = Mathf.Abs(dist - 14f);
+                    this.cible = player.transform.FindChild("Character").position;
+                    this.cible.y = gameObject.transform.position.y;
+                }
+                if (Mathf.Abs(dist - 11f) < 2 && Mathf.Abs(dist - 11f) < min)
+                {
+                    atk = AttackType.Elbow;
+                    min = Mathf.Abs(dist - 11f);
+                    this.cible = player.transform.FindChild("Character").position;
+                    this.cible.y = gameObject.transform.position.y;
+                }
+            }
+            // Make atk           
+            switch (atk)
+            {
                 case AttackType.Sweep:
                     this.atkType = AttackType.Sweep;
                     this.damage = 75;
-                    this.cd = 2;
+                    this.cd = 1.5f;
                     this.anim.SetInteger("Action", 3);
                     break;
                 case AttackType.Slam:
                     this.atkType = AttackType.Slam;
                     this.damage = 100;
-                    this.cd = 2;
+                    this.cd = 3;
                     this.anim.SetInteger("Action", 2);
                     break;
                 case AttackType.Invocation:
@@ -72,11 +101,11 @@ public class SyncBoss : NetworkBehaviour
                     break;
             }
         }
-        else if (cd < 0)
+        else
         {
             this.atkType = AttackType.Idle;
             this.damage = 0;
-            this.cd = 2;
+            this.cd = 1 + .004f * this.life;
             this.anim.SetInteger("Action", 0);
         }
     }
@@ -131,6 +160,11 @@ public class SyncBoss : NetworkBehaviour
     {
         get { return this.atkType; }
         set { this.atkType = value; }
+    }
+
+    public Vector3 Cible
+    {
+        set { this.cible = value; }
     }
     #endregion
 }
