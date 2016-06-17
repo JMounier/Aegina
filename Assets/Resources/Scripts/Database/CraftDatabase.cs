@@ -102,6 +102,9 @@ public static class CraftDatabase
             yield return Brewer;
             yield return Chest;
             yield return WolfTrap;
+            yield return Spikes;
+            yield return StoneWall;
+            yield return WoodendWall;
 
             yield return Stick;
             yield return Plank;
@@ -172,6 +175,7 @@ public static class CraftDatabase
             yield return IronBottom;
             yield return MithrilBottom;
             yield return SunkiumBottom;
+
         }
     }
 }

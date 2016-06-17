@@ -104,10 +104,17 @@ public class Menu : NetworkBehaviour
             else
                 CmdDisconnect();
         }
-        if (GUI.Button(new Rect(this.posX, this.posY + this.spacing * 2, this.width, this.height), TextDatabase.Help.GetText(), skin.GetStyle("button")))
+        if (GUI.Button(new Rect(this.posX, this.posY + this.spacing * 2, this.width/2 - this.width/20, this.height), TextDatabase.Help.GetText(), skin.GetStyle("button")))
         {
             this.menuShown = false;
             this.helpageShown = true;
+            this.soundAudio.PlaySound(AudioClips.Button, 1f);
+        }
+
+        if (GUI.Button(new Rect(this.posX + this.width/2 + this.width/20, this.posY + this.spacing * 2, this.width/2 - this.width/20, this.height), "Succes", skin.GetStyle("button")))
+        {
+            GetComponent<Success_HUD>().Activate = true;
+            this.menuShown = false;
             this.soundAudio.PlaySound(AudioClips.Button, 1f);
         }
     }
