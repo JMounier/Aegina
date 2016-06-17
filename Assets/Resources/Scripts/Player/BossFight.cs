@@ -130,6 +130,12 @@ public class BossFight : NetworkBehaviour
             Respawn();
     }
 
+    [ClientRpc]
+    public void RpcJustDoIt()
+    {
+        if (isLocalPlayer)
+            GameObject.Find("FightManager").GetComponent<BossSceneManager>().FinalCountdown = 0;
+    }
     /// <summary>
     /// Respawn all player in the fight and reset their inventory MUST BE SERVEUR !!!
     /// </summary>

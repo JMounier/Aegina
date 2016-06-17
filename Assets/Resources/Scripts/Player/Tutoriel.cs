@@ -398,8 +398,11 @@ public class Tutoriel : NetworkBehaviour
     [ClientRpc]
     public void RpcJustDoIt()
     {
-        storydialog.Clear();
-        this.textNarator = new Text();
+        if (isLocalPlayer)
+        {
+            storydialog.Clear();
+            this.textNarator = new Text();
+        }
     }
 
     [Command]
