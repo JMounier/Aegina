@@ -265,7 +265,7 @@ public class SyncMob : NetworkBehaviour
     public void ReceiveDamage(float damage, Vector3 knockback)
     {
         gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
-        this.GetComponent<Rigidbody>().AddForce(new Vector3(knockback.x * 350f * damage, 8000f, knockback.z * 350f * damage));
+        this.GetComponent<Rigidbody>().AddForce(new Vector3(knockback.x * 700f * damage, 700f * damage, knockback.z * 700f * damage));
         this.myMob.Life -= damage;
         if (this.myMob.Life <= 0)
             Stats.AddHunt(this.myMob);

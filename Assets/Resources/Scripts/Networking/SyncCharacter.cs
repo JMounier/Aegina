@@ -328,7 +328,7 @@ public class SyncCharacter : NetworkBehaviour
     public void ReceiveDamage(float damage, Vector3 knockback, bool isPlayer)
     {
         SyncChunk chunk = null;
-        this.RpcApplyForce(knockback.x * 350f*damage, 8000f, knockback.z * 350f*damage);
+        this.RpcApplyForce(knockback.x * 700f * damage, 700f * damage, knockback.z * 700 * damage);
         foreach (Collider col in Physics.OverlapBox(this.character.transform.position, new Vector3(5, 100, 5)))
         {
             if (col.gameObject.name.Contains("Island"))
@@ -409,7 +409,7 @@ public class SyncCharacter : NetworkBehaviour
 
         Vector3 newPos = new Vector3(save.X, 7, save.Y);
         if (GameObject.Find("Map").GetComponent<MapGeneration>() == null)
-            newPos = new Vector3(Random.Range(-2f,2f), 7, Random.Range(-2f, 2f));
+            newPos = new Vector3(Random.Range(-2f, 2f), 7, Random.Range(-2f, 2f));
         gameObject.GetComponent<Social_HUD>().RpcTeleport(newPos);
     }
 
