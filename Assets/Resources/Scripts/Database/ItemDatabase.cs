@@ -329,6 +329,7 @@ public static class ItemDatabase
             yield return Soup;
             yield return Apple;
             yield return InstableCore;
+            yield return SlimeGoo;
         }
     }
 

@@ -94,23 +94,28 @@ public class Chunk : Entity
         // Generate elements
         if (this.step > -1 && this.step < this.ancres.Count)
         {
-            Transform ancre = this.ancres[step];
-            if (ancre.CompareTag("Ancre"))
-                if (this.posSave < chunkSave.Count && chunkSave[this.posSave].Item1 == step)
-                {
-                    chunkSave[this.posSave].Item2 = ancre.position;
-                    this.rand.NextDouble();
-                    this.rand.NextDouble();
-                    this.posSave++;
-                }
-                else
-                    this.GenerateEntity(this.b.Chose(this.rand), ancre.gameObject, (int)(this.rand.NextDouble() * 360), step);
+            int min = Mathf.Min(step + 3, this.ancres.Count);
+            for (int i = step; i < min; i++)
+            {
+                Transform ancre = this.ancres[i];
+                if (ancre.CompareTag("Ancre"))
+                    if (this.posSave < chunkSave.Count && chunkSave[this.posSave].Item1 == i)
+                    {
+                        chunkSave[this.posSave].Item2 = ancre.position;
+                        this.rand.NextDouble();
+                        this.rand.NextDouble();
+                        this.posSave++;
+                    }
+                    else
+                        this.GenerateEntity(this.b.Chose(this.rand), ancre.gameObject, (int)(this.rand.NextDouble() * 360), i);
 
 
-            else if (ancre.CompareTag("MainAncre"))
-                if (this.isPrisme)
-                    this.GenerateEntity(EntityDatabase.IslandCore, ancre.gameObject, 0, step);
-            GameObject.Destroy(ancre.gameObject);
+                else if (ancre.CompareTag("MainAncre"))
+                    if (this.isPrisme)
+                        this.GenerateEntity(EntityDatabase.IslandCore, ancre.gameObject, 0, i);
+                GameObject.Destroy(ancre.gameObject);
+            }
+            this.step = min - 1;
         }
         else if (step == this.ancres.Count)
         {
@@ -140,7 +145,7 @@ public class Chunk : Entity
             if (!Prefab.GetComponent<SyncChunk>().MyGraph.IsFileEmpty)
                 this.step--;
         }
-        else if (step == this.ancres.Count + 2)
+        else if (step == this.ancres.Count + 2 && base.iD != EntityDatabase.Chunk0_Empty.iD)
         {
             //generate Mobs
             foreach (Mob mob in EntityDatabase.Mobs)
@@ -154,11 +159,7 @@ public class Chunk : Entity
                     }
                 if (biomeValid)
                     for (int i = 0; i < mob.SpawnProbability; i++)
-                    {
-                        Vector3 pos = new Vector3(UnityEngine.Random.Range(-Size / 2 + x * Size, Size / 2 + x * Size), 7, UnityEngine.Random.Range(-Size / 2 + y * Size, Size / 2 + y * Size));
-                        if (Graph.isValidPosition(pos))
-                            new Mob(mob).Spawn(pos, Prefab.transform.FindChild("Mob"));
-                    }
+                        new Mob(mob).Spawn(Prefab.GetComponent<SyncChunk>().MyGraph.ChoseRandomNode().Position, Prefab.transform.FindChild("Mob"));
             }
             return true;
         }
@@ -179,7 +180,7 @@ public class Chunk : Entity
             else
                 throw new Exception("You want to spawn something else than an element in the chunk...");
 
-        }        
+        }
     }
 
     // Getters & Setters
