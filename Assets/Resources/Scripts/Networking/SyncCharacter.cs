@@ -200,11 +200,10 @@ public class SyncCharacter : NetworkBehaviour
     {
         if (isLocalPlayer)
         {
-            character.GetComponent<Rigidbody>().velocity = new Vector3();
+            character.GetComponent<Rigidbody>().velocity = Vector3.zero;
             gameObject.transform.FindChild("Character").FindChild("Armature").gameObject.SetActive(false);
             gameObject.transform.FindChild("Character").FindChild("NPC_Man_Normal001").gameObject.SetActive(false);
             gameObject.transform.FindChild("Character").GetComponent<CapsuleCollider>().enabled = false;
-            gameObject.transform.FindChild("Character").GetComponent<Rigidbody>().useGravity = false;
             this.Poison = 0;
             this.Regen = 0;
             this.Speed = 0;
@@ -222,12 +221,10 @@ public class SyncCharacter : NetworkBehaviour
         gameObject.transform.FindChild("Character").FindChild("Armature").gameObject.SetActive(true);
         gameObject.transform.FindChild("Character").FindChild("NPC_Man_Normal001").gameObject.SetActive(true);
         gameObject.transform.FindChild("Character").GetComponent<CapsuleCollider>().enabled = true;
-        gameObject.transform.FindChild("Character").GetComponent<Rigidbody>().useGravity = true;
         GetComponent<Controller>().Pause = false;
         this.Life = this.lifeMax;
         this.Hunger = this.hungerMax;
         this.Thirst = this.thirstMax;
-        this.character.GetComponent<Rigidbody>().velocity = Vector3.zero;
         if (!this.bossfight.BossHere)
             CmdRespawnPos();
         else
@@ -325,7 +322,7 @@ public class SyncCharacter : NetworkBehaviour
     public void ReceiveDamage(float damage, Vector3 knockback, bool isPlayer)
     {
         SyncChunk chunk = null;
-        this.RpcApplyForce(knockback.x * 20000f + 1000, 2000f, knockback.z * 20000f + 1000);
+        this.RpcApplyForce(knockback.x * 15000f, 8000f, knockback.z * 15000f);
         foreach (Collider col in Physics.OverlapBox(this.character.transform.position, new Vector3(5, 100, 5)))
         {
             if (col.gameObject.name.Contains("Island"))
@@ -334,15 +331,28 @@ public class SyncCharacter : NetworkBehaviour
                 break;
             }
         }
-		float armor = 100 + (inventory.Top != null ? inventory.Top.ArmorValue : 0) + (inventory.Bottom != null ? inventory.Bottom.ArmorValue : 0);
+        float armor = 0;
         if (chunk != null && chunk.IsCristal && chunk.Cristal.Team == gameObject.GetComponent<Social_HUD>().Team)
             armor += chunk.Cristal.LevelAtk * 20;
-        
+        RpcReceiveDamage(damage, armor, isPlayer);
+    }
 
-        this.Life -= 100 * damage / armor;
-        if (this.Life == 0 && isPlayer)
-            Stats.IncrementKill();
+    [ClientRpc]
+    private void RpcReceiveDamage(float damage, float bonusCristal, bool isPlayer)
+    {
+        if (isLocalPlayer)
+        {
+            float armor = 100 + (inventory.Top != null ? inventory.Top.ArmorValue : 0) + (inventory.Bottom != null ? inventory.Bottom.ArmorValue : 0) + bonusCristal;
+            this.Life -= 100 * damage / armor;
+            if (this.Life == 0 && isPlayer)
+                CmdIncrementKill();
+        }
+    }
 
+    [Command]
+    private void CmdIncrementKill()
+    {
+        Stats.IncrementKill();
     }
 
     [ClientRpc]
@@ -352,8 +362,10 @@ public class SyncCharacter : NetworkBehaviour
         {
             this.character.GetComponent<Rigidbody>().velocity = Vector3.zero;
             this.character.GetComponent<Rigidbody>().AddForce(x, y, z);
+            this.controller.CdDisable = .5f;
         }
     }
+
     [ClientRpc]
     public void RpcApplyRelativeForce(float x, float y, float z)
     {

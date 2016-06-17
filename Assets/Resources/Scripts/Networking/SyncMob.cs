@@ -123,7 +123,7 @@ public class SyncMob : NetworkBehaviour
             }
             else if (dist < this.myMob.RangeAttack && this.myMob.Damage > 0)
             {
-                nearPlayer.GetComponent<SyncCharacter>().ReceiveDamage(this.myMob.Damage, new Vector3(), false);
+                nearPlayer.GetComponent<SyncCharacter>().ReceiveDamage(this.myMob.Damage, gameObject.transform.forward, false);
                 this.cdAttack = 0;
             }
             // Run to the player
@@ -199,8 +199,8 @@ public class SyncMob : NetworkBehaviour
                 this.myMob.Life = 0;
                 col.transform.parent.gameObject.GetComponent<SyncElement>().Elmt.Life -= 50;
             }
-        }    
-    }    
+        }
+    }
 
     private void ChooseRandomGoal()
     {
@@ -246,6 +246,8 @@ public class SyncMob : NetworkBehaviour
     /// <param name="pos"></param>
     private void View(Vector3 pos)
     {
+        if (cdDisable > 0)
+            return;
         Vector3 viewRot = new Vector3(pos.x, gameObject.transform.position.y, pos.z) - transform.position;
         if (viewRot != Vector3.zero)
         {
@@ -262,7 +264,8 @@ public class SyncMob : NetworkBehaviour
     /// <param name="damage"></param>
     public void ReceiveDamage(float damage, Vector3 knockback)
     {
-        this.GetComponent<Rigidbody>().AddForce(new Vector3(knockback.x * 10000f, 2000f, knockback.z * 10000f));
+        gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        this.GetComponent<Rigidbody>().AddForce(new Vector3(knockback.x * 25000f, 8000f, knockback.z * 25000f));
         this.myMob.Life -= damage;
         if (this.myMob.Life <= 0)
             Stats.AddHunt(this.myMob);
