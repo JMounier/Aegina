@@ -8,6 +8,7 @@ public class SyncBoss : NetworkBehaviour
     private float cd;
     private Animator anim;
     private int damage;
+    private bool fight;
     private AttackType atkType;
 
     public enum AttackType { Idle, Sweep, Slam, Invocation, Elbow};
@@ -33,7 +34,7 @@ public class SyncBoss : NetworkBehaviour
         if (this.cd > 0)
             this.cd -= Time.deltaTime;
 
-        if (this.cd <= 0)
+        if (this.cd <= 0 && fight)
         {
             switch ((AttackType)Random.Range(0, 5))
             {
@@ -45,13 +46,13 @@ public class SyncBoss : NetworkBehaviour
                     break;
                 case AttackType.Sweep:
                     this.atkType = AttackType.Sweep;
-                    this.damage = 15;
+                    this.damage = 75;
                     this.cd = 2;
                     this.anim.SetInteger("Action", 3);
                     break;
                 case AttackType.Slam:
                     this.atkType = AttackType.Slam;
-                    this.damage = 20;
+                    this.damage = 100;
                     this.cd = 2;
                     this.anim.SetInteger("Action", 2);
                     break;
@@ -63,13 +64,20 @@ public class SyncBoss : NetworkBehaviour
                     break;
                 case AttackType.Elbow:
                     this.atkType = AttackType.Elbow;
-                    this.damage = 25;
+                    this.damage = 125;
                     this.cd = 2;
                     this.anim.SetInteger("Action", 1);
                     break;
                 default:
                     break;
             }
+        }
+        else if (cd < 0)
+        {
+            this.atkType = AttackType.Idle;
+            this.damage = 0;
+            this.cd = 2;
+            this.anim.SetInteger("Action", 0);
         }
     }
 
@@ -88,6 +96,7 @@ public class SyncBoss : NetworkBehaviour
         this.atkType = AttackType.Idle;
         this.life = 500;
         this.cd = 0;
+        this.fight = false;
     }
 
     #region Getters/Setters
@@ -99,6 +108,12 @@ public class SyncBoss : NetworkBehaviour
     public int Damage
     {
         get { return this.damage; }
+    }
+
+    public bool Fight
+    {
+        get { return this.fight; }
+        set { this.fight = value; }
     }
     #endregion
 }

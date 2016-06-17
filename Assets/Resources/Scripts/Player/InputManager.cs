@@ -191,7 +191,7 @@ public class InputManager : NetworkBehaviour
                         this.inventaire.UsedItem = new ItemStack();
                 }
             }
-            else if (this.inventaire.UsedItem.Items is Sword)
+            else if (this.inventaire.UsedItem.Items is Sword || this.inventaire.UsedItem.Items is BattleAxe || this.inventaire.UsedItem.Items is Spear)
             {
                 if (cdAttack <= 0 && !this.controller.Pause)
                 {
@@ -425,6 +425,8 @@ public class InputManager : NetworkBehaviour
                 cible.gameObject.GetComponentInParent<SyncMob>().ReceiveDamage(damage, -(damage / 10f) * this.character.transform.forward);
             else if (cible.gameObject.name.Contains("Islandcore"))
                 cible.gameObject.GetComponent<SyncCore>().AttackCristal((int)damage, this.social.Team);
+            else if (cible.gameObject.tag == "Boss")
+                cible.gameObject.GetComponentInParent<SyncBoss>().ReceiveDamage((int)damage);
             else
                 notacible = true;
             if (!notacible && atk == TypeAttack.Horizontal)

@@ -373,6 +373,12 @@ public class SyncCharacter : NetworkBehaviour
             this.character.GetComponent<Rigidbody>().AddRelativeForce(x, y, z);
     }
 
+    [ClientRpc]
+    public void RpcApplyExplosionForce(float x, float y, float z, float radius, float power)
+    {
+        this.character.GetComponent<Rigidbody>().AddExplosionForce(power, new Vector3(x, y, z), radius);
+    }
+
     [Command]
     private void CmdLoad()
     {

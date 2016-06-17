@@ -10,6 +10,7 @@ public class BossFight : NetworkBehaviour
 
     private static int deathCount;
     private static int infightcount;
+    private static float beginfight;
 
     private State state;
 
@@ -25,12 +26,14 @@ public class BossFight : NetworkBehaviour
         this.boss = null;
 
         this.state = State.Outfight;
-
+        beginfight = -42;
         if (GameObject.Find("Map").GetComponent<MapGeneration>() == null)
         {
             this.boss = GameObject.FindGameObjectWithTag("Mob");
             this.bSM = GameObject.Find("FightManager").GetComponent<BossSceneManager>();
             this.syncBoss = this.boss.GetComponent<SyncBoss>();
+            this.bSM.SpawnWall.SetActive(true);
+            beginfight = 105;
         }
 
         if (isLocalPlayer)
@@ -59,6 +62,15 @@ public class BossFight : NetworkBehaviour
             this.state = State.Infight;
             this.bSM.SpawnWall.SetActive(true);
             CmdEnterFight();
+        }
+        if(beginfight > 0)
+        {
+            beginfight -= Time.deltaTime;
+        }
+        else if (beginfight <= 0 && beginfight > -5)
+        {
+            this.bSM.SpawnWall.SetActive(false);
+            beginfight = -42;
         }
     }
 
@@ -99,6 +111,7 @@ public class BossFight : NetworkBehaviour
         if (isLocalPlayer)
             CmdReceiveDamageBoss(gameObject.GetComponent<Inventory>().Armor);
     }
+    
 
     [Command]
     private void CmdReceiveDamageBoss(float armor)
@@ -116,6 +129,7 @@ public class BossFight : NetworkBehaviour
     private void CmdEnterFight()
     {
         infightcount++;
+        this.syncBoss.Fight = true;
     }
 
     [Command]
@@ -167,6 +181,12 @@ public class BossFight : NetworkBehaviour
     public bool BossHere
     {
         get { return this.boss != null; }
+    }
+
+    public float BeginFight
+    {
+        get { return beginfight; }
+        set { beginfight = value; }
     }
     #endregion    
 }

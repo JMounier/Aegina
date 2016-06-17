@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Networking;
 
 public class Success
 {
@@ -115,11 +116,12 @@ public class Success
                                     }
                                 break;
                             case 7:
+                                GameObject.Find("Map").GetComponent<Save>().SaveWorld();
                                 foreach (GameObject player in allplayer)
                                 {
                                     player.GetComponent<Craft_HUD>().mastered(15, 46, 56, 66, 83, 87, 95, 105, 666);
-                                    // DECLENCHE LE BOSS BATTLE
                                 }
+                                GameObject.Find("NetworkManager").GetComponent<NetworkManager2>().ServerChangeScene("BossScene");
                                 break;
                             default:
                                 break;

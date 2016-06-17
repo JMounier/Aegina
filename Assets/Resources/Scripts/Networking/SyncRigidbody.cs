@@ -34,9 +34,32 @@ public class SyncRigidbody : NetworkBehaviour
         this.syncVelocity = vel;
     }
 
+    [Command]
+    public void CmdKnockback(float x, float y, float z)
+    {
+        RpcKnockback(x, y, z);
+    }
+
+    [Command]
+    public void CmdExplosion(float x, float y, float z, float radius, float explosion)
+    {
+        RpcExplosion(x, y, z, radius, explosion);
+    }
+
     [Client]
     private void TransmitVelocity()
     {
         this.CmdSendVelocity(this.rig.velocity);
+    }
+
+    [ClientRpc]
+    private void RpcKnockback(float x, float y, float z)
+    {
+        this.rig.AddForce(x, y, z);
+    }
+    [ClientRpc]
+    private void RpcExplosion(float x, float y, float z,float radius, float explosion)
+    {
+        this.rig.AddExplosionForce(explosion, new Vector3(x, y, z), radius);
     }
 }

@@ -25,6 +25,7 @@ public class Command
     private static readonly Command ChoseTeam = new Command("choseteam", "/choseteam <team> [player]", true);
     private static readonly Command Boss = new Command("boss", "/boss", true);
     private static readonly Command World = new Command("world", "/world", true);
+    private static readonly Command JustDoIt = new Command("justdoit", "/justdoit", true);
 
     /// <summary>
     /// Liste tous les biomes du jeu. (Utilisez avec foreach)
@@ -51,6 +52,7 @@ public class Command
             yield return ChoseTeam;
             yield return Boss;
             yield return World;
+            yield return JustDoIt;
         }
     }
 
@@ -432,6 +434,14 @@ public class Command
             }
             else if (c == World)
                 GameObject.Find("NetworkManager").GetComponent<NetworkManager2>().ServerChangeScene("Main");
+            else if (c == JustDoIt)
+            {
+                foreach (GameObject p in GameObject.FindGameObjectsWithTag("Player"))
+                {
+                    p.GetComponent<BossFight>().BeginFight = 0;
+                    p.GetComponent<Tutoriel>().JustDoIt();
+                }
+            }
         }
         catch
         {
