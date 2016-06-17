@@ -24,6 +24,7 @@ public class CharacterCollision : MonoBehaviour
         {
             this.bossFight.receiveDamageByBoss();
             gameObject.GetComponent<Rigidbody>().AddExplosionForce(500, collision.transform.position, 500);
+            gameObject.GetComponentInParent<Controller>().CdDisable = 0.5f;
         }
     }
 

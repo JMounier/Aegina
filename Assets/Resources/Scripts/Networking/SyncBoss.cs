@@ -34,7 +34,7 @@ public class SyncBoss : NetworkBehaviour
         if (this.cd > 0)
             this.cd -= Time.deltaTime;
 
-        if (this.cd <= 0 && fight)
+        if (this.cd <= 0 && fight && this.atkType == AttackType.Idle)
         {
             switch ((AttackType)Random.Range(0, 5))
             {
@@ -81,6 +81,14 @@ public class SyncBoss : NetworkBehaviour
         }
     }
 
+    public void ShockWave()
+    {
+        foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
+        {
+            player.GetComponent<BossFight>().ShockWave();
+        }
+    }
+
     public void UseCristal()
     {
         ReceiveDamage(50);
@@ -89,8 +97,8 @@ public class SyncBoss : NetworkBehaviour
     public void ReceiveDamage(int damage)
     {
         this.life -= Mathf.Clamp(damage, 0, 500);
-        if (life == 0)        
-            Stats.BossKill = true;        
+        if (life == 0)
+            Stats.BossKill = true;
     }
 
     public void Restart()
@@ -110,12 +118,19 @@ public class SyncBoss : NetworkBehaviour
     public int Damage
     {
         get { return this.damage; }
+        set { this.damage = value; }
     }
 
     public bool Fight
     {
         get { return this.fight; }
         set { this.fight = value; }
+    }
+
+    public AttackType AtkType
+    {
+        get { return this.atkType; }
+        set { this.atkType = value; }
     }
     #endregion
 }

@@ -17,6 +17,7 @@ public class BossFight : NetworkBehaviour
 
     private GameObject character;
     private SyncCharacter syncChar;
+    private Controller cnt;
 
 
     // Use this for initialization
@@ -33,6 +34,7 @@ public class BossFight : NetworkBehaviour
 
         this.syncChar = gameObject.GetComponent<SyncCharacter>();
         this.character = gameObject.GetComponentInChildren<CharacterCollision>().gameObject;
+        this.cnt = gameObject.GetComponent<Controller>();
 
         for (int i = 0; i < 101; i++)
             Bosslife[i] = Resources.Load<Texture2D>("Sprites/Bars/BossLife/BossLifeBar" + i.ToString());
@@ -103,6 +105,23 @@ public class BossFight : NetworkBehaviour
             CmdReceiveDamageBoss(gameObject.GetComponent<Inventory>().Armor);
     }
 
+    public void ShockWave()
+    {
+        if (isServer)
+            this.RpcShockWave();
+    }
+
+    [ClientRpc]
+    private void RpcShockWave()
+    {
+        if (isLocalPlayer && !this.cnt.IsJumping && this.state == State.Infight)
+        {
+            this.syncChar.Life -= 50 * 100 / gameObject.GetComponentInParent<Inventory>().Armor;
+            Vector3 dir = (this.character.transform.position - GameObject.FindGameObjectWithTag("Boss").transform.position ).normalized;
+            gameObject.GetComponentInChildren<Rigidbody>().AddForce(dir.x * 15000f, 10000f, dir.z * 15000f);
+            gameObject.GetComponentInParent<Controller>().CdDisable = 0.5f;
+        }
+    }
 
     [Command]
     private void CmdReceiveDamageBoss(float armor)
