@@ -45,7 +45,7 @@ public class BossFight : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (SceneManager.GetActiveScene().name == "main")
+        if (SceneManager.GetActiveScene().name == "main" || GameObject.FindGameObjectWithTag("Mob") == null)
             return;
         if (isServer)
             this.syncBossLife = GameObject.FindGameObjectWithTag("Mob").GetComponent<SyncBoss>().Life;
