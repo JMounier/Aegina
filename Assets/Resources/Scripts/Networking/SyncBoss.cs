@@ -89,6 +89,10 @@ public class SyncBoss : NetworkBehaviour
     public void ReceiveDamage(int damage)
     {
         this.life -= damage;
+        if (life == 0)
+        {
+            Stats.BossKill = true;
+        }
     }
 
     public void Restart()

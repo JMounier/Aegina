@@ -13,9 +13,12 @@ public class Tutoriel : NetworkBehaviour
     private Text textObjectif;
     private Text textNarator;
     private GUISkin skin;
+    private bool end = false;
     private float cooldown = 10;
     private Menu menu;
     private Queue storydialog = new Queue();
+    [SyncVar]
+    private int fin = 0;
 
     // Use this for initialization
     void Start()
@@ -64,6 +67,8 @@ public class Tutoriel : NetworkBehaviour
             if (progress > -1)
                 ObjectifHUD();
         }
+        if (end)
+            EndHUD();
     }
 
     // Update is called once per frame
@@ -334,6 +339,44 @@ public class Tutoriel : NetworkBehaviour
             storydialog.Enqueue(text);
     }
 
+    private void EndHUD()
+    {
+        GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), Resources.Load<Texture2D>("Sprites/SplashImages/BlackSreen"));
+        Text ecrit = new Text(); //text a faire
+        if (isServer && this.fin == 0)
+        {
+            Rect rect = new Rect(Screen.width / 3, Screen.height / 3, Screen.width / 3, Screen.height / 20);
+            if (GUI.Button(rect, "Rentrer chez soi", skin.GetStyle("button"))) //text a faire
+                this.fin = 1;
+            rect.y += Screen.height / 10;
+            if (GUI.Button(rect, "Detruire le cristal", skin.GetStyle("button"))) //text a faire
+                this.fin = 2;
+            rect.y += Screen.height / 10;
+            if (Stats.Hunt() < 100 && GUI.Button(rect, "Epargner Gundam", skin.GetStyle("button"))) //text a faire
+                this.fin = 3;
+        }
+        else
+        {
+            switch (fin)
+            {
+                case 1:
+                    ecrit = TextDatabase.FinEgoïsme;
+                    break;
+                case 2:
+                    ecrit = TextDatabase.FinPardon;
+                    break;
+                case 3:
+                    ecrit = TextDatabase.FinSacrifice;
+                    break;
+
+                default:
+                    //text a ajouter
+                    break;
+            }
+        }
+            GUI.Box(new Rect(Screen.width / 3, Screen.height / 3 + 3* Screen.height/10, Screen.width / 3, Screen.height / 3), "" + ecrit.GetText() + "");
+    }
+
     public void JustDoIt()
     {
         storydialog.Clear();
@@ -361,6 +404,11 @@ public class Tutoriel : NetworkBehaviour
         this.progress = p;
     }
 
+    public void END()
+    {
+        this.end = true;
+        this.controler.Pause = true;
+    }
 
     //Getters Setters
     public bool Finished_tuto
@@ -391,5 +439,10 @@ public class Tutoriel : NetworkBehaviour
     public int Progress
     {
         get { return this.progress; }
+    }
+
+    public bool End
+    {
+        get { return end; }
     }
 }

@@ -57,7 +57,7 @@ public class InputManager : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!isLocalPlayer || this.syncCharacter.Life < 0)
+        if (!isLocalPlayer || this.syncCharacter.Life < 0 || tutoriel.End)
             return;
         // Visibilite et blocage du cursor
         Cursor.visible = this.controller.Pause;

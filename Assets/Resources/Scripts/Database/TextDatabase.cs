@@ -642,7 +642,7 @@ public class TextDatabase
     public static readonly Text Tuto = new Text("Réussir le tutoriel", "Finish the tutorial");
     public static readonly Text FirstBlood = new Text("Tuer un autre joueur", "Kill an other player");
     public static readonly Text FirstCap = new Text("Activer un cristal", "Activate a cristal");
-    public static readonly Text FirstDeath = new Text("Mourir une fois", "dir once");
+    public static readonly Text FirstDeath = new Text("Mourir une fois", "Die once");
     public static readonly Text FirstHunt = new Text("Tuer une créature", "Kill a mob");
     public static readonly Text CraftChest = new Text("Créer un coffre", "Craft a chest");
     public static readonly Text CraftStoneWeapon = new Text("créer une arme en pierre", "Craft a stone weapon");
@@ -669,7 +669,7 @@ public class TextDatabase
     public static readonly Text KillTheBoss = new Text("Tuer le boss", "Kill the boss");
     public static readonly Text FirstEnd = new Text("Choisir la fin\"retour chez soi\"", "Choose the \"back to home\" end");
     public static readonly Text SecondEnd = new Text("choisir la fin \"sacrifice\"", "Choose the \"sacrifice\" end");
-    public static readonly Text StoneAge = new Text("Faire les succès précédents", "finish the previous succes");
+    public static readonly Text StoneAge = new Text("Faire les succès précédents", "Finish the previous succes");
 
 
 }

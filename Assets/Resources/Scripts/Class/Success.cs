@@ -61,7 +61,7 @@ public class Success
             {
                 currentSuccess.RemoveAt(j);
                 succ.Unlock(display);
-                if (succ.id % 10 == 0 || succ.id == 62)
+                if (succ.id % 10 == 0 || succ.id == 62 || succ.id == 71)
                 {
                     GameObject[] allplayer = GameObject.FindGameObjectsWithTag("Player");
                     if (display)
@@ -116,12 +116,23 @@ public class Success
                                     }
                                 break;
                             case 7:
-                                GameObject.Find("Map").GetComponent<Save>().SaveWorld();
-                                foreach (GameObject player in allplayer)
+                                if (succ.id == 71)
                                 {
-                                    player.GetComponent<Craft_HUD>().mastered(15, 46, 56, 66, 83, 87, 95, 105, 666);
+                                    //Ecran De Fin
+                                    foreach (GameObject player in allplayer)
+                                    {
+                                        player.GetComponent<Tutoriel>().END();
+                                    }
                                 }
-                                GameObject.Find("NetworkManager").GetComponent<NetworkManager2>().ServerChangeScene("BossScene");
+                                else
+                                {
+                                    GameObject.Find("Map").GetComponent<Save>().SaveWorld();
+                                    foreach (GameObject player in allplayer)
+                                    {
+                                        player.GetComponent<Craft_HUD>().mastered(15, 46, 56, 66, 83, 87, 95, 105, 666);
+                                    }
+                                    GameObject.Find("NetworkManager").GetComponent<NetworkManager2>().ServerChangeScene("BossScene");
+                                }
                                 break;
                             default:
                                 break;

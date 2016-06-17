@@ -10,7 +10,7 @@ public class BossFight : NetworkBehaviour
 
     private static int deathCount;
     private static int infightcount;
-    private static float beginfight;
+    private static Texture2D[] Bosslife = new Texture2D[101];
 
     private State state;
 
@@ -26,14 +26,12 @@ public class BossFight : NetworkBehaviour
         this.boss = null;
 
         this.state = State.Outfight;
-        beginfight = -42;
         if (GameObject.Find("Map").GetComponent<MapGeneration>() == null)
         {
             this.boss = GameObject.FindGameObjectWithTag("Mob");
             this.bSM = GameObject.Find("FightManager").GetComponent<BossSceneManager>();
             this.syncBoss = this.boss.GetComponent<SyncBoss>();
             this.bSM.SpawnWall.SetActive(true);
-            beginfight = 105;
         }
 
         if (isLocalPlayer)
@@ -41,7 +39,8 @@ public class BossFight : NetworkBehaviour
             this.syncChar = gameObject.GetComponent<SyncCharacter>();
             this.character = gameObject.GetComponentInChildren<CharacterCollision>().gameObject;
         }
-
+        for (int i = 0; i < 101; i++)
+            Bosslife[i] = Resources.Load<Texture2D>("Sprites/Bars/BossLife/BossLifeBar"+i.ToString());
         if (!isServer)
             return;
         infightcount = 0;
@@ -63,15 +62,6 @@ public class BossFight : NetworkBehaviour
             this.bSM.SpawnWall.SetActive(true);
             CmdEnterFight();
         }
-        if(beginfight > 0)
-        {
-            beginfight -= Time.deltaTime;
-        }
-        else if (beginfight <= 0 && beginfight > -5)
-        {
-            this.bSM.SpawnWall.SetActive(false);
-            beginfight = -42;
-        }
     }
 
     private void OnGUI()
@@ -82,6 +72,8 @@ public class BossFight : NetworkBehaviour
             // draw button to switch spec cam
             this.bSM.SwitchView(delta);
         }
+        if (this.state == State.Infight || this.state == State.Spec)
+            GUI.DrawTexture(new Rect(Screen.width / 5, Screen.height / (5*8.86f), 3 * Screen.width / 5, Screen.height / 15), Bosslife[(int)(syncBoss.Life/5)]);
     }
 
     /// <summary>
@@ -181,12 +173,6 @@ public class BossFight : NetworkBehaviour
     public bool BossHere
     {
         get { return this.boss != null; }
-    }
-
-    public float BeginFight
-    {
-        get { return beginfight; }
-        set { beginfight = value; }
     }
     #endregion    
 }

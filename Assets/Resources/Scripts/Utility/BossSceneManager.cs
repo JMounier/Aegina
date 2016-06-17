@@ -15,6 +15,7 @@ public class BossSceneManager : MonoBehaviour
     private List<GameObject> PlayersInFight;
 
     private int Specpos;
+    private float finalcoutndown;
 
     // Use this for initialization
     void Start()
@@ -28,9 +29,9 @@ public class BossSceneManager : MonoBehaviour
         this.OrbitingStuff.Add(this.SpecCamPos.transform.GetChild(0).gameObject);
 
         this.trycount = 0;
+        this.finalcoutndown = 105;
 
-
-        this.spawnWall.SetActive(false);
+        this.spawnWall.SetActive(true);
         this.Specpos = 0;
 
         foreach (GameObject obj in OrbitingStuff)
@@ -50,6 +51,14 @@ public class BossSceneManager : MonoBehaviour
     {
         foreach (GameObject obj in OrbitingStuff)
             obj.transform.RotateAround(obj.transform.parent.position, obj.transform.parent.up, 0.5f);
+        if (finalcoutndown > 0)
+            finalcoutndown -= Time.deltaTime;
+        else if (finalcoutndown <= 0 && finalcoutndown > -5)
+        {
+            this.spawnWall.SetActive(false);
+            finalcoutndown = -42;
+        }
+
     }
 
     /// <summary>
@@ -79,6 +88,11 @@ public class BossSceneManager : MonoBehaviour
     public GameObject SpawnWall
     {
         get { return this.spawnWall; }
+    }
+
+    public float FinalCountdown
+    {
+        set { this.finalcoutndown = value; }
     }
     #endregion
 

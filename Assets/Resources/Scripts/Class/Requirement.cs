@@ -72,7 +72,7 @@ public static class Requirement
             case Requirements.DivineCrisatlLVL5:
                 return Stats.CristalLevel(2) > 4;
             case Requirements.KillTheBoss:
-                break;// TO DO
+                return Stats.BossKill;
             case Requirements.FirstEnd:
                 break;// TO DO
             case Requirements.SecondEnd:
