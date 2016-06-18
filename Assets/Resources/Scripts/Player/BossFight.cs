@@ -85,11 +85,10 @@ public class BossFight : NetworkBehaviour
 
     public void EnterSpec()
     {
-        transform.GetChild(0).gameObject.SetActive(false);
+		transform.GetChild(0).gameObject.SetActive(false);
         this.state = State.Spec;
 		BossSceneManager bsm = GameObject.Find ("FightManager").GetComponent<BossSceneManager> ();
 			bsm.SwitchView();
-		gameObject.GetComponent<Sound> ().Source = bsm.SpecCam.GetComponent<AudioSource> ();
         CmdDead();
     }
 
@@ -194,7 +193,6 @@ public class BossFight : NetworkBehaviour
         if (!isLocalPlayer)
             return;
 		transform.GetChild(0).gameObject.SetActive(true);
-		gameObject.GetComponent<Sound> ().Source = gameObject.transform.GetChild(1).GetComponent<AudioSource> ();
         GameObject.Find("FightManager").GetComponent<BossSceneManager>().NotSpecAnyMore();
         GameObject.Find("FightManager").GetComponent<BossSceneManager>().IncreaseTryCount();
         this.syncChar.Respawn();
