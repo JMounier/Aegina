@@ -263,7 +263,7 @@ public class Tutoriel : NetworkBehaviour
                     this.textObjectif = new Text();
                     break;
             }
-        else if (storydialog.Count > 0)
+        else if (storydialog.Count > 0 && !end)
             if (this.cooldown <= 0)
             {
                 this.cooldown = 10;
