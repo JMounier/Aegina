@@ -175,6 +175,7 @@ public class Social_HUD : NetworkBehaviour
         PlayerSave ps = save.LoadPlayer(gameObject);
         this.isOp = ps.IsOp;
         this.team = ps.PlayerTeam;
+        Success.Reset();
     }
 
     /// <summary>

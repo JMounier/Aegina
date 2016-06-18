@@ -2,6 +2,7 @@
 using UnityEngine.Networking;
 using System.Collections;
 using System;
+using UnityEngine.SceneManagement;
 
 public class Success_HUD : NetworkBehaviour
 {
@@ -237,21 +238,89 @@ public class Success_HUD : NetworkBehaviour
     public void Display(Success success)
     {
         RpcDisplay(success.ID);
+        if (success.ID == 70)
+        {
+            GameObject.Find("Map").GetComponent<Save>().SaveWorld();
+            GameObject.Find("NetworkManager").GetComponent<NetworkManager2>().ServerChangeScene("BossScene");
+        }
     }
-
     [ClientRpc]
     private void RpcDisplay(int id)
     {
         if (!isLocalPlayer)
             return;
-        Success suc = SuccessDatabase.Find(id);
-        if (!isServer)
-        {
-            suc.Achived = true;
-            foreach (Success sucSon in suc.Sons)
-                sucSon.NbParentLeft--;
-        }
-        successToDisplay.Enqueue(suc);
+        successToDisplay.Enqueue(SuccessDatabase.Find(id));
+        if (id % 10 == 0 || id == 62 || id == 71)
+            switch (id / 10)
+            {
+                case 1:
+                    gameObject.GetComponent<Tutoriel>().Story(TextDatabase.StoneAgeStory1, TextDatabase.StoneAgeStory2, TextDatabase.StoneAgeStory3, TextDatabase.StoneAgeStory4, TextDatabase.StoneAgeStory5, TextDatabase.StoneAgeStory6, TextDatabase.StoneAgeStory7, TextDatabase.StoneAgeStory8, TextDatabase.StoneAgeStory9, TextDatabase.StoneAgeStory10);
+                    break;
+                case 2:
+                    gameObject.GetComponent<Tutoriel>().Story(TextDatabase.CopperAgeStory1, TextDatabase.CopperAgeStory2, TextDatabase.CopperAgeStory3, TextDatabase.CopperAgeStory4, TextDatabase.CopperAgeStory5, TextDatabase.CopperAgeStory6, TextDatabase.CopperAgeStory7, TextDatabase.CopperAgeStory8);
+                    break;
+                case 3:
+                    gameObject.GetComponent<Tutoriel>().Story(TextDatabase.IronAgeStory1, TextDatabase.IronAgeStory2, TextDatabase.IronAgeStory3, TextDatabase.IronAgeStory4, TextDatabase.IronAgeStory5, TextDatabase.IronAgeStory6);
+                    break;
+                case 4:
+                    gameObject.GetComponent<Tutoriel>().Story(TextDatabase.GoldAgeStory1, TextDatabase.GoldAgeStory2, TextDatabase.GoldAgeStory3, TextDatabase.GoldAgeStory4, TextDatabase.GoldAgeStory5, TextDatabase.GoldAgeStory6, TextDatabase.GoldAgeStory7);
+                    break;
+                case 5:
+                    gameObject.GetComponent<Tutoriel>().Story(TextDatabase.MithrilAgeStory1, TextDatabase.MithrilAgeStory2, TextDatabase.MithrilAgeStory3);
+                    break;
+                case 6:
+                    if (id != 62)
+                        gameObject.GetComponent<Tutoriel>().Story(TextDatabase.FloatiumAgeStory1, TextDatabase.FloatiumAgeStory2);
+                    else
+                        gameObject.GetComponent<Tutoriel>().Story(TextDatabase.PreSunkiumAgeStory);
+                    break;
+                case 7:
+                    if (id == 71)
+                        gameObject.GetComponent<Tutoriel>().END();
+                    break;
+                default:
+                    break;
+            }
+    }
+
+    public void Unlock(Success success)
+    {
+        RpcUnlock(success.ID);
+    }
+
+    [ClientRpc]
+    private void RpcUnlock(int id)
+    {
+        if (!isLocalPlayer)
+            return;
+        SuccessDatabase.Find(id).Achived = true;
+        if (id % 10 == 0)
+            switch (id / 10)
+            {
+                case 1:
+                    gameObject.GetComponent<Craft_HUD>().mastered(1, 2, 40, 50, 60, 71, 72, 73, 80, 84);
+                    break;
+                case 2:
+                    gameObject.GetComponent<Craft_HUD>().mastered(4, 5, 10, 16, 41, 51, 61, 90, 100);
+                    break;
+                case 3:
+                    gameObject.GetComponent<Craft_HUD>().mastered(3, 6, 7, 10, 22, 23, 24, 25, 26, 27, 42, 52, 62, 81, 85, 91, 101);
+                    break;
+                case 4:
+                    gameObject.GetComponent<Craft_HUD>().mastered(8, 9, 12, 21, 43, 53, 63, 92, 102);
+                    break;
+                case 5:
+                    gameObject.GetComponent<Craft_HUD>().mastered(13, 44, 54, 64, 82, 86, 93, 103);
+                    break;
+                case 6:
+                    gameObject.GetComponent<Craft_HUD>().mastered(14, 45, 55, 65, 94, 104);
+                    break;
+                case 7:
+                    gameObject.GetComponent<Craft_HUD>().mastered(15, 46, 56, 66, 83, 87, 95, 105, 666);
+                    break;
+                default:
+                    break;
+            }
     }
 
     // Setters & Getters
