@@ -46,14 +46,14 @@ public class BossFight : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (SceneManager.GetActiveScene().name == "main" || GameObject.FindGameObjectWithTag("Mob") == null)
+        if (SceneManager.GetActiveScene().name == "main" || GameObject.Find("BossCorrected") == null)
             return;
         if (isServer)        
-            this.syncBossLife = GameObject.FindGameObjectWithTag("Mob").GetComponent<SyncBoss>().Life;        
+            this.syncBossLife = GameObject.Find("BossCorrected").GetComponent<SyncBoss>().Life;        
         if (!isLocalPlayer)
             return;
 
-        if (this.state == State.Outfight && Vector3.Distance(this.character.transform.position, GameObject.FindGameObjectWithTag("Mob").transform.position) < 28.4f)
+        if (this.state == State.Outfight && Vector3.Distance(this.character.transform.position, GameObject.Find("BossCorrected").transform.position) < 28.4f)
         {
             this.state = State.Infight;
             GameObject.Find("FightManager").GetComponent<BossSceneManager>().SpawnWall.SetActive(true);
@@ -125,20 +125,20 @@ public class BossFight : NetworkBehaviour
     [Command]
     private void CmdReceiveDamageBoss(float armor)
     {
-        this.syncChar.Life -= 100 * GameObject.FindGameObjectWithTag("Mob").GetComponent<SyncBoss>().Damage / armor;
+        this.syncChar.Life -= 100 * GameObject.Find("BossCorrected").GetComponent<SyncBoss>().Damage / armor;
     }
 
     [Command]
     private void CmdUseCristal()
     {
-        GameObject.FindGameObjectWithTag("Mob").GetComponent<SyncBoss>().UseCristal();
+        GameObject.Find("BossCorrected").GetComponent<SyncBoss>().UseCristal();
     }
 
     [Command]
     private void CmdEnterFight()
     {
         infightcount++;
-        GameObject.FindGameObjectWithTag("Mob").GetComponent<SyncBoss>().Fight = true;
+        GameObject.Find("BossCorrected").GetComponent<SyncBoss>().Fight = true;
     }
 
     [Command]
@@ -171,7 +171,7 @@ public class BossFight : NetworkBehaviour
             player.GetComponent<BossFight>().RpcRestart();
         }
 
-        GameObject.FindGameObjectWithTag("Mob").GetComponent<SyncBoss>().Restart();
+        GameObject.Find("BossCorrected").GetComponent<SyncBoss>().Restart();
     }
 
     [ClientRpc]
@@ -195,7 +195,7 @@ public class BossFight : NetworkBehaviour
 
     public bool BossHere
     {
-        get { return GameObject.FindGameObjectWithTag("Mob") != null; }
+        get { return GameObject.Find("BossCorrected") != null; }
     }
     #endregion    
 }
