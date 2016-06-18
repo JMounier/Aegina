@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.Networking;
+using UnityEngine.SceneManagement;
 
 public class SyncChunk : NetworkBehaviour
 {
@@ -33,7 +34,7 @@ public class SyncChunk : NetworkBehaviour
         {
             foreach (Transform child in gameObject.transform)
             {
-                if (child.name.Contains("Island"))
+                if (child.name.Contains("Island") && SceneManager.GetActiveScene().name == "main")
                 {
                     if (child.GetComponent<MeshRenderer>().materials[0].name.Contains("Rock"))
                         child.GetComponent<MeshRenderer>().materials = new Material[2] { BiomeDatabase.Forest.Rock, BiomeDatabase.Forest.Grass };

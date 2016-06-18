@@ -48,8 +48,8 @@ public class BossFight : NetworkBehaviour
     {
         if (SceneManager.GetActiveScene().name == "main" || GameObject.FindGameObjectWithTag("Mob") == null)
             return;
-        if (isServer)
-            this.syncBossLife = GameObject.FindGameObjectWithTag("Mob").GetComponent<SyncBoss>().Life;
+        if (isServer)        
+            this.syncBossLife = GameObject.FindGameObjectWithTag("Mob").GetComponent<SyncBoss>().Life;        
         if (!isLocalPlayer)
             return;
 

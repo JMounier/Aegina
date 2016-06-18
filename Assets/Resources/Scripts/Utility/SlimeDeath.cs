@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 
-public class SlimeDeath : MonoBehaviour
+public class SlimeDeath : NetworkBehaviour
 {
     [SerializeField]
     private int idMob;
@@ -14,7 +14,7 @@ public class SlimeDeath : MonoBehaviour
 
     void OnDestroy()
     {
-        if (gameObject.GetComponent<SyncMob>().MyMob.Life == 0)
+        if (isServer && gameObject.GetComponent<SyncMob>().MyMob.Life == 0)
             for (int i = 0; i < Random.Range(this.nbMin, this.nbMax); i++)
             {
                 Mob mob = EntityDatabase.Find(this.idMob) as Mob;
