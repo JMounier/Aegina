@@ -455,7 +455,6 @@ public class Tutoriel : NetworkBehaviour
     public void END()
     {
         this.end = true;
-        this.controler.Pause = true;
         this.cooldown = 10;
         this.GetComponent<InputManager>().IAmDead();
     }

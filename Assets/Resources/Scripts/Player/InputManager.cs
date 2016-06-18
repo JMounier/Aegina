@@ -60,7 +60,7 @@ public class InputManager : NetworkBehaviour
         if (!isLocalPlayer || this.syncCharacter.Life < 0)
             return;
         // Visibilite et blocage du cursor
-        
+
 
         if (tutoriel.End)
         {
@@ -419,7 +419,7 @@ public class InputManager : NetworkBehaviour
         else if (atk == TypeAttack.Charge)
         {
             cibles = Physics.OverlapBox(this.character.transform.position - this.character.transform.forward / 2 + new Vector3(0, 0.5f, 1.5f), new Vector3(0.2f, 0.2f, 1.75f), this.character.transform.rotation);
-            this.syncCharacter.RpcApplyRelativeForce(0,0 , -25000f);
+            this.syncCharacter.RpcApplyRelativeForce(0, 0, -25000f);
         }
         foreach (Collider cible in cibles)
         {
@@ -583,6 +583,8 @@ public class InputManager : NetworkBehaviour
 
     public void IAmDead()
     {
+        if (!isLocalPlayer)
+            return;
         this.menu.MenuShown = false;
         this.menu.SonShown = false;
         this.menu.OptionShown = false;
