@@ -153,7 +153,7 @@ public class SyncCharacter : NetworkBehaviour
 
         if (this.life <= 0 && gameObject.transform.FindChild("Character").FindChild("Armature").gameObject.activeInHierarchy)
         {
-            this.sounAudio.PlaySound(AudioClips.playerDeath, 5);
+            this.sounAudio.PlaySound(AudioClips.playerDeath, .5f);
             this.Kill();
         }
         if (this.life > 0 && (this.hunger + this.thirst) / (this.hungerMax + this.thirstMax) > .8f)
