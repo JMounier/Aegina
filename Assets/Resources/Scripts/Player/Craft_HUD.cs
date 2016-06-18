@@ -20,7 +20,7 @@ public class Craft_HUD : NetworkBehaviour
     private Craft craftshow;
     private bool tooltip = false;
     private Item tooltipItem;
-	private Dictionary<int,bool> craftMastered;
+    private Dictionary<int, bool> craftMastered;
     private int Decal;
 
     // Use this for initialization
@@ -39,7 +39,7 @@ public class Craft_HUD : NetworkBehaviour
         this.CraftConsumable = new List<Craft>();
         this.CraftTools = new List<Craft>();
         this.CraftArmor = new List<Craft>();
-		this.craftMastered = new Dictionary<int, bool> ();
+        this.craftMastered = new Dictionary<int, bool>();
         this.character = GetComponentInChildren<CharacterCollision>().gameObject;
         this.Craftslist[0] = CraftElementary;
         this.Craftslist[1] = CraftWorkTop;
@@ -52,8 +52,8 @@ public class Craft_HUD : NetworkBehaviour
             {
                 this.Craftslist[(int)(craft.What) - 1].Add(craft);
             }
-			if (craft.ID != -1) 
-				this.craftMastered.Add (craft.ID, false);
+            if (craft.ID != -1)
+                this.craftMastered.Add(craft.ID, false);
         }
 
         this.craftindex = 0;
@@ -63,35 +63,9 @@ public class Craft_HUD : NetworkBehaviour
         this.nearwork = new bool[4];
         for (int j = 0; j < 4; j++)
             nearwork[j] = false;
-		
+
         List<int> mastered = new List<int>();
-		mastered.AddRange(new int[] { 0, 20, 28, 70});
-        if (SuccessDatabase.StoneAge.Achived)
-        {
-			mastered.AddRange(new int[] { 1, 2, 40, 50, 60, 71, 72, 73}); //id des craft de l'armure en cuir à ajouter
-            if (SuccessDatabase.CopperAge.Achived)
-            {
-				mastered.AddRange(new int[] { 4, 5, 10, 16, 41, 51, 61}); //id du craft de l'armure en cuivre
-                if (SuccessDatabase.IronAge.Achived)
-                {
-					mastered.AddRange(new int[] { 3, 6, 10, 22, 23, 24, 25, 26, 27, 42, 52, 62}); //id des crafts de l'armure en fer à ajouter
-                    if (SuccessDatabase.GoldAge.Achived)
-                    {
-						mastered.AddRange(new int[] { 12, 21, 43, 53, 63}); //id des crafts des pièges à ajouter et de l'armure en or
-                        if (SuccessDatabase.MithrilAge.Achived)
-                        {
-							mastered.AddRange(new int[] { 13, 44, 54, 64 }); //id des crafts des murailles et de l'armure en mitril à ajouter
-                            if (SuccessDatabase.FloatiumAge.Achived)
-                            {
-								mastered.AddRange(new int[] { 14, 45, 55, 65});//id des crafts de l'armure en floatium à ajouter
-                                if (SuccessDatabase.SunkiumAge.Achived)
-									mastered.AddRange(new int[] { 15, 46, 56, 66}); //id des crafts de l'armure en sunkium à ajouter
-                            }
-                            }
-                        }
-                    }
-                }
-            }
+
         if (SceneManager.GetActiveScene().name != "main")
         {
             this.CraftConsumable.Add(CraftDatabase.InstableCore);

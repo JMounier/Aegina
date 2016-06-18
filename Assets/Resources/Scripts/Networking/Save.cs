@@ -50,8 +50,6 @@ public class Save : NetworkBehaviour
             this.dnc.SetTime(float.Parse(properties[2]));
             Stats.Load(world[1]);
 
-            Success.Reset();
-
             // Find cristals
             string[] chunksName = Directory.GetFiles(this.chunksPath);
             foreach (string chunk in chunksName)
