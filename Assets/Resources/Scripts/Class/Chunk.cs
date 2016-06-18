@@ -160,7 +160,7 @@ public class Chunk : Entity
                 if (biomeValid)
                     for (int i = 0; i < mob.SpawnProbability; i++)
                     {
-                        if (UnityEngine.Random.Range(0, 2) == 0)
+                        if (UnityEngine.Random.Range(0, 6) == 0)
                         {
                             Node node = Prefab.GetComponent<SyncChunk>().MyGraph.ChoseRandomNode();
                             if (node.IsValid)

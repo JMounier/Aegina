@@ -125,7 +125,7 @@ public class Cristal_HUD : NetworkBehaviour
             }
 
             rect = new Rect(this.pos_x + 11 * spaceH, this.pos_y + height - 3 * space + 5, 3 * spaceH - 5, space + 5);
-            if (GUI.Button(rect, TextDatabase.Upgrade.GetText(), this.skin.GetStyle("button")))
+            if ((cristal.LevelPortal < 4 || SuccessDatabase.OtherLVL5.Achived) && GUI.Button(rect, TextDatabase.Upgrade.GetText(), this.skin.GetStyle("button")))
             {
                 if (this.inventory.InventoryContains(this.cristal.Needs))
                 {
@@ -168,19 +168,24 @@ public class Cristal_HUD : NetworkBehaviour
         this.CmdSetTeam(gameObject.GetComponent<Social_HUD>().Team, this.cristal.gameObject);
         if (this.cristal.LevelTot == 0)
         {
-            System.Random ran = new System.Random();
-            int a = ran.Next(0, 10);
-            if (a == 0)
-            {
+            if (Stats.CristalLevel(2) < 1)
                 this.CmdSetLevelPort(2, this.cristal.gameObject);
-            }
-            else if (a <= 3)
-            {
-                this.CmdSetLevelProd(2, this.cristal.gameObject);
-            }
             else
             {
-                this.CmdSetLevelAtk(2, this.cristal.gameObject);
+                System.Random ran = new System.Random();
+                int a = ran.Next(0, 10);
+                if (a == 0)
+                {
+                    this.CmdSetLevelPort(2, this.cristal.gameObject);
+                }
+                else if (a <= 3)
+                {
+                    this.CmdSetLevelProd(2, this.cristal.gameObject);
+                }
+                else
+                {
+                    this.CmdSetLevelAtk(2, this.cristal.gameObject);
+                }
             }
         }
         CmdSaveCristal(this.cristal.gameObject);
