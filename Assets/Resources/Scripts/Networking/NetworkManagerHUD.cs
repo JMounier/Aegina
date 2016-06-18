@@ -1088,9 +1088,9 @@ namespace UnityEngine.Networking
 
         private void DrawCredit()
         {
-            GUI.Box(new Rect(this.posX, this.posY, this.width, 3 * this.spacing), TextDatabase.Credit.GetText(), skin.GetStyle("skin"));
+            GUI.Box(new Rect(Screen.width/5, Screen.height / 9 + Screen.width/12.8f, 3*Screen.width / 5, 3*Screen.height / 5), Resources.Load<Texture2D>("Sprites/SplashImages/Credit"), skin.GetStyle("Credit"));
 
-            if (GUI.Button(new Rect(this.posX + this.width / 4, this.posY + 4 * this.spacing, this.width / 2, this.spacing), TextDatabase.Back.GetText(), skin.GetStyle("button")))
+            if (GUI.Button(new Rect(this.posX, Screen.height / 9 + Screen.width / 12.8f + 3 * Screen.height / 5 - 1.1f*this.spacing, this.width, this.height), TextDatabase.Back.GetText(), skin.GetStyle("button")))
             {
                 this.creditshown = false;
                 this.optionShown = true;
