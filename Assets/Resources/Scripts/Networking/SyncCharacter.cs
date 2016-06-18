@@ -362,6 +362,12 @@ public class SyncCharacter : NetworkBehaviour
     {
         if (isLocalPlayer)
         {
+            if (y > 30000)
+                y = 30000;
+            if (x > 30000)
+                x = 30000;
+            if (z > 30000)
+                z = 30000;
             this.character.GetComponent<Rigidbody>().velocity = Vector3.zero;
             this.character.GetComponent<Rigidbody>().AddForce(x, y, z);
             this.controller.CdDisable = y/20000f;
