@@ -48,7 +48,26 @@ public class Tutoriel : NetworkBehaviour
         if (!isLocalPlayer)
             return;
 
+        if (progress == 0)
+        {
+            if (!this.controler.Pause)
+                this.controler.Pause = true;
+            TutorialHUD();
+        }
 
+        else if (progress < 0)
+            EndtutoHUD();
+
+        else if (progress < 14 || cooldown > 0 || storydialog.Count != 0)
+        {
+            if (this.cooldown > 0 && !this.controler.Pause)
+            {
+                this.cooldown -= Time.deltaTime;
+                NarratorHUD();
+            }
+            if (progress > -1)
+                ObjectifHUD();
+        }
         if (end)
         {
             if (this.cooldown > 0)
@@ -56,41 +75,18 @@ public class Tutoriel : NetworkBehaviour
             else
                 EndHUD();
         }
-        else
-        {
-            if (progress == 0)
-            {
-                if (!this.controler.Pause)
-                    this.controler.Pause = true;
-                TutorialHUD();
-            }
-
-            else if (progress < 0)
-                EndtutoHUD();
-
-            else if (progress < 14 || cooldown > 0 || storydialog.Count != 0)
-            {
-                if (this.cooldown > 0 && !this.controler.Pause)
-                {
-                    this.cooldown -= Time.deltaTime;
-                    NarratorHUD();
-                }
-                if (progress > -1)
-                    ObjectifHUD();
-            }
-        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!isLocalPlayer || SceneManager.GetActiveScene().name != "main")
+        if (!isLocalPlayer)
             return;
 
         this.skin.GetStyle("Objectifs").fontSize = (int)(Screen.height * 0.025f);
         this.skin.GetStyle("Narrateur").fontSize = (int)(Screen.height * 0.030f);
         // Choix des textes et progression du tutoriel
-        if (progress > -1 && progress < 14)
+        if (progress > -1 && progress < 14 && SceneManager.GetActiveScene().name == "main")
             switch (progress)
             {
                 case 1:
@@ -147,7 +143,14 @@ public class Tutoriel : NetworkBehaviour
                 case 6:
                     this.textNarator = TextDatabase.Equip;
                     this.textObjectif = TextDatabase.EquipObjectif;
-                    if (this.cooldown <= 0 && inventaire.UsedItem.Items.Name == ItemDatabase.Stick.Name)
+                    if (this.cooldown > 0 && this.cooldown < 1)
+                    {
+                        this.cooldown = 0;
+                        this.menu.Helpshown = true;
+                        this.controler.Pause = true;
+                        this.menu.Page = 2 + (Text.GetLanguage() == SystemLanguage.English ? 0 : 3);
+                    }
+                    if (this.cooldown <= 0 && inventaire.InventoryContains(ItemDatabase.StoneAxe))
                     {
                         CmdSaveProgress(progress + 1);
                         this.cooldown = 10;
@@ -174,13 +177,7 @@ public class Tutoriel : NetworkBehaviour
                 case 8:
                     this.textNarator = TextDatabase.CraftABrochette;
                     this.textObjectif = TextDatabase.CraftABrochetteObejctif;
-                    if (this.cooldown > 0 && this.cooldown < 1)
-                    {
-                        this.cooldown = 0;
-                        this.menu.Helpshown = true;
-                        this.controler.Pause = true;
-                        this.menu.Page = 2 + (Text.GetLanguage() == SystemLanguage.English ? 0 : 3);
-                    }
+                    
                     if (this.cooldown <= 0 && inventaire.InventoryContains(ItemDatabase.MeatBalls))
                     {
                         CmdSaveProgress(progress + 1);
@@ -356,19 +353,19 @@ public class Tutoriel : NetworkBehaviour
         if (isServer && this.fin == 0)
         {
             Rect rect = new Rect(Screen.width / 5, Screen.height / 2 + Screen.height / 10, 4 * Screen.width / 25, Screen.height / 20);
-            if (GUI.Button(rect, TextDatabase.Choix1.GetText(), skin.GetStyle("button"))) 
+            if (GUI.Button(rect, TextDatabase.Choix1.GetText(), skin.GetStyle("button")))
             {
                 this.fin = 1;
                 Stats.FirstEnd = true;
             }
             rect.x += Screen.width / 5;
-            if (Stats.Hunt() < 100 && GUI.Button(rect, TextDatabase.Choix3.GetText(), skin.GetStyle("button"))) 
+            if (Stats.Hunt() < 100 && GUI.Button(rect, TextDatabase.Choix3.GetText(), skin.GetStyle("button")))
             {
                 this.fin = 3;
                 Stats.SecondEnd = true;
             }
             rect.x += Screen.width / 5;
-            if (GUI.Button(rect, TextDatabase.Choix2.GetText(), skin.GetStyle("button"))) 
+            if (GUI.Button(rect, TextDatabase.Choix2.GetText(), skin.GetStyle("button")))
             {
                 this.fin = 2;
                 Stats.ThridEnd = true;
