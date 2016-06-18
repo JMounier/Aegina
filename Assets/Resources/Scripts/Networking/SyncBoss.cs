@@ -131,8 +131,7 @@ public class SyncBoss : NetworkBehaviour
             this.anim.SetInteger("Action", 5);
             Stats.BossKill = true;
             if (!SuccessDatabase.SunkiumAge.Achived)
-                Success.Update(false, true);
-            GameObject.Find("Map").GetComponent<Save>().ForceSave();
+                Success.Update(true, true);
         }
     }
 

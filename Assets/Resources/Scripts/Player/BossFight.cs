@@ -48,8 +48,8 @@ public class BossFight : NetworkBehaviour
     {
         if (SceneManager.GetActiveScene().name == "main" || GameObject.Find("BossCorrected") == null)
             return;
-        if (isServer)        
-            this.syncBossLife = GameObject.Find("BossCorrected").GetComponent<SyncBoss>().Life;        
+        if (isServer)
+            this.syncBossLife = GameObject.Find("BossCorrected").GetComponent<SyncBoss>().Life;
         if (!isLocalPlayer)
             return;
 
@@ -73,7 +73,7 @@ public class BossFight : NetworkBehaviour
             GameObject.Find("FightManager").GetComponent<BossSceneManager>().SwitchView(delta);
         }
         if (this.state == State.Infight || this.state == State.Spec)
-            GUI.DrawTexture(new Rect(Screen.width / 5, Screen.height / (5 * 8.86f), 3 * Screen.width / 5, Screen.height / 15), Bosslife[(int)(syncBossLife / 5)]);
+            GUI.DrawTexture(new Rect(Screen.width / 5, Screen.height / (5 * 8.86f), 3 * Screen.width / 5, Screen.height / 15), Bosslife[Mathf.Clamp((int)(syncBossLife / 5), 0, 100)]);
     }
 
     /// <summary>
@@ -116,7 +116,7 @@ public class BossFight : NetworkBehaviour
         if (isLocalPlayer && !this.cnt.IsJumping && this.state == State.Infight)
         {
             this.syncChar.Life -= 50 * 100 / gameObject.GetComponentInParent<Inventory>().Armor;
-            Vector3 dir = (this.character.transform.position - GameObject.FindGameObjectWithTag("Boss").transform.position ).normalized;
+            Vector3 dir = (this.character.transform.position - GameObject.FindGameObjectWithTag("Boss").transform.position).normalized;
             gameObject.GetComponentInChildren<Rigidbody>().AddForce(dir.x * 15000f, 10000f, dir.z * 15000f);
             gameObject.GetComponentInParent<Controller>().CdDisable = 0.5f;
         }

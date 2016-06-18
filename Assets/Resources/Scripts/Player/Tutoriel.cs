@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.Networking;
+using UnityEngine.SceneManagement;
 
 public class Tutoriel : NetworkBehaviour
 {
@@ -47,26 +48,7 @@ public class Tutoriel : NetworkBehaviour
         if (!isLocalPlayer)
             return;
 
-        if (progress == 0)
-        {
-            if (!this.controler.Pause)
-                this.controler.Pause = true;
-            TutorialHUD();
-        }
 
-        else if (progress < 0)
-            EndtutoHUD();
-
-        else if (progress < 14 || cooldown > 0 || storydialog.Count != 0)
-        {
-            if (this.cooldown > 0 && !this.controler.Pause)
-            {
-                this.cooldown -= Time.deltaTime;
-                NarratorHUD();
-            }
-            if (progress > -1)
-                ObjectifHUD();
-        }
         if (end)
         {
             if (this.cooldown > 0)
@@ -74,12 +56,35 @@ public class Tutoriel : NetworkBehaviour
             else
                 EndHUD();
         }
+        else
+        {
+            if (progress == 0)
+            {
+                if (!this.controler.Pause)
+                    this.controler.Pause = true;
+                TutorialHUD();
+            }
+
+            else if (progress < 0)
+                EndtutoHUD();
+
+            else if (progress < 14 || cooldown > 0 || storydialog.Count != 0)
+            {
+                if (this.cooldown > 0 && !this.controler.Pause)
+                {
+                    this.cooldown -= Time.deltaTime;
+                    NarratorHUD();
+                }
+                if (progress > -1)
+                    ObjectifHUD();
+            }
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (!isLocalPlayer)
+        if (!isLocalPlayer || SceneManager.GetActiveScene().name != "main")
             return;
 
         this.skin.GetStyle("Objectifs").fontSize = (int)(Screen.height * 0.025f);

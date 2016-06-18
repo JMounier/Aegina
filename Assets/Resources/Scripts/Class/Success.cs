@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Networking;
+using UnityEngine.SceneManagement;
 
 public class Success
 {
@@ -57,7 +58,7 @@ public class Success
             for (int i = 0; i < succ.requirements.Length && b; i++)
                 b = Requirement.Check(succ.requirements[i]);
 
-            if ((b && !unlockAll) || (unlockAll && succ.id != 71))
+            if (b || unlockAll)
             {
                 currentSuccess.RemoveAt(j);
                 succ.Unlock(display);
@@ -116,10 +117,11 @@ public class Success
                             case 7:
                                 if (succ.id == 71)
                                 {
+                                    GameObject.Find("Map").GetComponent<Save>().ForceSave();
                                     foreach (GameObject player in allplayer)
                                         player.GetComponent<Tutoriel>().END();
                                 }
-                                else
+                                else if(SceneManager.GetActiveScene().name == "main")
                                 {
                                     GameObject.Find("Map").GetComponent<Save>().SaveWorld();
                                     foreach (GameObject player in allplayer)
