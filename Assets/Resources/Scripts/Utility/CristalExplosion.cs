@@ -18,22 +18,23 @@ public class CristalExplosion : NetworkBehaviour
         gameObject.transform.GetChild(0).Rotate(Vector3.forward, Mathf.Pow(20f - this.cdExplosion, 2) * .03125f);
 
         if (isServer)
-        {
-            Debug.DrawRay(gameObject.transform.position, Vector3.forward * 2.5f, Color.red);
-            Debug.DrawRay(gameObject.transform.position, Vector3.right * 2.5f, Color.red);
-            Debug.DrawRay(gameObject.transform.position, -Vector3.forward * 2.5f, Color.red);
-            Debug.DrawRay(gameObject.transform.position, -Vector3.right * 2.5f, Color.red);
-            if (this.cdExplosion < 0)
+        {           
+            if (this.cdExplosion < -.1f && !gameObject.GetComponentInChildren<ParticleSystem>().isPlaying)
             {
+                NetworkServer.UnSpawn(gameObject);
+                GameObject.Destroy(gameObject);
+            }
+            else if (this.cdExplosion < 0 && !gameObject.GetComponentInChildren<ParticleSystem>().isPlaying)
+            {
+                gameObject.GetComponentInChildren<ParticleSystem>().Play();
                 foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
                 {
                     float dist = Vector3.Distance(player.transform.FindChild("Character").position, gameObject.transform.position);
                     if (dist < 2.5f)
-                        player.GetComponent<SyncCharacter>().ReceiveDamage((2.5f - dist) * 35, Vector3.Normalize(player.transform.FindChild("Character").position - gameObject.transform.position), false);
+                        player.GetComponent<SyncCharacter>().ReceiveDamage((2.5f - dist) * 50, Vector3.Normalize(player.transform.FindChild("Character").position - gameObject.transform.position), false);
                 }
-                NetworkServer.UnSpawn(gameObject);
-                GameObject.Destroy(gameObject);
             }
+
         }
     }
 }

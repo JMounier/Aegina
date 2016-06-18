@@ -164,9 +164,9 @@ public static class EntityDatabase
 
     // IslandCore
     public static readonly IslandCore IslandCore = new IslandCore(142, Resources.Load<GameObject>("Prefabs/Elements/Cristals/IslandCore"));
-    public static readonly Element CristalProjectileRed = new Element(143, 50, Resources.Load<GameObject>("Prefabs/Elements/Cristals/CristalProjectileGreen"), Element.DestructionTool.Pickaxe, 1f, new DropConfig(90, 1));
+    public static readonly Element CristalProjectileRed = new Element(143, 50, Resources.Load<GameObject>("Prefabs/Elements/Cristals/CristalProjectileRed"), Element.DestructionTool.Pickaxe, 1f, new DropConfig(90, 1));
     public static readonly Element CristalProjectileGreen = new Element(144, 50, Resources.Load<GameObject>("Prefabs/Elements/Cristals/CristalProjectileGreen"), Element.DestructionTool.Pickaxe, 1f, new DropConfig(89, 1));
-    public static readonly Element CristalProjectileYellow = new Element(145, 50, Resources.Load<GameObject>("Prefabs/Elements/Cristals/CristalProjectileGreen"), Element.DestructionTool.Pickaxe, 1f, new DropConfig(91, 1));
+    public static readonly Element CristalProjectileYellow = new Element(145, 50, Resources.Load<GameObject>("Prefabs/Elements/Cristals/CristalProjectileYellow"), Element.DestructionTool.Pickaxe, 1f, new DropConfig(91, 1));
 
     // Mobs
     public static readonly Mob Boar = new Mob(500, 20, Resources.Load<GameObject>("Prefabs/Mobs/Boar"), 5, .5f, 7, 6f, 7f, 1.3f, 2.8f, 1.5f, 1f,
