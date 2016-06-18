@@ -352,30 +352,35 @@ public class Tutoriel : NetworkBehaviour
         Text ecrit = TextDatabase.FaireUnChoix; //text a faire
         if (isServer && this.fin == 0)
         {
+            bool choose = false;
             Rect rect = new Rect(Screen.width / 5, Screen.height / 2 + Screen.height / 10, 4 * Screen.width / 25, Screen.height / 20);
             if (GUI.Button(rect, TextDatabase.Choix1.GetText(), skin.GetStyle("button")))
             {
                 this.fin = 1;
-                RpcChoose(1);
                 Stats.FirstEnd = true;
+                choose = true;
             }
             rect.x += Screen.width / 5;
             if (Stats.Hunt() < 100 && GUI.Button(rect, TextDatabase.Choix3.GetText(), skin.GetStyle("button")))
             {
                 this.fin = 3;
-                RpcChoose(3);
                 Stats.SecondEnd = true;
+                choose = true;
             }
             rect.x += Screen.width / 5;
             if (GUI.Button(rect, TextDatabase.Choix2.GetText(), skin.GetStyle("button")))
             {
                 this.fin = 2;
-                RpcChoose(2);
                 Stats.ThridEnd = true;
+                choose = true;
             }
+            if(choose)
+                foreach (GameObject p in GameObject.FindGameObjectsWithTag("Player"))
+                    p.GetComponent<Tutoriel>().fin = this.fin;
         }
         else
         {
+            Debug.Log(fin);
             switch (fin)
             {
                 case 1:
@@ -414,13 +419,6 @@ public class Tutoriel : NetworkBehaviour
             storydialog.Clear();
             this.textNarator = new Text();
         }
-    }
-
-    [ClientRpc]
-    private void RpcChoose(int fin)
-    {
-        if (isLocalPlayer)
-            this.fin = fin;
     }
 
     [Command]
