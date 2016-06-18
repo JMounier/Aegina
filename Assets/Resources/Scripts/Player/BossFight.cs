@@ -98,12 +98,18 @@ public class BossFight : NetworkBehaviour
         CmdDead();
     }
 
-    public void receiveDamageByBoss()
+    public void ReceiveDamageByBoss()
     {
         if (isLocalPlayer)
             CmdReceiveDamageBoss(gameObject.GetComponent<Inventory>().Armor);
     }
 
+    public void ReceiveDamageByCristaleProjectile(GameObject projectile)
+    {
+        if (isLocalPlayer)
+            CmdReceiveDamageCristalProjectile(gameObject.GetComponent<Inventory>().Armor, projectile);
+    }
+   
     public void ShockWave()
     {
         if (isServer)
@@ -126,6 +132,13 @@ public class BossFight : NetworkBehaviour
     private void CmdReceiveDamageBoss(float armor)
     {
         this.syncChar.Life -= 100 * GameObject.Find("BossCorrected").GetComponent<SyncBoss>().Damage / armor;
+    }
+
+    [Command]
+    private void CmdReceiveDamageCristalProjectile(float armor, GameObject projectile)
+    {
+        this.syncChar.Life -= 100 * 100f / armor;
+        projectile.GetComponent<SyncElement>().Elmt.Life = 0;
     }
 
     [Command]
@@ -166,6 +179,11 @@ public class BossFight : NetworkBehaviour
         deathCount = 0;
         foreach (Transform loot in GameObject.Find("Loots").transform)
             loot.GetComponent<Loot>().Items.Items.Ent.Life = 0;
+        foreach (GameObject cristal in GameObject.Find("Map").transform.FindChild("BossIslandChunk").FindChild("Elements"))
+        {
+            NetworkServer.UnSpawn(cristal);
+            GameObject.Destroy(cristal);
+        }
         foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
         {
             Inventory i = player.GetComponent<Inventory>();
