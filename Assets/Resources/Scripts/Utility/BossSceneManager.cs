@@ -27,6 +27,7 @@ public class BossSceneManager : MonoBehaviour
         this.OrbitingStuff = new List<GameObject>();
 
         this.OrbitingStuff.Add(this.SpecCamPos.transform.GetChild(0).gameObject);
+		this.OrbitingStuff.Add(gameObject.transform.GetChild(2).GetChild(0).gameObject);
 
         this.trycount = 0;
         this.finalcoutndown = 105;
@@ -68,10 +69,8 @@ public class BossSceneManager : MonoBehaviour
     /// only call this method when the player is dead;
     /// </summary>
     /// <param name="delta"></param>
-    public void SwitchView(int delta)
+    public void SwitchView()
     {
-        this.SpecCamPos.transform.GetChild(this.Specpos).gameObject.SetActive(false);
-        this.Specpos = (this.Specpos + 4) % 4;
         this.SpecCamPos.transform.GetChild(this.Specpos).gameObject.SetActive(true);
     }
 
@@ -97,6 +96,11 @@ public class BossSceneManager : MonoBehaviour
     {
         set { this.finalcoutndown = value; }
     }
+
+	public GameObject SpecCam
+	{
+		get { return this.OrbitingStuff [0].transform.GetChild(0).gameObject;}
+	}
     #endregion
 
 }

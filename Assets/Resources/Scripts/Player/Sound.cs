@@ -222,4 +222,9 @@ public class Sound : NetworkBehaviour
             this.source.volume = this.volume;
         }
     }
+
+	public AudioSource Source
+	{
+		set { this.source = value;}
+	}
 }

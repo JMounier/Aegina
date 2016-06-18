@@ -65,13 +65,6 @@ public class BossFight : NetworkBehaviour
     {
         if (SceneManager.GetActiveScene().name == "main")
             return;
-
-        if (isLocalPlayer && this.state == State.Spec)
-        {
-            int delta = 0;
-            // draw button to switch spec cam
-            GameObject.Find("FightManager").GetComponent<BossSceneManager>().SwitchView(delta);
-        }
         if (this.state == State.Infight || this.state == State.Spec)
             GUI.DrawTexture(new Rect(Screen.width / 5, Screen.height / (5 * 8.86f), 3 * Screen.width / 5, Screen.height / 15), Bosslife[Mathf.Clamp((int)(syncBossLife / 5), 0, 100)]);
     }
@@ -94,7 +87,9 @@ public class BossFight : NetworkBehaviour
     {
         transform.GetChild(0).gameObject.SetActive(false);
         this.state = State.Spec;
-        GameObject.Find("FightManager").GetComponent<BossSceneManager>().SwitchView(0);
+		BossSceneManager bsm = GameObject.Find ("FightManager").GetComponent<BossSceneManager> ();
+			bsm.SwitchView();
+		gameObject.GetComponent<Sound> ().Source = bsm.SpecCam.GetComponent<AudioSource> ();
         CmdDead();
     }
 
@@ -198,7 +193,8 @@ public class BossFight : NetworkBehaviour
     {
         if (!isLocalPlayer)
             return;
-        transform.GetChild(0).gameObject.SetActive(true);
+		transform.GetChild(0).gameObject.SetActive(true);
+		gameObject.GetComponent<Sound> ().Source = gameObject.transform.GetChild(1).GetComponent<AudioSource> ();
         GameObject.Find("FightManager").GetComponent<BossSceneManager>().NotSpecAnyMore();
         GameObject.Find("FightManager").GetComponent<BossSceneManager>().IncreaseTryCount();
         this.syncChar.Respawn();
