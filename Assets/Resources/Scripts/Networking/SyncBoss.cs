@@ -48,7 +48,7 @@ public class SyncBoss : NetworkBehaviour
             foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
             {
                 float dist = Vector3.Distance(player.transform.FindChild("Character").position, gameObject.transform.position);
-                if (Mathf.Abs(dist - 15f) < 2 && Mathf.Abs(dist - 15f) < min)
+                if (Mathf.Abs(dist - 15f) < 1.5f && Mathf.Abs(dist - 15f) < min)
                 {
                     atk = AttackType.Sweep;
                     min = Mathf.Abs(dist - 15f);
@@ -62,7 +62,7 @@ public class SyncBoss : NetworkBehaviour
                     this.cible = player.transform.FindChild("Character").position;
                     this.cible.y = gameObject.transform.position.y;
                 }
-                if (Mathf.Abs(dist - 11f) < 2 && Mathf.Abs(dist - 11f) < min)
+                if (Mathf.Abs(dist - 10.5f) < 2.5f && Mathf.Abs(dist - 11f) < min)
                 {
                     atk = AttackType.Elbow;
                     min = Mathf.Abs(dist - 11f);
@@ -88,8 +88,32 @@ public class SyncBoss : NetworkBehaviour
                 case AttackType.Invocation:
                     this.atkType = AttackType.Invocation;
                     this.damage = 0;
-                    this.cd = 2;
+                    this.cd = 4;
                     this.anim.SetInteger("Action", 4);
+                    Element red = EntityDatabase.CristalProjectileRed as Element;
+                    Element green = EntityDatabase.CristalProjectileGreen as Element;
+                    Element yellow = EntityDatabase.CristalProjectileYellow as Element;
+                    foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
+                    {
+                        float dist = Vector3.Distance(player.transform.FindChild("Character").position, gameObject.transform.position);
+                        if (dist > 17 && dist < 25)
+                        {
+                            Element cristal = null;
+                            switch (Random.Range(0, 3))
+                            {
+                                case 0:
+                                    cristal = new Element(red);
+                                    break;
+                                case 1:
+                                    cristal = new Element(green);
+                                    break;
+                                case 2:
+                                    cristal = new Element(yellow);
+                                    break;
+                            }
+                            cristal.Spawn(player.transform.FindChild("Character").position + Vector3.up * Random.Range(20f, 30f), GameObject.Find("Map").transform.FindChild("BossIslandChunk").FindChild("Elements"), 0);
+                        }
+                    }
                     break;
                 case AttackType.Elbow:
                     this.atkType = AttackType.Elbow;
@@ -105,7 +129,7 @@ public class SyncBoss : NetworkBehaviour
         {
             this.atkType = AttackType.Idle;
             this.damage = 0;
-            this.cd = 1 + .004f * this.life;
+            this.cd = 2 + .004f * this.life;
             this.anim.SetInteger("Action", 0);
         }
     }

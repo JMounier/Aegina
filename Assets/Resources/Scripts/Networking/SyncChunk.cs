@@ -72,9 +72,12 @@ public class SyncChunk : NetworkBehaviour
 
             if (this.ToReset[0].Item1 <= 0)
             {
-                Node node = this.myGraph.GetNode(this.toReset[0].Item2);
-                if (node != null)
-                    this.myGraph.Reset(node, true);
+                if (this.myGraph != null)
+                {
+                    Node node = this.myGraph.GetNode(this.toReset[0].Item2);
+                    if (node != null)
+                        this.myGraph.Reset(node, true);
+                }
                 this.toReset.RemoveAt(0);
             }
             else
