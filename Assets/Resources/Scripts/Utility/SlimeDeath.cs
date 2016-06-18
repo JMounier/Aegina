@@ -14,7 +14,7 @@ public class SlimeDeath : NetworkBehaviour
 
     void OnDestroy()
     {
-        if (isServer && gameObject.GetComponent<SyncMob>().MyMob.Life == 0)
+        if (SceneManager.GetActiveScene().name == "main" && gameObject.GetComponent<SyncMob>().MyMob.Life == 0)
             for (int i = 0; i < Random.Range(this.nbMin, this.nbMax); i++)
             {
                 Mob mob = EntityDatabase.Find(this.idMob) as Mob;
