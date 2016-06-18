@@ -53,7 +53,7 @@ public class SyncMob : NetworkBehaviour
                 --------------------------
         */
         this.node = chunk.MyGraph.GetNode(gameObject.transform.position);
-        if (this.node == null)
+        if (this.node == null || !this.node.IsValid)
         {
             Move(gameObject.transform.position + gameObject.transform.forward);
             return;
