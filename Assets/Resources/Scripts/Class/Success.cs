@@ -54,11 +54,14 @@ public class Success
         {
             Success succ = currentSuccess[j];
             bool b = true;
+            if (unlockAll)
+                for (int i = 0; i < succ.requirements.Length && b; i++)
+                    Requirement.Unlock(succ.requirements[i]);
+            else
+                for (int i = 0; i < succ.requirements.Length && b; i++)
+                    b = Requirement.Check(succ.requirements[i]);
 
-            for (int i = 0; i < succ.requirements.Length && b; i++)
-                b = Requirement.Check(succ.requirements[i]);
-
-            if (b || unlockAll)
+            if (b)
             {
                 currentSuccess.RemoveAt(j);
                 succ.Unlock(display);
@@ -121,7 +124,7 @@ public class Success
                                     foreach (GameObject player in allplayer)
                                         player.GetComponent<Tutoriel>().END();
                                 }
-                                else if(SceneManager.GetActiveScene().name == "main")
+                                else if (SceneManager.GetActiveScene().name == "main")
                                 {
                                     GameObject.Find("Map").GetComponent<Save>().SaveWorld();
                                     foreach (GameObject player in allplayer)
@@ -224,6 +227,11 @@ public class Success
     {
         get { return this.nbParentsLeft; }
         set { this.nbParentsLeft = value; }
+    }
+
+    public Requirement.Requirements[] Requirements
+    {
+        get { return this.requirements; }
     }
     #endregion
 }

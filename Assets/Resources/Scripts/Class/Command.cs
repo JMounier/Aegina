@@ -26,6 +26,7 @@ public class Command
     private static readonly Command Boss = new Command("boss", "/boss", true);
     private static readonly Command World = new Command("world", "/world", true);
     private static readonly Command JustDoIt = new Command("justdoit", "/justdoit", true);
+    private static readonly Command Unlock = new Command("unlock", "/unlock <id>", true);
 
     /// <summary>
     /// Liste tous les biomes du jeu. (Utilisez avec foreach)
@@ -53,6 +54,8 @@ public class Command
             yield return Boss;
             yield return World;
             yield return JustDoIt;
+            yield return Unlock;
+
         }
     }
 
@@ -407,15 +410,7 @@ public class Command
                     case "2":
                     case "red":
                         t = global::Team.Red;
-                        break;/*
-                    case "4":
-                    case "green":
-                        t = global::Team.Green;
                         break;
-                    case "1":
-                    case "orange":
-                        t = global::Team.Orange;
-                        break;*/
                     default:
                         throw new Exception();
                 }
@@ -432,14 +427,23 @@ public class Command
 
                 GameObject.Find("NetworkManager").GetComponent<NetworkManager2>().ServerChangeScene("BossScene");
             }
+            // World
             else if (c == World)
                 GameObject.Find("NetworkManager").GetComponent<NetworkManager2>().ServerChangeScene("Main");
+            // JustDoIt
             else if (c == JustDoIt)
                 foreach (GameObject p in GameObject.FindGameObjectsWithTag("Player"))
                 {
                     p.GetComponent<Tutoriel>().RpcJustDoIt();
                     p.GetComponent<BossFight>().RpcJustDoIt();
                 }
+            // Unlock
+            else if (c == Unlock)
+            {
+                Success suc =  SuccessDatabase.Find(int.Parse(parameters[0]));
+                foreach (Requirement.Requirements req in suc.Requirements)                
+                    Requirement.Unlock(req);                
+            }
         }
         catch
         {
