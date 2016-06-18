@@ -127,7 +127,10 @@ public class SyncBoss : NetworkBehaviour
     {
         this.life -= Mathf.Clamp(damage, 0, 500);
         if (life == 0)
+        {
             Stats.BossKill = true;
+            GameObject.Find("Map").GetComponent<Save>().ForceSave();
+        }
     }
 
     public void Restart()

@@ -108,6 +108,21 @@ public class Save : NetworkBehaviour
             }
     }
 
+    public void ForceSave()
+    {
+        File.WriteAllText(this.worldPath + "properties", this.seed.ToString() + "|" +
+               this.isCoop.ToString() + "|" + ((int)this.dnc.ActualTime).ToString() + "\n" + Stats.Save());
+        int i = 0;
+        while (i < this.players.Count)
+            if (this.players[i].Player == null)
+                this.players.RemoveAt(i);
+            else
+            {
+                this.players[i].Save();
+                i++;
+            }
+    }
+
     /// <summary>
     /// Ajoute a la sauvegarde un chunk.
     /// A appeller lorsque l'on souhaite genere un chunk.
