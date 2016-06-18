@@ -296,7 +296,7 @@ public class TextDatabase
     public static readonly Text CombatHelp = new Text("Combat", "Fight");
     public static readonly Text InventaireHelp = new Text("Inventaire", "Inventory");
     public static readonly Text Resume = new Text("Retour au jeu", "Resume");
-    public static readonly Text Achievment = new Text("Achievment !", "Exploit !");
+    public static readonly Text Achievment = new Text("Exploit", "Achievement");
     public static readonly Text Credit = new Text("     Chef de groupe : Romain Mounier \nMembres du groupe : Florian Amsallem, Théo Issarni et Julien Mounier\nRemerciements à Paul-Alexis Mandégué et Bastien Lhuaire", "     Chef de groupe : Romain Mounier \nMembres du groupe : Florian Amsallem, Théo Issarni and Julien Mounier\nSpecial thanks to Paul-Alexis Mandégué and Bastien Lhuaire");
 
     // Tutoriel

@@ -74,7 +74,7 @@ public class Success_HUD : NetworkBehaviour
 
         if (incrementation != 0)
         {
-            Rect rect = new Rect(Screen.width / 20, -Screen.height / 10 + (Mathf.Clamp(posYpercent, 0, 100) / 100) * Screen.height / 9, Screen.width / 7, Screen.height / 9);
+            Rect rect = new Rect(Screen.width / 20, -Screen.height / 10 + (Mathf.Clamp(posYpercent, 0, 100) / 100) * Screen.height / 9, Screen.width / 5, Screen.height / 9);
             GUI.Box(rect, "", skin.GetStyle("Inventory"));
             rect.width /= 2;
             rect.x += Screen.width / 100 + Screen.width / 14;
