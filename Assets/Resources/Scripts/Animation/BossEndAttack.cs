@@ -21,7 +21,7 @@ public class BossEndAttack : StateMachineBehaviour
     {
         if (!this.done)
         {
-            animator.gameObject.GetComponent<SyncBoss>().AtkType = SyncBoss.AttackType.Idle;
+            animator.gameObject.GetComponent<SyncBoss>().Cible = new Vector3(0, animator.gameObject.transform.position.y, 0);
             this.done = true;
         }
     }
