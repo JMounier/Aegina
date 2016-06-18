@@ -186,6 +186,8 @@ public class SyncMob : NetworkBehaviour
     // Check if the mob is traped
     void OnCollisionStay(Collision col)
     {
+        if (!isServer)
+            return;
         if (col.gameObject.name.Contains("Trap") && col.transform.parent.GetComponent<Animator>() != null)
         {
 
@@ -197,6 +199,7 @@ public class SyncMob : NetworkBehaviour
             {
                 col.transform.parent.GetComponent<Animator>().SetBool("Action", false);
                 this.myMob.Life = 0;
+                Stats.AddHunt(this.myMob);
                 col.transform.parent.gameObject.GetComponent<SyncElement>().Elmt.Life -= 50;
             }
         }
@@ -265,7 +268,7 @@ public class SyncMob : NetworkBehaviour
     public void ReceiveDamage(float damage, Vector3 knockback)
     {
         gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
-        this.GetComponent<Rigidbody>().AddForce(new Vector3(knockback.x * 700f * damage, 700f * damage, knockback.z * 700f * damage));
+        this.GetComponent<Rigidbody>().AddForce(new Vector3(knockback.x * (350 * damage + 2000), 350 * damage + 2000, knockback.z * (350 * damage + 2000)));
         this.myMob.Life -= damage;
         if (this.myMob.Life <= 0)
             Stats.AddHunt(this.myMob);
