@@ -57,11 +57,14 @@ public class InputManager : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!isLocalPlayer || this.syncCharacter.Life < 0 || tutoriel.End)
+        if (!isLocalPlayer || this.syncCharacter.Life < 0)
             return;
         // Visibilite et blocage du cursor
         Cursor.visible = this.controller.Pause;
         Cursor.lockState = this.controller.Pause ? CursorLockMode.None : CursorLockMode.Locked;
+
+        if (tutoriel.End)
+            return;
 
         if (!this.character.activeInHierarchy)
             return;
@@ -579,7 +582,12 @@ public class InputManager : NetworkBehaviour
         this.inventaire.InventoryShown = false;
         this.social.ChatShown = false;
         this.menu.LangueShown = false;
+        this.menu.ControlShown = false;
+        this.social.ChatShown = false;
         this.controller.Pause = true;
+        this.tutoriel.EndTutoShown = false;
+        this.sucHUD.Activate = false;
+        this.tutoriel.Tutoshown = false;
     }
 
     #region Getters/Setters

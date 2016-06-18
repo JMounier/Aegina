@@ -341,27 +341,27 @@ public class Tutoriel : NetworkBehaviour
 
     private void EndHUD()
     {
-        GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), Resources.Load<Texture2D>("Sprites/SplashImages/BlackSreen"));
+        GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), Resources.Load<Texture2D>("Sprites/SplashImages/BlackScreen"));
         Text ecrit = new Text(); //text a faire
         if (isServer && this.fin == 0)
         {
-            Rect rect = new Rect(Screen.width / 3, Screen.height / 3, Screen.width / 3, Screen.height / 20);
+            Rect rect = new Rect(Screen.width / 5, Screen.height / 2 + Screen.height/10, 4 * Screen.width / 25, Screen.height / 20);
             if (GUI.Button(rect, "Rentrer chez soi", skin.GetStyle("button"))) //text a faire
             {
                 this.fin = 1;
                 Stats.FirstEnd = true;
             }
-            rect.y += Screen.height / 10;
-            if (GUI.Button(rect, "Detruire le cristal", skin.GetStyle("button"))) //text a faire
-            {
-                this.fin = 2;
-                Stats.FirstEnd = true;
-            }
-            rect.y += Screen.height / 10;
+            rect.x += Screen.width / 5;
             if (Stats.Hunt() < 100 && GUI.Button(rect, "Epargner Gundam", skin.GetStyle("button"))) //text a faire
             {
                 this.fin = 3;
-                Stats.FirstEnd = true;
+                Stats.SecondEnd = true;
+            }
+            rect.x += Screen.width / 5;
+            if (GUI.Button(rect, "Detruire le cristal", skin.GetStyle("button"))) //text a faire
+            {
+                this.fin = 2;
+                Stats.ThridEnd = true;
             }
         }
         else
@@ -382,7 +382,7 @@ public class Tutoriel : NetworkBehaviour
                     //text a ajouter
                     break;
             }
-            if(GUI.Button(new Rect(2*Screen.width/5,2 * Screen.height/3,Screen.width/5,Screen.height/20),TextDatabase.Quit.GetText(),skin.GetStyle("button")))
+            if(GUI.Button(new Rect(2*Screen.width/5,Screen.height/2 + Screen.height / 5,Screen.width/5,Screen.height/20),TextDatabase.Quit.GetText(),skin.GetStyle("button")))
             {
                 if (isServer)
                 {
@@ -393,7 +393,7 @@ public class Tutoriel : NetworkBehaviour
                     CmdDisconnect();
             }
         }
-            GUI.Box(new Rect(Screen.width / 3, Screen.height / 3 + 3* Screen.height/10, Screen.width / 3, Screen.height / 3), "" + ecrit.GetText() + "",skin.GetStyle("Narrateur"));
+            GUI.Box(new Rect(Screen.width / 5, Screen.height/20, 3*Screen.width / 5, Screen.height / 2), "" + ecrit.GetText() + "",skin.GetStyle("Narrateur"));
     }
     [ClientRpc]
     public void RpcJustDoIt()
@@ -445,6 +445,7 @@ public class Tutoriel : NetworkBehaviour
     {
         this.end = true;
         this.controler.Pause = true;
+        this.GetComponent<InputManager>().IAmDead();
     }
 
     //Getters Setters

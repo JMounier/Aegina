@@ -4,10 +4,7 @@ using System.Collections.Generic;
 
 public class SuccessDatabase
 {
-    public static readonly Success ThirdEnd = new Success(74, 40, 2, TextDatabase.FirstEnd, ItemDatabase.SlimeCore, new Requirement.Requirements[1] { Requirement.Requirements.ThirdEnd }, 1);
-    public static readonly Success FirstEnd = new Success(73, 40, 0, TextDatabase.FirstEnd, ItemDatabase.PampiCore, new Requirement.Requirements[1] { Requirement.Requirements.FirstEnd }, 1);
-    public static readonly Success SecondEnd = new Success(72, 40, -2, TextDatabase.SecondEnd, ItemDatabase.BoarCore, new Requirement.Requirements[1] { Requirement.Requirements.SecondEnd }, 1);
-    public static readonly Success GunDam = new Success(71, 38, 0, TextDatabase.KillTheBoss, ItemDatabase.InstableCore, new Requirement.Requirements[1] { Requirement.Requirements.KillTheBoss }, 1,FirstEnd,SecondEnd,ThirdEnd);
+    public static readonly Success GunDam = new Success(71, 38, 0, TextDatabase.KillTheBoss, ItemDatabase.InstableCore, new Requirement.Requirements[1] { Requirement.Requirements.KillTheBoss }, 1);
     public static readonly Success SunkiumAge = new Success(70, 36, 0, TextDatabase.StoneAge, ItemDatabase.SunkiumIngot, new Requirement.Requirements[0] { }, 1,GunDam);
     public static readonly Success DivineLVL5 = new Success(63, 34, 0, TextDatabase.DivineCrisatlLVL5, ItemDatabase.InstableCore, new Requirement.Requirements[1] { Requirement.Requirements.DivineCrisatlLVL5 }, 2,SunkiumAge);
     public static readonly Success OtherLVL5 = new Success(62, 32, 1, TextDatabase.OtherCristalLVL5, ItemDatabase.InstableCore, new Requirement.Requirements[1] { Requirement.Requirements.OtherCristalLVL5 }, 1,DivineLVL5);
@@ -53,8 +50,6 @@ public class SuccessDatabase
     {
         get
         {
-            yield return FirstEnd;
-            yield return SecondEnd;
             yield return GunDam;
             yield return SunkiumAge;
             yield return DivineLVL5;

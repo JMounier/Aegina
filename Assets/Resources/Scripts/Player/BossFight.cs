@@ -146,7 +146,9 @@ public class BossFight : NetworkBehaviour
     {
         deathCount++;
         if (deathCount == infightcount)
+        {
             Respawn();
+        }
     }
 
     [ClientRpc]
@@ -170,7 +172,6 @@ public class BossFight : NetworkBehaviour
             i.RpcLoadInventory(GameObject.Find("Map").GetComponent<Save>().LoadPlayer(gameObject).Inventory);
             player.GetComponent<BossFight>().RpcRestart();
         }
-
         GameObject.Find("BossCorrected").GetComponent<SyncBoss>().Restart();
     }
 

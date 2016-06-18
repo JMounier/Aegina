@@ -46,7 +46,7 @@ public class Success
     }
     #region Methods
 
-    public static void Update(bool display = true)
+    public static void Update(bool display = true, bool unlockAll = false)
     {
         int j = 0;
         while (j < currentSuccess.Count)
@@ -57,7 +57,7 @@ public class Success
             for (int i = 0; i < succ.requirements.Length && b; i++)
                 b = Requirement.Check(succ.requirements[i]);
 
-            if (b)
+            if ((b && !unlockAll) || (unlockAll && succ.id != 71))
             {
                 currentSuccess.RemoveAt(j);
                 succ.Unlock(display);
@@ -111,26 +111,19 @@ public class Success
                                     }
                                 else
                                     foreach (GameObject player in allplayer)
-                                    {
                                         player.GetComponent<Tutoriel>().Story(TextDatabase.PreSunkiumAgeStory);
-                                    }
                                 break;
                             case 7:
                                 if (succ.id == 71)
                                 {
-                                    //Ecran De Fin
                                     foreach (GameObject player in allplayer)
-                                    {
                                         player.GetComponent<Tutoriel>().END();
-                                    }
                                 }
                                 else
                                 {
                                     GameObject.Find("Map").GetComponent<Save>().SaveWorld();
                                     foreach (GameObject player in allplayer)
-                                    {
                                         player.GetComponent<Craft_HUD>().mastered(15, 46, 56, 66, 83, 87, 95, 105, 666);
-                                    }
                                     GameObject.Find("NetworkManager").GetComponent<NetworkManager2>().ServerChangeScene("BossScene");
                                 }
                                 break;

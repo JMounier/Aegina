@@ -50,8 +50,7 @@ public class Consumable : Item
 /// </summary>
 public class Effect
 {
-    public enum EffectType { None, Speed, Slowness, Haste, MiningFatigue, Strength, InstantHealth, InstantDamage, JumpBoost, Regeneration,
-        Resistance, Hunger, Weakness, Poison, Saturation, Thirst, Refreshment};
+    public enum EffectType { None, Speed, Slowness, InstantHealth, JumpBoost, Regeneration, Poison, Saturation, Refreshment, CristalBoss};
 
     private EffectType et;
     private int power;
