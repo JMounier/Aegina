@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.Networking;
+using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 
 public class SyncCharacter : NetworkBehaviour
@@ -250,7 +251,8 @@ public class SyncCharacter : NetworkBehaviour
     [ClientRpc]
     public void RpcAffect(Effect.EffectType effect, int power)
     {
-        Affect(new Effect(effect, power));
+        if (isLocalPlayer)
+            Affect(new Effect(effect, power));
     }
 
     /// <summary>
@@ -271,16 +273,8 @@ public class SyncCharacter : NetworkBehaviour
                 break;
             case Effect.EffectType.Slowness:
                 break;
-            case global::Effect.EffectType.Haste:
-                break;
-            case global::Effect.EffectType.MiningFatigue:
-                break;
-            case global::Effect.EffectType.Strength:
-                break;
             case global::Effect.EffectType.InstantHealth:
                 Life += 10 * power;
-                break;
-            case global::Effect.EffectType.InstantDamage:
                 break;
             case global::Effect.EffectType.JumpBoost:
                 Jump = power * 5000;
@@ -290,12 +284,6 @@ public class SyncCharacter : NetworkBehaviour
                 Regen = power;
                 CdRegen = power * 15;
                 break;
-            case global::Effect.EffectType.Resistance:
-                break;
-            case global::Effect.EffectType.Hunger:
-                break;
-            case global::Effect.EffectType.Weakness:
-                break;
             case global::Effect.EffectType.Poison:
                 Poison = power;
                 CdPoison = power * 15;
@@ -303,10 +291,11 @@ public class SyncCharacter : NetworkBehaviour
             case global::Effect.EffectType.Saturation:
                 Hunger += 10 * power;
                 break;
-            case global::Effect.EffectType.Thirst:
-                break;
             case global::Effect.EffectType.Refreshment:
                 Thirst += 10 * power;
+                break;
+            case global::Effect.EffectType.CristalBoss:
+                CmdBossDamage();
                 break;
             default:
                 throw new System.Exception("Effect missing");
@@ -359,6 +348,13 @@ public class SyncCharacter : NetworkBehaviour
     private void CmdIncrementKill()
     {
         Stats.IncrementKill();
+    }
+
+    [Command]
+    private void CmdBossDamage()
+    {
+        if (SceneManager.GetActiveScene().name != "main")
+            GameObject.Find("BossCorrected").GetComponent<SyncBoss>().UseCristal();
     }
 
     [ClientRpc]

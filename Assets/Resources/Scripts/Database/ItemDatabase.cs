@@ -126,7 +126,7 @@ public static class ItemDatabase
     public static readonly BottomArmor SunkiumBottomArmor = new BottomArmor(127, TextDatabase.SunkiumBottomArmor, TextDatabase.SunkiumBottomArmorDescription, Resources.Load<Texture2D>("Sprites/Items/Armors/SunkiumBottomArmor"), new Entity(EntityDatabase.SunkiumBottomArmor), 200, Resources.Load<Material>("Models/Items/Armors/Materials/SunkiumCenter"), Resources.Load<Material>("Models/Items/Armors/Materials/IronA"));
 
 
-    public static readonly Consumable InstableCore = new Consumable(666, TextDatabase.Instable, TextDatabase.Instable, 1, Resources.Load<Texture2D>("Sprites/Items/Ores/InstableCore"), new Entity(EntityDatabase.InstableCore),new Effect(Effect.EffectType.Resistance,2),Resources.Load<GameObject>("Prefabs/Consumables/InstableCore"));
+    public static readonly Consumable InstableCore = new Consumable(666, TextDatabase.Instable, TextDatabase.Instable, 1, Resources.Load<Texture2D>("Sprites/Items/Ores/InstableCore"), new Entity(EntityDatabase.InstableCore),new Effect(Effect.EffectType.CristalBoss,1),Resources.Load<GameObject>("Prefabs/Consumables/InstableCore"));
 
     /// <summary>
     /// Liste tous les items du jeu. (Utilisez avec foreach)
