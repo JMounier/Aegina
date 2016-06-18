@@ -516,7 +516,7 @@ public class InputManager : NetworkBehaviour
     [ClientRpc]
     private void RpcDoInteract(Element.DestructionTool tool, float interactDistance)
     {
-        if (!isLocalPlayer || !this.soundAudio.IsReady(616))
+        if (!isLocalPlayer || !this.soundAudio.IsReady(616) || this.nearElement == null)
             return;
 
         if (Vector3.Distance(this.character.transform.position, this.nearElement.transform.position) < interactDistance)

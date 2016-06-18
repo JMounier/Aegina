@@ -11,10 +11,14 @@ public class SlimeDeath : NetworkBehaviour
     private int nbMin;
     [SerializeField]
     private int nbMax;
-
+    bool isServ;
+    void Start()
+    {
+        this.isServ = isServer;
+    }
     void OnDestroy()
     {
-        if (SceneManager.GetActiveScene().name == "main" && gameObject.GetComponent<SyncMob>().MyMob.Life == 0)
+        if (this.isServ && SceneManager.GetActiveScene().name == "main" && gameObject.GetComponent<SyncMob>().MyMob.Life == 0)
             for (int i = 0; i < Random.Range(this.nbMin, this.nbMax); i++)
             {
                 Mob mob = EntityDatabase.Find(this.idMob) as Mob;
