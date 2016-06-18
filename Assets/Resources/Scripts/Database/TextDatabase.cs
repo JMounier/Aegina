@@ -330,7 +330,7 @@ public class TextDatabase
     public static readonly Text KillThePig = new Text(
         "Ille se mit à la recherche de nourriture et en se retournant tomba nez à nez avec un animal. Ni une ni deux Ille attaqua son petit déjeuner",
         "He starts looking for food and, while turning around, came face to face with an animal. It's time for breakfast..");
-    public static readonly Text KillThePigObjectif = new Text("Attaque un cochon avec le clic gauche et récupère de la viande", "Kill a wild boar with the leftclick and get meat");
+    public static readonly Text KillThePigObjectif = new Text("Attaque une créature avec le clic gauche et récupère de la viande", "Kill a mob with the leftclick and get meat");
     public static readonly Text CraftABrochette = new Text(
         "Cependant, Ille avait un vague souvenir que la viande crue n'était pas très digeste au petit déjeuner. Faute de feu, il décida quand même de manger sa viande préparée en brochette",
         "However, Ille has a vague recollection that raw meat is not an easily digestible breakfast. Without fire, he still decides to eat his meat prepared on skewers");

@@ -238,7 +238,7 @@ public class Success_HUD : NetworkBehaviour
     public void Display(Success success)
     {
         RpcDisplay(success.ID);
-        if (success.ID == 70)
+        if (success.ID == 70 && SceneManager.GetActiveScene().name == "main")
         {
             GameObject.Find("Map").GetComponent<Save>().SaveWorld();
             GameObject.Find("NetworkManager").GetComponent<NetworkManager2>().ServerChangeScene("BossScene");
