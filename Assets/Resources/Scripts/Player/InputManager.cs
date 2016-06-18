@@ -62,7 +62,7 @@ public class InputManager : NetworkBehaviour
         // Visibilite et blocage du cursor
 
 
-        if (tutoriel.End)
+        if (tutoriel.End && tutoriel.CD <= 0)
         {
             if (Input.GetKeyDown(KeyCode.Return))
                 this.social.ChatShown = !this.social.ChatShown;

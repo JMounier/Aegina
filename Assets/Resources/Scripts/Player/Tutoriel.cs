@@ -356,18 +356,21 @@ public class Tutoriel : NetworkBehaviour
             if (GUI.Button(rect, TextDatabase.Choix1.GetText(), skin.GetStyle("button")))
             {
                 this.fin = 1;
+                RpcChoose(1);
                 Stats.FirstEnd = true;
             }
             rect.x += Screen.width / 5;
             if (Stats.Hunt() < 100 && GUI.Button(rect, TextDatabase.Choix3.GetText(), skin.GetStyle("button")))
             {
                 this.fin = 3;
+                RpcChoose(3);
                 Stats.SecondEnd = true;
             }
             rect.x += Screen.width / 5;
             if (GUI.Button(rect, TextDatabase.Choix2.GetText(), skin.GetStyle("button")))
             {
                 this.fin = 2;
+                RpcChoose(2);
                 Stats.ThridEnd = true;
             }
         }
@@ -411,6 +414,13 @@ public class Tutoriel : NetworkBehaviour
             storydialog.Clear();
             this.textNarator = new Text();
         }
+    }
+
+    [ClientRpc]
+    private void RpcChoose(int fin)
+    {
+        if (isLocalPlayer)
+            this.fin = fin;
     }
 
     [Command]
@@ -485,6 +495,11 @@ public class Tutoriel : NetworkBehaviour
     public int Progress
     {
         get { return this.progress; }
+    }
+
+    public float CD
+    {
+        get { return this.cooldown; }
     }
 
     public bool End
