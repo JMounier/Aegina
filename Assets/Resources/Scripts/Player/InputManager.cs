@@ -60,11 +60,19 @@ public class InputManager : NetworkBehaviour
         if (!isLocalPlayer || this.syncCharacter.Life < 0)
             return;
         // Visibilite et blocage du cursor
-        Cursor.visible = this.controller.Pause;
-        Cursor.lockState = this.controller.Pause ? CursorLockMode.None : CursorLockMode.Locked;
+        
 
         if (tutoriel.End)
+        {
+            if (Input.GetKeyDown(KeyCode.Return))
+                this.social.ChatShown = !this.social.ChatShown;
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
             return;
+        }
+
+        Cursor.visible = this.controller.Pause;
+        Cursor.lockState = this.controller.Pause ? CursorLockMode.None : CursorLockMode.Locked;
 
         if (!this.character.activeInHierarchy)
             return;
@@ -580,7 +588,6 @@ public class InputManager : NetworkBehaviour
         this.menu.OptionShown = false;
         this.cristalHUD.Cristal_shown = false;
         this.inventaire.InventoryShown = false;
-        this.social.ChatShown = false;
         this.menu.LangueShown = false;
         this.menu.ControlShown = false;
         this.social.ChatShown = false;

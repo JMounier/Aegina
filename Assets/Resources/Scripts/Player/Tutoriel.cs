@@ -68,7 +68,12 @@ public class Tutoriel : NetworkBehaviour
                 ObjectifHUD();
         }
         if (end)
-            EndHUD();
+        {
+            if (this.cooldown > 0)
+                this.cooldown -= Time.deltaTime;
+            else
+                EndHUD();
+        }
     }
 
     // Update is called once per frame
@@ -342,23 +347,23 @@ public class Tutoriel : NetworkBehaviour
     private void EndHUD()
     {
         GUI.DrawTexture(new Rect(0, 0, Screen.width, Screen.height), Resources.Load<Texture2D>("Sprites/SplashImages/BlackScreen"));
-        Text ecrit = new Text(); //text a faire
+        Text ecrit = TextDatabase.FaireUnChoix; //text a faire
         if (isServer && this.fin == 0)
         {
-            Rect rect = new Rect(Screen.width / 5, Screen.height / 2 + Screen.height/10, 4 * Screen.width / 25, Screen.height / 20);
-            if (GUI.Button(rect, "Rentrer chez soi", skin.GetStyle("button"))) //text a faire
+            Rect rect = new Rect(Screen.width / 5, Screen.height / 2 + Screen.height / 10, 4 * Screen.width / 25, Screen.height / 20);
+            if (GUI.Button(rect, TextDatabase.Choix1.GetText(), skin.GetStyle("button"))) 
             {
                 this.fin = 1;
                 Stats.FirstEnd = true;
             }
             rect.x += Screen.width / 5;
-            if (Stats.Hunt() < 100 && GUI.Button(rect, "Epargner Gundam", skin.GetStyle("button"))) //text a faire
+            if (Stats.Hunt() < 100 && GUI.Button(rect, TextDatabase.Choix3.GetText(), skin.GetStyle("button"))) 
             {
                 this.fin = 3;
                 Stats.SecondEnd = true;
             }
             rect.x += Screen.width / 5;
-            if (GUI.Button(rect, "Detruire le cristal", skin.GetStyle("button"))) //text a faire
+            if (GUI.Button(rect, TextDatabase.Choix2.GetText(), skin.GetStyle("button"))) 
             {
                 this.fin = 2;
                 Stats.ThridEnd = true;
@@ -377,23 +382,24 @@ public class Tutoriel : NetworkBehaviour
                 case 3:
                     ecrit = TextDatabase.FinSacrifice;
                     break;
-
                 default:
-                    //text a ajouter
+                    ecrit = TextDatabase.EnAttenteDeChoix;
                     break;
             }
-            if(GUI.Button(new Rect(2*Screen.width/5,Screen.height/2 + Screen.height / 5,Screen.width/5,Screen.height/20),TextDatabase.Quit.GetText(),skin.GetStyle("button")))
-            {
-                if (isServer)
-                {
-                    GameObject.Find("Map").GetComponent<Save>().SaveWorld();
-                    FindObjectOfType<NetworkManager>().StopHost();
-                }
-                else
-                    CmdDisconnect();
-            }
+            if (isServer && GUI.Button(new Rect(2 * Screen.width / 5, Screen.height / 2 + Screen.height / 5, 4 * Screen.width / 25, Screen.height / 20), TextDatabase.Back.GetText(), skin.GetStyle("button")))
+                GameObject.Find("NetworkManager").GetComponent<NetworkManager2>().ServerChangeScene("Main");
         }
-            GUI.Box(new Rect(Screen.width / 5, Screen.height/20, 3*Screen.width / 5, Screen.height / 2), "" + ecrit.GetText() + "",skin.GetStyle("Narrateur"));
+        if (GUI.Button(new Rect(2 * Screen.width / 5, Screen.height / 2 + 3 * Screen.height / 10, 4 * Screen.width / 25, Screen.height / 20), TextDatabase.Quit.GetText(), skin.GetStyle("button")))
+        {
+            if (isServer)
+            {
+                GameObject.Find("Map").GetComponent<Save>().SaveWorld();
+                FindObjectOfType<NetworkManager>().StopHost();
+            }
+            else
+                CmdDisconnect();
+        }
+        GUI.Box(new Rect(Screen.width / 5, Screen.height / 20, 3 * Screen.width / 5, Screen.height / 2), "" + ecrit.GetText() + "", skin.GetStyle("Narrateur"));
     }
     [ClientRpc]
     public void RpcJustDoIt()
@@ -445,6 +451,7 @@ public class Tutoriel : NetworkBehaviour
     {
         this.end = true;
         this.controler.Pause = true;
+        this.cooldown = 10;
         this.GetComponent<InputManager>().IAmDead();
     }
 
