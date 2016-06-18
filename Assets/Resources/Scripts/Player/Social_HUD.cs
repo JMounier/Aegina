@@ -51,6 +51,11 @@ public class Social_HUD : NetworkBehaviour
             Skin.Load(this.skinPlayer).Apply(gameObject);
             this.CmdSetName(this.namePlayer, skinPlayer);
             this.CmdSendActivity(Activity.Connection);
+            foreach (Success suc in SuccessDatabase.Success)
+            {
+                suc.Achived = false;
+                suc.NbParentsLeft = suc.NbParentsMax;
+            }
         }
     }
 

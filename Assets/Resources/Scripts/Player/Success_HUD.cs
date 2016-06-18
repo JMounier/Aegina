@@ -291,9 +291,16 @@ public class Success_HUD : NetworkBehaviour
     [ClientRpc]
     private void RpcUnlock(int id)
     {
-        if (!isLocalPlayer)
+        Success succ = SuccessDatabase.Find(id);
+
+        if (!isLocalPlayer || succ.Achived)
             return;
-        SuccessDatabase.Find(id).Achived = true;
+
+        succ.Achived = true;
+
+        foreach (Success s in succ.Sons)
+            s.NbParentsLeft--;
+
         if (id % 10 == 0)
             switch (id / 10)
             {

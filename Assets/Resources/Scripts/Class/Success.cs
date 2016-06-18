@@ -155,10 +155,15 @@ public class Success
         get { return this.sons; }
     }
 
-    public int NbParentLeft
+    public int NbParentsLeft
     {
         get { return this.nbParentsLeft; }
         set { this.nbParentsLeft = value; }
+    }
+
+    public int NbParentsMax
+    {
+        get { return this.nbParentMax; }
     }
 
     public Requirement.Requirements[] Requirements
