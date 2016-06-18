@@ -69,7 +69,8 @@ public class Social_HUD : NetworkBehaviour
                         Skin.Load(other.skinPlayer).Apply(player);
                     }
                     other.nameTextMesh.color = other.team == Team.Blue ? new Color(.12f, 0f, 1f) : new Color(.78f, .15f, .15f);
-                    if (other.GetComponent<SyncCharacter>().Life > 0 && Vector3.Distance(player.transform.FindChild("Character").position, gameObject.transform.FindChild("Character").position) < 10)
+                    if (other.GetComponent<SyncCharacter>().Life > 0 && Vector3.Distance(player.transform.FindChild("Character").position, gameObject.transform.FindChild("Character").position) < 10
+                        && gameObject.transform.FindChild("Camera").gameObject.activeInHierarchy)
                     {
                         other.GetComponent<Social_HUD>().nameTextMesh.gameObject.SetActive(true);
                         other.GetComponent<Social_HUD>().nameTextMesh.transform.rotation = Quaternion.Euler(gameObject.GetComponentInChildren<Camera>().transform.eulerAngles);

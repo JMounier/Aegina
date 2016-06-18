@@ -179,10 +179,10 @@ public class BossFight : NetworkBehaviour
         deathCount = 0;
         foreach (Transform loot in GameObject.Find("Loots").transform)
             loot.GetComponent<Loot>().Items.Items.Ent.Life = 0;
-        foreach (GameObject cristal in GameObject.Find("Map").transform.FindChild("BossIslandChunk").FindChild("Elements"))
+        foreach (Transform cristal in GameObject.Find("Map").transform.FindChild("BossIslandChunk").FindChild("Elements"))
         {
-            NetworkServer.UnSpawn(cristal);
-            GameObject.Destroy(cristal);
+            NetworkServer.UnSpawn(cristal.gameObject);
+            GameObject.Destroy(cristal.gameObject);
         }
         foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
         {
