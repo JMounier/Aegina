@@ -128,10 +128,11 @@ public class SyncBoss : NetworkBehaviour
         this.life -= Mathf.Clamp(damage, 0, 500);
         if (life == 0)
         {
-            atkType = AttackType.Idle;
+            this.anim.SetInteger("Action", 5);
             Stats.BossKill = true;
             if (!SuccessDatabase.SunkiumAge.Achived)
                 Success.Update(false, true);
+            GameObject.Find("Map").GetComponent<Save>().ForceSave();
         }
     }
 
