@@ -35,6 +35,7 @@ public class InputManager : NetworkBehaviour
         this.character = GetComponentInChildren<CharacterCollision>().gameObject;
         this.social = GetComponent<Social_HUD>();
         this.attack = TypeAttack.None;
+        this.syncCharacter = gameObject.GetComponent<SyncCharacter>();
         if (!isLocalPlayer)
             return;
         this.cam = GetComponentInChildren<Camera>().gameObject;
@@ -46,7 +47,6 @@ public class InputManager : NetworkBehaviour
         this.cristalHUD = GetComponent<Cristal_HUD>();
         this.tutoriel = GetComponent<Tutoriel>();
         this.anim = gameObject.GetComponent<Animator>();
-        this.syncCharacter = gameObject.GetComponent<SyncCharacter>();
         this.validplace = true;
         this.lastvalidplace = true;
 

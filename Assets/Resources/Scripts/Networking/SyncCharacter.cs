@@ -370,7 +370,7 @@ public class SyncCharacter : NetworkBehaviour
                 z = 20000;
             this.character.GetComponent<Rigidbody>().velocity = Vector3.zero;
             this.character.GetComponent<Rigidbody>().AddForce(x, y, z);
-            this.controller.CdDisable = y/20000f;
+            this.controller.CdDisable = y / 20000f;
         }
     }
 
@@ -378,14 +378,11 @@ public class SyncCharacter : NetworkBehaviour
     public void RpcApplyRelativeForce(float x, float y, float z)
     {
         if (isLocalPlayer)
+        {
             this.character.GetComponent<Rigidbody>().AddRelativeForce(x, y, z);
-    }
-
-    [ClientRpc]
-    public void RpcApplyExplosionForce(float x, float y, float z, float radius, float power)
-    {
-        this.character.GetComponent<Rigidbody>().AddExplosionForce(power, new Vector3(x, y, z), radius);
-    }
+            this.controller.CdDisable = .5f;
+        }
+    }    
 
     [Command]
     private void CmdLoad()
