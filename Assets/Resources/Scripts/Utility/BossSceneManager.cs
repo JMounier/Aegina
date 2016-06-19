@@ -28,7 +28,6 @@ public class BossSceneManager : MonoBehaviour
 
         this.OrbitingStuff.Add(this.SpecCamPos.transform.GetChild(0).gameObject);
 		this.OrbitingStuff.Add(gameObject.transform.GetChild(2).GetChild(0).gameObject);
-        this.OrbitingStuff.Add(gameObject.transform.GetChild(3).GetChild(0).gameObject);
 
         this.trycount = 0;
         this.finalcoutndown = 105;
