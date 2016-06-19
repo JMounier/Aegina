@@ -363,14 +363,14 @@ public class Tutoriel : NetworkBehaviour
             rect.x += Screen.width / 5;
             if (Stats.Hunt() < 100 && GUI.Button(rect, TextDatabase.Choix3.GetText(), skin.GetStyle("button")))
             {
-                this.fin = 3;
+                this.fin = 2;
                 Stats.SecondEnd = true;
                 choose = true;
             }
             rect.x += Screen.width / 5;
             if (GUI.Button(rect, TextDatabase.Choix2.GetText(), skin.GetStyle("button")))
             {
-                this.fin = 2;
+                this.fin = 3;
                 Stats.ThridEnd = true;
                 choose = true;
             }
