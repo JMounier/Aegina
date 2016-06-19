@@ -157,8 +157,8 @@ public class InputManager : NetworkBehaviour
         if (cdAttack <= 0 && (Input.GetKey(KeyCode.C)))
         {
             cdAttack = 1.5f;
-            this.controller.IsJumping = true;
             this.character.GetComponent<Rigidbody>().AddRelativeForce(new Vector3(0, 5000, 20000));
+            this.controller.CdDisable = .5f;
         }
         #endregion
 
