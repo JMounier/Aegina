@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Networking;
-using UnityEngine.SceneManagement;
 
 public class Inventory : NetworkBehaviour
 {
@@ -160,7 +159,7 @@ public class Inventory : NetworkBehaviour
 
     public override void OnStartClient()
     {
-        if (isLocalPlayer && SceneManager.GetActiveScene().name == "main")
+        if (isLocalPlayer)
             foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
             {
                 player.GetComponent<Inventory>().CmdRemoveTool();
