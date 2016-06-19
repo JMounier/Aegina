@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -557,7 +557,7 @@ public class TextDatabase
 		"“I will resist, I will fight to survive like I have always done” exclaimed Ille while preparing to fight");
 
     // Fin
-    public static readonly Text FaireUnChoix = new Text("Gundam est vaicu, son cristal est à tes pieds. Tu dois maintenant choisir que vas tu faire ?", "Gundam is beaten, his cristal is at your feats. You must now choose. What will you do");
+    public static readonly Text FaireUnChoix = new Text("Gundam est vaicu, son cristal est à tes pieds. Tu dois maintenant choisir que vas tu faire ?", "Gundam is beaten, his cristal is at your feats. You must now choose. What will you do ?");
     public static readonly Text EnAttenteDeChoix = new Text("Gundam est vaicu, son cristal est à vos pieds. Vous attendez que votre leader prenne une décision ", "Gundam is beaten, his cristal is at your feats. You wait that your leader take a decision");
 
     public static readonly Text Choix1 = new Text("Rentrer chez soi", "Go back home");

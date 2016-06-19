@@ -1,4 +1,4 @@
-﻿
+
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -145,6 +145,9 @@ namespace UnityEngine.Networking
                     if (GUI.Button(new Rect(this.posX, this.posY, this.width, this.height), TextDatabase.Play.GetText(), this.skin.GetStyle("button")))
                     {
                         this.worldsShown = !this.worldsShown;
+                        worldsList = new List<string>(Directory.GetDirectories(Application.dataPath + "/Saves"));
+            			for (int i = 0; i < worldsList.Count; i++)
+                			worldsList[i] = worldsList[i].Remove(0, Application.dataPath.Length + 7);
                         this.listServShown = false;
                         this.firstScene.PlayButtonSound();
                     }
