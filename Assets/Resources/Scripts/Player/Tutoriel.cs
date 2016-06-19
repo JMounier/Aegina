@@ -380,7 +380,6 @@ public class Tutoriel : NetworkBehaviour
         }
         else
         {
-            Debug.Log(fin);
             switch (fin)
             {
                 case 1:
