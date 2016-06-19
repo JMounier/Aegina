@@ -168,7 +168,9 @@ public class Cristal_HUD : NetworkBehaviour
         this.CmdSetTeam(gameObject.GetComponent<Social_HUD>().Team, this.cristal.gameObject);
         if (this.cristal.LevelTot == 0)
         {
-            if (Stats.CristalLevel(2) < 1)
+            int x = (int)Mathf.Round(gameObject.transform.FindChild("Character").position.x / Chunk.Size);
+            int y = (int)Mathf.Round(gameObject.transform.FindChild("Character").position.z / Chunk.Size);
+            if (x == 0 && y == 0)
                 this.CmdSetLevelPort(2, this.cristal.gameObject);
             else
             {

@@ -12,7 +12,7 @@ public class AnimalStep : StateMachineBehaviour
         {
             AudioSource soundAudio = animator.gameObject.GetComponent<AudioSource>();
             int rand = Random.Range(1, 3);
-            soundAudio.PlayOneShot(Resources.Load("Sounds/Player/Walk" + rand.ToString()) as AudioClip, 2);
+            soundAudio.PlayOneShot(Resources.Load("Sounds/Player/Walk" + rand.ToString()) as AudioClip, 0.5f);
             cd = 0;
         }     
     }

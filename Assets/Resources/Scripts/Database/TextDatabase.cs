@@ -654,7 +654,7 @@ public class TextDatabase
     public static readonly Text FirstDeath = new Text("Mourir une fois", "Die once");
     public static readonly Text FirstHunt = new Text("Tuer une créature", "Kill a mob");
     public static readonly Text CraftChest = new Text("Créer un coffre", "Craft a chest");
-    public static readonly Text CraftStoneWeapon = new Text("créer une arme en pierre", "Craft a stone weapon");
+    public static readonly Text CraftStoneWeapon = new Text("Créer une arme en pierre", "Craft a stone weapon");
     public static readonly Text HuntMassBoar = new Text("Tuer 10 sangliers", "Kill 10 wild boars");
     public static readonly Text CraftFirstArmor = new Text("Créer une armure en cuir", "Craft a leather armor");
     public static readonly Text HuntBoarChief = new Text("Tuer un chef de meute sanglier", "Kill a pack leader wild boar");
@@ -676,8 +676,6 @@ public class TextDatabase
     public static readonly Text OtherCristalLVL5 = new Text("Améliorer un cristal de récolte et un cristal de guerre au niveau 5", "Upgrade a harvest cristal and a war cristal at level 5");
     public static readonly Text DivineCrisatlLVL5 = new Text("Améliorer un cristal divin au niveau 5", "Uprade a divine cristal at level 5");
     public static readonly Text KillTheBoss = new Text("Tuer le boss", "Kill the boss");
-    public static readonly Text FirstEnd = new Text("Choisir la fin\"retour chez soi\"", "Choose the \"back to home\" end");
-    public static readonly Text SecondEnd = new Text("choisir la fin \"sacrifice\"", "Choose the \"sacrifice\" end");
     public static readonly Text StoneAge = new Text("Faire les succès précédents", "Finish the previous succes");
 
 
