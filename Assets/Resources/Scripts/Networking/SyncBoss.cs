@@ -50,14 +50,14 @@ public class SyncBoss : NetworkBehaviour
                 if (player.GetComponent<SyncCharacter>().Life > 0)
                 {
                     float dist = Vector3.Distance(player.transform.FindChild("Character").position, gameObject.transform.position);
-                    if (Mathf.Abs(dist - 15f) < 1.5f && Mathf.Abs(dist - 15f) < min)
+                    if (Mathf.Abs(dist - 15.5f) < 1.5f && Mathf.Abs(dist - 15f) < min)
                     {
                         atk = AttackType.Sweep;
                         min = Mathf.Abs(dist - 15f);
                         this.cible = player.transform.FindChild("Character").position;
                         this.cible.y = gameObject.transform.position.y;
                     }
-                    if (Mathf.Abs(dist - 14f) < 2 && Mathf.Abs(dist - 14f) < min)
+                    if (Mathf.Abs(dist - 13.5f) < 2 && Mathf.Abs(dist - 14f) < min)
                     {
                         atk = AttackType.Slam;
                         min = Mathf.Abs(dist - 14f);
@@ -91,13 +91,13 @@ public class SyncBoss : NetworkBehaviour
                 case AttackType.Invocation:
                     this.atkType = AttackType.Invocation;
                     this.damage = 0;
-                    this.cd = 4;
+                    this.cd = 3;
                     this.anim.SetInteger("Action", 4);
                     break;
                 case AttackType.Elbow:
                     this.atkType = AttackType.Elbow;
                     this.damage = 125;
-                    this.cd = 2;
+                    this.cd = 2.5f;
                     this.anim.SetInteger("Action", 1);
                     break;
                 default:
@@ -108,7 +108,7 @@ public class SyncBoss : NetworkBehaviour
         {
             this.atkType = AttackType.Idle;
             this.damage = 0;
-            this.cd = 2 + .004f * this.life;
+            this.cd = 1 + .004f * this.life;
             this.anim.SetInteger("Action", 0);
         }
     }
