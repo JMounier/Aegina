@@ -160,12 +160,12 @@ public class Inventory : NetworkBehaviour
 
     public override void OnStartClient()
     {
-        if (SceneManager.GetActiveScene().name == "main")
-        foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
-        {
-            player.GetComponent<Inventory>().CmdRemoveTool();
-            player.GetComponent<Inventory>().lastUseddItem = new Item();
-        }
+        if (isLocalPlayer && SceneManager.GetActiveScene().name == "main")
+            foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player"))
+            {
+                player.GetComponent<Inventory>().CmdRemoveTool();
+                player.GetComponent<Inventory>().lastUseddItem = new Item();
+            }
     }
     #endregion
 
