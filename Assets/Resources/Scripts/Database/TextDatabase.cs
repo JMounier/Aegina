@@ -238,6 +238,13 @@ public class TextDatabase
 	public static readonly Text CristalViewObjectif = new Text ("trouve un cristal et examine le avec un clic droit", "Find a cristal and inspect it with a rightclick");
 	public static readonly Text FirstCristal = new Text("Le reflet vient d'un gigantesque cristal taillé comme un prisme, mais le plus impressionnant est que celui-ci lévite... Malgré sa stupeur, Ille se ressaisit assez vite \" hum pas si étonnant que ça vu que je me trouve actuellement sur une île volant dans le ciel\". Après s'être calmé et posé, il voit que le cristal réagit à sa présence et plus précisément au métal de sa boucle de ceinture qui semble attirée vers le cristal. Ille décide donc d'aller chercher du métal pour tester ces étranges réactions et s'éloigne rapidement ne voulant pas perdre sa précieuse ceinture.","The reflection comes from a huge crystal cut as a prism but the most impressive thing is that it levitates ... Despite his stupor, Ille is recovering fast enough\"um not so surprising considering the fact that I find myself on an island floating in the sky\" Having calmed down he sees that the crystal reacts to his presence and specifically to its metal belt buckle that seems drawn to the crystal. Ille decides to go for the metal to test these strange reactions and moves away quickly not wanting to lose his precious belt");
 	public static readonly Text FirstCrisatlObjectif = new Text ("fabrique une hache,équippe la pour récolter du bois ,fabrique un établi, pose le avec le clic droit, fabrique une pioche et part récupérer les minerai pour enfin activer le cristal", "Craft an ace, equip it to gather wood,Craft a worktop, pose it with a rightclick, craft a pickaxe and go find ore to finally activate the crystal");
+
+    // Skin 
+    public static readonly Text WhiteSkin = new Text("Corps blanc", "White skin");
+    public static readonly Text brownPant = new Text("Pantalon marron", "Brown pant");
+    public static readonly Text brownGloves = new Text("Gants marrons", "Brown gloves");
+    public static readonly Text BrownEyes = new Text("Yeux marron", "Brown Eyes");
+    
 }
 
 
