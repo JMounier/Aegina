@@ -1,5 +1,5 @@
 # Aegina
-![Image](http://img11.hostingpics.net/pics/873619presentation.png "")
+![Image](http://img15.hostingpics.net/pics/696143Jaquette.jpg "")
 #### Description
 
 S2 project at EPITA.
