@@ -69,7 +69,7 @@ public class Success
                             case 1:
                                 foreach (GameObject player in allplayer)
                                 {
-                                    player.GetComponent<Craft_HUD>().mastered(1, 2, 40, 50, 60, 71, 72, 73,80);
+                                    player.GetComponent<Craft_HUD>().mastered(1, 2, 40, 50, 60, 71, 72, 73, 80, 84);
                                     player.GetComponent<Tutoriel>().Story(TextDatabase.StoneAgeStory1, TextDatabase.StoneAgeStory2, TextDatabase.StoneAgeStory3, TextDatabase.StoneAgeStory4, TextDatabase.StoneAgeStory5, TextDatabase.StoneAgeStory6, TextDatabase.StoneAgeStory7, TextDatabase.StoneAgeStory8, TextDatabase.StoneAgeStory9, TextDatabase.StoneAgeStory10);
                                 }
                                 break;
@@ -83,21 +83,21 @@ public class Success
                             case 3:
                                 foreach (GameObject player in allplayer)
                                 {
-                                    player.GetComponent<Craft_HUD>().mastered(3, 6, 10, 22, 23, 24, 25, 26, 27, 42, 52, 62,81,91,101);
+                                    player.GetComponent<Craft_HUD>().mastered(3, 6, 10, 22, 23, 24, 25, 26, 27, 42, 52, 62, 81, 85, 91, 101);
                                     player.GetComponent<Tutoriel>().Story(TextDatabase.IronAgeStory1, TextDatabase.IronAgeStory2, TextDatabase.IronAgeStory3, TextDatabase.IronAgeStory4, TextDatabase.IronAgeStory5, TextDatabase.IronAgeStory6);
                                 }
                                 break;
                             case 4:
                                 foreach (GameObject player in allplayer)
                                 {
-                                    player.GetComponent<Craft_HUD>().mastered(12, 21, 43, 53, 63,92,102);
+                                    player.GetComponent<Craft_HUD>().mastered(12, 21, 43, 53, 63, 92, 102);
                                     player.GetComponent<Tutoriel>().Story(TextDatabase.GoldAgeStory1, TextDatabase.GoldAgeStory2, TextDatabase.GoldAgeStory3, TextDatabase.GoldAgeStory4, TextDatabase.GoldAgeStory5, TextDatabase.GoldAgeStory6, TextDatabase.GoldAgeStory7);
                                 }
                                 break;
                             case 5:
                                 foreach (GameObject player in allplayer)
                                 {
-                                    player.GetComponent<Craft_HUD>().mastered(13, 44, 54, 64,82,93,103);
+                                    player.GetComponent<Craft_HUD>().mastered(13, 44, 54, 64, 82, 86, 93, 103);
                                     player.GetComponent<Tutoriel>().Story(TextDatabase.MithrilAgeStory1, TextDatabase.MithrilAgeStory2, TextDatabase.MithrilAgeStory3);
                                 }
                                 break;
@@ -105,7 +105,7 @@ public class Success
                                 if (succ.id != 62)
                                     foreach (GameObject player in allplayer)
                                     {
-                                        player.GetComponent<Craft_HUD>().mastered(14, 45, 55, 65,94,104);
+                                        player.GetComponent<Craft_HUD>().mastered(14, 45, 55, 65, 94, 104);
                                         player.GetComponent<Tutoriel>().Story(TextDatabase.FloatiumAgeStory1, TextDatabase.FloatiumAgeStory2);
                                     }
                                 else
@@ -117,7 +117,7 @@ public class Success
                             case 7:
                                 foreach (GameObject player in allplayer)
                                 {
-                                    player.GetComponent<Craft_HUD>().mastered(15, 46, 56, 66,83, 95,105,666);
+                                    player.GetComponent<Craft_HUD>().mastered(15, 46, 56, 66, 83, 87, 95, 105, 666);
                                     // DECLENCHE LE BOSS BATTLE
                                 }
                                 break;

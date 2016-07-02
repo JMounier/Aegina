@@ -61,13 +61,14 @@ public static class CraftDatabase
 
 	public static readonly Craft LeatherTop = new Craft(80,new ItemStack(ItemDatabase.LeatherTopArmor,1),false,true,false,false,false,Craft.Type.Armor,new ItemStack(ItemDatabase.Bone,3),new ItemStack(ItemDatabase.Hide,10));
 	public static readonly Craft IronTop = new Craft(81,new ItemStack(ItemDatabase.IronTopArmor,1),false,true,true,false,false,Craft.Type.Armor,new ItemStack(ItemDatabase.Bone,2),new ItemStack(ItemDatabase.IronIngot,5));
-	public static readonly Craft MithrilTop = new Craft(81,new ItemStack(ItemDatabase.MithrilTopArmor,1),false,true,true,false,false,Craft.Type.Armor,new ItemStack(ItemDatabase.FloatiumIngot,2),new ItemStack(ItemDatabase.MithrilIngot,5));
-	public static readonly Craft SunkiumTop = new Craft(81,new ItemStack(ItemDatabase.SunkiumTopArmor,1),false,true,true,false,false,Craft.Type.Armor,new ItemStack(ItemDatabase.IronIngot,2),new ItemStack(ItemDatabase.SunkiumIngot,5));
+	public static readonly Craft MithrilTop = new Craft(82,new ItemStack(ItemDatabase.MithrilTopArmor,1),false,true,true,false,false,Craft.Type.Armor,new ItemStack(ItemDatabase.FloatiumIngot,2),new ItemStack(ItemDatabase.MithrilIngot,5));
+	public static readonly Craft SunkiumTop = new Craft(83,new ItemStack(ItemDatabase.SunkiumTopArmor,1),false,true,true,false,false,Craft.Type.Armor,new ItemStack(ItemDatabase.IronIngot,2),new ItemStack(ItemDatabase.SunkiumIngot,5));
 
-    public static readonly Craft LeatherBottom = new Craft(Craft.Type.Armor);
-    public static readonly Craft IronBottom = new Craft(Craft.Type.Armor);
-    public static readonly Craft MithrilBottom = new Craft(Craft.Type.Armor);
-    public static readonly Craft SunkiumBottom = new Craft(Craft.Type.Armor);
+    public static readonly Craft LeatherBottom = new Craft(84, new ItemStack(ItemDatabase.LeatherBottomArmor, 1), false, true, false, false, false, Craft.Type.Armor, new ItemStack(ItemDatabase.Bone, 3), new ItemStack(ItemDatabase.Hide, 10));
+    public static readonly Craft IronBottom = new Craft(85, new ItemStack(ItemDatabase.IronBottomArmor, 1), false, true, true, false, false, Craft.Type.Armor, new ItemStack(ItemDatabase.Bone, 2), new ItemStack(ItemDatabase.IronIngot, 5));
+    public static readonly Craft MithrilBottom = new Craft(86, new ItemStack(ItemDatabase.MithrilBottomArmor, 1), false, true, true, false, false, Craft.Type.Armor, new ItemStack(ItemDatabase.FloatiumIngot, 2), new ItemStack(ItemDatabase.MithrilIngot, 5));
+    public static readonly Craft SunkiumBottom = new Craft(87, new ItemStack(ItemDatabase.SunkiumBottomArmor, 1), false, true, true, false, false, Craft.Type.Armor, new ItemStack(ItemDatabase.IronIngot, 2), new ItemStack(ItemDatabase.SunkiumIngot, 5));
+
 
     public static readonly Craft CopperBattleAxe = new Craft(90, new ItemStack(ItemDatabase.CopperBattleAxe, 1), false, true, true, false, false, Craft.Type.Tools, new ItemStack(ItemDatabase.CopperIngot, 4), new ItemStack(ItemDatabase.Stick, 1));
     public static readonly Craft IronBattleAxe = new Craft(91, new ItemStack(ItemDatabase.IronBattleAxe, 1), false, true, true, false, false, Craft.Type.Tools, new ItemStack(ItemDatabase.IronIngot, 4), new ItemStack(ItemDatabase.Stick, 1));

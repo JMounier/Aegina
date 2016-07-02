@@ -74,6 +74,7 @@ public class TextDatabase
     public static readonly Text SlimeCore = new Text("Coeur de slime", "Slime core");
     public static readonly Text BoarCore = new Text("Coeur de sanglier", "Boar core");
     public static readonly Text PampiCore = new Text("Coeur de pampi", "Pampi core");
+    public static readonly Text SlimeGoo = new Text("Bout de slime", "Slime goo");
 
     // Description
     public static readonly Text LogDescription = new Text("Un morceau de bois pouvant servir pour créer d'autres objets", "A piece of wood usable to make other objects");
@@ -136,6 +137,8 @@ public class TextDatabase
     public static readonly Text BoarCoreDescription = new Text("Cristal mysterieux", "Mysterious cristal");
     public static readonly Text PampiCoreDescription = new Text("Cristal mysterieux", "Mysterious cristal");
     public static readonly Text Instable = new Text("???", "???");
+    public static readonly Text SlimeGooDescription = new Text("Une matiere visqueuse... ça se mange ?", "A goo ... is it edible ?");
+
 
 
     // Tools

@@ -100,9 +100,10 @@ public static class EntityDatabase
 
     public static readonly Entity MeatBalls = new Entity(75, 60, Resources.Load<GameObject>("Prefabs/Loots/MeatBalls"));
     public static readonly Entity WaterCact = new Entity(76, 60, Resources.Load<GameObject>("Prefabs/Loots/WaterCact"));
-    public static readonly Entity MushroomLoot = new Entity(85, 60, Resources.Load<GameObject>("Prefabs/Loots/Mushroom"));
-    public static readonly Entity RedMushroomLoot = new Entity(86, 60, Resources.Load<GameObject>("Prefabs/Loots/RedMushroom"));
-    public static readonly Entity Soup = new Entity(87, 60, Resources.Load<GameObject>("Prefabs/Loots/Soup"));
+    public static readonly Entity MushroomLoot = new Entity(90, 60, Resources.Load<GameObject>("Prefabs/Loots/Mushroom"));
+    public static readonly Entity RedMushroomLoot = new Entity(91, 60, Resources.Load<GameObject>("Prefabs/Loots/RedMushroom"));
+    public static readonly Entity Soup = new Entity(92, 60, Resources.Load<GameObject>("Prefabs/Loots/Soup"));
+    public static readonly Entity SlimeGoo = new Entity(93, 60, Resources.Load<GameObject>("Prefabs/Loots/SlimeGoo"));
 
     public static readonly Entity WoodenPlank = new Entity(77, 60, Resources.Load<GameObject>("Prefabs/Loots/WoodenPlank"));
     public static readonly Entity Glass = new Entity(78, 60, Resources.Load<GameObject>("Prefabs/Loots/Glass"));

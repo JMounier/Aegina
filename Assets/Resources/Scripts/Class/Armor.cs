@@ -102,6 +102,12 @@ public class BottomArmor : Armor
 
     public static void SetArmor(GameObject player, BottomArmor topArmor)
     {
-        //To Do
+        Transform Back = player.transform.FindChild("Character").FindChild("Armature").FindChild("Backet_Bone");
+        Transform RightBelt = Back.FindChild("RightBelt");
+        Transform LeftBelt = Back.FindChild("LeftBelt");
+        LeftBelt.gameObject.SetActive(true);
+        RightBelt.gameObject.SetActive(true);
+        LeftBelt.GetComponent<MeshRenderer>().materials = new Material[] { topArmor.Exterieur, topArmor.Interieur };
+        RightBelt.GetComponent<MeshRenderer>().materials = new Material[] { topArmor.Exterieur, topArmor.Interieur };
     }
 }

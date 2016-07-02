@@ -34,7 +34,7 @@ public static class ItemDatabase
     public static readonly Item CuttedStone = new Item(18, TextDatabase.CuttedStone, TextDatabase.CuttedStoneDescription, 64, Resources.Load<Texture2D>("Sprites/Items/Elementaries/CuttedStone"), new Entity(EntityDatabase.CuttedStone));
 
     // Potions
-    public static readonly Consumable WaterPotion = new Consumable(19, TextDatabase.WaterPotion, TextDatabase.WaterPotionDescription, 64, Resources.Load<Texture2D>("Sprites/Items/Potions/AquaPotion"), new Entity(EntityDatabase.AquaPotion), new Effect(Effect.EffectType.Refreshment, 2), Resources.Load<GameObject>("Prefabs/Consumables/Potions/Aqua"));
+    public static readonly Consumable WaterPotion = new Consumable(19, TextDatabase.WaterPotion, TextDatabase.WaterPotionDescription, 64, Resources.Load<Texture2D>("Sprites/Items/Potions/AquaPotion"), new Entity(EntityDatabase.AquaPotion), new Effect(Effect.EffectType.Refreshment, 10), Resources.Load<GameObject>("Prefabs/Consumables/Potions/Aqua"));
     public static readonly Consumable SpeedPotion = new Consumable(20, TextDatabase.SpeedPotion, TextDatabase.SpeedPotionDescription, 64, Resources.Load<Texture2D>("Sprites/Items/Potions/BluePotion"), new Entity(EntityDatabase.BluePotion), new Effect(Effect.EffectType.Speed, 2), Resources.Load<GameObject>("Prefabs/Consumables/Potions/Blue"));
     public static readonly Consumable PoisonPotion = new Consumable(21, TextDatabase.PoisonPotion, TextDatabase.PoisonPotionDescription, 64, Resources.Load<Texture2D>("Sprites/Items/Potions/GreenPotion"), new Entity(EntityDatabase.GreenPotion), new Effect(Effect.EffectType.Poison, 2), Resources.Load<GameObject>("Prefabs/Consumables/Potions/Green"));
     public static readonly Consumable RegenerationPotion = new Consumable(22, TextDatabase.RegenerationPotion, TextDatabase.RegenerationPotionDescription, 64, Resources.Load<Texture2D>("Sprites/Items/Potions/PurplePotion"), new Entity(EntityDatabase.PurplePotion), new Effect(Effect.EffectType.Regeneration, 1), Resources.Load<GameObject>("Prefabs/Consumables/Potions/Purple"));
@@ -48,6 +48,7 @@ public static class ItemDatabase
     public static readonly Consumable RedMushroom = new Consumable(28, TextDatabase.RedMushroom, TextDatabase.RedMushroom, 64, Resources.Load<Texture2D>("Sprites/Items/Plants/RedMushroom"), new Entity(EntityDatabase.RedMushroomLoot), new Effect(Effect.EffectType.Poison, 1), Resources.Load<GameObject>("Prefabs/Consumables/Foods/RedMushroom"));
     public static readonly Consumable Soup = new Consumable(29, TextDatabase.Soup, TextDatabase.SoupDescription, 20, Resources.Load<Texture2D>("Sprites/Items/Foods/Soup"), new Entity(EntityDatabase.Soup), new Effect(Effect.EffectType.Saturation, 1), Resources.Load<GameObject>("Prefabs/Consumables/Foods/Soup"));
     public static readonly Consumable Apple = new Consumable(30, TextDatabase.Apple, TextDatabase.AppleDescription, 64, Resources.Load<Texture2D>("Sprites/Items/Plants/Apple"), new Entity(EntityDatabase.Apple), new Effect(Effect.EffectType.Saturation, 1), Resources.Load<GameObject>("Prefabs/Consumables/Foods/Apple"));
+    public static readonly Consumable SlimeGoo = new Consumable(31, TextDatabase.SlimeGoo, TextDatabase.SlimeGooDescription, 64, Resources.Load<Texture2D>("Sprites/Items/Animals/SlimeGoo"), new Entity(EntityDatabase.SlimeGoo), new Effect(Effect.EffectType.Refreshment, 2), Resources.Load<GameObject>("Prefabs/Consumables/SlimeGoo"));
 
     // WorckTops
     public static readonly WorkTop Forge = new WorkTop(40, TextDatabase.Forge, TextDatabase.ForgeDescription, 1, Resources.Load<Texture2D>("Sprites/Items/WorkStation/Forge"), new Entity(EntityDatabase.ForgeLoot), Resources.Load<GameObject>("PrefabsNoNetID/Previsualisations/Hoven"), 133);
@@ -115,9 +116,14 @@ public static class ItemDatabase
     public static readonly Spear SunkiumSpear = new Spear(115, TextDatabase.SunkiumSpear, TextDatabase.SunkiumSpearDescription, 500, 240, Resources.Load<Texture2D>("Sprites/Items/Tools/SunkiumSpear"), new Entity(EntityDatabase.SunkiumSpear), Resources.Load<GameObject>("Prefabs/Tools/Weapons/Spear/SunkiumSpear"));
 
 	public static readonly TopArmor LeatherTopArmor = new TopArmor(120, TextDatabase.LeatherTopArmor, TextDatabase.LeatherTopArmorDescription, Resources.Load<Texture2D>("Sprites/Items/Armors/LeatherTopArmor"), new Entity(EntityDatabase.LeatherTopArmor), 50, Resources.Load<Material>("Models/Items/Armors/Materials/LeatherArmor"), Resources.Load<Material>("Models/Items/Armors/Materials/IronA"));
-	public static readonly TopArmor IronTopArmor = new TopArmor(121, TextDatabase.IronTopArmor, TextDatabase.IronTopArmorDescription, Resources.Load<Texture2D>("Sprites/Items/Armors/IronTopArmor"), new Entity(EntityDatabase.IronTopArmor), 50, Resources.Load<Material>("Models/Items/Armors/Materials/ArmorIron"), Resources.Load<Material>("Models/Items/Armors/Materials/ArmorIron"));
-	public static readonly TopArmor MithrilTopArmor = new TopArmor(122, TextDatabase.MithrilTopArmor, TextDatabase.MithrilTopArmorDescription, Resources.Load<Texture2D>("Sprites/Items/Armors/MithrilTopArmor"), new Entity(EntityDatabase.MithrilTopArmor), 50, Resources.Load<Material>("Models/Items/Armors/Materials/Mithril"), Resources.Load<Material>("Models/Items/Armors/Materials/Floatium"));
-	public static readonly TopArmor SunkiumTopArmor = new TopArmor(123, TextDatabase.SunkiumTopArmor, TextDatabase.SunkiumTopArmorDescription, Resources.Load<Texture2D>("Sprites/Items/Armors/SunkiumTopArmor"), new Entity(EntityDatabase.SunkiumTopArmor), 50, Resources.Load<Material>("Models/Items/Armors/Materials/SunkiumCenter"), Resources.Load<Material>("Models/Items/Armors/Materials/IronA"));
+	public static readonly TopArmor IronTopArmor = new TopArmor(121, TextDatabase.IronTopArmor, TextDatabase.IronTopArmorDescription, Resources.Load<Texture2D>("Sprites/Items/Armors/IronTopArmor"), new Entity(EntityDatabase.IronTopArmor), 100, Resources.Load<Material>("Models/Items/Armors/Materials/ArmorIron"), Resources.Load<Material>("Models/Items/Armors/Materials/ArmorIron"));
+	public static readonly TopArmor MithrilTopArmor = new TopArmor(122, TextDatabase.MithrilTopArmor, TextDatabase.MithrilTopArmorDescription, Resources.Load<Texture2D>("Sprites/Items/Armors/MithrilTopArmor"), new Entity(EntityDatabase.MithrilTopArmor), 150, Resources.Load<Material>("Models/Items/Armors/Materials/Mithril"), Resources.Load<Material>("Models/Items/Armors/Materials/Floatium"));
+	public static readonly TopArmor SunkiumTopArmor = new TopArmor(123, TextDatabase.SunkiumTopArmor, TextDatabase.SunkiumTopArmorDescription, Resources.Load<Texture2D>("Sprites/Items/Armors/SunkiumTopArmor"), new Entity(EntityDatabase.SunkiumTopArmor), 200, Resources.Load<Material>("Models/Items/Armors/Materials/SunkiumCenter"), Resources.Load<Material>("Models/Items/Armors/Materials/IronA"));
+
+    public static readonly BottomArmor LeatherBottomArmor = new BottomArmor(124, TextDatabase.LeatherBottomArmor, TextDatabase.LeatherBottomArmorDescription, Resources.Load<Texture2D>("Sprites/Items/Armors/LeatherBottomArmor"), new Entity(EntityDatabase.LeatherBottomArmor), 50, Resources.Load<Material>("Models/Items/Armors/Materials/LeatherArmor"), Resources.Load<Material>("Models/Items/Armors/Materials/IronA"));
+    public static readonly BottomArmor IronBottomArmor = new BottomArmor(125, TextDatabase.IronBottomArmor, TextDatabase.IronBottomArmorDescription, Resources.Load<Texture2D>("Sprites/Items/Armors/IronBottomArmor"), new Entity(EntityDatabase.IronBottomArmor), 100, Resources.Load<Material>("Models/Items/Armors/Materials/ArmorIron"), Resources.Load<Material>("Models/Items/Armors/Materials/ArmorIron"));
+    public static readonly BottomArmor MithrilBottomArmor = new BottomArmor(126, TextDatabase.MithrilBottomArmor, TextDatabase.MithrilBottomArmorDescription, Resources.Load<Texture2D>("Sprites/Items/Armors/MithrilBottomArmor"), new Entity(EntityDatabase.MithrilBottomArmor), 150, Resources.Load<Material>("Models/Items/Armors/Materials/Mithril"), Resources.Load<Material>("Models/Items/Armors/Materials/Floatium"));
+    public static readonly BottomArmor SunkiumBottomArmor = new BottomArmor(127, TextDatabase.SunkiumBottomArmor, TextDatabase.SunkiumBottomArmorDescription, Resources.Load<Texture2D>("Sprites/Items/Armors/SunkiumBottomArmor"), new Entity(EntityDatabase.SunkiumBottomArmor), 200, Resources.Load<Material>("Models/Items/Armors/Materials/SunkiumCenter"), Resources.Load<Material>("Models/Items/Armors/Materials/IronA"));
 
 
     public static readonly Consumable InstableCore = new Consumable(666, TextDatabase.Instable, TextDatabase.Instable, 1, Resources.Load<Texture2D>(""), new Entity(EntityDatabase.InstableCore),new Effect(Effect.EffectType.Resistance,2),Resources.Load<GameObject>("Prefabs/Consumables/InstableCore"));
@@ -171,7 +177,10 @@ public static class ItemDatabase
 
             foreach (TopArmor topArmor in TopArmors)
                 yield return topArmor;
-            
+
+            foreach (BottomArmor bottomArmor in BottomArmors)
+                yield return bottomArmor;
+
             foreach (Pickaxe pickaxe in Pickaxes)
                 yield return pickaxe;
 
@@ -206,7 +215,18 @@ public static class ItemDatabase
         }
     }
 
-    
+    public static IEnumerable<BottomArmor> BottomArmors
+    {
+        get
+        {
+            yield return LeatherBottomArmor;
+            yield return IronBottomArmor;
+            yield return MithrilBottomArmor;
+            yield return SunkiumBottomArmor;
+        }
+    }
+
+
 
     /// <summary>
     /// Liste tous les haches du jeu. (Utilisez avec foreach)
@@ -350,7 +370,9 @@ public static class ItemDatabase
 					return new WorkTop ((WorkTop)i);
 				else if (i is TopArmor)
 					return new TopArmor ((TopArmor)i);
-				else
+                else if (i is BottomArmor)
+                    return new BottomArmor((BottomArmor)i);
+                else
                     return new Item(i);
             }
         }
@@ -379,6 +401,8 @@ public static class ItemDatabase
                     return new WorkTop((WorkTop)i);
 				else if (i is TopArmor)
 					return new TopArmor ((TopArmor)i);
+                else if (i is BottomArmor)
+                    return new BottomArmor((BottomArmor)i);
                 else
                     return new Item(i);
             }
