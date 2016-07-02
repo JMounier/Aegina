@@ -67,14 +67,14 @@ public class TopArmor : Armor
     {
         if (topArmor == null)
         {
-			Transform Back = player.transform.FindChild("Character").FindChild("Armature").FindChild("Backet_Bone");
+			Transform Back = player.transform.FindChild("Character").FindChild("Armature");
 			Back.FindChild("Armor").gameObject.SetActive(false);
 			Back.FindChild("ArmorL").gameObject.SetActive(false);
 			Back.FindChild("ArmorR").gameObject.SetActive(false);
         }
         else
         {
-			Transform Back = player.transform.FindChild("Character").FindChild("Armature").FindChild("Backet_Bone");
+			Transform Back = player.transform.FindChild("Character").FindChild("Armature");
             Transform torse = Back.FindChild("Armor");
 			Transform leftBracer = Back.FindChild("ArmorL");
 			Transform rightBracer = Back.FindChild("ArmorR");
@@ -102,12 +102,21 @@ public class BottomArmor : Armor
 
     public static void SetArmor(GameObject player, BottomArmor topArmor)
     {
-        Transform Back = player.transform.FindChild("Character").FindChild("Armature").FindChild("Backet_Bone");
-        Transform RightBelt = Back.FindChild("RightBelt");
-        Transform LeftBelt = Back.FindChild("LeftBelt");
-        LeftBelt.gameObject.SetActive(true);
-        RightBelt.gameObject.SetActive(true);
-        LeftBelt.GetComponent<MeshRenderer>().materials = new Material[] { topArmor.Exterieur, topArmor.Interieur };
-        RightBelt.GetComponent<MeshRenderer>().materials = new Material[] { topArmor.Exterieur, topArmor.Interieur };
+        if (topArmor == null)
+        {
+            Transform Back = player.transform.FindChild("Character").FindChild("Armature");
+            Back.FindChild("RightBelt").gameObject.SetActive(false);
+            Back.FindChild("LeftBelt").gameObject.SetActive(false);
+        }
+        else
+        {
+            Transform Back = player.transform.FindChild("Character").FindChild("Armature");
+            Transform RightBelt = Back.FindChild("RightBelt");
+            Transform LeftBelt = Back.FindChild("LeftBelt");
+            LeftBelt.gameObject.SetActive(true);
+            RightBelt.gameObject.SetActive(true);
+            LeftBelt.GetComponent<MeshRenderer>().materials = new Material[] { topArmor.Exterieur, topArmor.Interieur };
+            RightBelt.GetComponent<MeshRenderer>().materials = new Material[] { topArmor.Exterieur, topArmor.Interieur };
+        }
     }
 }

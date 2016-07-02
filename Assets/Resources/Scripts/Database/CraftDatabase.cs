@@ -146,6 +146,20 @@ public static class CraftDatabase
             yield return FloatiumSword;
             yield return SunkiumSword;
 
+            yield return CopperSpear;
+            yield return IronSpear;
+            yield return GoldSpear;
+            yield return MithrilSpear;
+            yield return FloatiumSpear;
+            yield return SunkiumSpear;
+
+            yield return CopperBattleAxe;
+            yield return IronBattleAxe;
+            yield return GoldBattleAxe;
+            yield return MithrilBattleAxe;
+            yield return FloatiumBattleAxe;
+            yield return SunkiumBattleAxe;
+
             yield return LeatherTop;
             yield return IronTop;
             yield return MithrilTop;
