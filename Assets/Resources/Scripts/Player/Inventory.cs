@@ -137,7 +137,7 @@ public class Inventory : NetworkBehaviour
             }
             this.InteractInventory();
             this.DrawInventory();
-            
+
         }
         else if (this.draggingItemStack)
         {
@@ -303,17 +303,19 @@ public class Inventory : NetworkBehaviour
                     // équipper une armure
                     else if (!this.draggingItemStack && Event.current.button == 1 && Event.current.type == EventType.MouseUp)
                     {
-                        if (this.slots[i,j].Items is TopArmor)
+                        if (this.slots[i, j].Items is TopArmor)
                         {
                             ItemStack temp = this.slots[i, j];
                             this.slots[i, j] = this.top;
                             this.top = temp;
+                            CmdSetArmor(this.top.Item.Id, this.bottom.Item.Id);
                         }
                         else if (this.slots[i, j].Items is BottomArmor)
                         {
                             ItemStack temp = this.slots[i, j];
                             this.slots[i, j] = this.bottom;
                             this.bottom = temp;
+                            CmdSetArmor(this.top.Items.ID, this.bottom.Items.ID);
                         }
                     }
                     // Relachement d'un item dans un slot
@@ -788,6 +790,7 @@ public class Inventory : NetworkBehaviour
                     Drop(this.bottom);
                     this.bottom = null;
                 }
+                CmdSetArmor(this.top.Items.ID, this.bottom.Items.ID);
             }
 
         }
@@ -1030,16 +1033,16 @@ public class Inventory : NetworkBehaviour
     }
 
     [Command]
-    public void CmdSetArmor(int topId, int botId)
+    private void CmdSetArmor(int topId, int botId)
     {
         RpcSetArmor(topId, botId);
     }
 
     [ClientRpc]
-    public void RpcSetArmor(int topId, int botId)
+    private void RpcSetArmor(int topId, int botId)
     {
-        TopArmor.SetArmor(gameObject, ItemDatabase.Find(topId) as TopArmor);
-        BottomArmor.SetArmor(gameObject, ItemDatabase.Find(botId) as BottomArmor);
+        TopArmor.SetArmor(gameObject, (ItemDatabase.Find(topId) as TopArmor));
+        BottomArmor.SetArmor(gameObject, (ItemDatabase.Find(botId) as BottomArmor));
     }
 
     /// <summary>
@@ -1227,10 +1230,12 @@ public class Inventory : NetworkBehaviour
         string save = "";
         for (int i = 0; i < this.rows; i++)
             for (int j = 0; j < this.columns; j++)
-            {
                 if (this.slots[i, j].Items.ID != -1)
                     save += i + ":" + j + ":" + this.slots[i, j].Items.ID + ":" + this.slots[i, j].Quantity + "|";
-            }
+        if (this.top.Items.ID != -1)
+            save += "-1:-1:" + this.top.Items.ID + ":1|";
+        if (this.bottom.Items.ID != -1)
+            save += "-2:-2:" + this.bottom.Items.ID + ":1";
         this.CmdSaveInventory(save);
     }
 
@@ -1264,6 +1269,8 @@ public class Inventory : NetworkBehaviour
     {
         if (isLocalPlayer)
         {
+            this.top = new ItemStack();
+            this.bottom = new ItemStack();
             string[] strSlots = save.Split('|');
             foreach (string itemStack in strSlots)
             {
@@ -1272,14 +1279,19 @@ public class Inventory : NetworkBehaviour
                     string[] info = itemStack.Split(':');
                     try
                     {
-                        this.slots[int.Parse(info[0]), int.Parse(info[1])] = new ItemStack(ItemDatabase.Find(int.Parse(info[2])), int.Parse(info[3]));
+                        if (info[0] == "-1")
+                            this.top = new ItemStack(ItemDatabase.Find(int.Parse(info[2]), 1));
+                        else if (info[0] == "-2")
+                            this.bottom = new ItemStack(ItemDatabase.Find(int.Parse(info[2]), 1));
+                        else
+                            this.slots[int.Parse(info[0]), int.Parse(info[1])] = new ItemStack(ItemDatabase.Find(int.Parse(info[2])), int.Parse(info[3]));
                     }
                     catch
                     {
                         throw new System.ArgumentException("Le save (str) est corompu : " + itemStack);
                     }
                 }
-            }
+            }           
         }
     }
 
@@ -1350,7 +1362,7 @@ public class Inventory : NetworkBehaviour
     {
         get { return this.top.Items as Armor; }
     }
-    
+
     public Armor Bottom
     {
         get { return this.bottom.Items as Armor; }
