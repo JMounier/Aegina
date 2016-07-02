@@ -83,14 +83,14 @@ public class Success
                             case 3:
                                 foreach (GameObject player in allplayer)
                                 {
-                                    player.GetComponent<Craft_HUD>().mastered(3, 6, 10, 22, 23, 24, 25, 26, 27, 42, 52, 62, 81, 85, 91, 101);
+                                    player.GetComponent<Craft_HUD>().mastered(3, 6, 7, 10, 22, 23, 24, 25, 26, 27, 42, 52, 62, 81, 85, 91, 101);
                                     player.GetComponent<Tutoriel>().Story(TextDatabase.IronAgeStory1, TextDatabase.IronAgeStory2, TextDatabase.IronAgeStory3, TextDatabase.IronAgeStory4, TextDatabase.IronAgeStory5, TextDatabase.IronAgeStory6);
                                 }
                                 break;
                             case 4:
                                 foreach (GameObject player in allplayer)
                                 {
-                                    player.GetComponent<Craft_HUD>().mastered(12, 21, 43, 53, 63, 92, 102);
+                                    player.GetComponent<Craft_HUD>().mastered(8, 9, 12, 21, 43, 53, 63, 92, 102);
                                     player.GetComponent<Tutoriel>().Story(TextDatabase.GoldAgeStory1, TextDatabase.GoldAgeStory2, TextDatabase.GoldAgeStory3, TextDatabase.GoldAgeStory4, TextDatabase.GoldAgeStory5, TextDatabase.GoldAgeStory6, TextDatabase.GoldAgeStory7);
                                 }
                                 break;
