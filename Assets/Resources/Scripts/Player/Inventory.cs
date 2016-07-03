@@ -1042,6 +1042,12 @@ public class Inventory : NetworkBehaviour
 
     }
 
+    [ClientRpc]
+    public void RpcDropAll()
+    {
+        DropAll();
+    }
+
     [Client]
     public void DropAll()
     {

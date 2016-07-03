@@ -118,18 +118,17 @@ public class BossFight : NetworkBehaviour
     }
 
 	/// <summary>
-	/// Respawn all player in the fight and reset their inventory
+	/// Respawn all player in the fight and reset their inventory MUST BE SERVEUR !!!
 	/// </summary>
 	private void Respawn()
 	{
 		foreach (GameObject player in GameObject.FindGameObjectsWithTag("Player")) 
 		{
 			Inventory i = player.GetComponent<Inventory> ();
-			i.DropAll ();
+			i.RpcDropAll ();
 			i.RpcLoadInventory (GameObject.Find("Map").GetComponent<Save>().LoadPlayer(gameObject).Inventory);
 			player.GetComponent<BossFight> ().RpcRestart ();
-			player.GetComponent<Inventory> ().RpcLoadInventory ();
-		}
+        }
 		infightcount = 0;
 		deathCount = 0;
 
