@@ -338,44 +338,101 @@ namespace UnityEngine.Networking
             #region Category
             if (GUI.Button(new Rect(this.posX, this.posY - this.spacing * 1.5f, this.width / 5, this.width / 5), Resources.Load<Texture2D>("Sprites/Cosmetics/HatIcon")))
             {
-                this.categoryCloth = CategoryCloth.Hat;
-                this.smoothAparition = 0;
+                if (this.categoryCloth == CategoryCloth.Hat)
+                    this.categoryCloth = CategoryCloth.None;
+                else
+                {
+                    this.categoryCloth = CategoryCloth.Hat;
+                    this.smoothAparition = 0;
+                }
             }
             if (GUI.Button(new Rect(this.posX, this.posY, this.width / 5, this.width / 5), Resources.Load<Texture2D>("Sprites/Cosmetics/BeardIcon")))
             {
-                this.smoothAparition = 0;
-                this.categoryCloth = CategoryCloth.Beard;
+                if (this.categoryCloth == CategoryCloth.Beard)
+                    this.categoryCloth = CategoryCloth.None;
+                else
+                {
+                    this.smoothAparition = 0;
+                    this.categoryCloth = CategoryCloth.Beard;
+                }
             }
             if (GUI.Button(new Rect(this.posX, this.posY + this.spacing * 1.5f, this.width / 5, this.width / 5), Resources.Load<Texture2D>("Sprites/Cosmetics/BodyIcon")))
             {
-                this.smoothAparition = 0;
-                this.categoryCloth = CategoryCloth.Body;
+                if (this.categoryCloth == CategoryCloth.Body)
+                    this.categoryCloth = CategoryCloth.None;
+                else
+                {
+                    this.smoothAparition = 0;
+                    this.categoryCloth = CategoryCloth.Body;
+                }
             }
             if (GUI.Button(new Rect(this.posX + this.spacing * 4.5f, this.posY, this.width / 5, this.width / 5), Resources.Load<Texture2D>("Sprites/Cosmetics/EyeIcon")))
             {
-                this.smoothAparition = 0;
-                this.categoryCloth = CategoryCloth.Eyes;
+                if (this.categoryCloth == CategoryCloth.Eyes)
+                    this.categoryCloth = CategoryCloth.None;
+                else
+                {
+                    this.smoothAparition = 0;
+                    this.categoryCloth = CategoryCloth.Eyes;
+                }
             }
             if (GUI.Button(new Rect(this.posX + this.spacing * 4.5f, this.posY - this.spacing * 1.5f, this.width / 5, this.width / 5), Resources.Load<Texture2D>("Sprites/Cosmetics/HairIcon")))
             {
-                this.smoothAparition = 0;
-                this.categoryCloth = CategoryCloth.Hair;
+                if (this.categoryCloth == CategoryCloth.Hair)
+                    this.categoryCloth = CategoryCloth.None;
+                else
+                {
+                    this.smoothAparition = 0;
+                    this.categoryCloth = CategoryCloth.Hair;
+                }
             }
             if (GUI.Button(new Rect(this.posX + this.spacing * 4.5f, this.posY + this.spacing * 3f, this.width / 5, this.width / 5), Resources.Load<Texture2D>("Sprites/Cosmetics/GlovesIcon")))
             {
-                this.smoothAparition = 0;
-                this.categoryCloth = CategoryCloth.Gloves;
+                if (this.categoryCloth == CategoryCloth.Gloves)
+                    this.categoryCloth = CategoryCloth.None;
+                else
+                {
+                    this.smoothAparition = 0;
+                    this.categoryCloth = CategoryCloth.Gloves;
+                }
             }
             if (GUI.Button(new Rect(this.posX + this.spacing * 4.5f, this.posY + this.spacing * 1.5f, this.width / 5, this.width / 5), Resources.Load<Texture2D>("Sprites/Cosmetics/TshirtIcon")))
             {
-                this.smoothAparition = 0;
-                this.categoryCloth = CategoryCloth.TShirt;
+                if (this.categoryCloth == CategoryCloth.TShirt)
+                    this.categoryCloth = CategoryCloth.None;
+                else
+                {
+                    this.smoothAparition = 0;
+                    this.categoryCloth = CategoryCloth.TShirt;
+                }
             }
             if (GUI.Button(new Rect(this.posX, this.posY + this.spacing * 3f, this.width / 5, this.width / 5), Resources.Load<Texture2D>("Sprites/Cosmetics/PantIcon")))
             {
-                this.categoryCloth = CategoryCloth.Pant;
-                this.smoothAparition = 0;
+                if (this.categoryCloth == CategoryCloth.Pant)
+                    this.categoryCloth = CategoryCloth.None;
+                else
+                {
+                    this.categoryCloth = CategoryCloth.Pant;
+                    this.smoothAparition = 0;
+                }
             }
+         
+            switch (this.categoryCloth)
+            {                
+                case CategoryCloth.Hair:
+                case CategoryCloth.Eyes:
+                case CategoryCloth.Beard:
+                case CategoryCloth.Hat:
+                    this.firstScene.CameraAim(1);
+                    break;
+                case CategoryCloth.Gloves:
+                    this.firstScene.CameraAim(2);
+                    break;                 
+                default:
+                    this.firstScene.CameraAim(0);
+                    break;
+            }
+
             #endregion
 
             Text tooltip = null;
@@ -695,7 +752,12 @@ namespace UnityEngine.Networking
                         this.smoothAparition = 0;
                         typeCloth = (int)Tshirt.TypeTshirt.None;
                     }
-
+                    rect.x += (5 + Screen.width / 20);
+                    if (GUI.Button(rect, Resources.Load<Texture2D>("Sprites/Cosmetics/TshirtIcon")))
+                    {
+                        this.smoothAparition = 0;
+                        typeCloth = (int)Tshirt.TypeTshirt.TShirt;
+                    }
                     foreach (Tshirt t in Clothing.Tshirts)
                         if (this.typeCloth == (int)t.GetTypeTshirt)
                         {

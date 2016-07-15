@@ -41,8 +41,8 @@ public class FirstScene : MonoBehaviour
     private bool goingback;
     private Vector3 backpos;
     private Quaternion backrot;
-
-
+    private GameObject camAim;
+    float speed;
     // Use this for initialization
     void Start()
     {
@@ -69,6 +69,7 @@ public class FirstScene : MonoBehaviour
         this.cam.transform.position = this.step.transform.position;
         this.step = this.step.GetComponent<FSPath>().NextStep;
         this.cam.transform.LookAt(this.step.transform);
+        this.camAim = this.campCameraPos.transform.GetChild(0).gameObject;
 
         this.backpos = this.cam.transform.position;
         this.backrot = this.cam.transform.rotation;
@@ -99,21 +100,23 @@ public class FirstScene : MonoBehaviour
 
         if (this.onChar)
         {
-            if (Vector3.Distance(this.cam.transform.position, this.campCameraPos.transform.position) > this.acceptance)
+            if (Vector3.Distance(this.cam.transform.position, this.camAim.transform.position) > this.acceptance * this.speed / 1.2f )
             {
-                this.cam.transform.rotation = Quaternion.Lerp(this.cam.transform.rotation, this.campCameraPos.transform.rotation, 0.08f);
-                cam.transform.Translate((this.campCameraPos.transform.position - cam.transform.position).normalized * 1.2f, Space.World);
+                this.cam.transform.rotation = Quaternion.Lerp(this.cam.transform.rotation, this.camAim.transform.rotation, 0.08f);
+                cam.transform.Translate((this.camAim.transform.position - cam.transform.position).normalized * this.speed, Space.World);
             }
             else
             {
+                this.speed = 0.05f;
                 Quaternion lastrot = this.cam.transform.rotation;
-                this.cam.transform.LookAt(this.campCameraPos.transform.GetChild(0));
+                this.cam.transform.LookAt(this.camAim.transform.GetChild(0));
                 Quaternion newrot = this.cam.transform.rotation;
                 this.cam.transform.rotation = Quaternion.Lerp(lastrot, newrot, 0.1f);
             }
         }
         else if (this.goingback)
         {
+            this.speed = 1.2f;
             if (Vector3.Distance(this.cam.transform.position, this.backpos) > this.acceptance)
             {
                 cam.transform.Translate((this.backpos - cam.transform.position).normalized * 1.2f, Space.World);
@@ -173,6 +176,11 @@ public class FirstScene : MonoBehaviour
             this.goingback = !value;
         }
     }
+
+    public void CameraAim(int aim)
+    {
+        this.camAim = this.campCameraPos.transform.GetChild(aim).gameObject;
+    }    
 
     public void PlayButtonSound()
     {

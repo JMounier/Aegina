@@ -175,6 +175,7 @@ public class Clothing
         get
         {
             yield return NoneTshirt;
+            yield return RedTshirt;
         }
     }
     public static IEnumerable<Gloves> Gloves
@@ -334,7 +335,8 @@ public class Clothing
     public static readonly Gloves GreenGloves = new Gloves(115, Resources.Load<Texture2D>("Models/Character/Textures/Gloves/Gloves_Green"), TextDatabase.GreenGloves, new Color(.074f, .243f, .066f));
     public static readonly Gloves PurpleGloves = new Gloves(116, Resources.Load<Texture2D>("Models/Character/Textures/Gloves/Gloves_Purple"), TextDatabase.PurpleGloves, new Color(.227f, .066f, .243f));
 
-    public static readonly Tshirt NoneTshirt = new Tshirt(120, TextDatabase.Apple);
+    public static readonly Tshirt NoneTshirt = new Tshirt(120, TextDatabase.NoneTshirt);
+    public static readonly Tshirt RedTshirt = new Tshirt(121, Resources.Load<Texture2D>("Models/Character/Textures/TShirts/Red"), TextDatabase.RedTshirt, Color.red, Tshirt.TypeTshirt.TShirt);
 
     //Getter/Setter
     public int ID
@@ -760,7 +762,7 @@ public class Tshirt : Clothing
     private Color32 color;
     private TypeTshirt type;
 
-    public enum TypeTshirt { None, Tshhirt };
+    public enum TypeTshirt { None, TShirt };
 
     // Constructeur
     public Tshirt() : base()
