@@ -70,7 +70,7 @@ public class Success_HUD : NetworkBehaviour
     }
     void OnGUI()
     {
-        if (!isLocalPlayer)
+        if (!isLocalPlayer || !InputManager.seeGUI)
             return;
 
         if (incrementation != 0)

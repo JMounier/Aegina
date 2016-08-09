@@ -45,7 +45,7 @@ public class Tutoriel : NetworkBehaviour
 
     void OnGUI()
     {
-        if (!isLocalPlayer)
+		if (!isLocalPlayer || !InputManager.seeGUI)
             return;
 
         if (progress == 0)

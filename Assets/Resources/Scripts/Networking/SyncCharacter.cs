@@ -101,7 +101,7 @@ public class SyncCharacter : NetworkBehaviour
 
     void OnGUI()
     {
-        if (!isLocalPlayer)
+		if (!isLocalPlayer || !InputManager.seeGUI)
             return;
 
         // Bars

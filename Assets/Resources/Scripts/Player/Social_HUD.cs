@@ -87,7 +87,7 @@ public class Social_HUD : NetworkBehaviour
 
     void OnGUI()
     {
-        if (!isLocalPlayer)
+		if (!isLocalPlayer || !InputManager.seeGUI)
             return;
 
         // Display chat

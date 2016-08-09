@@ -24,6 +24,8 @@ public class InputManager : NetworkBehaviour
     private float cdConsume = 1f;
     private float cdAttack = 0;
 
+	public static bool seeGUI;
+
     private bool validplace;
     private bool lastvalidplace;
     public enum TypeAttack { None, Horizontal, Vertical, Aerial, Charge }
@@ -52,6 +54,8 @@ public class InputManager : NetworkBehaviour
 
         this.soundAudio = gameObject.GetComponent<Sound>();
         Cursor.visible = false;
+
+		seeGUI = true;
     }
 
     // Update is called once per frame
@@ -140,6 +144,16 @@ public class InputManager : NetworkBehaviour
 
         }
         #endregion
+
+		#region Show/Hide GUI
+		// show and hide the GUI
+		if (Input.GetKeyDown (KeyCode.B) && gameObject.GetComponent<SpecMode>().isSpec && !gameObject.GetComponent<Social_HUD> ().ChatShown) {
+			seeGUI = !seeGUI;
+		}
+		if ((Input.GetKeyDown(KeyCode.Return) || Input.GetButtonDown("Cancel")) && !seeGUI){
+			seeGUI = true;
+		}
+		#endregion
 
         #region Gestion Menu
         if (Input.GetButtonDown("Inventory") && !this.menu.MenuShown && !this.menu.OptionShown && !this.social.ChatShown && !this.cristalHUD.Cristal_shown && !this.sucHUD.Activate && !this.tutoriel.EndTutoShown && !this.tutoriel.Tutoshown && !this.menu.ControlShown)

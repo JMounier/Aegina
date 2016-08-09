@@ -51,7 +51,7 @@ public class Cristal_HUD : NetworkBehaviour
 
     void OnGUI()
     {
-        if (!isLocalPlayer)
+        if (!isLocalPlayer || !InputManager.seeGUI)
             return;
         if (this.cristal_shown)
             Draw_cristal();

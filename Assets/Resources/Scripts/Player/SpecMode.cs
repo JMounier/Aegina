@@ -7,24 +7,13 @@ public class SpecMode : NetworkBehaviour {
 	private Transform cam;
 	private GameObject character;
 	private bool spectate;
-	private bool seeGUI;
 
 	// Use this for initialization
 	void Start () {
-		this.seeGUI = true;
 		this.spectate = false;
 		this.character = gameObject.transform.GetChild (1).gameObject;
 		if (isLocalPlayer)
 			this.cam = gameObject.transform.GetChild (0);
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		if (!isLocalPlayer || !spectate)
-			return;
-		// show and hide the GUI
-		if (Input.GetButtonDown ("HideGUI") && !gameObject.GetComponent<Social_HUD>().ChatShown)
-			this.cam.GetComponent<GUILayer> ().enabled = !this.cam.GetComponent<GUILayer> ().enabled;
 	}
 
 	#region Passage Invisible
@@ -62,8 +51,8 @@ public class SpecMode : NetworkBehaviour {
 		this.character.GetComponent<Rigidbody> ().velocity = Vector3.zero;
 		this.character.GetComponent<Collider> ().enabled = notSpec;
 
-		if (this.spectate && isLocalPlayer)
-			this.cam.GetComponent<GUILayer> ().enabled = true;
+		if (isLocalPlayer)
+			InputManager.seeGUI = !spectate;
 	}
 	#endregion
 
