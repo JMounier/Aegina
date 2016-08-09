@@ -5,7 +5,7 @@ using UnityEngine.Networking;
 public class SpecMode : NetworkBehaviour {
 
 	private Transform cam;
-	private Transform character;
+	private GameObject character;
 	private bool spectate;
 	private bool seeGUI;
 
@@ -13,7 +13,7 @@ public class SpecMode : NetworkBehaviour {
 	void Start () {
 		this.seeGUI = true;
 		this.spectate = false;
-		this.character = gameObject.transform.GetChild (1);
+		this.character = gameObject.transform.GetChild (1).gameObject;
 		if (isLocalPlayer)
 			this.cam = gameObject.transform.GetChild (0);
 	}
@@ -33,6 +33,15 @@ public class SpecMode : NetworkBehaviour {
 	/// </summary>
 	/// <param name="spec">If set to <c>true</c> spec.</param>
 	public void ChangeMode(bool notSpec){
+
+		this.spectate = !notSpec;
+
+		foreach (Renderer renderer in this.character.GetComponentsInChildren<Renderer>()) {
+			renderer.enabled = (notSpec);
+		}
+		this.character.GetComponent<Rigidbody> ().useGravity = notSpec;
+		this.character.GetComponent<Collider> ().enabled = notSpec;
+
 		RpcChangeMode (notSpec);
 	}
 
@@ -49,8 +58,8 @@ public class SpecMode : NetworkBehaviour {
 		foreach (Renderer renderer in this.character.GetComponentsInChildren<Renderer>()) {
 			renderer.enabled = (notSpec);
 		}
-
 		this.character.GetComponent<Rigidbody> ().useGravity = notSpec;
+		this.character.GetComponent<Rigidbody> ().velocity = Vector3.zero;
 		this.character.GetComponent<Collider> ().enabled = notSpec;
 
 		if (this.spectate && isLocalPlayer)

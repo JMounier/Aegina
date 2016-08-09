@@ -51,6 +51,9 @@ public class Controller : NetworkBehaviour
     // Use for loading
     private bool loading = true;
 
+	//spec mode
+	private SpecMode specm;
+
     // Use this for initialization
     void Start()
     {
@@ -64,6 +67,9 @@ public class Controller : NetworkBehaviour
 
         this.objectiv = null;
         this.loading = true;
+
+		this.specm = gameObject.GetComponent<SpecMode> ();
+
         if (!isLocalPlayer)
         {
             this.cam.SetActive(false);
@@ -82,7 +88,7 @@ public class Controller : NetworkBehaviour
 
             MapGeneration mg = GameObject.Find("Map").GetComponent<MapGeneration>();
             this.loading = mg != null && !mg.isLoaded(x, y);
-            gameObject.transform.FindChild("Character").GetComponent<Rigidbody>().useGravity = !this.loading && this.syncChar.Life > 0;
+			gameObject.transform.FindChild("Character").GetComponent<Rigidbody>().useGravity = (!this.loading && this.syncChar.Life > 0) && !this.specm.isSpec;
         }
     }
 

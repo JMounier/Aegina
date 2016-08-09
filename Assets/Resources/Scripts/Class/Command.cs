@@ -28,6 +28,9 @@ public class Command
     private static readonly Command JustDoIt = new Command("justdoit", "/justdoit", true);
     private static readonly Command Unlock = new Command("unlock", "/unlock <id>", true);
 
+	private static readonly Command ChangeMode = new Command ("switchmode", "/switchmode [id]", true);
+	private static readonly Command Spec = new Command ("spectate", "/spectate", true, "spec");
+
     /// <summary>
     /// Liste tous les biomes du jeu. (Utilisez avec foreach)
     /// </summary>
@@ -55,6 +58,9 @@ public class Command
             yield return World;
             yield return JustDoIt;
             yield return Unlock;
+
+			yield return ChangeMode;
+			yield return Spec;
 
         }
     }
@@ -85,7 +91,7 @@ public class Command
     /// Lance une commande.
     /// </summary>
     /// <param name="cmd">La commande</param>
-    /// <param name="sender">Le gameibject du joueur envoyant la commande.</param>
+    /// <param name="sender">Le gameobject du joueur envoyant la commande.</param>
     public static void LaunchCommand(string command, GameObject sender)
     {
         string[] cmd = command.Split(default(Char[]), StringSplitOptions.RemoveEmptyEntries);
@@ -444,6 +450,17 @@ public class Command
                 foreach (Requirement.Requirements req in suc.Requirements)                
                     Requirement.Unlock(req);                
             }
+			//ChangeMode
+			else if (c == ChangeMode){
+				bool spec = !sender.GetComponent<SpecMode>().isSpec;
+				if (parameters.Length > 0)
+					spec = parameters[0].ToLower() == "1"; // 0 = normal mode; 1 = spec mode;
+				sender.GetComponent<SpecMode>().ChangeMode(!spec);
+			}
+			//Spec
+			else if (c == Spec){
+				sender.GetComponent<SpecMode>().ChangeMode(false);
+			}
         }
         catch
         {
