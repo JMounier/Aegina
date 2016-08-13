@@ -52,7 +52,7 @@ public class SpecMode : NetworkBehaviour {
 		this.character.GetComponent<Collider> ().enabled = notSpec;
 
 		if (isLocalPlayer)
-			InputManager.seeGUI = !spectate;
+			InputManager.seeGUI = notSpec;
 	}
 	#endregion
 

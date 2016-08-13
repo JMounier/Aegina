@@ -166,11 +166,11 @@ public class Controller : NetworkBehaviour
         Vector3 move = new Vector3(0, 0, 0);
 
         // Jump
-        if (jump && !this.isJumping && this.coolDownJump <= 0)
-        {
+		if (jump && !this.isJumping && this.coolDownJump <= 0 && ! this.specm.isSpec)
+		{
+			this.isJumping = true;
             this.character.GetComponent<Rigidbody>().AddForce(0, jumpForce + this.syncChar.Jump, 0);
-            this.isJumping = true;
-            this.coolDownJump = 0.2f;
+			this.coolDownJump = 0.2f;
         }
         else if (!this.isJumping && this.coolDownJump > 0)
         {
@@ -241,6 +241,13 @@ public class Controller : NetworkBehaviour
 
         bool isMoving = move.x != 0 || move.z != 0;
 
+		// jump while in spec
+		if (this.specm.isSpec && jump)
+		{
+			move.y = jumpForce + this.syncChar.Jump;
+			if (isSprinting)
+				move.y *= -1;
+		}
         // Apply the moves with the animation
         if (this.isJumping)
         {
@@ -312,7 +319,7 @@ public class Controller : NetworkBehaviour
             this.cdDisable -= Time.deltaTime;
         else
         {
-            this.character.GetComponent<Rigidbody>().velocity = new Vector3(0, this.character.GetComponent<Rigidbody>().velocity.y, 0);
+			this.character.GetComponent<Rigidbody>().velocity = new Vector3(0, (this.specm.isSpec)? 0 : this.character.GetComponent<Rigidbody>().velocity.y, 0);
             this.character.GetComponent<Rigidbody>().AddForce(move);
             this.cam.GetComponent<Rigidbody>().velocity = Vector3.zero;
             this.cam.GetComponent<Rigidbody>().AddForce(move);
