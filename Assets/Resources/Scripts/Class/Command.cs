@@ -31,6 +31,17 @@ public class Command
 	private static readonly Command ChangeMode = new Command ("switchmode", "/switchmode [id]", true);
 	private static readonly Command Spec = new Command ("spectate", "/spectate", true, "spec");
 
+	private static readonly Command Orbite = new Command ("orbit", "/orbit <Orbiting command>", false, "orb");
+	private static readonly Command Set = new Command ("set", "/orbite set", false);
+	private static readonly Command Start = new Command ("start", "/orbit start [sens]", false);
+	private static readonly Command Move = new Command ("move", "/orbit move <direction> [dist]", false, "mv");
+	private static readonly Command Rotate = new Command ("rotate", "/orbit rotate <axis> [rot]", false, "rot");
+	private static readonly Command Show = new Command ("show", "/orbit show", false);
+	private static readonly Command Hide = new Command ("hide", "/orbit hide", false);
+	private static readonly Command Clear = new Command ("clear", "/orbit clear", false);
+
+
+
     /// <summary>
     /// Liste tous les biomes du jeu. (Utilisez avec foreach)
     /// </summary>
@@ -62,8 +73,25 @@ public class Command
 			yield return ChangeMode;
 			yield return Spec;
 
+			yield return Orbite;
         }
     }
+
+	private static IEnumerable<Command> OrbiteCommands
+	{
+		get
+		{
+			yield return Help;
+
+			yield return Set;
+			yield return Start;
+			yield return Move;
+			yield return Rotate;
+			yield return Show;
+			yield return Hide;
+			yield return Clear;
+		}
+	}
 
     private static int NbCommands(bool isOp)
     {
@@ -73,6 +101,15 @@ public class Command
                 n++;
         return n;
     }
+
+	private static int NbOrbiteCommands(bool isOp)
+	{
+		int n = 0;
+		foreach (Command c in OrbiteCommands)
+			if (!c.opOnly || isOp)
+				n++;
+		return n;
+	}
 
     // La command
     private bool opOnly;
@@ -451,15 +488,22 @@ public class Command
                     Requirement.Unlock(req);                
             }
 			//ChangeMode
-			else if (c == ChangeMode){
+			else if (c == ChangeMode)
+			{
 				bool spec = !sender.GetComponent<SpecMode>().isSpec;
 				if (parameters.Length > 0)
 					spec = parameters[0].ToLower() == "1"; // 0 = normal mode; 1 = spec mode;
 				sender.GetComponent<SpecMode>().ChangeMode(!spec);
 			}
 			//Spec
-			else if (c == Spec){
+			else if (c == Spec)
+			{
 				sender.GetComponent<SpecMode>().ChangeMode(false);
+			}
+			//Orbite mode
+			else if (c == Orbite)
+			{
+				LaunchOrbiteCommand(parameters, sender);
 			}
         }
         catch
@@ -467,4 +511,135 @@ public class Command
             sender.GetComponent<Social_HUD>().RpcReceiveMsg("<color=red>" + c.utilization + "</color>");
         }
     }
+
+	#region Orbiting stuff
+	/// <summary>
+	/// Launchs any orbite command.
+	/// </summary>
+	/// <param name="cmd">Cmd.</param>
+	/// <param name="sender">Sender.</param>
+	public static void LaunchOrbiteCommand(string[] cmd, GameObject sender)
+	{ // je sais ça fait de la redondance mais f it.
+		foreach (Command c in OrbiteCommands)
+		{
+			if (c.names.Contains(cmd[0].ToLower()))
+			{
+				if (!c.opOnly || sender.GetComponent<Social_HUD>().IsOp)
+				{
+					string[] parameters = new string[cmd.Length - 1];
+					for (int i = 0; i < parameters.Length; i++)
+						parameters[i] = cmd[i + 1];
+					ExecuteOrbiteCommand(c, parameters, sender);
+				}
+				else
+					sender.GetComponent<Social_HUD>().RpcReceiveMsg("<color=red>You must be an operator to execute this command.</color>");
+				return;
+			}
+		}
+		sender.GetComponent<Social_HUD>().RpcReceiveMsg("<color=red>Unknow Orbite command. Try /help to check out the list of commands.</color>");
+	}
+
+	/// <summary>
+	/// Executes the orbite command.
+	/// </summary>
+	/// <param name="c"> The orbiting commande to execute.</param>
+	/// <param name="parameters">Parameters.</param>
+	/// <param name="sender">Sender.</param>
+	private static void ExecuteOrbiteCommand(Command c, string[] parameters, GameObject sender)
+	{
+		bool isOp = sender.GetComponent<Social_HUD> ().IsOp;
+		try {
+			// HELP
+			if (c == Help)
+			{
+				int page = 1;
+				int nbpages = (NbOrbiteCommands(isOp) - 1) / 5 + 1;
+				if (parameters.Length > 0)
+					page = int.Parse(parameters[0]);
+				if (page < 1 || page > nbpages)
+					throw new Exception();
+				string help = "<color=green>---This is the list of Orbits commands---</color>\n";
+				int count = 5 * page;
+				foreach (Command command in OrbiteCommands)
+				{
+					if (isOp || !command.opOnly)
+					{
+						if (count > 0 && count < 6)
+							help += command.utilization + "\n";
+						count--;
+					}
+				}
+				help += "<color=green>--- Page " + page + "/" + nbpages + " ---</color>";
+				sender.GetComponent<Social_HUD>().RpcReceiveMsg(help);
+			}
+			//SET
+			else if (c == Set)
+			{
+				sender.GetComponent<SpecMode>().SetOrbit();
+			}
+			//START
+			else if (c == Start)
+			{
+				bool sens = true;
+				if (parameters.Length > 0)
+					sens = parameters[0] == "+";
+				sender.GetComponent<SpecMode>().StartOrbit(sens);
+			}
+			//MOVE
+			else if (c == Move)
+			{
+				Dir dir = Dir.x;
+				int power = 1;
+				switch (parameters[0].ToLower())
+				{
+				case "y":
+					dir = Dir.y;
+					break;
+				case "z":
+					dir = Dir.z;
+					break;
+				default:
+					break;
+				}
+				if (parameters.Length > 1)
+					power = int.Parse(parameters[1]);
+				sender.GetComponent<SpecMode>().MoveOrbit(dir, power);
+			}
+			//ROTATE
+			else if (c == Rotate)
+			{
+				Dir dir = Dir.x;
+				int power = 90;
+				switch (parameters[0].ToLower())
+				{
+				case "y":
+					dir = Dir.y;
+					break;
+				case "z":
+					dir = Dir.z;
+					break;
+				default:
+					break;
+				}
+				if (parameters.Length > 1)
+					power = int.Parse(parameters[1]);
+				sender.GetComponent<SpecMode>().RotateOrbit(dir, power);
+			}
+			//SHOW
+			else if (c == Show)
+			{
+				sender.GetComponent<SpecMode>().ShowOrbit(true);
+			}
+			//HIDE
+			else if (c == Hide)
+			{
+				sender.GetComponent<SpecMode>().ShowOrbit(false);
+			}
+		}
+		catch {
+			sender.GetComponent<Social_HUD>().RpcReceiveMsg("<color=red>" + c.utilization + "</color>");
+		}
+	}
+
+	#endregion
 }

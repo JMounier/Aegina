@@ -53,6 +53,8 @@ public class Controller : NetworkBehaviour
 
 	//spec mode
 	private SpecMode specm;
+	private bool orbiting;
+	private bool orbsense;
 
     // Use this for initialization
     void Start()
@@ -69,6 +71,8 @@ public class Controller : NetworkBehaviour
         this.loading = true;
 
 		this.specm = gameObject.GetComponent<SpecMode> ();
+		this.orbiting = false;
+		this.orbsense = true;
 
         if (!isLocalPlayer)
         {
@@ -241,17 +245,21 @@ public class Controller : NetworkBehaviour
 
         bool isMoving = move.x != 0 || move.z != 0;
 
-		// jump while in spec
+		// jump while in spec mode
 		if (this.specm.isSpec && jump)
 		{
-			move.y = jumpForce + this.syncChar.Jump;
-			if (isSprinting)
-				move.y *= -1;
+			this.isJumping = true;
+			move += Vector3.up * ((isSprinting) ? -1f : 1f);
+		}
+		if (this.ismoving)
+		{
+			this.objectiv = null;
+			this.orbiting = false;
+			this.orbsense = true;
 		}
         // Apply the moves with the animation
         if (this.isJumping)
         {
-            this.objectiv = null;
             this.interactDistance = float.PositiveInfinity;
             anim.SetInteger("Action", 3);
             if (isSprinting)
@@ -263,7 +271,6 @@ public class Controller : NetworkBehaviour
         {
             if (isMoving)
             {
-                this.objectiv = null;
                 this.interactDistance = float.PositiveInfinity;
                 if (isSprinting)
                 {
@@ -330,7 +337,31 @@ public class Controller : NetworkBehaviour
                 this.character.transform.rotation = Quaternion.Lerp(this.character.transform.rotation, Quaternion.Euler(rotCam), Time.deltaTime * 5);
             }
         }
+		if (orbiting) 
+		{
+			this.character.GetComponent<Rigidbody>().velocity = Vector3.zero;
+			this.cam.GetComponent<Rigidbody>().velocity = Vector3.zero;
+
+
+			Vector3 formerRot = this.character.transform.rotation.eulerAngles;
+			this.character.transform.LookAt (this.specm.Orbite.Center.transform);
+
+			Vector3 force = Vector3.Normalize(Vector3.Cross (this.specm.Orbite.RotAxis, this.character.transform.forward)) * ((this.orbsense)? 1 : -1) * this.walkSpeed;
+
+			this.character.transform.rotation= Quaternion.Euler(formerRot);
+
+			this.character.GetComponent<Rigidbody>().AddForce(force);
+			this.cam.GetComponent<Rigidbody>().AddForce(force);
+
+		}
     }
+
+
+	public void StartOrbiting(bool sens)
+	{
+		this.orbsense = sens;
+		this.orbiting = true;
+	}
 
     // Setters | Getters
     public float Sensitivity
