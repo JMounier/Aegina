@@ -66,7 +66,11 @@ public class MapGeneration : NetworkBehaviour
                     }
             }
             if (best != null)
+            {
                 this.generating = GenerateChunk(best.Item1, best.Item2);
+                if (this.generating.Bridge == Bridges.None)
+                    this.generating = null;
+            }
         }
         else if (this.generating.Generate())
         {
