@@ -364,11 +364,24 @@ public class Controller : NetworkBehaviour
 	}
 
     // Setters | Getters
+    /// <summary>
+    /// La sensibilite de la souris.
+    /// </summary>
     public float Sensitivity
     {
         get { return this.sensitivity; }
         set { this.sensitivity = value; }
     }
+
+    /// <summary>
+    /// Si le joueur est en premiere personne ou pas.
+    /// </summary>
+    public bool FPS
+    {
+        get { return this.distance == 0; }
+        set { this.distance = value ? 0 : 5; }
+    }
+
     /// <sumary>
     /// Si le personnage est en saut.
     /// </sumary>
