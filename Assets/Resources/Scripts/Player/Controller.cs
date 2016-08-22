@@ -342,17 +342,13 @@ public class Controller : NetworkBehaviour
 			this.character.GetComponent<Rigidbody>().velocity = Vector3.zero;
 			this.cam.GetComponent<Rigidbody>().velocity = Vector3.zero;
 
-
-			Vector3 formerRot = this.character.transform.rotation.eulerAngles;
 			this.character.transform.LookAt (this.specm.Orbite.Center.transform);
+			this.cam.transform.LookAt (this.specm.Orbite.Center.transform);
 
 			Vector3 force = Vector3.Normalize(Vector3.Cross (this.specm.Orbite.RotAxis, this.character.transform.forward)) * ((this.orbsense)? 1 : -1) * this.walkSpeed;
 
-			this.character.transform.rotation= Quaternion.Euler(formerRot);
-
 			this.character.GetComponent<Rigidbody>().AddForce(force);
 			this.cam.GetComponent<Rigidbody>().AddForce(force);
-
 		}
     }
 
