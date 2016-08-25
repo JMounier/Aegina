@@ -101,7 +101,7 @@ public class Craft_HUD : NetworkBehaviour
 
     private void OnGUI()
     {
-        if (!isLocalPlayer)
+        if (!isLocalPlayer || !InputManager.seeGUI)
             return;
 
         tooltip = false;

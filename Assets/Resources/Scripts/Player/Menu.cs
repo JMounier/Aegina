@@ -55,7 +55,7 @@ public class Menu : NetworkBehaviour
 
     void OnGUI()
     {
-        if (!isLocalPlayer)
+		if (!isLocalPlayer || !InputManager.seeGUI)
             return;
         if (menuShown)
             this.DrawMenu();

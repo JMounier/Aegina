@@ -28,6 +28,10 @@ public class Command
     private static readonly Command JustDoIt = new Command("justdoit", "/justdoit", true);
     private static readonly Command Unlock = new Command("unlock", "/unlock <id>", true);
 
+    private static readonly Command SwitchMode = new Command("switchmode", "/switchmode [id]", true, "spec");
+
+    private static readonly Command Orbit = new Command("orbit", "/orbit <help|set|start|move|rotate|show|hide>", true, "orb");
+
     /// <summary>
     /// Liste tous les biomes du jeu. (Utilisez avec foreach)
     /// </summary>
@@ -56,6 +60,8 @@ public class Command
             yield return JustDoIt;
             yield return Unlock;
 
+            yield return SwitchMode;
+            yield return Orbit;
         }
     }
 
@@ -85,7 +91,7 @@ public class Command
     /// Lance une commande.
     /// </summary>
     /// <param name="cmd">La commande</param>
-    /// <param name="sender">Le gameibject du joueur envoyant la commande.</param>
+    /// <param name="sender">Le gameobject du joueur envoyant la commande.</param>
     public static void LaunchCommand(string command, GameObject sender)
     {
         string[] cmd = command.Split(default(Char[]), StringSplitOptions.RemoveEmptyEntries);
@@ -440,9 +446,84 @@ public class Command
             // Unlock
             else if (c == Unlock)
             {
-                Success suc =  SuccessDatabase.Find(int.Parse(parameters[0]));
-                foreach (Requirement.Requirements req in suc.Requirements)                
-                    Requirement.Unlock(req);                
+                Success suc = SuccessDatabase.Find(int.Parse(parameters[0]));
+                foreach (Requirement.Requirements req in suc.Requirements)
+                    Requirement.Unlock(req);
+            }
+            //ChangeMode
+            else if (c == SwitchMode)
+            {
+                bool spectate = !sender.GetComponent<SpecMode>().isSpec;
+                if (parameters.Length > 0)
+                    spectate = parameters[0].ToLower() == "1"; // 0 = normal mode; 1 = spec mode;
+                sender.GetComponent<SpecMode>().SetSpectate(spectate);
+            }
+            //Orbite mode
+            else if (c == Orbit)
+            {
+                switch (parameters[0].ToLower())
+                {
+                    case "help":
+                        string help = "<color=green>---This is the list of Orbits commands---</color>\n";
+                        help += "/orbit set\n";
+                        help += "/orbit start [sens]\n";
+                        help += "/orbit move <direction> [dist]\n";
+                        help += "/orbit rotate <axis> [rot]\n";
+                        help += "/orbit show\n";
+                        help += "/orbit hide\n";
+                        sender.GetComponent<Social_HUD>().RpcReceiveMsg(help);
+                        break;
+                    case "set":
+                        sender.GetComponent<SpecMode>().SetOrbit();
+                        break;
+                    case "start":
+                        bool sens = true;
+                        if (parameters.Length > 1)
+                            sens = parameters[1] == "+";
+                        sender.GetComponent<SpecMode>().StartOrbit(sens);
+                        break;
+                    case "move":
+                        Dir dir = Dir.x;
+                        int power = 1;
+                        switch (parameters[1].ToLower())
+                        {
+                            case "y":
+                                dir = Dir.y;
+                                break;
+                            default:
+                                dir = Dir.z;
+                                break;
+                        }
+                        if (parameters.Length > 2)
+                            power = int.Parse(parameters[2]);
+                        sender.GetComponent<SpecMode>().MoveOrbit(dir, power);
+                        break;
+                    case "rotate":
+                        dir = Dir.x;
+                        power = 90;
+                        switch (parameters[1].ToLower())
+                        {
+                            case "y":
+                                dir = Dir.y;
+                                break;
+                            default:
+                                dir = Dir.z;
+                                break;
+                        }
+                        if (parameters.Length > 2)
+                            power = int.Parse(parameters[2]);
+                        sender.GetComponent<SpecMode>().RotateOrbit(dir, power);
+                        break;
+                    case "show":
+                        sender.GetComponent<SpecMode>().ShowOrbit(true);
+                        break;
+                    case "hide":
+                        sender.GetComponent<SpecMode>().ShowOrbit(false);
+                        break;
+                    default:
+                        sender.GetComponent<Social_HUD>().RpcReceiveMsg("<color=red>" + parameters[0] + " is not a valid parameter. Type /orbit help.</color>");
+                        break;
+                }
             }
         }
         catch

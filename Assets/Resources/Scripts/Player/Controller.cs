@@ -51,6 +51,11 @@ public class Controller : NetworkBehaviour
     // Use for loading
     private bool loading = true;
 
+	//spec mode
+	private SpecMode specm;
+	private bool orbiting;
+	private bool orbsense;
+
     // Use this for initialization
     void Start()
     {
@@ -64,6 +69,11 @@ public class Controller : NetworkBehaviour
 
         this.objectiv = null;
         this.loading = true;
+
+		this.specm = gameObject.GetComponent<SpecMode> ();
+		this.orbiting = false;
+		this.orbsense = true;
+
         if (!isLocalPlayer)
         {
             this.cam.SetActive(false);
@@ -82,7 +92,7 @@ public class Controller : NetworkBehaviour
 
             MapGeneration mg = GameObject.Find("Map").GetComponent<MapGeneration>();
             this.loading = mg != null && !mg.isLoaded(x, y);
-            gameObject.transform.FindChild("Character").GetComponent<Rigidbody>().useGravity = !this.loading && this.syncChar.Life > 0;
+			gameObject.transform.FindChild("Character").GetComponent<Rigidbody>().useGravity = (!this.loading && this.syncChar.Life > 0) && !this.specm.isSpec;
         }
     }
 
@@ -160,11 +170,11 @@ public class Controller : NetworkBehaviour
         Vector3 move = new Vector3(0, 0, 0);
 
         // Jump
-        if (jump && !this.isJumping && this.coolDownJump <= 0)
-        {
+		if (jump && !this.isJumping && this.coolDownJump <= 0 && ! this.specm.isSpec)
+		{
+			this.isJumping = true;
             this.character.GetComponent<Rigidbody>().AddForce(0, jumpForce + this.syncChar.Jump, 0);
-            this.isJumping = true;
-            this.coolDownJump = 0.2f;
+			this.coolDownJump = 0.2f;
         }
         else if (!this.isJumping && this.coolDownJump > 0)
         {
@@ -235,10 +245,21 @@ public class Controller : NetworkBehaviour
 
         bool isMoving = move.x != 0 || move.z != 0;
 
+		// jump while in spec mode
+		if (this.specm.isSpec && jump)
+		{
+			this.isJumping = true;
+			move += Vector3.up * ((isSprinting) ? -1f : 1f);
+		}
+		if (this.ismoving)
+		{
+			this.objectiv = null;
+			this.orbiting = false;
+			this.orbsense = true;
+		}
         // Apply the moves with the animation
         if (this.isJumping)
         {
-            this.objectiv = null;
             this.interactDistance = float.PositiveInfinity;
             anim.SetInteger("Action", 3);
             if (isSprinting)
@@ -250,7 +271,6 @@ public class Controller : NetworkBehaviour
         {
             if (isMoving)
             {
-                this.objectiv = null;
                 this.interactDistance = float.PositiveInfinity;
                 if (isSprinting)
                 {
@@ -306,7 +326,7 @@ public class Controller : NetworkBehaviour
             this.cdDisable -= Time.deltaTime;
         else
         {
-            this.character.GetComponent<Rigidbody>().velocity = new Vector3(0, this.character.GetComponent<Rigidbody>().velocity.y, 0);
+			this.character.GetComponent<Rigidbody>().velocity = new Vector3(0, (this.specm.isSpec)? 0 : this.character.GetComponent<Rigidbody>().velocity.y, 0);
             this.character.GetComponent<Rigidbody>().AddForce(move);
             this.cam.GetComponent<Rigidbody>().velocity = Vector3.zero;
             this.cam.GetComponent<Rigidbody>().AddForce(move);
@@ -317,14 +337,47 @@ public class Controller : NetworkBehaviour
                 this.character.transform.rotation = Quaternion.Lerp(this.character.transform.rotation, Quaternion.Euler(rotCam), Time.deltaTime * 5);
             }
         }
+		if (orbiting) 
+		{
+			this.character.GetComponent<Rigidbody>().velocity = Vector3.zero;
+			this.cam.GetComponent<Rigidbody>().velocity = Vector3.zero;
+
+			this.character.transform.LookAt (this.specm.Orbite.Center.transform);
+			this.cam.transform.LookAt (this.specm.Orbite.Center.transform);
+
+			Vector3 force = Vector3.Normalize(Vector3.Cross (this.specm.Orbite.RotAxis, this.character.transform.forward)) * ((this.orbsense)? 1 : -1) * this.walkSpeed;
+
+			this.character.GetComponent<Rigidbody>().AddForce(force);
+			this.cam.GetComponent<Rigidbody>().AddForce(force);
+		}
     }
 
+
+	public void StartOrbiting(bool sens)
+	{
+		this.orbsense = sens;
+		this.orbiting = true;
+	}
+
     // Setters | Getters
+    /// <summary>
+    /// La sensibilite de la souris.
+    /// </summary>
     public float Sensitivity
     {
         get { return this.sensitivity; }
         set { this.sensitivity = value; }
     }
+
+    /// <summary>
+    /// Si le joueur est en premiere personne ou pas.
+    /// </summary>
+    public bool FPS
+    {
+        get { return this.distance == 0; }
+        set { this.distance = value ? 0 : 5; }
+    }
+
     /// <sumary>
     /// Si le personnage est en saut.
     /// </sumary>

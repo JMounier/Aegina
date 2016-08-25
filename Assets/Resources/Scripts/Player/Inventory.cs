@@ -121,7 +121,7 @@ public class Inventory : NetworkBehaviour
     // Methods
     void OnGUI()
     {
-        if (!isLocalPlayer)
+		if (!isLocalPlayer|| !InputManager.seeGUI)
             return;
         this.DrawToolbar();
         if (this.inventoryShown)
