@@ -69,12 +69,14 @@ public class MapGeneration : NetworkBehaviour
             {
                 this.generating = GenerateChunk(best.Item1, best.Item2);
                 if (this.generating.Bridge == Bridges.None)
+                {
+                    this.generated.Add(this.generating.X.ToString() + ":" + this.generating.Y.ToString(), this.generating);
                     this.generating = null;
+                }
             }
         }
         else if (this.generating.Generate())
         {
-
             this.generated.Add(this.generating.X.ToString() + ":" + this.generating.Y.ToString(), this.generating);
             this.generating = null;
         }
